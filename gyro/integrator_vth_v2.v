@@ -29,7 +29,7 @@ output signed [31:0] o_int
 , output o_sat_flag_n
 , output o_limit_flag_p
 , output o_limit_flag_n
-, output o_err_pol_change
+// , output o_err_pol_change
 , output o_zero_flag
 , output o_vth_flag_p
 , output o_vth_flag_n
@@ -40,11 +40,11 @@ output signed [31:0] o_int
 wire signed [31:0] ext_sig;
 wire signed [31:0] err;
 wire signed [31:0] integrator_out;
-reg [5:0] gain_sel_temp, gain_sel_temp_2;
+reg [5:0] gain_sel_temp;
 wire change;
 reg [4:0] shift_idx;
 reg [3:0] cstate, nstate;
-reg signed [31:0] vo, r_dv;
+reg signed [31:0] vo;
 reg signed [31:0] dv;
 wire signed [31:0] sat_p, sat_n;
 wire signed [31:0] vth_p, vth_n;
@@ -53,7 +53,7 @@ wire signed [31:0] INT_LIMIT_P, INT_LIMIT_N;
 wire sat_flag_p, sat_flag_n;
 wire limit_flag_p, limit_flag_n;
 wire vth_flag_p, vth_flag_n;
-reg err_pol_change, zero_flag;
+reg zero_flag;
 
 /*** state machine***/
 localparam NORMAL   = 4'd0;
@@ -67,34 +67,34 @@ localparam THRESHOLD_N_DELAY = 4'd7;
 localparam LIMIT_SATURATION_P = 4'd8;
 localparam LIMIT_SATURATION_N = 4'd9;
 
+/*** define original integrator maximun value，signed 32bit range -2^31~2^31-1 = -2147483648~2147483647***/
 `define INT_LIMIT 32'd2_000_000_000
+assign INT_LIMIT_P = `INT_LIMIT;
+assign INT_LIMIT_N = $signed(-`INT_LIMIT);
+assign limit_flag_p = ((vo >= INT_LIMIT_P)&&!i_err[31])? 1'b1 : 1'b0; //if vo exceeds INT_LIMIT and err signal is positive
+assign limit_flag_n = ((vo <= INT_LIMIT_N)&& i_err[31])? 1'b1 : 1'b0; //if vo exceeds -INT_LIMIT and err signal is negative
 
-assign vth_flag_p = ((integrator_out > vth_p)&&(cstate == NORMAL))? 1'b1 : 1'b0;
-assign vth_flag_n = ((integrator_out < vth_n)&&(cstate == NORMAL) )? 1'b1 : 1'b0;
-
+/*** define integrator saturation value， accept user input value***/
 assign sat_p = i_saturation;
 assign sat_n = $signed(-i_saturation);
 
-assign sat_flag_p = ((integrator_out >= sat_p)&&!i_err[31])? 1'b1 : 1'b0;
-assign sat_flag_n = ((integrator_out <= sat_n)&& i_err[31])? 1'b1 : 1'b0;
+assign sat_flag_p = ((integrator_out >= sat_p)&&!i_err[31])? 1'b1 : 1'b0; //if integrator exceeds i_saturation and err signal is positive
+assign sat_flag_n = ((integrator_out <= sat_n)&& i_err[31])? 1'b1 : 1'b0; //if integrator exceeds -i_saturation and err signal is negative
 
-assign limit_flag_p = ((vo >= INT_LIMIT_P)&&!i_err[31])? 1'b1 : 1'b0;
-assign limit_flag_n = ((vo <= INT_LIMIT_N)&& i_err[31])? 1'b1 : 1'b0;
-
+/*** gain change signal***/
 assign change = (i_gain_sel != gain_sel_temp)? 1'b1 : 1'b0;
 
 assign o_int = (i_add_sig_en)? (integrator_out + ext_sig) : integrator_out;
-assign integrator_out = (cstate == NORMAL)? ((vo >>> shift_idx) + dv) : integrator_out;
 
-// assign integrator_out = (cstate == NORMAL)? ((vo >>> shift_idx) + dv) : 
-						// ((cstate == SATURATION_P)? (vo >>> shift_idx) :integrator_out);
+assign integrator_out = (cstate == NORMAL)? ((vo >>> shift_idx) + dv) : integrator_out;
 
 /*** convert ext_sig to 32 bit format***/
 assign ext_sig = (i_ext_sig[EXT_SIG_BIT-1] == 1'b1)? {{32-EXT_SIG_BIT{1'b1}}, i_ext_sig} : i_ext_sig;
-assign INT_LIMIT_P = `INT_LIMIT;
-assign INT_LIMIT_N = $signed(-`INT_LIMIT);
 
 
+/*** define vth value and signal ***/
+assign vth_flag_p = ((integrator_out > vth_p)&&(cstate == NORMAL))? 1'b1 : 1'b0;
+assign vth_flag_n = ((integrator_out < vth_n)&&(cstate == NORMAL) )? 1'b1 : 1'b0;
 assign vth_p = i_vth;
 assign vth_n = $signed(-i_vth);
 assign vth_cut_p = (i_vth_cut_mode)? vth_p*2 : vth_p;
@@ -113,7 +113,7 @@ assign o_sat_flag_p = sat_flag_p;
 assign o_sat_flag_n = sat_flag_n;
 assign o_limit_flag_p = limit_flag_p;
 assign o_limit_flag_n = limit_flag_n;
-assign o_err_pol_change = err_pol_change;
+// assign o_err_pol_change = err_pol_change;
 assign o_zero_flag = zero_flag;
 assign o_vth_cut_p = vth_cut_p;
 assign o_vth_cut_n = vth_cut_n;
@@ -124,17 +124,10 @@ assign o_vth_flag_n = vth_flag_n;
 always@(posedge i_clk or negedge i_rst_n) begin
     if(~i_rst_n) begin
         gain_sel_temp <= i_gain_sel;
-        // change <= 1'b0;
         shift_idx <= 5'd5;
     end
     else begin
-        // if(gain_sel_temp != i_gain_sel) begin
-            // change <= 1'b1;
-            // gain_sel_temp <= i_gain_sel;
-        // end
-        // else change <= 1'b0;
         gain_sel_temp <= i_gain_sel;
-        gain_sel_temp_2 <= gain_sel_temp;
         case(gain_sel_temp) //delay one clk for timing
             0:  shift_idx <= 5'd0;
             1:  shift_idx <= 5'd1;
@@ -187,15 +180,11 @@ always@(*) begin
             end
             
             SATURATION_P: begin
-                // if(err_pol_change || zero_flag) nstate = NORMAL;
-                // else if(change) nstate = CAL_DIFF;
 				if(!sat_flag_p) nstate = NORMAL;
 				else if(change) nstate = CAL_DIFF;
             end
             
             SATURATION_N: begin
-                // if(err_pol_change || zero_flag) nstate = NORMAL;
-                // else if(change) nstate = CAL_DIFF;
 				if(!sat_flag_n) nstate = NORMAL;
 				else if(change) nstate = CAL_DIFF;
             end
@@ -203,23 +192,15 @@ always@(*) begin
             THRESHOLD_P: nstate = NORMAL;
             
             THRESHOLD_N: nstate = NORMAL;
-			
-			// THRESHOLD_P_DELAY: nstate = NORMAL;
-			
-			// THRESHOLD_N_DELAY: nstate = NORMAL;
             
             LIMIT_SATURATION_P: begin 
 				if(!limit_flag_p) nstate = NORMAL;
 				else if(change) nstate = CAL_DIFF;
-                // if(err_pol_change || zero_flag) nstate = NORMAL;
-                // else if(change) nstate = CAL_DIFF;
             end
             
             LIMIT_SATURATION_N: begin
 				if(!limit_flag_n) nstate = NORMAL;
 				else if(change) nstate = CAL_DIFF;
-                // if(err_pol_change || zero_flag) nstate = NORMAL;
-                // else if(change) nstate = CAL_DIFF;
             end
         endcase
     end
@@ -229,31 +210,17 @@ end
 always@(posedge i_clk or negedge i_rst_n) begin
     if(~i_rst_n) begin
         vo <= 32'd0;
-        // limit_flag_p <= 0;
-        // limit_flag_n <= 0;
-        err_pol_change <= 1'b0;
 		dv <= 32'd0;
     end
     else begin
-        err_pol_change <= 1'b0;
         if(i_zero) begin
             vo <= 32'd0;
-            // limit_flag_p <= 1'b0;
-            // limit_flag_n <= 1'b0;
         end
         else begin
-                // if(vo > INT_LIMIT_P) limit_flag_p <= 1'b1;
-                // else if(vo < INT_LIMIT_N) limit_flag_n <= 1'b1;
-                // r_dv <= dv;
                 case(cstate)
                     NORMAL:	if(i_en) vo <= vo + i_err;   
                     
-                    CAL_DIFF: begin
-                        if(i_gain_mode) begin
-							dv <= integrator_out - (vo >>> i_gain_sel);
-						end
-						// vo <= vo;
-                    end
+                    CAL_DIFF: if(i_gain_mode) dv <= integrator_out - (vo >>> i_gain_sel);
                     
                     SATURATION_P: vo <= (sat_p <<< shift_idx - (dv <<< shift_idx)) ;
                     
@@ -263,98 +230,12 @@ always@(posedge i_clk or negedge i_rst_n) begin
                     
                     THRESHOLD_N: vo <= vo - (vth_cut_n <<< shift_idx);
                     
-                    // THRESHOLD_P_DELAY: vo <= vo;
-                    
-                    // THRESHOLD_N_DELAY: vo <= vo;
-                    
-                    LIMIT_SATURATION_P: begin 
-                        // vo <= (INT_LIMIT_P - (dv <<< shift_idx));
-						vo <= (INT_LIMIT_P);
-                        // if((vo + i_err) < vo) begin
-                            // err_pol_change <= 1'b1;
-                            // limit_flag_p <= 1'b0;
-                        // end
-                    end
+                    LIMIT_SATURATION_P: vo <= (INT_LIMIT_P); 
                 
-                    LIMIT_SATURATION_N: begin 
-                        // vo <= (INT_LIMIT_N - (dv <<< shift_idx));
-						vo <= (INT_LIMIT_N);
-                        // if((vo + i_err) > vo) begin 
-                            // err_pol_change <= 1'b1;
-                            // limit_flag_n <= 1'b0;
-                        // end
-                    end
+                    LIMIT_SATURATION_N: vo <= (INT_LIMIT_N); 
                 endcase
         end
     end
 end
-
-// always@(posedge i_clk or negedge i_rst_n) begin
-	// if(~i_rst_n) begin
-		// dv <= 32'd0;
-    // end
-	// else begin
-		// case(nstate)
-			// CAL_DIFF: begin
-				// if(i_gain_mode) begin
-					// dv <= integrator_out - (vo >>> i_gain_sel);
-				// end
-			// end
-		
-		// endcase
-	
-	// end
-
-// end
-
-// always@(posedge i_clk or negedge i_rst_n) begin
-    // if(~i_rst_n) begin
-        // dv <= 32'd0;
-        // integrator_out <= 32'd0;
-        // sat_flag_p <= 1'b0;
-        // sat_flag_n <= 1'b0;
-        // zero_flag <= 1'b0;
-    // end
-    // else begin
-        // if(i_zero) begin
-            // integrator_out <= 32'd0;
-            // dv <= 32'd0;
-            // zero_flag <= 1'b1;
-            // sat_flag_p <= 1'b0;
-            // sat_flag_n <= 1'b0;
-        // end
-        // else begin
-            // zero_flag <= 1'b0;
-            // case(cstate)
-                // NORMAL: begin
-                    // sat_flag_p <= 1'b0;
-                    // sat_flag_n <= 1'b0;
-                    // if(integrator_out > sat_p) sat_flag_p <= 1'b1;
-                    // else if(integrator_out < sat_n) sat_flag_n <= 1'b1;
-                    // if(i_gain_mode) integrator_out <= ((vo >>> shift_idx) + dv);
-                    // else integrator_out <= (vo >>> shift_idx);
-                // end
-                
-                // CAL_DIFF: begin
-					// if(i_gain_mode) dv <= (integrator_out - (vo >>> shift_idx));
-					// else integrator_out <= (vo >>> shift_idx);
-				// end
-                
-                // SATURATION_P: integrator_out <= sat_p; 
-                    
-                // SATURATION_N: integrator_out <= sat_n; 
-                
-                // THRESHOLD_P: begin
-					// integrator_out <= integrator_out - vth_cut_p;
-				// end
-                
-                // THRESHOLD_N: begin
-					// integrator_out <= integrator_out - vth_cut_n;
-				// end	                
-            // endcase
-        // end
-    // end
-// end
-
 
 endmodule
