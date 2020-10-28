@@ -25,6 +25,7 @@ output signed [31:0] o_int
 , output [31:0] o_vo
 , output o_change 
 , output [4:0] o_shift_idx
+, output [5:0] o_gain_sel_temp
 , output o_sat_flag_p
 , output o_sat_flag_n
 , output o_limit_flag_p
@@ -109,6 +110,7 @@ assign o_dv = dv;
 assign o_vo = vo;
 assign o_change = change;
 assign o_shift_idx = shift_idx;
+assign o_gain_sel_temp = gain_sel_temp;
 assign o_sat_flag_p = sat_flag_p;
 assign o_sat_flag_n = sat_flag_n;
 assign o_limit_flag_p = limit_flag_p;
