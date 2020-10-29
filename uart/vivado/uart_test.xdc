@@ -29,10 +29,20 @@ set_property IOSTANDARD LVCMOS33 [get_ports {rx_byte[2]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {rx_byte[1]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {rx_byte[0]}]
 
-create_clock -period 20.000 -name clk_50M -waveform {0.000 10.000} [get_ports clk]
-create_clock -period 20.000 -name clk_50M_vir -waveform {0.000 10.000}
+create_generated_clock -name clk_100M -source [get_ports clk] -multiply_by 2 [get_pins -hierarchical *clk_100M*]
+create_clock -period 10.000 -name clk_100M_vir -waveform {0.000 5.000}
+set_input_delay -clock [get_clocks clk_100M_vir] -min 0.000 [get_ports rx]
+set_input_delay -clock [get_clocks clk_100M_vir] -max 0.000 [get_ports rx]
+set_output_delay -clock [get_clocks clk_100M_vir] -min 0.000 [get_ports tx]
+set_output_delay -clock [get_clocks clk_100M_vir] -max 0.000 [get_ports tx]
 
-set_input_delay -clock [get_clocks clk_50M_vir] -min 5.000 [get_ports rx]
-set_input_delay -clock [get_clocks clk_50M_vir] -max 10.000 [get_ports rx]
-set_output_delay -clock [get_clocks clk_50M_vir] -min 0 [get_ports tx]
-set_output_delay -clock [get_clocks clk_50M_vir] -max 0 [get_ports tx]
+#create_clock -period 20.000 -name clk_50M -waveform {0.000 10.000} [get_ports clk]
+#create_clock -period 20.000 -name clk_50M_vir -waveform {0.000 10.000}
+
+
+#create_generated_clock -name clk_100M -source [get_ports clk] -multiply_by 2 [get_pins u_sys/clk_wiz_1/clk_out2]
+#create_clock -period 10.000 -name clk_100M_vir -waveform {0.000 5.000} [get_pins -hierarchical *clk_100M*]
+#set_input_delay -clock [get_clocks clk_100M_vir] -min 0.000 [get_ports rx]
+#set_input_delay -clock [get_clocks clk_100M_vir] -max 0.000 [get_ports rx]
+#set_output_delay -clock [get_clocks clk_100M_vir] -min 0.000 [get_ports tx]
+#set_output_delay -clock [get_clocks clk_100M_vir] -max 0.000 [get_ports tx]

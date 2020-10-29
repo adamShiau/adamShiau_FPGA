@@ -44,6 +44,7 @@ reg [2:0] sm;
 (* mark_debug = "true" *) wire [2:0] tx_sm;
 (* mark_debug = "true" *) wire [7:0] tx_byte;
 wire [31:0] o_var1, o_var2;
+wire clk_100M;
 
 assign tx_byte = rx_byte + o_var1 + o_var2;
 
@@ -52,7 +53,7 @@ tx_dv = 0;
 sm = 0;
 end
 
-always@(posedge clk) begin
+always@(posedge clk_100M) begin
 
 case(sm)
 	IDLE: begin
@@ -71,10 +72,10 @@ endcase
 
 end
 
-uart_rx #(.CLKS_PER_BIT(434)) 
+uart_rx #(.CLKS_PER_BIT(868)) 
 u_rx
 (
-.i_Clock(clk),
+.i_Clock(clk_100M),
 .i_Rx_Serial(rx),
 .o_Rx_DV(rx_dv),
 .o_Rx_Byte(rx_byte)
@@ -82,10 +83,10 @@ u_rx
 );
 
 	
-uart_tx #(.CLKS_PER_BIT(434)) 
+uart_tx #(.CLKS_PER_BIT(868)) 
 u_tx
 (
-.i_Clock(clk),
+.i_Clock(clk_100M),
 .i_Tx_DV(tx_dv),
 .i_Tx_Byte(tx_byte), 
 .o_Tx_Active(tx_active),
@@ -96,12 +97,13 @@ u_tx
 
 sys1 u_sys
 (
+.clk_100M(clk_100M),
 .clock_in(clk),
 .i_var1(rx_byte),
 .i_var2(tx_byte),
 .o_var1(o_var1),
 .o_var2(o_var2),
-.reset_n(reset_n)
+.reset_n(1'b1)
 );
 
 endmodule
