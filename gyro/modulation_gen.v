@@ -7,20 +7,23 @@ module modulation_gen
     input [OUTPUT_BIT-1:0] i_amp_H,
     input [OUTPUT_BIT-1:0] i_amp_L, 
     output reg signed [OUTPUT_BIT-1:0] o_mod_out,
-    output reg o_status
+    output reg o_status,
+	output o_SM
 );
 
 localparam LOW = 0;
 localparam HIGH = 1;
 
-reg SM;
-reg [31:0] freq_cnt;
+assign o_SM = SM;
+
+reg SM = LOW;
+reg [31:0] freq_cnt = 32'd5000000;
 
 wire signed [OUTPUT_BIT-1:0] amp_H = $signed(i_amp_H);
 wire signed [OUTPUT_BIT-1:0] amp_L = $signed(i_amp_L);
 
 always@(posedge i_clk or negedge i_rst_n) begin
-    if(!i_rst_n) begin
+    if(~i_rst_n) begin
         o_status <= LOW;
         o_mod_out <= 0;
         SM <= LOW;
@@ -31,7 +34,7 @@ always@(posedge i_clk or negedge i_rst_n) begin
             LOW: begin
                 o_status <= LOW;
                 o_mod_out <= amp_L;
-                if(freq_cnt != 32'd1) freq_cnt <= freq_cnt - 1'b1;
+                if(freq_cnt != 32'd0) freq_cnt <= freq_cnt - 1'b1;
                 else begin
                     SM <= HIGH;
                     freq_cnt <= i_freq_cnt;
