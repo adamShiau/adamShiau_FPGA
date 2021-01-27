@@ -20,6 +20,7 @@ reg [31:0] v2pi;
 reg fb_on;
 wire [15:0] phaseRamp;
 wire [15:0] ladderWave;
+wire [15:0] o_mod;
 
 reg [31:0] cnt;
 
@@ -50,23 +51,24 @@ u1(
 .i_mod(mod_out), //[OUTPUT_BIT-1:0] i_mod
 .o_ladderWave(ladderWave), //[OUTPUT_BIT-1:0] o_ladderWave
 .o_phaseRamp(phaseRamp) //[OUTPUT_BIT-1:0] o_phaseRamp
+,.o_mod(o_mod)//[OUTPUT_BIT-1:0] o_mod
 );
 
 initial begin
 clk = 0;
 rst_n = 0;
 fb_on = 1;
-step =1200;
+step =150;
 v2pi = 32'd8000;
 freq_cnt = 32'd100;
-amp = 16'd500;
+amp = 16'd1000;
 #50;
 rst_n = 1;
 cnt = 0;
-repeat(50) begin
+repeat(150) begin
 	@(posedge stepTrig) begin
 		cnt = cnt + 1;
-		if(cnt > 25) step = -1200;
+		if(cnt > 75) step = -100;
 	end
 end
 $stop;

@@ -35,7 +35,10 @@ wire [31:0] step_min;
 
 //phase_ramp_gen
 reg [31:0] v2pi;
+wire [15:0] ladderWave;
+wire [15:0] o_mod;
 wire [15:0] phaseRamp;
+
 
 reg [13:0] cnt;
 
@@ -46,24 +49,24 @@ cnt = 0;
 adc = 14'd0;
 /*** modulation_gen_v2 ***/
 freq_cnt = 32'd100;
-amp = 16'd16383;
+amp = 16'd1000; // v(pi/4)
 /*** err_signal_gen ***/
 polarity = 0;
-wait_cnt = 32'd0;
-err_offset_H = 32'd0;
-err_avg_sel = 3'd0;
+wait_cnt = 32'd50;
+err_offset_H = 32'd10;
+err_avg_sel = 3'd4;
 err_th = 32'd0;
 /*** feedback_step_gen ***/
 gain_sel = 4'd0;
-i_step_max = 32'd3000;
+i_step_max = 32'd100;
 /*** phase_ramp_gen ***/
 v2pi = 32'd8000;
 #50;
 rst_n = 1;
-err_offset_H = 32'd100;
 
-repeat(50) begin
+repeat(150) begin
 	@(posedge stepTrig) begin
+		// err_offset_H = err_offset_H + step;
 		cnt = cnt + 1;
 	end
 end
@@ -135,14 +138,17 @@ feedback_step_gen_v2 u_fb
 
 phase_ramp_gen 
 #(.OUTPUT_BIT(16))
-u_pr(
+u1(
 .i_clk(clk),
 .i_rst_n(rst_n),
 .i_trig(stepTrig),
 .i_step(step), //[31:0] i_step
 .i_v2pi(v2pi), //[31:0] i_v2pi,
 .i_fb_on(fb_on),
+.i_mod(mod_out), //[OUTPUT_BIT-1:0] i_mod
+.o_ladderWave(ladderWave), //[OUTPUT_BIT-1:0] o_ladderWave
 .o_phaseRamp(phaseRamp) //[OUTPUT_BIT-1:0] o_phaseRamp
+,.o_mod(o_mod)//[OUTPUT_BIT-1:0] o_mod
 );
 
 endmodule
