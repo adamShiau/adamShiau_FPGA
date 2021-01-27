@@ -147,6 +147,7 @@ always@(posedge i_clk or negedge i_rst_n) begin
         mv_cnt <= 32'd16;
         adc_H_sum <= 32'd0;
         adc_L_sum <= 32'd0;
+		o_errsignal <= 32'd0;
     end
     else begin
         acq_H_done <= 1'b0;

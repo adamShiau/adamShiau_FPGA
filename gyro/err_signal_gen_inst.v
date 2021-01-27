@@ -21,8 +21,8 @@ err_signal_gen u2
 
 /*** for simulation ***/
 .o_mv_cnt(), 			//[31:0]
-.o_ADC_REG_H(), 		//[31:0]
-.o_ADC_REG_L(), 		//[31:0]
+.o_adc_reg_H(), 		//[31:0]
+.o_adc_reg_L(), 		//[31:0]
 .o_adc_H_sum(), 		//[31:0]
 .o_adc_L_sum() 			//[31:0]
 );
