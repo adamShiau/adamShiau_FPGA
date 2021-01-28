@@ -11,8 +11,8 @@ wire [15:0] mod_out;
 wire status;
 wire stepTrig;
 wire SM;
-// feedback_step_gen
 
+// feedback_step_gen
 reg signed [31:0] err;
 reg [3:0] gain_sel;
 reg [31:0] i_step_max;

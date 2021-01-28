@@ -27,7 +27,7 @@ assign o_mod = mod[OUTPUT_BIT-1:0];
 /*** convert 16 bit i_mod to 32 bit format***/
 assign mod_32 = (i_mod[OUTPUT_BIT-1] == 1'b1)? {{32-OUTPUT_BIT{1'b1}} , i_mod} : i_mod;
 
-always@(posedge i_clk or negedge i_rst_n ) begin
+always@(posedge i_clk) begin
 	mod <= mod_32; //delay one clock for sync
 end
 
