@@ -72,7 +72,7 @@ always@(posedge i_clk or negedge i_rst_n ) begin
 		end
 		else phaseRamp <= phaseRamp;
 	end
-	else phaseRamp <= 32'd0;
+	else phaseRamp <= mod;
 end
 
 always@(posedge i_clk or negedge i_rst_n ) begin

@@ -70,6 +70,8 @@ repeat(1600) begin
 		// err_offset_H = err_offset_H + step;
 		cnt = cnt + 1;
 		if(cnt==800) polarity = 0;
+		else if(cnt==950) gain_sel = 4'd15;
+		else if(cnt==1100) gain_sel = 4'd2;
 	end
 end
 $stop;
@@ -127,7 +129,6 @@ feedback_step_gen_v3 u_fb
 .i_clk(clk),
 .i_rst_n(rst_n),
 .i_trig(stepTrig),
-// .i_trig(1),
 .i_err(openLoop), //[31:0] i_err
 .i_gain_sel(gain_sel),  //[3:0] i_gain_sel
 .i_step_max(i_step_max), //[31:0] i_step_max,

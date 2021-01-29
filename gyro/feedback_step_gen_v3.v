@@ -19,6 +19,10 @@ output signed [31:0] o_step_max,
 output signed [31:0] o_step_min
 );
 
+localparam NORMAL = 3'd0;
+localparam SAT_P  = 3'd1;
+localparam SAT_N  = 3'd2;
+
 reg [3:0] shift_idx;
 wire fb_on;
 reg signed [31:0] step;
@@ -74,32 +78,32 @@ end
 always@(posedge i_clk or negedge i_rst_n ) begin
 	if(~i_rst_n) begin
 		step <= 32'd0;
-		sat_index = 3'd0;
+		sat_index = NORMAL;
 	end
 	else if(fb_ON) begin
 		if(i_trig) begin
 			case(sat_index)
-				3'd0: begin
+				NORMAL: begin
 					if((step + i_err) > (step_max <<< shift_idx)) begin
 						step <= (step_max <<< shift_idx);
-						sat_index <= 3'd1;
+						sat_index <= SAT_P;
 					end
 					else if((step + i_err) < (step_min <<< shift_idx)) begin
 						step <= (step_min <<< shift_idx);
-						sat_index <= 3'd2;
+						sat_index <= SAT_N;
 					end
 					else step <= step + i_err;
 				end
-				3'd1: begin
+				SAT_P: begin
 					if(i_err[31]) begin
-						sat_index <= 3'd0;
+						sat_index <= NORMAL;
 						step <= step + i_err;
 					end
 					else step <= (step_max <<< shift_idx);
 				end
-				3'd2: begin
+				SAT_N: begin
 					if(!i_err[31]) begin
-						sat_index <= 3'd0;
+						sat_index <= NORMAL;
 						step <= step + i_err;
 					end
 					else step <= (step_min <<< shift_idx);
@@ -107,8 +111,10 @@ always@(posedge i_clk or negedge i_rst_n ) begin
 			endcase
 		end
 	end 
-	else step <= 0;
-	
+	else begin
+		step <= 32'd0;
+		sat_index <= NORMAL;
+	end
 	// else if(fb_ON) begin
 		// if(i_trig) step <= step + i_err;
 		// else step <= step;
