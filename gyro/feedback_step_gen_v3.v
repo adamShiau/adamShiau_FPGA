@@ -1,13 +1,13 @@
-/*** æ›gainæ™‚æ²’æœ‰holdä½ï¼Œé‚Šåšå¯¦é©—é‚Šæ›gainå¯èƒ½æœ‰å•é¡Œ***/
+/*** ??›gain??‚æ?’æ?‰holdä½ï?Œé?Šå?šå¯¦é©—é?Šæ?›gain?¯?ƒ½??‰å?é??***/
 
-module feedback_step_gen_v2
+module feedback_step_gen_v3
 (
 input i_clk,
 input i_rst_n,
 input i_trig,
 input signed [31:0] i_err,
 input [3:0] i_gain_sel,  //adc full range : +/- 2.5V, resolution: 5/16384 = 0.3mV/LSB,
-							//å‡è¨­input range +/- 1V => +/- 3333LSB, >>12 å°±å°æ–¼1äº† 
+							//??‡è¨­input range +/- 1V => +/- 3333LSB, >>12 å°±å?æ–¼1äº? 
 							// set i_gain_sel = 4'd15 to disable loop
 input [31:0] i_step_max,
 output o_fb_ON,
@@ -21,13 +21,14 @@ output signed [31:0] o_step_min
 
 reg [3:0] shift_idx;
 wire fb_on;
-reg signed [31:0] step, step2;
+reg signed [31:0] step;
 reg signed [31:0] step_max, step_min;
+reg [2:0] sat_index;
 
 assign o_shift_idx = shift_idx;
 assign fb_ON = (shift_idx==4'd15)? 1'b0 : 1'b1;
 assign o_fb_ON = fb_ON;
-assign o_step = step2 >>> shift_idx;
+assign o_step = step >>> shift_idx;
 assign o_step_max = step_max;
 assign o_step_min = step_min;
 assign step_temp = step;
@@ -73,20 +74,53 @@ end
 always@(posedge i_clk or negedge i_rst_n ) begin
 	if(~i_rst_n) begin
 		step <= 32'd0;
-		step2 <= 32'd0;
+		sat_index = 3'd0;
 	end
 	else if(fb_ON) begin
-		if(i_trig) step <= step + i_err;
-		else step <= step;
+		if(i_trig) begin
+			case(sat_index)
+				3'd0: begin
+					if((step + i_err) > (step_max <<< shift_idx)) begin
+						step <= (step_max <<< shift_idx);
+						sat_index <= 3'd1;
+					end
+					else if((step + i_err) < (step_min <<< shift_idx)) begin
+						step <= (step_min <<< shift_idx);
+						sat_index <= 3'd2;
+					end
+					else step <= step + i_err;
+				end
+				3'd1: begin
+					if(i_err[31]) begin
+						sat_index <= 3'd0;
+						step <= step + i_err;
+					end
+					else step <= (step_max <<< shift_idx);
+				end
+				3'd2: begin
+					if(!i_err[31]) begin
+						sat_index <= 3'd0;
+						step <= step + i_err;
+					end
+					else step <= (step_min <<< shift_idx);
+				end
+			endcase
+		end
+	end 
+	else step <= 0;
+	
+	// else if(fb_ON) begin
+		// if(i_trig) step <= step + i_err;
+		// else step <= step;
 		
-		if(step > (step_max <<< shift_idx)) step2 <= (step_max <<< shift_idx);
-		else if(step < (step_min <<< shift_idx)) step2 <= (step_min <<< shift_idx);
-		else step2 <= step;
-	end
-	else begin
-		step <= 0;
-		step2 <= 0;
-	end
+		// if(step > (step_max <<< shift_idx)) step2 <= (step_max <<< shift_idx);
+		// else if(step < (step_min <<< shift_idx)) step2 <= (step_min <<< shift_idx);
+		// else step2 <= step;
+	// end
+	// else begin
+		// step <= 0;
+		// step2 <= 0;
+	// end
 end
 
 endmodule

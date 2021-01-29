@@ -29,6 +29,7 @@ reg [3:0] gain_sel;
 reg [31:0] i_step_max;
 wire fb_on;
 wire [31:0] step;
+wire [31:0] step_temp;
 wire [3:0] shift_idx;
 wire [31:0] step_max;
 wire [31:0] step_min;
@@ -51,23 +52,24 @@ adc = 14'd0;
 freq_cnt = 32'd100;
 amp = 16'd1000; // v(pi/4)
 /*** err_signal_gen ***/
-polarity = 0;
+polarity = 1;
 wait_cnt = 32'd50;
 err_offset_H = 32'd10;
 err_avg_sel = 3'd4;
 err_th = 32'd0;
 /*** feedback_step_gen ***/
-gain_sel = 4'd0;
+gain_sel = 4'd1;
 i_step_max = 32'd100;
 /*** phase_ramp_gen ***/
 v2pi = 32'd8000;
 #50;
 rst_n = 1;
 
-repeat(150) begin
+repeat(1600) begin
 	@(posedge stepTrig) begin
 		// err_offset_H = err_offset_H + step;
 		cnt = cnt + 1;
+		if(cnt==800) polarity = 0;
 	end
 end
 $stop;
@@ -120,7 +122,7 @@ err_signal_gen u_err
 .o_adc_L_sum() 			//[31:0]
 );
 
-feedback_step_gen_v2 u_fb
+feedback_step_gen_v3 u_fb
 (
 .i_clk(clk),
 .i_rst_n(rst_n),
@@ -131,6 +133,7 @@ feedback_step_gen_v2 u_fb
 .i_step_max(i_step_max), //[31:0] i_step_max,
 .o_fb_ON(fb_on),
 .o_step(step), //[31:0] o_step
+.step_temp(step_temp),
 .o_shift_idx(shift_idx),
 .o_step_max(step_max),
 .o_step_min(step_min)
