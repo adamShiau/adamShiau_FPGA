@@ -11,25 +11,25 @@ input i_fb_on,
 input signed [OUTPUT_BIT-1:0] i_mod,
 
 output signed [OUTPUT_BIT-1:0] o_ladderWave,
-output signed [OUTPUT_BIT-1:0] o_phaseRamp,
-output [OUTPUT_BIT-1:0] o_mod
+output signed [OUTPUT_BIT-1:0] o_phaseRamp
+// ,output [OUTPUT_BIT-1:0] o_mod
 );
 
 reg signed [31:0] ladderWave, phaseRamp;
 reg signed [31:0] v2pi_p, v2pi_n;
-reg signed [31:0] mod;
+// reg signed [31:0] mod;
 wire signed [31:0] mod_32;
 
 assign o_phaseRamp = phaseRamp[OUTPUT_BIT-1:0];
 assign o_ladderWave = ladderWave[OUTPUT_BIT-1:0];
-assign o_mod = mod[OUTPUT_BIT-1:0];
+// assign o_mod = mod[OUTPUT_BIT-1:0];
 
 /*** convert 16 bit i_mod to 32 bit format***/
 assign mod_32 = (i_mod[OUTPUT_BIT-1] == 1'b1)? {{32-OUTPUT_BIT{1'b1}} , i_mod} : i_mod;
 
-always@(posedge i_clk) begin
-	mod <= mod_32; //delay one clock for sync
-end
+// always@(posedge i_clk) begin
+	// mod <= mod_32; //delay one clock for sync
+// end
 
 always@(posedge i_clk or negedge i_rst_n ) begin
 	if(~i_rst_n) ladderWave <= 32'd0;
@@ -58,21 +58,21 @@ always@(posedge i_clk or negedge i_rst_n ) begin
 	else if(i_fb_on) begin
 		if(i_step > 0) begin
 			if(i_trig) begin
-				if((ladderWave + mod) > v2pi_p) phaseRamp <= ladderWave + mod - i_v2pi - i_v2pi;
-				else phaseRamp <= ladderWave + mod;
+				if((ladderWave + mod_32) > v2pi_p) phaseRamp <= ladderWave + mod_32 - i_v2pi - i_v2pi;
+				else phaseRamp <= ladderWave + mod_32;
 			end
 			else phaseRamp <= phaseRamp;
 		end
 		else if(i_step < 0) begin
 			if(i_trig) begin
-				if((ladderWave + mod) < v2pi_n) phaseRamp <= ladderWave + mod + i_v2pi + i_v2pi;
-				else phaseRamp <= ladderWave + mod;
+				if((ladderWave + mod_32) < v2pi_n) phaseRamp <= ladderWave + mod_32 + i_v2pi + i_v2pi;
+				else phaseRamp <= ladderWave + mod_32;
 			end
 			else phaseRamp <= phaseRamp;
 		end
 		else phaseRamp <= phaseRamp;
 	end
-	else phaseRamp <= mod;
+	else phaseRamp <= mod_32;
 end
 
 always@(posedge i_clk or negedge i_rst_n ) begin
