@@ -12,11 +12,13 @@ input [3:0] i_gain_sel,  //adc full range : +/- 2.5V, resolution: 5/16384 = 0.3m
 input [31:0] i_step_max,
 output o_fb_ON,
 output signed [31:0] o_step,
+output signed [31:0] o_step_mon,
 /*** for simulation***/
 output signed [31:0] step_temp,
 output [3:0] o_shift_idx,
 output signed [31:0] o_step_max,
-output signed [31:0] o_step_min
+output signed [31:0] o_step_min,
+output [2:0] o_SM
 );
 
 localparam NORMAL = 3'd0;
@@ -34,9 +36,11 @@ assign o_shift_idx = shift_idx;
 assign fb_ON = (shift_idx==4'd15)? 1'b0 : 1'b1;
 assign o_fb_ON = fb_ON;
 assign o_step = step >>> shift_idx;
+assign o_step_mon = step; 
 assign o_step_max = step_max;
 assign o_step_min = step_min;
 assign step_temp = step;
+assign o_SM = sat_index;
 
 always@(posedge i_clk or negedge i_rst_n) begin
 	if(~i_rst_n) err <= 32'd0;
