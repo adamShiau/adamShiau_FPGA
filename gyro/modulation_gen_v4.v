@@ -67,7 +67,7 @@ always@(posedge i_clk or negedge i_rst_n) begin
             HIGH: begin
                 o_status <= HIGH;
                 o_mod_out <= amp_H;
-                if(freq_cnt != 32'd1) freq_cnt <= freq_cnt - 1'b1;
+                if(freq_cnt != 32'd0) freq_cnt <= freq_cnt - 1'b1;
                 else begin
                     SM <= LOW;
                     freq_cnt <= i_freq_cnt;
