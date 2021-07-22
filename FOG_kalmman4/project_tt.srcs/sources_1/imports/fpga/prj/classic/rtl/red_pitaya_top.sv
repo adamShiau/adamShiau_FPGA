@@ -1023,6 +1023,7 @@ logic signed [64-1:0] out_divider_P_apo_est;
 logic signed [31:0] measure;
 logic [32-1:0] kal_Q, kal_R;
 
+// update estimate uncertainty : p(n, n-1) = p(n+1, n) + q(n)
 adder P_apo_est_shifted_Q //P_apo_est + Q
 (
   .A(P_apo_est),      // input wire [31 : 0] A
@@ -1032,6 +1033,7 @@ adder P_apo_est_shifted_Q //P_apo_est + Q
   .S(P_apri_est)      // output wire [31 : 0] S
 );
 
+// calculate Kalman gain
 adder2 P_apri_est_R //R + P_apri_est
 (
   .A(P_apri_est),      // input wire [31 : 0] A
@@ -1124,6 +1126,7 @@ begin
 	// Reset whenever the reset signal goes low, regardless of the busy
 	if (!adc_rstn)
 	begin
+	// initial guass
 		P_apo_est <= 32'd8191;		//covariance starting value set at 1
 		x_apo_est <= 32'd0;			//estimate starting value set at 0
 	end
