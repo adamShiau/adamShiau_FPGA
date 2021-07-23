@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="kalman_filter_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="kalman_filter_tb" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="20050000001fs"></ZoomEndTime>
+      <Cursor1Time time="3084615000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="244"></NameColumnWidth>
+      <ValueColumnWidth column_width="81"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="15" />
+   <wave_markers>
+      <marker time="55000000" label="" />
+      <marker time="75000000" label="" />
+      <marker time="85000000" label="" />
+      <marker time="95000000" label="" />
+      <marker time="105000000" label="" />
+      <marker time="65000000" label="" />
+      <marker time="115000000" label="" />
+      <marker time="125000000" label="" />
+      <marker time="250000000" label="" />
+   </wave_markers>
+   <wvobject fp_name="/kalman_filter_tb/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/kalman_filter_tb/rst_n" type="logic">
+      <obj_property name="ElementShortName">rst_n</obj_property>
+      <obj_property name="ObjectShortName">rst_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/kalman_filter_tb/meas" type="array">
+      <obj_property name="ElementShortName">meas[13:0]</obj_property>
+      <obj_property name="ObjectShortName">meas[13:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      <obj_property name="WaveformStyle">STYLE_ANALOG</obj_property>
+      <obj_property name="CellHeight">100</obj_property>
+      <obj_property name="AnalogYRangeType">ANALOG_YRANGETYPE_AUTO</obj_property>
+      <obj_property name="AnalogYRangeMin">0.000000</obj_property>
+      <obj_property name="AnalogYRRangeMax">0.000000</obj_property>
+      <obj_property name="AnalogInterpolation">ANALOG_INTERPOLATION_HOLD</obj_property>
+      <obj_property name="AnalogOffscale">ANALOG_OFFSCALE_HIDE</obj_property>
+      <obj_property name="AnalogHorizLine">0.000000</obj_property>
+   </wvobject>
+   <wvobject fp_name="/kalman_filter_tb/kal_Q" type="array">
+      <obj_property name="ElementShortName">kal_Q[31:0]</obj_property>
+      <obj_property name="ObjectShortName">kal_Q[31:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/kalman_filter_tb/kal_R" type="array">
+      <obj_property name="ElementShortName">kal_R[31:0]</obj_property>
+      <obj_property name="ObjectShortName">kal_R[31:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="group281" type="group">
+      <obj_property name="label">1st clk</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/kalman_filter_tb/ukal/r_meas" type="array">
+         <obj_property name="ElementShortName">r_meas[31:0]</obj_property>
+         <obj_property name="ObjectShortName">r_meas[31:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/kalman_filter_tb/ukal/r_kal_Q" type="array">
+         <obj_property name="ElementShortName">r_kal_Q[31:0]</obj_property>
+         <obj_property name="ObjectShortName">r_kal_Q[31:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/kalman_filter_tb/ukal/r_kal_R" type="array">
+         <obj_property name="ElementShortName">r_kal_R[31:0]</obj_property>
+         <obj_property name="ObjectShortName">r_kal_R[31:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/kalman_filter_tb/p_est" type="array">
+         <obj_property name="ElementShortName">p_est[31:0]</obj_property>
+         <obj_property name="ObjectShortName">p_est[31:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/kalman_filter_tb/x_est" type="array">
+         <obj_property name="ElementShortName">x_est[31:0]</obj_property>
+         <obj_property name="ObjectShortName">x_est[31:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="WaveformStyle">STYLE_ANALOG</obj_property>
+         <obj_property name="CellHeight">100</obj_property>
+         <obj_property name="AnalogYRangeType">ANALOG_YRANGETYPE_AUTO</obj_property>
+         <obj_property name="AnalogYRangeMin">0.000000</obj_property>
+         <obj_property name="AnalogYRRangeMax">0.000000</obj_property>
+         <obj_property name="AnalogInterpolation">ANALOG_INTERPOLATION_HOLD</obj_property>
+         <obj_property name="AnalogOffscale">ANALOG_OFFSCALE_HIDE</obj_property>
+         <obj_property name="AnalogHorizLine">0.000000</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group282" type="group">
+      <obj_property name="label">2nd clk</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/kalman_filter_tb/ukal/p_est_plusQ" type="array">
+         <obj_property name="ElementShortName">p_est_plusQ[31:0]</obj_property>
+         <obj_property name="ObjectShortName">p_est_plusQ[31:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#F0E68C</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/kalman_filter_tb/ukal/p_est_plusQ_plusR" type="array">
+         <obj_property name="ElementShortName">p_est_plusQ_plusR[31:0]</obj_property>
+         <obj_property name="ObjectShortName">p_est_plusQ_plusR[31:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#F0E68C</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/kalman_filter_tb/ukal/meas_minus_xest" type="array">
+         <obj_property name="ElementShortName">meas_minus_xest[31:0]</obj_property>
+         <obj_property name="ObjectShortName">meas_minus_xest[31:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#F0E68C</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/kalman_filter_tb/ukal/r1_x_est" type="array">
+         <obj_property name="ElementShortName">r1_x_est[31:0]</obj_property>
+         <obj_property name="ObjectShortName">r1_x_est[31:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#F0E68C</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group283" type="group">
+      <obj_property name="label">3rd clk</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/kalman_filter_tb/ukal/k_mon" type="array">
+         <obj_property name="ElementShortName">k_mon[31:0]</obj_property>
+         <obj_property name="ObjectShortName">k_mon[31:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/kalman_filter_tb/ukal/r1_p_est_plusQ" type="array">
+         <obj_property name="ElementShortName">r1_p_est_plusQ[31:0]</obj_property>
+         <obj_property name="ObjectShortName">r1_p_est_plusQ[31:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/kalman_filter_tb/ukal/r_meas_minus_xest" type="array">
+         <obj_property name="ElementShortName">r_meas_minus_xest[31:0]</obj_property>
+         <obj_property name="ObjectShortName">r_meas_minus_xest[31:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/kalman_filter_tb/ukal/r2_x_est" type="array">
+         <obj_property name="ElementShortName">r2_x_est[31:0]</obj_property>
+         <obj_property name="ObjectShortName">r2_x_est[31:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group284" type="group">
+      <obj_property name="label">4th clk</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/kalman_filter_tb/ukal/one_minus_k" type="array">
+         <obj_property name="ElementShortName">one_minus_k[31:0]</obj_property>
+         <obj_property name="ObjectShortName">one_minus_k[31:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/kalman_filter_tb/ukal/r2_p_est_plusQ" type="array">
+         <obj_property name="ElementShortName">r2_p_est_plusQ[31:0]</obj_property>
+         <obj_property name="ObjectShortName">r2_p_est_plusQ[31:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/kalman_filter_tb/ukal/meas_minus_xest_scale" type="array">
+         <obj_property name="ElementShortName">meas_minus_xest_scale[63:0]</obj_property>
+         <obj_property name="ObjectShortName">meas_minus_xest_scale[63:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/kalman_filter_tb/ukal/r3_x_est" type="array">
+         <obj_property name="ElementShortName">r3_x_est[31:0]</obj_property>
+         <obj_property name="ObjectShortName">r3_x_est[31:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group285" type="group">
+      <obj_property name="label">5th clk</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/kalman_filter_tb/ukal/p_est_cur_scale" type="array">
+         <obj_property name="ElementShortName">p_est_cur_scale[63:0]</obj_property>
+         <obj_property name="ObjectShortName">p_est_cur_scale[63:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#FFA500</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/kalman_filter_tb/ukal/feedback_mon" type="array">
+         <obj_property name="ElementShortName">feedback_mon[31:0]</obj_property>
+         <obj_property name="ObjectShortName">feedback_mon[31:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#FFA500</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/kalman_filter_tb/ukal/r4_x_est" type="array">
+         <obj_property name="ElementShortName">r4_x_est[31:0]</obj_property>
+         <obj_property name="ObjectShortName">r4_x_est[31:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#FFA500</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group286" type="group">
+      <obj_property name="label">6th clk</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/kalman_filter_tb/ukal/p_est_cur_mon" type="array">
+         <obj_property name="ElementShortName">p_est_cur_mon[31:0]</obj_property>
+         <obj_property name="ObjectShortName">p_est_cur_mon[31:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/kalman_filter_tb/ukal/x_est_cur" type="array">
+         <obj_property name="ElementShortName">x_est_cur[31:0]</obj_property>
+         <obj_property name="ObjectShortName">x_est_cur[31:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="/kalman_filter_tb/ukal/p_est_cur" type="array">
+      <obj_property name="ElementShortName">p_est_cur[63:0]</obj_property>
+      <obj_property name="ObjectShortName">p_est_cur[63:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/kalman_filter_tb/ukal/measurement" type="array">
+      <obj_property name="ElementShortName">measurement[31:0]</obj_property>
+      <obj_property name="ObjectShortName">measurement[31:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/kalman_filter_tb/ukal/k_gain" type="array">
+      <obj_property name="ElementShortName">k_gain[63:0]</obj_property>
+      <obj_property name="ObjectShortName">k_gain[63:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/kalman_filter_tb/ukal/feedback" type="array">
+      <obj_property name="ElementShortName">feedback[63:0]</obj_property>
+      <obj_property name="ObjectShortName">feedback[63:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      <obj_property name="CustomSignalColor">#FFA500</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+</wave_config>
