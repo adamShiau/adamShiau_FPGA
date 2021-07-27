@@ -48,7 +48,7 @@ ramp_trig_cnt = 0;
 freq_cnt = 32'd100;
 amp = 16'd5800; // v(pi/4)
 /*** err_signal_gen ***/
-polarity = 1;
+polarity = 0;
 wait_cnt = 32'd50;
 err_offset_H = 32'd10;
 err_avg_sel = 3'd4;
