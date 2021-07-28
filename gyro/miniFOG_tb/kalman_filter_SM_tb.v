@@ -32,10 +32,10 @@ rst_n = 1;
 repeat(50) begin
 	cnt = cnt + 10'd1;
 	if((cnt%10) < 5) 
-		meas = 10'd1023;
+		meas = 10'd200;
 	else 
 		meas = -10'd0;
-	#4915;
+	#1000;
 	// @(posedge clk) begin
 		// cnt = cnt + 10'd1;
 		// if((cnt%10) < 5) 

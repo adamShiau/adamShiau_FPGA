@@ -2,7 +2,7 @@ module Kalman_filter_SM
 (
 	input i_clk,
 	input i_rst_n,
-	input signed [13:0] i_meas,
+	input signed [9:0] i_meas,
 	input [31:0] i_kal_Q, i_kal_R,
 	output reg signed [31:0] x_out, p_out
 	/*** monitor ***/
@@ -19,13 +19,8 @@ localparam MEASURE 	= 4'd2;
 localparam K_GAIN 	= 4'd3;
 localparam UPDATE 	= 4'd4;
 localparam OUTPUT 	= 4'd5;
-localparam K_GAIN_NOP = 4'd6;
-// `define INIT 	 4'd0;
-// `define PREDICT 	 4'd1;
-// `define MEASURE 	 4'd2;
-// `define K_GAIN 	 4'd3;
-// `define UPDATE 	 4'd4;
-// `define OUTPUT 	 4'd5;
+localparam K_GAIN_NOP = 4'd6; 
+localparam UPDATE_NOP = 4'd7;
 
 wire signed [31:0] measurement, p_now, x_now;
 
@@ -38,8 +33,8 @@ wire signed [63:0] k;
 wire signed [31:0] k_mon;
 wire signed [31:0] div_up, div_down;
 
-assign measurement = (i_meas[13] == 1'b1)? {{18{1'b1}} , i_meas} : i_meas;
-assign k_mon = k[64:32];
+assign measurement = (i_meas[9] == 1'b1)? {{22{1'b1}} , i_meas} : i_meas;
+assign k_mon = k[63:32];
 assign div_up = p_pre <<< 13;
 assign div_down = p_pre + r_kal_R;
 
@@ -81,9 +76,13 @@ always@(*) begin
 			
 			K_GAIN_NOP: nstate = UPDATE;
 			
-			UPDATE: nstate = OUTPUT;
+			UPDATE: nstate = UPDATE_NOP;
+			
+			UPDATE_NOP: nstate = OUTPUT;
 			
 			OUTPUT: nstate = PREDICT;
+			
+			
         
         endcase
     end
@@ -113,7 +112,7 @@ always@(posedge i_clk or negedge i_rst_n) begin
 			
 			K_GAIN: begin
 				clken_K_gain <= 1'b1;
-				err <= r_meas - x_now;
+				err <= r_meas - x_pre;
 			end
 			
 			K_GAIN_NOP: begin
@@ -123,6 +122,9 @@ always@(posedge i_clk or negedge i_rst_n) begin
 				clken_K_gain <= 1'b0;
 				clken_update_p <= 1'b1;
 				clken_update_x <= 1'b1;
+			end
+			
+			UPDATE_NOP: begin
 			end
 			
 			OUTPUT: begin
