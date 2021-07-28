@@ -29,14 +29,16 @@ reg [31:0] r_kal_Q, r_kal_R;
 reg clken_K_gain, clken_update_p, clken_update_x;
 reg signed [31:0] x_pre, p_pre;
 reg signed [31:0] err, r_meas;
-wire signed [63:0] k;
+reg signed [31:0] k;
+wire signed [63:0] k_temp;
 wire signed [31:0] k_mon;
 wire signed [31:0] div_up, div_down;
 
 assign measurement = (i_meas[9] == 1'b1)? {{22{1'b1}} , i_meas} : i_meas;
-assign k_mon = k[63:32];
+assign k_mon = k;
 assign div_up = p_pre <<< 13;
 assign div_down = p_pre + r_kal_R;
+assign monitor0 = r_meas;
 
 always@(posedge i_clk or negedge i_rst_n) begin
 	if (!i_rst_n) begin
@@ -116,6 +118,7 @@ always@(posedge i_clk or negedge i_rst_n) begin
 			end
 			
 			K_GAIN_NOP: begin
+				k <= k_temp[63:32];
 			end
 			
 			UPDATE: begin
@@ -149,12 +152,12 @@ div32_kal_v2 div_K_gain (
   .s_axis_dividend_tvalid(1'b1),  // input wire s_axis_dividend_tvalid
   .s_axis_dividend_tdata(p_pre <<< 13),    // input wire [31 : 0] s_axis_dividend_tdata
   .m_axis_dout_tvalid(),          // output wire m_axis_dout_tvalid
-  .m_axis_dout_tdata(k)            // output wire [63 : 0] m_axis_dout_tdata
+  .m_axis_dout_tdata(k_temp)            // output wire [63 : 0] m_axis_dout_tdata
 );
 
 mult32_kal_v2 mult_update_p (
   .CLK(i_clk),    // input wire CLK
-  .A(32'd8192 - k[63:32]),        // input wire [31 : 0] A
+  .A(32'd8192 - k),        // input wire [31 : 0] A
   .B(p_pre),        // input wire [31 : 0] B
   .CE(clken_update_p),      // input wire CE
   .SCLR(~i_rst_n),  // input wire SCLR
@@ -163,7 +166,7 @@ mult32_kal_v2 mult_update_p (
 
 mult32_kal_v2 mult_update_x (
   .CLK(i_clk),    // input wire CLK
-  .A(k[63:32]),        // input wire [31 : 0] A
+  .A(k),        // input wire [31 : 0] A
   .B(err),        // input wire [31 : 0] B
   .CE(clken_update_x),      // input wire CE
   .SCLR(~i_rst_n),  // input wire SCLR

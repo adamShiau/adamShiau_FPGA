@@ -638,11 +638,11 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Tue Jul 27 12:36:03 UTC 2021</spirit:value>
+            <spirit:value>Wed Jul 28 14:57:59 UTC 2021</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>9:6d0853cb</spirit:value>
+            <spirit:value>9:419a72b1</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -688,11 +688,11 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Tue Jul 27 12:36:07 UTC 2021</spirit:value>
+            <spirit:value>Wed Jul 28 14:58:00 UTC 2021</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>9:6d0853cb</spirit:value>
+            <spirit:value>9:419a72b1</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -706,11 +706,11 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Tue Jul 27 12:36:07 UTC 2021</spirit:value>
+            <spirit:value>Wed Jul 28 14:58:00 UTC 2021</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>9:6d0853cb</spirit:value>
+            <spirit:value>9:419a72b1</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -726,11 +726,11 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Tue Jul 27 12:36:07 UTC 2021</spirit:value>
+            <spirit:value>Wed Jul 28 14:58:00 UTC 2021</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>9:6d0853cb</spirit:value>
+            <spirit:value>9:419a72b1</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -776,11 +776,11 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Tue Jul 27 12:36:07 UTC 2021</spirit:value>
+            <spirit:value>Wed Jul 28 14:58:00 UTC 2021</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>9:6de106ac</spirit:value>
+            <spirit:value>9:cab10398</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -796,11 +796,11 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Tue Jul 27 12:36:07 UTC 2021</spirit:value>
+            <spirit:value>Wed Jul 28 14:58:00 UTC 2021</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>9:6de106ac</spirit:value>
+            <spirit:value>9:cab10398</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -815,11 +815,11 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Tue Jul 27 12:36:08 UTC 2021</spirit:value>
+            <spirit:value>Wed Jul 28 14:58:00 UTC 2021</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>9:6d0853cb</spirit:value>
+            <spirit:value>9:419a72b1</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -835,11 +835,11 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Tue Jul 27 12:36:08 UTC 2021</spirit:value>
+            <spirit:value>Wed Jul 28 14:58:00 UTC 2021</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>9:6d0853cb</spirit:value>
+            <spirit:value>9:419a72b1</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -853,11 +853,11 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Tue Jul 27 12:36:08 UTC 2021</spirit:value>
+            <spirit:value>Wed Jul 28 14:58:00 UTC 2021</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>9:6d0853cb</spirit:value>
+            <spirit:value>9:419a72b1</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -871,11 +871,11 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Tue Jul 27 12:37:30 UTC 2021</spirit:value>
+            <spirit:value>Wed Jul 28 14:59:34 UTC 2021</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>9:6d0853cb</spirit:value>
+            <spirit:value>9:419a72b1</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -1293,7 +1293,7 @@
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="integer">
         <spirit:name>C_LATENCY</spirit:name>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_LATENCY">1</spirit:value>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_LATENCY">36</spirit:value>
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="integer">
         <spirit:name>ALGORITHM_TYPE</spirit:name>
@@ -1928,11 +1928,11 @@
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>latency_configuration</spirit:name>
-      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.latency_configuration" spirit:choiceRef="choice_list_93ab811d" spirit:order="20">Manual</spirit:value>
+      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.latency_configuration" spirit:choiceRef="choice_list_93ab811d" spirit:order="20">Automatic</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>latency</spirit:name>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.latency" spirit:order="21" spirit:minimum="0" spirit:maximum="36" spirit:rangeType="long">1</spirit:value>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.latency" spirit:order="21" spirit:minimum="36" spirit:maximum="36" spirit:rangeType="long">36</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>ACLKEN</spirit:name>
