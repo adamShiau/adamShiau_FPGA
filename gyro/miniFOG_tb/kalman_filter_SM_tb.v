@@ -8,7 +8,7 @@ reg signed [13:0] meas;
 reg [31:0] kal_Q, kal_R;
 wire signed [31:0] p_out, x_out;
 
-Kalman_filter_SM ukal
+Kalman_filter_SM_v2 ukal
 (
 .i_clk	(clk),
 .i_rst_n(rst_n),
@@ -29,20 +29,11 @@ kal_Q = 5;
 kal_R = 10;
 #50;
 rst_n = 1;
-repeat(50) begin
-	cnt = cnt + 10'd1;
-	if((cnt%10) < 5) 
-		meas = 10'd200;
-	else 
-		meas = -10'd0;
-	#1000;
-	// @(posedge clk) begin
-		// cnt = cnt + 10'd1;
-		// if((cnt%10) < 5) 
-			// meas = 14'd200;
-		// else 
-			// meas = 14'd100;
-	// end
+repeat(10) begin
+	meas = 14'd1000;
+	#1420;
+	meas = -14'd1000;
+	#2000;
 end
 $stop;
 end

@@ -588,6 +588,24 @@
   <spirit:model>
     <spirit:views>
       <spirit:view>
+        <spirit:name>xilinx_externalfiles</spirit:name>
+        <spirit:displayName>External Files</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:external.files</spirit:envIdentifier>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_externalfiles_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>GENtimestamp</spirit:name>
+            <spirit:value>Fri Jul 30 01:42:22 UTC 2021</spirit:value>
+          </spirit:parameter>
+          <spirit:parameter>
+            <spirit:name>outputProductCRC</spirit:name>
+            <spirit:value>7:595318db</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
         <spirit:name>xilinx_veriloginstantiationtemplate</spirit:name>
         <spirit:displayName>Verilog Instantiation Template</spirit:displayName>
         <spirit:envIdentifier>verilogSource:vivado.xilinx.com:synthesis.template</spirit:envIdentifier>
@@ -598,11 +616,11 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Wed Jul 21 06:19:08 UTC 2021</spirit:value>
+            <spirit:value>Fri Jul 30 01:42:21 UTC 2021</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>7:6d0f8dc1</spirit:value>
+            <spirit:value>7:595318db</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -647,11 +665,11 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Wed Jul 21 06:19:08 UTC 2021</spirit:value>
+            <spirit:value>Fri Jul 30 01:42:21 UTC 2021</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>7:6d0f8dc1</spirit:value>
+            <spirit:value>7:595318db</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -665,11 +683,11 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Wed Jul 21 06:19:08 UTC 2021</spirit:value>
+            <spirit:value>Fri Jul 30 01:42:21 UTC 2021</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>7:6d0f8dc1</spirit:value>
+            <spirit:value>7:595318db</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -684,11 +702,11 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Wed Jul 21 06:19:08 UTC 2021</spirit:value>
+            <spirit:value>Fri Jul 30 01:42:21 UTC 2021</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>7:6d0f8dc1</spirit:value>
+            <spirit:value>7:595318db</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -733,11 +751,11 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Wed Jul 21 06:19:08 UTC 2021</spirit:value>
+            <spirit:value>Fri Jul 30 01:42:21 UTC 2021</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>7:8dd19939</spirit:value>
+            <spirit:value>7:b74f2666</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -752,11 +770,11 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Wed Jul 21 06:19:08 UTC 2021</spirit:value>
+            <spirit:value>Fri Jul 30 01:42:21 UTC 2021</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>7:8dd19939</spirit:value>
+            <spirit:value>7:b74f2666</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -771,11 +789,11 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Wed Jul 21 06:19:08 UTC 2021</spirit:value>
+            <spirit:value>Fri Jul 30 01:42:21 UTC 2021</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>7:6d0f8dc1</spirit:value>
+            <spirit:value>7:595318db</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -790,11 +808,11 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Wed Jul 21 06:19:08 UTC 2021</spirit:value>
+            <spirit:value>Fri Jul 30 01:42:21 UTC 2021</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>7:6d0f8dc1</spirit:value>
+            <spirit:value>7:595318db</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -808,29 +826,11 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Wed Jul 21 06:19:08 UTC 2021</spirit:value>
+            <spirit:value>Fri Jul 30 01:42:21 UTC 2021</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>7:6d0f8dc1</spirit:value>
-          </spirit:parameter>
-        </spirit:parameters>
-      </spirit:view>
-      <spirit:view>
-        <spirit:name>xilinx_externalfiles</spirit:name>
-        <spirit:displayName>External Files</spirit:displayName>
-        <spirit:envIdentifier>:vivado.xilinx.com:external.files</spirit:envIdentifier>
-        <spirit:fileSetRef>
-          <spirit:localName>xilinx_externalfiles_view_fileset</spirit:localName>
-        </spirit:fileSetRef>
-        <spirit:parameters>
-          <spirit:parameter>
-            <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Wed Jul 21 06:20:00 UTC 2021</spirit:value>
-          </spirit:parameter>
-          <spirit:parameter>
-            <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>7:6d0f8dc1</spirit:value>
+            <spirit:value>7:595318db</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -1248,7 +1248,7 @@
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="integer">
         <spirit:name>C_LATENCY</spirit:name>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_LATENCY">1</spirit:value>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_LATENCY">15</spirit:value>
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="integer">
         <spirit:name>ALGORITHM_TYPE</spirit:name>
@@ -1377,6 +1377,42 @@
     </spirit:choice>
   </spirit:choices>
   <spirit:fileSets>
+    <spirit:fileSet>
+      <spirit:name>xilinx_externalfiles_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>divider_32.dcp</spirit:name>
+        <spirit:userFileType>dcp</spirit:userFileType>
+        <spirit:userFileType>USED_IN_implementation</spirit:userFileType>
+        <spirit:userFileType>USED_IN_synthesis</spirit:userFileType>
+        <spirit:logicalName>xil_defaultlib</spirit:logicalName>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>divider_32_stub.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+        <spirit:userFileType>USED_IN_synth_blackbox_stub</spirit:userFileType>
+        <spirit:logicalName>xil_defaultlib</spirit:logicalName>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>divider_32_stub.vhdl</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:userFileType>USED_IN_synth_blackbox_stub</spirit:userFileType>
+        <spirit:logicalName>xil_defaultlib</spirit:logicalName>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>divider_32_sim_netlist.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+        <spirit:userFileType>USED_IN_simulation</spirit:userFileType>
+        <spirit:userFileType>USED_IN_single_language</spirit:userFileType>
+        <spirit:logicalName>xil_defaultlib</spirit:logicalName>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>divider_32_sim_netlist.vhdl</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:userFileType>USED_IN_simulation</spirit:userFileType>
+        <spirit:userFileType>USED_IN_single_language</spirit:userFileType>
+        <spirit:logicalName>xil_defaultlib</spirit:logicalName>
+      </spirit:file>
+    </spirit:fileSet>
     <spirit:fileSet>
       <spirit:name>xilinx_veriloginstantiationtemplate_view_fileset</spirit:name>
       <spirit:file>
@@ -1766,42 +1802,6 @@
         <spirit:userFileType>text</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
-    <spirit:fileSet>
-      <spirit:name>xilinx_externalfiles_view_fileset</spirit:name>
-      <spirit:file>
-        <spirit:name>divider_32.dcp</spirit:name>
-        <spirit:userFileType>dcp</spirit:userFileType>
-        <spirit:userFileType>USED_IN_implementation</spirit:userFileType>
-        <spirit:userFileType>USED_IN_synthesis</spirit:userFileType>
-        <spirit:logicalName>xil_defaultlib</spirit:logicalName>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>divider_32_stub.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_synth_blackbox_stub</spirit:userFileType>
-        <spirit:logicalName>xil_defaultlib</spirit:logicalName>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>divider_32_stub.vhdl</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_synth_blackbox_stub</spirit:userFileType>
-        <spirit:logicalName>xil_defaultlib</spirit:logicalName>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>divider_32_sim_netlist.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_simulation</spirit:userFileType>
-        <spirit:userFileType>USED_IN_single_language</spirit:userFileType>
-        <spirit:logicalName>xil_defaultlib</spirit:logicalName>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>divider_32_sim_netlist.vhdl</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>USED_IN_simulation</spirit:userFileType>
-        <spirit:userFileType>USED_IN_single_language</spirit:userFileType>
-        <spirit:logicalName>xil_defaultlib</spirit:logicalName>
-      </spirit:file>
-    </spirit:fileSet>
   </spirit:fileSets>
   <spirit:description>This core provides division using one of three algorithms. The LUT-Mult algorithm is suitable for very small operands. The Radix-2 algorithm provides a solution suitable for small to medium operand division, and High Radix algorithm provides a solution based upon XtremeDSP slices and so is well suited to larger operands (that is, above about 16 bits wide).</spirit:description>
   <spirit:parameters>
@@ -1887,7 +1887,7 @@
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>latency</spirit:name>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.latency" spirit:order="21" spirit:minimum="0" spirit:maximum="36" spirit:rangeType="long">1</spirit:value>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.latency" spirit:order="21" spirit:minimum="0" spirit:maximum="36" spirit:rangeType="long">15</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>ACLKEN</spirit:name>
