@@ -5,6 +5,8 @@ module Kalman_filter
 	input signed [13:0] i_meas,
 	input [31:0] i_kal_Q, i_kal_R,
 	output reg signed [31:0] x_est, p_est
+	/*** output monitor ***/
+	// , output signed [31:0] mon1
 );
 
 reg signed [31:0] r_meas, r1_x_est, r2_x_est, r3_x_est, r4_x_est;
@@ -22,6 +24,13 @@ assign measurement = (i_meas[13] == 1'b1)? {{18{1'b1}} , i_meas} : i_meas;
 assign k_mon = k_gain[63:32];
 assign p_est_cur_mon = p_est_cur[63:32];
 assign feedback_mon = feedback[63:32];
+/*** output monitor ***/
+
+// assign mon1 = r4_x_est;
+// assign mon2 = r_meas_minus_xest;
+// assign mon3 = meas_minus_xest_scale;
+// assign mon4 = feedback_mon;
+// assign mon5 = r_meas;
 
 /*** update registers  ***/
 always@(posedge i_clk or negedge i_rst_n) begin
@@ -37,6 +46,7 @@ always@(posedge i_clk or negedge i_rst_n) begin
 	end
 end
 
+// assign x_est_cur = r_meas;
 
 /*** step0 initialization  ***/
 always@(posedge i_clk or negedge i_rst_n) begin
@@ -46,10 +56,12 @@ always@(posedge i_clk or negedge i_rst_n) begin
 		x_est <= 32'd0;
 	end
 	else begin
-		if(p_est_cur_mon > 32'd0) begin
-			p_est <= p_est_cur[63:32];
-			x_est <= x_est_cur;
-		end
+		// if(p_est_cur_mon > 32'd0) begin
+			// p_est <= p_est_cur[63:32];
+			// x_est <= x_est_cur;
+		// end
+		p_est <= p_est_cur[63:32];
+		x_est <= x_est_cur;
 	end
 end
 
@@ -67,6 +79,8 @@ always@(posedge i_clk or negedge i_rst_n) begin
 		r4_x_est <= r3_x_est;
 	end
 end
+
+// assign x_est_cur = r4_x_est;
 
 /*** step2 update   ***/
 
@@ -146,11 +160,15 @@ divider_32 div_p_est_cur (
 // measurement - x_est
 substractor_32 err (
   .A(r_meas),        	// input wire [31 : 0] A
-  .B(x_est),  	// input wire [31 : 0] B
+  // .B(x_est),  	// input wire [31 : 0] B
+  .B(32'd4000),  	// input wire [31 : 0] B
   .CLK(i_clk),    		// input wire CLK
-  .SCLR(~i_rst_n),  	// input wire SCLR
+  .SCLR(1'b0),  	// input wire SCLR
+  // .SCLR(~i_rst_n),  	// input wire SCLR
   .S(meas_minus_xest)     	// output wire [31 : 0] S
 );
+
+// assign meas_minus_xest = r_meas - 32'd4000;
 
 // delay meas_minus_xest one clk 
 always@(posedge i_clk or negedge i_rst_n) begin
@@ -162,7 +180,8 @@ end
 //k*(measurement - x_est)
 multiplier_32 k_mul_err (
   .CLK(i_clk),    // input wire CLK
-  .A(k_gain[63:32]),        // input wire [31 : 0] A
+  // .A(k_gain[63:32]),        // input wire [31 : 0] A
+  .A(32'd1),        // input wire [31 : 0] A
   .B(r_meas_minus_xest),        // input wire [31 : 0] B
   .SCLR(~i_rst_n),  // input wire SCLR
   .P(meas_minus_xest_scale)        // output wire [63 : 0] P
@@ -173,22 +192,38 @@ divider_32 cal_feedback (
   .aclk(i_clk),                              	// input wire aclk
   .aresetn(i_rst_n),                           	// input wire aresetn
   .s_axis_divisor_tvalid(1'b1),    				// input wire s_axis_divisor_tvalid
-  .s_axis_divisor_tdata(1 << 13),   			// input wire [31 : 0] s_axis_divisor_tdata, denominator
+  .s_axis_divisor_tdata(32'd1),   			// input wire [31 : 0] s_axis_divisor_tdata, denominator
   .s_axis_dividend_tvalid(1'b1),  				// input wire s_axis_dividend_tvalid
   .s_axis_dividend_tdata(meas_minus_xest_scale[31:0]),	    // input wire [31 : 0] s_axis_dividend_tdata, numerator
   .m_axis_dout_tvalid(),         				// output wire m_axis_dout_tvalid
   .m_axis_dout_tdata(feedback)            		// output wire [63 : 0] m_axis_dout_tdata
 );
 
+// divider_32 cal_feedback (
+  // .aclk(i_clk),                              	// input wire aclk
+  // .aresetn(i_rst_n),                           	// input wire aresetn
+  // .s_axis_divisor_tvalid(1'b1),    				// input wire s_axis_divisor_tvalid
+  // .s_axis_divisor_tdata(32'd2),   			// input wire [31 : 0] s_axis_divisor_tdata, denominator
+  // .s_axis_dividend_tvalid(1'b1),  				// input wire s_axis_dividend_tvalid
+  // .s_axis_dividend_tdata(32'd8192),	    // input wire [31 : 0] s_axis_dividend_tdata, numerator
+  // .m_axis_dout_tvalid(),         				// output wire m_axis_dout_tvalid
+  // .m_axis_dout_tdata(feedback)            		// output wire [63 : 0] m_axis_dout_tdata
+// );
+
+
+
 //calculate x_est_cur = x_est + k*(z-x_est)
 adder_32 adder_x_est_cur (
-	.A(r4_x_est),					// input wire [31 : 0] A
+	// .A(r4_x_est),					// input wire [31 : 0] A
+	.A(32'd0),
 	.B(feedback[63:32]),    				// input wire [31 : 0] B
 	.CLK(i_clk),    				// input wire CLK
 	.SCLR(~i_rst_n), 				// input wire SCLR
 	.S(x_est_cur)     	// output wire [31 : 0] S
+	// .S()
 );
 
+// assign x_est_cur = feedback[63:32];
 
 /*** step3 prediction   ***/
 

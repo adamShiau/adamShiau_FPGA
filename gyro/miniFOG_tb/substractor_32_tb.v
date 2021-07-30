@@ -19,11 +19,11 @@ clk = 0;
 rst_n = 0;
 #50;
 rst_n = 1;
-A = 32'd1000;
-B = 32'd1000;
+A = 32'd4000;
+B = 32'd0;
 repeat(10) begin
 	A = A - 32'd200;
-	rst_n = ~rst_n;
+	// rst_n = ~rst_n;
 	#400;
 end
 $stop;

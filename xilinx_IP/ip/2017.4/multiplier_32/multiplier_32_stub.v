@@ -3,8 +3,8 @@
 // Tool Version: Vivado v.2017.4 (win64) Build 2086221 Fri Dec 15 20:55:39 MST 2017
 // Date        : Wed Jul 21 14:24:28 2021
 // Host        : LAPTOP-MO0UL85T running 64-bit major release  (build 9200)
-// Command     : write_verilog -force -mode synth_stub
-//               c:/Users/ami73/Desktop/gyro_FPGA/miniFOG_closeLoop_v3/miniFOG_openLoop.srcs/sources_1/ip/multiplier_32/multiplier_32_stub.v
+// Command     : write_verilog -force -mode synth_stub -rename_top multiplier_32 -prefix
+//               multiplier_32_ multiplier_32_stub.v
 // Design      : multiplier_32
 // Purpose     : Stub declaration of top-level module interface
 // Device      : xc7a50tcsg325-1
