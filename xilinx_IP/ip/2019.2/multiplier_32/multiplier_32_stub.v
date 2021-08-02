@@ -1,7 +1,7 @@
 // Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2019.2 (win64) Build 2708876 Wed Nov  6 21:40:23 MST 2019
-// Date        : Sun Jul 25 16:24:30 2021
+// Date        : Sat Jul 31 22:11:05 2021
 // Host        : LAPTOP-O3DIP64G running 64-bit major release  (build 9200)
 // Command     : write_verilog -force -mode synth_stub
 //               C:/Users/adam/Documents/GitHub/adamShiau_FPGA/xilinx_IP/ip/2019.2/multiplier_32/multiplier_32_stub.v

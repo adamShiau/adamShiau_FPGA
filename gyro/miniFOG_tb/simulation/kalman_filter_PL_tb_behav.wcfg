@@ -11,13 +11,13 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="8550000000fs"></ZoomStartTime>
-      <ZoomEndTime time="34350000001fs"></ZoomEndTime>
-      <Cursor1Time time="14370000000fs"></Cursor1Time>
+      <ZoomStartTime time="70656758000fs"></ZoomStartTime>
+      <ZoomEndTime time="112456758001fs"></ZoomEndTime>
+      <Cursor1Time time="84905000000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="235"></NameColumnWidth>
-      <ValueColumnWidth column_width="74"></ValueColumnWidth>
+      <ValueColumnWidth column_width="58"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="15" />
    <wave_markers>
@@ -25,8 +25,10 @@
       <marker time="55000000" label="" />
       <marker time="225000000" label="" />
       <marker time="235000000" label="" />
-      <marker time="215000000" label="" />
-      <marker time="9895000000" label="" />
+      <marker time="16945000000" label="" />
+      <marker time="14375000000" label="" />
+      <marker time="61585000000" label="" />
+      <marker time="90105000000" label="" />
    </wave_markers>
    <wvobject fp_name="/kalman_filter_PL_tb/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
@@ -36,9 +38,9 @@
       <obj_property name="ElementShortName">rst_n</obj_property>
       <obj_property name="ObjectShortName">rst_n</obj_property>
    </wvobject>
-   <wvobject fp_name="/kalman_filter_PL_tb/meas" type="array">
-      <obj_property name="ElementShortName">meas[13:0]</obj_property>
-      <obj_property name="ObjectShortName">meas[13:0]</obj_property>
+   <wvobject fp_name="/kalman_filter_PL_tb/out" type="array">
+      <obj_property name="ElementShortName">out[14:0]</obj_property>
+      <obj_property name="ObjectShortName">out[14:0]</obj_property>
       <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
       <obj_property name="WaveformStyle">STYLE_ANALOG</obj_property>
       <obj_property name="CellHeight">100</obj_property>
@@ -88,9 +90,9 @@
          <obj_property name="UseCustomSignalColor">true</obj_property>
          <obj_property name="WaveformStyle">STYLE_ANALOG</obj_property>
          <obj_property name="CellHeight">100</obj_property>
-         <obj_property name="AnalogYRangeType">ANALOG_YRANGETYPE_AUTO</obj_property>
-         <obj_property name="AnalogYRangeMin">0.000000</obj_property>
-         <obj_property name="AnalogYRRangeMax">0.000000</obj_property>
+         <obj_property name="AnalogYRangeType">ANALOG_YRANGETYPE_FIXED</obj_property>
+         <obj_property name="AnalogYRangeMin">-8200.000000</obj_property>
+         <obj_property name="AnalogYRRangeMax">8200.000000</obj_property>
          <obj_property name="AnalogInterpolation">ANALOG_INTERPOLATION_HOLD</obj_property>
          <obj_property name="AnalogOffscale">ANALOG_OFFSCALE_HIDE</obj_property>
          <obj_property name="AnalogHorizLine">0.000000</obj_property>
@@ -103,195 +105,10 @@
       <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre" type="array">
          <obj_property name="ElementShortName">p_pre[0:17][31:0]</obj_property>
          <obj_property name="ObjectShortName">p_pre[0:17][31:0]</obj_property>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[0]" type="array">
-            <obj_property name="ElementShortName">[0][31:0]</obj_property>
-            <obj_property name="ObjectShortName">[0][31:0]</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[1]" type="array">
-            <obj_property name="ElementShortName">[1][31:0]</obj_property>
-            <obj_property name="ObjectShortName">[1][31:0]</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[2]" type="array">
-            <obj_property name="ElementShortName">[2][31:0]</obj_property>
-            <obj_property name="ObjectShortName">[2][31:0]</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[3]" type="array">
-            <obj_property name="ElementShortName">[3][31:0]</obj_property>
-            <obj_property name="ObjectShortName">[3][31:0]</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[4]" type="array">
-            <obj_property name="ElementShortName">[4][31:0]</obj_property>
-            <obj_property name="ObjectShortName">[4][31:0]</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[5]" type="array">
-            <obj_property name="ElementShortName">[5][31:0]</obj_property>
-            <obj_property name="ObjectShortName">[5][31:0]</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[6]" type="array">
-            <obj_property name="ElementShortName">[6][31:0]</obj_property>
-            <obj_property name="ObjectShortName">[6][31:0]</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[7]" type="array">
-            <obj_property name="ElementShortName">[7][31:0]</obj_property>
-            <obj_property name="ObjectShortName">[7][31:0]</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[8]" type="array">
-            <obj_property name="ElementShortName">[8][31:0]</obj_property>
-            <obj_property name="ObjectShortName">[8][31:0]</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[9]" type="array">
-            <obj_property name="ElementShortName">[9][31:0]</obj_property>
-            <obj_property name="ObjectShortName">[9][31:0]</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[10]" type="array">
-            <obj_property name="ElementShortName">[10][31:0]</obj_property>
-            <obj_property name="ObjectShortName">[10][31:0]</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[11]" type="array">
-            <obj_property name="ElementShortName">[11][31:0]</obj_property>
-            <obj_property name="ObjectShortName">[11][31:0]</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[12]" type="array">
-            <obj_property name="ElementShortName">[12][31:0]</obj_property>
-            <obj_property name="ObjectShortName">[12][31:0]</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[13]" type="array">
-            <obj_property name="ElementShortName">[13][31:0]</obj_property>
-            <obj_property name="ObjectShortName">[13][31:0]</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[14]" type="array">
-            <obj_property name="ElementShortName">[14][31:0]</obj_property>
-            <obj_property name="ObjectShortName">[14][31:0]</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[15]" type="array">
-            <obj_property name="ElementShortName">[15][31:0]</obj_property>
-            <obj_property name="ObjectShortName">[15][31:0]</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[16]" type="array">
-            <obj_property name="ElementShortName">[16][31:0]</obj_property>
-            <obj_property name="ObjectShortName">[16][31:0]</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[17]" type="array">
-            <obj_property name="ElementShortName">[17][31:0]</obj_property>
-            <obj_property name="ObjectShortName">[17][31:0]</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         </wvobject>
       </wvobject>
       <wvobject fp_name="/kalman_filter_PL_tb/ukal/x_pre" type="array">
          <obj_property name="ElementShortName">x_pre[0:18][31:0]</obj_property>
          <obj_property name="ObjectShortName">x_pre[0:18][31:0]</obj_property>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/x_pre[0]" type="array">
-            <obj_property name="ElementShortName">[0][31:0]</obj_property>
-            <obj_property name="ObjectShortName">[0][31:0]</obj_property>
-            <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/x_pre[1]" type="array">
-            <obj_property name="ElementShortName">[1][31:0]</obj_property>
-            <obj_property name="ObjectShortName">[1][31:0]</obj_property>
-            <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/x_pre[2]" type="array">
-            <obj_property name="ElementShortName">[2][31:0]</obj_property>
-            <obj_property name="ObjectShortName">[2][31:0]</obj_property>
-            <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/x_pre[3]" type="array">
-            <obj_property name="ElementShortName">[3][31:0]</obj_property>
-            <obj_property name="ObjectShortName">[3][31:0]</obj_property>
-            <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/x_pre[4]" type="array">
-            <obj_property name="ElementShortName">[4][31:0]</obj_property>
-            <obj_property name="ObjectShortName">[4][31:0]</obj_property>
-            <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/x_pre[5]" type="array">
-            <obj_property name="ElementShortName">[5][31:0]</obj_property>
-            <obj_property name="ObjectShortName">[5][31:0]</obj_property>
-            <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/x_pre[6]" type="array">
-            <obj_property name="ElementShortName">[6][31:0]</obj_property>
-            <obj_property name="ObjectShortName">[6][31:0]</obj_property>
-            <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/x_pre[7]" type="array">
-            <obj_property name="ElementShortName">[7][31:0]</obj_property>
-            <obj_property name="ObjectShortName">[7][31:0]</obj_property>
-            <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/x_pre[8]" type="array">
-            <obj_property name="ElementShortName">[8][31:0]</obj_property>
-            <obj_property name="ObjectShortName">[8][31:0]</obj_property>
-            <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/x_pre[9]" type="array">
-            <obj_property name="ElementShortName">[9][31:0]</obj_property>
-            <obj_property name="ObjectShortName">[9][31:0]</obj_property>
-            <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/x_pre[10]" type="array">
-            <obj_property name="ElementShortName">[10][31:0]</obj_property>
-            <obj_property name="ObjectShortName">[10][31:0]</obj_property>
-            <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/x_pre[11]" type="array">
-            <obj_property name="ElementShortName">[11][31:0]</obj_property>
-            <obj_property name="ObjectShortName">[11][31:0]</obj_property>
-            <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/x_pre[12]" type="array">
-            <obj_property name="ElementShortName">[12][31:0]</obj_property>
-            <obj_property name="ObjectShortName">[12][31:0]</obj_property>
-            <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/x_pre[13]" type="array">
-            <obj_property name="ElementShortName">[13][31:0]</obj_property>
-            <obj_property name="ObjectShortName">[13][31:0]</obj_property>
-            <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/x_pre[14]" type="array">
-            <obj_property name="ElementShortName">[14][31:0]</obj_property>
-            <obj_property name="ObjectShortName">[14][31:0]</obj_property>
-            <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/x_pre[15]" type="array">
-            <obj_property name="ElementShortName">[15][31:0]</obj_property>
-            <obj_property name="ObjectShortName">[15][31:0]</obj_property>
-            <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/x_pre[16]" type="array">
-            <obj_property name="ElementShortName">[16][31:0]</obj_property>
-            <obj_property name="ObjectShortName">[16][31:0]</obj_property>
-            <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/x_pre[17]" type="array">
-            <obj_property name="ElementShortName">[17][31:0]</obj_property>
-            <obj_property name="ObjectShortName">[17][31:0]</obj_property>
-            <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/x_pre[18]" type="array">
-            <obj_property name="ElementShortName">[18][31:0]</obj_property>
-            <obj_property name="ObjectShortName">[18][31:0]</obj_property>
-            <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-         </wvobject>
       </wvobject>
    </wvobject>
    <wvobject fp_name="group2285" type="group">
@@ -356,134 +173,6 @@
          <obj_property name="ElementShortName">[17][31:0]</obj_property>
          <obj_property name="ObjectShortName">[17][31:0]</obj_property>
          <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[17][31]" type="logic">
-            <obj_property name="ElementShortName">[31]</obj_property>
-            <obj_property name="ObjectShortName">[31]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[17][30]" type="logic">
-            <obj_property name="ElementShortName">[30]</obj_property>
-            <obj_property name="ObjectShortName">[30]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[17][29]" type="logic">
-            <obj_property name="ElementShortName">[29]</obj_property>
-            <obj_property name="ObjectShortName">[29]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[17][28]" type="logic">
-            <obj_property name="ElementShortName">[28]</obj_property>
-            <obj_property name="ObjectShortName">[28]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[17][27]" type="logic">
-            <obj_property name="ElementShortName">[27]</obj_property>
-            <obj_property name="ObjectShortName">[27]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[17][26]" type="logic">
-            <obj_property name="ElementShortName">[26]</obj_property>
-            <obj_property name="ObjectShortName">[26]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[17][25]" type="logic">
-            <obj_property name="ElementShortName">[25]</obj_property>
-            <obj_property name="ObjectShortName">[25]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[17][24]" type="logic">
-            <obj_property name="ElementShortName">[24]</obj_property>
-            <obj_property name="ObjectShortName">[24]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[17][23]" type="logic">
-            <obj_property name="ElementShortName">[23]</obj_property>
-            <obj_property name="ObjectShortName">[23]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[17][22]" type="logic">
-            <obj_property name="ElementShortName">[22]</obj_property>
-            <obj_property name="ObjectShortName">[22]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[17][21]" type="logic">
-            <obj_property name="ElementShortName">[21]</obj_property>
-            <obj_property name="ObjectShortName">[21]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[17][20]" type="logic">
-            <obj_property name="ElementShortName">[20]</obj_property>
-            <obj_property name="ObjectShortName">[20]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[17][19]" type="logic">
-            <obj_property name="ElementShortName">[19]</obj_property>
-            <obj_property name="ObjectShortName">[19]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[17][18]" type="logic">
-            <obj_property name="ElementShortName">[18]</obj_property>
-            <obj_property name="ObjectShortName">[18]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[17][17]" type="logic">
-            <obj_property name="ElementShortName">[17]</obj_property>
-            <obj_property name="ObjectShortName">[17]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[17][16]" type="logic">
-            <obj_property name="ElementShortName">[16]</obj_property>
-            <obj_property name="ObjectShortName">[16]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[17][15]" type="logic">
-            <obj_property name="ElementShortName">[15]</obj_property>
-            <obj_property name="ObjectShortName">[15]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[17][14]" type="logic">
-            <obj_property name="ElementShortName">[14]</obj_property>
-            <obj_property name="ObjectShortName">[14]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[17][13]" type="logic">
-            <obj_property name="ElementShortName">[13]</obj_property>
-            <obj_property name="ObjectShortName">[13]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[17][12]" type="logic">
-            <obj_property name="ElementShortName">[12]</obj_property>
-            <obj_property name="ObjectShortName">[12]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[17][11]" type="logic">
-            <obj_property name="ElementShortName">[11]</obj_property>
-            <obj_property name="ObjectShortName">[11]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[17][10]" type="logic">
-            <obj_property name="ElementShortName">[10]</obj_property>
-            <obj_property name="ObjectShortName">[10]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[17][9]" type="logic">
-            <obj_property name="ElementShortName">[9]</obj_property>
-            <obj_property name="ObjectShortName">[9]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[17][8]" type="logic">
-            <obj_property name="ElementShortName">[8]</obj_property>
-            <obj_property name="ObjectShortName">[8]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[17][7]" type="logic">
-            <obj_property name="ElementShortName">[7]</obj_property>
-            <obj_property name="ObjectShortName">[7]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[17][6]" type="logic">
-            <obj_property name="ElementShortName">[6]</obj_property>
-            <obj_property name="ObjectShortName">[6]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[17][5]" type="logic">
-            <obj_property name="ElementShortName">[5]</obj_property>
-            <obj_property name="ObjectShortName">[5]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[17][4]" type="logic">
-            <obj_property name="ElementShortName">[4]</obj_property>
-            <obj_property name="ObjectShortName">[4]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[17][3]" type="logic">
-            <obj_property name="ElementShortName">[3]</obj_property>
-            <obj_property name="ObjectShortName">[3]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[17][2]" type="logic">
-            <obj_property name="ElementShortName">[2]</obj_property>
-            <obj_property name="ObjectShortName">[2]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[17][1]" type="logic">
-            <obj_property name="ElementShortName">[1]</obj_property>
-            <obj_property name="ObjectShortName">[1]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_pre[17][0]" type="logic">
-            <obj_property name="ElementShortName">[0]</obj_property>
-            <obj_property name="ObjectShortName">[0]</obj_property>
-         </wvobject>
       </wvobject>
       <wvobject fp_name="/kalman_filter_PL_tb/ukal/p_temp" type="array">
          <obj_property name="ElementShortName">p_temp[31:0]</obj_property>

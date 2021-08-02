@@ -1,10 +1,10 @@
 // Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2019.2 (win64) Build 2708876 Wed Nov  6 21:40:23 MST 2019
-// Date        : Sun Jul 25 15:55:25 2021
+// Date        : Thu Jul 29 22:22:24 2021
 // Host        : LAPTOP-O3DIP64G running 64-bit major release  (build 9200)
-// Command     : write_verilog -force -mode synth_stub
-//               c:/Users/adam/Desktop/22_hs_dual_da/hs_dual_da.srcs/sources_1/ip/divider_32/divider_32_stub.v
+// Command     : write_verilog -force -mode synth_stub -rename_top divider_32 -prefix
+//               divider_32_ divider_32_stub.v
 // Design      : divider_32
 // Purpose     : Stub declaration of top-level module interface
 // Device      : xc7a35tfgg484-2
