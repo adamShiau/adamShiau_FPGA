@@ -1,9 +1,9 @@
 module Kalman_filter_PL
-#(parameter ADC_BIT = 14)
+#(parameter BIT = 14)
 (
 	input i_clk,
 	input i_rst_n,
-	input signed [ADC_BIT-1:0] i_meas,
+	input signed [BIT-1:0] i_meas,
 	input [31:0] i_kal_Q, i_kal_R,
 	output reg signed [31:0] x_out, p_out
 );
@@ -26,7 +26,7 @@ reg [7:0]ii, kk, p_init_cnt;
 
 wire signed [31:0] measurement;
 
-assign measurement = (i_meas[ADC_BIT-1] == 1'b1)? {{32-ADC_BIT{1'b1}} , i_meas} : i_meas;
+assign measurement = (i_meas[BIT-1] == 1'b1)? {{32-BIT{1'b1}} , i_meas} : i_meas;
 assign k = k_gain[63:32];
 
 always@(posedge i_clk or negedge i_rst_n) begin

@@ -24,13 +24,12 @@ localparam LOW = 0;
 localparam HIGH = 1;
 localparam TRIGHOLD = 32'd1;
 
-assign o_SM = SM;
-assign sim_ramp_trig_cnt = ramp_trig_cnt;
-
 reg SM = LOW;
 reg [31:0] freq_cnt = 32'd5000000;
 reg [31:0] ramp_trig_cnt = 0;
 
+assign o_SM = SM;
+assign sim_ramp_trig_cnt = ramp_trig_cnt;
 wire signed [OUTPUT_BIT-1:0] amp_H = $signed(i_amp_H);
 wire signed [OUTPUT_BIT-1:0] amp_L = $signed(i_amp_L);
 
