@@ -39,8 +39,8 @@ add_fileset QUARTUS_SYNTH QUARTUS_SYNTH "" ""
 set_fileset_property QUARTUS_SYNTH TOP_LEVEL GyroVarSet
 set_fileset_property QUARTUS_SYNTH ENABLE_RELATIVE_INCLUDE_PATHS false
 set_fileset_property QUARTUS_SYNTH ENABLE_FILE_OVERWRITE_MODE false
-add_fileset_file GyroVarSet.v VERILOG PATH ../../Documents/GitHub/adamShiau_FPGA/intel_IP/2018.1/GyroVarSet.v TOP_LEVEL_FILE
-
+#add_fileset_file GyroVarSet.v VERILOG PATH ../../Documents/GitHub/adamShiau_FPGA/intel_IP/2018.1/GyroVarSet.v TOP_LEVEL_FILE
+add_fileset_file GyroVarSet.v VERILOG PATH ./GyroVarSet.v TOP_LEVEL_FILE
 
 # 
 # parameters
