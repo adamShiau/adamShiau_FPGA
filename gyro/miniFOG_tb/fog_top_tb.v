@@ -1,4 +1,4 @@
-`timescale 1 ns/ 1 ns
+	`timescale 1 ns/ 1 ns
 module fog_top_tb();
 
 /*** global ***/
@@ -87,7 +87,7 @@ initial begin
 	i_adc_data = 14'd0;
 	i_polarity = 1'b0;
 	i_wait_cnt = 32'd10;
-	i_err_offset = 32'd10;
+	i_err_offset = 32'd0;
 	i_avg_sel = 3'd0;
 	i_err_th = 32'd0;
 	// feedback_step_gen //
