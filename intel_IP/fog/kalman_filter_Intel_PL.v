@@ -89,8 +89,8 @@ divider_32	div_k_gain (
 	.clock ( i_clk ),
 	.denom ( p_plus_R ),
 	.numer ( p_shift ),
-	.quotient (  ),
-	.remain ( k )
+	.quotient ( k ),
+	.remain (  )
 	);
 always@(posedge i_clk or negedge i_rst_n) begin
 	if (!i_rst_n) begin

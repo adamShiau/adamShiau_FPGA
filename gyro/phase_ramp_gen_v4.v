@@ -12,7 +12,7 @@ input i_clk,
 input i_rst_n,
 input i_trig,
 input signed [OUTPUT_BIT-1:0] i_step,
-input i_fb_on,
+input [31:0] i_fb_on,
 input signed [OUTPUT_BIT-1:0] i_mod,
 input [3:0] i_gain_sel,
 

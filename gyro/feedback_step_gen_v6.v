@@ -2,7 +2,8 @@
 data: 2021-03-21
 v5 simplify code, remove step_max, just integrate err signal
 data:2021-11-30
-v6 add fb_ON register
+v6 add fb_ON register,
+add const step mode
 ***/
 
 module feedback_step_gen_v6
@@ -12,8 +13,9 @@ input i_rst_n,
 input i_trig,
 input signed [31:0] i_err,
 input [3:0] i_gain_sel,
-input i_fb_ON,
-output o_fb_ON,
+input [31:0] i_fb_ON,
+input signed [31:0] i_const_step,
+output [31:0] o_fb_ON,
 output signed [16-1:0] o_step,
 output signed [31:0] o_step_mon,
 /*** for simulation***/
@@ -68,7 +70,10 @@ always@(posedge i_clk or negedge i_rst_n ) begin
 	if(~i_rst_n) begin
 		step <= 32'd0;
 	end
-	else if(i_fb_ON) begin
+	else if(i_fb_ON == 32'd2) begin
+		if(i_trig) step <= i_const_step;
+	end 
+	else if(i_fb_ON == 32'd1) begin
 		if(i_trig) step <= step + err;
 	end 
 	else begin

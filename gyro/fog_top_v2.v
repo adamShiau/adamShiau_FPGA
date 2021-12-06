@@ -28,14 +28,15 @@ parameter ADC_BIT			= 14  //ADC bit
 	input i_polarity,
 	input [31:0] i_wait_cnt,
 	input [31:0] i_err_offset,
-	input [2:0]i_avg_sel,
+	input [3:0]i_avg_sel,
 	input [31:0] i_err_th,
 	output [31:0] o_err,
 	output o_err_done,
 	/*** feedback_step_gen***/
 	input [3:0] i_gain_sel_step,
-	input i_fb_ON,
-	output o_fb_ON,			//o_fb_ON = 1 if i_gain_sel != 15 
+	input [31:0] i_fb_ON,
+	input [31:0] i_const_step,
+	output [31:0] o_fb_ON,	//mode 0: open loop; 1: close loop; 2 : const step
 	output [15:0] o_step,
 	output [31:0] o_step_mon,
 	/*** phase_ramp_gen***/
@@ -112,6 +113,7 @@ feedback_step_gen_v6 u_fb
 .i_err(o_err), //[31:0] i_err
 .i_gain_sel(i_gain_sel_step),  //[3:0] i_gain_sel_step
 .i_fb_ON(i_fb_ON),
+.i_const_step(i_const_step),
 .o_fb_ON(o_fb_ON),
 .o_step(o_step), 
 .o_step_mon(o_step_mon),

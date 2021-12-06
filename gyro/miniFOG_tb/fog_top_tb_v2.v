@@ -26,8 +26,9 @@ wire [31:0] o_err;
 wire o_err_done;
 /*** feedback_step_gen***/
 reg [3:0] i_gain_sel_step;
-reg i_fb_ON;
-wire o_fb_ON;
+reg [31:0] i_const_step;
+reg [31:0] i_fb_ON;
+wire [31:0] o_fb_ON;
 wire [15:0] o_step;
 wire [31:0] o_step_mon;
 /*** phase_ramp_gen***/
@@ -69,6 +70,7 @@ ufog_top (
 	/*** feedback_step_gen***/
 	.i_gain_sel_step(i_gain_sel_step),
 	.i_fb_ON(i_fb_ON),
+	.i_const_step(i_const_step),
 	.o_fb_ON(o_fb_ON),
 	.o_step(o_step),
 	.o_step_mon(o_step_mon),
@@ -99,15 +101,17 @@ initial begin
 	i_err_th = 32'd0;
 	// feedback_step_gen //
 	i_gain_sel_step = 4'd0;
+	i_const_step = 32'd0;
 	i_fb_ON = 0;
 	// ramp //
 	i_gain_sel_ramp = 4'd0;
 	
 	#50;
 	i_rst_n = 1;
+	i_const_step = 32'd1000;
 	#10;
 	i_ramp_trig_cnt = 32'd0;
-	i_fb_ON = 1;
+	i_fb_ON = 32'd1;
 	// repeat(5) begin
 		// @(posedge o_stepTrig);
 		// i_err_offset = i_err_offset + 32'd10;
@@ -122,6 +126,10 @@ initial begin
 	#10000
 	i_gain_sel_step = 4'd2;
 	i_gain_sel_ramp = 4'd10;
+	#1000
+	i_fb_ON = 32'd2;
+	#10000
+	i_fb_ON = 32'd1;
 	// i_err_offset = 32'd0;
 	#500000
    $stop;

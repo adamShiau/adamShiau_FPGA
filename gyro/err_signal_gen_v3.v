@@ -35,13 +35,17 @@ localparam ERR_DONE = 7;
 
 
 //MV select
-localparam MV_1 = 0;
-localparam MV_2 = 1;
-localparam MV_4 = 2;
-localparam MV_8 = 3;
-localparam MV_16 = 4;
-localparam MV_32 = 5;
-localparam MV_64 = 6;
+localparam MV_1 = 		0;
+localparam MV_2 = 		1;
+localparam MV_4 = 		2;
+localparam MV_8 = 		3;
+localparam MV_16 = 		4;
+localparam MV_32 = 		5;
+localparam MV_64 = 		6;
+localparam MV_128 = 	7;
+localparam MV_256 = 	8;
+localparam MV_512 = 	9;
+localparam MV_1024 = 	10;
 
 
 `define LOW  1'b0
@@ -87,6 +91,10 @@ always@(posedge i_clk or negedge i_rst_n) begin
             MV_16: begin o_mv_cnt <= 32'd16; shift <= MV_16; end 
             MV_32: begin o_mv_cnt <= 32'd32; shift <= MV_32; end
             MV_64: begin o_mv_cnt <= 32'd64; shift <= MV_64; end
+			MV_128: begin o_mv_cnt <= 32'd64; shift <= MV_64; end
+			MV_256: begin o_mv_cnt <= 32'd64; shift <= MV_64; end
+			MV_512: begin o_mv_cnt <= 32'd64; shift <= MV_64; end
+			MV_1024: begin o_mv_cnt <= 32'd64; shift <= MV_64; end
         endcase
     end
 end

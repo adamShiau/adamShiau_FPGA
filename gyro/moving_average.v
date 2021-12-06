@@ -7,7 +7,7 @@ module Moving_Average
 	input i_clk,
 	input i_rst_n,
 	input signed [13:0] din,
-	output signed [13:0] dout
+	output signed [16-1:0] dout
 );
 
 reg signed [13:0] data_reg [AVE_DATA_NUM-1:0];
