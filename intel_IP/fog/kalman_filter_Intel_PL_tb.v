@@ -9,7 +9,7 @@ reg [13:0] i_meas;
 wire signed [31:0] p_out, x_out;
 
 
-Kalman_filter_Intel_PL ukal
+Kalman_filter_Intel_PL_v2 ukal
 (
 .i_clk	(clk),
 .i_rst_n(rst_n),
@@ -21,24 +21,31 @@ Kalman_filter_Intel_PL ukal
 );
 
 reg [10:0] cnt = 0;
+reg [31:0] i = 0;
 
 initial begin
 clk = 0;
 rst_n = 0;
-i_meas = 14'd1000;
+i_meas = 14'd0;
 kal_Q = 1;
 kal_R = 100;
 #50;
 rst_n = 1;
-#1000;
-i_meas = -14'd1000;
-#1000;
-i_meas = 14'd1000;
-#1000;
-i_meas = -14'd1000;
-#1000;
-i_meas = 14'd1000;
-#1000;
+// #1000;
+// i_meas = -14'd1000;
+// #1000;
+// i_meas = 14'd1000;
+// #1000;
+// i_meas = -14'd1000;
+// #1000;
+// i_meas = 14'd1000;
+// #1000;
+
+for (i=0; i<100000; i=i+1) begin
+	i_meas = i_meas + 10;
+	#10;
+end
+
 $stop;
 end
 
