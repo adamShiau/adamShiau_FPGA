@@ -8,11 +8,14 @@ module Kalman_filter_Intel_PL_v2
 	output reg signed [31:0] x_out, p_out
 );
 
-localparam X_PRE_DLY_NUM = 19;
-localparam P_PRE_DLY_NUM = 18;
-localparam MEAS_DLY_NUM = 16;
+
 `define P_INIT 100000
-`define P_OUT_INIT_CNT 19
+
+localparam PL_DELAY = 15;
+localparam P_OUT_INIT_CNT = PL_DELAY + 4;
+localparam X_PRE_DLY_NUM = PL_DELAY + 4;
+localparam P_PRE_DLY_NUM = PL_DELAY + 3;
+localparam MEAS_DLY_NUM = PL_DELAY + 1;
 
 reg [31:0] r_kal_Q, r_kal_R;
 reg signed [31:0] err, FB;
@@ -25,9 +28,9 @@ wire signed [31:0] k, p_temp, FB_temp;
 reg signed [31:0] one_minus_k;
 reg [7:0]ii, kk, jj, p_init_cnt;
 
-wire signed [31:0] measurement;
+// wire signed [31:0] measurement;
 
-assign measurement = (i_meas[ADC_BIT-1] == 1'b1)? {{32-ADC_BIT{1'b1}} , i_meas} : i_meas;
+// assign measurement = (i_meas[ADC_BIT-1] == 1'b1)? {{32-ADC_BIT{1'b1}} , i_meas} : i_meas;
 // assign k = k_gain[63:32];
 
 always@(posedge i_clk or negedge i_rst_n) begin
@@ -55,7 +58,8 @@ always@(posedge i_clk or negedge i_rst_n) begin
 	else begin
 		p_pre[0] <= p_out + r_kal_Q;
 		x_pre[0] <= x_out;
-		r_meas[0] <= measurement;
+		// r_meas[0] <= measurement;
+		r_meas[0] <= i_meas;
 		
 		for (ii=0; ii<X_PRE_DLY_NUM-1; ii=ii+1)
 			x_pre[ii+1] <= x_pre[ii];
@@ -101,12 +105,12 @@ multiplier_32	mult_p_temp (
 	.aclr ( ~i_rst_n ),
 	.clock ( i_clk ),
 	.dataa ( one_minus_k ),
-	.datab ( p_pre[17] ),
+	.datab ( p_pre[PL_DELAY+2] ),
 	.result ( p_temp )
 	);
 always@(posedge i_clk or negedge i_rst_n) begin
 	if (!i_rst_n) begin
-		p_init_cnt <= `P_OUT_INIT_CNT;
+		p_init_cnt <= P_OUT_INIT_CNT;
 		p_out <= `P_INIT;
 		x_out <= 32'd0;
 	end
@@ -114,8 +118,8 @@ always@(posedge i_clk or negedge i_rst_n) begin
 	else begin
 		if(p_init_cnt!=0) p_init_cnt <= p_init_cnt - 1'b1;
 		else begin
-			p_out <= p_temp >> 13;
-			x_out <= x_pre[18] + FB;
+			p_out <= p_temp >>> 13;
+			x_out <= x_pre[PL_DELAY+3] + FB;
 	end
 	end
 end
@@ -126,7 +130,7 @@ always@(posedge i_clk or negedge i_rst_n) begin
 		FB <= 32'd0;
 	end
 	else begin
-		err <= r_meas[15] - x_pre[15];
+		err <= r_meas[PL_DELAY] - x_pre[PL_DELAY];
 		FB <= (FB_temp >>> 13);
 	end
 end

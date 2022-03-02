@@ -16,8 +16,7 @@ input [3:0] i_gain_sel,
 input [31:0] i_fb_ON,
 input signed [31:0] i_const_step,
 output [31:0] o_fb_ON,
-//output signed [16-1:0] o_step,
-output signed [31:0] o_step,
+output signed [16-1:0] o_step,
 output signed [31:0] o_step_mon,
 /*** for simulation***/
 output [3:0] o_shift_idx

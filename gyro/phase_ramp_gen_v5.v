@@ -5,15 +5,15 @@ be sure to check device DAC max output 32767 equal to Vpi = 4V， and min output
 data: 2021-11-30
 v4 add input gain select
 ***/
-module phase_ramp_gen_v4
+module phase_ramp_gen_v5
 #(parameter OUTPUT_BIT = 16)
 (
 input i_clk,
 input i_rst_n,
 input i_trig,
-input signed [OUTPUT_BIT-1:0] i_step,
+input signed [31:0] i_step,
 input [31:0] i_fb_on,
-input signed [OUTPUT_BIT-1:0] i_mod,
+input signed [31:0] i_mod,
 input [3:0] i_gain_sel,
 
 output signed [OUTPUT_BIT-1:0] o_ladderWave,
@@ -22,8 +22,8 @@ output signed [OUTPUT_BIT-1:0] o_phaseRamp
 , output [3:0] o_shift_idx
 );
 
-reg signed [OUTPUT_BIT-1:0] ladderWave, phaseRamp;
-reg signed [OUTPUT_BIT-1:0] mod, r_step;
+reg signed [31:0] ladderWave;
+reg signed [31:0] mod;
 reg [3:0] shift_idx, r_shift_idx;
 
 assign o_phaseRamp = (ladderWave >>> shift_idx) + mod;
@@ -33,7 +33,6 @@ assign o_shift_idx = shift_idx;
 always@(posedge i_clk) begin
 	mod <= i_mod; //delay one clock for sync
 	r_shift_idx <= shift_idx;
-	r_step <= i_step;
 end
 
 always@(posedge i_clk or negedge i_rst_n ) begin

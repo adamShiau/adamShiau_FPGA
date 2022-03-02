@@ -37,7 +37,7 @@ parameter ADC_BIT			= 14  //ADC bit
 	input [31:0] i_fb_ON,
 	input [31:0] i_const_step,
 	output [31:0] o_fb_ON,	//mode 0: open loop; 1: close loop; 2 : const step
-	output [31:0] o_step,
+	output [15:0] o_step,
 	output [31:0] o_step_mon,
 	/*** phase_ramp_gen***/
 	input [3:0] i_gain_sel_ramp, 
@@ -130,7 +130,6 @@ u_phaseRamp(
 .i_step(o_step), //[15:0] i_step
 .i_fb_on(o_fb_ON),
 .i_mod(o_mod_out), //[OUTPUT_BIT-1:0] i_mod
-//.i_gain_sel(i_gain_sel_ramp), //[3:0] i_gain_sel_ramp
 .i_gain_sel(i_gain_sel_ramp), //[3:0] i_gain_sel_ramp
 .o_ladderWave(o_ladderWave), //[OUTPUT_BIT-1:0] o_ladderWave
 .o_phaseRamp(o_phaseRamp), //[OUTPUT_BIT-1:0] o_phaseRamp
