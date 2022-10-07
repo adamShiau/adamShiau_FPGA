@@ -46,9 +46,10 @@ alt_16 ds1775_9B_readTemp_d()
 	rd_data_L = IIC_Read_Byte(NACK);
 	IIC_Stop();
 	
-	temp = rd_data_H<<1 |  rd_data_L>>7;
-	if(rd_data_H>>7) return (temp-512);
-	else return temp;
+//	temp = rd_data_H<<1 |  rd_data_L>>7;
+	temp = rd_data_H<<8 | rd_data_L;
+//	if(rd_data_H>>7) return (temp-512);
+	return temp;
 }
 
 float ds1775_9B_readTemp_f()
@@ -62,7 +63,8 @@ float ds1775_9B_readTemp_f()
 	rd_data_H = IIC_Read_Byte(ACK);
 	rd_data_L = IIC_Read_Byte(NACK);
 	IIC_Stop();
-	
+//	printf("%x, ", rd_data_H);
+//	printf("%x\n", rd_data_L);
 	temp = rd_data_H<<1 |  rd_data_L>>7;
 	if(rd_data_H>>7) return (temp-512)*0.5;
 	else return temp*0.5;
