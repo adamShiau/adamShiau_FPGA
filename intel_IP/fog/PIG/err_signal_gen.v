@@ -190,12 +190,6 @@ always@(posedge i_clk or negedge i_rst_n) begin
 end
 	
 
-        
-
-
-
-
-/*** next state update ***/
 always@(*) begin
 	if(~i_rst_n) begin
 		nstate = RST;
@@ -223,8 +217,9 @@ always@(*) begin
 			IS_STABLE: begin
 				if(o_change) nstate = RST;
 				else if(r_is_stable) begin
-					if(r_init_flag == 1'b1) nstate = ACQ_INIT;
-					else nstate = ACQ_NEW;
+					if(r_init_flag) nstate = ACQ_INIT;
+					else if(!r_init_flag) nstate = ACQ_NEW;
+					else nstate = IS_STABLE;
 				end
 				else nstate = IS_STABLE;
 			end
@@ -232,13 +227,15 @@ always@(*) begin
 			ACQ_INIT: begin
 				if(r_acq_done) begin
 					if(r_trig) nstate = IS_STABLE;
-				end			
+				end	
+				else nstate = ACQ_INIT;
 			end
 
 			ACQ_NEW: begin
 				if(r_acq_done) begin
 					nstate = ERR_GEN;
-				end			
+				end		
+				else nstate = ACQ_NEW;
 			end
 
 			ERR_GEN: begin

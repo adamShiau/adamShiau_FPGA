@@ -20,11 +20,11 @@ end
 
 always@(posedge i_clk) begin
     case(rst_sm)
-        4'd0: begin
+        0: begin
             rst_sm <= 1;
             rst_n <= 1'b0;
         end
-        4'd1: begin
+        1: begin
             if(rst_cnt != 0) begin
                 rst_cnt <= rst_cnt - 1'b1;
             end

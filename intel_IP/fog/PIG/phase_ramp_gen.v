@@ -72,7 +72,7 @@ always@(posedge i_clk or negedge i_rst_n ) begin
 		reg_gain_sel2 <= GAIN_INIT;
 	end
 	
-	else if(reg_fb_ON == 0) begin
+	else if(reg_fb_ON == 32'd0) begin
 		reg_ramp_init <= 32'd0;
 		reg_ramp <= 32'd0;
 		reg_ramp_pre <= 32'd0;
@@ -90,7 +90,18 @@ always@(posedge i_clk or negedge i_rst_n ) begin
 			reg_ramp_pre <= 0;
 		end
 	end 
-
+	
+//	else if(reg_fb_ON == 32'd2) begin
+//		reg_ramp_pre <= reg_ramp_pre + reg_step; 
+//		reg_ramp <= (reg_ramp_pre >>> reg_gain_sel);
+//		
+//		reg_ramp_init <= 32'd0;
+//		reg_ramp <= 32'd0;
+//		reg_ramp_pre <= 32'd0;
+//	end
+//	else begin
+//	
+//	end
 
 end
 

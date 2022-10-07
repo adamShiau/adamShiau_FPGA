@@ -68,7 +68,6 @@ always@(posedge i_clk or negedge i_rst_n ) begin
 	
 	else if(reg_fb_ON == 32'd1) begin
 
-
 		if(reg_trig) begin
 			reg_step_pre <= reg_step_pre + reg_err; //error signal accumulator
 			reg_step <= reg_step_init + (reg_step_pre >>> reg_gain_sel);
