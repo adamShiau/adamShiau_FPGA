@@ -1,0 +1,68 @@
+
+
+module sim_feedback_step_gen
+(
+input i_clk,
+input i_rst_n,
+input [31:0] i_freq_cnt,
+input [32-1:0] i_amp_H,
+input [32-1:0] i_amp_L, 
+output [32-1:0] o_mod_out,
+output  o_status,
+output  o_stepTrig,
+/*** simulation***/
+output o_SM,
+
+
+//input i_trig,
+input signed [31:0] i_err,
+input [31:0] i_gain_sel,
+input [31:0] i_fb_ON,
+input signed [31:0] i_const_step,
+output [31:0] o_fb_ON,
+output  [31:0] o_step,
+//output  [31:0] o_step_mon,
+output  [31:0] o_step_pre,
+/*** for simulation***/
+output [31:0] o_gain_sel,
+output [31:0] o_gain_sel2,
+output [1:0] o_status_step,
+output o_change,
+output signed [31:0] o_step_init 
+);
+
+modulation_gen i1 (
+// port map - connection between master ports and signals/registers   
+	.i_amp_H(i_amp_H),
+	.i_amp_L(i_amp_L),
+	.i_clk(i_clk),
+	.i_freq_cnt(i_freq_cnt),
+	.i_rst_n(i_rst_n),
+	.o_SM(o_SM),
+	.o_mod_out(o_mod_out),
+	.o_status(o_status),
+	.o_stepTrig(o_stepTrig)
+);
+
+feedback_step_gen i2 (
+// port map - connection between master ports and signals/registers   
+	.i_clk(i_clk),
+	.i_const_step(i_const_step),
+	.i_err(i_err),
+	.i_fb_ON(i_fb_ON),
+	.i_gain_sel(i_gain_sel),
+	.i_rst_n(i_rst_n),
+	.i_trig(o_stepTrig),
+	.o_fb_ON(o_fb_ON),
+	.o_gain_sel(o_gain_sel),
+	.o_gain_sel2(o_gain_sel2),
+	.o_step(o_step),
+//	.o_step_mon(o_step_mon),
+	.o_step_pre(o_step_pre),
+	.o_status(o_status_step),
+	.o_change(o_change),
+	.o_step_init(o_step_init) 
+	
+);
+
+endmodule
