@@ -84,10 +84,13 @@ always@(posedge i_clk or negedge i_rst_n ) begin
 		reg_step_init <= 32'd0;
 		reg_step_pre <= 32'd0;
 	end 
-	else begin
+	else if(reg_fb_ON == 32'd0) begin
 		reg_step_init <= 32'd0;
 		reg_step <= 32'd0;
 		reg_step_pre <= 32'd0;
+	end
+	else begin
+	
 	end
 end
 
