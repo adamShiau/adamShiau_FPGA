@@ -1,4 +1,6 @@
-/*** v3_ add parameter ADC_BIT***/
+/*** 
+err_signal_gen_v2 created in 02/24/2023
+***/
 
 module err_signal_gen
 #(parameter ADC_BIT = 14)
@@ -11,18 +13,18 @@ input i_trig,
 input [31:0] i_freq_cnt,
 input signed [31:0] i_err_offset,
 input signed [ADC_BIT-1:0] i_adc_data,
-input [31:0] i_avg_sel, 
+// input [31:0] i_avg_sel, 
 output signed [31:0] o_err,
 output o_sync,
 
 
 /*** for simulation ***/
-//output reg [31:0] o_mv_cnt,
+//output reg [31:0] o_r_mv_cnt,
 output signed [31:0] o_adc,
 output signed [31:0] o_adc_old,
 output signed [31:0] o_adc_new,
 output signed [31:0] o_adc_sum,
-output o_change,
+output o_pol_change,
 output o_flip_flag,
 output [3:0] o_cstate, o_nstate
 );
@@ -35,15 +37,15 @@ localparam ACQ_INIT = 		4'd3;
 localparam ACQ_NEW	 = 	4'd4;
 localparam ERR_GEN = 		4'd5;
 localparam WAIT_NEXT = 		4'd6;
-localparam IS_STABLE =	 	4'd7;
+localparam WAIT_STABLE =	 	4'd7;
 
 `define LOW  1'b0
 `define HIGH 1'b1
 
 reg [3:0] cstate, nstate;
 reg r_polarity, r_polarity2, r_status, r_acq_done, r_trig, r_sync;
-reg [31:0] stable_cnt, mv_cnt, r_avg_sel, r_freq_cnt;
-reg acq_done, r_flip_flag, r_init_flag, r_is_stable;
+reg [31:0] r_stable_cnt, r_mv_cnt, r_avg_sel, r_freq_cnt;
+reg acq_done, r_flip, r_init, r_stable;
 reg signed [31:0] r_adc_sum;
 reg signed [31:0] r_adc, r_adc_old, r_adc_new, r_err, r_err_offset;
 wire signed [31:0] adc;
@@ -53,15 +55,15 @@ assign o_adc_old = r_adc_old;
 assign o_adc_new = r_adc_new;
 assign o_err = r_err;
 assign o_adc_sum = r_adc_sum;
-assign o_change = r_polarity2 ^ r_polarity;
-assign o_flip_flag = r_flip_flag;
+assign o_pol_change = r_polarity2 ^ r_polarity;
+assign o_flip_flag = r_flip;
 assign o_cstate = cstate;
 assign o_nstate = nstate;
 assign o_sync = r_sync;
 
 
 /*** convert 14 bit adc to 32 bit format***/
-assign adc = (i_adc_data[ADC_BIT-1] == 1'b1)? {{32-ADC_BIT{1'b1}} , i_adc_data} : i_adc_data;
+// assign adc = (i_adc_data[ADC_BIT-1] == 1'b1)? {{32-ADC_BIT{1'b1}} , i_adc_data} : i_adc_data;
 
 always@(posedge i_clk or negedge i_rst_n) begin
 	if(!i_rst_n) begin
@@ -79,9 +81,10 @@ always@(posedge i_clk or negedge i_rst_n) begin
 		r_polarity2 <= r_polarity;
 		r_err_offset <= i_err_offset;
 		r_status <= i_status;
-		r_avg_sel <= i_avg_sel;
+		// r_avg_sel <= i_avg_sel;
 		r_freq_cnt <= (i_freq_cnt >> 1);
-		r_adc <= adc;
+		// r_adc <= adc;
+		r_adc <= {{24{i_adc_data[ADC_BIT-1]}}, i_adc_data[ADC_BIT-1:0]}; //sign bit extension to 32 bit
 		r_trig <= i_trig;
 	end
 end
@@ -95,27 +98,27 @@ end
 /*** output logic ***/
 always@(posedge i_clk or negedge i_rst_n) begin
 	if(!i_rst_n) begin
-		stable_cnt <= 32'd50;
-		mv_cnt <= 32'd8;
+		r_stable_cnt <= 32'd50;
+		r_mv_cnt <= 32'd8;
 		r_adc_sum <= 32'd0;
 		r_err <= 32'd0;
 		r_adc_new <= 32'd0;
 		r_adc_old <= 32'd0;
 		r_acq_done <= 1'b0;
-		r_flip_flag <= 1'b0;
-		r_init_flag <= 1'b1;
-		r_is_stable <= 1'b0;
+		r_flip <= 1'b0;
+		r_init <= 1'b1;
+		r_stable <= 1'b0;
 	end
 	
 	else begin
 		case(cstate)
 			RST: begin
-				stable_cnt <= r_freq_cnt;
-				r_acq_done <= 1'b0;
-				r_flip_flag <= 1'b0;
-				r_init_flag <= 1'b1;
-				r_is_stable <= 1'b0;
-				r_adc_sum <= 32'd0;
+				r_stable_cnt <= r_freq_cnt;
+				r_flip <= 1'b0;
+				r_init <= 1'b1;
+				r_stable <= 1'b0;
+				// r_acq_done <= 1'b0;
+				// r_adc_sum <= 32'd0;
 			end
 
 			WAIT_L_STATE: begin
@@ -126,51 +129,54 @@ always@(posedge i_clk or negedge i_rst_n) begin
 
 			end
 
-			IS_STABLE: begin
-				mv_cnt <= 32'd8;
+			WAIT_STABLE: begin
+				r_mv_cnt <= 32'd32;
 				r_acq_done <= 1'b0;
 				r_adc_sum <= 32'd0;
-				if(stable_cnt != 32'd0) stable_cnt <= stable_cnt - 1'b1;
-				else r_is_stable <= 1'b1;
+				
+				if(r_stable_cnt != 32'd0) r_stable_cnt <= r_stable_cnt - 1'b1;
+				else r_stable <= 1'b1;
 			end
 
 			ACQ_INIT: begin
-				stable_cnt <= r_freq_cnt;
-				r_is_stable <= 1'b0;
-				r_init_flag <= 1'b0;
+				r_stable_cnt <= r_freq_cnt;
+				r_stable <= 1'b0;
+				r_init <= 1'b0;
 				
-				if(mv_cnt != 32'd0) begin
-					mv_cnt <= mv_cnt - 1'b1;
+				if(r_mv_cnt != 32'd0) begin
+					r_mv_cnt <= r_mv_cnt - 1'b1;
 					r_adc_sum <= r_adc_sum + r_adc;
 				end
 				else begin
-					r_adc_old <= (r_adc_sum >>> 3); 
+					r_adc_old <= (r_adc_sum >>> 5); 
 					r_acq_done <= 1'b1;
 				end
 			end
 
 			ACQ_NEW: begin
-				stable_cnt <= r_freq_cnt;
-				r_is_stable <= 1'b0;
+				r_stable_cnt <= r_freq_cnt;
+				r_stable <= 1'b0;
 				
-				if(mv_cnt != 32'd0) begin
-					mv_cnt <= mv_cnt - 1'b1;
+				if(r_mv_cnt != 32'd0) begin
+					r_mv_cnt <= r_mv_cnt - 1'b1;
 					r_adc_sum <= r_adc_sum + r_adc;
 				end
 				else begin
-					r_adc_new <= (r_adc_sum >>> 3); 
+					r_adc_new <= (r_adc_sum >>> 5); 
 					r_acq_done <= 1'b1;
 				end
 			end
 
 			ERR_GEN: begin
-				if(!r_flip_flag) begin
+				if(!r_flip) begin
 					r_err <= ((r_adc_new - r_adc_old) + r_err_offset);
-					r_flip_flag <= 1'b1;
+					r_flip <= ~r_flip;
+					// r_flip <= 1'b1;
 				end
 				else begin
 					r_err <= ((r_adc_old - r_adc_new) + r_err_offset);
-					r_flip_flag <= 1'b0;
+					r_flip <= ~r_flip;
+					// r_flip <= 1'b0;
 				end
 				r_adc_old <= r_adc_new;
 				r_sync <= 1'b1;
@@ -189,68 +195,73 @@ always@(posedge i_clk or negedge i_rst_n) begin
 		
 end
 	
-/*** state registor ***/
-always@(*) begin
+/*** state generator ***/
+always@(posedge i_clk or negedge i_rst_n) begin
 	if(~i_rst_n) begin
 		nstate = RST;
-
 	end
 
 	else begin	
 		case(cstate)
 			RST: begin
-				if(r_polarity) nstate = WAIT_L_STATE;
-				else if(!r_polarity) nstate = WAIT_H_STATE;
-				else nstate = RST;
+				if(r_polarity) begin
+					if(r_status == `HIGH) nstate <= WAIT_L_STATE;
+					else nstate <= RST;
+				end
+				else begin
+					if(r_status == `LOW) nstate <= WAIT_H_STATE;
+					else nstate <= RST;
 			end
 
 			WAIT_L_STATE: begin
-				if(r_status == `LOW) nstate = IS_STABLE;
-				else nstate = WAIT_L_STATE;
+				if(r_trig) nstate <= WAIT_STABLE;
+				else nstate <= WAIT_L_STATE;
 			end
 
 			WAIT_H_STATE: begin
-				if(r_status == `HIGH) nstate = IS_STABLE;
-				else nstate = WAIT_H_STATE;
+				if(r_trig) nstate <= WAIT_STABLE;
+				else nstate <= WAIT_L_STATE;
 			end
 
-			IS_STABLE: begin
-				if(o_change) nstate = RST;
-				else if(r_is_stable) begin
-					if(r_init_flag) nstate = ACQ_INIT;
-					else if(!r_init_flag) nstate = ACQ_NEW;
-					else nstate = IS_STABLE;
+			WAIT_STABLE: begin
+				if(r_stable) begin
+					if(r_init) nstate <= ACQ_INIT;
+					else nstate <= ACQ_NEW;
 				end
-				else nstate = IS_STABLE;
+				else nstate <= WAIT_STABLE;
 			end
 
 			ACQ_INIT: begin
 				if(r_acq_done) begin
-					if(r_trig) nstate = IS_STABLE;
+					if(r_trig) nstate <= WAIT_STABLE;
+					else nstate <= ACQ_INIT;
 				end	
-				else nstate = ACQ_INIT;
+				else nstate <= ACQ_INIT;
 			end
 
 			ACQ_NEW: begin
 				if(r_acq_done) begin
-					nstate = ERR_GEN;
+					nstate <= ERR_GEN;
 				end		
-				else nstate = ACQ_NEW;
+				else nstate <= ACQ_NEW;
 			end
 
 			ERR_GEN: begin
-				nstate = WAIT_NEXT;
+				if(r_trig) nstate = WAIT_STABLE;
+				else nstate = ERR_GEN;
 			end	
 
-			WAIT_NEXT: begin
-				if(o_change) nstate = RST;
-				else if(r_trig) nstate = IS_STABLE;
-				else nstate = WAIT_NEXT;
-			end
+			// WAIT_NEXT: begin
+				// if(o_pol_change) nstate = RST;
+				// else if(r_trig) nstate = WAIT_STABLE;
+				// else nstate = WAIT_NEXT;
+			// end
 			
 			default: nstate = RST;
 
 		endcase
+		if(o_pol_change) nstate = RST;
+		
 	end
 
 end

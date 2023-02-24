@@ -2,7 +2,7 @@
 2022-10-05
 ***/
 
-module modulation_gen
+module modulation_gen_v2
 #(parameter OUTPUT_BIT = 32)
 (
     input i_clk,
@@ -20,13 +20,13 @@ module modulation_gen
 localparam LOW = 1'b0;
 localparam HIGH = 1'b1;
 
-reg SM, r_status;
+reg SM, r_status, r_status_2;
 reg [31:0] r_freq_cnt;
 reg signed [31:0] r_amp_H, r_amp_L;
 wire change;
 
 assign o_SM = SM;
-assign change = r_status ^ o_status; //generate one clock pulse at both rising edge and falling edge
+assign change = r_status_2 ^ o_status; //generate two clock pulse at both rising edge and falling edge
 
 
 
@@ -67,6 +67,7 @@ always@(posedge i_clk or negedge i_rst_n) begin
             end
         endcase
 		  r_status <= o_status;
+		  r_status_2 <= r_status;
     end
 end
 
