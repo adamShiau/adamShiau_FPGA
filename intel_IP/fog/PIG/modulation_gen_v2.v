@@ -26,7 +26,8 @@ reg signed [31:0] r_amp_H, r_amp_L;
 wire change;
 
 assign o_SM = SM;
-assign change = r_status_2 ^ o_status; //generate two clock pulse at both rising edge and falling edge
+assign change =   r_status ^ o_status; //generate one clock pulse at both rising edge and falling edge
+// assign change = r_status_2 ^ o_status; //generate two clock pulse at both rising edge and falling edge
 
 
 
