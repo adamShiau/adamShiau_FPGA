@@ -10,16 +10,14 @@ module phase_ramp_gen
 (
 input i_clk,
 input i_rst_n,
-input i_rate_trig,
-input i_ramp_trig,
-input i_mod_trig,
+input i_trig,
 input signed [31:0] i_step,
 input [31:0] i_fb_ON,
 input signed [31:0] i_mod,
 input [31:0] i_gain_sel,
 
 output signed [OUTPUT_BIT-1:0] o_phaseRamp_pre,
-output reg signed [OUTPUT_BIT-1:0] o_phaseRamp,
+output signed [OUTPUT_BIT-1:0] o_phaseRamp,
 /*** for simulation***/
 //output [3:0] o_shift_idx,
 output [31:0] o_gain_sel,
@@ -32,7 +30,7 @@ output signed [31:0] o_ramp_init
 localparam GAIN_INIT = 5;
 
 reg [31:0] reg_gain_sel, reg_gain_sel2;
-// reg reg_trig;
+reg reg_trig;
 reg [31:0] reg_fb_ON;
 reg [1:0] r_status;
 reg signed [31:0] reg_step, r_mod; 
@@ -43,7 +41,7 @@ assign o_gain_sel = reg_gain_sel;
 assign o_gain_sel2 = reg_gain_sel2;
 assign o_status = r_status;
 assign o_fb_ON = reg_fb_ON;
-//assign o_phaseRamp = reg_ramp; 
+assign o_phaseRamp = reg_ramp; 
 assign o_phaseRamp_pre = reg_ramp_pre; 
 assign o_change = |(reg_gain_sel2[3:0] ^ reg_gain_sel[3:0]);
 assign o_ramp_init = reg_ramp_init;
@@ -56,10 +54,10 @@ always@(posedge i_clk) begin
 		reg_gain_sel <= GAIN_INIT;
 	end
 	else begin
-//		r_mod <= i_mod; 	
+		r_mod <= i_mod; 	
 		reg_step <= i_step;
 		reg_fb_ON <= i_fb_ON;
-		// reg_trig <= i_trig;
+		reg_trig <= i_trig;
 		reg_gain_sel <= i_gain_sel;
 	end
 end
@@ -69,44 +67,42 @@ always@(posedge i_clk or negedge i_rst_n ) begin
 	if(~i_rst_n) begin
 		reg_ramp <= 32'd0;
 		reg_ramp_pre <= 32'd0;
-		o_phaseRamp <= 32'd0;
-		// reg_ramp_init <= 32'd0;
-		// r_status <= 2'd0;
-		// reg_gain_sel2 <= GAIN_INIT;
+		reg_ramp_init <= 32'd0;
+		r_status <= 2'd0;
+		reg_gain_sel2 <= GAIN_INIT;
 	end
 	
-	else 
-		if(reg_fb_ON == 32'd0) begin
-			// reg_ramp_init <= 32'd0;
-			reg_ramp <= 32'd0;
-			reg_ramp_pre <= 32'd0;
-			o_phaseRamp <= i_mod;
+	else if(reg_fb_ON == 32'd0) begin
+		reg_ramp_init <= 32'd0;
+		reg_ramp <= 32'd0;
+		reg_ramp_pre <= 32'd0;
+	end
+	
+	else begin
+		if(reg_trig) begin
+			reg_ramp_pre <= reg_ramp_pre + reg_step; //step signal accumulator
+			reg_ramp <= reg_ramp_init + (reg_ramp_pre >>> reg_gain_sel);
+			r_status <= 2'd0;
 		end
-		
-		else if(reg_fb_ON == 32'd1) begin
-			if(i_rate_trig) begin
-				reg_ramp_pre <= reg_ramp_pre + i_step; //step signal accumulator
-			end
-			else if(i_ramp_trig) begin
-				reg_ramp <= (reg_ramp_pre >>>reg_gain_sel);
-			end
-			else if(i_mod_trig) begin
-				o_phaseRamp <= reg_ramp + i_mod;
-			end
-			else begin
-				reg_ramp_pre <= reg_ramp_pre;
-				reg_ramp <= reg_ramp;
-				o_phaseRamp <= o_phaseRamp;
-			end
-		end 
-		else if(reg_fb_ON == 32'd2) begin
-			if(i_mod_trig) o_phaseRamp <= o_phaseRamp + i_step;
-			else o_phaseRamp <= o_phaseRamp;
+		reg_gain_sel2 <= reg_gain_sel;
+		if(o_change) begin
+			reg_ramp_init <= reg_ramp;
+			reg_ramp_pre <= 0;
 		end
-		else begin
-			reg_ramp_pre <= reg_ramp_pre;
-			reg_ramp <= reg_ramp;
-		end
+	end 
+	
+//	else if(reg_fb_ON == 32'd2) begin
+//		reg_ramp_pre <= reg_ramp_pre + reg_step; 
+//		reg_ramp <= (reg_ramp_pre >>> reg_gain_sel);
+//		
+//		reg_ramp_init <= 32'd0;
+//		reg_ramp <= 32'd0;
+//		reg_ramp_pre <= 32'd0;
+//	end
+//	else begin
+//	
+//	end
+
 end
 
 

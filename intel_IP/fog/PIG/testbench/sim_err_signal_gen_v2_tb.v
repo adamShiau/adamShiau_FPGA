@@ -51,7 +51,9 @@ wire [31:0]  o_adc_new;
 wire [3:0]  o_nstate;
 wire [31:0]  o_adc_old;
 wire o_status;
-wire o_sync;
+wire o_step_sync;
+wire o_rate_sync;
+wire o_ramp_sync;
 wire o_stepTrig;
 wire o_flip_flag;
 wire [31:0] o_stable_cnt;
@@ -81,7 +83,9 @@ sim_err_signal_gen_v2 i1 (
 	.o_adc_old(o_adc_old),
 	.o_status(o_status),
 	.o_flip_flag(o_flip_flag),
-	.o_sync(o_sync),
+	.o_step_sync(o_step_sync),
+	.o_rate_sync(o_rate_sync),
+	.o_ramp_sync(o_ramp_sync),
 	.o_stepTrig(o_stepTrig),
 	.o_stable_cnt(o_stable_cnt)
 );

@@ -66,36 +66,32 @@ always@(posedge i_clk or negedge i_rst_n ) begin
 		reg_gain_sel2 <= 32'd5;
 	end
 	
-	else 
-		if(reg_fb_ON == 32'd0) begin
-			// reg_step_init <= 32'd0;
-			// reg_step_pre <= 32'd0;
-			reg_step <= 32'd0;
-		end
-		else if(reg_fb_ON == 32'd1) begin
-			if(i_trig) begin
-				// reg_step_pre <= reg_step_pre + reg_err; //error signal accumulator
-				// reg_step <= reg_step_init + (reg_step_pre >>> reg_gain_sel);
-				// r_status <= 2'd0;
-				reg_step <= reg_step + reg_err;
-			end
-			else reg_step <= reg_step;
-			// reg_gain_sel2 <= reg_gain_sel;
-			// if(o_change) begin
-				// reg_step_init <= reg_step;
-				// reg_step_pre <= 0;
-			// end
-		end 
-		else if(reg_fb_ON == 32'd2) begin
-			if(i_trig) reg_step <= i_const_step;
-			else reg_step <= reg_step;
-			// reg_step_init <= 32'd0;
-			// reg_step_pre <= 32'd0;
-		end 
+	else if(reg_fb_ON == 32'd1) begin
 
-		else begin
-			reg_step <= reg_step;
+		if(reg_trig) begin
+			reg_step_pre <= reg_step_pre + reg_err; //error signal accumulator
+			reg_step <= reg_step_init + (reg_step_pre >>> reg_gain_sel);
+			r_status <= 2'd0;
 		end
+		reg_gain_sel2 <= reg_gain_sel;
+		if(o_change) begin
+			reg_step_init <= reg_step;
+			reg_step_pre <= 0;
+		end
+	end 
+	else if(reg_fb_ON == 32'd2) begin
+		if(reg_trig) reg_step <= i_const_step;
+		reg_step_init <= 32'd0;
+		reg_step_pre <= 32'd0;
+	end 
+	else if(reg_fb_ON == 32'd0) begin
+		reg_step_init <= 32'd0;
+		reg_step <= 32'd0;
+		reg_step_pre <= 32'd0;
+	end
+	else begin
+	
+	end
 end
 
 endmodule

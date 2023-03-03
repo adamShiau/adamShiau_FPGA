@@ -22,7 +22,9 @@ input  [31:0] i_err_offset,
 input  [14-1:0] i_adc_data,
 //input [31:0] i_avg_sel, 
 output  [31:0] o_err,
-output o_sync,
+output o_step_sync,
+output o_rate_sync,
+output o_ramp_sync,
 
 
 /*** for simulation ***/
@@ -68,7 +70,9 @@ err_signal_gen_v2 i2 (
 	.o_adc_new(o_adc_new),
 	.o_flip_flag(o_flip_flag),
 	.o_nstate(o_nstate),
-	.o_sync(o_sync),
+	.o_step_sync(o_step_sync),
+	.o_rate_sync(o_rate_sync),
+	.o_ramp_sync(o_ramp_sync),
 	.o_adc_old(o_adc_old),
 	.o_stable_cnt(o_stable_cnt)
 );

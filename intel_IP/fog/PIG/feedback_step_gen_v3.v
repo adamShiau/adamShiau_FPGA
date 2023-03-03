@@ -3,11 +3,12 @@ data: 2021-10-05
 
 ***/
 
-module feedback_step_gen
+module feedback_step_gen_v3
 (
 input i_clk,
 input i_rst_n,
 input i_trig,
+input i_trig_dly,
 input signed [31:0] i_err,
 input [31:0] i_gain_sel,
 input [31:0] i_fb_ON,
@@ -61,40 +62,34 @@ always@(posedge i_clk or negedge i_rst_n ) begin
 	if(~i_rst_n) begin
 		reg_step <= 32'd0;
 		reg_step_pre <= 32'd0;
-		reg_step_init <= 32'd0;
-		r_status <= 2'd0;
+		// reg_step_init <= 32'd0;
+		// r_status <= 2'd0;
 		reg_gain_sel2 <= 32'd5;
 	end
 	
 	else 
 		if(reg_fb_ON == 32'd0) begin
 			// reg_step_init <= 32'd0;
-			// reg_step_pre <= 32'd0;
+			reg_step_pre <= 32'd0;
 			reg_step <= 32'd0;
 		end
 		else if(reg_fb_ON == 32'd1) begin
-			if(i_trig) begin
-				// reg_step_pre <= reg_step_pre + reg_err; //error signal accumulator
-				// reg_step <= reg_step_init + (reg_step_pre >>> reg_gain_sel);
-				// r_status <= 2'd0;
-				reg_step <= reg_step + reg_err;
+			if(i_trig) 
+				reg_step_pre <= reg_step_pre + reg_err; //error signal accumulator
+			else if(i_trig_dly)
+				reg_step <= (reg_step_pre >>> reg_gain_sel);
+			else begin 
+				reg_step <= reg_step;
+				reg_step_pre <= reg_step_pre;
 			end
-			else reg_step <= reg_step;
-			// reg_gain_sel2 <= reg_gain_sel;
-			// if(o_change) begin
-				// reg_step_init <= reg_step;
-				// reg_step_pre <= 0;
-			// end
 		end 
 		else if(reg_fb_ON == 32'd2) begin
 			if(i_trig) reg_step <= i_const_step;
 			else reg_step <= reg_step;
-			// reg_step_init <= 32'd0;
-			// reg_step_pre <= 32'd0;
 		end 
-
 		else begin
-			reg_step <= reg_step;
+			reg_step <= 32'd0;
+			reg_step_pre <= 32'd0;
 		end
 end
 

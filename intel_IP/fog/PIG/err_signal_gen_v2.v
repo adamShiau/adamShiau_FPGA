@@ -15,7 +15,10 @@ input signed [31:0] i_err_offset,
 input signed [ADC_BIT-1:0] i_adc_data,
 // input [31:0] i_avg_sel, 
 output signed [31:0] o_err,
-output o_sync,
+output reg o_step_sync,
+output reg o_step_sync_dly,
+output reg o_rate_sync,
+output reg o_ramp_sync,
 
 
 /*** for simulation ***/
@@ -31,14 +34,17 @@ output [31:0] o_stable_cnt
 );
 
 //State machine
-localparam RST = 				4'd0;
+localparam RST = 			4'd0;
 localparam WAIT_L_STATE = 	4'd1;
 localparam WAIT_H_STATE = 	4'd2;
-localparam ACQ_INIT = 		4'd3;
-localparam ACQ_NEW	 = 	4'd4;
-localparam ERR_GEN = 		4'd5;
-localparam WAIT_STABLE =	 	4'd6;
-localparam WAIT_NEXT = 		4'd7;
+localparam WAIT_STABLE =	4'd3;
+localparam ACQ_INIT = 		4'd4;
+localparam ACQ_NEW	 = 		4'd5;
+localparam ERR_GEN = 		4'd6;
+localparam ERR_GEN_DLY = 	4'd7;
+localparam WAIT_NEXT = 		4'd8; 
+localparam RATE_SYNC_GEN = 	4'd9;
+localparam RAMP_SYNC_GEN = 	4'd10;
 
 `define LOW  1'b0
 `define HIGH 1'b1
@@ -60,7 +66,7 @@ assign o_pol_change = r_polarity2 ^ r_polarity;
 assign o_flip_flag = r_flip;
 assign o_cstate = cstate;
 assign o_nstate = nstate;
-assign o_sync = r_sync;
+//assign o_err_sync = r_sync;
 assign o_stable_cnt = r_stable_cnt;
 
 
@@ -119,8 +125,10 @@ always@(posedge i_clk or negedge i_rst_n) begin
 				r_flip <= 1'b0;
 				r_init <= 1'b1;
 				r_stable <= 1'b0;
-				r_sync <= 1'b0;
-				// r_acq_done <= 1'b0;
+				o_step_sync <= 1'b0;
+				o_step_sync_dly <= 1'b0;
+				o_ramp_sync <= 1'b0;
+				o_rate_sync <= 1'b0;
 				// r_adc_sum <= 32'd0;
 			end
 
@@ -182,11 +190,26 @@ always@(posedge i_clk or negedge i_rst_n) begin
 					// r_flip <= 1'b0;
 				end
 				r_adc_old <= r_adc_new;
-				r_sync <= 1'b1;
+				o_step_sync <= 1'b1;
+			end
+			
+			ERR_GEN_DLY: begin
+				o_step_sync_dly <= 1'b1;
+				o_step_sync <= 1'b0;
+			end
+			
+			RATE_SYNC_GEN: begin
+				o_rate_sync <= 1'b1;
+				o_step_sync_dly <= 1'b0;
+			end
+			
+			RAMP_SYNC_GEN: begin
+				o_ramp_sync <= 1'b1;
+				o_rate_sync <= 1'b0;
 			end
 
 			WAIT_NEXT: begin
-				r_sync <= 1'b0;
+				o_ramp_sync <= 1'b0;
 			end	
 		
 			default: begin
@@ -252,8 +275,20 @@ always@(*) begin
 			end
 
 			ERR_GEN: begin
+				nstate = ERR_GEN_DLY;
+			end
+			
+			ERR_GEN_DLY: begin
+				nstate = RATE_SYNC_GEN;
+			end
+			
+			RATE_SYNC_GEN: begin
+				nstate = RAMP_SYNC_GEN;
+			end
+			
+			RAMP_SYNC_GEN: begin
 				nstate = WAIT_NEXT;
-			end	
+			end
 
 			WAIT_NEXT: begin
 				if(r_trig) nstate = WAIT_STABLE;
