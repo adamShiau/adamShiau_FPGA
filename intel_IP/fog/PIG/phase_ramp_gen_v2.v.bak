@@ -92,7 +92,6 @@ always@(posedge i_clk or negedge i_rst_n ) begin
 			end
 			else if(i_mod_trig) begin
 				o_phaseRamp <= reg_ramp + i_mod;
-//				o_phaseRamp <= i_mod;
 				if(i_step >= 0) begin
 					// if(o_phaseRamp > 32'd25000) reg_ramp_pre <= (reg_ramp_pre - (32'd50000<<<reg_gain_sel));
 					// else reg_ramp_pre <= reg_ramp_pre;
