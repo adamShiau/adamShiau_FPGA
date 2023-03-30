@@ -1,13 +1,10 @@
 /*** 
-err_signal_gen_v2 created in 02/24/2023
-修改自 err_signal_gen, 新增4個同步輸出訊號:
-o_step_sync: @ SM ERR_GEN, 剛產生誤差訊號時 o_step_sync = H
-o_step_sync_dly: @ SM ERR_GEN_DLY, o_step_sync_dly 會 delay o_step_sync一個clock
-o_rate_sync: @ RATE_SYNC_GEN, o_rate_sync 會 delay o_step_sync_dly 一個clock
-o_ramp_sync: @ RAMP_SYNC_GEN, o_ramp_sync 會 delay o_rate_sync 一個clock
+err_signal_gen_v3 created in 03/20/2023
+修改自 err_signal_gen_v2
+新增 wait cnt and AVG
 ***/
 
-module err_signal_gen_v2
+module err_signal_gen_v3
 #(parameter ADC_BIT = 14)
 (
 input i_clk,
@@ -15,10 +12,10 @@ input i_rst_n,
 input i_status,
 input i_polarity,
 input i_trig,
-input [31:0] i_freq_cnt,
+input [31:0] i_wait_cnt,
 input signed [31:0] i_err_offset,
 input signed [ADC_BIT-1:0] i_adc_data,
-// input [31:0] i_avg_sel, 
+input [31:0] i_avg_sel, 
 output signed [31:0] o_err,
 output reg o_step_sync,
 output reg o_step_sync_dly,
@@ -85,7 +82,7 @@ always@(posedge i_clk or negedge i_rst_n) begin
 		r_err_offset <= 0;
 		r_status <= 1'b0;
 		r_avg_sel <= 3;
-		r_freq_cnt <= 32'd50;
+		r_freq_cnt <= 32'd10;
 		r_adc <= 32'd0;
 		r_trig <= 1'b0;
 	end
@@ -94,8 +91,8 @@ always@(posedge i_clk or negedge i_rst_n) begin
 		r_polarity2 <= r_polarity;
 		r_err_offset <= i_err_offset;
 		r_status <= i_status;
-		// r_avg_sel <= i_avg_sel;
-		r_freq_cnt <= (i_freq_cnt >> 1);
+		r_avg_sel <= i_avg_sel;
+		r_freq_cnt <= i_wait_cnt;
 		// r_adc <= adc;
 		r_adc <= {{24{i_adc_data[ADC_BIT-1]}}, i_adc_data[ADC_BIT-1:0]}; //sign bit extension to 32 bit
 		r_trig <= i_trig;
@@ -164,7 +161,7 @@ always@(posedge i_clk or negedge i_rst_n) begin
 					r_adc_sum <= r_adc_sum + r_adc;
 				end
 				else begin
-					r_adc_old <= (r_adc_sum >>> 5); 
+					r_adc_old <= (r_adc_sum >>> r_avg_sel); 
 					r_acq_done <= 1'b1;
 				end
 			end
@@ -178,7 +175,7 @@ always@(posedge i_clk or negedge i_rst_n) begin
 					r_adc_sum <= r_adc_sum + r_adc;
 				end
 				else begin
-					r_adc_new <= (r_adc_sum >>> 5); 
+					r_adc_new <= (r_adc_sum >>> r_avg_sel); 
 					r_acq_done <= 1'b1;
 				end
 			end
