@@ -5,6 +5,14 @@
 #include "alt_types.h"
 #include "unistd.h"
 
-alt_u8* readData(alt_u8* expected_header, alt_u8 header_size, alt_u16* try_cnt);
+
+void uartInit(void);
+int uartGetByte(void);
+int uartGetc(void);
+int uartAvailable(void);
+void uartAck(alt_u8);
+
+alt_u8* readData(alt_u8* expected_header, alt_u8 header_size, alt_u16* try_cnt, 
+                alt_u8* expected_trailer, alt_u8 trailer_sizes, alt_u8* cmd_complete);
 
 #endif /* __UART_H */
