@@ -243,15 +243,16 @@ alt_u8* readData(alt_u8* expected_header, alt_u8 header_size, alt_u16* try_cnt,
     if ( uartAvailable() == 0 ) return NULL; //return immediately if no serial data in buffer 
 
     int data = uartGetByte();
-    // printf("data: %d, %d\n", uartAvailable(), data);
 
+    #if defined(TEST_MODE)
+        printf("\ndata: %d, %x\n", uartAvailable(), data);
+    #endif
 
 	static alt_u8 bytes_received = 0;
 	static enum {
 		EXPECTING_HEADER, 
 		EXPECTING_PAYLOAD,
-        EXPECTING_TRAILER,
-        RESPONSE_ACK
+        EXPECTING_TRAILER
 	} state = EXPECTING_HEADER; // state machine definition
 	
 	switch (state) {
@@ -308,22 +309,7 @@ alt_u8* readData(alt_u8* expected_header, alt_u8 header_size, alt_u16* try_cnt,
 
                 state = EXPECTING_TRAILER;
                 *try_cnt = 0;
-                #if defined(TEST_MODE)
-                    printf("*********reset try_cnt: ************\n");
-                    printf("%d\n\n", *try_cnt);
-                #endif
-                // return buffer;
-
-                // if(expected_trailer == nullptr) {
-                //     state = EXPECTING_HEADER;
-                //     *try_cnt = 0;
-                //     #if defined(TEST_MODE)
-                //         printf("reset try_cnt: ");
-                //         printf("%d\n", *try_cnt);
-                //     #endif
-                //     return buffer;
-                // }
-                // else state = EXPECTING_TRAILER;
+                
 			}
 			break;
 
@@ -342,25 +328,26 @@ alt_u8* readData(alt_u8* expected_header, alt_u8 header_size, alt_u16* try_cnt,
 			}
 
             if(bytes_received >= trailer_size){
-				state = RESPONSE_ACK;
+				state = EXPECTING_HEADER;
 				bytes_received = 0;
                 *try_cnt = 0;
-                // return buffer;
-			}
-          break;
-
-        case RESPONSE_ACK:
                 #if defined(TEST_MODE)
                     printf("\nstate : RESPONSE_ACK\n");
+                    printf("buf: %x, %x, %x, %x, %x\n", buffer[0], buffer[1], buffer[2], buffer[3], buffer[4]);
                 #endif
-                state = EXPECTING_HEADER;
+                #if defined(TEST_MODE)
+                    printf("*********reset try_cnt: ************\n");
+                    printf("%d\n\n", *try_cnt);
+                #endif
                 uartAck(0xCC);
                 *cmd_complete = 1;
+
                 return buffer;
-            break;
+			}
+          break;
         
 	}
-	// return NULL;
+	return NULL;
 }
 
 /*-----------------------------------------------------------------------------
