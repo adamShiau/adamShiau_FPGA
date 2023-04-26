@@ -339,7 +339,7 @@ alt_u8* readData(alt_u8* expected_header, alt_u8 header_size, alt_u16* try_cnt,
                     printf("*********reset try_cnt: ************\n");
                     printf("%d\n\n", *try_cnt);
                 #endif
-                uartAck(0xCC);
+                // uartAck(0xCC);
                 *cmd_complete = 1;
 
                 return buffer;
