@@ -71,6 +71,11 @@ static void uartISR(void *context)
 
 	pUartBuffer = context;
 
+	/**
+	 * 若有新的rx數據進來，將數據存入rxBuf[rxBufPut]，然後將 rxBufPut 與 rxBufCount 加1。
+	 * rxBufPut:目前rx的數據到buffer哪個位置了，會一直在0~RX_BUF_SIZE_MASK之間循環
+	 * rxBufCount: 目前rx數據量，最大到RX_BUF_SIZE就不會增加了
+	 */
 	if(IORD_ALTERA_AVALON_UART_STATUS(UART_BASE) & ALTERA_AVALON_UART_STATUS_RRDY_MSK)
 	{
 		// Get the byte
