@@ -30,6 +30,8 @@
 #define	TX_INTERRUPT_ON()	IOWR_ALTERA_AVALON_UART_CONTROL(UART_BASE,IORD_ALTERA_AVALON_UART_CONTROL(UART_BASE) | ALTERA_AVALON_UART_CONTROL_TRDY_MSK)
 #define	TX_INTERRUPT_OFF()	IOWR_ALTERA_AVALON_UART_CONTROL(UART_BASE,IORD_ALTERA_AVALON_UART_CONTROL(UART_BASE) & ~ALTERA_AVALON_UART_CONTROL_TRDY_MSK)
 
+
+
 typedef struct
 {
 	// The receive buffer and indices
@@ -70,6 +72,8 @@ static void uartISR(void *context)
 	UartBuffer_t *pUartBuffer;
 
 	pUartBuffer = context;
+
+	uart_complete = 1;
 
 	/**
 	 * 若有新的rx數據進來，將數據存入rxBuf[rxBufPut]，然後將 rxBufPut 與 rxBufCount 加1。
@@ -139,6 +143,8 @@ void uartInit(void)
 	gUartBuffer.txBufCount = 0;
 	gUartBuffer.txBufPut = 0;
 	gUartBuffer.txBufTake = 0;
+
+	uart_complete = 0;
 
 	// Disable interrupts
 	IOWR_ALTERA_AVALON_UART_CONTROL(UART_BASE,0);
@@ -346,6 +352,122 @@ alt_u8* readData(alt_u8* expected_header, alt_u8 header_size, alt_u16* try_cnt,
                 #endif
                 // uartAck(0xCC);
                 *cmd_complete = 1;
+
+                return buffer;
+			}
+          break;
+        
+	}
+	return NULL;
+}
+
+alt_u8* readData2(alt_u8* expected_header, alt_u8 header_size, alt_u16* try_cnt, 
+                 alt_u8* expected_trailer, alt_u8 trailer_size)
+{
+	const alt_u8 data_size_expected = CMD_LENGTH;
+    static alt_u8 buffer[CMD_LENGTH];
+    
+    
+    if ( uartAvailable() == 0 ) return NULL; //return immediately if no serial data in buffer 
+
+    int data = uartGetByte();
+
+    #if defined(TEST_MODE)
+        printf("\ndata: %d, %x\n", uartAvailable(), data);
+    #endif
+
+	static alt_u8 bytes_received = 0;
+	static enum {
+		EXPECTING_HEADER, 
+		EXPECTING_PAYLOAD,
+        EXPECTING_TRAILER
+	} state = EXPECTING_HEADER; // state machine definition
+	
+	switch (state) {
+		case EXPECTING_HEADER:
+            #if defined(TEST_MODE)
+                printf("state : EXPECTING_HEADER\n");
+            #endif
+			
+			if (data != expected_header[bytes_received++])
+			{
+				state = EXPECTING_HEADER;
+				bytes_received = 0;
+                (*try_cnt)++;
+			}
+
+            #if defined(TEST_MODE)
+                printf("bytes_received: ");
+                printf("%d", bytes_received);
+                printf(", ");
+                printf("%x\n", data);
+            #endif
+
+			if(bytes_received >= header_size){
+				state = EXPECTING_PAYLOAD;
+				bytes_received = 0;
+			}
+
+			break;
+
+		case EXPECTING_PAYLOAD:
+			#if defined(TEST_MODE)
+                printf("state : EXPECTING_PAYLOAD\n");
+            #endif
+
+			buffer[bytes_received++] = data;
+
+            #if defined(TEST_MODE)
+                printf("bytes_received: ");
+                printf("%d", bytes_received);
+                printf(", ");
+                printf("%x\n", buffer[bytes_received-1]);
+            #endif
+
+			if(bytes_received >= data_size_expected)
+            {
+                bytes_received = 0;
+                // state = EXPECTING_HEADER;
+                // Serial.print("buf: ");
+                // Serial.print((long)buffer, HEX);
+                // Serial.print(", ");
+                // Serial.print((long)&buffer[0], HEX);
+                // Serial.print(", ");
+                // Serial.println((long)&buffer[1], HEX);
+
+                state = EXPECTING_TRAILER;
+                *try_cnt = 0;
+                
+			}
+			break;
+
+        case EXPECTING_TRAILER:
+            #if defined(TEST_MODE)
+                printf("state : EXPECTING_TRAILER\n");
+                printf("Trailer: ");
+                printf("%x\n", data);
+            #endif
+
+            if (data != expected_trailer[bytes_received++])
+			{
+				state = EXPECTING_HEADER;
+				bytes_received = 0;
+                (*try_cnt)++;
+			}
+
+            if(bytes_received >= trailer_size){
+				state = EXPECTING_HEADER;
+				bytes_received = 0;
+                *try_cnt = 0;
+                #if defined(TEST_MODE)
+                    printf("\nstate : RESPONSE_ACK\n");
+                    printf("buf: %x, %x, %x, %x, %x\n", buffer[0], buffer[1], buffer[2], buffer[3], buffer[4]);
+                #endif
+                #if defined(TEST_MODE)
+                    printf("*********reset try_cnt: ************\n");
+                    printf("%d\n\n", *try_cnt);
+                #endif
+                // uartAck(0xCC);
 
                 return buffer;
 			}

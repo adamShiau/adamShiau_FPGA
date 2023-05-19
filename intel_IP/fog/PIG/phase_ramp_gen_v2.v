@@ -25,8 +25,8 @@ output o_change,
 output signed [31:0] o_ramp_init 
 );
 
-`define Vp  32'd25000
-`define Vn  -32'd25000
+`define Vp  32'd30000
+`define Vn  -32'd30000
 `define V2pi  32'd50000
 
 localparam GAIN_INIT = 5;
