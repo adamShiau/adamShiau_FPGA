@@ -1,4 +1,4 @@
-## Generated SDC file "D:/github/adamShiau_FPGA/intel_IP/fog/PIG/sdc/sparrow_v2_117MHz.sdc"
+## Generated SDC file "D:/github/adamShiau_FPGA/intel_IP/fog/PIG/sdc/sparrow_v2_108MHz.sdc"
 
 ## Copyright (C) 2018  Intel Corporation. All rights reserved.
 ## Your use of Intel Corporation's design tools, logic functions 
@@ -19,7 +19,7 @@
 ## PROGRAM "Quartus Prime"
 ## VERSION "Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition"
 
-## DATE    "Thu Jul 13 11:27:38 2023"
+## DATE    "Thu Jul 13 12:32:43 2023"
 
 ##
 ## DEVICE  "EP4CE15F17C8"
@@ -46,8 +46,9 @@ create_clock -name {clk_50M} -period 20.000 -waveform { 0.000 10.000 } [get_port
 # Create Generated Clock
 #**************************************************************
 
-create_generated_clock -name {pll_inst|altpll_component|auto_generated|pll1|clk[0]} -source [get_pins {pll_inst|altpll_component|auto_generated|pll1|inclk[0]}] -duty_cycle 50/1 -multiply_by 7 -divide_by 3 -master_clock {clk_50M} [get_pins {pll_inst|altpll_component|auto_generated|pll1|clk[0]}] 
+create_generated_clock -name {pll_inst|altpll_component|auto_generated|pll1|clk[0]} -source [get_pins {pll_inst|altpll_component|auto_generated|pll1|inclk[0]}] -duty_cycle 50/1 -multiply_by 13 -divide_by 6 -master_clock {clk_50M} [get_pins {pll_inst|altpll_component|auto_generated|pll1|clk[0]}] 
 create_generated_clock -name {pll_inst|altpll_component|auto_generated|pll1|clk[1]} -source [get_pins {pll_inst|altpll_component|auto_generated|pll1|inclk[0]}] -duty_cycle 50/1 -multiply_by 2 -phase -90.000 -master_clock {clk_50M} [get_pins {pll_inst|altpll_component|auto_generated|pll1|clk[1]}] 
+create_generated_clock -name {pll_inst|altpll_component|auto_generated|pll1|clk[2]} -source [get_pins {pll_inst|altpll_component|auto_generated|pll1|inclk[0]}] -duty_cycle 50/1 -multiply_by 2 -master_clock {clk_50M} [get_pins {pll_inst|altpll_component|auto_generated|pll1|clk[2]}] 
 create_generated_clock -name {pll_inst|altpll_component|auto_generated|pll1|clk[3]} -source [get_pins {pll_inst|altpll_component|auto_generated|pll1|inclk[0]}] -duty_cycle 50/1 -multiply_by 2 -phase -90.000 -master_clock {clk_50M} [get_pins {pll_inst|altpll_component|auto_generated|pll1|clk[3]}] 
 create_generated_clock -name {dac_clk} -source [get_pins {pll_inst|altpll_component|auto_generated|pll1|clk[0]}] -master_clock {pll_inst|altpll_component|auto_generated|pll1|clk[0]} [get_ports {DAC_CLK}] 
 create_generated_clock -name {sdram_clk} -source [get_pins {pll_inst|altpll_component|auto_generated|pll1|clk[1]}] -master_clock {pll_inst|altpll_component|auto_generated|pll1|clk[1]} [get_ports {SDRAM_CLK}] 
@@ -64,14 +65,14 @@ create_generated_clock -name {adc_clk} -source [get_pins {pll_inst|altpll_compon
 # Set Clock Uncertainty
 #**************************************************************
 
-set_clock_uncertainty -rise_from [get_clocks {altera_reserved_tck}] -rise_to [get_clocks {altera_reserved_tck}]  0.020  
-set_clock_uncertainty -rise_from [get_clocks {altera_reserved_tck}] -fall_to [get_clocks {altera_reserved_tck}]  0.020  
-set_clock_uncertainty -fall_from [get_clocks {altera_reserved_tck}] -rise_to [get_clocks {altera_reserved_tck}]  0.020  
-set_clock_uncertainty -fall_from [get_clocks {altera_reserved_tck}] -fall_to [get_clocks {altera_reserved_tck}]  0.020  
 set_clock_uncertainty -rise_from [get_clocks {pll_inst|altpll_component|auto_generated|pll1|clk[0]}] -rise_to [get_clocks {pll_inst|altpll_component|auto_generated|pll1|clk[0]}]  0.020  
 set_clock_uncertainty -rise_from [get_clocks {pll_inst|altpll_component|auto_generated|pll1|clk[0]}] -fall_to [get_clocks {pll_inst|altpll_component|auto_generated|pll1|clk[0]}]  0.020  
 set_clock_uncertainty -fall_from [get_clocks {pll_inst|altpll_component|auto_generated|pll1|clk[0]}] -rise_to [get_clocks {pll_inst|altpll_component|auto_generated|pll1|clk[0]}]  0.020  
 set_clock_uncertainty -fall_from [get_clocks {pll_inst|altpll_component|auto_generated|pll1|clk[0]}] -fall_to [get_clocks {pll_inst|altpll_component|auto_generated|pll1|clk[0]}]  0.020  
+set_clock_uncertainty -rise_from [get_clocks {altera_reserved_tck}] -rise_to [get_clocks {altera_reserved_tck}]  0.020  
+set_clock_uncertainty -rise_from [get_clocks {altera_reserved_tck}] -fall_to [get_clocks {altera_reserved_tck}]  0.020  
+set_clock_uncertainty -fall_from [get_clocks {altera_reserved_tck}] -rise_to [get_clocks {altera_reserved_tck}]  0.020  
+set_clock_uncertainty -fall_from [get_clocks {altera_reserved_tck}] -fall_to [get_clocks {altera_reserved_tck}]  0.020  
 
 
 #**************************************************************
@@ -335,6 +336,7 @@ set_clock_groups -asynchronous -group [get_clocks {altera_reserved_tck}]
 set_clock_groups -asynchronous -group [get_clocks {altera_reserved_tck}] 
 set_clock_groups -asynchronous -group [get_clocks {altera_reserved_tck}] 
 set_clock_groups -asynchronous -group [get_clocks {altera_reserved_tck}] 
+set_clock_groups -asynchronous -group [get_clocks {altera_reserved_tck}] 
 
 
 #**************************************************************
@@ -370,10 +372,11 @@ set_false_path -to [get_pins -nocase -compatibility_mode {*|alt_rst_sync_uq1|alt
 #**************************************************************
 
 set_multicycle_path -setup -end -from  [get_clocks {adc_clk}]  -to  [get_clocks {pll_inst|altpll_component|auto_generated|pll1|clk[0]}] 2
-set_multicycle_path -from [get_clocks {sdram_clk}] -to [get_clocks {clk_50M}] -setup -start 2
-set_multicycle_path -from [get_clocks {pll_inst|altpll_component|auto_generated|pll1|clk[0]}] -to [get_clocks {clk_50M}] -setup -start 2
+set_multicycle_path -setup -start -from  [get_clocks {sdram_clk}]  -to  [get_clocks {clk_50M}] 2
+set_multicycle_path -setup -start -from  [get_clocks {pll_inst|altpll_component|auto_generated|pll1|clk[0]}]  -to  [get_clocks {clk_50M}] 2
+set_multicycle_path -hold -start -from  [get_clocks {pll_inst|altpll_component|auto_generated|pll1|clk[0]}]  -to  [get_clocks {clk_50M}] 1
 
-set_multicycle_path -from [get_clocks {pll_inst|altpll_component|auto_generated|pll1|clk[0]}] -to [get_clocks {clk_50M}] -hold -start 1
+
 #**************************************************************
 # Set Maximum Delay
 #**************************************************************
