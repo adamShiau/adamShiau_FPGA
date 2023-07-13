@@ -45,11 +45,11 @@ create_clock -name {clk_50M} -period 20.000 -waveform { 0.000 10.000 } [get_port
 #**************************************************************
 # Create Generated Clock
 #**************************************************************
-
-create_generated_clock -name {pll_inst|altpll_component|auto_generated|pll1|clk[0]} -source [get_pins {pll_inst|altpll_component|auto_generated|pll1|inclk[0]}] -duty_cycle 50/1 -multiply_by 91 -divide_by 50 -master_clock {clk_50M} [get_pins {pll_inst|altpll_component|auto_generated|pll1|clk[0]}] 
-create_generated_clock -name {pll_inst|altpll_component|auto_generated|pll1|clk[1]} -source [get_pins {pll_inst|altpll_component|auto_generated|pll1|inclk[0]}] -duty_cycle 50/1 -multiply_by 91 -divide_by 50 -phase -90.000 -master_clock {clk_50M} [get_pins {pll_inst|altpll_component|auto_generated|pll1|clk[1]}] 
-create_generated_clock -name {pll_inst|altpll_component|auto_generated|pll1|clk[2]} -source [get_pins {pll_inst|altpll_component|auto_generated|pll1|inclk[0]}] -duty_cycle 50/1 -multiply_by 91 -divide_by 50 -master_clock {clk_50M} [get_pins {pll_inst|altpll_component|auto_generated|pll1|clk[2]}] 
-create_generated_clock -name {pll_inst|altpll_component|auto_generated|pll1|clk[3]} -source [get_pins {pll_inst|altpll_component|auto_generated|pll1|inclk[0]}] -duty_cycle 50/1 -multiply_by 91 -divide_by 50 -phase -90.000 -master_clock {clk_50M} [get_pins {pll_inst|altpll_component|auto_generated|pll1|clk[3]}] 
+derive_pll_clocks
+# create_generated_clock -name {pll_inst|altpll_component|auto_generated|pll1|clk[0]} -source [get_pins {pll_inst|altpll_component|auto_generated|pll1|inclk[0]}] -duty_cycle 50/1 -multiply_by 91 -divide_by 50 -master_clock {clk_50M} [get_pins {pll_inst|altpll_component|auto_generated|pll1|clk[0]}] 
+# create_generated_clock -name {pll_inst|altpll_component|auto_generated|pll1|clk[1]} -source [get_pins {pll_inst|altpll_component|auto_generated|pll1|inclk[0]}] -duty_cycle 50/1 -multiply_by 91 -divide_by 50 -phase -90.000 -master_clock {clk_50M} [get_pins {pll_inst|altpll_component|auto_generated|pll1|clk[1]}] 
+# create_generated_clock -name {pll_inst|altpll_component|auto_generated|pll1|clk[2]} -source [get_pins {pll_inst|altpll_component|auto_generated|pll1|inclk[0]}] -duty_cycle 50/1 -multiply_by 91 -divide_by 50 -master_clock {clk_50M} [get_pins {pll_inst|altpll_component|auto_generated|pll1|clk[2]}] 
+# create_generated_clock -name {pll_inst|altpll_component|auto_generated|pll1|clk[3]} -source [get_pins {pll_inst|altpll_component|auto_generated|pll1|inclk[0]}] -duty_cycle 50/1 -multiply_by 91 -divide_by 50 -phase -90.000 -master_clock {clk_50M} [get_pins {pll_inst|altpll_component|auto_generated|pll1|clk[3]}] 
 create_generated_clock -name {dac_clk} -source [get_pins {pll_inst|altpll_component|auto_generated|pll1|clk[0]}] -master_clock {pll_inst|altpll_component|auto_generated|pll1|clk[0]} [get_ports {DAC_CLK}] 
 create_generated_clock -name sdram_clk -source [get_pins {pll_inst|altpll_component|auto_generated|pll1|clk[1]}] [get_ports {SDRAM_CLK}]
 create_generated_clock -name adc_clk -source [get_pins {pll_inst|altpll_component|auto_generated|pll1|clk[3]}] [get_ports {ADC_CLK}]
