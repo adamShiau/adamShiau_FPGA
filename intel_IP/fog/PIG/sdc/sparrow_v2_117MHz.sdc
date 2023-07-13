@@ -19,7 +19,7 @@
 ## PROGRAM "Quartus Prime"
 ## VERSION "Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition"
 
-## DATE    "Thu Jul 13 11:03:19 2023"
+## DATE    "Thu Jul 13 11:06:41 2023"
 
 ##
 ## DEVICE  "EP4CE15F17C8"
@@ -333,6 +333,7 @@ set_clock_groups -asynchronous -group [get_clocks {altera_reserved_tck}]
 set_clock_groups -asynchronous -group [get_clocks {altera_reserved_tck}] 
 set_clock_groups -asynchronous -group [get_clocks {altera_reserved_tck}] 
 set_clock_groups -asynchronous -group [get_clocks {altera_reserved_tck}] 
+set_clock_groups -asynchronous -group [get_clocks {altera_reserved_tck}] 
 
 
 #**************************************************************
@@ -368,8 +369,8 @@ set_false_path -to [get_pins -nocase -compatibility_mode {*|alt_rst_sync_uq1|alt
 #**************************************************************
 
 set_multicycle_path -setup -end -from  [get_clocks {adc_clk}]  -to  [get_clocks {pll_inst|altpll_component|auto_generated|pll1|clk[0]}] 2
-
-
+# set_multicycle_path -from [get_clocks {sdram_clk}] -to [get_clocks {pll_inst|altpll_component|auto_generated|pll1|clk[0]}] -setup -start 2
+# set_multicycle_path -from [get_clocks {pll_inst|altpll_component|auto_generated|pll1|clk[0]}] -to [get_clocks {sdram_clk}] -setup -start 2
 #**************************************************************
 # Set Maximum Delay
 #**************************************************************
