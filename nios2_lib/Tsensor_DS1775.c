@@ -54,7 +54,7 @@ alt_16 ds1775_9B_readTemp_d()
 
 float ds1775_9B_readTemp_f()
 {
-	alt_16 temp;
+	float temp;
 	alt_u8 rd_data_H, rd_data_L;
 	
 	IIC_Start();
@@ -65,7 +65,7 @@ float ds1775_9B_readTemp_f()
 	IIC_Stop();
 //	printf("%x, ", rd_data_H);
 //	printf("%x\n", rd_data_L);
-	temp = rd_data_H<<1 |  rd_data_L>>7;
-	if(rd_data_H>>7) return (temp-512)*0.5;
-	else return temp*0.5;
+	temp = (float)((alt_8)rd_data_H) + ((float)(rd_data_L>>7))*0.5;
+
+	return temp;
 }
