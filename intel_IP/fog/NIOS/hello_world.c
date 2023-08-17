@@ -123,7 +123,7 @@ void MV_Init(void);
 alt_32 MV_Update(alt_32, alt_u8);
 
 volatile alt_u8 uart_complete;
-alt_u8 *fpga_version = "FPGA-GP-10-PD\n";
+alt_u8 *fpga_version = "FPGA-GP-02-PD\r\n";
 
 typedef union
 {

@@ -94,6 +94,8 @@
 /*** MV ***/
 #define MV_NUM 2
 
+#define COE_TIME 0.0001
+
 const alt_u8 KVH_HEADER[4] = {0xFE, 0x81, 0xFF, 0x55};
 const alt_u8 cmd_header[2] = {0xAB, 0xBA};
 const alt_u8 cmd_trailer[2] = {0x55, 0x56};
@@ -123,7 +125,6 @@ void MV_Init(void);
 alt_32 MV_Update(alt_32, alt_u8);
 
 volatile alt_u8 uart_complete;
-alt_u8 *fpga_version = "FPGA-GP-10-PD\n";
 
 typedef union
 {
@@ -133,7 +134,8 @@ typedef union
 }
 my_float_t;
 
-my_float_t my_f;
+my_float_t f_time, f_step;
+float SF_A = 0.56789, SF_B = 0.01234545;
 
 int main()
 {
@@ -142,10 +144,12 @@ int main()
 	alt_16 PD_temp;
 	alt_u32 sdram_var, sdram_var2;
 	alt_u8 sdram_0, sdram_1, sdram_2, sdram_3;
+//	float PD_temp_f;
 
 
 	IIC_Init();
-	uartInit(); //interrupt method of uart defined in uart.c not main()
+	uartInit();
+//	IRQ_init(); // register UART interrupt
 	TRIGGER_IRQ_init(); // register EXTT interrupt
 	MV_Init();
 
@@ -186,6 +190,7 @@ int main()
 		step = IORD(VARSET_BASE, I_VAR_STEP_ORI);
 //		step = MV_Update(IORD(VARSET_BASE, I_VAR_STEP_ORI), 1);
 		PD_temp = ds1775_9B_readTemp_d();
+//		f_PD_temp.float_val = ds1775_9B_readTemp_f();
 		if(start_flag == 0){ 	//IDLE mode
 //			/***
 //			printf("nstate: %d, ", IORD(VARSET_BASE, I_VAR_NSTATE));
@@ -211,13 +216,13 @@ int main()
 //			***/
 		}
 		else if(start_flag == 1) { //INT mode
-			my_f.float_val = (float)time*0.0001;
+			f_time.float_val = (float)time*COE_TIME;
+			f_step.float_val = (float)step*SF_A + SF_B;
 			checkByte(171); //AB
 			checkByte(186); //BA
-//			sendTx(time);
-			sendTx(my_f.int_val);
+			sendTx(f_time.int_val);
 			sendTx(err);
-			sendTx(step);
+			sendTx(f_step.int_val);
 			checkByte(PD_temp>>8);
 			checkByte(PD_temp);
 			usleep(delay_time);
@@ -226,11 +231,15 @@ int main()
 		else if(start_flag == 2) { //EXT mode
 			if(trigger_sig) {
 				trigger_sig = 0;
+				f_time.float_val = (float)time*COE_TIME;
+				f_step.float_val = (float)step*SF_A + SF_B;
 				checkByte(171);
 				checkByte(186);
-				sendTx(time);
+//				sendTx(time);
+				sendTx(f_time.int_val);
 				sendTx(err);
-				sendTx(step);
+				sendTx(f_step.int_val);
+//				sendTx(step);
 				checkByte(PD_temp>>8);
 				checkByte(PD_temp);
 			}
@@ -308,6 +317,7 @@ void fog_parameter(alt_u8 *data)
 {
 	if(data){
 		if(uart_complete)
+//		if(cmd_complete2 = 1)
 		{
 			uart_complete = 0;
 			uart_cmd = data[0];
@@ -352,17 +362,6 @@ void fog_parameter(alt_u8 *data)
 					}
 					case 98: delay_time = uart_value; break;
 					case 99: start_flag = uart_value; break;
-					case 101: {
-//						printf("version: \n");
-//						printf("%s\n", fpga_version);
-						int i=0;
-						checkByte(fpga_version[i]);
-						while(fpga_version[i++] != 0xa) {
-//							printf("%c\n",fpga_version[i]);
-							checkByte(fpga_version[i]);
-						}
-						break;
-					}
 			}
 	 	}
 	}
