@@ -25,6 +25,9 @@
 //void delay1_stat(alt_u16);
 //void delay2_stat(alt_u16);
 
+#define FPGA_VERSION "FPGA-GP-01-RD"
+#define NIOS_VERSION "NIOS-GP-02-RD"
+
 #define TRIGGER_IN_BASE 0x2002160
 
 #define DAC1_GAIN_LSB_ADDR	0x0B
@@ -123,7 +126,12 @@ void MV_Init(void);
 alt_32 MV_Update(alt_32, alt_u8);
 
 volatile alt_u8 uart_complete;
-alt_u8 *fpga_version = "FPGA-GP-10-PD\n";
+// const alt_u8 *fpga_version = "FPGA-GP-10-PD\n";
+// const alt_u8 *nios_version = ""
+alt_u8 version[50] = FPGA_VERSION;
+strcat(version, ",");
+strcat(version, NIOS_VERSION);
+strcat(version, "\n");
 
 typedef union
 {
@@ -353,13 +361,19 @@ void fog_parameter(alt_u8 *data)
 					case 98: delay_time = uart_value; break;
 					case 99: start_flag = uart_value; break;
 					case 101: {
-//						printf("version: \n");
-//						printf("%s\n", fpga_version);
+
 						int i=0;
+						printf("%c\n",version[i]);
 						checkByte(fpga_version[i]);
-						while(fpga_version[i++] != 0xa) {
+						/*** 
+ 						while(fpga_version[i++] != 0xa) {
 //							printf("%c\n",fpga_version[i]);
 							checkByte(fpga_version[i]);
+						}
+						*/
+						while(version[i++] != 0xa) {
+							printf("%c\n",version[i]);
+							checkByte(version[i]);
 						}
 						break;
 					}
