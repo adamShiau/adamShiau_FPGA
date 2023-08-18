@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "unistd.h"
+#include <string.h>
 #include "system.h"
 #include "altera_avalon_spi.h"
 #include "altera_avalon_spi_regs.h"
@@ -25,8 +26,8 @@
 //void delay1_stat(alt_u16);
 //void delay2_stat(alt_u16);
 
-#define FPGA_VERSION "FPGA-GP-01-RD"
-#define NIOS_VERSION "NIOS-GP-02-RD"
+#define FPGA_VERSION "FPGA-GP-PLL100-10"
+//#define NIOS_VERSION2 "NIOS-GP-02-RD"
 
 #define TRIGGER_IN_BASE 0x2002160
 
@@ -129,9 +130,8 @@ volatile alt_u8 uart_complete;
 // const alt_u8 *fpga_version = "FPGA-GP-10-PD\n";
 // const alt_u8 *nios_version = ""
 alt_u8 version[50] = FPGA_VERSION;
-strcat(version, ",");
-strcat(version, NIOS_VERSION);
-strcat(version, "\n");
+
+
 
 typedef union
 {
@@ -151,7 +151,7 @@ int main()
 	alt_u32 sdram_var, sdram_var2;
 	alt_u8 sdram_0, sdram_1, sdram_2, sdram_3;
 
-
+	strcat(version, "\n");
 	IIC_Init();
 	uartInit(); //interrupt method of uart defined in uart.c not main()
 	TRIGGER_IRQ_init(); // register EXTT interrupt
@@ -363,8 +363,8 @@ void fog_parameter(alt_u8 *data)
 					case 101: {
 
 						int i=0;
-						printf("%c\n",version[i]);
-						checkByte(fpga_version[i]);
+//						printf("%c\n",version[i]);
+						checkByte(version[i]);
 						/*** 
  						while(fpga_version[i++] != 0xa) {
 //							printf("%c\n",fpga_version[i]);
@@ -372,7 +372,7 @@ void fog_parameter(alt_u8 *data)
 						}
 						*/
 						while(version[i++] != 0xa) {
-							printf("%c\n",version[i]);
+//							printf("%c\n",version[i]);
 							checkByte(version[i]);
 						}
 						break;
