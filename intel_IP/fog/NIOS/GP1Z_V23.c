@@ -26,8 +26,9 @@
 //void delay1_stat(alt_u16);
 //void delay2_stat(alt_u16);
 
-#define FPGA_VERSION "FPGA-GP-PLL100-21"
+#define FPGA_VERSION "FPGA-GP-PLL100-23"
 //#define NIOS_VERSION2 "NIOS-GP-02-RD"
+#define NMEA_HEADER "YAW,"
 
 #define TRIGGER_IN_BASE 0x2002160
 
@@ -246,18 +247,23 @@ int main()
 			if(trigger_sig) {
 				trigger_sig = 0;
 				f_time.float_val = (float)time*COE_TIME;
-//				f_step.float_val = (float)step*SF_A*DELTA_TIME;
-				f_step.float_val = (float)10*DELTA_TIME;
-				heading_angle += f_step.float_val;
+				f_step.float_val = (float)step*SF_A*DELTA_TIME;
+				heading_angle -= f_step.float_val;
+
 				if(heading_angle >= 360.0) heading_angle -= 360.0;
 				else if(heading_angle < 0.0) heading_angle += 360.0;
+
 				sprintf(heading_angle_str, "%6.2f", heading_angle);
+//				sprintf(heading_angle_str, "%6.3f", f_step.float_val);
 
 				checkByte(171);//1
 				checkByte(186);//1
-				sendTx(f_time.int_val); //4
+//				sendTx(f_time.int_val); //4
+				send_uart_string(NMEA_HEADER); //4
 				send_uart_string(heading_angle_str); //6
-				checkByte(PD_temp>>8);//1
+//				checkByte(PD_temp>>8);//1
+//				printf("%f\n", f_time.float_val);
+//				printf("%f\n", f_step.float_val);
 			}
 		}
 
