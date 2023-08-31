@@ -30,6 +30,7 @@
 //#define NIOS_VERSION2 "NIOS-GP-02-RD"
 
 #define TRIGGER_IN_BASE 0x2002160
+#define FLOAT_1 0x3f800000
 
 #define DAC1_GAIN_LSB_ADDR	0x0B
 #define DAC1_GAIN_MSB_ADDR	0x0C
@@ -90,6 +91,7 @@
 #define I_VAR_CSTATE	34
 #define I_VAR_ERR_KAL	35
 
+/**CMD address**/
 #define SF0_ADDR 15
 #define SF1_ADDR 16
 #define SF2_ADDR 17
@@ -100,6 +102,10 @@
 #define SF7_ADDR 22
 #define SF8_ADDR 23
 #define SF9_ADDR 24
+#define TMIN_ADDR 25
+#define TMAX_ADDR 26
+#define DUMP_PARAMETERS 102
+
 
 /***CRC ***/
 #define WIDTH  4
@@ -136,10 +142,13 @@ alt_32 Kal_Update(alt_32);
 void Kal_Predict(alt_32, alt_32);
 void MV_Init(void);
 alt_32 MV_Update(alt_32, alt_u8);
+void update_temperature(void);
 
 volatile alt_u8 uart_complete;
 volatile alt_32 SF0, SF1, SF2, SF3, SF4;
 volatile alt_32 SF5, SF6, SF7, SF8, SF9;
+volatile alt_32 TMIN, TMAX;
+float Tmin_f, T1_f, T2_f, T3_f, T4_f, T5_f, T6_f, T7_f, Tmax_f;
 // const alt_u8 *fpga_version = "FPGA-GP-10-PD\n";
 // const alt_u8 *nios_version = ""
 alt_u8 version[50] = FPGA_VERSION;
@@ -154,7 +163,63 @@ typedef union
 }
 my_float_t;
 
-my_float_t my_f, my_SF;
+my_float_t my_f, my_SF, my_TEMP;
+
+
+#define MAX_STR_LENGTH 20
+#define PARAMETER_CNT 33
+#define MAX_TOTAL_LENGTH (MAX_STR_LENGTH * PARAMETER_CNT)
+
+typedef struct {
+    char str[MAX_STR_LENGTH];
+    int value;
+} DumpParameter;
+
+DumpParameter my_para[PARAMETER_CNT];
+char fog_para_dump[MAX_TOTAL_LENGTH] = "";
+
+void my_parameter(const char *, int , DumpParameter *);
+
+void my_parameter(const char *parameter_name, int input_value, DumpParameter *output_data) {
+    snprintf(output_data->str, MAX_STR_LENGTH, "\"%s\":%d", parameter_name, input_value);
+    output_data->value = input_value;
+}
+
+void dump_fog_parameter(void) {
+	my_parameter("FREQ", IORD(VARSET_BASE, O_VAR_FREQ), &my_para[0]);
+	my_parameter("MOD_H", IORD(VARSET_BASE, O_VAR_AMP_H), &my_para[1]);
+	my_parameter("MOD_L", IORD(VARSET_BASE, O_VAR_AMP_L), &my_para[2]);
+	my_parameter("ERR_OFFSET", IORD(VARSET_BASE, O_VAR_OFFSET), &my_para[3]);
+	my_parameter("POLARITY", IORD(VARSET_BASE, O_VAR_POLARITY), &my_para[4]);
+	my_parameter("WAIT_CNT", IORD(VARSET_BASE, O_VAR_WAITCNT), &my_para[5]);
+	my_parameter("ERR_TH", IORD(VARSET_BASE, O_VAR_ERRTH), &my_para[6]);
+	my_parameter("ERR_AVG", IORD(VARSET_BASE, O_VAR_AVGSEL), &my_para[7]);
+	my_parameter("GAIN1", IORD(VARSET_BASE, O_VAR_GAIN1_SEL), &my_para[8]);
+	my_parameter("GAIN2", IORD(VARSET_BASE, O_VAR_GAIN2_SEL), &my_para[9]);
+	my_parameter("FB_ON", IORD(VARSET_BASE, O_VAR_FB_ON), &my_para[10]);
+	my_parameter("CONST_STEP", IORD(VARSET_BASE, O_VAR_CONST_STEP), &my_para[11]);
+	my_parameter("HD_Q", IORD(VARSET_BASE, O_VAR_KAL_Q), &my_para[12]);
+	my_parameter("HD_R", IORD(VARSET_BASE, O_VAR_KAL_R), &my_para[13]);
+	my_parameter("SF0", SF0, &my_para[14]);
+	my_parameter("SF1", SF1, &my_para[15]);
+	my_parameter("SF2", SF2, &my_para[16]);
+	my_parameter("SF3", SF3, &my_para[17]);
+	my_parameter("SF4", SF4, &my_para[18]);
+	my_parameter("SF5", SF5, &my_para[19]);
+	my_parameter("SF6", SF6, &my_para[20]);
+	my_parameter("SF7", SF7, &my_para[21]);
+	my_parameter("SF8", SF8, &my_para[22]);
+	my_parameter("SF9", SF9, &my_para[23]);
+	my_parameter("TMIN", Tmin_f, &my_para[24]);
+	my_parameter("T1", T1_f, &my_para[25]);
+	my_parameter("T2", T2_f, &my_para[26]);
+	my_parameter("T3", T3_f, &my_para[27]);
+	my_parameter("T4", T4_f, &my_para[28]);
+	my_parameter("T5", T5_f, &my_para[29]);
+	my_parameter("T6", T6_f, &my_para[30]);
+	my_parameter("T7", T7_f, &my_para[31]);
+	my_parameter("TMAX", Tmax_f, &my_para[32]);
+}
 
 int main()
 {
@@ -165,7 +230,10 @@ int main()
 	alt_u32 sdram_var, sdram_var2;
 	alt_u8 sdram_0, sdram_1, sdram_2, sdram_3;
 
+//	alt_32 reg1, reg2;
+
 	strcat(version, "\n");
+
 	IIC_Init();
 	uartInit(); //interrupt method of uart defined in uart.c not main()
 	TRIGGER_IRQ_init(); // register EXTT interrupt
@@ -232,11 +300,38 @@ int main()
 //			printf("rx count: %d\n", uartAvailable());
 
 //			***/
+//			printf("%f\n", PD_temp_f);
+			if(PD_temp_f <= Tmin_f) my_SF.int_val = SF0;
+			else if(PD_temp_f >= Tmax_f) my_SF.int_val = SF9;
+			else if(PD_temp_f > Tmin_f && PD_temp_f <= T1_f) my_SF.int_val = SF1;
+			else if(PD_temp_f > T1_f && PD_temp_f <= T2_f) my_SF.int_val = SF2;
+			else if(PD_temp_f > T2_f && PD_temp_f <= T3_f){
+				my_SF.int_val = SF3;
+//				printf("%f ~ %f\n", T2_f, T3_f);
+//				printf("SF3\n");
+			}
+			else if(PD_temp_f > T3_f && PD_temp_f <= T4_f){
+				my_SF.int_val = SF4;
+//				printf("%f ~ %f\n", T3_f, T4_f);
+//				printf("SF4\n");
+			}
+			else if(PD_temp_f > T4_f && PD_temp_f <= T5_f){
+				my_SF.int_val = SF5;
+//				printf("%f ~ %f\n", T4_f, T5_f);
+//				printf("SF5\n");
+			}
+			else if(PD_temp_f > T5_f && PD_temp_f <= T6_f){
+				my_SF.int_val = SF6;
+//				printf("%f ~ %f\n", T5_f, T6_f);
+//				printf("SF6\n");
+			}
+			else if(PD_temp_f > T6_f && PD_temp_f <= T7_f) my_SF.int_val = SF7;
+			else if(PD_temp_f > T7_f && PD_temp_f < Tmax_f) my_SF.int_val = SF8;
 
-			if(PD_temp_f < 38.0) my_SF.int_val = SF0;
-			else if(PD_temp_f < 40.0) my_SF.int_val = SF1;
-			else if(PD_temp_f < 42.0) my_SF.int_val = SF2;
-			else if(PD_temp_f < 45.0) my_SF.int_val = SF3;
+//			reg1 = IORD(VARSET_BASE, O_VAR_FREQ);
+//			reg2 = IORD(VARSET_BASE, O_VAR_AMP_L);
+//			printf("freq: %d\n", reg1);
+//			printf("freq: %d\n", reg2);
 //			printf("%.1f, %.11f\n ", PD_temp_f, my_SF.float_val);
 //			usleep(300000);
 		}
@@ -344,23 +439,59 @@ void fog_parameter(alt_u8 *data)
 			uart_value = data[1]<<24 | data[2]<<16 | data[3]<<8 | data[4];
 //			printf("uart_cmd, uart_value: %d, %d\n\n", uart_cmd, uart_value);
 			switch(uart_cmd){
-					case 0: IOWR(VARSET_BASE, O_VAR_FREQ, uart_value); break;
-					case 1: IOWR(VARSET_BASE, O_VAR_AMP_H, uart_value); break;
-					case 2: IOWR(VARSET_BASE, O_VAR_AMP_L, uart_value); break;
-					case 3: IOWR(VARSET_BASE, O_VAR_OFFSET, uart_value); break;
-					case 4: IOWR(VARSET_BASE, O_VAR_POLARITY, uart_value); break;
-					case 5: IOWR(VARSET_BASE, O_VAR_WAITCNT, uart_value); break;
-					case 6: IOWR(VARSET_BASE, O_VAR_ERRTH, uart_value); break;
-					case 7: IOWR(VARSET_BASE, O_VAR_AVGSEL, uart_value); break;
-					case 8: {
-							IOWR(VARSET_BASE, O_VAR_TIMER_RST, 1);
-							IOWR(VARSET_BASE, O_VAR_TIMER_RST, 0);
-							break;
+					case 0: {
+						IOWR(VARSET_BASE, O_VAR_FREQ, uart_value);
+						break;
 					}
-					case 9: IOWR(VARSET_BASE, O_VAR_GAIN1_SEL, uart_value); break;
-					case 10: IOWR(VARSET_BASE, O_VAR_GAIN2_SEL, uart_value); break;
-					case 11: IOWR(VARSET_BASE, O_VAR_FB_ON, uart_value); break;
-					case 12: IOWR(VARSET_BASE, O_VAR_CONST_STEP, uart_value); break;
+					case 1: {
+						IOWR(VARSET_BASE, O_VAR_AMP_H, uart_value);
+						break;
+					}
+					case 2: {
+						IOWR(VARSET_BASE, O_VAR_AMP_L, uart_value);
+						break;
+					}
+					case 3: {
+						IOWR(VARSET_BASE, O_VAR_OFFSET, uart_value);
+						break;
+					}
+					case 4: {
+						IOWR(VARSET_BASE, O_VAR_POLARITY, uart_value);
+						break;
+					}
+					case 5: {
+						IOWR(VARSET_BASE, O_VAR_WAITCNT, uart_value);
+						break;
+					}
+					case 6: {
+						IOWR(VARSET_BASE, O_VAR_ERRTH, uart_value);
+						break;
+					}
+					case 7: {
+						IOWR(VARSET_BASE, O_VAR_AVGSEL, uart_value);
+						break;
+					}
+					case 8: {
+						IOWR(VARSET_BASE, O_VAR_TIMER_RST, 1);
+						IOWR(VARSET_BASE, O_VAR_TIMER_RST, 0);
+						break;
+					}
+					case 9: {
+						IOWR(VARSET_BASE, O_VAR_GAIN1_SEL, uart_value);
+						break;
+					}
+					case 10: {
+						IOWR(VARSET_BASE, O_VAR_GAIN2_SEL, uart_value);
+						break;
+					}
+					case 11: {
+						IOWR(VARSET_BASE, O_VAR_FB_ON, uart_value);
+						break;
+					}
+					case 12: {
+						IOWR(VARSET_BASE, O_VAR_CONST_STEP, uart_value);
+						break;
+					}
 					case 13: {
 						IOWR(VARSET_BASE, O_VAR_KAL_Q, uart_value);
 			//			kal_Q = uart_value;
@@ -373,16 +504,29 @@ void fog_parameter(alt_u8 *data)
 			//			printf("kal_R: %d\n", kal_R);
 						break;
 					}
-					case SF0_ADDR: SF0 = uart_value;
-					case SF1_ADDR: SF1 = uart_value;
-					case SF2_ADDR: SF2 = uart_value;
-					case SF3_ADDR: SF3 = uart_value;
-					case SF4_ADDR: SF4 = uart_value;
-					case SF5_ADDR: SF5 = uart_value;
-					case SF6_ADDR: SF6 = uart_value;
-					case SF7_ADDR: SF7 = uart_value;
-					case SF8_ADDR: SF8 = uart_value;
-					case SF9_ADDR: SF9 = uart_value;
+					case SF0_ADDR: SF0 = uart_value;break;
+					case SF1_ADDR: SF1 = uart_value;break;
+					case SF2_ADDR: SF2 = uart_value;break;
+					case SF3_ADDR: SF3 = uart_value;break;
+					case SF4_ADDR: SF4 = uart_value;break;
+					case SF5_ADDR: SF5 = uart_value;break;
+					case SF6_ADDR: SF6 = uart_value;break;
+					case SF7_ADDR: SF7 = uart_value;break;
+					case SF8_ADDR: SF8 = uart_value;break;
+					case SF9_ADDR: SF9 = uart_value;break;
+					case TMIN_ADDR:{
+						TMIN = uart_value;
+						my_TEMP.int_val = TMIN;
+						Tmin_f = my_TEMP.float_val;
+						update_temperature();
+						break;
+					}
+					case TMAX_ADDR:{
+						TMAX = uart_value;
+						my_TEMP.int_val = TMAX;
+						Tmax_f = my_TEMP.float_val;
+						break;
+					}
 
 					case 50: {
 						IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_ADDA_BASE, (DAC1_GAIN_LSB_ADDR<<8) | (uart_value&0xFF)); usleep (10);
@@ -408,6 +552,48 @@ void fog_parameter(alt_u8 *data)
 //							printf("%c\n",version[i]);
 							checkByte(version[i]);
 						}
+						break;
+					}
+					case DUMP_PARAMETERS:{
+
+						dump_fog_parameter();
+//						printf("%f\n", Tmin_f);
+//						printf("%f\n", T2_f);
+//						printf("%f\n", T3_f);
+//						printf("%f\n", T4_f);
+//						printf("%f\n", Tmax_f);
+
+						for (int i = 0; i < PARAMETER_CNT; i++) {
+							strcat(fog_para_dump, my_para[i].str);
+							if(i<PARAMETER_CNT-1) strcat(fog_para_dump, ", ");
+
+						}
+						int para_size=0;
+//
+						for(int i=0; i<sizeof(fog_para_dump); i++){
+//							printf("%d, %x\n", i, fog_para_dump[i]);
+							if(fog_para_dump[i]==0) {
+								para_size = i;
+								break;
+							}
+						}
+//						printf("para_size: %d\n", para_size);
+						char fog_para_dump_out[para_size];
+
+						memset(fog_para_dump_out, 0, para_size); // initialize fog_para_dump_out to zeros
+						strcat(fog_para_dump_out, fog_para_dump);
+//
+//						printf("%s, %d\n", fog_para_dump, sizeof(fog_para_dump));
+//						printf("%s, %d\n", fog_para_dump_out, sizeof(fog_para_dump_out));
+
+						strcpy(fog_para_dump, "");
+						checkByte(0x7B);// {
+						for(int i=0; i<sizeof(fog_para_dump_out);i++){
+							checkByte(fog_para_dump_out[i]);
+						}
+						checkByte(0x7D);// }
+						checkByte(0x0A);// \n
+
 						break;
 					}
 			}
@@ -515,6 +701,36 @@ void FOG_init()
 //	usleep(1000);
 //	IOWR(VARSET_BASE, O_VAR_POLARITY, 1);
 	Set_Dac_Gain(505);
+	SF0 = FLOAT_1;
+	SF1 = FLOAT_1;
+	SF2 = FLOAT_1;
+	SF3 = FLOAT_1;
+	SF4 = FLOAT_1;
+	SF5 = FLOAT_1;
+	SF6 = FLOAT_1;
+	SF7 = FLOAT_1;
+	SF8 = FLOAT_1;
+	SF9 = FLOAT_1;
+	Tmin_f = -20.0;
+	T1_f = TMIN + 10.0;
+	T2_f = T1_f + 10.0;
+	T3_f = T2_f + 10.0;
+	T4_f = T3_f + 10.0;
+	T5_f = T4_f + 10.0;
+	T6_f = T5_f + 10.0;
+	T7_f = T6_f + 10.0;
+	Tmax_f = 80.0;
+}
+
+void update_temperature(void)
+{
+	T1_f = Tmin_f + 10.0;
+	T2_f = T1_f + 10.0;
+	T3_f = T2_f + 10.0;
+	T4_f = T3_f + 10.0;
+	T5_f = T4_f + 10.0;
+	T6_f = T5_f + 10.0;
+	T7_f = T6_f + 10.0;
 }
 
 alt_u8 crc(alt_u8  message[], int nBytes)
@@ -561,3 +777,5 @@ alt_u8 crc(alt_u8  message[], int nBytes)
      */
     return (remainder);
 }
+
+
