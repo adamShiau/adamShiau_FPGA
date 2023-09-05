@@ -23,11 +23,8 @@
 #include "Tsensor_DS1775.c"
 
 
-//void delay1_stat(alt_u16);
-//void delay2_stat(alt_u16);
 
 #define FPGA_VERSION "FPGA-GP-PLL100-11"
-//#define NIOS_VERSION2 "NIOS-GP-02-RD"
 
 #define TRIGGER_IN_BASE 0x2002160
 #define FLOAT_1 0x3f800000
@@ -78,6 +75,7 @@
 #define O_VAR_CONST_STEP  	12
 #define O_VAR_KAL_Q			13
 #define O_VAR_KAL_R  		14
+#define O_VAR_LED1  		15
 /***R***/
 #define I_VAR_TIMER		25
 #define I_VAR_STEP		26 //before divided by gain1
@@ -104,6 +102,7 @@
 #define SF9_ADDR 24
 #define TMIN_ADDR 25
 #define TMAX_ADDR 26
+#define DAC_GAIN_ADDR 50
 #define DUMP_PARAMETERS 102
 
 
@@ -149,8 +148,6 @@ volatile alt_32 SF0, SF1, SF2, SF3, SF4;
 volatile alt_32 SF5, SF6, SF7, SF8, SF9;
 volatile alt_32 TMIN, TMAX;
 float Tmin_f, T1_f, T2_f, T3_f, T4_f, T5_f, T6_f, T7_f, Tmax_f;
-// const alt_u8 *fpga_version = "FPGA-GP-10-PD\n";
-// const alt_u8 *nios_version = ""
 alt_u8 version[50] = FPGA_VERSION;
 
 
@@ -167,7 +164,7 @@ my_float_t my_f, my_SF, my_TEMP;
 
 
 #define MAX_STR_LENGTH 20
-#define PARAMETER_CNT 33
+#define PARAMETER_CNT 34
 #define MAX_TOTAL_LENGTH (MAX_STR_LENGTH * PARAMETER_CNT)
 
 typedef struct {
@@ -183,6 +180,35 @@ void my_parameter(const char *, int , DumpParameter *);
 void my_parameter(const char *parameter_name, int input_value, DumpParameter *output_data) {
     snprintf(output_data->str, MAX_STR_LENGTH, "\"%s\":%d", parameter_name, input_value);
     output_data->value = input_value;
+}
+
+void blink_LED()
+{
+	for(int i=0; i<100; i++){
+		IOWR(VARSET_BASE, O_VAR_LED1, 0x1);
+		usleep(300000);
+		IOWR(VARSET_BASE, O_VAR_LED1, 0x0);
+		usleep(300000);
+	}
+
+}
+
+alt_u32 readSPI_DAC1_GAIN()
+{
+	alt_u8 MSB, LSB;
+	alt_32 rt;
+
+	IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_ADDA_BASE, 1); usleep (10); //select DAC
+	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_ADDA_BASE, DAC1_GAIN_MSB_R); usleep(10);
+	IORD_ALTERA_AVALON_SPI_RXDATA(SPI_ADDA_BASE); // must add this to read old data
+	MSB = IORD_ALTERA_AVALON_SPI_RXDATA(SPI_ADDA_BASE);
+
+	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_ADDA_BASE, DAC1_GAIN_LSB_R); usleep(10);
+	IORD_ALTERA_AVALON_SPI_RXDATA(SPI_ADDA_BASE); // must add this to read old data
+	LSB = IORD_ALTERA_AVALON_SPI_RXDATA(SPI_ADDA_BASE);
+	rt = MSB<<8 | LSB;
+//	printf("%x\n", rt);
+	return rt;
 }
 
 void dump_fog_parameter(void) {
@@ -219,6 +245,8 @@ void dump_fog_parameter(void) {
 	my_parameter("T6", T6_f, &my_para[30]);
 	my_parameter("T7", T7_f, &my_para[31]);
 	my_parameter("TMAX", Tmax_f, &my_para[32]);
+	my_parameter("DAC_GAIN", readSPI_DAC1_GAIN(), &my_para[33]);
+
 }
 
 int main()
@@ -252,11 +280,9 @@ int main()
 	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_ADDA_BASE, DAC2_GAIN_MSB_W_NR); usleep (10);
 	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_ADDA_BASE, DAC2_GAIN_LSB_W_NR); usleep (10);
 
-
 	ds1775_setConfiguration(0x0);  //setting configuration reg, see data sheet p8
 	ds1775_setCurPtr(TSENSOR_TEMP);//write to temperature addr
 	FOG_init();
-
 
 	// write sdram for HIGH energy proton test //
 	IOWR_32DIRECT(SDRAM_BASE, 0x0, 0xAAABAAAB);
@@ -333,6 +359,7 @@ int main()
 //			printf("freq: %d\n", reg1);
 //			printf("freq: %d\n", reg2);
 //			printf("%.1f, %.11f\n ", PD_temp_f, my_SF.float_val);
+
 //			usleep(300000);
 		}
 		else if(start_flag == 1) { //INT mode
@@ -528,11 +555,12 @@ void fog_parameter(alt_u8 *data)
 						break;
 					}
 
-					case 50: {
+					case DAC_GAIN_ADDR: {
 						IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_ADDA_BASE, (DAC1_GAIN_LSB_ADDR<<8) | (uart_value&0xFF)); usleep (10);
 						IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_ADDA_BASE, (DAC1_GAIN_MSB_ADDR<<8) | (uart_value>>8)); usleep (10);
 						IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_ADDA_BASE, (DAC2_GAIN_LSB_ADDR<<8) | (uart_value&0xFF)); usleep (10);
 						IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_ADDA_BASE, (DAC2_GAIN_MSB_ADDR<<8) | (uart_value>>8)); usleep (10);
+
 						break;
 					}
 					case 98: delay_time = uart_value; break;
