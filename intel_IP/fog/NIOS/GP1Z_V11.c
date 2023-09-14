@@ -113,6 +113,7 @@
 
 /*** MV ***/
 #define MV_NUM 2
+#define COE_TIMER 0.0001
 
 const alt_u8 KVH_HEADER[4] = {0xFE, 0x81, 0xFF, 0x55};
 const alt_u8 cmd_header[2] = {0xAB, 0xBA};
@@ -161,6 +162,7 @@ typedef union
 my_float_t;
 
 my_float_t my_f, my_SF, my_TEMP;
+my_float_t step_f, PDTemp_f, time_f;
 
 
 #define MAX_STR_LENGTH 20
@@ -249,12 +251,42 @@ void dump_fog_parameter(void) {
 
 }
 
+void judge_SF(float PD_temp_f)
+{
+	if(PD_temp_f <= Tmin_f) my_SF.int_val = SF0;
+		else if(PD_temp_f >= Tmax_f) my_SF.int_val = SF9;
+		else if(PD_temp_f > Tmin_f && PD_temp_f <= T1_f) my_SF.int_val = SF1;
+		else if(PD_temp_f > T1_f && PD_temp_f <= T2_f) my_SF.int_val = SF2;
+		else if(PD_temp_f > T2_f && PD_temp_f <= T3_f){
+			my_SF.int_val = SF3;
+	//				printf("%f ~ %f\n", T2_f, T3_f);
+	//				printf("SF3\n");
+		}
+		else if(PD_temp_f > T3_f && PD_temp_f <= T4_f){
+			my_SF.int_val = SF4;
+	//				printf("%f ~ %f\n", T3_f, T4_f);
+	//				printf("SF4\n");
+		}
+		else if(PD_temp_f > T4_f && PD_temp_f <= T5_f){
+			my_SF.int_val = SF5;
+	//				printf("%f ~ %f\n", T4_f, T5_f);
+	//				printf("SF5\n");
+		}
+		else if(PD_temp_f > T5_f && PD_temp_f <= T6_f){
+			my_SF.int_val = SF6;
+	//				printf("%f ~ %f\n", T5_f, T6_f);
+	//				printf("SF6\n");
+		}
+		else if(PD_temp_f > T6_f && PD_temp_f <= T7_f) my_SF.int_val = SF7;
+		else if(PD_temp_f > T7_f && PD_temp_f < Tmax_f) my_SF.int_val = SF8;
+}
+
 int main()
 {
 	alt_u16 cnt=0, p=1;
 	alt_32 time, err, step;
 	alt_16 PD_temp;
-	float PD_temp_f;
+//	float PD_temp_f;
 	alt_u32 sdram_var, sdram_var2;
 	alt_u8 sdram_0, sdram_1, sdram_2, sdram_3;
 
@@ -302,7 +334,11 @@ int main()
 		step = IORD(VARSET_BASE, I_VAR_STEP_ORI);
 //		step = MV_Update(IORD(VARSET_BASE, I_VAR_STEP_ORI), 1);
 		PD_temp = ds1775_9B_readTemp_d();
-		PD_temp_f = (PD_temp>>8) + ((PD_temp&0xFF)>>7)*0.5;
+		PDTemp_f.float_val = (float)(PD_temp>>8) + (float)((PD_temp&0xFF)>>7)*0.5;
+//		PD_temp_f = (float)(PD_temp>>8) + (float)((PD_temp&0xFF)>>7)*0.5;
+		judge_SF(PDTemp_f.float_val);
+		time_f.float_val = (float)time*COE_TIMER;
+		step_f.float_val = (float)step*my_SF.float_val;
 		if(start_flag == 0){ 	//IDLE mode
 //			/***
 //			printf("nstate: %d, ", IORD(VARSET_BASE, I_VAR_NSTATE));
@@ -327,62 +363,40 @@ int main()
 
 //			***/
 //			printf("%f\n", PD_temp_f);
-			if(PD_temp_f <= Tmin_f) my_SF.int_val = SF0;
-			else if(PD_temp_f >= Tmax_f) my_SF.int_val = SF9;
-			else if(PD_temp_f > Tmin_f && PD_temp_f <= T1_f) my_SF.int_val = SF1;
-			else if(PD_temp_f > T1_f && PD_temp_f <= T2_f) my_SF.int_val = SF2;
-			else if(PD_temp_f > T2_f && PD_temp_f <= T3_f){
-				my_SF.int_val = SF3;
-//				printf("%f ~ %f\n", T2_f, T3_f);
-//				printf("SF3\n");
-			}
-			else if(PD_temp_f > T3_f && PD_temp_f <= T4_f){
-				my_SF.int_val = SF4;
-//				printf("%f ~ %f\n", T3_f, T4_f);
-//				printf("SF4\n");
-			}
-			else if(PD_temp_f > T4_f && PD_temp_f <= T5_f){
-				my_SF.int_val = SF5;
-//				printf("%f ~ %f\n", T4_f, T5_f);
-//				printf("SF5\n");
-			}
-			else if(PD_temp_f > T5_f && PD_temp_f <= T6_f){
-				my_SF.int_val = SF6;
-//				printf("%f ~ %f\n", T5_f, T6_f);
-//				printf("SF6\n");
-			}
-			else if(PD_temp_f > T6_f && PD_temp_f <= T7_f) my_SF.int_val = SF7;
-			else if(PD_temp_f > T7_f && PD_temp_f < Tmax_f) my_SF.int_val = SF8;
+
 
 //			reg1 = IORD(VARSET_BASE, O_VAR_FREQ);
 //			reg2 = IORD(VARSET_BASE, O_VAR_AMP_L);
 //			printf("freq: %d\n", reg1);
 //			printf("freq: %d\n", reg2);
 //			printf("%.1f, %.11f\n ", PD_temp_f, my_SF.float_val);
-
+//			printf("%x\n", PD_temp>>8);
+//			printf("%x\n", PD_temp);
 //			usleep(300000);
 		}
 		else if(start_flag == 1) { //INT mode
-			my_f.float_val = (float)time*0.0001;
+
 			checkByte(171); //AB
 			checkByte(186); //BA
-//			sendTx(time);
-			sendTx(my_f.int_val);
+			sendTx(time_f.int_val);
 			sendTx(err);
-			sendTx(step);
+			sendTx(step_f.int_val);
+//			sendTx(PDTemp_f.int_val);
 			checkByte(PD_temp>>8);
 			checkByte(PD_temp);
+
 			usleep(delay_time);
 		}
 
 		else if(start_flag == 2) { //EXT mode
 			if(trigger_sig) {
 				trigger_sig = 0;
-				checkByte(171);
-				checkByte(186);
-				sendTx(time);
+				checkByte(171); //AB
+				checkByte(186); //BA
+				sendTx(time_f.int_val);
 				sendTx(err);
-				sendTx(step);
+				sendTx(step_f.int_val);
+//				sendTx(PDTemp_f.int_val);
 				checkByte(PD_temp>>8);
 				checkByte(PD_temp);
 			}

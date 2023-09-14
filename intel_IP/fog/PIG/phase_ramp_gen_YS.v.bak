@@ -5,7 +5,7 @@ be sure to check device DAC max output 32767 equal to Vpi = 4V， and min output
 data: 2021-11-30
 v4 add input gain select
 ***/
-module phase_ramp_gen_YS
+module phase_ramp_gen_v5
 #(parameter OUTPUT_BIT = 32)
 (
 input i_clk,
