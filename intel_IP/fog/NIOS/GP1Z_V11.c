@@ -143,6 +143,8 @@ void Kal_Predict(alt_32, alt_32);
 void MV_Init(void);
 alt_32 MV_Update(alt_32, alt_u8);
 void update_temperature(void);
+float IEEE_754_INT2F(int);
+int IEEE_754_F2INT(float);
 
 volatile alt_u8 uart_complete;
 volatile alt_32 SF0, SF1, SF2, SF3, SF4;
@@ -161,8 +163,8 @@ typedef union
 }
 my_float_t;
 
-my_float_t my_f, my_SF, my_TEMP;
-my_float_t step_f, PDTemp_f, time_f;
+my_float_t my_f, my_SF;
+my_float_t PDTemp_f;
 
 
 #define MAX_STR_LENGTH 20
@@ -178,9 +180,15 @@ DumpParameter my_para[PARAMETER_CNT];
 char fog_para_dump[MAX_TOTAL_LENGTH] = "";
 
 void my_parameter(const char *, int , DumpParameter *);
+void my_parameter_f(const char *, float , DumpParameter *);
 
 void my_parameter(const char *parameter_name, int input_value, DumpParameter *output_data) {
     snprintf(output_data->str, MAX_STR_LENGTH, "\"%s\":%d", parameter_name, input_value);
+    output_data->value = input_value;
+}
+
+void my_parameter_f(const char *parameter_name, float input_value, DumpParameter *output_data) {
+    snprintf(output_data->str, MAX_STR_LENGTH, "\"%s\":%.5f", parameter_name, input_value);
     output_data->value = input_value;
 }
 
@@ -228,16 +236,16 @@ void dump_fog_parameter(void) {
 	my_parameter("CONST_STEP", IORD(VARSET_BASE, O_VAR_CONST_STEP), &my_para[11]);
 	my_parameter("HD_Q", IORD(VARSET_BASE, O_VAR_KAL_Q), &my_para[12]);
 	my_parameter("HD_R", IORD(VARSET_BASE, O_VAR_KAL_R), &my_para[13]);
-	my_parameter("SF0", SF0, &my_para[14]);
-	my_parameter("SF1", SF1, &my_para[15]);
-	my_parameter("SF2", SF2, &my_para[16]);
-	my_parameter("SF3", SF3, &my_para[17]);
-	my_parameter("SF4", SF4, &my_para[18]);
-	my_parameter("SF5", SF5, &my_para[19]);
-	my_parameter("SF6", SF6, &my_para[20]);
-	my_parameter("SF7", SF7, &my_para[21]);
-	my_parameter("SF8", SF8, &my_para[22]);
-	my_parameter("SF9", SF9, &my_para[23]);
+	my_parameter_f("SF0", IEEE_754_INT2F(SF0), &my_para[14]);
+	my_parameter_f("SF1", IEEE_754_INT2F(SF1), &my_para[15]);
+	my_parameter_f("SF2", IEEE_754_INT2F(SF2), &my_para[16]);
+	my_parameter_f("SF3", IEEE_754_INT2F(SF3), &my_para[17]);
+	my_parameter_f("SF4", IEEE_754_INT2F(SF4), &my_para[18]);
+	my_parameter_f("SF5", IEEE_754_INT2F(SF5), &my_para[19]);
+	my_parameter_f("SF6", IEEE_754_INT2F(SF6), &my_para[20]);
+	my_parameter_f("SF7", IEEE_754_INT2F(SF7), &my_para[21]);
+	my_parameter_f("SF8", IEEE_754_INT2F(SF8), &my_para[22]);
+	my_parameter_f("SF9", IEEE_754_INT2F(SF9), &my_para[23]);
 	my_parameter("TMIN", Tmin_f, &my_para[24]);
 	my_parameter("T1", T1_f, &my_para[25]);
 	my_parameter("T2", T2_f, &my_para[26]);
@@ -287,6 +295,7 @@ int main()
 	alt_32 time, err, step;
 	alt_16 PD_temp;
 //	float PD_temp_f;
+	float err_f, time_f, step_f;
 	alt_u32 sdram_var, sdram_var2;
 	alt_u8 sdram_0, sdram_1, sdram_2, sdram_3;
 
@@ -330,15 +339,14 @@ int main()
 	while(1) {
 		time = IORD(VARSET_BASE, I_VAR_TIMER);
 		err = IORD(VARSET_BASE, I_VAR_ERR);
-//		err = IORD(VARSET_BASE, I_VAR_ERR_KAL);
 		step = IORD(VARSET_BASE, I_VAR_STEP_ORI);
-//		step = MV_Update(IORD(VARSET_BASE, I_VAR_STEP_ORI), 1);
 		PD_temp = ds1775_9B_readTemp_d();
+
 		PDTemp_f.float_val = (float)(PD_temp>>8) + (float)((PD_temp&0xFF)>>7)*0.5;
-//		PD_temp_f = (float)(PD_temp>>8) + (float)((PD_temp&0xFF)>>7)*0.5;
 		judge_SF(PDTemp_f.float_val);
-		time_f.float_val = (float)time*COE_TIMER;
-		step_f.float_val = (float)step*my_SF.float_val;
+		time_f = (float)time*COE_TIMER;
+		step_f = (float)step*my_SF.float_val;
+		err_f = (float)err*my_SF.float_val;
 		if(start_flag == 0){ 	//IDLE mode
 //			/***
 //			printf("nstate: %d, ", IORD(VARSET_BASE, I_VAR_NSTATE));
@@ -378,10 +386,9 @@ int main()
 
 			checkByte(171); //AB
 			checkByte(186); //BA
-			sendTx(time_f.int_val);
+			sendTx(IEEE_754_F2INT(time_f));
 			sendTx(err);
-			sendTx(step_f.int_val);
-//			sendTx(PDTemp_f.int_val);
+			sendTx(IEEE_754_F2INT(step_f));
 			checkByte(PD_temp>>8);
 			checkByte(PD_temp);
 
@@ -393,12 +400,13 @@ int main()
 				trigger_sig = 0;
 				checkByte(171); //AB
 				checkByte(186); //BA
-				sendTx(time_f.int_val);
+				sendTx(IEEE_754_F2INT(time_f));
 				sendTx(err);
-				sendTx(step_f.int_val);
-//				sendTx(PDTemp_f.int_val);
+//				sendTx(IEEE_754_F2INT(err_f));
+				sendTx(IEEE_754_F2INT(step_f));
 				checkByte(PD_temp>>8);
 				checkByte(PD_temp);
+//				printf("%f, %d\n", err_f, err);
 			}
 		}
 
@@ -557,15 +565,17 @@ void fog_parameter(alt_u8 *data)
 					case SF9_ADDR: SF9 = uart_value;break;
 					case TMIN_ADDR:{
 						TMIN = uart_value;
-						my_TEMP.int_val = TMIN;
-						Tmin_f = my_TEMP.float_val;
+//						my_TEMP.int_val = TMIN;
+//						Tmin_f = my_TEMP.float_val;
+						Tmin_f = IEEE_754_INT2F(TMIN);
 						update_temperature();
 						break;
 					}
 					case TMAX_ADDR:{
 						TMAX = uart_value;
-						my_TEMP.int_val = TMAX;
-						Tmax_f = my_TEMP.float_val;
+//						my_TEMP.int_val = TMAX;
+//						Tmax_f = my_TEMP.float_val;
+						Tmax_f = IEEE_754_INT2F(TMAX);
 						break;
 					}
 
@@ -773,6 +783,22 @@ void update_temperature(void)
 	T5_f = T4_f + 10.0;
 	T6_f = T5_f + 10.0;
 	T7_f = T6_f + 10.0;
+}
+
+float IEEE_754_INT2F(int in)
+{
+	my_float_t temp;
+	temp.int_val = in;
+
+	return temp.float_val;
+}
+
+int IEEE_754_F2INT(float in)
+{
+	my_float_t temp;
+	temp.float_val = in;
+
+	return temp.int_val;
 }
 
 alt_u8 crc(alt_u8  message[], int nBytes)
