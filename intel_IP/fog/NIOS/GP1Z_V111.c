@@ -105,23 +105,24 @@
 #define CONST_STEP_ADDR  	12
 #define FPGA_Q_ADDR			13
 #define FPGA_R_ADDR  		14
-#define SF0_ADDR 15
-#define SF1_ADDR 16
-#define SF2_ADDR 17
-#define SF3_ADDR 18
-#define SF4_ADDR 19
-#define SF5_ADDR 20
-#define SF6_ADDR 21
-#define SF7_ADDR 22
-#define SF8_ADDR 23
-#define SF9_ADDR 24
-#define TMIN_ADDR 25
-#define TMAX_ADDR 26
-#define DAC_GAIN_ADDR 50
+#define SF0_ADDR 			15
+#define SF1_ADDR 			16
+#define SF2_ADDR 			17
+#define SF3_ADDR			18
+#define SF4_ADDR 			19
+#define SF5_ADDR 			20
+#define SF6_ADDR 			21
+#define SF7_ADDR 			22
+#define SF8_ADDR 			23
+#define SF9_ADDR 			24
+#define TMIN_ADDR 			25
+#define TMAX_ADDR 			26
+#define DAC_GAIN_ADDR 		50
 #define DATA_INT_DELAY_ADDR	98
 #define DATA_OUT_START_ADDR	99
+#define FPGA_WAKEUP_ADDR 	100
 #define FPGA_VERSION_ADDR	101
-#define DUMP_PARAMETERS 102
+#define DUMP_PARAMETERS 	102
 
 
 /***CRC ***/
@@ -592,6 +593,11 @@ void fog_parameter(alt_u8 *data)
 					}
 					case DATA_INT_DELAY_ADDR: delay_time = uart_value; break;
 					case DATA_OUT_START_ADDR: start_flag = uart_value; break;
+					case FPGA_WAKEUP_ADDR:{
+						checkByte(0x01);
+						checkByte(0x0A);// \n
+						break;
+					}
 					case FPGA_VERSION_ADDR: {
 
 						int i=0;
@@ -603,7 +609,7 @@ void fog_parameter(alt_u8 *data)
 							checkByte(fpga_version[i]);
 						}
 						*/
-						while(version[i++] != 0xa) {
+						while(version[i++] != 0xa) { // \n
 //							printf("%c\n",version[i]);
 							checkByte(version[i]);
 						}
