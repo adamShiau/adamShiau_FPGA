@@ -90,20 +90,39 @@
 #define I_VAR_ERR_KAL	35
 
 /**CMD address**/
-#define SF0_ADDR 15
-#define SF1_ADDR 16
-#define SF2_ADDR 17
-#define SF3_ADDR 18
-#define SF4_ADDR 19
-#define SF5_ADDR 20
-#define SF6_ADDR 21
-#define SF7_ADDR 22
-#define SF8_ADDR 23
-#define SF9_ADDR 24
-#define TMIN_ADDR 25
-#define TMAX_ADDR 26
-#define DAC_GAIN_ADDR 50
-#define DUMP_PARAMETERS 102
+#define MOD_FREQ_ADDR		0
+#define MOD_AMP_H_ADDR  	1
+#define MOD_AMP_L_ADDR  	2
+#define ERR_OFFSET_ADDR 	3
+#define POLARITY_ADDR  		4
+#define WAIT_CNT_ADDR  		5
+#define ERR_TH_ADDR  		6
+#define ERR_AVG_ADDR  		7
+#define TIMER_RST_ADDR  	8
+#define GAIN1_ADDR  		9
+#define GAIN2_ADDR  		10
+#define FB_ON_ADDR  		11
+#define CONST_STEP_ADDR  	12
+#define FPGA_Q_ADDR			13
+#define FPGA_R_ADDR  		14
+#define SF0_ADDR 			15
+#define SF1_ADDR 			16
+#define SF2_ADDR 			17
+#define SF3_ADDR			18
+#define SF4_ADDR 			19
+#define SF5_ADDR 			20
+#define SF6_ADDR 			21
+#define SF7_ADDR 			22
+#define SF8_ADDR 			23
+#define SF9_ADDR 			24
+#define TMIN_ADDR 			25
+#define TMAX_ADDR 			26
+#define DAC_GAIN_ADDR 		50
+#define DATA_INT_DELAY_ADDR	98
+#define DATA_OUT_START_ADDR	99
+#define FPGA_WAKEUP_ADDR 	100
+#define FPGA_VERSION_ADDR	101
+#define DUMP_PARAMETERS 	102
 
 
 /***CRC ***/
@@ -168,7 +187,7 @@ my_float_t PDTemp_f;
 
 
 #define MAX_STR_LENGTH 20
-#define PARAMETER_CNT 34
+#define PARAMETER_CNT 35
 #define MAX_TOTAL_LENGTH (MAX_STR_LENGTH * PARAMETER_CNT)
 
 typedef struct {
@@ -256,37 +275,22 @@ void dump_fog_parameter(void) {
 	my_parameter("T7", T7_f, &my_para[31]);
 	my_parameter("TMAX", Tmax_f, &my_para[32]);
 	my_parameter("DAC_GAIN", readSPI_DAC1_GAIN(), &my_para[33]);
+	my_parameter("DATA_RATE", delay_time, &my_para[34]);
 
 }
 
 void judge_SF(float PD_temp_f)
 {
 	if(PD_temp_f <= Tmin_f) my_SF.int_val = SF0;
-		else if(PD_temp_f >= Tmax_f) my_SF.int_val = SF9;
-		else if(PD_temp_f > Tmin_f && PD_temp_f <= T1_f) my_SF.int_val = SF1;
-		else if(PD_temp_f > T1_f && PD_temp_f <= T2_f) my_SF.int_val = SF2;
-		else if(PD_temp_f > T2_f && PD_temp_f <= T3_f){
-			my_SF.int_val = SF3;
-	//				printf("%f ~ %f\n", T2_f, T3_f);
-	//				printf("SF3\n");
-		}
-		else if(PD_temp_f > T3_f && PD_temp_f <= T4_f){
-			my_SF.int_val = SF4;
-	//				printf("%f ~ %f\n", T3_f, T4_f);
-	//				printf("SF4\n");
-		}
-		else if(PD_temp_f > T4_f && PD_temp_f <= T5_f){
-			my_SF.int_val = SF5;
-	//				printf("%f ~ %f\n", T4_f, T5_f);
-	//				printf("SF5\n");
-		}
-		else if(PD_temp_f > T5_f && PD_temp_f <= T6_f){
-			my_SF.int_val = SF6;
-	//				printf("%f ~ %f\n", T5_f, T6_f);
-	//				printf("SF6\n");
-		}
-		else if(PD_temp_f > T6_f && PD_temp_f <= T7_f) my_SF.int_val = SF7;
-		else if(PD_temp_f > T7_f && PD_temp_f < Tmax_f) my_SF.int_val = SF8;
+	else if(PD_temp_f >= Tmax_f) my_SF.int_val = SF9;
+	else if(PD_temp_f > Tmin_f && PD_temp_f <= T1_f) my_SF.int_val = SF1;
+	else if(PD_temp_f > T1_f && PD_temp_f <= T2_f)	 my_SF.int_val = SF2;
+	else if(PD_temp_f > T2_f && PD_temp_f <= T3_f) 	 my_SF.int_val = SF3;
+	else if(PD_temp_f > T3_f && PD_temp_f <= T4_f) 	 my_SF.int_val = SF4;
+	else if(PD_temp_f > T4_f && PD_temp_f <= T5_f)	 my_SF.int_val = SF5;
+	else if(PD_temp_f > T5_f && PD_temp_f <= T6_f)	 my_SF.int_val = SF6;
+	else if(PD_temp_f > T6_f && PD_temp_f <= T7_f) 	 my_SF.int_val = SF7;
+	else if(PD_temp_f > T7_f && PD_temp_f < Tmax_f)  my_SF.int_val = SF8;
 }
 
 int main()
@@ -346,7 +350,7 @@ int main()
 		judge_SF(PDTemp_f.float_val);
 		time_f = (float)time*COE_TIMER;
 		step_f = (float)step*my_SF.float_val;
-		err_f = (float)err*my_SF.float_val;
+//		err_f = (float)err*my_SF.float_val;
 		if(start_flag == 0){ 	//IDLE mode
 //			/***
 //			printf("nstate: %d, ", IORD(VARSET_BASE, I_VAR_NSTATE));
@@ -402,11 +406,9 @@ int main()
 				checkByte(186); //BA
 				sendTx(IEEE_754_F2INT(time_f));
 				sendTx(err);
-//				sendTx(IEEE_754_F2INT(err_f));
 				sendTx(IEEE_754_F2INT(step_f));
 				checkByte(PD_temp>>8);
 				checkByte(PD_temp);
-//				printf("%f, %d\n", err_f, err);
 			}
 		}
 
@@ -488,66 +490,66 @@ void fog_parameter(alt_u8 *data)
 			uart_value = data[1]<<24 | data[2]<<16 | data[3]<<8 | data[4];
 //			printf("uart_cmd, uart_value: %d, %d\n\n", uart_cmd, uart_value);
 			switch(uart_cmd){
-					case 0: {
+					case MOD_FREQ_ADDR: {
 						IOWR(VARSET_BASE, O_VAR_FREQ, uart_value);
 						break;
 					}
-					case 1: {
+					case MOD_AMP_H_ADDR: {
 						IOWR(VARSET_BASE, O_VAR_AMP_H, uart_value);
 						break;
 					}
-					case 2: {
+					case MOD_AMP_L_ADDR: {
 						IOWR(VARSET_BASE, O_VAR_AMP_L, uart_value);
 						break;
 					}
-					case 3: {
+					case ERR_OFFSET_ADDR: {
 						IOWR(VARSET_BASE, O_VAR_OFFSET, uart_value);
 						break;
 					}
-					case 4: {
+					case POLARITY_ADDR: {
 						IOWR(VARSET_BASE, O_VAR_POLARITY, uart_value);
 						break;
 					}
-					case 5: {
+					case WAIT_CNT_ADDR: {
 						IOWR(VARSET_BASE, O_VAR_WAITCNT, uart_value);
 						break;
 					}
-					case 6: {
+					case ERR_TH_ADDR: {
 						IOWR(VARSET_BASE, O_VAR_ERRTH, uart_value);
 						break;
 					}
-					case 7: {
+					case ERR_AVG_ADDR: {
 						IOWR(VARSET_BASE, O_VAR_AVGSEL, uart_value);
 						break;
 					}
-					case 8: {
+					case TIMER_RST_ADDR: {
 						IOWR(VARSET_BASE, O_VAR_TIMER_RST, 1);
 						IOWR(VARSET_BASE, O_VAR_TIMER_RST, 0);
 						break;
 					}
-					case 9: {
+					case GAIN1_ADDR: {
 						IOWR(VARSET_BASE, O_VAR_GAIN1_SEL, uart_value);
 						break;
 					}
-					case 10: {
+					case GAIN2_ADDR: {
 						IOWR(VARSET_BASE, O_VAR_GAIN2_SEL, uart_value);
 						break;
 					}
-					case 11: {
+					case FB_ON_ADDR: {
 						IOWR(VARSET_BASE, O_VAR_FB_ON, uart_value);
 						break;
 					}
-					case 12: {
+					case CONST_STEP_ADDR: {
 						IOWR(VARSET_BASE, O_VAR_CONST_STEP, uart_value);
 						break;
 					}
-					case 13: {
+					case FPGA_Q_ADDR: {
 						IOWR(VARSET_BASE, O_VAR_KAL_Q, uart_value);
 			//			kal_Q = uart_value;
 			//			printf("kal_Q: %d\n", kal_Q);
 						break;
 					}
-					case 14: {
+					case FPGA_R_ADDR: {
 						IOWR(VARSET_BASE, O_VAR_KAL_R, uart_value);
 			//			kal_R = uart_value;
 			//			printf("kal_R: %d\n", kal_R);
@@ -587,9 +589,14 @@ void fog_parameter(alt_u8 *data)
 
 						break;
 					}
-					case 98: delay_time = uart_value; break;
-					case 99: start_flag = uart_value; break;
-					case 101: {
+					case DATA_INT_DELAY_ADDR: delay_time = uart_value; break;
+					case DATA_OUT_START_ADDR: start_flag = uart_value; break;
+					case FPGA_WAKEUP_ADDR:{
+						checkByte(0x01);
+						checkByte(0x0A);// \n
+						break;
+					}
+					case FPGA_VERSION_ADDR: {
 
 						int i=0;
 //						printf("%c\n",version[i]);
@@ -600,7 +607,7 @@ void fog_parameter(alt_u8 *data)
 							checkByte(fpga_version[i]);
 						}
 						*/
-						while(version[i++] != 0xa) {
+						while(version[i++] != 0xa) { // \n
 //							printf("%c\n",version[i]);
 							checkByte(version[i]);
 						}
@@ -609,12 +616,6 @@ void fog_parameter(alt_u8 *data)
 					case DUMP_PARAMETERS:{
 
 						dump_fog_parameter();
-//						printf("%f\n", Tmin_f);
-//						printf("%f\n", T2_f);
-//						printf("%f\n", T3_f);
-//						printf("%f\n", T4_f);
-//						printf("%f\n", Tmax_f);
-
 						for (int i = 0; i < PARAMETER_CNT; i++) {
 							strcat(fog_para_dump, my_para[i].str);
 							if(i<PARAMETER_CNT-1) strcat(fog_para_dump, ", ");
