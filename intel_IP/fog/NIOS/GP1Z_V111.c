@@ -382,9 +382,9 @@ int main()
 //			printf("freq: %d\n", reg1);
 //			printf("freq: %d\n", reg2);
 //			printf("%.1f, %.11f\n ", PD_temp_f, my_SF.float_val);
-//			printf("%x\n", PD_temp>>8);
-//			printf("%x\n", PD_temp);
-//			usleep(300000);
+			printf("%x\n", PD_temp>>8);
+			printf("%x\n", PD_temp);
+			usleep(300000);
 		}
 		else if(start_flag == 1) { //INT mode
 
