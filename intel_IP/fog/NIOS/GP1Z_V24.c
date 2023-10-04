@@ -24,7 +24,8 @@
 
 
 
-#define FPGA_VERSION "FPGA-GP-PLL100-11"
+#define FPGA_VERSION "FPGA-GP-PLL100-24"
+#define NMEA_HEADER "YAW,"
 
 #define TRIGGER_IN_BASE 0x2002160
 #define FLOAT_1 0x3f800000
@@ -131,8 +132,9 @@
 #define POLYNOMIAL 0x07
 
 /*** MV ***/
-#define MV_NUM 2
+#define MV_NUM 16
 #define COE_TIMER 0.0001
+#define DELTA_TIME 0.01
 
 const alt_u8 KVH_HEADER[4] = {0xFE, 0x81, 0xFF, 0x55};
 const alt_u8 cmd_header[2] = {0xAB, 0xBA};
@@ -164,14 +166,18 @@ alt_32 MV_Update(alt_32, alt_u8);
 void update_temperature(void);
 float IEEE_754_INT2F(int);
 int IEEE_754_F2INT(float);
+void send_uart_string(const char *);
 
 volatile alt_u8 uart_complete;
+float  heading_angle = 0.0;
 volatile alt_32 SF0, SF1, SF2, SF3, SF4;
 volatile alt_32 SF5, SF6, SF7, SF8, SF9;
 volatile alt_32 TMIN, TMAX;
 float Tmin_f, T1_f, T2_f, T3_f, T4_f, T5_f, T6_f, T7_f, Tmax_f;
 alt_u8 version[50] = FPGA_VERSION;
-
+float last_time=0, delta_f=0;
+//alt_u8 get_offset_flag = 0;
+//alt_32 step_offset=0,  step_offset_sum=0;
 
 
 typedef union
@@ -302,6 +308,7 @@ int main()
 	float err_f, time_f, step_f;
 	alt_u32 sdram_var, sdram_var2;
 	alt_u8 sdram_0, sdram_1, sdram_2, sdram_3;
+	char heading_angle_str[6];
 
 //	alt_32 reg1, reg2;
 
@@ -344,6 +351,16 @@ int main()
 		time = IORD(VARSET_BASE, I_VAR_TIMER);
 		err = IORD(VARSET_BASE, I_VAR_ERR);
 		step = IORD(VARSET_BASE, I_VAR_STEP_ORI);
+//		if(get_offset_flag==1)
+//		{
+//			get_offset_flag = 0;
+//			for(int i=0; i<128; i++) step_offset_sum += IORD(VARSET_BASE, I_VAR_STEP_ORI);
+//			step_offset = step_offset_sum >> 7;
+//			usleep(10000);
+//		}
+//		step = IORD(VARSET_BASE, I_VAR_STEP_ORI) - step_offset;
+
+		step = MV_Update(step, 4);
 		PD_temp = ds1775_9B_readTemp_d();
 
 		PDTemp_f.float_val = (float)(PD_temp>>8) + (float)((PD_temp&0xFF)>>7)*0.5;
@@ -385,6 +402,7 @@ int main()
 //			printf("%x\n", PD_temp>>8);
 //			printf("%x\n", PD_temp);
 //			usleep(300000);
+			heading_angle = 0;
 		}
 		else if(start_flag == 1) { //INT mode
 
@@ -402,13 +420,30 @@ int main()
 		else if(start_flag == 2) { //EXT mode
 			if(trigger_sig) {
 				trigger_sig = 0;
+
+//				heading_angle -= step_f*DELTA_TIME;
+				delta_f = time_f-last_time;
+				heading_angle -= step_f*delta_f;
+
+				if(heading_angle >= 360.0) heading_angle -= 360.0;
+				else if(heading_angle < 0.0) heading_angle += 360.0;
+
+				sprintf(heading_angle_str, "%6.2f", heading_angle);
+//				sprintf(heading_angle_str, "%5.3f", step_f);
+
+
 				checkByte(171); //AB
 				checkByte(186); //BA
-				sendTx(IEEE_754_F2INT(time_f));
-				sendTx(err);
-				sendTx(IEEE_754_F2INT(step_f));
-				checkByte(PD_temp>>8);
-				checkByte(PD_temp);
+				send_uart_string(NMEA_HEADER); //4
+				send_uart_string(heading_angle_str); //6
+				last_time = time_f;
+//				sendTx(IEEE_754_F2INT(time_f));
+//				sendTx(err);
+//				sendTx(IEEE_754_F2INT(step_f));
+//				checkByte(PD_temp>>8);
+//				checkByte(PD_temp);
+//				printf("%.5f\n", step_f);
+//				printf("%.3f\n", delta_f);
 			}
 		}
 
@@ -440,6 +475,13 @@ int main()
 	}
 
   return 0;
+}
+
+void send_uart_string(const char *str) {
+    while (*str) {
+    	checkByte(*str);
+        str++;
+    }
 }
 
 void checkByte(alt_u8 data)
@@ -488,7 +530,7 @@ void fog_parameter(alt_u8 *data)
 			uart_complete = 0;
 			uart_cmd = data[0];
 			uart_value = data[1]<<24 | data[2]<<16 | data[3]<<8 | data[4];
-			printf("uart_cmd, uart_value: %d, %d\n\n", uart_cmd, uart_value);
+//			printf("uart_cmd, uart_value: %d, %d\n\n", uart_cmd, uart_value);
 			switch(uart_cmd){
 					case MOD_FREQ_ADDR: {
 						IOWR(VARSET_BASE, O_VAR_FREQ, uart_value);
@@ -590,7 +632,16 @@ void fog_parameter(alt_u8 *data)
 						break;
 					}
 					case DATA_INT_DELAY_ADDR: delay_time = uart_value; break;
-					case DATA_OUT_START_ADDR: start_flag = uart_value; break;
+					case DATA_OUT_START_ADDR: {
+						start_flag = uart_value;
+						delta_f = 0;
+						last_time = 0;
+//						get_offset_flag = 1;
+						/**reset FPGA time*/
+						IOWR(VARSET_BASE, O_VAR_TIMER_RST, 1);
+						IOWR(VARSET_BASE, O_VAR_TIMER_RST, 0);
+						break;
+					}
 					case FPGA_WAKEUP_ADDR:{
 						checkByte(0x01);
 						checkByte(0x0A);// \n
