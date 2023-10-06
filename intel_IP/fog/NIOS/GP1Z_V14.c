@@ -497,7 +497,7 @@ void fog_parameter(alt_u8 *data)
 			uart_complete = 0;
 			uart_cmd = data[0];
 			uart_value = data[1]<<24 | data[2]<<16 | data[3]<<8 | data[4];
-			printf("uart_cmd, uart_value: %d, %d\n\n", uart_cmd, uart_value);
+//			printf("uart_cmd, uart_value: %d, %d\n\n", uart_cmd, uart_value);
 			switch(uart_cmd){
 					case MOD_FREQ_ADDR: {
 						IOWR(VARSET_BASE, O_VAR_FREQ, uart_value);
