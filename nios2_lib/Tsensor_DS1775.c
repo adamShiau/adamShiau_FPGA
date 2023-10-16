@@ -55,7 +55,7 @@ alt_16 ds1775_9B_readTemp_d()
 float ds1775_9B_readTemp_f()
 {
 	float temp;
-	alt_u8 rd_data_H, rd_data_L;
+	alt_8 rd_data_H, rd_data_L;
 	
 	IIC_Start();
 	IIC_Send_Byte(DEV_ADDR|DEV_R); //slace address 0x90@W, 0x91@R
@@ -63,9 +63,8 @@ float ds1775_9B_readTemp_f()
 	rd_data_H = IIC_Read_Byte(ACK);
 	rd_data_L = IIC_Read_Byte(NACK);
 	IIC_Stop();
-//	printf("%x, ", rd_data_H);
-//	printf("%x\n", rd_data_L);
-	temp = (float)((alt_8)rd_data_H) + ((float)(rd_data_L>>7))*0.5;
+
+	temp = (float)rd_data_H + (float)(rd_data_L>>7)*0.5;
 
 	return temp;
 }

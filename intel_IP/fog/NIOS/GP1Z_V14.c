@@ -781,6 +781,7 @@ void FOG_init()
 	SF8 = FLOAT_1;
 	SF9 = FLOAT_1;
 	SFB = FLOAT_1;
+	sf_b = 0;
 	CUTOFF = FLOAT_650;
 	Tmin_f = -20.0;
 	T1_f = TMIN + 10.0;
