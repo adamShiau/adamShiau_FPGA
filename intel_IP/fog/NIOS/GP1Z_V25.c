@@ -170,7 +170,8 @@ alt_32 MV_Update(alt_32, alt_u8);
 void update_temperature(void);
 float IEEE_754_INT2F(int);
 int IEEE_754_F2INT(float);
-void NMEA_checkSUM(char *, alt_u8, char *);
+//void NMEA_checkSUM(char *, alt_u8, char *);
+void NMEA_checkSUM(char [], alt_u8, char []);
 void send_uart_string(const char *);
 
 volatile alt_u8 uart_complete;
@@ -422,41 +423,6 @@ int main()
 			}
 		}
 
-		else if(start_flag == 4) { //NMEA mode
-			char nmea_temp[10] = "";
-			char heading_angle_str[6];
-			char *check_sum="";
-
-			if(trigger_sig) {
-				trigger_sig = 0;
-
-				delta_f = time_f-last_time;
-				heading_angle -= step_f*delta_f;
-//				heading_angle = 319.87;
-//
-				if(heading_angle >= 360.0) heading_angle -= 360.0;
-				else if(heading_angle < 0.0) heading_angle += 360.0;
-//
-				sprintf(heading_angle_str, "%6.2f", heading_angle);
-				strcat(nmea_temp, NMEA_HEADER);
-				strcat(nmea_temp, heading_angle_str);
-				NMEA_checkSUM(nmea_temp, sizeof(nmea_temp), check_sum);
-
-
-				checkByte(171); //AB
-				checkByte(186); //BA
-				checkByte(0x24); // '$'
-				send_uart_string(nmea_temp); //10
-				checkByte(0x2A); // '*'
-				send_uart_string(check_sum); //2
-				
-//				printf("%s, %d\n", nmea_temp, sizeof(nmea_temp));
-//				printf("%s, %d\n", check_sum, sizeof(check_sum));
-
-				last_time = time_f;
-			}
-		}
-
 		else if(start_flag == 3) { //High Energy Proton test mode
 			if(trigger_sig) {
 
@@ -480,6 +446,40 @@ int main()
 				checkByte(PD_temp);
 			}
 				}
+
+		else if(start_flag == 4) { //NMEA mode
+			char nmea_temp[10] = "";
+			char heading_angle_str[6];
+			char check_sum[2] = "";
+
+			if(trigger_sig) {
+				trigger_sig = 0;
+
+				delta_f = time_f-last_time;
+				heading_angle -= step_f*delta_f;
+//				heading_angle = 123.45;
+
+				if(heading_angle >= 360.0) heading_angle -= 360.0;
+				else if(heading_angle < 0.0) heading_angle += 360.0;
+	//
+				sprintf(heading_angle_str, "%6.2f", heading_angle);
+				strcat(nmea_temp, NMEA_HEADER);
+				strcat(nmea_temp, heading_angle_str);
+
+				NMEA_checkSUM(nmea_temp, sizeof(nmea_temp), check_sum);
+
+	//
+	//
+				checkByte(171); //AB
+				checkByte(186); //BA
+				checkByte(0x24); // '$'
+				send_uart_string(nmea_temp); //10
+				checkByte(0x2A); // '*'
+				send_uart_string(check_sum); //2
+	//
+				last_time = time_f;
+			}
+		}
 //		fog_parameter(readData(cmd_header, 2, &try_cnt, cmd_trailer, 2, &uart_complete));
 		fog_parameter(readData2(cmd_header, 2, &try_cnt, cmd_trailer, 2));
 	}
@@ -487,7 +487,18 @@ int main()
   return 0;
 }
 
-void NMEA_checkSUM(char *data, alt_u8 size, char *rt)
+//void NMEA_checkSUM(char *data, alt_u8 size, char *rt)
+//{
+//	alt_u8 check_sum = 0;
+//	for(int i=0; i<size; i++) check_sum ^= data[i];
+//
+//	sprintf(rt, "%x", check_sum);
+//	printf("%s\n", data);
+//	printf("%s\n", rt);
+//
+//}
+
+void NMEA_checkSUM(char data[10], alt_u8 size, char rt[2])
 {
 	alt_u8 check_sum = 0;
 //	char rt[2];
@@ -686,7 +697,6 @@ void fog_parameter(alt_u8 *data)
 						break;
 					}
 					case DUMP_PARAMETERS:{
-
 						dump_fog_parameter();
 						for (int i = 0; i < PARAMETER_CNT; i++) {
 							strcat(fog_para_dump, my_para[i].str);
