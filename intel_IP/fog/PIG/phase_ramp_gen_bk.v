@@ -83,62 +83,44 @@ always@(posedge i_clk or negedge i_rst_n ) begin
 			o_phaseRamp <= i_mod;
 		end
 		
-//		else if(reg_fb_ON == 32'd1) begin
-//			if(i_rate_trig) begin
-//				reg_ramp_pre <= reg_ramp_pre + i_step; //step signal accumulator
-//			end
-//			else if(i_ramp_trig) begin
-//				reg_ramp <= (reg_ramp_pre >>>reg_gain_sel);
-//			end
-//			else if(i_mod_trig) begin
-//				o_phaseRamp <= reg_ramp + i_mod;
-//			end
-//			else begin
-//				reg_ramp_pre <= reg_ramp_pre;
-//				reg_ramp <= reg_ramp;
-//				o_phaseRamp <= o_phaseRamp;
-//			end
-//		end 
 		else if(reg_fb_ON == 32'd1) begin
-			if(i_mod_trig) begin
+			if(i_rate_trig) begin
 				reg_ramp_pre <= reg_ramp_pre + i_step; //step signal accumulator
+			end
+			else if(i_ramp_trig) begin
 				reg_ramp <= (reg_ramp_pre >>>reg_gain_sel);
+			end
+			else if(i_mod_trig) begin
 				o_phaseRamp <= reg_ramp + i_mod;
 			end
-//			else if(i_ramp_trig) begin
-//				reg_ramp <= (reg_ramp_pre >>>reg_gain_sel);
-//			end
-//			else if(i_mod_trig) begin
-//				o_phaseRamp <= reg_ramp + i_mod;
-//			end
 			else begin
 				reg_ramp_pre <= reg_ramp_pre;
 				reg_ramp <= reg_ramp;
 				o_phaseRamp <= o_phaseRamp;
 			end
 		end 
-//		else if(reg_fb_ON == 32'd2) begin
-//			if(i_rate_trig) begin
-//				reg_ramp_pre <= reg_ramp_pre + i_step; //step signal accumulator
-//			end
-//			else if(i_ramp_trig) begin
-//				reg_ramp <= reg_ramp_pre;
-////				reg_ramp <= (reg_ramp_pre >>>reg_gain_sel);
-//			end
-//			else if(i_mod_trig) begin
-//				o_phaseRamp <= reg_ramp + i_mod;
-//			end
-//			else begin
-//				reg_ramp_pre <= reg_ramp_pre;
-//				reg_ramp <= reg_ramp;
-//				o_phaseRamp <= o_phaseRamp;
-//			end
-//		end 
-		
 		else if(reg_fb_ON == 32'd2) begin
-			if(i_mod_trig) o_phaseRamp <= o_phaseRamp + i_step;
-			else o_phaseRamp <= o_phaseRamp;
-		end
+			if(i_rate_trig) begin
+				reg_ramp_pre <= reg_ramp_pre + i_step; //step signal accumulator
+			end
+			else if(i_ramp_trig) begin
+				reg_ramp <= reg_ramp_pre;
+//				reg_ramp <= (reg_ramp_pre >>>reg_gain_sel);
+			end
+			else if(i_mod_trig) begin
+				o_phaseRamp <= reg_ramp + i_mod;
+			end
+			else begin
+				reg_ramp_pre <= reg_ramp_pre;
+				reg_ramp <= reg_ramp;
+				o_phaseRamp <= o_phaseRamp;
+			end
+		end 
+		
+//		else if(reg_fb_ON == 32'd2) begin
+//			if(i_mod_trig) o_phaseRamp <= o_phaseRamp + i_step;
+//			else o_phaseRamp <= o_phaseRamp;
+//		end
 		else begin
 			reg_ramp_pre <= reg_ramp_pre;
 			reg_ramp <= reg_ramp;
