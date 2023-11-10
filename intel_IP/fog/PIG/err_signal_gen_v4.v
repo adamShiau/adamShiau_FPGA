@@ -48,9 +48,6 @@ localparam ERR_GEN_DLY = 	4'd8;
 localparam RATE_SYNC_GEN = 	4'd9;
 localparam RAMP_SYNC_GEN = 	4'd10;
 localparam WAIT_NEXT = 		4'd11; 
-localparam RATE_SYNC_GEN_L = 	4'd12;
-localparam RAMP_SYNC_GEN_L = 	4'd13;
-localparam WAIT_NEXT_L = 		4'd14; 
 
 //MV select
 localparam MV_1 = 		0;
@@ -181,7 +178,10 @@ always@(posedge i_clk or negedge i_rst_n) begin
 			end
 
 			WAIT_L_STATE: begin
+
 			end
+
+			
 
 			WAIT_STABLE_L: begin				
 				if(r_stable_cnt != 32'd0) r_stable_cnt <= r_stable_cnt - 1'b1;
@@ -201,19 +201,6 @@ always@(posedge i_clk or negedge i_rst_n) begin
 					r_adc_L <= (r_adc_sum >>> r_avg_sel); 
 					r_acq_done <= 1'b1;
 				end
-			end
-
-			RATE_SYNC_GEN_L: begin
-				o_rate_sync <= 1'b1;
-			end
-
-			RAMP_SYNC_GEN_L: begin
-				o_ramp_sync <= 1'b1;
-				o_rate_sync <= 1'b0;
-			end
-
-			WAIT_NEXT_L: begin
-				o_ramp_sync <= 1'b0;
 			end
 			
 			WAIT_H_STATE: begin
@@ -309,19 +296,7 @@ always@(*) begin
 			ACQ_L: begin
 				if(r_acq_done)
 					nstate = WAIT_H_STATE;
-				else nstate = RATE_SYNC_GEN_L;
-			end
-
-			RATE_SYNC_GEN_L: begin
-				nstate = RAMP_SYNC_GEN_L;
-			end
-
-			RAMP_SYNC_GEN_L: begin
-				nstate = WAIT_NEXT_L;
-			end
-
-			WAIT_NEXT_L: begin
-				nstate = WAIT_H_STATE;
+				else nstate = ACQ_L;
 			end
 			
 			WAIT_H_STATE: begin
