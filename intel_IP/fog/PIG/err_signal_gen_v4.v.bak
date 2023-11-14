@@ -127,10 +127,10 @@ always@(posedge i_clk or negedge i_rst_n) begin
             MV_16: begin avg_mv_cnt <= 32'd16;end 
             MV_32: begin avg_mv_cnt <= 32'd32;end
             MV_64: begin avg_mv_cnt <= 32'd64;end
-			MV_128: begin avg_mv_cnt <= 32'd128;end
-			MV_256: begin avg_mv_cnt <= 32'd256;end
-			MV_512: begin avg_mv_cnt <= 32'd512;end
-			MV_1024: begin avg_mv_cnt <= 32'd1024;end
+			// MV_128: begin avg_mv_cnt <= 32'd64;end
+			// MV_256: begin avg_mv_cnt <= 32'd64; shift <= MV_64; end
+			// MV_512: begin avg_mv_cnt <= 32'd64; shift <= MV_64; end
+			// MV_1024: begin avg_mv_cnt <= 32'd64; shift <= MV_64; end
         endcase
     end
 end

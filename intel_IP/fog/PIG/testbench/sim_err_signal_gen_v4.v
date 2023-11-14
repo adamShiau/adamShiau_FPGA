@@ -45,6 +45,7 @@ module sim_err_signal_gen_v4
 	output [31:0] o_stable_cnt
 );
 
+/***
 modulation_gen_v3 i1 (
 // port map - connection between master ports and signals/registers   
 	.i_amp_H(i_amp_H),
@@ -60,6 +61,20 @@ modulation_gen_v3 i1 (
 	.o_stepTrig(o_stepTrig),
 	.o_stepTrig_dly1(o_stepTrig_dly1),
 	.o_stepTrig_dly2(o_stepTrig_dly2)
+);
+***/
+
+modulation_gen_v2 i1 (
+// port map - connection between master ports and signals/registers   
+	.i_amp_H(i_amp_H),
+	.i_amp_L(i_amp_L),
+	.i_clk(i_clk),
+	.i_freq_cnt(i_freq_cnt),
+	.i_rst_n(i_rst_n),
+	// .o_SM(o_SM),
+	.o_mod_out(o_mod_out),
+	.o_status(o_status),
+	.o_stepTrig(o_stepTrig)
 );
 
 err_signal_gen_v4 i2 (

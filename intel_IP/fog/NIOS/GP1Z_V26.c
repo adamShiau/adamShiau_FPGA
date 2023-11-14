@@ -24,7 +24,7 @@
 
 
 
-#define FPGA_VERSION "FPGA-GP-PLL100-25-2"
+#define FPGA_VERSION "FPGA-GP-PLL100-26"
 #define NMEA_HEADER "YAW,"
 
 #define TRIGGER_IN_BASE 0x2002160
@@ -149,7 +149,8 @@ static alt_u16 try_cnt;
 float last_time=0, delta_f=0;
 float  heading_angle = 0.0;
 //alt_32 kal_p, kal_x, kal_Q, kal_R;
-alt_32 mv_data_arr[MV_NUM], mv_ptr, mv_sum;
+alt_32 mv_ptr;
+float mv_data_arr[MV_NUM], mv_sum;
 
 //void IRQ_UART_ISR(void);
 //void IRQ_init(void);
@@ -166,7 +167,8 @@ void Set_CloseLoop_mode();
 alt_32 Kal_Update(alt_32);
 void Kal_Predict(alt_32, alt_32);
 void MV_Init(void);
-alt_32 MV_Update(alt_32, alt_u8);
+//float MV_Update(float, alt_u8);
+float MV_Update(float);
 void update_temperature(void);
 float IEEE_754_INT2F(int);
 int IEEE_754_F2INT(float);
@@ -357,10 +359,10 @@ int main()
 		PDTemp_f.float_val = (float)(PD_temp>>8) + (float)((PD_temp&0xFF)>>7)*0.5;
 		judge_SF(PDTemp_f.float_val);
 		time_f = (float)time*COE_TIMER;
-		step_f = (float)step*my_SF.float_val + sf_b;
+//		step_f = (float)step*my_SF.float_val + sf_b;
+		step_f = (float)step*MV_Update(my_SF.float_val) + sf_b;
 		if(step_f >= cutoff_p)step_f = cutoff_p;
 		else if(step_f <= cutoff_n)step_f = cutoff_n;
-//		err_f = (float)err*my_SF.float_val;
 		if(start_flag == 0){ 	//IDLE mode
 //			/***
 //			printf("nstate: %d, ", IORD(VARSET_BASE, I_VAR_NSTATE));
@@ -757,14 +759,14 @@ void MV_Init(void)
 	mv_sum = 0;
 }
 
-alt_32 MV_Update(alt_32 z, alt_u8 shift)
+float MV_Update(float z)
 {
 	mv_sum -= mv_data_arr[mv_ptr];
 	mv_data_arr[mv_ptr++] = z;
 	mv_sum += z;
-//	mv_ptr++;
 	if(mv_ptr==MV_NUM) mv_ptr = 0;
-	return (mv_sum >> shift);
+//	return (mv_sum >> shift);
+	return (mv_sum/(float)MV_NUM);
 }
 
 //alt_32 Kal_Update(alt_32 z)
