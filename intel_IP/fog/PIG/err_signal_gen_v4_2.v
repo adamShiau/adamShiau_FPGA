@@ -1,11 +1,11 @@
 /*** 
-err_signal_gen_v4.1 created in 05/19/2023
-修改自 err_signal_gen_v4
-在ACQ_L 與 ACQ_H 兩種state裡ADC取值不平均只取一個adc值
+err_signal_gen_v3 created in 03/20/2023
+修改自 err_signal_gen_v3
+改寫state machine邏輯
 ***/
 
-module err_signal_gen_v4_1
-#(parameter ADC_BIT = 14)
+module err_signal_gen_v4_2
+#(parameter ADC_BIT = 32)
 (
 input i_clk,
 input i_rst_n,
@@ -108,7 +108,8 @@ always@(posedge i_clk or negedge i_rst_n) begin
 		r_avg_sel <= i_avg_sel;
 		// r_freq_cnt <= i_wait_cnt;
 		// r_adc <= adc;
-		r_adc <= {{24{i_adc_data[ADC_BIT-1]}}, i_adc_data[ADC_BIT-1:0]}; //sign bit extension to 32 bit
+		// r_adc <= {{24{i_adc_data[ADC_BIT-1]}}, i_adc_data[ADC_BIT-1:0]}; //sign bit extension to 32 bit
+		r_adc <= i_adc_data;
 		r_trig <= i_trig;
 	end
 end
@@ -127,10 +128,10 @@ always@(posedge i_clk or negedge i_rst_n) begin
             MV_16: begin avg_mv_cnt <= 32'd16;end 
             MV_32: begin avg_mv_cnt <= 32'd32;end
             MV_64: begin avg_mv_cnt <= 32'd64;end
-			// MV_128: begin avg_mv_cnt <= 32'd64;end
-			// MV_256: begin avg_mv_cnt <= 32'd64; shift <= MV_64; end
-			// MV_512: begin avg_mv_cnt <= 32'd64; shift <= MV_64; end
-			// MV_1024: begin avg_mv_cnt <= 32'd64; shift <= MV_64; end
+			MV_128: begin avg_mv_cnt <= 32'd128;end
+			MV_256: begin avg_mv_cnt <= 32'd256;end
+			MV_512: begin avg_mv_cnt <= 32'd512;end
+			MV_1024: begin avg_mv_cnt <= 32'd1024;end
         endcase
     end
 end
@@ -198,8 +199,7 @@ always@(posedge i_clk or negedge i_rst_n) begin
 					r_adc_sum <= r_adc_sum + r_adc;
 				end
 				else begin
-					// r_adc_L <= (r_adc_sum >>> r_avg_sel); 
-					r_adc_L <= r_adc;
+					r_adc_L <= (r_adc_sum >>> r_avg_sel); 
 					r_acq_done <= 1'b1;
 				end
 			end
@@ -224,8 +224,7 @@ always@(posedge i_clk or negedge i_rst_n) begin
 					r_adc_sum <= r_adc_sum + r_adc;
 				end
 				else begin
-					// r_adc_H <= (r_adc_sum >>> r_avg_sel) + r_err_offset; 
-					r_adc_H <= r_adc;
+					r_adc_H <= (r_adc_sum >>> r_avg_sel) + r_err_offset; 
 					r_acq_done <= 1'b1;
 				end
 			end
