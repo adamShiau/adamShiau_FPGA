@@ -36,10 +36,7 @@ always@(posedge i_clk or negedge i_rst_n) begin
     else cstate <= nstate;
 end
 
-
 /*** state generator ***/
-///***
-
 always@(*) begin
 	if(~i_rst_n) begin
 		nstate = WAIT_SYNC;
@@ -49,6 +46,9 @@ always@(*) begin
 		WAIT_SYNC: begin
 			if(SYNC) nstate = GENERATE_PULSE;
 		end
+
+		// CHECK_NUMBER: begin
+		// end
 
 		GENERATE_PULSE: begin
 			if(pulse_number == 32'd0) nstate = WAIT_SYNC;
@@ -60,9 +60,7 @@ always@(*) begin
 	end
 
 end
-//***/
 
-///***
 always@(posedge i_clk or negedge i_rst_n) begin
 	if(~i_rst_n) begin
 		pulse_number <= PULSE_NUM;
@@ -82,9 +80,9 @@ always@(posedge i_clk or negedge i_rst_n) begin
 		// end
 
 		GENERATE_PULSE: begin
-			if(pulse_number != 32'd0) begin
-			
-				if(pulse_cnt != 32'd0) begin
+			if(pulse_number != MIN_NUM) begin
+				// pulse_number <= pulse_number - 1'b1;
+				if(pulse_cnt != MIN_CNT) begin
 					pulse_cnt <= pulse_cnt - 1'b1;
 					pps_trig_out <= LOW;
 					
@@ -97,7 +95,6 @@ always@(posedge i_clk or negedge i_rst_n) begin
 					pps_trig_out <= LOW;
 					pulse_number <= pulse_number - 1'b1;
 				end
-				
 			end
 			else begin
 				
@@ -108,6 +105,5 @@ always@(posedge i_clk or negedge i_rst_n) begin
 		endcase
 	end
 end
-//***/
 
 endmodule
