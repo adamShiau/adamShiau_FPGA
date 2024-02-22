@@ -135,10 +135,90 @@ always@(posedge i_clk or negedge i_rst_n) begin
     end
 end
 
-/*** next state logic ***/
+/*** state register ***/
 always@(posedge i_clk or negedge i_rst_n) begin
     if(!i_rst_n) cstate <= RST;
     else cstate <= nstate;
+end
+
+/*** next state generator ***/
+always@(*) begin
+	if(~i_rst_n) begin
+		nstate = RST;
+	end
+
+	else begin	
+		case(cstate)
+			RST: begin
+				if(r_status == `HIGH) nstate = WAIT_L_STATE;
+				else nstate = RST;
+			end
+
+			WAIT_L_STATE: begin
+				if(r_trig) nstate = WAIT_STABLE_L;
+				else nstate = WAIT_L_STATE;
+			end
+
+			WAIT_STABLE_L: begin
+				if(r_stable) begin
+					nstate = ACQ_L;
+				end
+				else nstate = WAIT_STABLE_L;
+			end
+
+			ACQ_L: begin
+				if(r_acq_done)
+					nstate = WAIT_H_STATE;
+				else nstate = ACQ_L;
+			end
+			
+			WAIT_H_STATE: begin
+				if(r_trig) nstate = WAIT_STABLE_H;
+				else nstate = WAIT_H_STATE;
+			end
+			
+			WAIT_STABLE_H: begin
+				if(r_stable) begin
+					nstate = ACQ_H;
+				end
+				else nstate = WAIT_STABLE_H;
+			end
+
+			ACQ_H: begin
+				if(r_acq_done) begin
+					nstate = ERR_GEN;
+				end		
+				else nstate = ACQ_H;
+			end
+
+			ERR_GEN: begin
+				nstate = ERR_GEN_DLY;
+			end
+			
+			ERR_GEN_DLY: begin
+				nstate = RATE_SYNC_GEN;
+			end
+			
+			RATE_SYNC_GEN: begin
+				nstate = RAMP_SYNC_GEN;
+			end
+			
+			RAMP_SYNC_GEN: begin
+				nstate = WAIT_NEXT;
+			end
+
+			WAIT_NEXT: begin
+				nstate = WAIT_L_STATE;
+			end
+			
+			default: nstate = RST;
+
+		endcase
+		
+		// if(o_pol_change) nstate = RST;
+		
+	end
+
 end
 
 /*** output logic ***/
@@ -267,86 +347,7 @@ always@(posedge i_clk or negedge i_rst_n) begin
 		
 end
 	
-/*** state generator ***/
 
-always@(*) begin
-	if(~i_rst_n) begin
-		nstate = RST;
-	end
-
-	else begin	
-		case(cstate)
-			RST: begin
-				if(r_status == `HIGH) nstate = WAIT_L_STATE;
-				else nstate = RST;
-			end
-
-			WAIT_L_STATE: begin
-				if(r_trig) nstate = WAIT_STABLE_L;
-				else nstate = WAIT_L_STATE;
-			end
-
-			WAIT_STABLE_L: begin
-				if(r_stable) begin
-					nstate = ACQ_L;
-				end
-				else nstate = WAIT_STABLE_L;
-			end
-
-			ACQ_L: begin
-				if(r_acq_done)
-					nstate = WAIT_H_STATE;
-				else nstate = ACQ_L;
-			end
-			
-			WAIT_H_STATE: begin
-				if(r_trig) nstate = WAIT_STABLE_H;
-				else nstate = WAIT_H_STATE;
-			end
-			
-			WAIT_STABLE_H: begin
-				if(r_stable) begin
-					nstate = ACQ_H;
-				end
-				else nstate = WAIT_STABLE_H;
-			end
-
-			ACQ_H: begin
-				if(r_acq_done) begin
-					nstate = ERR_GEN;
-				end		
-				else nstate = ACQ_H;
-			end
-
-			ERR_GEN: begin
-				nstate = ERR_GEN_DLY;
-			end
-			
-			ERR_GEN_DLY: begin
-				nstate = RATE_SYNC_GEN;
-			end
-			
-			RATE_SYNC_GEN: begin
-				nstate = RAMP_SYNC_GEN;
-			end
-			
-			RAMP_SYNC_GEN: begin
-				nstate = WAIT_NEXT;
-			end
-
-			WAIT_NEXT: begin
-				nstate = WAIT_L_STATE;
-			end
-			
-			default: nstate = RST;
-
-		endcase
-		
-		// if(o_pol_change) nstate = RST;
-		
-	end
-
-end
 
 
 endmodule
