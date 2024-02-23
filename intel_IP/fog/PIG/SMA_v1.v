@@ -65,7 +65,7 @@ always@(posedge i_clk or negedge i_rst_n) begin
 end
 
 // integer idx;
-always @(posedge i_clk or posedge i_rst_n) begin
+always @(posedge i_clk or negedge i_rst_n) begin
     if (~i_rst_n) begin
         sum_reg <= 0;
         count_reg <= 0;
@@ -75,10 +75,18 @@ always @(posedge i_clk or posedge i_rst_n) begin
     end 
 	else begin
 		if(i_update_strobe) begin
+			if(count_reg==N) begin
+				count_reg <= 0;
+				// sum_reg <= sum_reg + i_data - data_reg[count_reg];
+				// data_reg[count_reg] <= i_data;
+			end
+			else begin
+				count_reg <= count_reg + 1;
+				// sum_reg <= sum_reg + i_data - data_reg[count_reg];
+				// data_reg[count_reg] <= i_data;
+			end
 			sum_reg <= sum_reg + i_data - data_reg[count_reg];
 			data_reg[count_reg] <= i_data;
-			if(count_reg==N) 
-			count_reg <= count_reg + 1;
 		end
 		else begin
 			sum_reg <= sum_reg;
