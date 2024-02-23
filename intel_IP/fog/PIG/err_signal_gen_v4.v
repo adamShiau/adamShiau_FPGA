@@ -108,7 +108,7 @@ always@(posedge i_clk or negedge i_rst_n) begin
 		r_avg_sel <= i_avg_sel;
 		// r_freq_cnt <= i_wait_cnt;
 		// r_adc <= adc;
-		r_adc <= {{24{i_adc_data[ADC_BIT-1]}}, i_adc_data[ADC_BIT-1:0]}; //sign bit extension to 32 bit
+		r_adc <= {{18{i_adc_data[ADC_BIT-1]}}, i_adc_data[ADC_BIT-1:0]}; //sign bit extension to 32 bit
 		r_trig <= i_trig;
 	end
 end
