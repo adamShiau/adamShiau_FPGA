@@ -41,9 +41,9 @@ rst_n = 1;
 // i_meas = 14'd1000;
 // #1000;
 
-for (i=0; i<100000; i=i+1) begin
-	i_meas = i_meas + 10;
-	#10;
+for (i=0; i<100; i=i+1) begin
+	i_meas = i_meas + 500;
+	#100;
 end
 
 $stop;
