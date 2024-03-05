@@ -135,7 +135,7 @@
 #define POLYNOMIAL 0x07
 
 /*** MV ***/
-#define MV_NUM 8
+#define MV_NUM 500
 #define COE_TIMER 0.0001
 
 const alt_u8 KVH_HEADER[4] = {0xFE, 0x81, 0xFF, 0x55};
@@ -149,7 +149,7 @@ static alt_u16 try_cnt;
 float last_time=0, delta_f=0;
 float  heading_angle = 0.0;
 //alt_32 kal_p, kal_x, kal_Q, kal_R;
-alt_32 mv_ptr;
+alt_32 mv_ptr, mv_ptr_front;
 float mv_data_arr[MV_NUM], mv_sum;
 
 //void IRQ_UART_ISR(void);
@@ -757,15 +757,29 @@ void MV_Init(void)
 {
 	for (int i=0; i<MV_NUM; i++) mv_data_arr[i] = 0;
 	mv_ptr = 0;
+	mv_ptr_front = 0;
 	mv_sum = 0;
 }
 
 float MV_Update(float z)
 {
-	mv_sum -= mv_data_arr[mv_ptr];
-	mv_data_arr[mv_ptr++] = z;
 	mv_sum += z;
-	if(mv_ptr==MV_NUM) mv_ptr = 0;
+	if (mv_ptr < MV_NUM) {
+		mv_data_arr[mv_ptr++] = z;
+	}
+	else {
+		mv_sum -= mv_data_arr[mv_ptr_front];
+//		sum -= window[window_front];
+		mv_data_arr[mv_ptr_front] = z;
+//		window[window_front] = data;
+		mv_ptr_front = (mv_ptr_front + 1) % MV_NUM;
+//		window_front = (window_front + 1) % MAX_WINDOW_SIZE;
+	}
+
+//	mv_sum -= mv_data_arr[mv_ptr];
+//	mv_data_arr[mv_ptr++] = z;
+//	mv_sum += z;
+//	if(mv_ptr==MV_NUM) mv_ptr = 0;
 //	return (mv_sum);
 	return (mv_sum/(float)MV_NUM);
 }

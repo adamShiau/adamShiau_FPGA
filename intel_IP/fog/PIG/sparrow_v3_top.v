@@ -167,7 +167,7 @@ reg [31:0] r_adc, r_adc2;
 
 
 assign DAC1 =  o_phaseRamp[15:0];
-// assign DAC2 =  ~o_phaseRamp[15:0];
+assign DAC2 =  ~o_phaseRamp[15:0];
 
 
 assign DAC_RST = 1'b0;
@@ -253,6 +253,60 @@ err_signal_gen_v4 err_signal_gen_inst(
 );
 //***/
 
+/***
+err_signal_gen_v5 err_signal_gen_inst(
+	.i_clk(DAC_CLK),
+	.i_rst_n(locked),
+	.i_status(o_status),
+	.i_polarity(o_var_polarity),
+	.i_trig(o_stepTrig), 
+//	.i_trig(r_stepTrig), 
+	.i_wait_cnt(o_var_waitCnt),
+	// .i_wait_cnt(32'd65),
+	.i_err_offset(o_var_offset),
+	.i_adc_data(ADC_D1),
+//	.i_adc_data(filter_adc),
+	.i_avg_sel(o_var_errAvg),
+	.o_err(o_err),
+	.o_step_sync(o_step_sync),
+	.o_step_sync_dly(o_step_sync_dly),
+	.o_rate_sync(o_rate_sync),
+	.o_ramp_sync(o_ramp_sync),
+	.o_adc(o_adc),
+	.o_adc_sum(),
+	// .o_change(),
+	.o_cstate(o_cstate),
+//	.o_adc_new(o_adc_new),
+//	.o_flip_flag(),
+	.o_nstate(o_nstate),
+//	.o_adc_old(o_adc_old)
+);
+***/
+
+
+
+/***
+feedback_step_gen_v3 fb_step_gen_inst(
+	.i_clk(DAC_CLK),
+	.i_const_step(o_var_const_step),
+	.i_err(o_err),
+//	.i_err(r_kal_out),
+	.i_fb_ON(o_var_fb_ON),
+	.i_gain_sel(o_var_gainSel_step),
+	.i_rst_n(locked),
+	.i_trig(o_step_sync),
+	.i_trig_dly(o_step_sync_dly),
+	.o_fb_ON(i_var_fb_on),
+	.o_gain_sel(),
+	.o_gain_sel2(),
+	.o_step(o_step),
+	.o_step_pre(),
+	.o_status(),
+	.o_change(),
+	.o_step_init() 
+);
+***/
+
 ///***
 feedback_step_gen_v4 fb_step_gen_inst(
 	.i_clk(DAC_CLK),
@@ -275,28 +329,6 @@ feedback_step_gen_v4 fb_step_gen_inst(
 );
 //***/
 
-// SMA_v1 sam_inst(
-// 	.i_clk(DAC_CLK),
-// 	.i_rst_n(locked),
-// 	.i_update_strobe(o_rate_sync),
-// 	.i_window_sel(32'd10),
-// 	.i_data(o_step),
-// 	.o_data(i_var_step_ori)
-// );
-
-// Kalman_filter_Intel_PL_v2 
-// #(.ADC_BIT(32))
-// kal_inst
-// (
-// 	.i_clk(DAC_CLK),
-// 	.i_rst_n(locked),
-// 	.i_meas(o_step),
-// 	.i_kal_Q(1), 
-// 	.i_kal_R(1),
-// 	.x_out(i_var_step_ori), 
-// 	.p_out()
-// );
-
 ///***
 phase_ramp_gen phase_ramp_gen_inst(
 	.i_clk(DAC_CLK),
@@ -317,6 +349,28 @@ phase_ramp_gen phase_ramp_gen_inst(
 	.o_ramp_init()
 );
 //***/
+
+/***
+
+phase_ramp_gen_v3 phase_ramp_gen_inst(
+	.i_clk(DAC_CLK),
+	.i_fb_ON(o_var_fb_ON),
+	.i_gain_sel(o_var_gainSel_ramp),
+	.i_mod(o_mod_out),
+	.i_rst_n(locked),
+	.i_step(o_step),
+	.i_rate_trig(o_rate_sync),
+	.i_ramp_trig(o_ramp_sync),
+	.i_mod_trig(o_stepTrig),
+	// .i_mod_trig(r_stepTrig),
+	.o_change(),
+	.o_gain_sel(),
+	.o_gain_sel2(),
+	.o_phaseRamp_pre(),
+	.o_phaseRamp(o_phaseRamp),
+	.o_ramp_init()
+);
+***/
 
  CPU u0 (
 	.clk_clk       (CPU_CLK),       //      clk.clk
