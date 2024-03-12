@@ -396,6 +396,7 @@ int main()
 //			printf("%.1f, %.11f\n ", PD_temp_f, my_SF.float_val);
 //			printf("%x\n", PD_temp>>8);
 //			printf("%x\n", PD_temp);
+//			printf("%.1f\n", PDTemp_f.float_val);
 //			usleep(300000);
 			heading_angle = 0; //reset NMEA mode heading angle
 		}
