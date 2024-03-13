@@ -14,7 +14,7 @@ wire [63:0]  m_sum_reg;
 wire [15:0]  m_N;
 wire [31:0] m_data_reg;
 
-parameter period_pts = 1000;
+parameter period_pts = 1200;
 parameter amp = 8191;
 parameter frequency = 10e3; //Hz
 parameter cycle = 5;
@@ -46,7 +46,7 @@ begin
 $display("Running testbench"); 
 i_clk = 0;
 i_rst_n = 0;
-i_window_sel = 32'd9;
+i_window_sel = 32'd10;
 
 #30;
 i_rst_n = 1;
