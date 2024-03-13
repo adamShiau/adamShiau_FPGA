@@ -7,6 +7,11 @@ module SMA_v1
 	input [31:0] i_window_sel,
 	input signed [31:0] i_data,
 	output signed [31:0] o_data
+	// for simulation
+	, output [31:0] m_count_reg
+	, output [63:0] m_sum_reg
+	, output [15:0] m_N
+	, output [31:0] m_data_reg
 );
 
 //MV select
@@ -29,13 +34,17 @@ localparam SIZE_32768 = 	32'd15;
 
 // SMA usage
 reg signed [31:0] count_reg, data_reg [0:WINDOW_SIZE-1];
-reg [63:0] sum_reg;
+reg signed [63:0] sum_reg;
 reg [15:0] N;
-
+reg [15:0] idx;
 //input window usage
 reg [31:0] r_window_sel;
 
 assign o_data = (r_window_sel==SIZE_1)? i_data : sum_reg >>> r_window_sel;
+assign m_count_reg = count_reg;
+assign m_sum_reg = sum_reg;
+assign m_N = N;
+assign m_data_reg = data_reg[count_reg];
 
 always@(posedge i_clk or negedge i_rst_n) begin
     if(~i_rst_n) begin
@@ -64,18 +73,19 @@ always@(posedge i_clk or negedge i_rst_n) begin
 	end
 end
 
-// integer idx;
 always @(posedge i_clk or negedge i_rst_n) begin
     if (~i_rst_n) begin
         sum_reg <= 0;
         count_reg <= 0;
-        // for (genvar  idx = 0; idx < WINDOW_SIZE; idx = idx + 1) begin
-        //     data_reg[idx] <= 0;
-        // end
+
+		/*** below initialization needs for simulation ***/
+        for (idx = 0; idx < WINDOW_SIZE; idx = idx + 1) begin
+            data_reg[idx] <= 0;
+        end
     end 
 	else begin
 		if(i_update_strobe) begin
-			if(count_reg==N) begin
+			if(count_reg==N-1) begin
 				count_reg <= 0;
 				// sum_reg <= sum_reg + i_data - data_reg[count_reg];
 				// data_reg[count_reg] <= i_data;
@@ -94,6 +104,10 @@ always @(posedge i_clk or negedge i_rst_n) begin
 		end
     end
 end
+
+// always @(*) begin
+
+// end
 
 
 endmodule
