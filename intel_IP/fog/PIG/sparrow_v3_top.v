@@ -278,13 +278,14 @@ feedback_step_gen_v4 fb_step_gen_inst(
 //***/
 
 SMA_v1
-#(.WINDOW_SIZE(4096))
+#(.WINDOW_SIZE(8192))
 uSMA
 (
 .i_clk(DAC_CLK),
 .i_rst_n(locked),
 .i_update_strobe(o_rate_sync),
-.i_window_sel(32'd12),
+//.i_window_sel(32'd12), 
+.i_window_sel(o_var_kal_R), 
 .i_data(o_step),
 .o_data(o_step_MV)
 );

@@ -12,38 +12,38 @@
 # 
 # vlog -vlog01compat -work work +incdir+D:/github/adamShiau_FPGA/intel_IP/fog/PIG {D:/github/adamShiau_FPGA/intel_IP/fog/PIG/SMA_v1.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 19:38:43 on Mar 13,2024
+# Start time: 10:52:15 on Mar 14,2024
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+D:/github/adamShiau_FPGA/intel_IP/fog/PIG" D:/github/adamShiau_FPGA/intel_IP/fog/PIG/SMA_v1.v 
 # -- Compiling module SMA_v1
 # 
 # Top level modules:
 # 	SMA_v1
-# End time: 19:38:43 on Mar 13,2024, Elapsed time: 0:00:00
+# End time: 10:52:15 on Mar 14,2024, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # 
 # vlog -vlog01compat -work work +incdir+D:/github/adamShiau_FPGA/Intel\ Project/mySMA/../../intel_IP/fog/PIG/testbench {D:/github/adamShiau_FPGA/Intel Project/mySMA/../../intel_IP/fog/PIG/testbench/mySMA_tb.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 19:38:43 on Mar 13,2024
+# Start time: 10:52:15 on Mar 14,2024
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+D:/github/adamShiau_FPGA/Intel Project/mySMA/../../intel_IP/fog/PIG/testbench" D:/github/adamShiau_FPGA/Intel Project/mySMA/../../intel_IP/fog/PIG/testbench/mySMA_tb.v 
 # -- Compiling module mySMA_tb
 # 
 # Top level modules:
 # 	mySMA_tb
-# End time: 19:38:43 on Mar 13,2024, Elapsed time: 0:00:00
+# End time: 10:52:15 on Mar 14,2024, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # 
 # vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver -L rtl_work -L work -voptargs="+acc"  mySMA_tb
 # vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver -L rtl_work -L work -voptargs=""+acc"" mySMA_tb 
-# Start time: 19:38:43 on Mar 13,2024
+# Start time: 10:52:16 on Mar 14,2024
 # Loading work.mySMA_tb
 # Loading work.SMA_v1
 # 
 # add wave *
 # ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
 #           File in use by: ami73  Hostname: LAPTOP-MO0UL85T  ProcessID: 14960
-#           Attempting to use alternate WLF file "./wlft0b9wdw".
+#           Attempting to use alternate WLF file "./wlftiak69n".
 # ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
-#           Using alternate file: ./wlft0b9wdw
+#           Using alternate file: ./wlftiak69n
 # view structure
 # .main_pane.structure.interior.cs.body.struct
 # view signals
@@ -56,23 +56,23 @@
 # Break in Module mySMA_tb at D:/github/adamShiau_FPGA/Intel Project/mySMA/../../intel_IP/fog/PIG/testbench/mySMA_tb.v line 71
 vlog -vlog01compat -work work {+incdir+D:/github/adamShiau_FPGA/Intel Project/mySMA/../../intel_IP/fog/PIG/testbench} D:/github/adamShiau_FPGA/intel_IP/fog/PIG/testbench/mySMA_tb.v
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 19:41:50 on Mar 13,2024
+# Start time: 10:53:17 on Mar 14,2024
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+D:/github/adamShiau_FPGA/Intel Project/mySMA/../../intel_IP/fog/PIG/testbench" D:/github/adamShiau_FPGA/intel_IP/fog/PIG/testbench/mySMA_tb.v 
 # -- Compiling module mySMA_tb
 # 
 # Top level modules:
 # 	mySMA_tb
-# End time: 19:41:50 on Mar 13,2024, Elapsed time: 0:00:00
+# End time: 10:53:17 on Mar 14,2024, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 vlog -vlog01compat -work work +incdir+D:/github/adamShiau_FPGA/intel_IP/fog/PIG D:/github/adamShiau_FPGA/intel_IP/fog/PIG/SMA_v1.v
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 19:41:50 on Mar 13,2024
+# Start time: 10:53:17 on Mar 14,2024
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+D:/github/adamShiau_FPGA/intel_IP/fog/PIG" D:/github/adamShiau_FPGA/intel_IP/fog/PIG/SMA_v1.v 
 # -- Compiling module SMA_v1
 # 
 # Top level modules:
 # 	SMA_v1
-# End time: 19:41:50 on Mar 13,2024, Elapsed time: 0:00:00
+# End time: 10:53:17 on Mar 14,2024, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 restart
 # Loading work.mySMA_tb
@@ -85,32 +85,90 @@ run -all
 # Break in Module mySMA_tb at D:/github/adamShiau_FPGA/intel_IP/fog/PIG/testbench/mySMA_tb.v line 71
 vlog -vlog01compat -work work {+incdir+D:/github/adamShiau_FPGA/Intel Project/mySMA/../../intel_IP/fog/PIG/testbench} D:/github/adamShiau_FPGA/intel_IP/fog/PIG/testbench/mySMA_tb.v
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 19:42:59 on Mar 13,2024
+# Start time: 10:54:49 on Mar 14,2024
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+D:/github/adamShiau_FPGA/Intel Project/mySMA/../../intel_IP/fog/PIG/testbench" D:/github/adamShiau_FPGA/intel_IP/fog/PIG/testbench/mySMA_tb.v 
 # -- Compiling module mySMA_tb
 # 
 # Top level modules:
 # 	mySMA_tb
-# End time: 19:42:59 on Mar 13,2024, Elapsed time: 0:00:00
+# End time: 10:54:49 on Mar 14,2024, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 vlog -vlog01compat -work work +incdir+D:/github/adamShiau_FPGA/intel_IP/fog/PIG D:/github/adamShiau_FPGA/intel_IP/fog/PIG/SMA_v1.v
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 19:42:59 on Mar 13,2024
+# Start time: 10:54:49 on Mar 14,2024
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+D:/github/adamShiau_FPGA/intel_IP/fog/PIG" D:/github/adamShiau_FPGA/intel_IP/fog/PIG/SMA_v1.v 
 # -- Compiling module SMA_v1
 # 
 # Top level modules:
 # 	SMA_v1
-# End time: 19:42:59 on Mar 13,2024, Elapsed time: 0:00:00
+# End time: 10:54:49 on Mar 14,2024, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 restart
 # Loading work.mySMA_tb
 # Loading work.SMA_v1
 run -all
 # Running testbench
-# delay_time = 100.000000 ns
+# delay_time = 111.111111 ns
 # ** Note: $stop    : D:/github/adamShiau_FPGA/intel_IP/fog/PIG/testbench/mySMA_tb.v(71)
-#    Time: 500040 ns  Iteration: 0  Instance: /mySMA_tb
+#    Time: 499990 ns  Iteration: 0  Instance: /mySMA_tb
 # Break in Module mySMA_tb at D:/github/adamShiau_FPGA/intel_IP/fog/PIG/testbench/mySMA_tb.v line 71
-# End time: 19:45:44 on Mar 13,2024, Elapsed time: 0:07:01
+vlog -vlog01compat -work work {+incdir+D:/github/adamShiau_FPGA/Intel Project/mySMA/../../intel_IP/fog/PIG/testbench} D:/github/adamShiau_FPGA/intel_IP/fog/PIG/testbench/mySMA_tb.v
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 10:58:00 on Mar 14,2024
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+D:/github/adamShiau_FPGA/Intel Project/mySMA/../../intel_IP/fog/PIG/testbench" D:/github/adamShiau_FPGA/intel_IP/fog/PIG/testbench/mySMA_tb.v 
+# -- Compiling module mySMA_tb
+# 
+# Top level modules:
+# 	mySMA_tb
+# End time: 10:58:00 on Mar 14,2024, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -vlog01compat -work work +incdir+D:/github/adamShiau_FPGA/intel_IP/fog/PIG D:/github/adamShiau_FPGA/intel_IP/fog/PIG/SMA_v1.v
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 10:58:01 on Mar 14,2024
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+D:/github/adamShiau_FPGA/intel_IP/fog/PIG" D:/github/adamShiau_FPGA/intel_IP/fog/PIG/SMA_v1.v 
+# -- Compiling module SMA_v1
+# 
+# Top level modules:
+# 	SMA_v1
+# End time: 10:58:01 on Mar 14,2024, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+restart
+# Loading work.mySMA_tb
+# Loading work.SMA_v1
+run -all
+# Running testbench
+# delay_time = 111.111111 ns
+# ** Note: $stop    : D:/github/adamShiau_FPGA/intel_IP/fog/PIG/testbench/mySMA_tb.v(71)
+#    Time: 1999840 ns  Iteration: 0  Instance: /mySMA_tb
+# Break in Module mySMA_tb at D:/github/adamShiau_FPGA/intel_IP/fog/PIG/testbench/mySMA_tb.v line 71
+vlog -vlog01compat -work work {+incdir+D:/github/adamShiau_FPGA/Intel Project/mySMA/../../intel_IP/fog/PIG/testbench} D:/github/adamShiau_FPGA/intel_IP/fog/PIG/testbench/mySMA_tb.v
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 10:59:22 on Mar 14,2024
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+D:/github/adamShiau_FPGA/Intel Project/mySMA/../../intel_IP/fog/PIG/testbench" D:/github/adamShiau_FPGA/intel_IP/fog/PIG/testbench/mySMA_tb.v 
+# -- Compiling module mySMA_tb
+# 
+# Top level modules:
+# 	mySMA_tb
+# End time: 10:59:22 on Mar 14,2024, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -vlog01compat -work work +incdir+D:/github/adamShiau_FPGA/intel_IP/fog/PIG D:/github/adamShiau_FPGA/intel_IP/fog/PIG/SMA_v1.v
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 10:59:22 on Mar 14,2024
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+D:/github/adamShiau_FPGA/intel_IP/fog/PIG" D:/github/adamShiau_FPGA/intel_IP/fog/PIG/SMA_v1.v 
+# -- Compiling module SMA_v1
+# 
+# Top level modules:
+# 	SMA_v1
+# End time: 10:59:22 on Mar 14,2024, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+restart
+# Loading work.mySMA_tb
+# Loading work.SMA_v1
+run -all
+# Running testbench
+# delay_time = 111.111111 ns
+# ** Note: $stop    : D:/github/adamShiau_FPGA/intel_IP/fog/PIG/testbench/mySMA_tb.v(72)
+#    Time: 1999840 ns  Iteration: 0  Instance: /mySMA_tb
+# Break in Module mySMA_tb at D:/github/adamShiau_FPGA/intel_IP/fog/PIG/testbench/mySMA_tb.v line 72
+# End time: 12:41:54 on Mar 14,2024, Elapsed time: 1:49:38
 # Errors: 0, Warnings: 2

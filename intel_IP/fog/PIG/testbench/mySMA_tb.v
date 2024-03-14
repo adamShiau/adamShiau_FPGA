@@ -14,10 +14,10 @@ wire [63:0]  m_sum_reg;
 wire [15:0]  m_N;
 wire [31:0] m_data_reg;
 
-parameter period_pts = 1000;
+parameter period_pts = 900;
 parameter amp = 8191;
 parameter frequency = 10e3; //Hz
-parameter cycle = 5;
+parameter cycle = 20;
 parameter delay_time = 1e9/(period_pts*frequency);
 parameter pi = 3.141592653589;
 real omega = 2 * pi / period_pts;
@@ -46,7 +46,7 @@ begin
 $display("Running testbench"); 
 i_clk = 0;
 i_rst_n = 0;
-i_window_sel = 32'd9;
+i_window_sel = 32'd12;
 
 #30;
 i_rst_n = 1;
@@ -62,8 +62,9 @@ for (t = 0; t < cycle*period_pts; t = t + 1) begin
 	i_update_strobe = 1'b0;
 
     #(delay_time-10); // update rate
-
-	
+	if(t >= 0.3*cycle*period_pts) i_window_sel = 32'd11;
+	if(t >= 0.6*cycle*period_pts) i_window_sel = 32'd9;
+	 
 	
 end
 
