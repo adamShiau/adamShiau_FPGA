@@ -311,16 +311,15 @@ void dump_fog_parameter(void) {
 	my_parameter("DATA_RATE", delay_time, &my_para[34]);
 	my_parameter_f("SFB", sf_b, &my_para[35]);
 	my_parameter("CUTOFF", CUTOFF, &my_para[36]);
-	my_parameter("BIAS_COMP_T1", bias_comp_T1_f, &my_para[37]);
-	my_parameter("BIAS_COMP_T2", bias_comp_T2_f, &my_para[38]);
-	my_parameter("SFB_1_SLOPE", sfb_1_slope_f, &my_para[39]);
-	my_parameter("SFB_1_OFFSET", sfb_1_offset_f, &my_para[40]);
-	my_parameter("SFB_2_SLOPE", sfb_2_slope_f, &my_para[41]);
-	my_parameter("SFB_2_OFFSET", sfb_2_offset_f, &my_para[42]);
-	my_parameter("SFB_3_SLOPE", sfb_3_slope_f, &my_para[43]);
-	my_parameter("SFB_3_OFFSET", sfb_3_offset_f, &my_para[44]);
+	my_parameter_f("BIAS_COMP_T1", bias_comp_T1_f, &my_para[37]);
+	my_parameter_f("BIAS_COMP_T2", bias_comp_T2_f, &my_para[38]);
+	my_parameter_f("SFB_1_SLOPE", sfb_1_slope_f, &my_para[39]);
+	my_parameter_f("SFB_1_OFFSET", sfb_1_offset_f, &my_para[40]);
+	my_parameter_f("SFB_2_SLOPE", sfb_2_slope_f, &my_para[41]);
+	my_parameter_f("SFB_2_OFFSET", sfb_2_offset_f, &my_para[42]);
+	my_parameter_f("SFB_3_SLOPE", sfb_3_slope_f, &my_para[43]);
+	my_parameter_f("SFB_3_OFFSET", sfb_3_offset_f, &my_para[44]);
 }
-
 void judge_SF(float PD_temp_f)
 {
 	if(PD_temp_f <= Tmin_f) my_SF.int_val = SF0;
@@ -411,6 +410,8 @@ int main()
 		step_f = step*my_SF.float_val + BIAS_Comp(PDTemp_f.float_val);
 		if(step_f >= cutoff_p)step_f = cutoff_p;
 		else if(step_f <= cutoff_n)step_f = cutoff_n;
+
+		
 		if(start_flag == 0){ 	//IDLE mode
 //			/***
 //			printf("nstate: %d, ", IORD(VARSET_BASE, I_VAR_NSTATE));
