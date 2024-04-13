@@ -1,7 +1,8 @@
 module Moving_Average
 #(
 	parameter AVE_DATA_NUM = 8,
-	parameter AVE_DATA_BIT = 3
+	// parameter AVE_DATA_BIT = 3
+	parameter AVE_DATA_BIT = $clog2(AVE_DATA_NUM) 
 )
 (
 	input i_clk,
