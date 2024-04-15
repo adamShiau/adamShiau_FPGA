@@ -335,7 +335,7 @@ void judge_SF(float PD_temp_f)
 	// else if(PD_temp_f > T6_f && PD_temp_f <= T7_f) 	 my_SF.int_val = SF7;
 	// else if(PD_temp_f > T7_f && PD_temp_f < Tmax_f)  my_SF.int_val = SF8;
 
-	my_SF.float_val = sf0_f*PD_temp_f + sf0_f;
+	my_SF.float_val = sf0_f*PD_temp_f + sf1_f;
 	
 }
 
@@ -405,8 +405,9 @@ int main()
 		time = IORD(VARSET_BASE, I_VAR_TIMER);
 		err = IORD(VARSET_BASE, I_VAR_ERR);
 		step = IORD(VARSET_BASE, I_VAR_STEP_ORI);
-		// PD_temp = ds1775_9B_readTemp_d();
-		PD_temp = 0xE680;
+		printf("%d, %d\n", IORD(VARSET_BASE, O_VAR_KAL_R), step);
+		PD_temp = ds1775_9B_readTemp_d();
+		// PD_temp = 0xE680;
 
 		PDTemp_f.float_val = convert_PDtemp2f(PD_temp);
 		judge_SF(PDTemp_f.float_val);
@@ -902,7 +903,7 @@ void FOG_init()
 	IOWR(VARSET_BASE, O_VAR_TIMER_RST, 1); usleep (10); //reset timer
 	IOWR(VARSET_BASE, O_VAR_TIMER_RST, 0);
 	IOWR(VARSET_BASE, O_VAR_KAL_Q, 10);
-	IOWR(VARSET_BASE, O_VAR_KAL_R, 20);
+	IOWR(VARSET_BASE, O_VAR_KAL_R, 2);
 //	Set_FB_Polarity(0);
 //	usleep(1000);
 //	IOWR(VARSET_BASE, O_VAR_POLARITY, 0);

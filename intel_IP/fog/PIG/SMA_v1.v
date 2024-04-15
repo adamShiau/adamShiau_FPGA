@@ -77,11 +77,10 @@ always @(posedge i_clk or negedge i_rst_n) begin
     if (~i_rst_n) begin
         sum_reg <= 0;
         count_reg <= 0;
-
 		/*** below initialization needs for simulation ***/
-//       for (idx = 0; idx < WINDOW_SIZE; idx = idx + 1) begin
-//           data_reg[idx] <= 0;
-//       end
+//      for (idx = 0; idx < WINDOW_SIZE; idx = idx + 1) begin
+//          data_reg[idx] <= 0;
+//      end
     end 
 	else begin
 		if(i_update_strobe) begin

@@ -174,8 +174,8 @@ assign DAC_RST = 1'b0;
 
 assign i_var_err = o_err;
 assign i_var_err_kal = r_kal_out;
- assign i_var_step_ori = o_step; 
-//assign i_var_step_ori = o_step_MV;
+// assign i_var_step_ori = o_step; 
+assign i_var_step_ori = o_step_MV;
 
 assign CS_DAC = SS[0];
 assign CS_ADC = SS[1];
@@ -277,18 +277,25 @@ feedback_step_gen_v4 fb_step_gen_inst(
 );
 //***/
 
-//SMA_v1
-//#(.WINDOW_SIZE(8192))
-//uSMA
-//(
-//.i_clk(DAC_CLK),
-//.i_rst_n(locked),
-//.i_update_strobe(o_rate_sync),
-////.i_window_sel(32'd12), 
-//.i_window_sel(o_var_kal_R), 
+wire [31:0] m_count_reg, m_data_reg;
+wire [63:0] m_sum_reg;
+
+SMA_v1
+#(.WINDOW_SIZE(8192))
+uSMA
+(
+.i_clk(DAC_CLK),
+.i_rst_n(locked),
+.i_update_strobe(o_rate_sync),
+//.i_window_sel(32'd12), 
+.i_window_sel(32'd4), 
 //.i_data(o_step),
-//.o_data(o_step_MV)
-//);
+.i_data(32'd100),
+.o_data(o_step_MV)
+, .m_count_reg(m_count_reg)
+, .m_sum_reg(m_sum_reg)
+, .m_data_reg(m_data_reg)
+);
 
 ///***
 phase_ramp_gen phase_ramp_gen_inst(
