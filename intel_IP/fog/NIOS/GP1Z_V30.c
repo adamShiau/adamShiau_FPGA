@@ -401,11 +401,14 @@ int main()
 	sdram_var = IORD(SDRAM_BASE, 0);
 	sdram_var2 = IORD(SDRAM_BASE, 0x3fffff);
 
+
+
 	while(1) {
+		IOWR(VARSET_BASE, O_VAR_LED1, 2000);
 		time = IORD(VARSET_BASE, I_VAR_TIMER);
 		err = IORD(VARSET_BASE, I_VAR_ERR);
 		step = IORD(VARSET_BASE, I_VAR_STEP_ORI);
-		printf("%d, %d\n", IORD(VARSET_BASE, O_VAR_KAL_R), step);
+		printf("%d\n", step);
 		PD_temp = ds1775_9B_readTemp_d();
 		// PD_temp = 0xE680;
 
