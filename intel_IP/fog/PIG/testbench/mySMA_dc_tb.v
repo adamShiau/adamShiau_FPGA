@@ -13,6 +13,7 @@ wire [31:0]  m_count_reg;
 wire [63:0]  m_sum_reg;
 wire [15:0]  m_N;
 wire [31:0] m_data_reg;
+wire window_change;
 
 parameter period_pts = 900;
 parameter amp = 8191;
@@ -36,7 +37,8 @@ i1 (
 	.m_count_reg(m_count_reg),
 	.m_sum_reg(m_sum_reg),
 	.m_N(m_N),
-	.m_data_reg(m_data_reg)
+	.m_data_reg(m_data_reg),
+	.window_change(window_change)
 );
 
 integer t;
@@ -46,7 +48,7 @@ begin
 $display("Running testbench"); 
 i_clk = 0;
 i_rst_n = 0;
-i_window_sel = 32'd2;
+i_window_sel = 32'd12;
 i_update_strobe = 1'b0;
 i_data = 100;
 #30;
@@ -63,8 +65,8 @@ for (t = 0; t < cycle*period_pts; t = t + 1) begin
 	i_update_strobe = 1'b0;
 
     #(delay_time-10); // update rate
-	if(t >= 0.3*cycle*period_pts) i_window_sel = 32'd3;
-	if(t >= 0.6*cycle*period_pts) i_window_sel = 32'd4;
+	if(t >= 0.3*cycle*period_pts) i_window_sel = 32'd10;
+	if(t >= 0.6*cycle*period_pts) i_window_sel = 32'd8;
 	 
 	
 end

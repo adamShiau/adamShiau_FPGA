@@ -1,4 +1,4 @@
-module SMA_v2
+module SMA_v1
 #(parameter WINDOW_SIZE = 32768)
 (
 	input i_clk,
@@ -12,6 +12,7 @@ module SMA_v2
 	, output [63:0] m_sum_reg
 	, output [15:0] m_N
 	, output [31:0] m_data_reg
+	, output window_change
 );
 
 //MV select
@@ -38,7 +39,10 @@ reg signed [63:0] sum_reg;
 reg [15:0] N;
 reg [15:0] idx;
 //input window usage
-reg [31:0] r_window_sel;
+reg [31:0] r_window_sel, r_window_sel_dly;
+// wire window_change;
+
+assign window_change = r_window_sel_dly!=r_window_sel;
 
 assign o_data = (r_window_sel==SIZE_1)? i_data : sum_reg >>> r_window_sel;
 assign m_count_reg = count_reg;
@@ -49,9 +53,11 @@ assign m_data_reg = data_reg[count_reg];
 always@(posedge i_clk or negedge i_rst_n) begin
     if(~i_rst_n) begin
 		r_window_sel <= 32'd0;
+		r_window_sel_dly <= 32'd0;
 	end
     else begin
 		r_window_sel <= i_window_sel;
+		r_window_sel_dly <= r_window_sel;
 		 case(r_window_sel)
             SIZE_1:  	begin N <= 32'd1;end
             SIZE_2:  	begin N <= 32'd2;end
@@ -78,35 +84,28 @@ always @(posedge i_clk or negedge i_rst_n) begin
         sum_reg <= 0;
         count_reg <= 0;
 		/*** below initialization needs for simulation ***/
-//      for (idx = 0; idx < WINDOW_SIZE; idx = idx + 1) begin
-//          data_reg[idx] <= 0;
-//      end
+      for (idx = 0; idx < WINDOW_SIZE; idx = idx + 1) begin
+          data_reg[idx] <= 0;
+      end
     end 
 	else begin
+		if(window_change) begin
+			count_reg <= 0;
+			sum_reg <= 0;
+			for (idx = 0; idx < WINDOW_SIZE; idx = idx + 1) begin
+				data_reg[idx] <= 0;
+			end
+		end
 		if(i_update_strobe) begin
-			if(count_reg > (N-1)) begin
+			if(count_reg==N-1) begin
 				count_reg <= 0;
-				// sum_reg <= sum_reg + i_data - data_reg[count_reg];
-				// data_reg[count_reg] <= i_data;
 			end
 			else begin
 				count_reg <= count_reg + 1;
-				// sum_reg <= sum_reg + i_data - data_reg[count_reg];
-				// data_reg[count_reg] <= i_data;
 			end
 			sum_reg <= sum_reg + i_data - data_reg[count_reg];
 			data_reg[count_reg] <= i_data;
 		end
-		else begin
-			sum_reg <= sum_reg;
-			count_reg <= count_reg;
-		end
     end
 end
-
-// always @(*) begin
-
-// end
-
-
 endmodule
