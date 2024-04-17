@@ -403,20 +403,19 @@ int main()
 
 
 
-	while(1) {
-		IOWR(VARSET_BASE, O_VAR_LED1, 2000);
+	while(1) {	
 		time = IORD(VARSET_BASE, I_VAR_TIMER);
 		err = IORD(VARSET_BASE, I_VAR_ERR);
 		step = IORD(VARSET_BASE, I_VAR_STEP_ORI);
-		printf("%d\n", step);
+		// printf("%d\n", step);
 		PD_temp = ds1775_9B_readTemp_d();
-		// PD_temp = 0xE680;
+
 
 		PDTemp_f.float_val = convert_PDtemp2f(PD_temp);
 		judge_SF(PDTemp_f.float_val);
 		time_f = (float)time*COE_TIMER;
 
-		step_f = (float)step*my_SF.float_val + BIAS_Comp(PDTemp_f.float_val);
+		step_f = MV_Update(step)*my_SF.float_val + BIAS_Comp(PDTemp_f.float_val);
 		if(step_f >= cutoff_p)step_f = cutoff_p;
 		else if(step_f <= cutoff_n)step_f = cutoff_n;
 
@@ -683,7 +682,7 @@ void fog_parameter(alt_u8 *data)
 					case FPGA_Q_ADDR: {
 						IOWR(VARSET_BASE, O_VAR_KAL_Q, uart_value);
 			//			kal_Q = uart_value;
-			//			printf("kal_Q: %d\n", kal_Q);
+						// printf("kal_Q: %d\n", kal_Q);
 						break;
 					}
 					case FPGA_R_ADDR: {
