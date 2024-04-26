@@ -24,7 +24,7 @@
 
 
 
-#define FPGA_VERSION "FPGA-GP-PLL100-26"
+#define FPGA_VERSION "FPGA-GP-PLL100-26-MV12"
 #define NMEA_HEADER "YAW,"
 
 #define TRIGGER_IN_BASE 0x2002160
@@ -355,7 +355,7 @@ int main()
 		err = IORD(VARSET_BASE, I_VAR_ERR);
 		step = IORD(VARSET_BASE, I_VAR_STEP_ORI);
 		PD_temp = ds1775_9B_readTemp_d();
-
+		printf("%d\n", step);
 		PDTemp_f.float_val = (float)(PD_temp>>8) + (float)((PD_temp&0xFF)>>7)*0.5;
 		judge_SF(PDTemp_f.float_val);
 		time_f = (float)time*COE_TIMER;
@@ -839,13 +839,13 @@ void FOG_init()
 	IOWR(VARSET_BASE, O_VAR_TIMER_RST, 1); usleep (10); //reset timer
 	IOWR(VARSET_BASE, O_VAR_TIMER_RST, 0);
 	IOWR(VARSET_BASE, O_VAR_KAL_Q, 10);
-	IOWR(VARSET_BASE, O_VAR_KAL_R, 20);
+	IOWR(VARSET_BASE, O_VAR_KAL_R, 8);
 //	Set_FB_Polarity(0);
 //	usleep(1000);
 //	IOWR(VARSET_BASE, O_VAR_POLARITY, 0);
 //	usleep(1000);
 //	IOWR(VARSET_BASE, O_VAR_POLARITY, 1);
-	Set_Dac_Gain(505);
+	Set_Dac_Gain(400);
 
 	SF0 = FLOAT_1;
 	SF1 = FLOAT_1;

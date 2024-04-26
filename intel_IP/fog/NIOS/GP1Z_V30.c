@@ -407,7 +407,7 @@ int main()
 		time = IORD(VARSET_BASE, I_VAR_TIMER);
 		err = IORD(VARSET_BASE, I_VAR_ERR);
 		step = IORD(VARSET_BASE, I_VAR_STEP_ORI);
-		// printf("%d\n", step);
+//		 printf("%d\n", step);
 		PD_temp = ds1775_9B_readTemp_d();
 
 

@@ -159,23 +159,23 @@ reg signed [31:0] r_ramp;
 reg signed [31:0] r_mod;
 wire [31:0] filter_adc;
 
-reg [31:0] r_adc, r_adc2;
+//reg [31:0] r_adc, r_adc2;
 
 //=======================================================
 //  Structural coding
 //=======================================================
 
 
-assign DAC1 =  o_phaseRamp[15:0];
-assign DAC2 =  ~o_phaseRamp[15:0];
+assign DAC1 =  o_step_MV[15:0];
+//assign DAC2 =  ~o_phaseRamp[15:0];
 
 
 assign DAC_RST = 1'b0;
 
 assign i_var_err = o_err;
 assign i_var_err_kal = r_kal_out;
- assign i_var_step_ori = o_step; 
-//assign i_var_step_ori = o_step_MV;
+// assign i_var_step_ori = o_step; 
+assign i_var_step_ori = o_step_MV;
 
 assign CS_DAC = SS[0];
 assign CS_ADC = SS[1];
@@ -222,6 +222,17 @@ modulation_gen_v2 mod_gen_inst(
 reg [3:0] temp_cs = 4'd0; 
 reg [31:0] temp_wc = 32'd0;
 reg r_stepTrig = 1'b0;
+reg signed [31:0] r_adc;
+
+always@(posedge DAC_CLK or negedge locked) begin
+	if(!locked) begin
+		r_adc <= 32'd0;
+	end
+	else begin// r_adc <= adc;
+//		r_adc <= {{18{ADC_D1[14-1]}}, ADC_D1[14-1:0]}; //sign bit extension to 32 bit
+		r_adc <= o_step_MV;
+	end
+end
 
 
 ///***
@@ -280,17 +291,40 @@ feedback_step_gen_v4 fb_step_gen_inst(
 wire [31:0] m_count_reg, m_data_reg;
 wire [63:0] m_sum_reg;
 
-//SMA_v1
+
+SMA_v1
+#(.WINDOW_SIZE(4096)) 
+uSMA
+(
+.i_clk(DAC_CLK),
+.i_rst_n(locked),
+.i_update_strobe(o_rate_sync),
+//.i_update_strobe(1'b1),
+.i_window_sel(o_var_kal_R), 
+//.i_window_sel(32'd9), 
+//.i_data(o_step),
+//.i_data(o_err),
+.i_data(o_var_kal_Q),
+.o_data(o_step_MV)
+, .m_count_reg(m_count_reg)
+, .m_sum_reg(m_sum_reg)
+, .m_data_reg(m_data_reg)
+);
+
+
+//SMA_v2
 //#(.WINDOW_SIZE(4096)) 
 //uSMA
 //(
 //.i_clk(DAC_CLK),
 //.i_rst_n(locked),
 //.i_update_strobe(o_rate_sync),
-//.i_window_sel(o_var_kal_Q), 
-////.i_window_sel(32'd4), 
+////.i_update_strobe(1'b1),
+//.i_window_sel(o_var_kal_R), 
+////.i_window_sel(32'd9), 
 ////.i_data(o_step),
-//.i_data(o_var_kal_R),
+//.i_data(o_err),
+////.i_data(o_var_kal_Q),
 //.o_data(o_step_MV)
 //, .m_count_reg(m_count_reg)
 //, .m_sum_reg(m_sum_reg)

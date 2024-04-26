@@ -24,7 +24,7 @@ parameter pi = 3.141592653589;
 real omega = 2 * pi / period_pts;
 
 // assign statements (if any)                          
-SMA_v1 
+SMA_v2 
 #(.WINDOW_SIZE(8192))
 i1 (
 // port map - connection between master ports and signals/registers   
