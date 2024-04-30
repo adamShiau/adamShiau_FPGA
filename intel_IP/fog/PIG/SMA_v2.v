@@ -97,7 +97,7 @@ always @(posedge i_clk or negedge i_rst_n) begin
 //			end
 		end
 		if(i_update_strobe) begin
-			if(count_reg == N-1) begin
+			if(count_reg > N-1) begin
 				count_reg <= 0;
 			end
 			else begin

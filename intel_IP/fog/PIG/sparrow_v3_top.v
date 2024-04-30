@@ -229,8 +229,8 @@ always@(posedge DAC_CLK or negedge locked) begin
 		r_adc <= 32'd0;
 	end
 	else begin// r_adc <= adc;
-//		r_adc <= {{18{ADC_D1[14-1]}}, ADC_D1[14-1:0]}; //sign bit extension to 32 bit
-		r_adc <= o_step_MV;
+		r_adc <= {{18{ADC_D1[14-1]}}, ADC_D1[14-1:0]}; //sign bit extension to 32 bit
+//		r_adc <= o_step_MV;
 	end
 end
 
@@ -292,7 +292,20 @@ wire [31:0] m_count_reg, m_data_reg;
 wire [63:0] m_sum_reg;
 
 
-SMA_v1
+//Moving_Average 
+//#(
+//.AVE_DATA_NUM(4096),
+//.AVE_DATA_BIT(12)
+//)
+//uMV
+//(
+//.i_clk(DAC_CLK),
+//.i_rst_n(locked),
+//.din(ADC_D1),
+//.dout(o_step_MV)
+//);
+
+SMA_v2
 #(.WINDOW_SIZE(4096)) 
 uSMA
 (
@@ -301,10 +314,10 @@ uSMA
 .i_update_strobe(o_rate_sync),
 //.i_update_strobe(1'b1),
 .i_window_sel(o_var_kal_R), 
-//.i_window_sel(32'd9), 
+//.i_window_sel(32'd12), 
 //.i_data(o_step),
 //.i_data(o_err),
-.i_data(o_var_kal_Q),
+.i_data(r_adc),
 .o_data(o_step_MV)
 , .m_count_reg(m_count_reg)
 , .m_sum_reg(m_sum_reg)
