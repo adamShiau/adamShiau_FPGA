@@ -313,11 +313,8 @@ always@(posedge i_clk or negedge i_rst_n) begin
 				r_adc_sum <= 32'd0;
 				r_acq_done <= 1'b0;
 				
-//				if(!r_polarity) r_err <= r_adc_H - r_adc_L;
-//                else r_err <= r_adc_L - r_adc_H;
-				
-				if(!r_polarity) r_err <= r_adc_H;
-                else r_err <= r_adc_L;
+				if(!r_polarity) r_err <= r_adc_H - r_adc_L;
+                else r_err <= r_adc_L - r_adc_H;
 				o_step_sync <= 1'b1;
 			end
 			
