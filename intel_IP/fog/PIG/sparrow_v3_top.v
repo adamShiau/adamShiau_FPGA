@@ -292,7 +292,7 @@ feedback_step_gen_v4 fb_step_gen_inst(
 //wire [63:0] m_sum_reg;
 
 
-SMA_v3
+SMA_4096
 #(.WINDOW_SIZE(4096)) 
 uSMA
 (
