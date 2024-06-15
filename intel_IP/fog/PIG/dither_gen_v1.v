@@ -29,6 +29,7 @@ localparam WAIT_STABLE_L = 	5;
 localparam ACQ_L         = 	6;
 localparam OUT_GEN       = 	7;
 
+
 //MV select
 localparam MV_1 = 		0;
 localparam MV_2 = 		1;
@@ -220,8 +221,6 @@ always@(posedge i_clk or negedge i_rst_n) begin
         endcase
     end
 end
-
-
 
 
 endmodule

@@ -83,5 +83,21 @@ always begin
     #5 i_clk = ~i_clk; // 10 ns period -> 100 MHz clock
 end
 
+// State name annotations
+reg [8*10:1] state_name; //one char need 8 bits, ex: "RST" needs 8*3 bits
+always @(o_cstate) begin
+    case (o_cstate)
+        4'd0: state_name = "RST";
+        4'd1: state_name = "DITHER_H";
+        4'd2: state_name = "WAIT_H";
+        4'd3: state_name = "ACQ_H";
+        4'd4: state_name = "DITHER_L";
+        4'd5: state_name = "WAIT_L";
+        4'd6: state_name = "ACQ_L";
+        4'd7: state_name = "OUT_GEN";
+        default: state_name = "UNKNOWN";
+    endcase
+end
+
 endmodule
 
