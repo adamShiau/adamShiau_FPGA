@@ -1,0 +1,87 @@
+`timescale 1 ns/ 100 ps
+module dither_gen_v1_tb();
+
+// test vector input registers
+reg i_clk;
+reg i_rst_n;
+reg i_trig;
+reg [2:0] i_avg_sel;
+reg [31:0] i_data;
+reg [31:0] i_wait_cnt;
+
+// wires                                               
+wire [31:0]  o_data;
+wire [31:0]  o_dither_out;
+wire [3:0]   o_cstate;
+wire [3:0]   o_nstate;
+wire [31:0] o_reg_data_H;
+wire [31:0] o_reg_data_L;
+wire [31:0] o_reg_sum;
+
+
+// assign statements (if any)                          
+dither_gen_v1 i1 (
+// port map - connection between master ports and signals/registers   
+	.i_avg_sel(i_avg_sel),
+	.i_clk(i_clk),
+	.i_data(i_data),
+	.i_rst_n(i_rst_n),
+	.i_trig(i_trig),
+	.i_wait_cnt(i_wait_cnt),
+	.o_cstate(o_cstate),
+	.o_data(o_data),
+	.o_dither_out(o_dither_out),
+	.o_nstate(o_nstate)
+	/*** for simulation ***/
+	,.o_reg_data_H(o_reg_data_H)
+	,.o_reg_data_L(o_reg_data_L)
+	,.o_reg_sum(o_reg_sum)
+);
+initial begin
+	// Initialize inputs
+    i_clk = 0;
+    i_rst_n = 0;
+    i_trig = 0;
+    i_avg_sel = 4;
+    
+    i_wait_cnt = 9;                                                  
+
+	$display("Running testbench"); 
+
+	// Apply reset
+    #100; // Wait for 100 ns for reset to finish
+    i_rst_n = 1;
+    
+    // Generate 100 trigger pulses
+    repeat (250) begin
+        i_trig = 1;
+        #10; // Trigger pulse width of 1 clock cycle (10 ns for 100 MHz clock)
+        i_trig = 0;
+		#1000; // 1 us delay for 100 MHz clock
+    end
+    #1000; // Wait for a few cycles after the last trigger
+    $stop;
+end   
+
+// Update i_data based on o_dither_out
+always @(posedge i_clk or negedge i_rst_n) begin
+    if (!i_rst_n) begin
+        i_data <= 0;
+    end 
+	else begin
+        if (o_dither_out == 1)
+            i_data <= 1000;
+        else if (o_dither_out == -1)
+            i_data <= -2100;
+        else
+            i_data <= 0; // Default value if o_dither_out is neither 1 nor -1
+    end
+end
+
+// Clock generation
+always begin
+    #5 i_clk = ~i_clk; // 10 ns period -> 100 MHz clock
+end
+
+endmodule
+

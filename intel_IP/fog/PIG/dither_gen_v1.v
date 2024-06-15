@@ -10,6 +10,9 @@ module dither_gen_v1
     output signed [31:0] o_dither_out
 
     /*** for simulation ***/
+    , output signed [31:0] o_reg_data_H
+    , output signed [31:0] o_reg_data_L
+    , output signed [31:0] o_reg_sum
     , output [3:0] o_cstate, o_nstate
 );
 
@@ -39,11 +42,6 @@ localparam MV_256 = 	8;
 localparam MV_512 = 	9;
 localparam MV_1024 = 	10;
 
-assign o_data = reg_o_data;
-assign o_dither_out = dither_out;
-assign o_cstate = cstate;
-assign o_nstate = nstate;
-
 reg trig;
 reg [3:0] shift;
 reg [31:0] wait_cnt, mv_cnt, avg_sel;
@@ -51,6 +49,15 @@ reg [3:0] cstate, nstate;
 reg signed [31:0] reg_sum, reg_data_H, reg_data_L, reg_i_data, reg_o_data, dither_out;
 reg stable, acq_done;
 reg [31:0] trig_cnt;
+
+assign o_data = reg_o_data;
+assign o_dither_out = dither_out;
+assign o_cstate = cstate;
+assign o_nstate = nstate;
+assign o_reg_data_H = reg_data_H;
+assign o_reg_data_L = reg_data_L;
+assign o_reg_sum = reg_sum;
+
 
 
 always@(posedge i_clk or negedge i_rst_n) begin
@@ -167,7 +174,9 @@ always@(posedge i_clk or negedge i_rst_n) begin
                 if(trig) trig_cnt <= trig_cnt - 1'b1;
                 else trig_cnt <= trig_cnt;
 
-                if(trig_cnt != 32'd0) reg_sum <= reg_sum + reg_i_data;
+                if(trig_cnt != 32'd0) begin
+                    if(trig) reg_sum <= reg_sum + reg_i_data;
+                end
                 else begin
                     acq_done <= 1'b1;
                     reg_data_H <= reg_sum >>> avg_sel;
@@ -193,7 +202,9 @@ always@(posedge i_clk or negedge i_rst_n) begin
                 if(trig) trig_cnt <= trig_cnt - 1'b1;
                 else trig_cnt <= trig_cnt;
 
-                if(trig_cnt != 32'd0) reg_sum <= reg_sum + reg_i_data;
+                if(trig_cnt != 32'd0) begin
+                    if(trig) reg_sum <= reg_sum + reg_i_data;
+                end
                 else begin
                     acq_done <= 1'b1;
                     reg_data_L <= reg_sum >>> avg_sel;
