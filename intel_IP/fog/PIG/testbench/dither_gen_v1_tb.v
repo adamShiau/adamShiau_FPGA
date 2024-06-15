@@ -84,18 +84,31 @@ always begin
 end
 
 // State name annotations
-reg [8*10:1] state_name; //one char need 8 bits, ex: "RST" needs 8*3 bits
+reg [8*10:1] cstate, nstate; //one char need 8 bits, ex: "RST" needs 8*3 bits
 always @(o_cstate) begin
     case (o_cstate)
-        4'd0: state_name = "RST";
-        4'd1: state_name = "DITHER_H";
-        4'd2: state_name = "WAIT_H";
-        4'd3: state_name = "ACQ_H";
-        4'd4: state_name = "DITHER_L";
-        4'd5: state_name = "WAIT_L";
-        4'd6: state_name = "ACQ_L";
-        4'd7: state_name = "OUT_GEN";
-        default: state_name = "UNKNOWN";
+        4'd0: cstate = "RST";
+        4'd1: cstate = "DITHER_H";
+        4'd2: cstate = "WAIT_H";
+        4'd3: cstate = "ACQ_H";
+        4'd4: cstate = "DITHER_L";
+        4'd5: cstate = "WAIT_L";
+        4'd6: cstate = "ACQ_L";
+        4'd7: cstate = "OUT_GEN";
+        default: cstate = "UNKNOWN";
+    endcase
+end
+always @(o_nstate) begin
+    case (o_nstate)
+        4'd0: nstate = "RST";
+        4'd1: nstate = "DITHER_H";
+        4'd2: nstate = "WAIT_H";
+        4'd3: nstate = "ACQ_H";
+        4'd4: nstate = "DITHER_L";
+        4'd5: nstate = "WAIT_L";
+        4'd6: nstate = "ACQ_L";
+        4'd7: nstate = "OUT_GEN";
+        default: nstate = "UNKNOWN";
     endcase
 end
 
