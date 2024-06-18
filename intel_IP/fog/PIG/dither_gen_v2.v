@@ -1,8 +1,15 @@
-module dither_gen_v1
+/*** 
+dither_gen_v2, 
+1. Add self trigger signal inside the module.
+2. Add register input for dither_high and dither_low from outside the module.
+***/
+module dither_gen_v2
 (
     input i_clk,
     input i_rst_n,
-    input i_trig,
+    input [31:0] i_dither_high,
+    input [31:0] i_dither_low,
+    input [31:0] i_period_cnt, 
     input [31:0] i_wait_cnt,
     input [31:0] i_avg_sel, 
     input [31:0] i_data,
@@ -15,9 +22,6 @@ module dither_gen_v1
     , output signed [31:0] o_reg_sum
     , output [3:0] o_cstate, o_nstate
 );
-
-localparam DITHER_LOW  = -32'd50;
-localparam DITHER_HIGH =  32'd20;
 
 //State machine
 localparam RST           = 	0;
@@ -46,10 +50,12 @@ localparam MV_2048 = 	11;
 localparam MV_4096 = 	12;
 
 reg trig;
+reg [31:0] period_cnt;
 reg [3:0] shift;
 reg [31:0] wait_cnt, mv_cnt, avg_sel;
 reg [3:0] cstate, nstate;
 reg signed [31:0] reg_sum, reg_data_H, reg_data_L, reg_i_data, reg_o_data, dither_out;
+reg signed [31:0] dither_high, dither_low;
 reg stable, acq_done;
 reg [31:0] trig_cnt;
 
@@ -61,6 +67,24 @@ assign o_reg_data_H = reg_data_H;
 assign o_reg_data_L = reg_data_L;
 assign o_reg_sum = reg_sum;
 
+/*** self trig module***/
+always@(posedge i_clk or negedge i_rst_n) begin
+    if(!i_rst_n) begin
+        period_cnt <= 32'd100;
+    end
+    else begin
+        if(period_cnt != 32'd0) begin
+            period_cnt <= i_period_cnt - 1'b1;
+            trig <= 1'b0;
+        end
+        else begin
+            period_cnt <= i_period_cnt;
+            trig <= 1'b1;
+        end
+    end
+end
+
+
 
 
 always@(posedge i_clk or negedge i_rst_n) begin
@@ -70,12 +94,15 @@ always@(posedge i_clk or negedge i_rst_n) begin
         mv_cnt      <= 32'd0;
         wait_cnt    <= 32'd0;
         reg_i_data  <= 32'd0;
+        dither_high <= 32'd20;
+        dither_low  <= -32'd20;
     end
     else begin
         avg_sel     <= i_avg_sel;
         wait_cnt    <= i_wait_cnt;
-        trig        <= i_trig;
         reg_i_data  <= i_data;
+        dither_high <= i_dither_high;
+        dither_low  <= i_dither_low;
         case(avg_sel)
             MV_1:    begin mv_cnt <= 32'd1;     shift <= MV_1;      end
             MV_2:    begin mv_cnt <= 32'd2;     shift <= MV_2;      end
@@ -147,7 +174,7 @@ end
 always@(posedge i_clk or negedge i_rst_n) begin
     if(!i_rst_n) begin
         stable <= 1'b0;
-        dither_out <= DITHER_LOW;
+        dither_out <= 32'd0;
         trig_cnt <= 32'd0;
         reg_o_data <= 32'd0;
     end
@@ -162,7 +189,7 @@ always@(posedge i_clk or negedge i_rst_n) begin
                 reg_data_L <= 32'd0;
             end
             DITHER_H: begin
-                dither_out <= DITHER_HIGH;
+                dither_out <= dither_high;
             end
             WAIT_STABLE_H: begin
                 if(trig) trig_cnt <= trig_cnt + 1'b1;
@@ -190,7 +217,7 @@ always@(posedge i_clk or negedge i_rst_n) begin
             DITHER_L: begin
                 acq_done <= 1'b0;
                 reg_sum <= 32'd0;
-                dither_out <= DITHER_LOW;
+                dither_out <= dither_low;
             end
             WAIT_STABLE_L: begin
                 if(trig) trig_cnt <= trig_cnt + 1'b1;

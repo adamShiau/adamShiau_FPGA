@@ -24,7 +24,7 @@
 
 
 
-#define FPGA_VERSION "FPGA-GP-PLL100-26-MV2-SM"
+#define FPGA_VERSION "FPGA-GP-PLL100-30"
 #define NMEA_HEADER "YAW,"
 
 #define TRIGGER_IN_BASE 0x2002160
@@ -107,6 +107,7 @@
 #define CONST_STEP_ADDR  	12
 #define FPGA_Q_ADDR			13
 #define FPGA_R_ADDR  		14
+/*** scale factor temperature compensation ***/
 #define SF0_ADDR 			15
 #define SF1_ADDR 			16
 #define SF2_ADDR 			17
@@ -119,8 +120,20 @@
 #define SF9_ADDR 			24
 #define TMIN_ADDR 			25
 #define TMAX_ADDR 			26
+/*** end of scale factor temperature compensation ***/
 #define SFB_ADDR            27
 #define CUTOFF_ADDR         28
+/*** bias temperature compensation ***/
+#define BIAS_COMP_T1_ADDR 	29
+#define BIAS_COMP_T2_ADDR 	30
+#define SFB_1_SLOPE_ADDR 	31
+#define SFB_1_OFFSET_ADDR 	32
+#define SFB_2_SLOPE_ADDR 	33
+#define SFB_2_OFFSET_ADDR 	34
+#define SFB_3_SLOPE_ADDR 	35
+#define SFB_3_OFFSET_ADDR 	36
+/*** end of bias temperature compensation ***/
+
 #define DAC_GAIN_ADDR 		50
 #define DATA_INT_DELAY_ADDR	98
 #define DATA_OUT_START_ADDR	99
@@ -135,7 +148,7 @@
 #define POLYNOMIAL 0x07
 
 /*** MV ***/
-#define MV_NUM 2
+#define MV_NUM 8
 #define COE_TIMER 0.0001
 
 const alt_u8 KVH_HEADER[4] = {0xFE, 0x81, 0xFF, 0x55};
@@ -175,15 +188,23 @@ int IEEE_754_F2INT(float);
 //void NMEA_checkSUM(char *, alt_u8, char *);
 void NMEA_checkSUM(char [], alt_u8, char []);
 void send_uart_string(const char *);
+float BIAS_Comp(float PD_temp_f);
+float convert_PDtemp2f(alt_16);
 
 volatile alt_u8 uart_complete;
+
+/*** global variable to get value from MCU***/
 volatile alt_32 SF0, SF1, SF2, SF3, SF4;
 volatile alt_32 SF5, SF6, SF7, SF8, SF9;
 volatile alt_32 TMIN, TMAX, SFB, CUTOFF;
+volatile alt_32 BIAS_COMP_T1, BIAS_COMP_T2, SFB_1_SLOPE, SFB_1_OFFSET;
+volatile alt_32 SFB_2_SLOPE, SFB_2_OFFSET, SFB_3_SLOPE, SFB_3_OFFSET;
+float sf0_f, sf1_f;
 float Tmin_f, T1_f, T2_f, T3_f, T4_f, T5_f, T6_f, T7_f, Tmax_f;
 float sf_b, cutoff_p, cutoff_n;
+float bias_comp_T1_f, bias_comp_T2_f, sfb_1_slope_f, sfb_1_offset_f, sfb_2_slope_f, sfb_2_offset_f;
+float sfb_3_slope_f, sfb_3_offset_f;
 alt_u8 version[50] = FPGA_VERSION;
-
 
 
 typedef union
@@ -198,8 +219,9 @@ my_float_t my_f, my_SF;
 my_float_t PDTemp_f;
 
 
-#define MAX_STR_LENGTH 20
-#define PARAMETER_CNT 37
+#define MAX_STR_LENGTH 30
+/*** below 8 for bias compensation */
+#define PARAMETER_CNT 37 + 8
 #define MAX_TOTAL_LENGTH (MAX_STR_LENGTH * PARAMETER_CNT)
 
 typedef struct {
@@ -291,21 +313,50 @@ void dump_fog_parameter(void) {
 	my_parameter("DATA_RATE", delay_time, &my_para[34]);
 	my_parameter_f("SFB", sf_b, &my_para[35]);
 	my_parameter("CUTOFF", CUTOFF, &my_para[36]);
-
+	my_parameter_f("BIAS_COMP_T1", bias_comp_T1_f, &my_para[37]);
+	my_parameter_f("BIAS_COMP_T2", bias_comp_T2_f, &my_para[38]);
+	my_parameter_f("SFB_1_SLOPE", sfb_1_slope_f, &my_para[39]);
+	my_parameter_f("SFB_1_OFFSET", sfb_1_offset_f, &my_para[40]);
+	my_parameter_f("SFB_2_SLOPE", sfb_2_slope_f, &my_para[41]);
+	my_parameter_f("SFB_2_OFFSET", sfb_2_offset_f, &my_para[42]);
+	my_parameter_f("SFB_3_SLOPE", sfb_3_slope_f, &my_para[43]);
+	my_parameter_f("SFB_3_OFFSET", sfb_3_offset_f, &my_para[44]);
 }
-
 void judge_SF(float PD_temp_f)
 {
-	if(PD_temp_f <= Tmin_f) my_SF.int_val = SF0;
-	else if(PD_temp_f >= Tmax_f) my_SF.int_val = SF9;
-	else if(PD_temp_f > Tmin_f && PD_temp_f <= T1_f) my_SF.int_val = SF1;
-	else if(PD_temp_f > T1_f && PD_temp_f <= T2_f)	 my_SF.int_val = SF2;
-	else if(PD_temp_f > T2_f && PD_temp_f <= T3_f) 	 my_SF.int_val = SF3;
-	else if(PD_temp_f > T3_f && PD_temp_f <= T4_f) 	 my_SF.int_val = SF4;
-	else if(PD_temp_f > T4_f && PD_temp_f <= T5_f)	 my_SF.int_val = SF5;
-	else if(PD_temp_f > T5_f && PD_temp_f <= T6_f)	 my_SF.int_val = SF6;
-	else if(PD_temp_f > T6_f && PD_temp_f <= T7_f) 	 my_SF.int_val = SF7;
-	else if(PD_temp_f > T7_f && PD_temp_f < Tmax_f)  my_SF.int_val = SF8;
+	// if(PD_temp_f <= Tmin_f) my_SF.int_val = SF0;
+	// else if(PD_temp_f >= Tmax_f) my_SF.int_val = SF9;
+	// else if(PD_temp_f > Tmin_f && PD_temp_f <= T1_f) my_SF.int_val = SF1;
+	// else if(PD_temp_f > T1_f && PD_temp_f <= T2_f)	 my_SF.int_val = SF2;
+	// else if(PD_temp_f > T2_f && PD_temp_f <= T3_f) 	 my_SF.int_val = SF3;
+	// else if(PD_temp_f > T3_f && PD_temp_f <= T4_f) 	 my_SF.int_val = SF4;
+	// else if(PD_temp_f > T4_f && PD_temp_f <= T5_f)	 my_SF.int_val = SF5;
+	// else if(PD_temp_f > T5_f && PD_temp_f <= T6_f)	 my_SF.int_val = SF6;
+	// else if(PD_temp_f > T6_f && PD_temp_f <= T7_f) 	 my_SF.int_val = SF7;
+	// else if(PD_temp_f > T7_f && PD_temp_f < Tmax_f)  my_SF.int_val = SF8;
+
+	my_SF.float_val = sf0_f*PD_temp_f + sf1_f;
+	
+}
+
+float BIAS_Comp(float PD_temp_f)
+{
+	float slope, offset;
+
+	if(PD_temp_f <= bias_comp_T1_f) {
+		slope = sfb_1_slope_f;
+		offset = sfb_1_offset_f;
+	}
+	else if(PD_temp_f > bias_comp_T1_f && PD_temp_f <= bias_comp_T2_f) {
+		slope = sfb_2_slope_f;
+		offset = sfb_2_offset_f;
+	}
+	else if(PD_temp_f > bias_comp_T2_f) {
+		slope = sfb_3_slope_f;
+		offset = sfb_3_offset_f;
+	}
+	
+	return (slope*PD_temp_f + offset);
 }
 
 int main()
@@ -350,19 +401,25 @@ int main()
 	sdram_var = IORD(SDRAM_BASE, 0);
 	sdram_var2 = IORD(SDRAM_BASE, 0x3fffff);
 
-	while(1) {
+
+
+	while(1) {	
 		time = IORD(VARSET_BASE, I_VAR_TIMER);
 		err = IORD(VARSET_BASE, I_VAR_ERR);
 		step = IORD(VARSET_BASE, I_VAR_STEP_ORI);
+//		 printf("%d\n", step);
 		PD_temp = ds1775_9B_readTemp_d();
-//		printf("%d\n", step);
-		PDTemp_f.float_val = (float)(PD_temp>>8) + (float)((PD_temp&0xFF)>>7)*0.5;
+
+
+		PDTemp_f.float_val = convert_PDtemp2f(PD_temp);
 		judge_SF(PDTemp_f.float_val);
 		time_f = (float)time*COE_TIMER;
-//		step_f = (float)step*my_SF.float_val + sf_b;
-		step_f = (float)step*MV_Update(my_SF.float_val) + sf_b;
+
+		step_f = MV_Update(step)*my_SF.float_val + BIAS_Comp(PDTemp_f.float_val);
 		if(step_f >= cutoff_p)step_f = cutoff_p;
 		else if(step_f <= cutoff_n)step_f = cutoff_n;
+
+
 		if(start_flag == 0){ 	//IDLE mode
 //			/***
 //			printf("nstate: %d, ", IORD(VARSET_BASE, I_VAR_NSTATE));
@@ -396,7 +453,6 @@ int main()
 //			printf("%.1f, %.11f\n ", PD_temp_f, my_SF.float_val);
 //			printf("%x\n", PD_temp>>8);
 //			printf("%x\n", PD_temp);
-//			printf("%.1f\n", PDTemp_f.float_val);
 //			usleep(300000);
 			heading_angle = 0; //reset NMEA mode heading angle
 		}
@@ -421,8 +477,9 @@ int main()
 				sendTx(IEEE_754_F2INT(time_f));
 				sendTx(err);
 				sendTx(IEEE_754_F2INT(step_f));
-				checkByte(PD_temp>>8);
-				checkByte(PD_temp);
+				sendTx(PDTemp_f.int_val);
+				// checkByte(PD_temp>>8);
+				// checkByte(PD_temp);
 			}
 		}
 
@@ -625,7 +682,7 @@ void fog_parameter(alt_u8 *data)
 					case FPGA_Q_ADDR: {
 						IOWR(VARSET_BASE, O_VAR_KAL_Q, uart_value);
 			//			kal_Q = uart_value;
-			//			printf("kal_Q: %d\n", kal_Q);
+						// printf("kal_Q: %d\n", kal_Q);
 						break;
 					}
 					case FPGA_R_ADDR: {
@@ -636,10 +693,10 @@ void fog_parameter(alt_u8 *data)
 					}
 					case SF0_ADDR: {
 						SF0 = uart_value;
-//						printf("SF0_ADDR: %d\n", SF0);
+						sf0_f = IEEE_754_INT2F(SF0);
 						break;
 					}
-					case SF1_ADDR: SF1 = uart_value;break;
+					case SF1_ADDR: SF1 = uart_value; sf1_f=IEEE_754_INT2F(SF1); break;
 					case SF2_ADDR: SF2 = uart_value;break;
 					case SF3_ADDR: SF3 = uart_value;break;
 					case SF4_ADDR: SF4 = uart_value;break;
@@ -670,6 +727,15 @@ void fog_parameter(alt_u8 *data)
 						Tmax_f = IEEE_754_INT2F(TMAX);
 						break;
 					}
+
+					case BIAS_COMP_T1_ADDR: BIAS_COMP_T1 = uart_value; bias_comp_T1_f = IEEE_754_INT2F(BIAS_COMP_T1); break;
+					case BIAS_COMP_T2_ADDR: BIAS_COMP_T2 = uart_value; bias_comp_T2_f = IEEE_754_INT2F(BIAS_COMP_T2); break;
+					case SFB_1_SLOPE_ADDR: SFB_1_SLOPE = uart_value; sfb_1_slope_f = IEEE_754_INT2F(SFB_1_SLOPE); break;
+					case SFB_2_SLOPE_ADDR: SFB_2_SLOPE = uart_value; sfb_2_slope_f = IEEE_754_INT2F(SFB_2_SLOPE); break;
+					case SFB_3_SLOPE_ADDR: SFB_3_SLOPE = uart_value; sfb_3_slope_f = IEEE_754_INT2F(SFB_3_SLOPE); break;
+					case SFB_1_OFFSET_ADDR: SFB_1_OFFSET = uart_value; sfb_1_offset_f = IEEE_754_INT2F(SFB_1_OFFSET); break;
+					case SFB_2_OFFSET_ADDR: SFB_2_OFFSET = uart_value; sfb_2_offset_f = IEEE_754_INT2F(SFB_2_OFFSET); break;
+					case SFB_3_OFFSET_ADDR: SFB_3_OFFSET = uart_value; sfb_3_offset_f = IEEE_754_INT2F(SFB_3_OFFSET); break;
 
 					case DAC_GAIN_ADDR: {
 						IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_ADDA_BASE, (DAC1_GAIN_LSB_ADDR<<8) | (uart_value&0xFF)); usleep (10);
@@ -766,7 +832,7 @@ float MV_Update(float z)
 	mv_data_arr[mv_ptr++] = z;
 	mv_sum += z;
 	if(mv_ptr==MV_NUM) mv_ptr = 0;
-//	return (mv_sum >> shift);
+//	return (mv_sum);
 	return (mv_sum/(float)MV_NUM);
 }
 
@@ -822,8 +888,8 @@ void FOG_init()
 {
 	/*** user variable init***/
 	IOWR(VARSET_BASE, O_VAR_FREQ, 102);
-	IOWR(VARSET_BASE, O_VAR_AMP_H, 9200);
-	IOWR(VARSET_BASE, O_VAR_AMP_L, -9200);
+	IOWR(VARSET_BASE, O_VAR_AMP_H, 4100);
+	IOWR(VARSET_BASE, O_VAR_AMP_L, -4100);
 	IOWR(VARSET_BASE, O_VAR_OFFSET, 0);
 //	IOWR(VARSET_BASE, O_VAR_POLARITY, 1);
 	Set_FB_Polarity(0);
@@ -838,14 +904,14 @@ void FOG_init()
 	IOWR(VARSET_BASE, O_VAR_CONST_STEP, 0);
 	IOWR(VARSET_BASE, O_VAR_TIMER_RST, 1); usleep (10); //reset timer
 	IOWR(VARSET_BASE, O_VAR_TIMER_RST, 0);
-	IOWR(VARSET_BASE, O_VAR_KAL_Q, 0);
-	IOWR(VARSET_BASE, O_VAR_KAL_R, 0);
+	IOWR(VARSET_BASE, O_VAR_KAL_Q, 10);
+	IOWR(VARSET_BASE, O_VAR_KAL_R, 2);
 //	Set_FB_Polarity(0);
 //	usleep(1000);
 //	IOWR(VARSET_BASE, O_VAR_POLARITY, 0);
 //	usleep(1000);
 //	IOWR(VARSET_BASE, O_VAR_POLARITY, 1);
-	Set_Dac_Gain(512);
+	Set_Dac_Gain(505);
 
 	SF0 = FLOAT_1;
 	SF1 = FLOAT_1;
@@ -869,6 +935,15 @@ void FOG_init()
 	T6_f = T5_f + 10.0;
 	T7_f = T6_f + 10.0;
 	Tmax_f = 80.0;
+
+	bias_comp_T1_f = 0.0;
+	bias_comp_T2_f = 40.0;
+	sfb_1_slope_f = 1.0;
+	sfb_2_slope_f = 1.0;
+	sfb_3_slope_f = 1.0;
+	sfb_1_offset_f = 0.0;
+	sfb_2_offset_f = 0.0;
+	sfb_3_offset_f = 0.0;
 }
 
 void update_temperature(void)
@@ -943,4 +1018,13 @@ alt_u8 crc(alt_u8  message[], int nBytes)
     return (remainder);
 }
 
+float convert_PDtemp2f(alt_16 PD_temp)
+{
+	alt_u8 Hbyte = PD_temp>>8;
+	alt_u8 Lbyte = PD_temp;
 
+	if(Hbyte>>7) {
+		return (float)Hbyte - 256.0 + (float)(Lbyte>>7)*0.5;
+	}
+	else return (float)(PD_temp>>8) + (float)(Lbyte>>7)*0.5;
+}
