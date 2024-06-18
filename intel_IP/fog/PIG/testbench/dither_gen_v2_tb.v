@@ -1,10 +1,9 @@
 `timescale 1 ns/ 100 ps
-module dither_gen_v1_tb();
+module dither_gen_v2_tb();
 
 // test vector input registers
 reg i_clk;
 reg i_rst_n;
-reg i_trig;
 reg [31:0] i_avg_sel;
 reg [31:0] i_data;
 reg [31:0] i_wait_cnt;
@@ -17,35 +16,39 @@ wire [3:0]   o_nstate;
 wire [31:0] o_reg_data_H;
 wire [31:0] o_reg_data_L;
 wire [31:0] o_reg_sum;
+wire        o_trig;
+wire [31:0] o_period_cnt;
 
+localparam REG_H = 32'd4096;
+localparam REG_L = -32'd4200;
 
-dither_gen_v1 dither_gen_v1_inst
+dither_gen_v2 dither_gen_v2_inst
 (
-    .i_clk(i_clk),
-    .i_rst_n(i_rst_n),
-    .i_trig(i_trig),
-    .i_wait_cnt(i_wait_cnt),  //[31:0]
-    .i_avg_sel(i_avg_sel),   //[31:0]
-    .i_data(i_data),      //[31:0]
-    .o_data(o_data),      //[31:0]
-    .o_dither_out(o_dither_out) //[31:0]
+    .i_clk(i_clk),           
+    .i_rst_n(i_rst_n),         
+    .i_dither_high(REG_H),   //[31:0]
+    .i_dither_low(REG_L),    //[31:0]
+    .i_period_cnt(32'd100),    //[31:0] 
+    .i_wait_cnt(i_wait_cnt),      //[31:0]
+    .i_avg_sel(i_avg_sel),       //[31:0]
+    .i_data(i_data),          //[31:0] 
+    .o_data(o_data),          //[31:0] signed
+    .o_dither_out(o_dither_out)     //[31:0] signed
 
     /*** for simulation ***/
-    , .o_reg_data_H(o_reg_data_H)   //[31:0]
-    , .o_reg_data_L(o_reg_data_L)   //[31:0]
-    , .o_reg_sum(o_reg_sum)      //[31:0]
+    , .o_reg_data_H(o_reg_data_H)   //[31:0] signed
+    , .o_reg_data_L(o_reg_data_L)   //[31:0] signed
+    , .o_reg_sum(o_reg_sum)      //[31:0] signed
     , .o_cstate(o_cstate)       //[3:0]
     , .o_nstate(o_nstate)       //[3:0]
+    , .o_trig(o_trig)
+    , .o_period_cnt(o_period_cnt) 
 );
-
-localparam DITHER_LOW  = -32'd50;
-localparam DITHER_HIGH =  32'd20;
 
 initial begin
 	// Initialize inputs
     i_clk = 0;
     i_rst_n = 0;
-    i_trig = 0;
     i_avg_sel = 4;
     
     i_wait_cnt = 9;                                                  
@@ -57,13 +60,13 @@ initial begin
     i_rst_n = 1;
     
     // Generate 100 trigger pulses
-    repeat (250) begin
-        i_trig = 1;
-        #10; // Trigger pulse width of 1 clock cycle (10 ns for 100 MHz clock)
-        i_trig = 0;
-		#1000; // 1 us delay for 100 MHz clock
-    end
-    #1000; // Wait for a few cycles after the last trigger
+    // repeat (250) begin
+    //     i_trig = 1;
+    //     #10; // Trigger pulse width of 1 clock cycle (10 ns for 100 MHz clock)
+    //     i_trig = 0;
+	// 	#1000; // 1 us delay for 100 MHz clock
+    // end
+    #5000000; // Wait for a few cycles after the last trigger
     $stop;
 end   
 
@@ -73,9 +76,9 @@ always @(posedge i_clk or negedge i_rst_n) begin
         i_data <= 0;
     end 
 	else begin
-        if (o_dither_out == DITHER_HIGH)
+        if (o_dither_out == REG_H)
             i_data <= 1000;
-        else if (o_dither_out == DITHER_LOW)
+        else if (o_dither_out == REG_L)
             i_data <= -2100;
         else
             i_data <= 0; // Default value if o_dither_out is neither 1 nor -1

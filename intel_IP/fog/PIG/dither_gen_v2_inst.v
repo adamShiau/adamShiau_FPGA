@@ -17,4 +17,6 @@ dither_gen_v2 dither_gen_v2_inst
     , .o_reg_sum()      //[31:0] signed
     , .o_cstate()       //[3:0]
     , .o_nstate()       //[3:0]
+    , .o_trig()
+    , .o_period_cnt()   //[31:0]
 );

@@ -18,6 +18,9 @@ wire [31:0] o_reg_data_H;
 wire [31:0] o_reg_data_L;
 wire [31:0] o_reg_sum;
 
+localparam DITHER_LOW  = -32'd50;
+localparam DITHER_HIGH =  32'd20;
+
 
 dither_gen_v1 dither_gen_v1_inst
 (
@@ -37,9 +40,6 @@ dither_gen_v1 dither_gen_v1_inst
     , .o_cstate(o_cstate)       //[3:0]
     , .o_nstate(o_nstate)       //[3:0]
 );
-
-localparam DITHER_LOW  = -32'd50;
-localparam DITHER_HIGH =  32'd20;
 
 initial begin
 	// Initialize inputs

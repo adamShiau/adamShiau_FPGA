@@ -20,7 +20,10 @@ module dither_gen_v2
     , output signed [31:0] o_reg_data_H
     , output signed [31:0] o_reg_data_L
     , output signed [31:0] o_reg_sum
-    , output [3:0] o_cstate, o_nstate
+    , output [3:0] o_cstate
+    , output [3:0] o_nstate
+    , output o_trig
+    , output signed [31:0] o_period_cnt
 );
 
 //State machine
@@ -66,6 +69,8 @@ assign o_nstate = nstate;
 assign o_reg_data_H = reg_data_H;
 assign o_reg_data_L = reg_data_L;
 assign o_reg_sum = reg_sum;
+assign o_trig = trig;
+assign o_period_cnt = period_cnt;
 
 /*** self trig module***/
 always@(posedge i_clk or negedge i_rst_n) begin
@@ -74,7 +79,7 @@ always@(posedge i_clk or negedge i_rst_n) begin
     end
     else begin
         if(period_cnt != 32'd0) begin
-            period_cnt <= i_period_cnt - 1'b1;
+            period_cnt <= period_cnt - 1'b1;
             trig <= 1'b0;
         end
         else begin
@@ -177,6 +182,9 @@ always@(posedge i_clk or negedge i_rst_n) begin
         dither_out <= 32'd0;
         trig_cnt <= 32'd0;
         reg_o_data <= 32'd0;
+        reg_sum <= 32'd0;
+        reg_data_H <= 32'd0;
+        reg_data_L <= 32'd0;
     end
     else begin
         case(cstate)

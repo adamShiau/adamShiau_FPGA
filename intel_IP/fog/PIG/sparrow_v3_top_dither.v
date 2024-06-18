@@ -153,8 +153,6 @@ wire [31:0] o_step, o_step_MV, o_step_dither, dither_amp;
 wire [31:0] o_phaseRamp;
 reg [31:0] r_phaseRamp;
 
-wire[15:0] chat_gpt_clk;
-
 reg signed [31:0] r_ramp;
 
 reg signed [31:0] r_mod;
@@ -275,15 +273,36 @@ feedback_step_gen_v4 fb_step_gen_inst(
 );
 //***/
 
+// dither_gen_v2 dither_gen_v2_inst
+// (
+//     .i_clk(DAC_CLK),           
+//     .i_rst_n(locked),         
+//     .i_dither_high(o_var_offset),   //[31:0]
+//     .i_dither_low(o_var_errTh),    //[31:0]
+//     .i_period_cnt(o_var_kal_Q),    //[31:0] 
+//     .i_wait_cnt(32'd10),      //[31:0]
+//     .i_avg_sel(o_var_kal_R),       //[31:0]
+//     .i_data(o_step),          //[31:0] 
+//     .o_data(o_step_dither),          //[31:0] signed
+//     .o_dither_out(dither_amp)     //[31:0] signed
+
+//     /*** for simulation ***/
+//     , .o_reg_data_H()   //[31:0] signed
+//     , .o_reg_data_L()   //[31:0] signed
+//     , .o_reg_sum()      //[31:0] signed
+//     , .o_cstate()       //[3:0]
+//     , .o_nstate()       //[3:0]
+// );
+
 dither_gen_v2 dither_gen_v2_inst
 (
     .i_clk(DAC_CLK),           
     .i_rst_n(locked),         
-    .i_dither_high(o_var_dither_H),   //[31:0]
-    .i_dither_low(o_var_dither_L),    //[31:0]
-    .i_period_cnt(o_var_dither_period),    //[31:0] 
+    .i_dither_high(32'd4096),   //[31:0]
+    .i_dither_low(-32'd8092),    //[31:0]
+    .i_period_cnt(32'd1000),    //[31:0] 
     .i_wait_cnt(32'd10),      //[31:0]
-    .i_avg_sel(o_var_dither_avg),       //[31:0]
+    .i_avg_sel(32'd10),       //[31:0]
     .i_data(o_step),          //[31:0] 
     .o_data(o_step_dither),          //[31:0] signed
     .o_dither_out(dither_amp)     //[31:0] signed
