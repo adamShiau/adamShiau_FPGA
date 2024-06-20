@@ -165,8 +165,8 @@ wire [31:0] filter_adc;
 //=======================================================
 
 
-// assign DAC1 =  o_phaseRamp[15:0];
-assign DAC1 =  dither_amp[15:0];
+ assign DAC1 =  o_phaseRamp[15:0];
+//assign DAC1 =  dither_amp[15:0];
 //assign DAC2 =  ~o_phaseRamp[15:0];
 
 
@@ -298,11 +298,11 @@ dither_gen_v2 dither_gen_v2_inst
 (
     .i_clk(DAC_CLK),           
     .i_rst_n(locked),         
-    .i_dither_high(32'd4096),   //[31:0]
-    .i_dither_low(-32'd8092),    //[31:0]
-    .i_period_cnt(32'd1000),    //[31:0] 
+    .i_dither_high(o_var_offset),   //[31:0]
+    .i_dither_low(o_var_errTh),    //[31:0]
+    .i_period_cnt(o_var_kal_Q),    //[31:0] 
     .i_wait_cnt(32'd10),      //[31:0]
-    .i_avg_sel(32'd10),       //[31:0]
+    .i_avg_sel(o_var_kal_R),       //[31:0]
     .i_data(o_step),          //[31:0] 
     .o_data(o_step_dither),          //[31:0] signed
     .o_dither_out(dither_amp)     //[31:0] signed
@@ -315,17 +315,6 @@ dither_gen_v2 dither_gen_v2_inst
     , .o_nstate()       //[3:0]
 );
 
-// dither_gen_v2 dither_inst(
-// .i_clk(DAC_CLK),
-// .i_rst_n(locked),
-// .i_trig(dither_Trig),
-// .i_wait_cnt(32'd10),
-// .i_ext_amp(o_var_kal_R),
-// .i_avg_sel(o_var_offset), 
-// .i_data(o_step),
-// .o_data(o_step_dither),
-// .o_dither_out(dither_amp)
-// );
 
 //wire [31:0] m_count_reg, m_data_reg;
 //wire [63:0] m_sum_reg;
