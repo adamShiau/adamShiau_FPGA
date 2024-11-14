@@ -51,6 +51,7 @@ module i2c_controller(
 		else counter2 <= counter2 + 1;
 	end 
 	
+	// i2c_clk下降緣時改變i2c_scl_enable，進而控制i2c_scl
 	always @(negedge i2c_clk, posedge rst) begin
 		if(rst == 1) begin
 			i2c_scl_enable <= 0;
@@ -61,10 +62,9 @@ module i2c_controller(
 				i2c_scl_enable <= 1;
 			end
 		end
-	
 	end
 
-
+	// i2c_clk上升緣時敲入state
 	always @(posedge i2c_clk, posedge rst) begin
 		if(rst == 1) begin
 			state <= IDLE;
@@ -73,7 +73,7 @@ module i2c_controller(
 			case(state)
 			
 				IDLE: begin
-					if (enable) begin
+					if (enable) begin //enable 來自外部輸入，啟動i2c
 						state <= START;
 						saved_addr <= {addr, rw};
 						saved_data <= data_in;
@@ -128,6 +128,7 @@ module i2c_controller(
 		end
 	end
 	
+	// i2c_clk下降緣時改變sda_out，發生在i2c_scl上升緣改變state後半週期
 	always @(negedge i2c_clk, posedge rst) begin
 		if(rst == 1) begin
 			write_enable <= 1;
