@@ -1,0 +1,6 @@
+DATE = "14:42:40 April 15, 2011"
+QUARTUS_VERSION = "9.1"
+
+# Revisions
+
+PROJECT_REVISION = "i2c_test"
