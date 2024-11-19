@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+//`timescale 1ns / 100ps
 
 
 module i2c_controller(
@@ -11,6 +11,8 @@ module i2c_controller(
 
 	output reg [7:0] data_out,
 	output wire ready,
+	output wire w_enable,
+	output [7:0] sm,
 
 	inout i2c_sda,
 	inout wire i2c_scl
@@ -38,9 +40,12 @@ module i2c_controller(
 	reg i2c_scl_enable = 0;
 	reg i2c_clk = 1;
 
+	assign sm = state; 
+	assign w_enable = write_enable; 
 	assign ready = ((rst == 0) && (state == IDLE)) ? 1 : 0;
 	assign i2c_scl = (i2c_scl_enable == 0 ) ? 1 : i2c_clk;
-	assign i2c_sda = (write_enable == 1) ? sda_out : 'bz;
+	assign i2c_sda = (write_enable == 1) ? sda_out : 1'bz;
+	// assign i2c_sda = (state == IDLE)? 1 : ( (write_enable == 1) ? sda_out : 1'bz );
 	
 	// 此處產生i2c_clk，頻率為clk 1/(DIVIDE_BY/2)，若DIVIDE_BY = 4，頻率為1/2 clk
 	always @(posedge clk) begin
@@ -134,6 +139,11 @@ module i2c_controller(
 			sda_out <= 1;
 		end else begin
 			case(state)
+
+				// IDLE: begin
+				// 	write_enable <= 1;
+				// 	sda_out <= 1;
+				// end
 				
 				START: begin
 					write_enable <= 1;
