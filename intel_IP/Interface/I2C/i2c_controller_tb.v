@@ -19,6 +19,7 @@ module i2c_controller_tb;
 	// Bidirs
 	wire i2c_sda;
 	wire i2c_scl;
+	wire i2c_clk_out;
 
 	// Instantiate the Unit Under Test (UUT)
 	i2c_controller i2c_controller_inst (
@@ -33,7 +34,8 @@ module i2c_controller_tb;
 		.w_enable(w_enable),
 		.sm(sm),
 		.i2c_sda(i2c_sda), 
-		.i2c_scl(i2c_scl)
+		.i2c_scl(i2c_scl),
+		.i2c_clk_out(i2c_clk_out)
 	);
 
 	initial begin
@@ -51,10 +53,11 @@ module i2c_controller_tb;
 		data_in = 8'h00;
 		rw = 0;	
 		
-		// #10;
-		// enable = 0;
-				
-		#500
+		repeat(100) @(posedge i2c_clk_out)
+			
+		
+		$display("Finished 100 posedges of i2c_clk_out.");	
+		#50
 		$stop;
 		
 	end     
