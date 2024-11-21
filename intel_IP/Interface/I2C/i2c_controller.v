@@ -1,143 +1,127 @@
 //`timescale 1ns / 100ps
 
 
-module i2c_controller(
-	input wire clk,
-	input wire rst,
-	input wire [6:0] addr,
-	input wire [7:0] data_in,
-	input wire enable,
-	input wire rw,
+module i2c_controller
+#(parameter DIVNUM = 6)
+(
+	input wire 			i_clk,
+	input wire 			i_rst_n,
+	input wire [6:0] 	i_dev_addr,
+	input wire [7:0] 	i_w_data,
+	input wire [7:0] 	i_reg_addr,
+	input wire 			i_enable,
+	input wire 			i_rw_reg,
 
-	output reg [7:0] data_out,
-	output wire ready,
-	output wire w_enable,
-	output [7:0] sm,
-
-	inout i2c_sda,
-	output i2c_scl,
-	output i2c_clk_out
+	output reg [7:0] 	o_rd_data,
+	output wire			o_ready,
+	output wire			o_finish,
+	output wire 		o_w_enable,
+	output wire [7:0] 	sm,
+	output wire			i2c_clk_out,
+	output wire			i2c_scl,
+	inout 				i2c_sda
 	);
 
 	localparam IDLE = 0;
 	localparam START = 1;
 	localparam ADDRESS = 2;
 	localparam READ_ACK = 3;
-	localparam WRITE_DATA = 4;
-	localparam WRITE_ACK = 5;
-	localparam READ_DATA = 6;
-	localparam READ_ACK2 = 7;
-	localparam STOP = 8;
-	localparam STOP2 = 9;
-	localparam IDLE2 = 10;
-	localparam START2 = 11;
-	localparam ADDRESS2 = 12;
-	localparam READ_ACK_B = 13;
-	localparam READ_ACK2_B = 14;
-	
-	// localparam DIVIDE_BY = 4;
+	localparam READ_ACK_B = 4;
+	localparam REG_ADDR  = 5;
+	localparam READ_ACK2 = 6;
+	localparam READ_ACK2_B = 7;
+	localparam READ_DATA = 8;
+	localparam WRITE_ACK = 9;
+	localparam WRITE_DATA = 10;
+	localparam READ_ACK3 = 11;
+	localparam READ_ACK3_B = 12;	
+	localparam STOP = 13;
 
 	reg [7:0] state;
 	reg [7:0] saved_addr;
 	reg [7:0] saved_data;
 	reg [7:0] counter;
-	// reg [7:0] counter2 = 0;
 	reg write_enable;
-	reg sda_out;
+	reg sda_out = 0;
 	reg i2c_scl_enable = 0;
 	reg i2c_scl_enable2 = 0;
 	reg i2c_clk = 1;
-	reg	[6:0] CLK_COUNT = 0; 	//clock
+	reg	[7:0] CLK_COUNT = 0; 	//clock
+	reg write_done = 0; // write done flag
+	reg finish = 0; // finish flag
+	reg rw = 0;
 
-	assign sm = state; 
 	assign i2c_clk_out = i2c_clk;
-	assign w_enable = write_enable; 
-	assign ready = ((rst == 0) && (state == IDLE)) ? 1 : 0;
+	assign sm = state; 
+	// assign o_finish = finish;
+	assign o_finish = ( (write_done == 0) && (state == STOP) )? 1:0;
+	assign o_w_enable = write_enable; 
+	assign o_ready = ((i_rst_n == 1) && (state == IDLE)) ? 1 : 0;
 	// assign i2c_scl = (i2c_scl_enable == 0 ) ? 1 : i2c_clk;
 	assign i2c_scl = (i2c_scl_enable2 == 0 ) ? 0 : ( (i2c_scl_enable == 0 ) ? 1 : i2c_clk) ;
 	assign i2c_sda = (write_enable == 1) ? sda_out : 1'bz;
-	// assign i2c_sda = (state == IDLE)? 1 : ( (write_enable == 1) ? sda_out : 1'bz );
-	
-	// 此處產生i2c_clk，頻率為clk 1/(DIVIDE_BY/2)，若DIVIDE_BY = 4，頻率為1/2 clk
-	// always @(posedge clk) begin
-	// 	if (counter2 == (DIVIDE_BY/2) - 1) begin
-	// 		i2c_clk <= ~i2c_clk;
-	// 		counter2 <= 0;
-	// 	end
-	// 	else counter2 <= counter2 + 1;
-	// end 
 
-	always@(posedge clk) begin
+	always@(posedge i_clk) begin
 		CLK_COUNT <= CLK_COUNT + 1;//CLK_COUNT[7]:390.625 kHz, CLK_COUNT[6]:781.25 KHz
-		i2c_clk <= CLK_COUNT[6];
+		i2c_clk <= CLK_COUNT[DIVNUM];
 	end
 
 	
-	always @(negedge i2c_clk, posedge rst) begin
-		if(rst == 1) begin
+	always @(negedge i2c_clk or negedge i_rst_n) begin
+		if(!i_rst_n) begin
 			i2c_scl_enable <= 0;
 			i2c_scl_enable2 <= 1;
 		end else begin
-			if ( (state == IDLE) || (state == IDLE2) ||(state == START) ||(state == START2) || (state == STOP) || (state == STOP2)) begin
+			if ( (state == IDLE) ||(state == START) || (state == STOP) ) begin
 				i2c_scl_enable <= 0;
-			end else begin
+			end 
+			else begin
 				i2c_scl_enable <= 1;
 			end
 
 			if ( (state == READ_ACK_B)|| (state == READ_ACK2_B) ) begin
 				i2c_scl_enable2 <= 0;
-			end else begin
+			end 
+			else begin
 				i2c_scl_enable2 <= 1;
 			end
-
-
 		end
 	
 	end
 
 
-	always @(posedge i2c_clk, posedge rst) begin
-		if(rst == 1) begin
+	always @(posedge i2c_clk or negedge i_rst_n) begin
+		if(!i_rst_n) begin
 			state <= IDLE;
+			finish <= 1'b0;
+			rw <= 1'b0;
 		end		
 		else begin
 			case(state)
-			
 				IDLE: begin
-					if (enable) begin
+					if (i_enable) begin
 						state <= START;
-						// saved_addr <= {addr, rw};
-						// saved_data <= data_in;
+						if(i_rw_reg == 1'b1) begin// read reg mode
+							if(write_done == 1'b0) rw <= 1'b0;
+							else rw <= 1'b1;
+						end
+						else rw <= 1'b0;
 					end
 					else state <= IDLE;
-				end
 
-				IDLE2: begin
-					if (enable) begin
-						state <= START2;
+					if(finish == 1'b1) begin
+						finish <= 1'b0;
+						rw <= 1'b0;
 					end
-					else state <= IDLE2;
 				end
 
 				START: begin
 					counter <= 7;
-					saved_addr <= {7'h1D, 1'b0};
+					saved_addr <= {i_dev_addr, rw};
 					state <= ADDRESS;
 				end
 
-				START2: begin
-					counter <= 7;
-					saved_addr <= {7'h1D, 1'b1};
-					state <= ADDRESS2;
-				end
-
 				ADDRESS: begin
-					if (counter == 0) begin 
-						state <= READ_ACK;
-					end else counter <= counter - 1;
-				end
-
-				ADDRESS2: begin
 					if (counter == 0) begin 
 						state <= READ_ACK;
 					end else counter <= counter - 1;
@@ -152,29 +136,50 @@ module i2c_controller(
 
 				READ_ACK_B: begin
 					counter <= 7;
-					if(saved_addr[0] == 0) begin
-						saved_data = 8'h00;
-						state <= WRITE_DATA;
+					if(rw == 0) begin
+						saved_data = i_reg_addr;
+						state <= REG_ADDR;
 					end
 					else state <= READ_DATA;
 				end
 
-				WRITE_DATA: begin //WRITE_DATA = 4
+				REG_ADDR: begin 
+					if(i_rw_reg == 1'b1) //read reg mode
+						write_done <= 1'b1;
+
 					if(counter == 0) begin
 						state <= READ_ACK2;
 					end else counter <= counter - 1;
 				end
-				
-				READ_ACK2: begin //READ_ACK2 = 7
+
+				READ_ACK2: begin 
 					state <= READ_ACK2_B;
 				end
 
 				READ_ACK2_B: begin 
-					state <= STOP2;
+					counter <= 7;
+					if( i_rw_reg == 1'b1) state <= STOP;
+					else begin
+						saved_data = i_w_data;
+						state <= WRITE_DATA;
+					end
+				end
+
+				STOP: begin
+					if(write_done==1'b0) finish <= 1'b1;
+					else finish <= 1'b0;
+					state <= IDLE;
+				end
+
+				WRITE_DATA: begin 
+					if(counter == 0) begin
+						state <= READ_ACK3;
+					end else counter <= counter - 1;
 				end
 
 				READ_DATA: begin
-					data_out[counter] <= i2c_sda;
+					if(write_done == 1'b1) write_done = 1'b0;
+					o_rd_data[counter] <= i2c_sda;
 					if (counter == 0) state <= WRITE_ACK;
 					else counter <= counter - 1;
 				end
@@ -183,19 +188,19 @@ module i2c_controller(
 					state <= STOP;
 				end
 
-				STOP: begin
-					state <= IDLE;
+				READ_ACK3: begin 
+					state <= READ_ACK3_B;
 				end
 
-				STOP2: begin //STOP2 = 9
-					state <= IDLE2;
+				READ_ACK3_B: begin 
+					state <= STOP;
 				end
 			endcase
 		end
 	end
 	
-	always @(negedge i2c_clk, posedge rst) begin
-		if(rst == 1) begin
+	always @(negedge i2c_clk or negedge i_rst_n) begin
+		if(!i_rst_n) begin
 			write_enable <= 1;
 			sda_out <= 1;
 		end else begin
@@ -206,16 +211,7 @@ module i2c_controller(
 					sda_out <= 0;
 				end
 
-				START2: begin
-					write_enable <= 1;
-					sda_out <= 0;
-				end
-				
 				ADDRESS: begin
-					sda_out <= saved_addr[counter];
-				end
-
-				ADDRESS2: begin
 					sda_out <= saved_addr[counter];
 				end
 				
@@ -227,15 +223,28 @@ module i2c_controller(
 					write_enable <= 0;
 				end
 
-				READ_ACK2: begin //READ_ACK2 = 7
+				READ_ACK2: begin
 					write_enable <= 0;
 				end
 
 				READ_ACK2_B: begin 
 					write_enable <= 0;
 				end
+
+				READ_ACK3: begin
+					write_enable <= 0;
+				end
+
+				READ_ACK3_B: begin 
+					write_enable <= 0;
+				end
+
+				REG_ADDR: begin //write reg addr
+					write_enable <= 1;
+					sda_out <= saved_data[counter];
+				end
 				
-				WRITE_DATA: begin //WRITE_DATA = 4
+				WRITE_DATA: begin //write reg value
 					write_enable <= 1;
 					sda_out <= saved_data[counter];
 				end
@@ -250,11 +259,6 @@ module i2c_controller(
 				end
 				
 				STOP: begin
-					write_enable <= 1;
-					sda_out <= 1;
-				end
-
-				STOP2: begin //STOP2 = 9
 					write_enable <= 1;
 					sda_out <= 1;
 				end
