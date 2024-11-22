@@ -51,9 +51,9 @@ i_enable = 0;
 i_clk = 0;          
 i_rst_n = 0;    
 i_dev_addr = 7'h1D;   
-i_reg_addr = 8'h00;      
+i_reg_addr = 8'h2C;      
 i_rw_reg = 1'b0;   
-i_w_data = 8'hAB;   
+i_w_data = 8'h82;   
 #50
 i_rst_n = 1;    
 i_enable = 1;

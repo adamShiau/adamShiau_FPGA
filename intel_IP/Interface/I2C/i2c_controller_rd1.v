@@ -11,7 +11,6 @@ module i2c_controller
 	input wire [7:0] 	i_reg_addr,
 	input wire 			i_enable,
 	input wire 			i_rw_reg,
-	// input wire 			i_drdy,
 
 	output reg [7:0] 	o_rd_data,
 	output wire			o_ready,
@@ -33,28 +32,11 @@ module i2c_controller
 	localparam READ_ACK2_B = 7;
 	localparam READ_DATA = 8;
 	localparam WRITE_ACK = 9;
-	localparam READ_DATA2 = 15;
-	localparam WRITE_ACK2 = 16;
-	localparam READ_DATA3 = 17;
-	localparam WRITE_ACK3 = 18;
-	localparam READ_DATA4 = 19;
-	localparam WRITE_ACK4 = 20;
-	localparam READ_DATA5 = 21;
-	localparam WRITE_ACK5 = 22;
-	localparam READ_DATA6 = 23;
-	localparam WRITE_ACK6 = 24;
-	localparam READ_DATA7 = 25;
-	localparam WRITE_ACK7 = 26;
-	localparam READ_DATA8 = 27;
-	localparam WRITE_ACK8 = 28;
-	localparam READ_DATA9 = 29;
-	localparam WRITE_ACK9 = 31;
 	localparam WRITE_DATA = 10;
 	localparam READ_ACK3 = 11;
 	localparam READ_ACK3_B = 12;	
 	localparam STOP = 13;
 	localparam STOP2 = 14;
-	localparam WAIT_DRDY = 15;
 
 	reg [7:0] state;
 	reg [7:0] saved_addr;
@@ -69,10 +51,10 @@ module i2c_controller
 	reg write_done = 0; // write done flag
 	reg finish = 0; // finish flag
 	reg rw = 0;
-	reg r_drdy = 0;
 
 	assign i2c_clk_out = i2c_clk;
 	assign sm = state; 
+	// assign o_finish = finish;
 	assign o_finish = ( (write_done == 0) && (state == STOP2) )? 1:0;
 	assign o_w_enable = write_enable; 
 	assign o_ready = ((i_rst_n == 1) && (state == IDLE)) ? 1 : 0;
@@ -85,8 +67,6 @@ module i2c_controller
 		CLK_COUNT <= CLK_COUNT + 1;//CLK_COUNT[7]:390.625 kHz, CLK_COUNT[6]:781.25 KHz
 		i2c_clk <= CLK_COUNT[DIVNUM];
 	end
-
-	// always@(posedge i_clk) r_drdy <= i_drdy;
 
 	always @(negedge i2c_clk or negedge i_rst_n) begin
 		if(!i_rst_n) begin
@@ -103,12 +83,35 @@ module i2c_controller
 			end
 		end
 	end
-
-	// WAIT_DRDY: begin
-	// 	if(r_drdy == 1) state <= READ_DATA;
-	// 	else state <= WAIT_DRDY;
-	// end
 	
+	// always @(negedge i2c_clk or negedge i_rst_n) begin
+	// 	if(!i_rst_n) begin
+	// 		i2c_scl_enable <= 0;
+	// 	end else begin
+	// 		if ( (state == IDLE) ||(state == START) || (state == STOP) ) begin
+	// 			i2c_scl_enable <= 0;
+	// 		end 
+	// 		else begin
+	// 			i2c_scl_enable <= 1;
+	// 		end
+	// 	end
+	// end
+
+	// always @(posedge i2c_clk or negedge i_rst_n) begin
+	// 	if(!i_rst_n) begin
+	// 		i2c_scl_enable2 <= 1;
+	// 	end else begin
+	// 		if ( (state == READ_ACK_B)|| (state == READ_ACK2_B) ) begin
+	// 			i2c_scl_enable2 <= 0;
+	// 		end 
+	// 		else begin
+	// 			i2c_scl_enable2 <= 1;
+	// 		end
+	// 	end
+	
+	// end
+
+
 	always @(posedge i2c_clk or negedge i_rst_n) begin
 		if(!i_rst_n) begin
 			state <= IDLE;
@@ -118,7 +121,6 @@ module i2c_controller
 		else begin
 			case(state)
 				IDLE: begin
-					// if (i_enable && r_drdy) begin
 					if (i_enable) begin
 						state <= START;
 						if(i_rw_reg == 1'b1) begin// read reg mode
@@ -211,87 +213,6 @@ module i2c_controller
 				end
 				
 				WRITE_ACK: begin
-					counter <= 7;
-					state <= READ_DATA2;
-				end
-
-				READ_DATA2: begin
-					o_rd_data[counter] <= i2c_sda;
-					if (counter == 0) state <= WRITE_ACK2;
-					else counter <= counter - 1;
-				end
-				WRITE_ACK2: begin
-					counter <= 7;
-					state <= READ_DATA3;
-				end
-
-				READ_DATA3: begin
-					o_rd_data[counter] <= i2c_sda;
-					if (counter == 0) state <= WRITE_ACK3;
-					else counter <= counter - 1;
-				end
-				WRITE_ACK3: begin
-					counter <= 7;
-					state <= READ_DATA4;
-				end
-
-				READ_DATA4: begin
-					o_rd_data[counter] <= i2c_sda;
-					if (counter == 0) state <= WRITE_ACK4;
-					else counter <= counter - 1;
-				end
-				WRITE_ACK4: begin
-					counter <= 7;
-					state <= READ_DATA5;
-				end
-
-				READ_DATA5: begin
-					o_rd_data[counter] <= i2c_sda;
-					if (counter == 0) state <= WRITE_ACK5;
-					else counter <= counter - 1;
-				end
-				WRITE_ACK5: begin
-					counter <= 7;
-					state <= READ_DATA6;
-				end
-
-				READ_DATA6: begin
-					o_rd_data[counter] <= i2c_sda;
-					if (counter == 0) state <= WRITE_ACK6;
-					else counter <= counter - 1;
-				end
-				WRITE_ACK6: begin
-					counter <= 7;
-					state <= READ_DATA7;
-				end
-
-				READ_DATA7: begin
-					o_rd_data[counter] <= i2c_sda;
-					if (counter == 0) state <= WRITE_ACK7;
-					else counter <= counter - 1;
-				end
-				WRITE_ACK7: begin
-					counter <= 7;
-					state <= READ_DATA8;
-				end
-
-				READ_DATA8: begin
-					o_rd_data[counter] <= i2c_sda;
-					if (counter == 0) state <= WRITE_ACK8;
-					else counter <= counter - 1;
-				end
-				WRITE_ACK8: begin
-					counter <= 7;
-					state <= READ_DATA9;
-				end
-
-				READ_DATA9: begin
-					o_rd_data[counter] <= i2c_sda;
-					if (counter == 0) state <= WRITE_ACK9;
-					else counter <= counter - 1;
-				end
-				WRITE_ACK9: begin
-					counter <= 7;
 					state <= STOP;
 				end
 
@@ -361,64 +282,8 @@ module i2c_controller
 					write_enable <= 1;
 					sda_out <= 0;
 				end
-				WRITE_ACK2: begin
-					write_enable <= 1;
-					sda_out <= 0;
-				end
-				WRITE_ACK3: begin
-					write_enable <= 1;
-					sda_out <= 0;
-				end
-				WRITE_ACK4: begin
-					write_enable <= 1;
-					sda_out <= 0;
-				end
-				WRITE_ACK5: begin
-					write_enable <= 1;
-					sda_out <= 0;
-				end
-				WRITE_ACK6: begin
-					write_enable <= 1;
-					sda_out <= 0;
-				end
-				WRITE_ACK7: begin
-					write_enable <= 1;
-					sda_out <= 0;
-				end
-				WRITE_ACK8: begin
-					write_enable <= 1;
-					sda_out <= 0;
-				end
-				WRITE_ACK9: begin
-					write_enable <= 1;
-					sda_out <= 0;
-				end
 				
 				READ_DATA: begin
-					write_enable <= 0;				
-				end
-				READ_DATA2: begin
-					write_enable <= 0;				
-				end
-				READ_DATA3: begin
-					write_enable <= 0;				
-				end
-				READ_DATA4: begin
-					write_enable <= 0;				
-				end
-				READ_DATA5: begin
-					write_enable <= 0;				
-				end
-				READ_DATA6: begin
-					write_enable <= 0;				
-				end
-				READ_DATA7: begin
-					write_enable <= 0;				
-				end
-				READ_DATA8: begin
-					write_enable <= 0;				
-				end
-				READ_DATA9: begin
 					write_enable <= 0;				
 				end
 				
