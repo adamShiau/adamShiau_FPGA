@@ -54,7 +54,6 @@ module i2c_controller
 	localparam READ_ACK3_B = 12;	
 	localparam STOP = 13;
 	localparam STOP2 = 14;
-	localparam WAIT_DRDY = 15;
 
 	reg [7:0] state;
 	reg [7:0] saved_addr;
@@ -103,11 +102,6 @@ module i2c_controller
 			end
 		end
 	end
-
-	// WAIT_DRDY: begin
-	// 	if(r_drdy == 1) state <= READ_DATA;
-	// 	else state <= WAIT_DRDY;
-	// end
 	
 	always @(posedge i2c_clk or negedge i_rst_n) begin
 		if(!i_rst_n) begin
@@ -186,8 +180,6 @@ module i2c_controller
 				end
 
 				STOP: begin
-					// if(write_done==1'b0) finish <= 1'b1;
-					// else finish <= 1'b0;
 					state <= STOP2;
 				end
 
@@ -423,8 +415,7 @@ module i2c_controller
 				end
 				
 				STOP: begin
-					// write_enable <= 1;
-					// sda_out <= 1;
+
 				end
 
 				STOP2: begin
