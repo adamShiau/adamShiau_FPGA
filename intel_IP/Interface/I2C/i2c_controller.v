@@ -76,10 +76,12 @@ module i2c_controller
 	reg rw = 0;
 	reg r_drdy = 0;
 
-	wire sm_enable, rw_reg;
+	wire i_enable, rw_reg;
 	wire [1:0] op_mode;
+	reg sm_enable = 0;
 	// control register
-	assign sm_enable = i_ctrl[0];
+	// assign sm_enable = i_ctrl[0];
+	assign i_enable = i_ctrl[0];
 	assign rw_reg = i_ctrl[1];
 	assign op_mode = i_ctrl[3:2]; //00: CPU 1 byte, 01: CPU 11 bytes, 10: FPGA 11 bytes, 11: reserved
 	// status register
@@ -101,7 +103,9 @@ module i2c_controller
 		i2c_clk <= CLK_COUNT[DIVNUM];
 	end
 
-	// always@(posedge i_clk) r_drdy <= i_drdy;
+	// always@(posedge i2c_clk) begin
+	// 	sm_enable <= i_enable;
+	// end
 
 	always @(negedge i2c_clk or negedge i_rst_n) begin
 		if(!i_rst_n) begin
@@ -123,26 +127,28 @@ module i2c_controller
 		if(!i_rst_n) begin
 			state <= IDLE;
 			finish <= 1'b0;
+			write_done <= 1'b0;
 			rw <= 1'b0;
 		end		
 		else begin
 			case(state)
 				IDLE: begin
-					// if (sm_enable && r_drdy) begin
-					if (sm_enable) begin
-						state <= START;
-						if(rw_reg == 1'b1) begin// read reg mode
-							if(write_done == 1'b0) rw <= 1'b0;
-							else rw <= 1'b1;
-						end
-						else rw <= 1'b0; // write reg mode
-					end
-					else state <= IDLE;
+					if(i_enable) sm_enable <= 1;
 
 					if(finish == 1'b1) begin
 						finish <= 1'b0;
 						rw <= 1'b0;
 					end
+
+					if (sm_enable) begin
+						state <= START;
+						if(rw_reg == 1'b1) begin// read reg mode
+							if(write_done == 1'b0) rw <= 1'b0;// in read reg mode, when write_done flag = 0 means it must write which reg you want to read first.  
+							else rw <= 1'b1;
+						end
+						else rw <= 1'b0; // write reg mode
+					end
+					else state <= IDLE;
 				end
 
 				START: begin
@@ -200,7 +206,10 @@ module i2c_controller
 				end
 
 				STOP2: begin
-					if(write_done==1'b0) finish <= 1'b1;
+					if(write_done==1'b0) begin
+						finish <= 1'b1;
+						sm_enable <= 1'b0;
+					end
 					else finish <= 1'b0;
 					state <= IDLE;
 				end
@@ -342,6 +351,7 @@ module i2c_controller
 		if(!i_rst_n) begin
 			write_enable <= 1;
 			sda_out <= 1;
+			counter <= 0;
 		end else begin
 			case(state)
 				
