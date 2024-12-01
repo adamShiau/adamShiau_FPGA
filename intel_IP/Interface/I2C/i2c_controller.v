@@ -72,7 +72,7 @@ module i2c_controller
 	reg i2c_clk = 1;
 	reg	[7:0] CLK_COUNT = 0; 	//clock
 	reg write_done = 0; // write done flag
-	reg finish = 0; // finish flag
+	// reg finish = 0; // finish flag
 	reg rw = 0;
 	reg r_drdy = 0;
 
@@ -86,11 +86,12 @@ module i2c_controller
 	assign op_mode = i_ctrl[3:2]; //00: CPU 1 byte, 01: CPU 11 bytes, 10: FPGA 11 bytes, 11: reserved
 	// status register
 	assign o_status[0] = ((i_rst_n == 1) && (state == IDLE)) ? 1 : 0; //ready
+	assign o_status[1] = ( (write_done == 0) && (state == STOP2) )? 1:0; //finish
 
 
 	assign i2c_clk_out = i2c_clk;
 	assign sm = state; 
-	assign o_finish = ( (write_done == 0) && (state == STOP2) )? 1:0;
+	// assign o_finish = ( (write_done == 0) && (state == STOP2) )? 1:0;
 	assign o_w_enable = write_enable; 
 	
 	// assign i2c_scl = (i2c_scl_enable == 0 ) ? 1 : i2c_clk;
@@ -126,7 +127,7 @@ module i2c_controller
 	always @(posedge i2c_clk or negedge i_rst_n) begin
 		if(!i_rst_n) begin
 			state <= IDLE;
-			finish <= 1'b0;
+			// finish <= 1'b0;
 			write_done <= 1'b0;
 			rw <= 1'b0;
 		end		
@@ -135,10 +136,10 @@ module i2c_controller
 				IDLE: begin
 					if(i_enable) sm_enable <= 1;
 
-					if(finish == 1'b1) begin
-						finish <= 1'b0;
-						rw <= 1'b0;
-					end
+					// if(finish == 1'b1) begin
+					// 	finish <= 1'b0;
+					// 	rw <= 1'b0;
+					// end
 
 					if (sm_enable) begin
 						state <= START;
@@ -207,10 +208,10 @@ module i2c_controller
 
 				STOP2: begin
 					if(write_done==1'b0) begin
-						finish <= 1'b1;
+						// finish <= 1'b1;
 						sm_enable <= 1'b0;
 					end
-					else finish <= 1'b0;
+					// else finish <= 1'b0;
 					state <= IDLE;
 				end
 
