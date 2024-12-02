@@ -15,6 +15,16 @@ module i2c_controller
 	input wire 			i_drdy,
 
 	output reg [7:0] 	o_rd_data,
+	output reg [7:0] 	o_rd_data_2,
+	output reg [7:0] 	o_rd_data_3,
+	output reg [7:0] 	o_rd_data_4,
+	output reg [7:0] 	o_rd_data_5,
+	output reg [7:0] 	o_rd_data_6,
+	output reg [7:0] 	o_rd_data_7,
+	output reg [7:0] 	o_rd_data_8,
+	output reg [7:0] 	o_rd_data_9,
+	output reg [7:0] 	o_rd_data_10,
+	output reg [7:0] 	o_rd_data_11,
 	// output wire			o_ready,
 	// output wire			o_finish,
 	output wire [31:0] 	o_status,
@@ -25,6 +35,16 @@ module i2c_controller
 	inout 				i2c_sda
 	);
 
+	/*** regidter definition***/
+	localparam ADXL355_DEV_ADDR  = 7'h1D;
+	localparam REG_ADXL355_TEMP2 = 8'h06;
+
+	/*** op mode definition ***/
+	localparam CPU_1 		= 	0;
+	localparam CPU_11 		= 	1;
+	localparam HW_11 		= 	2;
+
+	/*** state machine definition ***/
 	localparam IDLE 		= 	0;
 	localparam START 		= 	1;
 	localparam ADDRESS 		= 	2;
@@ -79,34 +99,28 @@ module i2c_controller
 	wire i_enable, rw_reg;
 	wire [1:0] op_mode;
 	reg sm_enable = 0;
-	// control register
-	// assign sm_enable = i_ctrl[0];
+	/******* control register********/
 	assign i_enable = i_ctrl[0];
 	assign rw_reg = i_ctrl[1];
 	assign op_mode = i_ctrl[3:2]; //00: CPU 1 byte, 01: CPU 11 bytes, 10: FPGA 11 bytes, 11: reserved
-	// status register
+
+	/******* status register********/
 	assign o_status[0] = ((i_rst_n == 1) && (state == IDLE)) ? 1 : 0; //ready
 	assign o_status[1] = ( (write_done == 0) && (state == STOP2) )? 1:0; //finish
+	assign o_status[9:2] = state; 
 
 
 	assign i2c_clk_out = i2c_clk;
-	assign sm = state; 
+	// assign sm = state; 
 	// assign o_finish = ( (write_done == 0) && (state == STOP2) )? 1:0;
 	assign o_w_enable = write_enable; 
-	
-	// assign i2c_scl = (i2c_scl_enable == 0 ) ? 1 : i2c_clk;
-	// assign i2c_scl = (i2c_scl_enable2 == 0 ) ? 0 : ( (i2c_scl_enable == 0 ) ? 1 : i2c_clk) ;
 	assign i2c_scl = (i2c_scl_enable == 0 ) ? 0 : ( (i2c_scl_enable == 1 ) ? 1 : i2c_clk) ;
 	assign i2c_sda = (write_enable == 1) ? sda_out : 1'bz;
 
 	always@(posedge i_clk) begin
-		CLK_COUNT <= CLK_COUNT + 1;//CLK_COUNT[7]:390.625 kHz, CLK_COUNT[6]:781.25 KHz
+		CLK_COUNT <= CLK_COUNT + 1;//CLK_COUNT[6]:50000/2^(6+1)=390.625 kHz, CLK_COUNT[5]:781.25 KHz
 		i2c_clk <= CLK_COUNT[DIVNUM];
 	end
-
-	// always@(posedge i2c_clk) begin
-	// 	sm_enable <= i_enable;
-	// end
 
 	always @(negedge i2c_clk or negedge i_rst_n) begin
 		if(!i_rst_n) begin
@@ -134,12 +148,7 @@ module i2c_controller
 		else begin
 			case(state)
 				IDLE: begin
-					if(i_enable) sm_enable <= 1;
-
-					// if(finish == 1'b1) begin
-					// 	finish <= 1'b0;
-					// 	rw <= 1'b0;
-					// end
+					if(i_enable || i_drdy) sm_enable <= 1; 
 
 					if (sm_enable) begin
 						state <= START;
@@ -154,7 +163,8 @@ module i2c_controller
 
 				START: begin
 					counter <= 7;
-					saved_addr <= {i_dev_addr, rw};
+					if(op_mode==HW_11) saved_addr <= ADXL355_DEV_ADDR;
+					else saved_addr <= {i_dev_addr, rw};
 					state <= ADDRESS;
 				end
 
@@ -174,7 +184,8 @@ module i2c_controller
 				READ_ACK_B: begin
 					counter <= 7;
 					if(rw == 0) begin
-						saved_data = i_reg_addr;
+						if(op_mode==HW_11) saved_data = REG_ADXL355_TEMP2;
+						else saved_data = i_reg_addr;
 						state <= REG_ADDR;
 					end
 					else state <= READ_DATA;
@@ -229,7 +240,7 @@ module i2c_controller
 				end
 				
 				WRITE_ACK: begin//12
-					if(~op_mode) state <= STOP; //00, CPU read 1 byte
+					if(op_mode == CPU_1) state <= STOP; //00, CPU read 1 byte
 					else begin// else, CPU/FPGA read 11 bytes
 						counter <= 7;
 						state <= READ_DATA2;
@@ -237,7 +248,7 @@ module i2c_controller
 				end
 
 				READ_DATA2: begin
-					o_rd_data[counter] <= i2c_sda;
+					o_rd_data_2[counter] <= i2c_sda;
 					if (counter == 0) state <= WRITE_ACK2;
 					else counter <= counter - 1;
 				end
@@ -247,7 +258,7 @@ module i2c_controller
 				end
 
 				READ_DATA3: begin
-					o_rd_data[counter] <= i2c_sda;
+					o_rd_data_3[counter] <= i2c_sda;
 					if (counter == 0) state <= WRITE_ACK3;
 					else counter <= counter - 1;
 				end
@@ -257,7 +268,7 @@ module i2c_controller
 				end
 
 				READ_DATA4: begin
-					o_rd_data[counter] <= i2c_sda;
+					o_rd_data_4[counter] <= i2c_sda;
 					if (counter == 0) state <= WRITE_ACK4;
 					else counter <= counter - 1;
 				end
@@ -267,7 +278,7 @@ module i2c_controller
 				end
 
 				READ_DATA5: begin
-					o_rd_data[counter] <= i2c_sda;
+					o_rd_data_5[counter] <= i2c_sda;
 					if (counter == 0) state <= WRITE_ACK5;
 					else counter <= counter - 1;
 				end
@@ -277,7 +288,7 @@ module i2c_controller
 				end
 
 				READ_DATA6: begin
-					o_rd_data[counter] <= i2c_sda;
+					o_rd_data_6[counter] <= i2c_sda;
 					if (counter == 0) state <= WRITE_ACK6;
 					else counter <= counter - 1;
 				end
@@ -287,7 +298,7 @@ module i2c_controller
 				end
 
 				READ_DATA7: begin
-					o_rd_data[counter] <= i2c_sda;
+					o_rd_data_7[counter] <= i2c_sda;
 					if (counter == 0) state <= WRITE_ACK7;
 					else counter <= counter - 1;
 				end
@@ -297,7 +308,7 @@ module i2c_controller
 				end
 
 				READ_DATA8: begin
-					o_rd_data[counter] <= i2c_sda;
+					o_rd_data_8[counter] <= i2c_sda;
 					if (counter == 0) state <= WRITE_ACK8;
 					else counter <= counter - 1;
 				end
@@ -307,7 +318,7 @@ module i2c_controller
 				end
 
 				READ_DATA9: begin
-					o_rd_data[counter] <= i2c_sda;
+					o_rd_data_9[counter] <= i2c_sda;
 					if (counter == 0) state <= WRITE_ACK9;
 					else counter <= counter - 1;
 				end
@@ -317,7 +328,7 @@ module i2c_controller
 				end
 
 				READ_DATA10: begin
-					o_rd_data[counter] <= i2c_sda;
+					o_rd_data_10[counter] <= i2c_sda;
 					if (counter == 0) state <= WRITE_ACK10;
 					else counter <= counter - 1;
 				end
@@ -328,7 +339,7 @@ module i2c_controller
 				end
 
 				READ_DATA11: begin
-					o_rd_data[counter] <= i2c_sda;
+					o_rd_data_11[counter] <= i2c_sda;
 					if (counter == 0) state <= WRITE_ACK11;
 					else counter <= counter - 1;
 				end
@@ -352,7 +363,6 @@ module i2c_controller
 		if(!i_rst_n) begin
 			write_enable <= 1;
 			sda_out <= 1;
-			counter <= 0;
 		end else begin
 			case(state)
 				
