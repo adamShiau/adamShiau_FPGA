@@ -25,7 +25,7 @@ module i2c_controller
 	output reg [7:0] 	o_rd_data_9,
 	output reg [7:0] 	o_rd_data_10,
 	output reg [7:0] 	o_rd_data_11,
-	output reg [7:0] 	state, // for signal tap test
+	// output reg [7:0] 	state, // for signal tap test
 	// output wire			o_ready,
 	// output wire			o_finish,
 	output wire [31:0] 	o_status,
@@ -81,8 +81,9 @@ module i2c_controller
 	localparam WRITE_ACK11 	= 	32;
 	localparam STOP 		= 	33;
 	localparam STOP2 		= 	34;
+	localparam NOP1 		= 	35;
 
-	// reg [7:0] state;
+	reg [7:0] state;
 	reg [7:0] saved_addr;
 	reg [7:0] saved_data;
 	reg [7:0] counter;
@@ -93,21 +94,23 @@ module i2c_controller
 	reg i2c_clk = 1;
 	reg	[7:0] CLK_COUNT = 0; 	//clock
 	reg write_done = 0; // write done flag
-	// reg finish = 0; // finish flag
+	reg finish = 0; // finish flag
 	reg rw = 0;
 	reg r_drdy = 0;
 
-	wire i_enable, rw_reg;
+	wire i_enable, rw_reg, finish_ack;
 	wire [1:0] op_mode;
 	reg sm_enable = 0;
 	/******* control register********/
 	assign i_enable = i_ctrl[0];
 	assign rw_reg = i_ctrl[1];
 	assign op_mode = i_ctrl[3:2]; //00: CPU 1 byte, 01: CPU 11 bytes, 10: FPGA 11 bytes, 11: reserved
+	assign finish_ack = i_ctrl[4];
 
 	/******* status register********/
 	assign o_status[0] = ((i_rst_n == 1) && (state == IDLE)) ? 1 : 0; //ready
-	assign o_status[1] = ( (write_done == 0) && (state == STOP2) )? 1:0; //finish
+	// assign o_status[1] = ( (write_done == 0) && ((state == STOP) || (state == STOP2) || (state == WRITE_ACK)) )? 1:0; //finish 
+	assign o_status[1] = finish; //finish 
 	assign o_status[9:2] = state; 
 
 
@@ -130,7 +133,7 @@ module i2c_controller
 			if ( (state == READ_ACK_B)|| (state == READ_ACK2_B) ) begin
 				i2c_scl_enable <= 0;
 			end 
-			else if ( (state == IDLE) ||(state == START) || (state == STOP) || (state == STOP2 ) ) begin
+			else if ( (state == IDLE) ||(state == START) || (state == STOP) || (state == STOP2 ) || (state == NOP1 )) begin
 				i2c_scl_enable <= 1;
 			end 
 			else begin
@@ -142,14 +145,27 @@ module i2c_controller
 	always @(posedge i2c_clk or negedge i_rst_n) begin
 		if(!i_rst_n) begin
 			state <= IDLE;
-			// finish <= 1'b0;
 			write_done <= 1'b0;
 			rw <= 1'b0;
 		end		
 		else begin
 			case(state)
 				IDLE: begin
-					if(i_enable || i_drdy) sm_enable <= 1; 
+					// if(op_mode==HW_11) 
+					// 	if(i_drdy ) sm_enable <= 1; 
+					// else begin
+					// 	if(i_enable) sm_enable <= 1; 
+					// end
+
+					if(op_mode==CPU_1 || op_mode==CPU_11) begin
+						if(i_enable) sm_enable <= 1; 
+					end
+					
+					if(op_mode==HW_11) begin
+						if(i_drdy ) sm_enable <= 1; 
+					end
+					
+					// if(i_enable || i_drdy) sm_enable <= 1; 
 
 					if (sm_enable) begin
 						state <= START;
@@ -161,6 +177,8 @@ module i2c_controller
 					end
 					else state <= IDLE;
 				end
+
+
 
 				START: begin
 					counter <= 7;
@@ -215,15 +233,23 @@ module i2c_controller
 				end
 
 				STOP: begin
+					if(write_done==1'b0) begin
+						sm_enable <= 1'b0;
+					end
 					state <= STOP2;
+
+					// if(finish_ack) begin
+					// 	state <= STOP2;
+					// end
+					// else state <= STOP;
 				end
 
 				STOP2: begin
-					if(write_done==1'b0) begin
-						// finish <= 1'b1;
-						sm_enable <= 1'b0;
-					end
-					// else finish <= 1'b0;
+					state <= IDLE;
+					finish <= 0;
+				end
+
+				NOP1: begin
 					state <= IDLE;
 				end
 
@@ -241,12 +267,19 @@ module i2c_controller
 				end
 				
 				WRITE_ACK: begin//12
-					if(op_mode == CPU_1) state <= STOP; //00, CPU read 1 byte
+					if(op_mode == CPU_1) begin
+						finish <= 1;
+						state <= STOP; //00, CPU read 1 byte
+					end
 					else begin// else, CPU/FPGA read 11 bytes
 						counter <= 7;
 						state <= READ_DATA2;
 					end
 				end
+
+				// NOP1: begin
+				// 	state <= STOP; //00, CPU read 1 byte
+				// end
 
 				READ_DATA2: begin
 					o_rd_data_2[counter] <= i2c_sda;
@@ -346,6 +379,7 @@ module i2c_controller
 				end
 
 				WRITE_ACK11: begin
+					finish <= 1;
 					state <= STOP;
 				end
 
@@ -354,6 +388,7 @@ module i2c_controller
 				end
 
 				READ_ACK3_B: begin 
+					finish <= 1;
 					state <= STOP;
 				end
 			endcase
