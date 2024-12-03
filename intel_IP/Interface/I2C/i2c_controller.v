@@ -25,6 +25,7 @@ module i2c_controller
 	output reg [7:0] 	o_rd_data_9,
 	output reg [7:0] 	o_rd_data_10,
 	output reg [7:0] 	o_rd_data_11,
+	output reg [7:0] 	state, // for signal tap test
 	// output wire			o_ready,
 	// output wire			o_finish,
 	output wire [31:0] 	o_status,
@@ -81,7 +82,7 @@ module i2c_controller
 	localparam STOP 		= 	33;
 	localparam STOP2 		= 	34;
 
-	reg [7:0] state;
+	// reg [7:0] state;
 	reg [7:0] saved_addr;
 	reg [7:0] saved_data;
 	reg [7:0] counter;
