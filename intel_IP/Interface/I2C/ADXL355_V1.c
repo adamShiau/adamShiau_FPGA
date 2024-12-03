@@ -155,6 +155,8 @@ void ADXL355_enable()
 	alt_32 old = IORD(VARSET_BASE, O_VAR_I2C_CTRL);
 
 	IOWR(VARSET_BASE, O_VAR_I2C_CTRL, (old | (alt_32)(1<<ctrl_en_pos)) & ~((alt_32)(1<<ctrl_finish_ack)) );
+	usleep(5);
+	ADXL355_disable();
 }
 
 void ADXL355_disable()
@@ -247,7 +249,7 @@ alt_u8 I2C_read_357(alt_u8 reg_addr)
 	ADXL355_read();
 	ADXL355_enable();
 	while( !read_ADXL355_finish()){}
-	ADXL355_disable();
+	// ADXL355_disable();
 	rt = IORD(VARSET_BASE, O_VAR_I2C_RDATA_1);
 	printf("reg:%x, value:%x\n", reg_addr, rt);
 	return rt;
@@ -261,7 +263,7 @@ void I2C_read_357_CPU11(alt_u8 reg_addr)
 	ADXL355_read();
 	ADXL355_enable();
 	while( !read_ADXL355_finish()){}
-	ADXL355_disable();
+	// ADXL355_disable();
 	printf("rd1:%x\n", IORD(VARSET_BASE, O_VAR_I2C_RDATA_1));
 	printf("rd2:%x\n", IORD(VARSET_BASE, O_VAR_I2C_RDATA_2));
 	printf("rd3:%x\n", IORD(VARSET_BASE, O_VAR_I2C_RDATA_3));
@@ -280,12 +282,10 @@ void I2C_write_357(alt_u8 reg_addr, alt_u8 data)
 	IOWR(VARSET_BASE, O_VAR_DEV_ADDR, 0x1D);
 	IOWR(VARSET_BASE, O_VAR_REG_ADDR, reg_addr);
 	ADXL355_write();
-//	IOWR(VARSET_BASE, O_VAR_I2C_RW, I2C_WRITE);
 	IOWR(VARSET_BASE, O_VAR_W_DATA, data);
 	ADXL355_enable();
-//	IOWR(VARSET_BASE, O_VAR_I2C_EN, 0x01);
 	while( !read_ADXL355_finish()){}
-	ADXL355_disable();
+	// ADXL355_disable();
 }
 
 
