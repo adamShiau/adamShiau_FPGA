@@ -164,16 +164,42 @@ module i2c_controller
 					if(op_mode==HW_11) begin
 						if(i_drdy ) sm_enable <= 1; 
 					end
-					
+
 					if (sm_enable) begin
 						state <= START;
-						if(rw_reg == 1'b1) begin// read reg mode
+
+						if(op_mode==CPU_1 || op_mode==CPU_11) begin
+							if(rw_reg == 1'b1) begin// read reg mode
+								if(write_done == 1'b0) rw <= 1'b0;// in read reg mode, when write_done flag = 0 means it must write which reg you want to read first.  
+								else rw <= 1'b1;
+							end
+							else rw <= 1'b0; // write reg mode							
+						end			
+
+						if(op_mode==HW_11) begin
 							if(write_done == 1'b0) rw <= 1'b0;// in read reg mode, when write_done flag = 0 means it must write which reg you want to read first.  
 							else rw <= 1'b1;
 						end
-						else rw <= 1'b0; // write reg mode
+
+
+						// if(rw_reg == 1'b1) begin// read reg mode
+						// 	if(write_done == 1'b0) rw <= 1'b0;// in read reg mode, when write_done flag = 0 means it must write which reg you want to read first.  
+						// 	else rw <= 1'b1;
+						// end
+						// else rw <= 1'b0; // write reg mode
+
 					end
 					else state <= IDLE;
+					
+					// if (sm_enable) begin
+					// 	state <= START;
+					// 	if(rw_reg == 1'b1) begin// read reg mode
+					// 		if(write_done == 1'b0) rw <= 1'b0;// in read reg mode, when write_done flag = 0 means it must write which reg you want to read first.  
+					// 		else rw <= 1'b1;
+					// 	end
+					// 	else rw <= 1'b0; // write reg mode
+					// end
+					// else state <= IDLE;
 
 				end
 

@@ -3,11 +3,17 @@
 #include "system.h"
 #include "altera_avalon_pio_regs.h"
 
+#define SYNC_100Hz 	250000
+#define SYNC_200Hz 	125000
+#define SYNC_400Hz 	62500
+#define SYNC_800Hz 	31250
+#define SYNC_1000Hz 25000
+
 /******** VAR Register*********/
 #define	O_VAR_DEV_ADDR		0
 #define O_VAR_W_DATA		1
 #define O_VAR_I2C_CTRL		2
-//#define O_VAR_I2C_RW		3
+#define O_VAR_SYNC_PER		3
 #define O_VAR_REG_ADDR		4
 #define O_VAR_I2C_STATUS	25 + 0
 #define O_VAR_I2C_RDATA_1	25 + 1
@@ -126,22 +132,11 @@ int main()
 {
   printf("Hello from Nios II!\n");
   TRIGGER_IRQ_init(); // register EXTT interrupt
-//  ADXL355_disable();
   init_ADXL355();
+  
   while(1){
 	print_HW11();
-//	while( !read_ADXL355_finish()){}
-//	printf("rd1:%x\n", IORD(VARSET_BASE, O_VAR_I2C_RDATA_1));
-//	printf("rd2:%x\n", IORD(VARSET_BASE, O_VAR_I2C_RDATA_2));
-//	printf("rd3:%x\n", IORD(VARSET_BASE, O_VAR_I2C_RDATA_3));
-//	printf("rd4:%x\n", IORD(VARSET_BASE, O_VAR_I2C_RDATA_4));
-//	printf("rd5:%x\n", IORD(VARSET_BASE, O_VAR_I2C_RDATA_5));
-//	printf("rd6:%x\n", IORD(VARSET_BASE, O_VAR_I2C_RDATA_6));
-//	printf("rd7:%x\n", IORD(VARSET_BASE, O_VAR_I2C_RDATA_7));
-//	printf("rd8:%x\n", IORD(VARSET_BASE, O_VAR_I2C_RDATA_8));
-//	printf("rd9:%x\n", IORD(VARSET_BASE, O_VAR_I2C_RDATA_9));
-//	printf("rd10:%x\n", IORD(VARSET_BASE, O_VAR_I2C_RDATA_10));
-//	printf("rd11:%x\n", IORD(VARSET_BASE, O_VAR_I2C_RDATA_11));
+
   }
 
   return 0;
@@ -196,7 +191,8 @@ void ADXL355_read_mode_sel(alt_u8 mode)
 
 void init_ADXL355()
 {
-
+	IOWR(VARSET_BASE, O_VAR_SYNC_PER, SYNC_1000Hz);
+	printf("sync period: %d\n", IORD(VARSET_BASE, O_VAR_SYNC_PER));
 	/*** set adxl357 parameters ***/
 	I2C_write_357(RST_ADDR, POR);
 	I2C_write_357(RANGE_ADDR, F_MODE | INT_POL_H | RANGE_40G);
@@ -208,7 +204,7 @@ void init_ADXL355()
 	I2C_write_357(SYNC_ADDR, EXT_SYNC);
 	I2C_read_357(SYNC_ADDR, 1);
 	I2C_write_357(POWER_CTL_ADDR, MEASURE_MODE);
-	I2C_read_357(POWER_CTL_ADDR, 1);
+	I2C_read_357(POWER_CTL_ADDR, 1); 
 	usleep(10);
 	ADXL355_read_mode_sel(HW_11);
 }
@@ -228,7 +224,7 @@ void TRIGGER_IRQ_init()
 void IRQ_TRIGGER_ISR()
 {
 	IOWR_ALTERA_AVALON_PIO_EDGE_CAP(TRIGGER_IN_BASE, 1); //clear edge capture register
-	printf("IRQ\n");
+//	printf("IRQ\n");
 	// read_355_temp();
 	// I2C_read_357_CPU11(TEMP2_ADDR);
 }
