@@ -165,8 +165,6 @@ module i2c_controller
 						if(i_drdy ) sm_enable <= 1; 
 					end
 					
-					// if(i_enable || i_drdy) sm_enable <= 1; 
-
 					if (sm_enable) begin
 						state <= START;
 						if(rw_reg == 1'b1) begin// read reg mode
@@ -176,13 +174,14 @@ module i2c_controller
 						else rw <= 1'b0; // write reg mode
 					end
 					else state <= IDLE;
+
 				end
 
 
 
 				START: begin
 					counter <= 7;
-					if(op_mode==HW_11) saved_addr <= ADXL355_DEV_ADDR;
+					if(op_mode==HW_11) saved_addr <= {ADXL355_DEV_ADDR, rw};
 					else saved_addr <= {i_dev_addr, rw};
 					state <= ADDRESS;
 				end
