@@ -1,12 +1,17 @@
+//`timescale 1ns / 100ps
+
+
 module i2c_controller
-// #(parameter DIVNUM = 6)
+#(parameter DIVNUM = 6)
 (
 	input wire 			i_clk,
 	input wire 			i_rst_n,
 	input wire [6:0] 	i_dev_addr,
 	input wire [7:0] 	i_w_data,
 	input wire [7:0] 	i_reg_addr,
+	// input wire 			sm_enable,
 	input wire [31:0]	i_ctrl,
+	// input wire 			rw_reg,
 	input wire 			i_drdy,
 
 	output reg [7:0] 	o_rd_data,
@@ -20,9 +25,12 @@ module i2c_controller
 	output reg [7:0] 	o_rd_data_9,
 	output reg [7:0] 	o_rd_data_10,
 	output reg [7:0] 	o_rd_data_11,
-
+	// output reg [7:0] 	state, // for signal tap test
+	// output wire			o_ready,
+	// output wire			o_finish,
 	output wire [31:0] 	o_status,
 	output wire 		o_w_enable,
+	// output wire [7:0] 	sm,
 	output wire			i2c_clk_out,
 	output wire			i2c_scl,
 	inout 				i2c_sda
@@ -31,12 +39,6 @@ module i2c_controller
 	/*** regidter definition***/
 	localparam ADXL355_DEV_ADDR  = 7'h1D;
 	localparam REG_ADXL355_TEMP2 = 8'h06;
-
-	/*** I2C Clock rate definition for 50MHz input clock ***/
-	localparam CLK_195K 	= 	7;
-	localparam CLK_390K 	= 	6;
-	localparam CLK_781K 	= 	5;
-	localparam CLK_1562K 	= 	4;
 
 	/*** op mode definition ***/
 	localparam CPU_1 		= 	0;
@@ -95,49 +97,33 @@ module i2c_controller
 	reg finish = 0; // finish flag
 	reg rw = 0;
 	reg r_drdy = 0;
-	reg [2:0] reg_clock_rate = 6;
 
 	wire i_enable, rw_reg, finish_ack;
 	wire [1:0] op_mode;
-	wire [2:0] clk_rate;
 	reg sm_enable = 0;
-
 	/******* control register********/
 	assign i_enable = i_ctrl[0];
 	assign rw_reg = i_ctrl[1];
 	assign op_mode = i_ctrl[3:2]; //00: CPU 1 byte, 01: CPU 11 bytes, 10: FPGA 11 bytes, 11: reserved
-	assign clk_rate = i_ctrl[6:4];
+	assign finish_ack = i_ctrl[4];
 
 	/******* status register********/
-	assign o_status[0] = ((i_rst_n == 1) && (state == IDLE) && (write_done == 0)) ? 1 : 0; //ready
+	assign o_status[0] = ((i_rst_n == 1) && (state == IDLE)) ? 1 : 0; //ready
+	// assign o_status[1] = ( (write_done == 0) && ((state == STOP) || (state == STOP2) || (state == WRITE_ACK)) )? 1:0; //finish 
 	assign o_status[1] = finish; //finish 
 	assign o_status[9:2] = state; 
 
 
 	assign i2c_clk_out = i2c_clk;
+	// assign sm = state; 
+	// assign o_finish = ( (write_done == 0) && (state == STOP2) )? 1:0;
 	assign o_w_enable = write_enable; 
 	assign i2c_scl = (i2c_scl_enable == 0 ) ? 0 : ( (i2c_scl_enable == 1 ) ? 1 : i2c_clk) ;
 	assign i2c_sda = (write_enable == 1) ? sda_out : 1'bz;
 
 	always@(posedge i_clk) begin
 		CLK_COUNT <= CLK_COUNT + 1;//CLK_COUNT[6]:50000/2^(6+1)=390.625 kHz, CLK_COUNT[5]:781.25 KHz
-		i2c_clk <= CLK_COUNT[reg_clock_rate];
-	end
-
-	always@(posedge i_clk) begin
-		if(!i_rst_n) begin
-			reg_clock_rate <= CLK_390K;
-		end
-		else begin
-			reg_clock_rate <= clk_rate;
-			case(clk_rate)
-				CLK_195K : reg_clock_rate <= CLK_195K;
-				CLK_390K : reg_clock_rate <= CLK_390K;
-				CLK_781K : reg_clock_rate <= CLK_781K;
-				CLK_1562K: reg_clock_rate <= CLK_1562K;
-				default  : reg_clock_rate <= CLK_390K;
-			endcase
-		end
+		i2c_clk <= CLK_COUNT[DIVNUM];
 	end
 
 	always @(negedge i2c_clk or negedge i_rst_n) begin
@@ -165,6 +151,12 @@ module i2c_controller
 		else begin
 			case(state)
 				IDLE: begin
+					// if(op_mode==HW_11) 
+					// 	if(i_drdy ) sm_enable <= 1; 
+					// else begin
+					// 	if(i_enable) sm_enable <= 1; 
+					// end
+
 					if(op_mode==CPU_1 || op_mode==CPU_11) begin
 						if(i_enable) sm_enable <= 1; 
 					end
@@ -188,6 +180,14 @@ module i2c_controller
 							if(write_done == 1'b0) rw <= 1'b0;// in read reg mode, when write_done flag = 0 means it must write which reg you want to read first.  
 							else rw <= 1'b1;
 						end
+
+
+						// if(rw_reg == 1'b1) begin// read reg mode
+						// 	if(write_done == 1'b0) rw <= 1'b0;// in read reg mode, when write_done flag = 0 means it must write which reg you want to read first.  
+						// 	else rw <= 1'b1;
+						// end
+						// else rw <= 1'b0; // write reg mode
+
 					end
 					else state <= IDLE;
 				end
@@ -290,6 +290,10 @@ module i2c_controller
 						state <= READ_DATA2;
 					end
 				end
+
+				// NOP1: begin
+				// 	state <= STOP; //00, CPU read 1 byte
+				// end
 
 				READ_DATA2: begin
 					o_rd_data_2[counter] <= i2c_sda;
@@ -401,8 +405,6 @@ module i2c_controller
 					finish <= 1;
 					state <= STOP;
 				end
-
-				default: state <= IDLE;
 			endcase
 		end
 	end
@@ -531,8 +533,6 @@ module i2c_controller
 					write_enable <= 1;
 					sda_out <= 1;
 				end
-
-				default:;
 			endcase
 		end
 	end

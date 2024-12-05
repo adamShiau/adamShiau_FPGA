@@ -3,11 +3,18 @@
 #include "system.h"
 #include "altera_avalon_pio_regs.h"
 
+/******** SYNC rate definition*********/
 #define SYNC_100Hz 	250000
 #define SYNC_200Hz 	125000
 #define SYNC_400Hz 	62500
 #define SYNC_800Hz 	31250
-#define SYNC_1000Hz 25000
+#define SYNC_1000Hz 2500
+
+/******** I2C lock rate definition*********/
+#define CLK_195K 	 7
+#define CLK_390K 	 6
+#define CLK_781K 	 5
+#define CLK_1562K 	 4
 
 /******** VAR Register*********/
 #define	O_VAR_DEV_ADDR		0
@@ -35,7 +42,7 @@
 #define ctrl_en_pos			0
 #define ctrl_rw_reg_pos		1
 #define ctrl_op_mode_pos 	2
-#define ctrl_finish_ack 	4
+#define ctrl_clk_rate_pos	4
 
 /**** STATUS ******/
 #define status_ready_pos	0
@@ -113,20 +120,29 @@
 
 void IRQ_TRIGGER_ISR(void);
 void TRIGGER_IRQ_init(void);
-alt_u8 I2C_read_357(alt_u8 reg_addr, alt_u8 print);
-void I2C_read_357_CPU11(alt_u8 reg_addr);
-void I2C_write_357(alt_u8 reg_addr, alt_u8 data);
-void init_ADXL355(void);
-void ADXL355_enable(void);
-void ADXL355_disable(void);
-void ADXL355_write(void);
-void ADXL355_read(void);
-void read_355_temp(void);
-void ADXL355_read_mode_sel(alt_u8 mode);
-alt_u8 read_ADXL355_finish(void);
-void print_HW11(void);
 
-alt_u8 isr_flag = 0;
+/*** high level declaration */
+void I2C_read_357_CPU11(alt_u8 reg_addr);
+void init_ADXL355(void);
+void read_355_temp(void);
+void print_11_reg(void);
+
+/*** mid level declaration */
+void I2C_sm_start();
+void I2C_op_mode_sel(alt_u8 mode);
+void I2C_clock_rate_sel(alt_u8 rate);
+void I2C_write_357_register(alt_u8 reg_addr, alt_u8 data);
+alt_u8 I2C_read_357_register(alt_u8 reg_addr, alt_u8 print);
+
+/*** low level declaration */
+void I2C_sm_set_enable(void);
+void I2C_sm_set_disable(void);
+void I2C_set_write_mode(void);
+void I2C_set_read_mode(void);
+alt_u8 I2C_sm_read_finish(void);
+alt_u32 set_bit_safe(alt_u32 old_addr,  alt_u8 pos);
+alt_u32 clear_bit_safe(alt_u32 old_addr,  alt_u8 pos);
+
 
 int main()
 {
@@ -135,78 +151,35 @@ int main()
   init_ADXL355();
   
   while(1){
-	print_HW11();
+	print_11_reg();
 
   }
-
   return 0;
 }
 
-alt_u8 read_ADXL355_finish()
-{
-	alt_u8 finish=0;
 
-	finish = (alt_u8)(IORD(VARSET_BASE, O_VAR_I2C_STATUS)>>status_finish_pos) & 0x01;
-
-	return finish;
-}
-
-void ADXL355_enable()
-{
-	alt_32 old = IORD(VARSET_BASE, O_VAR_I2C_CTRL);
-	alt_u8 dly = 50;
-
-	IOWR(VARSET_BASE, O_VAR_I2C_CTRL, (old | (alt_32)(1<<ctrl_en_pos)) & ~((alt_32)(1<<ctrl_finish_ack)) );
-	while(dly--){} // put delay to control the enable pulse period 
-	ADXL355_disable();
-}
-
-void ADXL355_disable()
-{
-	alt_32 old = IORD(VARSET_BASE, O_VAR_I2C_CTRL);
-
-	IOWR(VARSET_BASE, O_VAR_I2C_CTRL, (old & ~((alt_32)(1<<ctrl_en_pos))) | (alt_32)(1<<ctrl_finish_ack));
-}
-
-void ADXL355_read()
-{
-	alt_32 old = IORD(VARSET_BASE, O_VAR_I2C_CTRL);
-
-	IOWR(VARSET_BASE, O_VAR_I2C_CTRL, old | (alt_32)(1<<ctrl_rw_reg_pos));
-}
-
-void ADXL355_write()
-{
-	alt_32 old = IORD(VARSET_BASE, O_VAR_I2C_CTRL);
-
-	IOWR(VARSET_BASE, O_VAR_I2C_CTRL, old & ~((alt_32)(1<<ctrl_rw_reg_pos)));
-}
-
-void ADXL355_read_mode_sel(alt_u8 mode)
-{
-	alt_32 old = IORD(VARSET_BASE, O_VAR_I2C_CTRL);
-
-	IOWR(VARSET_BASE, O_VAR_I2C_CTRL, (old & 0xFFFFFFF3) | (mode<<ctrl_op_mode_pos));
-}
 
 void init_ADXL355()
 {
-	IOWR(VARSET_BASE, O_VAR_SYNC_PER, SYNC_1000Hz);
-	printf("sync period: %d\n", IORD(VARSET_BASE, O_VAR_SYNC_PER));
+	IOWR(VARSET_BASE, O_VAR_SYNC_PER, SYNC_100Hz);
+
+	/*** configure the ADXL355/357 ***/
+	I2C_clock_rate_sel(CLK_390K);
 	/*** set adxl357 parameters ***/
-	I2C_write_357(RST_ADDR, POR);
-	I2C_write_357(RANGE_ADDR, F_MODE | INT_POL_H | RANGE_40G);
-	I2C_read_357(RANGE_ADDR, 1);
-//	I2C_write_357(FILTER_ADDR, ODR_500);
-//	I2C_read_357(FILTER_ADDR);
-	I2C_write_357(INTERRUPT_ADDR, 0x00);
-	I2C_read_357(INTERRUPT_ADDR, 1);
-	I2C_write_357(SYNC_ADDR, EXT_SYNC);
-	I2C_read_357(SYNC_ADDR, 1);
-	I2C_write_357(POWER_CTL_ADDR, MEASURE_MODE);
-	I2C_read_357(POWER_CTL_ADDR, 1); 
-	usleep(10);
-	ADXL355_read_mode_sel(HW_11);
+	I2C_write_357_register(RST_ADDR, POR);
+	I2C_write_357_register(RANGE_ADDR, F_MODE | INT_POL_H | RANGE_40G);
+	I2C_read_357_register(RANGE_ADDR, 1);
+//	I2C_write_357_register(FILTER_ADDR, ODR_500);
+//	I2C_read_357_register(FILTER_ADDR);
+	I2C_write_357_register(INTERRUPT_ADDR, 0x00);
+	I2C_read_357_register(INTERRUPT_ADDR, 1);
+	I2C_write_357_register(SYNC_ADDR, EXT_SYNC);
+	I2C_read_357_register(SYNC_ADDR, 1);
+	I2C_write_357_register(POWER_CTL_ADDR, MEASURE_MODE);
+	I2C_read_357_register(POWER_CTL_ADDR, 1); 
+
+	// Set I2C operation mode to read 11 bytes (HW mode 11)
+	I2C_op_mode_sel(HW_11);
 }
 
 void TRIGGER_IRQ_init()
@@ -224,22 +197,80 @@ void TRIGGER_IRQ_init()
 void IRQ_TRIGGER_ISR()
 {
 	IOWR_ALTERA_AVALON_PIO_EDGE_CAP(TRIGGER_IN_BASE, 1); //clear edge capture register
-//	printf("IRQ\n");
-	// read_355_temp();
-	// I2C_read_357_CPU11(TEMP2_ADDR);
+	printf("IRQ\n");
+//	 read_355_temp();
+	//  I2C_read_357_CPU11(TEMP2_ADDR);
 }
 
 void read_355_temp()
 {
 	alt_u8 H, L;
 	float temp;
-	H = I2C_read_357(TEMP2_ADDR, 0); // 0x06
-	L = I2C_read_357(TEMP1_ADDR, 0); // 0x06
+	H = I2C_read_357_register(TEMP2_ADDR, 0); // 0x06
+	L = I2C_read_357_register(TEMP1_ADDR, 0); // 0x06
 	temp = ((float)((H<<8)|L)-1885.0)/(-9.05)+25.0;
 	printf("%f\n", temp);
 }
 
-void print_HW11()
+alt_u8 I2C_read_357_register(alt_u8 reg_addr, alt_u8 print)
+{
+	alt_u8 rt;
+
+	// setting mode to r/w 1 byte
+	I2C_op_mode_sel(CPU_1);
+	// Set I2C device address for ADXL355/357 (0x1D)
+	IOWR(VARSET_BASE, O_VAR_DEV_ADDR, 0x1D);
+	// Set the target register address for read or write operations
+	IOWR(VARSET_BASE, O_VAR_REG_ADDR, reg_addr);
+	// Set the I2C SM to read mode
+	I2C_set_read_mode();
+	// start the I2C SM 
+	I2C_sm_start();
+	// Wait for the I2C SM to complete the operation
+	while( !I2C_sm_read_finish()){}
+	// Retrieve the data read from the specified register
+	rt = IORD(VARSET_BASE, O_VAR_I2C_RDATA_1);
+	// Print the register address and its read value if 'print' is enabled
+	if(print) 	printf("reg:%x, value:%x\n", reg_addr, rt);
+
+	return rt;
+}
+
+void I2C_write_357_register(alt_u8 reg_addr, alt_u8 data)
+{
+	// setting mode to r/w 1 byte
+	I2C_op_mode_sel(CPU_1); 
+	// Set I2C device address for ADXL355/357 (0x1D)
+	IOWR(VARSET_BASE, O_VAR_DEV_ADDR, 0x1D);
+	// Set the target register address for read or write operations
+	IOWR(VARSET_BASE, O_VAR_REG_ADDR, reg_addr);
+	// set I2C SM to write mode
+	I2C_set_write_mode();
+	// Set the data value to be written to the target register
+	IOWR(VARSET_BASE, O_VAR_W_DATA, data);
+	// start the I2C SM 
+	I2C_sm_start();
+	// Wait for the I2C SM to complete the operation
+	while( !I2C_sm_read_finish()){}
+}
+
+void I2C_read_357_CPU11(alt_u8 reg_addr)
+{
+	// Set I2C operation mode to read 11 bytes (CPU mode 11)
+	I2C_op_mode_sel(CPU_11);
+	// Set I2C device address for ADXL355/357 (0x1D)
+	IOWR(VARSET_BASE, O_VAR_DEV_ADDR, 0x1D);
+	// Set the starting register address for reading 11 successive registers
+	IOWR(VARSET_BASE, O_VAR_REG_ADDR, reg_addr);
+	// Set the I2C SM to read mode
+	I2C_set_read_mode();
+	// start the I2C SM 
+	I2C_sm_start();
+	// Print data from 11 successive registers of ADXL355/357
+	print_11_reg();
+}
+
+void print_11_reg()
 {
 	alt_u8 H, L;
 	alt_u8 XH, XM, XL;
@@ -247,7 +278,7 @@ void print_HW11()
 	alt_u8 ZH, ZM, ZL;
 	float temp, accl_x, accl_y, accl_z;
 
-	while( !read_ADXL355_finish()){}
+	while( !I2C_sm_read_finish()){}
 	H = IORD(VARSET_BASE, O_VAR_I2C_RDATA_1);
 	L = IORD(VARSET_BASE, O_VAR_I2C_RDATA_2);
 	XH = IORD(VARSET_BASE, O_VAR_I2C_RDATA_3);
@@ -265,46 +296,133 @@ void print_HW11()
 	accl_y = (YH>>7)? ((float)(YH<<12|YM<<4|YL>>4)-1048576.0)*SENS_8G : (float)(YH<<12|YM<<4|YL>>4)*SENS_8G;
 	accl_z = (ZH>>7)? ((float)(ZH<<12|ZM<<4|ZL>>4)-1048576.0)*SENS_8G : (float)(ZH<<12|ZM<<4|ZL>>4)*SENS_8G;
 
-	printf("%.2f, %.2f, %.2f, %.2f\n", temp, accl_x, accl_y, accl_z);
+	printf("%.3f, %.4f, %.4f, %.4f\n", temp, accl_x, accl_y, accl_z);
 
 }
 
-void I2C_read_357_CPU11(alt_u8 reg_addr)
+
+
+
+/***********mid level definition */
+
+void I2C_sm_start()
 {
-	ADXL355_read_mode_sel(CPU_11);
-	IOWR(VARSET_BASE, O_VAR_DEV_ADDR, 0x1D);
-	IOWR(VARSET_BASE, O_VAR_REG_ADDR, reg_addr);
-	ADXL355_read();
-	ADXL355_enable();
-	while( !read_ADXL355_finish()){}
-	print_HW11();
+	alt_u8 dly = 50;
+
+	I2C_sm_set_enable();
+	while(dly--){}
+	I2C_sm_set_disable();
 }
 
-alt_u8 I2C_read_357(alt_u8 reg_addr, alt_u8 print)
+void I2C_op_mode_sel(alt_u8 mode)
 {
-	alt_u8 rt;
+	alt_32 old = IORD(VARSET_BASE, O_VAR_I2C_CTRL);
 
-	ADXL355_read_mode_sel(CPU_1);
-	IOWR(VARSET_BASE, O_VAR_DEV_ADDR, 0x1D);
-	IOWR(VARSET_BASE, O_VAR_REG_ADDR, reg_addr);
-	ADXL355_read();
-	ADXL355_enable();
-	while( !read_ADXL355_finish()){}
-	rt = IORD(VARSET_BASE, O_VAR_I2C_RDATA_1);
-	if(print) 	printf("reg:%x, value:%x\n", reg_addr, rt);
-
-	return rt;
+	IOWR(VARSET_BASE, O_VAR_I2C_CTRL, (old & 0xFFFFFFF3) | (mode<<ctrl_op_mode_pos));
 }
 
-void I2C_write_357(alt_u8 reg_addr, alt_u8 data)
+void I2C_clock_rate_sel(alt_u8 rate)
 {
-	ADXL355_read_mode_sel(CPU_1);
-	IOWR(VARSET_BASE, O_VAR_DEV_ADDR, 0x1D);
-	IOWR(VARSET_BASE, O_VAR_REG_ADDR, reg_addr);
-	ADXL355_write();
-	IOWR(VARSET_BASE, O_VAR_W_DATA, data);
-	ADXL355_enable();
-	while( !read_ADXL355_finish()){}
+	alt_32 old = IORD(VARSET_BASE, O_VAR_I2C_CTRL);
+
+	IOWR(VARSET_BASE, O_VAR_I2C_CTRL, (old & 0xFFFFFF8F) | (rate<<ctrl_clk_rate_pos));
 }
+
+
+/***********low level definition */
+
+alt_u32 set_bit_safe(alt_u32 old_addr,  alt_u8 pos)
+{
+	alt_u32 old = IORD(VARSET_BASE, old_addr);
+	return (old | (alt_32)(1<<pos)); 
+}
+
+alt_u32 clear_bit_safe(alt_u32 old_addr,  alt_u8 pos)
+{
+	alt_u32 old = IORD(VARSET_BASE, old_addr);
+	return (old & ~((alt_32)(1<<pos))); 
+}
+
+
+void I2C_sm_set_enable()
+{
+	// alt_u8 dly = 50;
+
+	IOWR(VARSET_BASE, O_VAR_I2C_CTRL,  set_bit_safe(O_VAR_I2C_CTRL, ctrl_en_pos));
+	// while(dly--){}
+	// I2C_sm_set_disable();
+}
+
+void I2C_sm_set_disable()
+{
+	IOWR(VARSET_BASE, O_VAR_I2C_CTRL, clear_bit_safe(O_VAR_I2C_CTRL, ctrl_en_pos) );
+}
+
+void I2C_set_read_mode()
+{
+	IOWR(VARSET_BASE, O_VAR_I2C_CTRL, set_bit_safe(O_VAR_I2C_CTRL, ctrl_rw_reg_pos));
+}
+
+void I2C_set_write_mode()
+{
+	IOWR(VARSET_BASE, O_VAR_I2C_CTRL, clear_bit_safe(O_VAR_I2C_CTRL, ctrl_rw_reg_pos));
+}
+
+alt_u8 I2C_sm_read_finish()
+{
+	alt_u8 finish=0;
+
+	finish = (alt_u8)(IORD(VARSET_BASE, O_VAR_I2C_STATUS)>>status_finish_pos) & 0x01;
+
+	return finish;
+}
+
+
+
+// void I2C_sm_set_enable()
+// {
+// 	alt_32 old = IORD(VARSET_BASE, O_VAR_I2C_CTRL);
+// 	alt_u8 dly = 50;
+
+// 	// IOWR(VARSET_BASE, O_VAR_I2C_CTRL, (old | (alt_32)(1<<ctrl_en_pos)) & ~((alt_32)(1<<ctrl_finish_ack)) );
+// 	IOWR(VARSET_BASE, O_VAR_I2C_CTRL, (old | (alt_32)(1<<ctrl_en_pos)) );
+// 	while(dly--){}
+// 	I2C_sm_set_disable();
+// }
+
+
+
+// void I2C_sm_set_disable()
+// {
+// 	alt_32 old = IORD(VARSET_BASE, O_VAR_I2C_CTRL);
+
+// 	// IOWR(VARSET_BASE, O_VAR_I2C_CTRL, (old & ~((alt_32)(1<<ctrl_en_pos))) | (alt_32)(1<<ctrl_finish_ack));
+// 	IOWR(VARSET_BASE, O_VAR_I2C_CTRL, (old & ~((alt_32)(1<<ctrl_en_pos))) );
+// }
+
+
+
+// void I2C_set_read_mode()
+// {
+// 	alt_32 old = IORD(VARSET_BASE, O_VAR_I2C_CTRL);
+
+// 	IOWR(VARSET_BASE, O_VAR_I2C_CTRL, old | (alt_32)(1<<ctrl_rw_reg_pos));
+// }
+
+// void I2C_set_write_mode()
+// {
+// 	alt_32 old = IORD(VARSET_BASE, O_VAR_I2C_CTRL);
+
+// 	IOWR(VARSET_BASE, O_VAR_I2C_CTRL, old & ~((alt_32)(1<<ctrl_rw_reg_pos)));
+// }
+
+// alt_u8 I2C_sm_read_finish()
+// {
+// 	alt_u8 finish=0;
+
+// 	finish = (alt_u8)(IORD(VARSET_BASE, O_VAR_I2C_STATUS)>>status_finish_pos) & 0x01;
+
+// 	return finish;
+// }
 
 
