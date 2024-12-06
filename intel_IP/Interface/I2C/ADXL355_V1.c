@@ -197,7 +197,7 @@ void TRIGGER_IRQ_init()
 void IRQ_TRIGGER_ISR()
 {
 	IOWR_ALTERA_AVALON_PIO_EDGE_CAP(TRIGGER_IN_BASE, 1); //clear edge capture register
-	printf("IRQ\n");
+//	printf("IRQ\n");
 //	 read_355_temp();
 	//  I2C_read_357_CPU11(TEMP2_ADDR);
 }
