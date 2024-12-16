@@ -1,4 +1,4 @@
-module i2c_controller_pullup
+module i2c_controller
 // #(parameter DIVNUM = 6)
 (
 	input wire 			i_clk,

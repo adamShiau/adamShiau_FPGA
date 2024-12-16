@@ -46,40 +46,64 @@ module i2c_controller_pullup
 	/*** state machine definition ***/
 	localparam IDLE 		= 	0;
 	localparam START 		= 	1;
-	localparam ADDRESS 		= 	2;
-	localparam READ_ACK 	= 	3;
-	localparam READ_ACK_B 	= 	4;
-	localparam REG_ADDR  	= 	5;
-	localparam READ_ACK2 	= 	6;
-	localparam READ_ACK2_B 	= 	7;
-	localparam WRITE_DATA 	= 	8;
-	localparam READ_ACK3 	= 	9;
-	localparam READ_ACK3_B 	= 	10;	
-	localparam READ_DATA 	= 	11;
-	localparam WRITE_ACK 	= 	12;
-	localparam READ_DATA2 	= 	13;
-	localparam WRITE_ACK2 	= 	14;
-	localparam READ_DATA3 	= 	15;
-	localparam WRITE_ACK3 	= 	16;
-	localparam READ_DATA4 	= 	17;
-	localparam WRITE_ACK4 	= 	18;
-	localparam READ_DATA5 	= 	19;
-	localparam WRITE_ACK5 	= 	20;
-	localparam READ_DATA6 	= 	21;
-	localparam WRITE_ACK6 	= 	22;
-	localparam READ_DATA7 	= 	23;
-	localparam WRITE_ACK7 	= 	24;
-	localparam READ_DATA8 	= 	25;
-	localparam WRITE_ACK8 	= 	26;
-	localparam READ_DATA9 	= 	27;
-	localparam WRITE_ACK9 	= 	28;
-	localparam READ_DATA10 	= 	29;
-	localparam WRITE_ACK10 	= 	30;
-	localparam READ_DATA11 	= 	31;
-	localparam WRITE_ACK11 	= 	32;
-	localparam STOP 		= 	33;
-	localparam STOP2 		= 	34;
-	localparam NOP1 		= 	35;
+	localparam ADDRESS7		= 	3;
+	localparam ADDRESS6		= 	4;
+	localparam ADDRESS5		= 	5;
+	localparam ADDRESS4		= 	6;
+	localparam ADDRESS3		= 	7;
+	localparam ADDRESS2		= 	8;
+	localparam ADDRESS1		= 	9;
+	localparam ADDRESS0		= 	10;
+	localparam READ_ACK 	= 	11;
+	localparam READ_ACK_B 	= 	12;
+	localparam REG_ADDR7  	= 	13;
+	localparam REG_ADDR6  	= 	14;
+	localparam REG_ADDR5  	= 	15;
+	localparam REG_ADDR4  	= 	16;
+	localparam REG_ADDR3  	= 	17;
+	localparam REG_ADDR2  	= 	18;
+	localparam REG_ADDR1  	= 	19;
+	localparam REG_ADDR0  	= 	20;
+	localparam READ_ACK2 	= 	21;
+	localparam READ_ACK2_B 	= 	22;
+	localparam WRITE_DATA7 	= 	23;
+	localparam WRITE_DATA6 	= 	24;
+	localparam WRITE_DATA5 	= 	25;
+	localparam WRITE_DATA4 	= 	26;
+	localparam WRITE_DATA3 	= 	27;
+	localparam WRITE_DATA2 	= 	28;
+	localparam WRITE_DATA1 	= 	29;
+	localparam WRITE_DATA0 	= 	30;
+	localparam READ_ACK3 	= 	31;
+	localparam READ_ACK3_B 	= 	32;	
+	localparam READ_DATA 	= 	33;
+	localparam WRITE_ACK 	= 	34;
+	localparam READ_DATA2 	= 	35;
+	localparam WRITE_ACK2 	= 	36;
+	localparam READ_DATA3 	= 	37;
+	localparam WRITE_ACK3 	= 	38;
+	localparam READ_DATA4 	= 	39;
+	localparam WRITE_ACK4 	= 	40;
+	localparam READ_DATA5 	= 	41;
+	localparam WRITE_ACK5 	= 	42;
+	localparam READ_DATA6 	= 	43;
+	localparam WRITE_ACK6 	= 	44;
+	localparam READ_DATA7 	= 	45;
+	localparam WRITE_ACK7 	= 	46;
+	localparam READ_DATA8 	= 	47;
+	localparam WRITE_ACK8 	= 	48;
+	localparam READ_DATA9 	= 	49;
+	localparam WRITE_ACK9 	= 	50;
+	localparam READ_DATA10 	= 	51;
+	localparam WRITE_ACK10 	= 	52;
+	localparam READ_DATA11 	= 	53;
+	localparam WRITE_ACK11 	= 	54;
+	localparam STOP 		= 	55;
+	localparam STOP2 		= 	56;
+	localparam NOP1 		= 	57;
+	localparam PREP1		=	58;
+	localparam PREP2		=	59;
+	localparam PREP3		=	60;
 
 	reg [7:0] state;
 	reg [7:0] saved_addr;
@@ -144,10 +168,10 @@ module i2c_controller_pullup
 		if(!i_rst_n) begin
 			i2c_scl_enable <= 1;
 		end else begin
-			if ( (state == READ_ACK_B)|| (state == READ_ACK2_B) ) begin
+			if ( (state == READ_ACK_B)|| (state == READ_ACK2_B)|| (state == PREP2)|| (state == PREP3) ) begin
 				i2c_scl_enable <= 0;
 			end 
-			else if ( (state == IDLE) ||(state == START) || (state == STOP) || (state == STOP2 ) || (state == NOP1 )) begin
+			else if ( (state == IDLE) ||(state == START) || (state == STOP) || (state == STOP2 ) || (state == NOP1 ) || (state == PREP1)) begin
 				i2c_scl_enable <= 1;
 			end 
 			else begin
@@ -192,19 +216,47 @@ module i2c_controller_pullup
 					else state <= IDLE;
 				end
 
-
-
 				START: begin
-					counter <= 7;
+					// counter <= 7;
 					if(op_mode==HW_11) saved_addr <= {ADXL355_DEV_ADDR, rw};
 					else saved_addr <= {i_dev_addr, rw};
-					state <= ADDRESS;
+					state <= PREP1;
 				end
 
-				ADDRESS: begin
-					if (counter == 0) begin 
-						state <= READ_ACK;
-					end else counter <= counter - 1;
+				PREP1: begin
+					state <= ADDRESS7;
+				end
+
+				ADDRESS7: begin
+					state <= ADDRESS6;
+				end
+
+				ADDRESS6: begin
+					state <= ADDRESS5;
+				end
+
+				ADDRESS5: begin
+					state <= ADDRESS4;
+				end
+
+				ADDRESS4: begin
+					state <= ADDRESS3;
+				end
+
+				ADDRESS3: begin
+					state <= ADDRESS2;
+				end
+
+				ADDRESS2: begin
+					state <= ADDRESS1;
+				end
+
+				ADDRESS1: begin
+					state <= ADDRESS0;
+				end
+
+				ADDRESS0: begin
+					state <= READ_ACK;
 				end
 
 				READ_ACK: begin
@@ -215,22 +267,53 @@ module i2c_controller_pullup
 				end
 
 				READ_ACK_B: begin
-					counter <= 7;
 					if(rw == 0) begin
 						if(op_mode==HW_11) saved_data = REG_ADXL355_TEMP2;
 						else saved_data = i_reg_addr;
-						state <= REG_ADDR;
+						state <= PREP2;
 					end
-					else state <= READ_DATA;
+					else begin
+						counter <= 7;
+						state <= READ_DATA;
+					end
 				end
 
-				REG_ADDR: begin 
+				PREP2: begin
+					state <= REG_ADDR7;
+				end
+
+				REG_ADDR7: begin
+					state <= REG_ADDR6;
+				end
+
+				REG_ADDR6: begin
+					state <= REG_ADDR5;
+				end
+
+				REG_ADDR5: begin
+					state <= REG_ADDR4;
+				end
+
+				REG_ADDR4: begin
+					state <= REG_ADDR3;
+				end
+
+				REG_ADDR3: begin
+					state <= REG_ADDR2;
+				end
+
+				REG_ADDR2: begin
+					state <= REG_ADDR1;
+				end
+
+				REG_ADDR1: begin
+					state <= REG_ADDR0;
+				end
+
+				REG_ADDR0: begin
 					if(rw_reg == 1'b1) //read reg mode
 						write_done <= 1'b1;
-
-					if(counter == 0) begin
-						state <= READ_ACK2;
-					end else counter <= counter - 1;
+					state <= READ_ACK2;
 				end
 
 				READ_ACK2: begin 
@@ -240,9 +323,9 @@ module i2c_controller_pullup
 				READ_ACK2_B: begin 
 					if( rw_reg == 1'b1) state <= STOP;
 					else begin
-						counter <= 7;
+						// counter <= 7;
 						saved_data = i_w_data;
-						state <= WRITE_DATA;
+						state <= PREP3;
 					end
 				end
 
@@ -267,11 +350,47 @@ module i2c_controller_pullup
 					state <= IDLE;
 				end
 
-				WRITE_DATA: begin 
-					if(counter == 0) begin
-						state <= READ_ACK3;
-					end else counter <= counter - 1;
+				PREP3: begin
+					state <= WRITE_DATA7;
 				end
+
+				WRITE_DATA7: begin
+					state <= WRITE_DATA6;
+				end
+
+				WRITE_DATA6: begin
+					state <= WRITE_DATA5;
+				end
+
+				WRITE_DATA5: begin
+					state <= WRITE_DATA4;
+				end
+
+				WRITE_DATA4: begin
+					state <= WRITE_DATA3;
+				end
+
+				WRITE_DATA3: begin
+					state <= WRITE_DATA2;
+				end
+
+				WRITE_DATA2: begin
+					state <= WRITE_DATA1;
+				end
+
+				WRITE_DATA1: begin
+					state <= WRITE_DATA0;
+				end
+
+				WRITE_DATA0: begin
+					state <= READ_ACK3;
+				end
+
+				// WRITE_DATA: begin 
+				// 	if(counter == 0) begin
+				// 		state <= READ_ACK3;
+				// 	end else counter <= counter - 1;
+				// end
 
 				READ_DATA: begin//11
 					if(write_done == 1'b1) write_done = 1'b0;
@@ -415,12 +534,61 @@ module i2c_controller_pullup
 			case(state)
 				
 				START: begin
-					write_enable <= 1;
+					// write_enable <= 1;
 					sda_out <= 0;
 				end
 
-				ADDRESS: begin
-					sda_out <= saved_addr[counter];
+				PREP1: begin
+					// if(saved_addr[7]==1'b1) write_enable <= 0; //prepare pull-up condition one state before.
+					// else write_enable <= 1;
+					write_enable <= 1;
+				end
+
+				ADDRESS7: begin
+					// if(saved_addr[6]==1'b1) write_enable <= 0; //prepare pull-up condition one state before.
+					// else write_enable <= 1;
+					sda_out <= saved_addr[7];
+				end
+
+				ADDRESS6: begin
+					// if(saved_addr[5]==1'b1) write_enable <= 0; //prepare pull-up condition one state before.
+					// else write_enable <= 1;
+					sda_out <= saved_addr[6];
+				end
+
+				ADDRESS5: begin
+					// if(saved_addr[4]==1'b1) write_enable <= 0; //prepare pull-up condition one state before.
+					// else write_enable <= 1;
+					sda_out <= saved_addr[5];
+				end
+
+				ADDRESS4: begin
+					// if(saved_addr[3]==1'b1) write_enable <= 0; //prepare pull-up condition one state before.
+					// else write_enable <= 1;
+					sda_out <= saved_addr[4];
+				end
+
+				ADDRESS3: begin
+					// if(saved_addr[2]==1'b1) write_enable <= 0; //prepare pull-up condition one state before.
+					// else write_enable <= 1;
+					sda_out <= saved_addr[3];
+				end
+
+				ADDRESS2: begin
+					// if(saved_addr[1]==1'b1) write_enable <= 0; //prepare pull-up condition one state before.
+					// else write_enable <= 1;
+					sda_out <= saved_addr[2];
+				end
+
+				ADDRESS1: begin
+					// if(saved_addr[0]==1'b1) write_enable <= 0; //prepare pull-up condition one state before.
+					// else write_enable <= 1;
+					sda_out <= saved_addr[1];
+				end
+
+				ADDRESS0: begin
+					write_enable <= 0;
+					sda_out <= saved_addr[0];
 				end
 				
 				READ_ACK: begin
@@ -448,15 +616,119 @@ module i2c_controller_pullup
 					sda_out <= 0;
 				end
 
-				REG_ADDR: begin //write reg addr
-					write_enable <= 1;
-					sda_out <= saved_data[counter];
+				PREP2: begin
+					if(saved_data[7]==1'b1) write_enable <= 0; //prepare pull-up condition one state before.
+					else write_enable <= 1;
+				end
+
+				REG_ADDR7: begin
+					if(saved_data[6]==1'b1) write_enable <= 0; //prepare pull-up condition one state before.
+					else write_enable <= 1;
+					sda_out <= saved_data[7];
+				end
+
+				REG_ADDR6: begin
+					if(saved_data[5]==1'b1) write_enable <= 0; //prepare pull-up condition one state before.
+					else write_enable <= 1;
+					sda_out <= saved_data[6];
+				end
+
+				REG_ADDR5: begin
+					if(saved_data[4]==1'b1) write_enable <= 0; //prepare pull-up condition one state before.
+					else write_enable <= 1;
+					sda_out <= saved_data[5];
+				end
+
+				REG_ADDR4: begin
+					if(saved_data[3]==1'b1) write_enable <= 0; //prepare pull-up condition one state before.
+					else write_enable <= 1;
+					sda_out <= saved_data[4];
+				end
+
+				REG_ADDR3: begin
+					if(saved_data[2]==1'b1) write_enable <= 0; //prepare pull-up condition one state before.
+					else write_enable <= 1;
+					sda_out <= saved_data[3];
+				end
+
+				REG_ADDR2: begin
+					if(saved_data[1]==1'b1) write_enable <= 0; //prepare pull-up condition one state before.
+					else write_enable <= 1;
+					sda_out <= saved_data[2];
+				end
+
+				REG_ADDR1: begin
+					if(saved_data[0]==1'b1) write_enable <= 0; //prepare pull-up condition one state before.
+					else write_enable <= 1;
+					sda_out <= saved_data[1];
+				end
+
+				REG_ADDR0: begin
+					write_enable <= 0;
+					sda_out <= saved_data[0];
+				end
+
+				// REG_ADDR: begin //write reg addr
+				// 	write_enable <= 1;
+				// 	sda_out <= saved_data[counter];
+				// end
+
+				PREP3: begin
+					if(saved_data[7]==1'b1) write_enable <= 0; //prepare pull-up condition one state before.
+					else write_enable <= 1;
+				end
+
+				WRITE_DATA7: begin
+					if(saved_data[6]==1'b1) write_enable <= 0; //prepare pull-up condition one state before.
+					else write_enable <= 1;
+					sda_out <= saved_data[7];
+				end
+
+				WRITE_DATA6: begin
+					if(saved_data[5]==1'b1) write_enable <= 0; //prepare pull-up condition one state before.
+					else write_enable <= 1;
+					sda_out <= saved_data[6];
+				end
+
+				WRITE_DATA5: begin
+					if(saved_data[4]==1'b1) write_enable <= 0; //prepare pull-up condition one state before.
+					else write_enable <= 1;
+					sda_out <= saved_data[5];
+				end
+
+				WRITE_DATA4: begin
+					if(saved_data[3]==1'b1) write_enable <= 0; //prepare pull-up condition one state before.
+					else write_enable <= 1;
+					sda_out <= saved_data[4];
+				end
+
+				WRITE_DATA3: begin
+					if(saved_data[2]==1'b1) write_enable <= 0; //prepare pull-up condition one state before.
+					else write_enable <= 1;
+					sda_out <= saved_data[3];
+				end
+
+				WRITE_DATA2: begin
+					if(saved_data[1]==1'b1) write_enable <= 0; //prepare pull-up condition one state before.
+					else write_enable <= 1;
+					sda_out <= saved_data[2];
+				end
+
+				WRITE_DATA1: begin
+					if(saved_data[0]==1'b1) write_enable <= 0; //prepare pull-up condition one state before.
+					else write_enable <= 1;
+					sda_out <= saved_data[1];
+				end
+
+				WRITE_DATA0: begin
+					write_enable <= 0;
+					sda_out <= saved_data[0];
 				end
 				
-				WRITE_DATA: begin //write reg value
-					write_enable <= 1;
-					sda_out <= saved_data[counter];
-				end
+				// WRITE_DATA: begin //write reg value
+				// 	write_enable <= 1;
+				// 	sda_out <= saved_data[counter];
+				// end
 				
 				WRITE_ACK: begin
 					write_enable <= 1;
