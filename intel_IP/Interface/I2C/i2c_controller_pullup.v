@@ -109,11 +109,12 @@ module i2c_controller_pullup
 	reg [7:0] saved_addr;
 	reg [7:0] saved_data;
 	reg [7:0] counter;
-	reg write_enable;
+	reg write_enable, write_enable_2;
 	reg sda_out = 0;
 	reg [1:0] i2c_scl_enable = 0;
 	reg i2c_scl_enable2 = 0;
 	reg i2c_clk = 1;
+	reg clk_2x = 1;
 	reg	[7:0] CLK_COUNT = 0; 	//clock
 	reg write_done = 0; // write done flag
 	reg finish = 0; // finish flag
@@ -143,26 +144,31 @@ module i2c_controller_pullup
 	assign i2c_scl = (i2c_scl_enable == 0 ) ? 0 : ( (i2c_scl_enable == 1 ) ? 1 : i2c_clk) ;
 	assign i2c_sda = (write_enable == 1) ? sda_out : 1'bz;
 
+	/******* CLK_VALUE depends on input clock frequency, default is for 50 MHz********/
+	always@(posedge i_clk) begin
+	if(!i_rst_n) begin
+		reg_clock_rate <= CLK_390K;
+	end
+	else begin
+		reg_clock_rate <= clk_rate;
+		case(clk_rate)
+			CLK_195K : reg_clock_rate <= CLK_195K;
+			CLK_390K : reg_clock_rate <= CLK_390K;
+			CLK_781K : reg_clock_rate <= CLK_781K;
+			CLK_1562K: reg_clock_rate <= CLK_1562K;
+			default  : reg_clock_rate <= CLK_390K;
+		endcase
+	end
+	end
+
+	/******* SCLK generator********/
 	always@(posedge i_clk) begin
 		CLK_COUNT <= CLK_COUNT + 1;//CLK_COUNT[6]:50000/2^(6+1)=390.625 kHz, CLK_COUNT[5]:781.25 KHz
 		i2c_clk <= CLK_COUNT[reg_clock_rate];
+		clk_2x  <= CLK_COUNT[reg_clock_rate-1];
 	end
 
-	always@(posedge i_clk) begin
-		if(!i_rst_n) begin
-			reg_clock_rate <= CLK_390K;
-		end
-		else begin
-			reg_clock_rate <= clk_rate;
-			case(clk_rate)
-				CLK_195K : reg_clock_rate <= CLK_195K;
-				CLK_390K : reg_clock_rate <= CLK_390K;
-				CLK_781K : reg_clock_rate <= CLK_781K;
-				CLK_1562K: reg_clock_rate <= CLK_1562K;
-				default  : reg_clock_rate <= CLK_390K;
-			endcase
-		end
-	end
+
 
 	always @(negedge i2c_clk or negedge i_rst_n) begin
 		if(!i_rst_n) begin
@@ -178,6 +184,21 @@ module i2c_controller_pullup
 				i2c_scl_enable <= 2;
 			end
 		end
+	end
+
+	always @(posedge clk_2x or negedge i_rst_n) begin
+		if(i2c_clk == 1) begin
+			
+			case(state)
+				IDLE: begin	
+				
+				default: write_enable_2 <= 0;
+			endcase
+		end
+		else begin
+			write_enable_2 <= 0;
+		end
+
 	end
 	
 	always @(posedge i2c_clk or negedge i_rst_n) begin
