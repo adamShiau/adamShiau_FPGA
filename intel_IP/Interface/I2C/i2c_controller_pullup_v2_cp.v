@@ -90,6 +90,7 @@ module i2c_controller_pullup
 	reg [1:0] i2c_scl_enable = 0;
 	reg i2c_scl_enable2 = 0;
 	reg i2c_clk = 1;
+	reg clk_2x = 1;
 	reg	[7:0] CLK_COUNT = 0; 	//clock
 	reg write_done = 0; // write done flag
 	reg finish = 0; // finish flag
@@ -119,11 +120,7 @@ module i2c_controller_pullup
 	assign i2c_scl = (i2c_scl_enable == 0 ) ? 0 : ( (i2c_scl_enable == 1 ) ? 1 : i2c_clk) ;
 	assign i2c_sda = (write_enable == 1) ? sda_out : 1'bz;
 
-	always@(posedge i_clk) begin
-		CLK_COUNT <= CLK_COUNT + 1;//CLK_COUNT[6]:50000/2^(6+1)=390.625 kHz, CLK_COUNT[5]:781.25 KHz
-		i2c_clk <= CLK_COUNT[reg_clock_rate];
-	end
-
+	/******* CLK_VALUE depends on input clock frequency, default is for 50 MHz********/
 	always@(posedge i_clk) begin
 		if(!i_rst_n) begin
 			reg_clock_rate <= CLK_390K;
@@ -138,6 +135,12 @@ module i2c_controller_pullup
 				default  : reg_clock_rate <= CLK_390K;
 			endcase
 		end
+	end
+
+	always@(posedge i_clk) begin
+		CLK_COUNT <= CLK_COUNT + 1;//CLK_COUNT[6]:50000/2^(6+1)=390.625 kHz, CLK_COUNT[5]:781.25 KHz
+		i2c_clk <= CLK_COUNT[reg_clock_rate];
+		clk_2x  <= CLK_COUNT[reg_clock_rate-1];
 	end
 
 	always @(negedge i2c_clk or negedge i_rst_n) begin
@@ -156,6 +159,22 @@ module i2c_controller_pullup
 		end
 	end
 	
+	always @(posedge clk_2x or negedge i_rst_n) begin
+		if(i2c_clk == 1) begin
+			
+			case(state)
+				IDLE: begin	
+				
+				default: write_enable_2 <= 0;
+			endcase
+		end
+		else begin
+			write_enable_2 <= 0;
+		end
+
+	end
+
+
 	always @(posedge i2c_clk or negedge i_rst_n) begin
 		if(!i_rst_n) begin
 			state <= IDLE;
