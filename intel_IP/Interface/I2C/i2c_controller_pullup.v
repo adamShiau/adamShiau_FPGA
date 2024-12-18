@@ -102,7 +102,6 @@ module i2c_controller_pullup
 	reg sm_enable = 0;
 
 	wire w_en1, write_enable;
-	wire i2c_clk_pu;
 	reg w_en2 = 0;
 
 	assign w_en1 = (sda_out==1)? 0:1 ;
@@ -121,9 +120,10 @@ module i2c_controller_pullup
 
 
 	assign i2c_clk_out = i2c_clk;
-	assign i2c_clk_pu = (i2c_clk==1)? 1'bz : 0;
 	assign o_w_enable = write_enable; 
-	assign i2c_scl = (i2c_scl_enable == 0 ) ? 0 : ( (i2c_scl_enable == 1 ) ? 1'bz : i2c_clk_pu) ;
+	assign i2c_scl =	(i2c_scl_enable == 0) ? 0 : 
+						((i2c_scl_enable == 1) ? 1'bz : 
+                 		(i2c_clk == 1 ? 1'bz : 0));
 	assign i2c_sda = (write_enable == 1) ? sda_out : 1'bz;
 
 	/******* CLK_VALUE depends on input clock frequency, default is for 50 MHz********/
