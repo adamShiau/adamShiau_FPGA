@@ -166,7 +166,7 @@ void init_ADXL355()
 	/*** configure the ADXL355/357 ***/
 	I2C_clock_rate_sel(CLK_390K);
 	/*** set adxl357 parameters ***/
-//	I2C_write_357_register(RST_ADDR, POR);
+	I2C_write_357_register(RST_ADDR, POR);
 	I2C_write_357_register(RANGE_ADDR, F_MODE | INT_POL_H | RANGE_40G);
 	I2C_read_357_register(RANGE_ADDR, 1);
 //	I2C_write_357_register(FILTER_ADDR, ODR_500);
