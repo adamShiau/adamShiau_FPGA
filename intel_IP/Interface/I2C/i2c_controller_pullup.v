@@ -23,7 +23,7 @@ module i2c_controller_pullup
 	output wire [31:0] 	o_status,
 	output wire 		o_w_enable,
 	output wire			i2c_clk_out,
-	output wire			i2c_scl,
+	inout				i2c_scl,
 	inout 				i2c_sda
 	);
 

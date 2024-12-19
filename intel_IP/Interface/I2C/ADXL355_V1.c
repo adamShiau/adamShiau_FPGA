@@ -79,13 +79,15 @@
 #define RANGE_20G 	0x02
 #define RANGE_40G 	0x03
 
-
-#define SENS_10G 0.0000195
-#define SENS_20G 0.000039
-#define SENS_40G 0.000078
+/***ADXL357 ***/
+#define SENS_10G 19.5e-6
+#define SENS_20G 39e-6
+#define SENS_40G 78e-6
+/***ADXL355 ***/
 #define SENS_2G 3.9e-6
 #define SENS_4G 7.8e-6
 #define SENS_8G 15.6e-6
+
 
 /*** reset parameter ***/
 #define POR 		0x52
