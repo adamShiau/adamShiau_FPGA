@@ -32,8 +32,49 @@ module i2c_controller_pullup_tb;
     // Signals for driving inout
     reg i2c_scl_drv;
     reg i2c_sda_drv;
-    assign i2c_scl = (i2c_scl_drv) ? 1'bz : 0;
-    assign i2c_sda = (i2c_sda_drv) ? 1'bz : 0;
+    // assign i2c_scl = (i2c_scl_drv) ? 1'bz : 0;
+    // assign i2c_sda = (i2c_sda_drv) ? 1'bz : 0;
+    assign i2c_scl = (i2c_scl_drv) ? 1 : 0; // 高電平直接為1
+    assign i2c_sda = (i2c_sda_drv) ? 1 : 0; // 高電平直接為1
+
+
+    /*** state machine definition ***/
+	localparam IDLE 		= 	0;
+	localparam START 		= 	1;
+	localparam ADDRESS 		= 	2;
+	localparam READ_ACK 	= 	3;
+	localparam READ_ACK_B 	= 	4;
+	localparam REG_ADDR  	= 	5;
+	localparam READ_ACK2 	= 	6;
+	localparam READ_ACK2_B 	= 	7;
+	localparam WRITE_DATA 	= 	8;
+	localparam READ_ACK3 	= 	9;
+	localparam READ_ACK3_B 	= 	10;	
+	localparam READ_DATA 	= 	11;
+	localparam WRITE_ACK 	= 	12;
+	localparam READ_DATA2 	= 	13;
+	localparam WRITE_ACK2 	= 	14;
+	localparam READ_DATA3 	= 	15;
+	localparam WRITE_ACK3 	= 	16;
+	localparam READ_DATA4 	= 	17;
+	localparam WRITE_ACK4 	= 	18;
+	localparam READ_DATA5 	= 	19;
+	localparam WRITE_ACK5 	= 	20;
+	localparam READ_DATA6 	= 	21;
+	localparam WRITE_ACK6 	= 	22;
+	localparam READ_DATA7 	= 	23;
+	localparam WRITE_ACK7 	= 	24;
+	localparam READ_DATA8 	= 	25;
+	localparam WRITE_ACK8 	= 	26;
+	localparam READ_DATA9 	= 	27;
+	localparam WRITE_ACK9 	= 	28;
+	localparam READ_DATA10 	= 	29;
+	localparam WRITE_ACK10 	= 	30;
+	localparam READ_DATA11 	= 	31;
+	localparam WRITE_ACK11 	= 	32;
+	localparam STOP 		= 	33;
+	localparam STOP2 		= 	34;
+	localparam NOP1 		= 	35;
 
     // DUT instance
     i2c_controller_pullup uut (
@@ -148,7 +189,7 @@ module i2c_controller_pullup_tb;
         // Set HW_11 mode and enable
         i_ctrl[3:2] = 2'b10; // HW_11 mode
         i_ctrl[0] = 1; // Enable
-        i_ctrl[1] = 1; // RW enabled
+        i_ctrl[1] = 1; // rw_reg set to read
         i_ctrl[6:4] = 3'b110; // CLK_390K
 
         i_drdy = 1; // Trigger state machine
