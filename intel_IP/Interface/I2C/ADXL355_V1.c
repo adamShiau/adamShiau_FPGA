@@ -128,6 +128,7 @@ void I2C_read_357_CPU11(alt_u8 reg_addr);
 void init_ADXL355(void);
 void read_355_temp(void);
 void print_11_reg(void);
+void print_9_reg(void);
 
 /*** mid level declaration */
 void I2C_sm_start();
@@ -153,7 +154,7 @@ int main()
   init_ADXL355();
   
   while(1){
-	print_11_reg();
+	print_9_reg();
 
   }
   return 0;
@@ -302,7 +303,31 @@ void print_11_reg()
 
 }
 
+void print_9_reg()
+{
+	alt_u8 XH, XM, XL;
+	alt_u8 YH, YM, YL;
+	alt_u8 ZH, ZM, ZL;
+	float accl_x, accl_y, accl_z;
 
+	while( !I2C_sm_read_finish()){}
+	XH = IORD(VARSET_BASE, O_VAR_I2C_RDATA_1);
+	XM = IORD(VARSET_BASE, O_VAR_I2C_RDATA_2);
+	XL = IORD(VARSET_BASE, O_VAR_I2C_RDATA_3);
+	YH = IORD(VARSET_BASE, O_VAR_I2C_RDATA_4);
+	YM = IORD(VARSET_BASE, O_VAR_I2C_RDATA_5);
+	YL = IORD(VARSET_BASE, O_VAR_I2C_RDATA_6);
+	ZH = IORD(VARSET_BASE, O_VAR_I2C_RDATA_7);
+	ZM = IORD(VARSET_BASE, O_VAR_I2C_RDATA_8);
+	ZL = IORD(VARSET_BASE, O_VAR_I2C_RDATA_9);
+
+	accl_x = (XH>>7)? ((float)(XH<<12|XM<<4|XL>>4)-1048576.0)*SENS_8G : (float)(XH<<12|XM<<4|XL>>4)*SENS_8G;
+	accl_y = (YH>>7)? ((float)(YH<<12|YM<<4|YL>>4)-1048576.0)*SENS_8G : (float)(YH<<12|YM<<4|YL>>4)*SENS_8G;
+	accl_z = (ZH>>7)? ((float)(ZH<<12|ZM<<4|ZL>>4)-1048576.0)*SENS_8G : (float)(ZH<<12|ZM<<4|ZL>>4)*SENS_8G;
+
+	printf("%.4f, %.4f, %.4f\n", accl_x, accl_y, accl_z);
+
+}
 
 
 /***********mid level definition */

@@ -1,4 +1,4 @@
-module i2c_controller_pullup
+module i2c_controller_pullup_9
 (
 	input wire 			i_clk,
 	input wire 			i_rst_n,
@@ -288,7 +288,8 @@ module i2c_controller_pullup
 				READ_ACK_B: begin
 					counter <= 7;
 					if(rw == 0) begin
-						if(op_mode==HW_11) saved_data = REG_ADXL355_TEMP2;
+						// if(op_mode==HW_11) saved_data = REG_ADXL355_TEMP2;
+						if(op_mode==HW_11) saved_data = REG_ADXL355_TXDATA3;
 						else saved_data = i_reg_addr;
 						state <= REG_ADDR;
 					end
@@ -433,8 +434,10 @@ module i2c_controller_pullup
 					else counter <= counter - 1;
 				end
 				WRITE_ACK9: begin
-					counter <= 7;
-					state <= READ_DATA10;
+					// counter <= 7;
+					// state <= READ_DATA10;
+					finish <= 1;
+					state <= STOP;
 				end
 
 				READ_DATA10: begin
