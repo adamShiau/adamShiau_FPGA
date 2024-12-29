@@ -358,26 +358,30 @@ void I2C_clock_rate_sel(alt_u8 rate)
 
 /***********low level definition */
 
+/*** Set the bit value at the spcified position without altering the values at other positions. */
 alt_u32 set_bit_safe(alt_u32 old_addr,  alt_u8 pos)
 {
+	// First, read the register value.
 	alt_u32 old = IORD(VARSET_BASE, old_addr);
+
+	// Returns the register value with the bit set at the specified position.
 	return (old | (alt_32)(1<<pos)); 
 }
 
+/*** Clear the bit value at the spcified position without altering the values at other positions. */
 alt_u32 clear_bit_safe(alt_u32 old_addr,  alt_u8 pos)
 {
+	// First, read the register value.
 	alt_u32 old = IORD(VARSET_BASE, old_addr);
+
+	// Returns the register value with the bit cleared at the specified position.
 	return (old & ~((alt_32)(1<<pos))); 
 }
 
-
+/*** Starts the state machine when it is in the IDLE state. */
 void I2C_sm_set_enable()
 {
-	// alt_u8 dly = 50;
-
 	IOWR(VARSET_BASE, O_VAR_I2C_CTRL,  set_bit_safe(O_VAR_I2C_CTRL, ctrl_en_pos));
-	// while(dly--){}
-	// I2C_sm_set_disable();
 }
 
 void I2C_sm_set_disable()
@@ -395,6 +399,8 @@ void I2C_set_write_mode()
 	IOWR(VARSET_BASE, O_VAR_I2C_CTRL, clear_bit_safe(O_VAR_I2C_CTRL, ctrl_rw_reg_pos));
 }
 
+
+/*** Returns High when the state machine has finished. */
 alt_u8 I2C_sm_read_finish()
 {
 	alt_u8 finish=0;
