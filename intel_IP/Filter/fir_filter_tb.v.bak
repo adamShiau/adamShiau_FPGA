@@ -1,0 +1,76 @@
+`timescale 1ns / 100ps
+
+module fir_filter_tb;
+
+    // Parameters
+    parameter CLK_PERIOD = 10; // 100MHz clock (10ns period)
+    parameter integer BIT_WIDTH = 14; // 14-bit signed data
+    parameter real FREQUENCY = 1e6; // Default frequency = 1 MHz
+    parameter real SAMPLE_RATE = 1e8; // Sampling rate = 100 MHz
+
+    // Inputs
+    reg clk;
+    reg reset;
+
+    // Outputs
+    wire signed [BIT_WIDTH+15:0] dout;
+
+    // Sine wave generation variables
+    reg signed [BIT_WIDTH-1:0] din;
+    real sine_value;
+    integer sample_count = 0;
+
+    // Instantiate the filter module
+    fir_filter_old #(
+        .N(16),
+        .WIDTH(14)
+    ) uut (
+        .clk(clk),
+        .n_rst(reset),
+        .din(din),
+        .dout(dout)
+    );
+
+    // Clock generation
+    initial begin
+        clk = 0;
+        forever #(CLK_PERIOD/2) clk = ~clk;
+    end
+
+    // Reset generation
+    initial begin
+        reset = 0;
+        #20;
+        reset = 1;
+    end
+
+    // Generate sine wave input
+    always @(posedge clk) begin
+        if (reset) begin
+            sine_value = $sin(2.0 * 3.14159265359 * FREQUENCY * sample_count / SAMPLE_RATE);
+            din = sine_value * ((1 << (BIT_WIDTH-1)) - 1); // Scale to 14-bit signed range
+            sample_count = sample_count + 1;
+        end else begin
+            din = 0;
+            sample_count = 0;
+        end
+    end
+
+    // Print frequency and output amplitude
+    always @(posedge clk) begin
+        if (reset) begin
+            // $display("Time: %0t | Frequency: %0.2f MHz | dout amplitude: %0d", $time*1e-3, FREQUENCY / 1e6, dout);
+            $display("%0t,%0d", $time*1e-3,dout);
+        end
+    end
+
+    // Simulation control
+    initial begin
+        $dumpfile("fir_filter_tb.vcd");
+        $dumpvars(0, fir_filter_tb);
+
+        #10000; // Run simulation for a specific duration
+        $stop;
+    end
+
+endmodule

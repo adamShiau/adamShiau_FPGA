@@ -1,4 +1,4 @@
-module fir_filter #(
+module fir_filter_old #(
     parameter N = 16,               // 濾波器階數
     parameter WIDTH = 14           // ADC數據位寬
 )(
