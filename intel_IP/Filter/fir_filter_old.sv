@@ -16,6 +16,7 @@ module fir_filter_old #(
         3990, 3671, 3091, 2352, 1582, 917, 469, 311
     };
 
+    // /***
     // generate
     //     genvar j;
     //     for (j = 0; j < N; j = j + 1) begin : shift_gen
@@ -30,6 +31,7 @@ module fir_filter_old #(
     //         end
     //     end
     // endgenerate
+    // ***/
 
     always @(posedge clk or negedge n_rst) begin
         integer k;

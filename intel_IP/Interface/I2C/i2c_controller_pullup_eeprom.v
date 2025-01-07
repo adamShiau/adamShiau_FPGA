@@ -1,10 +1,10 @@
-module i2c_controller_pullup_9
+module i2c_controller_pullup_eeprom
 (
 	input wire 			i_clk,
 	input wire 			i_rst_n,
 	input wire [6:0] 	i_dev_addr,
-	input wire [7:0] 	i_w_data,
-	input wire [7:0] 	i_reg_addr,
+	input wire [32-1:0] 	i_w_data,
+	input wire [16-1:0] 	i_reg_addr,
 	input wire [31:0]	i_ctrl,
 	input wire 			i_drdy,
 
@@ -12,13 +12,13 @@ module i2c_controller_pullup_9
 	output reg [7:0] 	o_rd_data_2,
 	output reg [7:0] 	o_rd_data_3,
 	output reg [7:0] 	o_rd_data_4,
-	output reg [7:0] 	o_rd_data_5,
-	output reg [7:0] 	o_rd_data_6,
-	output reg [7:0] 	o_rd_data_7,
-	output reg [7:0] 	o_rd_data_8,
-	output reg [7:0] 	o_rd_data_9,
-	output reg [7:0] 	o_rd_data_10,
-	output reg [7:0] 	o_rd_data_11,
+	// output reg [7:0] 	o_rd_data_5,
+	// output reg [7:0] 	o_rd_data_6,
+	// output reg [7:0] 	o_rd_data_7,
+	// output reg [7:0] 	o_rd_data_8,
+	// output reg [7:0] 	o_rd_data_9,
+	// output reg [7:0] 	o_rd_data_10,
+	// output reg [7:0] 	o_rd_data_11,
 
 	output wire [31:0] 	o_status,
 	output wire 		o_w_enable,
@@ -27,10 +27,10 @@ module i2c_controller_pullup_9
 	inout 				i2c_sda
 	);
 
-	/*** regidter definition***/
-	localparam ADXL355_DEV_ADDR  	= 7'h1D;
-	localparam REG_ADXL355_TEMP2 	= 8'h06;
-	localparam REG_ADXL355_TXDATA3 	= 8'h08;
+	/*** register definition***/
+	// localparam ADXL355_DEV_ADDR  	= 7'h1D;
+	// localparam REG_ADXL355_TEMP2 	= 8'h06;
+	// localparam REG_ADXL355_TXDATA3 	= 8'h08;
 
 	/*** I2C Clock rate definition for 50MHz input clock ***/
 	localparam CLK_195K 	= 	7;
@@ -52,38 +52,53 @@ module i2c_controller_pullup_9
 	localparam REG_ADDR  	= 	5;
 	localparam READ_ACK2 	= 	6;
 	localparam READ_ACK2_B 	= 	7;
-	localparam WRITE_DATA 	= 	8;
+	localparam REG_ADDR2  	= 	8;
 	localparam READ_ACK3 	= 	9;
 	localparam READ_ACK3_B 	= 	10;	
-	localparam READ_DATA 	= 	11;
-	localparam WRITE_ACK 	= 	12;
-	localparam READ_DATA2 	= 	13;
-	localparam WRITE_ACK2 	= 	14;
-	localparam READ_DATA3 	= 	15;
-	localparam WRITE_ACK3 	= 	16;
-	localparam READ_DATA4 	= 	17;
-	localparam WRITE_ACK4 	= 	18;
-	localparam READ_DATA5 	= 	19;
-	localparam WRITE_ACK5 	= 	20;
-	localparam READ_DATA6 	= 	21;
-	localparam WRITE_ACK6 	= 	22;
-	localparam READ_DATA7 	= 	23;
-	localparam WRITE_ACK7 	= 	24;
-	localparam READ_DATA8 	= 	25;
-	localparam WRITE_ACK8 	= 	26;
-	localparam READ_DATA9 	= 	27;
-	localparam WRITE_ACK9 	= 	28;
-	localparam READ_DATA10 	= 	29;
-	localparam WRITE_ACK10 	= 	30;
-	localparam READ_DATA11 	= 	31;
-	localparam WRITE_ACK11 	= 	32;
-	localparam STOP 		= 	33;
-	localparam STOP2 		= 	34;
-	localparam NOP1 		= 	35;
+	localparam WRITE_DATA 	= 	11;
+	localparam READ_ACK4 	= 	12;
+	localparam READ_ACK4_B 	= 	13;	
+	localparam WRITE_DATA2 	= 	14;
+	localparam READ_ACK5 	= 	15;
+	localparam READ_ACK5_B 	= 	16;	
+	localparam WRITE_DATA3 	= 	17;
+	localparam READ_ACK6 	= 	18;
+	localparam READ_ACK6_B 	= 	19;	
+	localparam WRITE_DATA4 	= 	20;
+	localparam READ_ACK7 	= 	21;
+	localparam READ_ACK7_B 	= 	22;	
+	localparam READ_DATA 	= 	23;
+	localparam WRITE_ACK 	= 	24;
+	localparam READ_DATA2 	= 	25;
+	localparam WRITE_ACK2 	= 	26;
+	localparam READ_DATA3 	= 	27;
+	localparam WRITE_ACK3 	= 	28;
+	localparam READ_DATA4 	= 	29;
+	localparam WRITE_ACK4 	= 	30;
+	localparam STOP 		= 	31;
+	localparam STOP2 		= 	32;
+	localparam NOP1 		= 	33;
+	// localparam READ_DATA5 	= 	19;
+	// localparam WRITE_ACK5 	= 	20;
+	// localparam READ_DATA6 	= 	21;
+	// localparam WRITE_ACK6 	= 	22;
+	// localparam READ_DATA7 	= 	23;
+	// localparam WRITE_ACK7 	= 	24;
+	// localparam READ_DATA8 	= 	25;
+	// localparam WRITE_ACK8 	= 	26;
+	// localparam READ_DATA9 	= 	27;
+	// localparam WRITE_ACK9 	= 	28;
+	// localparam READ_DATA10 	= 	29;
+	// localparam WRITE_ACK10 	= 	30;
+	// localparam READ_DATA11 	= 	31;
+	// localparam WRITE_ACK11 	= 	32;
+
 
 	reg [7:0] state;
 	reg [7:0] saved_addr;
-	reg [7:0] saved_data;
+	reg [7:0] saved_data; //del.
+	reg [7:0] saved_regaddr_H, saved_regaddr_L;
+	reg [7:0] saved_write_3, saved_write_2, saved_write_1, saved_write_0;
 	reg [7:0] counter;
 	reg sda_out = 0;
 	reg [1:0] i2c_scl_enable = 0;
@@ -165,7 +180,7 @@ module i2c_controller_pullup_9
 			end
 		end
 	end
-
+	
 	/*** For the states need to WRITE operation, let w_en2 = 1, otherwise w_en2 = 0***/
 	always @(posedge clk_2x or negedge i_rst_n) begin
 		if(!i_rst_n) begin
@@ -181,7 +196,11 @@ module i2c_controller_pullup_9
 					else w_en2 <= 0;
 				end
 				REG_ADDR: begin
-					if(saved_data[counter]==0) w_en2 <= 1;
+					if(saved_regaddr_H[counter]==0) w_en2 <= 1;
+					else w_en2 <= 0;
+				end
+				REG_ADDR2: begin
+					if(saved_regaddr_L[counter]==0) w_en2 <= 1;
 					else w_en2 <= 0;
 				end
 				WRITE_DATA: begin
@@ -227,7 +246,7 @@ module i2c_controller_pullup_9
 		end
 	end
 
-/*** SM update**/
+	/*** SM update**/
 	always @(posedge i2c_clk or negedge i_rst_n) begin
 		if(!i_rst_n) begin
 			state <= IDLE;
@@ -290,8 +309,11 @@ module i2c_controller_pullup_9
 					counter <= 7;
 					if(rw == 0) begin
 						// if(op_mode==HW_11) saved_data = REG_ADXL355_TEMP2;
-						if(op_mode==HW_11) saved_data = REG_ADXL355_TXDATA3;
-						else saved_data = i_reg_addr;
+						// if(op_mode==HW_11) saved_data = REG_ADXL355_TXDATA3;
+						// else saved_data <= i_reg_addr;
+						// saved_data <= i_reg_addr;
+						saved_regaddr_H <= i_reg_addr[15:8];
+						saved_regaddr_L <= i_reg_addr[7:0];
 						state <= REG_ADDR;
 					end
 					else state <= READ_DATA;
@@ -311,12 +333,39 @@ module i2c_controller_pullup_9
 				end
 
 				READ_ACK2_B: begin 
+					// if( rw_reg == 1'b1) state <= STOP;
+					// else begin
+					// 	counter <= 7;
+					// 	saved_data = i_w_data;
+					// 	state <= WRITE_DATA;
+					// end
+					counter <= 7;
+					state <= REG_ADDR2;
+				end
+
+				REG_ADDR2: begin 
+					if(counter == 0) begin
+						state <= READ_ACK3;
+					end else counter <= counter - 1;
+				end
+
+				READ_ACK3: begin 
+					state <= READ_ACK3_B;
+				end
+
+				READ_ACK3_B: begin 
 					if( rw_reg == 1'b1) state <= STOP;
 					else begin
 						counter <= 7;
-						saved_data = i_w_data;
+						// saved_data = i_w_data;
+						saved_write_3 <=  i_w_data[31:24];
+						saved_write_2 <=  i_w_data[23:16];
+						saved_write_1 <=  i_w_data[15:8];
+						saved_write_0 <=  i_w_data[7:0];
 						state <= WRITE_DATA;
 					end
+					// finish <= 1;
+					// state <= STOP;
 				end
 
 				STOP: begin
@@ -337,8 +386,63 @@ module i2c_controller_pullup_9
 
 				WRITE_DATA: begin 
 					if(counter == 0) begin
-						state <= READ_ACK3;
+						// state <= READ_ACK3;
+						state <= READ_ACK4;
 					end else counter <= counter - 1;
+				end
+
+				READ_ACK4: begin 
+					state <= READ_ACK4_B;
+				end
+
+				READ_ACK4_B: begin 
+					counter <= 7;
+					state <= WRITE_DATA2;
+				end
+
+				WRITE_DATA2: begin 
+					if(counter == 0) begin
+						state <= READ_ACK5;
+					end else counter <= counter - 1;
+				end
+
+				READ_ACK5: begin 
+					state <= READ_ACK5_B;
+				end
+
+				READ_ACK5_B: begin 
+					counter <= 7;
+					state <= WRITE_DATA3;
+				end
+
+				WRITE_DATA3: begin 
+					if(counter == 0) begin
+						state <= READ_ACK6;
+					end else counter <= counter - 1;
+				end
+
+				READ_ACK6: begin 
+					state <= READ_ACK6_B;
+				end
+
+				READ_ACK6_B: begin 
+					counter <= 7;
+					state <= WRITE_DATA4;
+				end
+
+				WRITE_DATA4: begin 
+					if(counter == 0) begin
+						state <= READ_ACK7;
+					end else counter <= counter - 1;
+				end
+
+				READ_ACK7: begin 
+					state <= READ_ACK7_B;
+				end
+
+				READ_ACK7_B: begin 
+					finish <= 1;
+					state <= STOP;
 				end
 
 				READ_DATA: begin//11
@@ -349,14 +453,16 @@ module i2c_controller_pullup_9
 				end
 				
 				WRITE_ACK: begin//12
-					if(op_mode == CPU_1) begin
-						finish <= 1;
-						state <= STOP; //00, CPU read 1 byte
-					end
-					else begin// else, CPU/FPGA read 11 bytes
-						counter <= 7;
-						state <= READ_DATA2;
-					end
+					// if(op_mode == CPU_1) begin
+					// 	finish <= 1;
+					// 	state <= STOP; //00, CPU read 1 byte
+					// end
+					// else begin// else, CPU/FPGA read 11 bytes
+					// 	counter <= 7;
+					// 	state <= READ_DATA2;
+					// end
+					counter <= 7;
+					state <= READ_DATA2;
 				end
 
 				READ_DATA2: begin
@@ -385,93 +491,85 @@ module i2c_controller_pullup_9
 					else counter <= counter - 1;
 				end
 				WRITE_ACK4: begin
-					counter <= 7;
-					state <= READ_DATA5;
-				end
-
-				READ_DATA5: begin
-					o_rd_data_5[counter] <= i2c_sda;
-					if (counter == 0) state <= WRITE_ACK5;
-					else counter <= counter - 1;
-				end
-				WRITE_ACK5: begin
-					counter <= 7;
-					state <= READ_DATA6;
-				end
-
-				READ_DATA6: begin
-					o_rd_data_6[counter] <= i2c_sda;
-					if (counter == 0) state <= WRITE_ACK6;
-					else counter <= counter - 1;
-				end
-				WRITE_ACK6: begin
-					counter <= 7;
-					state <= READ_DATA7;
-				end
-
-				READ_DATA7: begin
-					o_rd_data_7[counter] <= i2c_sda;
-					if (counter == 0) state <= WRITE_ACK7;
-					else counter <= counter - 1;
-				end
-				WRITE_ACK7: begin
-					counter <= 7;
-					state <= READ_DATA8;
-				end
-
-				READ_DATA8: begin
-					o_rd_data_8[counter] <= i2c_sda;
-					if (counter == 0) state <= WRITE_ACK8;
-					else counter <= counter - 1;
-				end
-				WRITE_ACK8: begin
-					counter <= 7;
-					state <= READ_DATA9;
-				end
-
-				READ_DATA9: begin
-					o_rd_data_9[counter] <= i2c_sda;
-					if (counter == 0) state <= WRITE_ACK9;
-					else counter <= counter - 1;
-				end
-				WRITE_ACK9: begin
 					// counter <= 7;
-					// state <= READ_DATA10;
+					// state <= READ_DATA5;
 					finish <= 1;
 					state <= STOP;
 				end
 
-				READ_DATA10: begin
-					o_rd_data_10[counter] <= i2c_sda;
-					if (counter == 0) state <= WRITE_ACK10;
-					else counter <= counter - 1;
-				end
+				// READ_DATA5: begin
+				// 	o_rd_data_5[counter] <= i2c_sda;
+				// 	if (counter == 0) state <= WRITE_ACK5;
+				// 	else counter <= counter - 1;
+				// end
+				// WRITE_ACK5: begin
+				// 	counter <= 7;
+				// 	state <= READ_DATA6;
+				// end
 
-				WRITE_ACK10: begin
-					counter <= 7;
-					state <= READ_DATA11;
-				end
+				// READ_DATA6: begin
+				// 	o_rd_data_6[counter] <= i2c_sda;
+				// 	if (counter == 0) state <= WRITE_ACK6;
+				// 	else counter <= counter - 1;
+				// end
+				// WRITE_ACK6: begin
+				// 	counter <= 7;
+				// 	state <= READ_DATA7;
+				// end
 
-				READ_DATA11: begin
-					o_rd_data_11[counter] <= i2c_sda;
-					if (counter == 0) state <= WRITE_ACK11;
-					else counter <= counter - 1;
-				end
+				// READ_DATA7: begin
+				// 	o_rd_data_7[counter] <= i2c_sda;
+				// 	if (counter == 0) state <= WRITE_ACK7;
+				// 	else counter <= counter - 1;
+				// end
+				// WRITE_ACK7: begin
+				// 	counter <= 7;
+				// 	state <= READ_DATA8;
+				// end
 
-				WRITE_ACK11: begin
-					finish <= 1;
-					state <= STOP;
-				end
+				// READ_DATA8: begin
+				// 	o_rd_data_8[counter] <= i2c_sda;
+				// 	if (counter == 0) state <= WRITE_ACK8;
+				// 	else counter <= counter - 1;
+				// end
+				// WRITE_ACK8: begin
+				// 	counter <= 7;
+				// 	state <= READ_DATA9;
+				// end
 
-				READ_ACK3: begin 
-					state <= READ_ACK3_B;
-				end
+				// READ_DATA9: begin
+				// 	o_rd_data_9[counter] <= i2c_sda;
+				// 	if (counter == 0) state <= WRITE_ACK9;
+				// 	else counter <= counter - 1;
+				// end
+				// WRITE_ACK9: begin
+				// 	// counter <= 7;
+				// 	// state <= READ_DATA10;
+				// 	finish <= 1;
+				// 	state <= STOP;
+				// end
 
-				READ_ACK3_B: begin 
-					finish <= 1;
-					state <= STOP;
-				end
+				// READ_DATA10: begin
+				// 	o_rd_data_10[counter] <= i2c_sda;
+				// 	if (counter == 0) state <= WRITE_ACK10;
+				// 	else counter <= counter - 1;
+				// end
 
+				// WRITE_ACK10: begin
+				// 	counter <= 7;
+				// 	state <= READ_DATA11;
+				// end
+
+				// READ_DATA11: begin
+				// 	o_rd_data_11[counter] <= i2c_sda;
+				// 	if (counter == 0) state <= WRITE_ACK11;
+				// 	else counter <= counter - 1;
+				// end
+
+				// WRITE_ACK11: begin
+				// 	finish <= 1;
+				// 	state <= STOP;
+				// end
 				default: state <= IDLE;
 			endcase
 		end
@@ -518,13 +616,63 @@ module i2c_controller_pullup_9
 					sda_out <= 1;
 				end
 
+				READ_ACK4: begin
+					sda_out <= 1;
+				end
+
+				READ_ACK4_B: begin 
+					sda_out <= 1;
+				end
+
+				READ_ACK5: begin
+					sda_out <= 1;
+				end
+
+				READ_ACK5_B: begin 
+					sda_out <= 1;
+				end
+
+				READ_ACK6: begin
+					sda_out <= 1;
+				end
+
+				READ_ACK6_B: begin 
+					sda_out <= 1;
+				end
+
+				READ_ACK7: begin
+					sda_out <= 1;
+				end
+
+				READ_ACK7_B: begin 
+					sda_out <= 1;
+				end
+
 				REG_ADDR: begin //write reg addr
-					sda_out <= saved_data[counter];
+					// sda_out <= saved_data[counter];
+					sda_out <= saved_regaddr_H[counter];
+				end
+
+				REG_ADDR2: begin //write reg addr L-byte
+					sda_out <= saved_regaddr_L[counter];
 				end
 				
 				WRITE_DATA: begin //write reg value
 					sda_out <= saved_data[counter];
 				end
+
+				WRITE_DATA2: begin //write data
+					sda_out <= saved_write_2[counter];
+				end
+
+				WRITE_DATA3: begin //write data
+					sda_out <= saved_write_1[counter];
+				end
+
+				WRITE_DATA4: begin //write data, LSB
+					sda_out <= saved_write_0[counter];
+				end
+
 				WRITE_ACK: begin
 					sda_out <= 0;
 				end
@@ -537,21 +685,21 @@ module i2c_controller_pullup_9
 				WRITE_ACK4: begin
 					sda_out <= 0;
 				end
-				WRITE_ACK5: begin
-					sda_out <= 0;
-				end
-				WRITE_ACK6: begin
-					sda_out <= 0;
-				end
-				WRITE_ACK7: begin
-					sda_out <= 0;
-				end
-				WRITE_ACK8: begin
-					sda_out <= 0;
-				end
-				WRITE_ACK9: begin
-					sda_out <= 0;
-				end
+				// WRITE_ACK5: begin
+				// 	sda_out <= 0;
+				// end
+				// WRITE_ACK6: begin
+				// 	sda_out <= 0;
+				// end
+				// WRITE_ACK7: begin
+				// 	sda_out <= 0;
+				// end
+				// WRITE_ACK8: begin
+				// 	sda_out <= 0;
+				// end
+				// WRITE_ACK9: begin
+				// 	sda_out <= 0;
+				// end
 				READ_DATA: begin
 					sda_out <= 1;			
 				end
@@ -564,21 +712,21 @@ module i2c_controller_pullup_9
 				READ_DATA4: begin
 					sda_out <= 1;			
 				end
-				READ_DATA5: begin
-					sda_out <= 1;			
-				end
-				READ_DATA6: begin
-					sda_out <= 1;		
-				end
-				READ_DATA7: begin
-					sda_out <= 1;			
-				end
-				READ_DATA8: begin
-					sda_out <= 1;			
-				end
-				READ_DATA9: begin
-					sda_out <= 1;				
-				end
+				// READ_DATA5: begin
+				// 	sda_out <= 1;			
+				// end
+				// READ_DATA6: begin
+				// 	sda_out <= 1;		
+				// end
+				// READ_DATA7: begin
+				// 	sda_out <= 1;			
+				// end
+				// READ_DATA8: begin
+				// 	sda_out <= 1;			
+				// end
+				// READ_DATA9: begin
+				// 	sda_out <= 1;				
+				// end
 				STOP: begin
 					sda_out <= 1;
 				end
