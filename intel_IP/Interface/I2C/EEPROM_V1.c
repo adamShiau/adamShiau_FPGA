@@ -85,19 +85,14 @@ int main()
 alt_u8 eeprom_buf[4] = {0};
 
   printf("Start testing EEPROM!\n");
-  I2C_clock_rate_sel(CLK_390K);
-  Parameter_Write(0, 0xAB);
-  Parameter_Write(1, 0xAB);
+  I2C_clock_rate_sel(CLK_195K);
+  Parameter_Write(0, 0x12345678);
+  Parameter_Write(1, 0x78654321);
+  Parameter_Write(2, -20000);
   printf("Parameter_Write done\n");
   Parameter_Read(0, eeprom_buf);
   Parameter_Read(1, eeprom_buf);
-//   TRIGGER_IRQ_init(); // register EXTT interrupt
-//   init_ADXL355();
-  
-//   while(1){
-// 	print_9_reg();
-
-//   }
+  Parameter_Read(2, eeprom_buf);
   printf("Stop testing EEPROM!\n");
   return 0;
 }
@@ -133,8 +128,7 @@ void Parameter_Read(alt_u16 reg_addr, alt_u8* buf)
 	// start the I2C SM 
 	I2C_sm_start();
 	// Wait for the I2C SM to complete the operation
-	// while( !I2C_sm_read_finish()){}
-	usleep(5000);
+	 while( !I2C_sm_read_finish()){}
 	// Retrieve the data read from the specified register
 	buf[0] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_1);
 	buf[1] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_2);
@@ -181,8 +175,8 @@ void Parameter_Write(alt_u16 reg_addr, alt_32 data)
 	// start the I2C SM 
 	I2C_sm_start();
 	// Wait for the I2C SM to complete the operation
-	// while( !I2C_sm_read_finish()){}
-	usleep(5000);
+	 while( !I2C_sm_read_finish()){}
+	usleep(1320);
 }
 
 void I2C_write_357_register(alt_u8 reg_addr, alt_u8 data)

@@ -221,7 +221,9 @@ module i2c_controller_pullup_9
 				WRITE_ACK11: begin
 					w_en2 <= 1;
 				end
-				
+				STOP: begin
+					w_en2 <= 1;
+				end
 				default: w_en2 <= 0;
 			endcase
 		end
@@ -580,7 +582,7 @@ module i2c_controller_pullup_9
 					sda_out <= 1;				
 				end
 				STOP: begin
-					sda_out <= 1;
+					sda_out <= 0;
 				end
 				STOP2: begin
 					sda_out <= 1;
