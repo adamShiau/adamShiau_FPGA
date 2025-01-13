@@ -5,7 +5,7 @@ module fir_filter_tb;
     // Parameters
     parameter CLK_PERIOD = 10; // 100MHz clock (10ns period)
     parameter integer BIT_WIDTH = 14; // 14-bit signed data
-    parameter real FREQUENCY = 5e6; // Default frequency = 1 MHz
+    parameter real FREQUENCY = 10e6; // Default frequency = 1 MHz
     parameter real SAMPLE_RATE = 1e8; // Sampling rate = 100 MHz
 
     // Inputs
@@ -21,7 +21,8 @@ module fir_filter_tb;
     integer sample_count = 0;
 
     // Instantiate the filter module
-    fir_filter_old #(
+    // fir_filter_old #(
+    fir_filter_old_v2 #(
         .N(16),
         .WIDTH(14)
     ) uut (
