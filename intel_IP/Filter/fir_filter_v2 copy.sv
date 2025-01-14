@@ -1,4 +1,4 @@
-module fir_filter_old_v2 #(
+module fir_filter_v2 #(
     parameter N = 16,               // 濾波器階數
     parameter WIDTH = 14           // ADC數據位寬
 )(
@@ -12,6 +12,8 @@ module fir_filter_old_v2 #(
 
 
     const logic signed [15:0] coeff [0:N-1] = '{
+        // 112, 243, 618, 1293, 2217, 3225, 4089, 4587, 
+        // 4587, 4089, 3225, 2217, 1293, 618, 243, 112
         311, 469, 917, 1582, 2352, 3091, 3671, 3990, 
         3990, 3671, 3091, 2352, 1582, 917, 469, 311
     };
@@ -49,20 +51,6 @@ module fir_filter_old_v2 #(
             assign mult[l] = shift_reg[l] * coeff[l];
         end
     endgenerate
-
-    // filter output  
-    // always @(posedge clk or negedge n_rst) begin
-    //     if (!n_rst) begin
-    //         dout <= 0;
-    //     end else begin
-    //         integer i;
-    //         reg signed [WIDTH+15:0] acc; 
-    //         acc = mult[0];
-    //         for (i = 1; i < N; i = i + 1)
-    //             acc = acc + mult[i];
-    //         dout <= acc; 
-    //     end
-    // end
 
     always @(posedge clk or negedge n_rst) begin
         if (!n_rst) begin
