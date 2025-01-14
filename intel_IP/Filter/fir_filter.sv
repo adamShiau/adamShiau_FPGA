@@ -37,6 +37,7 @@ module fir_filter #(
         end
     endgenerate
 
+
     always @(posedge clk or negedge n_rst) begin
         if (!n_rst) begin
             dout <= 0;
@@ -49,5 +50,28 @@ module fir_filter #(
             dout <= acc; // 最後一次性賦值給 dout
         end
     end
+
+/***
+    reg signed [WIDTH+15:0] acc; // 累加器
+    reg [7:0] count;            // 計數器
+
+    always @(posedge clk or negedge n_rst) begin
+        if (!n_rst) begin
+            dout <= 0;
+            acc <= 0;
+            count <= 0;
+        end else begin
+            if (count < N) begin
+                acc <= acc + mult[count]; // 累加一項
+                count <= count + 1;
+            end else begin
+                dout <= acc;  // 輸出結果
+                acc <= 0;     // 重置累加器
+                count <= 0;   // 重置計數器
+            end
+        end
+    end
+***/
+
 
 endmodule
