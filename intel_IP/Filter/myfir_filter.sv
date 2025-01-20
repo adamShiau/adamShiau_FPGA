@@ -1,6 +1,12 @@
-module fir_filter_v3 #(
+module myfir_filter #(
     parameter N = 16,               // 濾波器階數
-    parameter WIDTH = 14           // ADC數據位寬
+    parameter WIDTH = 14,           // ADC數據位寬
+    parameter logic signed [15:0] COEFF_SET [0:31] = '{ // default use coeff. N32FC5
+        -54, -64, -82, -97, -93, -47, 66, 266, 562, 951,
+        1412, 1909, 2396, 2821, 3136, 3304,
+        3304, 3136, 2821, 2396, 1909, 1412, 951, 562, 
+        266, 66, -47, -93, -97, -82, -64, -54
+    }
 )(
     input clk,
     input n_rst,
@@ -8,33 +14,11 @@ module fir_filter_v3 #(
     output reg signed [WIDTH+15:0] dout // 濾波後數據
 );
 
-    typedef logic signed [15:0] coeff_array_t [0:31];  // 假設最大長度為 32
-
-    parameter coeff_array_t N16FC5 = '{
-        -54, -64, -82, -97, -93, -47, 66, 266, 562, 951,
-        1412, 1909, 2396, 2821, 3136, 3304,
-        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-    };
-
-    parameter coeff_array_t N32FC5 = '{
-        -54, -64, -82, -97, -93, -47, 66, 266, 562, 951,
-        1412, 1909, 2396, 2821, 3136, 3304,
-        3304, 3136, 2821, 2396, 1909, 1412, 951, 562, 
-        266, 66, -47, -93, -97, -82, -64, -54
-    };
-
-    parameter coeff_array_t N32FC2 = '{
-        82, 102, 148, 223, 330, 469, 638, 832, 1042, 1261, 
-        1476, 1678, 1855, 1998, 2098, 2149, 2149, 2098, 
-        1998, 1855, 1678, 1476, 1261, 1042, 832, 638, 469, 
-        330, 223, 148, 102, 82
-    };
-
     reg signed [WIDTH-1:0] shift_reg [0:N-1]; // 移位寄存器
     reg signed [WIDTH+15:0] mult [0:N-1];    // 乘法結果
 
 
-    const logic signed [15:0] coeff [0:N-1] = N32FC2;
+    const logic signed [15:0] coeff [0:N-1] = COEFF_SET;
 
     // input value    
     genvar k;
