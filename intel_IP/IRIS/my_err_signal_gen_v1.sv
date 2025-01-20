@@ -1,6 +1,6 @@
-`timescale 1ns / 1ps
+`timescale 1ns / 100ps
 
-module err_signal_gen_ut #(
+module my_err_signal_gen_v1 #(
     parameter ADC_BIT = 14
 ) (
     input logic i_clk,
@@ -13,6 +13,12 @@ module err_signal_gen_ut #(
     input logic signed [ADC_BIT-1:0] i_adc_data,
     input logic [31:0] i_avg_sel,
     output logic signed [31:0] o_err
+    
+    ,output logic signed [31:0] o_adc_sum
+    ,output logic signed [31:0] o_low_avg
+    ,output logic signed [31:0] o_high_avg
+    ,output logic [3:0] o_cstate
+    ,output logic [3:0] o_nstate
 );
 
     // State machine states
@@ -40,6 +46,12 @@ module err_signal_gen_ut #(
     logic signed [31:0] low_avg;
     logic signed [31:0] high_avg;
 
+    assign o_adc_sum = adc_sum;
+    assign o_low_avg = low_avg;
+    assign o_high_avg = high_avg;
+    assign o_cstate = cstate;
+    assign o_nstate = nstate;
+
     // Derived parameters
     logic [31:0] num_samples;
     assign num_samples = (1 << i_avg_sel);
@@ -47,9 +59,14 @@ module err_signal_gen_ut #(
     // State transition logic
     always_ff @(posedge i_clk or negedge i_rst_n) begin
         if (!i_rst_n) begin
+            // Reset condition
             cstate <= RST;
+            $display("Reset: cstate = %0d, nstate = %0d", cstate, nstate);
         end else begin
+            // Display the current and next state on each clock cycle
             cstate <= nstate;
+            $display("Time: %0t | cstate = %0d, nstate = %0d", $time, cstate, nstate);
+
         end
     end
 

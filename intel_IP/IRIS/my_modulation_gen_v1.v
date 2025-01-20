@@ -1,4 +1,4 @@
-module modulation_gen_ut (
+module my_modulation_gen_v1 (
     input i_clk,
     input i_rst_n,
     input [31:0] i_freq_cnt,
