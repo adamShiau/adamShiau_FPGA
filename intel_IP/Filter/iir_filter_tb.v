@@ -60,14 +60,14 @@ module iir_filter_tb;
     always @(posedge clk) begin
         if (reset) begin
             // $display("Time: %0t | Frequency: %0.2f MHz | dout amplitude: %0d", $time, FREQUENCY / 1e6, dout);
-            $display("%0t,%0d,%0d", $time*1e-3, din , dout);
+            // $display("%0t,%0d,%0d", $time*1e-3, din , dout);
         end
     end
 
     // Simulation control
     initial begin
-        $dumpfile("iir_filter_tb.vcd");
-        $dumpvars(0, iir_filter_tb);
+        // $dumpfile("iir_filter_tb.vcd");
+        // $dumpvars(0, iir_filter_tb);
 
         #10000; // Run simulation for a specific duration
         $stop;

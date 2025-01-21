@@ -14,7 +14,7 @@ module my_iir_filter_v1 #(
 
     // Internal registers
     reg signed [WIDTH-1:0] x0, x1, x2; // Previous inputs
-    reg signed [WIDTH-1:0] y1, y2; // Previous outputs
+    reg signed [WIDTH+15:0] y1, y2; // Previous outputs
     // reg signed [WIDTH+15:0] acc;    // Accumulator for computation
     reg signed [WIDTH+15:0] mult [0:4];    // 乘法結果
 
@@ -55,6 +55,13 @@ module my_iir_filter_v1 #(
             // mult[2] <= $signed(x2) * $signed(COEFF_B2);
             // mult[3] <= $signed(y1) * $signed(COEFF_A1);
             // mult[4] <= $signed(y2) * $signed(COEFF_A2);
+
+            // Print values during simulation
+            $display("x0=%d, COEFF_B0=%d, mult[0]=%d", x0, COEFF_B0, mult[0]);
+            $display("x1=%d, COEFF_B1=%d, mult[1]=%d", x1, COEFF_B1, mult[1]);
+            $display("x2=%d, COEFF_B2=%d, mult[2]=%d", x2, COEFF_B2, mult[2]);
+            $display("y1=%d, COEFF_A1=%d, mult[3]=%d", y1, COEFF_A1, mult[3]);
+            $display("y2=%d, COEFF_A2=%d, mult[4]=%d", y2, COEFF_A2, mult[4]);
         end
     end
 
@@ -64,11 +71,12 @@ module my_iir_filter_v1 #(
             acc_sync <= 0;
             dout <= 0;
         end else begin
-            // dout <= mult[0]+ mult[1] + mult[2] - mult[3];
-           acc_sync <= (mult[0] + mult[1] + mult[2] - mult[3] - mult[4]);
-           dout <= acc_sync[WIDTH+14:15];
+            dout <= mult[0]+ mult[1] + mult[2];
+        //    acc_sync <= (mult[0] + mult[1] + mult[2] - mult[3] - mult[4]);
+        //    dout <= acc_sync[WIDTH+14:15];
         //    acc = mult[0] + mult[1] + mult[2] - mult[3] - mult[4];
         //    dout <= acc[WIDTH+14:15]; // Scale result to output width
+        $display("dout=%d", dout);
         end
     end
 
