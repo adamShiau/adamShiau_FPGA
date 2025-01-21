@@ -1,5 +1,5 @@
 module myfir_filter #(
-    parameter N = 32,               // 濾波器階數
+    parameter N = 16,               // 濾波器階數
     parameter WIDTH = 14,           // ADC數據位寬
     parameter logic signed [15:0] COEFF_SET [0:31] = '{ // default use coeff. N32FC5
         -54, -64, -82, -97, -93, -47, 66, 266, 562, 951,

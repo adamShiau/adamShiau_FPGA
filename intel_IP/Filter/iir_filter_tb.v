@@ -1,6 +1,6 @@
 `timescale 1ns / 100ps
 
-module fir_filter_tb;
+module iir_filter_tb;
 
     // Parameters
     parameter CLK_PERIOD = 10; // 100MHz clock (10ns period)
@@ -22,8 +22,7 @@ module fir_filter_tb;
 
     // Instantiate the filter module
     // fir_filter_old #(
-    myfir_filter #(
-        .N(32),
+    my_iir_filter_v1 #(
         .WIDTH(14)
     ) uut (
         .clk(clk),
@@ -67,8 +66,8 @@ module fir_filter_tb;
 
     // Simulation control
     initial begin
-        $dumpfile("fir_filter_tb.vcd");
-        $dumpvars(0, fir_filter_tb);
+        $dumpfile("iir_filter_tb.vcd");
+        $dumpvars(0, iir_filter_tb);
 
         #10000; // Run simulation for a specific duration
         $stop;
