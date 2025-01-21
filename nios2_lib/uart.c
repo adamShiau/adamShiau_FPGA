@@ -76,9 +76,11 @@ static void uartISR(void *context)
 	uart_complete = 1;
 
 	/**
-	 * 若有新的rx數據進來，將數據存入rxBuf[rxBufPut]，然後將 rxBufPut 與 rxBufCount 加1。
-	 * rxBufPut:目前rx的數據到buffer哪個位置了，會一直在0~RX_BUF_SIZE_MASK之間循環
-	 * rxBufCount: 目前rx數據量，最大到RX_BUF_SIZE就不會增加了
+	 * If new RX data arrives, store the data into rxBuf[rxBufPut], 
+	 * then increment rxBufPut and rxBufCount by 1.
+	 * rxBufPut: Indicates the current position in the buffer where RX data is stored; 
+	 * it cycles between 0 and RX_BUF_SIZE_MASK.
+	 * rxBufCount: Indicates the current amount of RX data; it will not increase beyond RX_BUF_SIZE.
 	 */
 	if(IORD_ALTERA_AVALON_UART_STATUS(UART_BASE) & ALTERA_AVALON_UART_STATUS_RRDY_MSK)
 	{
