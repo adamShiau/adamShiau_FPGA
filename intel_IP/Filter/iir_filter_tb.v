@@ -13,10 +13,16 @@ module iir_filter_tb;
     reg reset;
 
     // Outputs
-    wire signed [BIT_WIDTH+15:0] dout;
+    wire signed [BIT_WIDTH+31:0] dout;
 
     // Sine wave generation variables
     reg signed [BIT_WIDTH-1:0] din;
+    wire signed [BIT_WIDTH-1:0] x0, x1, x2;
+    wire signed [BIT_WIDTH+15:0]  y1, y2;
+    wire signed [BIT_WIDTH+31:0] mult [0:4];
+    
+
+
     real sine_value;
     integer sample_count = 0;
 
@@ -28,7 +34,13 @@ module iir_filter_tb;
         .clk(clk),
         .n_rst(reset),
         .din(din),
-        .dout(dout)
+        .dout(dout),
+        .mult(mult),
+        .x0(x0),
+        .x1(x1),
+        .x2(x2),
+        .y1(y1),
+        .y2(y2)
     );
 
     // Clock generation

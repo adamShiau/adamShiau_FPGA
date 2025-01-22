@@ -9,14 +9,16 @@ module my_iir_filter_v1 #(
     input wire clk,
     input wire n_rst,
     input wire signed [WIDTH-1:0] din,
-    output reg signed [WIDTH+15:0] dout
+    output reg signed [WIDTH+31:0] dout,
+    output reg signed [WIDTH+31:0] mult [0:4],
+    output reg signed [WIDTH-1:0] x0, x1, x2,
+    output reg signed [WIDTH+15:0] y1, y2
 );
 
     // Internal registers
-    reg signed [WIDTH-1:0] x0, x1, x2; // Previous inputs
-    reg signed [WIDTH+15:0] y1, y2; // Previous outputs
-    // reg signed [WIDTH+15:0] acc;    // Accumulator for computation
-    reg signed [WIDTH+15:0] mult [0:4];    // 乘法結果
+    // reg signed [WIDTH-1:0] x0, x1, x2; // Previous inputs
+    // reg signed [WIDTH+15:0] y1, y2; // Previous outputs
+    // reg signed [WIDTH+15:0] mult [0:4];    // 乘法結果
 
     // Filter computation
     always @(posedge clk or negedge n_rst) begin
@@ -71,7 +73,7 @@ module my_iir_filter_v1 #(
             acc_sync <= 0;
             dout <= 0;
         end else begin
-            dout <= mult[0]+ mult[1] + mult[2];
+            dout <= mult[0]+ mult[1] + mult[2] - mult[3] - mult[4];
         //    acc_sync <= (mult[0] + mult[1] + mult[2] - mult[3] - mult[4]);
         //    dout <= acc_sync[WIDTH+14:15];
         //    acc = mult[0] + mult[1] + mult[2] - mult[3] - mult[4];
