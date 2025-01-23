@@ -38,7 +38,7 @@ int main()
 	init_ADDA();
 	init_EEPROM();
 
-	Parameter_Write(0, 0x1234567F);
+	Parameter_Write(0, 0x2234567F);
 	Parameter_Write(1, 0x7865432F);
 	Parameter_Write(2, -200000);
 	printf("Parameter_Write done\n");
