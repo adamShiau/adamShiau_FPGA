@@ -2,9 +2,20 @@
 #include "system.h"
 #include "altera_avalon_uart_regs.h"
 
+/******** NIOS II Variable IP address definition*******/
+#include "nios2_var_addr.h"
+
 /******** my Library *******/
+// uart
 #include "uart.h"
-//#include "uart.c"
+#include "uart.c"
+// adda
+#include "adda_config.h"
+#include "adda_config.c"
+//eeprom
+#include "eeprom.h"
+#include "eeprom.c"
+
 
 void sendTx(alt_32);
 void checkByte(alt_u8);
@@ -20,13 +31,23 @@ static alt_32 uart_value;
 alt_32 cnt=0;
 int main()
 {
-  printf("Hello from Nios II!\n");
-  uartInit(); //interrupt method of uart defined in uart.c not main()
+	alt_u8 eeprom_buf[4] = {0};
+
+	printf("Running IRIS CPU!\n");
+	uartInit(); //interrupt method of uart defined in uart.c not main()
+	init_ADDA();
+	init_EEPROM();
+
+	Parameter_Write(0, 0x1234567F);
+	Parameter_Write(1, 0x7865432F);
+	Parameter_Write(2, -200000);
+	printf("Parameter_Write done\n");
+	Parameter_Read(0, eeprom_buf);
+	Parameter_Read(1, eeprom_buf);
+	Parameter_Read(2, eeprom_buf);
+	printf("Stop testing EEPROM!\n");
 
   while(1){
-//	  sendTx(0xFE81FF55);
-//	  checkByte(0xAB);
-//	  usleep(5320);
 	  fog_parameter(readData2(cmd_header, 2, &try_cnt, cmd_trailer, 2));
   }
 
