@@ -1,6 +1,5 @@
 #include "eeprom.h"
 
-
 void Parameter_Write(alt_u16 reg_addr, alt_32 data)
 {
 	reg_addr <<= 2;

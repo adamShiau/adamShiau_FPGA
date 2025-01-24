@@ -1,6 +1,8 @@
 #ifndef __EEPROM_H
 #define __EEPROM_H
 
+#include "memory_manage.h"
+
 /******** I2C device address*********/
 #define I2C_DEV_ADDR	0x57
 
@@ -46,6 +48,7 @@
 #define True 1
 #define False 0
 
+
 /*** EEPROM method */
 void Parameter_Write(alt_u16 reg_addr, alt_32 data);
 void Parameter_Read(alt_u16 reg_addr, alt_u8* buf);
@@ -68,6 +71,7 @@ void I2C_set_read_mode(void);
 alt_u8 I2C_sm_read_finish(void);
 alt_u32 set_bit_safe(alt_u32 old_addr,  alt_u8 pos);
 alt_u32 clear_bit_safe(alt_u32 old_addr,  alt_u8 pos);
+
 
 
 

@@ -12,6 +12,9 @@
 // adda
 #include "adda_config.h"
 #include "adda_config.c"
+//memory_manage
+#include "memory_manage.h"
+#include "memory_manage.c"
 //eeprom
 #include "eeprom.h"
 #include "eeprom.c"
@@ -32,11 +35,13 @@ alt_32 cnt=0;
 int main()
 {
 	alt_u8 eeprom_buf[4] = {0};
+	fog_parameter_t fog_params;
 
 	printf("Running IRIS CPU!\n");
 	uartInit(); //interrupt method of uart defined in uart.c not main()
 	init_ADDA();
 	init_EEPROM();
+	initialize_fog_params(&fog_params);
 
 	Parameter_Write(0, 0x2234567F);
 	Parameter_Write(1, 0x7865432F);
@@ -46,6 +51,14 @@ int main()
 	Parameter_Read(1, eeprom_buf);
 	Parameter_Read(2, eeprom_buf);
 	printf("Stop testing EEPROM!\n");
+	// ´ú¸Õ¿é¥X
+
+	printf("Serial Number: %s\n", fog_params.sn);
+	printf("paramX: ");
+	for (int i = 0; i < MEN_LEN; i++) {
+		printf("%d ", fog_params.paramX[i]);
+	}
+	printf("\n");
 
   while(1){
 	  fog_parameter(readData2(cmd_header, 2, &try_cnt, cmd_trailer, 2));
