@@ -39,7 +39,7 @@ typedef union
   alt_u8 bin_val[4];
 }my_aalt32_t;
 
-int main()
+int main(void)
 {
 	my_aalt32_t eeprom_buf;
 	fog_parameter_t fog_params;
@@ -50,10 +50,16 @@ int main()
 	init_EEPROM();
 //	initialize_fog_params(&fog_params);
 
-	PARAMETER_Write_f(MEM_BASE_X, 1, -3000);
-	PARAMETER_Write_s(MEM_BASE_X, 1, 3000);
-	PARAMETER_Read(MEM_BASE_X, 1, eeprom_buf.bin_val);
-	printf("%d\n", eeprom_buf.int_val);
+//	EEPROM_Write_initial_parameter();
+	LOAD_FOG_PARAMETER(&fog_params);
+	PRINT_FOG_PARAMETER(&fog_params);
+
+
+//	PARAMETER_Write_s(MEM_BASE_X, 0, 121, &fog_params);
+//	PARAMETER_Write_s(MEM_BASE_Y, 0, 131, &fog_params);
+//	PARAMETER_Write_s(MEM_BASE_Z, 0, 141, &fog_params);
+//	PRINT_FOG_PARAMETER(&fog_params);
+
 
   while(1){
 	  fog_parameter(readData2(cmd_header, 2, &try_cnt, cmd_trailer, 2));

@@ -1,14 +1,21 @@
 #ifndef __MEMORY_MANAGE_H
 #define __MEMORY_MANAGE_H
 
+#include "alt_types.h"
+
 #define MEN_LEN 40 // 定義陣列大小
 
+typedef union
+{
+  alt_32 int_val;
+  alt_u8 bin_val[4];
+}mem_unit_t;
 
 typedef struct {
     char sn[12];      // serial number，12 words
-    alt_32 paramX[MEN_LEN];    // 參數X，大小由LEN決定
-    alt_32 paramY[MEN_LEN];    // 參數Y，大小由LEN決定
-    alt_32 paramZ[MEN_LEN];    // 參數Y，大小由LEN決定
+    mem_unit_t paramX[MEN_LEN];    // 參數X，大小由LEN決定
+    mem_unit_t paramY[MEN_LEN];    // 參數Y，大小由LEN決定
+    mem_unit_t paramZ[MEN_LEN];    // 參數Z，大小由LEN決定
 } fog_parameter_t;
 
 

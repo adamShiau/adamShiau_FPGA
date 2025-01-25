@@ -1,5 +1,5 @@
 #include "eeprom.h" 
-#include "memory_manage.h" 
+
 
 
 typedef union
@@ -34,21 +34,25 @@ void PARAMETER_Write_f(alt_u8 base, alt_u8 number , alt_32 data)
 }
 
 /*** safe write eeprom on address */
-void PARAMETER_Write_s(alt_u8 base, alt_u8 number , alt_32 data)
+void PARAMETER_Write_s(alt_u8 base, alt_u8 number , alt_32 data, fog_parameter_t* fog_params)
 {
-	my_alt32_t check;
+	alt_32 check;
 
-	PARAMETER_Read(base, number, check.bin_val);
-	if(data == check.int_val) printf("The data is the same\n");
+	if(base == MEM_BASE_X) check = fog_params->paramX[number].int_val;
+	else if(base == MEM_BASE_Y ) check = fog_params->paramY[number].int_val;
+	else if(base == MEM_BASE_Z ) check = fog_params->paramZ[number].int_val;
+	else printf("Base address ERROR!");
+	
+	if(data == check) printf("The data is the same\n");
 	else {
-		printf("Data changed: %d -> %d\n", check.int_val, data);
+		printf("Data changed: %d -> %d\n", check, data);
 		printf("update to eeprom!");
 		PARAMETER_Write_f(base, number, data);
-	}
-	// printf("%x, %x, %x, %x\n", check.bin_val[3], check.bin_val[2], check.bin_val[1], check.bin_val[0]);
-	// printf("%d\n", check.int_val);
-	// printf("%d\n", buf[0]<<24|buf[1]<<16|buf[2]<<8|buf[3]);
 
+		if(base == MEM_BASE_X) fog_params->paramX[number].int_val = data;
+		else if(base == MEM_BASE_Y ) fog_params->paramY[number].int_val = data;
+		else if(base == MEM_BASE_Z ) fog_params->paramZ[number].int_val = data;
+	}
 }
 
 void EEPROM_Write_initial_parameter()
@@ -61,6 +65,35 @@ void EEPROM_Write_initial_parameter()
 		PARAMETER_Write_f(MEM_BASE_Z, i, fog_parameter_init[i]);
 	}
 	printf("writing EEPROM_Write_initial_parameter() done! \n");
+}
+
+void LOAD_FOG_PARAMETER(fog_parameter_t* fog_params)
+{
+	printf("Loading EEPROM FOG Parameters...\n");
+	for (int i = 0; i < MEN_LEN; i++) {
+		PARAMETER_Read(MEM_BASE_X, i , fog_params->paramX[i].bin_val);
+        PARAMETER_Read(MEM_BASE_Y, i , fog_params->paramY[i].bin_val);
+		PARAMETER_Read(MEM_BASE_Z, i , fog_params->paramZ[i].bin_val);
+    }
+	printf("Loading EEPROM FOG Parameters done!\n");
+}
+
+void PRINT_FOG_PARAMETER(fog_parameter_t* fog_params)
+{
+	printf("Printing EEPROM FOG Parameters...\n");
+	printf("FOG X Parameter:\n");
+	for (int i = 0; i < MEN_LEN; i++) {
+		printf("%d. %d\n", i, fog_params->paramX[i].int_val);
+	}
+	printf("FOG Y Parameter:\n");
+	for (int i = 0; i < MEN_LEN; i++) {
+		printf("%d. %d\n", i, fog_params->paramY[i].int_val);
+	}
+	printf("FOG Z Parameter:\n");
+	for (int i = 0; i < MEN_LEN; i++) {
+		printf("%d. %d\n", i, fog_params->paramZ[i].int_val);
+	}
+	printf("Printing EEPROM FOG Parameters done!\n");
 }
 
 void EEPROM_Read_4B(alt_u16 reg_addr, alt_u8* buf)

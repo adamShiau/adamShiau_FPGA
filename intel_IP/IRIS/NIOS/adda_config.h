@@ -1,6 +1,8 @@
 #ifndef __ADDA_CONFIG_H
 #define __ADDA_CONFIG_H
 
+#include "alt_types.h"
+
 /******** ADC config definition*********/
 /***from datasheet p28, The first bit of the 16-bit input word is the R/W bit. 
  * The next seven bits are the address of the register (A6:A0). 

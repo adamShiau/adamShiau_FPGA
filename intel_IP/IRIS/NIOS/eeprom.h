@@ -1,6 +1,12 @@
 #ifndef __EEPROM_H
 #define __EEPROM_H
 
+#include "alt_types.h"
+#include "system.h"
+#include "nios2_var_addr.h"
+#include "io.h"
+#include "memory_manage.h" 
+
 /******** I2C device address*********/
 #define I2C_DEV_ADDR	0x57
 
@@ -52,10 +58,12 @@ void EEPROM_Write_4B(alt_u16 reg_addr, alt_32 data);
 void EEPROM_Read_4B(alt_u16 reg_addr, alt_u8* buf);
 
 void PARAMETER_Write_f(alt_u8 base, alt_u8 number , alt_32 data);
-void PARAMETER_Write_s(alt_u8 base, alt_u8 number , alt_32 data);
+void PARAMETER_Write_s(alt_u8 base, alt_u8 number , alt_32 data, fog_parameter_t* fog_params);
 void PARAMETER_Read(alt_u8 base, alt_u8 number , alt_u8* buf);
 
 void EEPROM_Write_initial_parameter(void);
+void LOAD_FOG_PARAMETER(fog_parameter_t* fog_params);
+void PRINT_FOG_PARAMETER(fog_parameter_t* fog_params);
 
 /*** Initialization method */
 void init_EEPROM(void);
