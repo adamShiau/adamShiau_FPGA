@@ -1,6 +1,14 @@
-#include "eeprom.h"
+#include "eeprom.h" 
+#include "memory_manage.h" 
 
-void Parameter_Write(alt_u16 reg_addr, alt_32 data)
+
+typedef union
+{
+  alt_32 int_val;
+  alt_u8 bin_val[4];
+}my_alt32_t;
+
+void EEPROM_Write_4B(alt_u16 reg_addr, alt_32 data)
 {
 	reg_addr <<= 2;
 	// Set I2C device address
@@ -18,7 +26,44 @@ void Parameter_Write(alt_u16 reg_addr, alt_32 data)
 	usleep(1320);
 }
 
-void Parameter_Read(alt_u16 reg_addr, alt_u8* buf)
+/*** force write eeprom on address */
+void PARAMETER_Write_f(alt_u8 base, alt_u8 number , alt_32 data)
+{
+	printf("reg_addr: %d, data: %d\n", base + number, data);
+	EEPROM_Write_4B( (alt_u16) (base + number), data);
+}
+
+/*** safe write eeprom on address */
+void PARAMETER_Write_s(alt_u8 base, alt_u8 number , alt_32 data)
+{
+	my_alt32_t check;
+
+	PARAMETER_Read(base, number, check.bin_val);
+	if(data == check.int_val) printf("The data is the same\n");
+	else {
+		printf("Data changed: %d -> %d\n", check.int_val, data);
+		printf("update to eeprom!");
+		PARAMETER_Write_f(base, number, data);
+	}
+	// printf("%x, %x, %x, %x\n", check.bin_val[3], check.bin_val[2], check.bin_val[1], check.bin_val[0]);
+	// printf("%d\n", check.int_val);
+	// printf("%d\n", buf[0]<<24|buf[1]<<16|buf[2]<<8|buf[3]);
+
+}
+
+void EEPROM_Write_initial_parameter()
+{	
+	printf("starting EEPROM_Write_initial_parameter()...\n");
+	for(int i=0; i<MEN_LEN; i++)
+	{
+		PARAMETER_Write_f(MEM_BASE_X, i, fog_parameter_init[i]);
+		PARAMETER_Write_f(MEM_BASE_Y, i, fog_parameter_init[i]);
+		PARAMETER_Write_f(MEM_BASE_Z, i, fog_parameter_init[i]);
+	}
+	printf("writing EEPROM_Write_initial_parameter() done! \n");
+}
+
+void EEPROM_Read_4B(alt_u16 reg_addr, alt_u8* buf)
 {
 	alt_u8 i=0;
 
@@ -34,11 +79,17 @@ void Parameter_Read(alt_u16 reg_addr, alt_u8* buf)
 	// Wait for the I2C SM to complete the operation
 	 while( !I2C_sm_read_finish()){}
 	// Retrieve the data read from the specified register
-	buf[0] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_1);
-	buf[1] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_2);
-	buf[2] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_3);
-	buf[3] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_4);
-	printf("MSB: %x, %x, %x, %x\n", buf[0], buf[1], buf[2], buf[3]);
+	buf[3] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_1);
+	buf[2] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_2);
+	buf[1] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_3);
+	buf[0] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_4);
+	// printf("MSB: %x, %x, %x, %x\n", buf[0], buf[1], buf[2], buf[3]);
+	// printf("%d\n", buf[0]<<24|buf[1]<<16|buf[2]<<8|buf[3]);
+}
+
+void PARAMETER_Read(alt_u8 base, alt_u8 number , alt_u8* buf)
+{
+	EEPROM_Read_4B((alt_u16) (base + number), buf);
 }
 
 /*** Initialization method */
