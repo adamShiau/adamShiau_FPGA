@@ -53,10 +53,6 @@
 #define False 0
 
 
-/*** EEPROM method */
-void EEPROM_Write_4B(alt_u16 reg_addr, alt_32 data);
-void EEPROM_Read_4B(alt_u16 reg_addr, alt_u8* buf);
-
 void PARAMETER_Write_f(alt_u8 base, alt_u8 number , alt_32 data);
 void PARAMETER_Write_s(alt_u8 base, alt_u8 number , alt_32 data, fog_parameter_t* fog_params);
 void PARAMETER_Read(alt_u8 base, alt_u8 number , alt_u8* buf);
@@ -67,6 +63,10 @@ void PRINT_FOG_PARAMETER(fog_parameter_t* fog_params);
 
 /*** Initialization method */
 void init_EEPROM(void);
+
+/*** EEPROM LOW Level method */
+void EEPROM_Write_4B(alt_u16 reg_addr, alt_32 data);
+void EEPROM_Read_4B(alt_u16 reg_addr, alt_u8* buf);
 
 /*** I2C mid level declaration */
 void I2C_sm_start();
