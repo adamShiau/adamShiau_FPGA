@@ -26,23 +26,31 @@ void EEPROM_Write_4B(alt_u16 reg_addr, alt_32 data)
 	usleep(1320);
 }
 
-/*** force write eeprom on address */
+/*** force write eeprom on address 
+ * write the new value to the eeprom
+*/
 void PARAMETER_Write_f(alt_u8 base, alt_u8 number , alt_32 data)
 {
 	printf("reg_addr: %d, data: %d\n", base + number, data);
 	EEPROM_Write_4B( (alt_u16) (base + number), data);
 }
 
-/*** safe write eeprom on address */
+/*** safe write eeprom on address 
+ * compare the new value to the old value,
+ * if the two are difference,
+ * write the new value to the eeprom
+*/
 void PARAMETER_Write_s(alt_u8 base, alt_u8 number , alt_32 data, fog_parameter_t* fog_params)
 {
 	alt_32 check;
 
+	// load old value from parameter container
 	if(base == MEM_BASE_X) check = fog_params->paramX[number].int_val;
 	else if(base == MEM_BASE_Y ) check = fog_params->paramY[number].int_val;
 	else if(base == MEM_BASE_Z ) check = fog_params->paramZ[number].int_val;
 	else printf("Base address ERROR!");
 	
+	// compare new value to the old value. if changed, write to eeprom. 
 	if(data == check) printf("The data is the same\n");
 	else {
 		printf("Data changed: %d -> %d\n", check, data);

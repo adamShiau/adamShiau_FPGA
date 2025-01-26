@@ -72,8 +72,6 @@ void EEPROM_Read_4B(alt_u16 reg_addr, alt_u8* buf);
 void I2C_sm_start();
 void I2C_op_mode_sel(alt_u8 mode);
 void I2C_clock_rate_sel(alt_u8 rate);
-// void I2C_write_357_register(alt_u8 reg_addr, alt_u8 data);
-// alt_u8 I2C_read_357_register(alt_u8 reg_addr, alt_u8 print);
 
 /*** I2C low level declaration */
 void I2C_sm_set_enable(void);
