@@ -32,11 +32,11 @@ module i2c_controller_pullup_eeprom
 	// localparam REG_ADXL355_TEMP2 	= 8'h06;
 	// localparam REG_ADXL355_TXDATA3 	= 8'h08;
 
-	/*** I2C Clock rate definition for 50MHz input clock ***/
-	localparam CLK_195K 	= 	7;
-	localparam CLK_390K 	= 	6;
-	localparam CLK_781K 	= 	5;
-	localparam CLK_1562K 	= 	4;
+	/*** I2C Clock rate definition for 100MHz input clock ***/
+	localparam CLK_390K 	= 	7;
+	localparam CLK_781K 	= 	6;
+	localparam CLK_1562K 	= 	5;
+	localparam CLK_3125K 	= 	4;
 
 	/*** op mode definition ***/
 	localparam CPU_1 		= 	0;
@@ -150,17 +150,17 @@ module i2c_controller_pullup_eeprom
 		else begin
 			reg_clock_rate <= clk_rate;
 			case(clk_rate)
-				CLK_195K : reg_clock_rate <= CLK_195K;
 				CLK_390K : reg_clock_rate <= CLK_390K;
 				CLK_781K : reg_clock_rate <= CLK_781K;
 				CLK_1562K: reg_clock_rate <= CLK_1562K;
+				CLK_3125K: reg_clock_rate <= CLK_3125K;
 				default  : reg_clock_rate <= CLK_390K;
 			endcase
 		end
 	end
 
 	always@(posedge i_clk) begin
-		CLK_COUNT <= CLK_COUNT + 1;//CLK_COUNT[6]:50000/2^(6+1)=390.625 kHz, CLK_COUNT[5]:781.25 KHz
+		CLK_COUNT <= CLK_COUNT + 1;//CLK_COUNT[6]:100000/2^(6+1)=781.25 kHz, CLK_COUNT[7+1]:390.625 KHz
 		i2c_clk <= CLK_COUNT[reg_clock_rate];
 		clk_2x  <= CLK_COUNT[reg_clock_rate-1];
 	end

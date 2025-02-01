@@ -3,6 +3,8 @@
 #include "system.h"
 #include "altera_avalon_pio_regs.h"
 
+ #define VARSET_BASE VARSET_1_BASE
+
 /******** I2C device address*********/
 #define I2C_DEV_ADDR	0x57
 
@@ -14,21 +16,27 @@
 #define SYNC_1000Hz 2500
 
 /******** I2C lock rate definition*********/
-#define CLK_195K 	 7
-#define CLK_390K 	 6
-#define CLK_781K 	 5
-#define CLK_1562K 	 4
+#define CLK_390K 	 7
+#define CLK_781K 	 6
+#define CLK_1562K 	 5
+#define CLK_3125K 	 4
 
 /******** VAR Register*********/
 #define	O_VAR_DEV_ADDR		5
 #define O_VAR_W_DATA		6
 #define O_VAR_I2C_CTRL		7
 #define O_VAR_REG_ADDR		8
-#define O_VAR_I2C_STATUS	25 + 12
-#define O_VAR_I2C_RDATA_1	25 + 13
-#define O_VAR_I2C_RDATA_2	25 + 14
-#define O_VAR_I2C_RDATA_3	25 + 15
-#define O_VAR_I2C_RDATA_4	25 + 16
+#define O_VAR_I2C_STATUS	60 + 12
+#define O_VAR_I2C_RDATA_1	60 + 13
+#define O_VAR_I2C_RDATA_2	60 + 14
+#define O_VAR_I2C_RDATA_3	60 + 15
+#define O_VAR_I2C_RDATA_4	60 + 16
+
+// #define O_VAR_I2C_STATUS	25 + 12
+// #define O_VAR_I2C_RDATA_1	25 + 13
+// #define O_VAR_I2C_RDATA_2	25 + 14
+// #define O_VAR_I2C_RDATA_3	25 + 15
+// #define O_VAR_I2C_RDATA_4	25 + 16
 
 #define I2C_READ			0x1
 #define I2C_WRITE			0x0
@@ -85,10 +93,11 @@ int main()
 alt_u8 eeprom_buf[4] = {0};
 
   printf("Start testing EEPROM!\n");
-  I2C_clock_rate_sel(CLK_195K);
-  Parameter_Write(0, 0x12345678);
+  I2C_clock_rate_sel(CLK_390K);
+//  IOWR(VARSET_BASE, O_VAR_I2C_CTRL, 0x38);
+  Parameter_Write(0, 0x22345678);
   Parameter_Write(1, 0x78654321);
-  Parameter_Write(2, -20000);
+  Parameter_Write(2, -30000);
   printf("Parameter_Write done\n");
   Parameter_Read(0, eeprom_buf);
   Parameter_Read(1, eeprom_buf);
@@ -130,11 +139,12 @@ void Parameter_Read(alt_u16 reg_addr, alt_u8* buf)
 	// Wait for the I2C SM to complete the operation
 	 while( !I2C_sm_read_finish()){}
 	// Retrieve the data read from the specified register
-	buf[0] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_1);
-	buf[1] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_2);
-	buf[2] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_3);
-	buf[3] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_4);
-	printf("MSB: %x, %x, %x, %x\n", buf[0], buf[1], buf[2], buf[3]);
+	buf[3] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_1);
+	buf[2] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_2);
+	buf[1] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_3);
+	buf[0] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_4);
+	// printf("MSB: %x, %x, %x, %x\n", buf[3], buf[2], buf[1], buf[0]);
+	// printf("%d\n", buf[3]<<24|buf[2]<<16|buf[1]<<8|buf[0]);
 }
 
 alt_u8 I2C_read_357_register(alt_u8 reg_addr, alt_u8 print)
@@ -249,6 +259,7 @@ alt_u32 clear_bit_safe(alt_u32 old_addr,  alt_u8 pos)
 void I2C_sm_set_enable()
 {
 	IOWR(VARSET_BASE, O_VAR_I2C_CTRL,  set_bit_safe(O_VAR_I2C_CTRL, ctrl_en_pos));
+	// printf("%x, %d, %d\n",VARSET_BASE, O_VAR_I2C_CTRL, ctrl_en_pos );
 }
 
 void I2C_sm_set_disable()
@@ -259,6 +270,7 @@ void I2C_sm_set_disable()
 void I2C_set_read_mode()
 {
 	IOWR(VARSET_BASE, O_VAR_I2C_CTRL, set_bit_safe(O_VAR_I2C_CTRL, ctrl_rw_reg_pos));
+	// printf("%x, %d, %d\n",VARSET_BASE, O_VAR_I2C_CTRL, ctrl_rw_reg_pos );
 }
 
 void I2C_set_write_mode()
@@ -271,9 +283,9 @@ void I2C_set_write_mode()
 alt_u8 I2C_sm_read_finish()
 {
 	alt_u8 finish=0;
-
+	// printf("%x, %d, %d\n",VARSET_BASE, O_VAR_I2C_STATUS, status_finish_pos );
 	finish = (alt_u8)(IORD(VARSET_BASE, O_VAR_I2C_STATUS)>>status_finish_pos) & 0x01;
-
+	// printf("I2C_sm_read_finish done!\n");
 	return finish;
 }
 

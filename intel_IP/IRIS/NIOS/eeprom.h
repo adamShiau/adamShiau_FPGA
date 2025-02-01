@@ -11,10 +11,10 @@
 #define I2C_DEV_ADDR	0x57
 
 /******** I2C lock rate definition*********/
-#define CLK_195K 	 7
-#define CLK_390K 	 6
-#define CLK_781K 	 5
-#define CLK_1562K 	 4
+#define CLK_390K 	 7
+#define CLK_781K 	 6
+#define CLK_1562K 	 5
+#define CLK_3125K 	 4
 
 /******** VAR Register*********/
 #define	O_VAR_DEV_ADDR		var_i2c_EEPROM_dev_addr

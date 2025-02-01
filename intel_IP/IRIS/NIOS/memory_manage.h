@@ -32,6 +32,7 @@ typedef struct {
 #define INIT_MOD_AMP_H          3000 
 #define INIT_MOD_AMP_L          -3000
 #define INIT_ERR_OFFSET         0  
+#define INIT_OUT_TH             0
 #define INIT_POLARITY           1
 #define INIT_CONST_STEP         5000 
 #define INIT_GAIN1              5
@@ -64,6 +65,7 @@ const alt_32 fog_parameter_init[MEN_LEN] =
     INIT_MOD_AMP_H          ,      
     INIT_MOD_AMP_L          ,    
     INIT_ERR_OFFSET         ,     
+    INIT_OUT_TH             ,   
     INIT_POLARITY           , 
     INIT_CONST_STEP         ,   
     INIT_GAIN1              , 
@@ -87,6 +89,14 @@ const alt_32 fog_parameter_init[MEN_LEN] =
     INIT_BIAS_2_OFFSET      ,  
     INIT_BIAS_3_SLOPE       ,   
     INIT_BIAS_3_OFFSET      
+};
+
+enum {
+    MOD_FREQ = 8,
+    WAIT_CNT,
+    ERR_AVG,
+    MOD_AMP_H,
+    MOD_AMP_L
 };
 
 void initialize_fog_params(fog_parameter_t *fog_params);

@@ -1,0 +1,13 @@
+	component VarSet_60 is
+		port (
+			address    : in  std_logic_vector(6 downto 0)  := (others => 'X'); -- address
+			chipselect : in  std_logic                     := 'X';             -- chipselect
+			rst_n      : in  std_logic                     := 'X';             -- beginbursttransfer
+			write_n    : in  std_logic                     := 'X';             -- write_n
+			writedata  : in  std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
+			o_reg59    : out std_logic_vector(31 downto 0);                    -- readdata
+			i_var59    : in  std_logic_vector(31 downto 0) := (others => 'X'); -- writebyteenable_n
+			clk        : in  std_logic                     := 'X'              -- clk
+		);
+	end component VarSet_60;
+

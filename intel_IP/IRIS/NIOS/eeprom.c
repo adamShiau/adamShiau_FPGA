@@ -38,7 +38,7 @@ void PARAMETER_Write_f(alt_u8 base, alt_u8 number , alt_32 data)
 /*** safe write eeprom on address 
  * compare the new value to the old value,
  * if the two are difference,
- * write the new value to the eeprom
+ * write the new value to the eeprom and container
 */
 void PARAMETER_Write_s(alt_u8 base, alt_u8 number , alt_32 data, fog_parameter_t* fog_params)
 {
@@ -108,6 +108,9 @@ void EEPROM_Read_4B(alt_u16 reg_addr, alt_u8* buf)
 {
 	alt_u8 i=0;
 
+	// printf("VARSET_BASE22 18: %d\n", IORD(VARSET_BASE, 18));
+	// printf("VARSET_BASE22 19: %d\n", IORD(VARSET_BASE, 19));
+
 	reg_addr <<= 2;
 	// Set I2C device address
 	IOWR(VARSET_BASE, O_VAR_DEV_ADDR, I2C_DEV_ADDR);
@@ -124,8 +127,8 @@ void EEPROM_Read_4B(alt_u16 reg_addr, alt_u8* buf)
 	buf[2] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_2);
 	buf[1] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_3);
 	buf[0] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_4);
-	// printf("MSB: %x, %x, %x, %x\n", buf[0], buf[1], buf[2], buf[3]);
-	// printf("%d\n", buf[0]<<24|buf[1]<<16|buf[2]<<8|buf[3]);
+	// printf("MSB: %x, %x, %x, %x\n", buf[3], buf[2], buf[1], buf[0]);
+	// printf("%d\n", buf[3]<<24|buf[2]<<16|buf[1]<<8|buf[0]);
 }
 
 void PARAMETER_Read(alt_u8 base, alt_u8 number , alt_u8* buf)
@@ -136,7 +139,7 @@ void PARAMETER_Read(alt_u8 base, alt_u8 number , alt_u8* buf)
 /*** Initialization method */
 void init_EEPROM(void)
 {
-    I2C_clock_rate_sel(CLK_195K);
+    I2C_clock_rate_sel(CLK_390K);
 }
 
 /***********mid level definition */
@@ -214,6 +217,7 @@ alt_u8 I2C_sm_read_finish()
 	alt_u8 finish=0;
 
 	finish = (alt_u8)(IORD(VARSET_BASE, O_VAR_I2C_STATUS)>>status_finish_pos) & 0x01;
+	// printf("I2C_sm_read_finish: %x, %d\n", VARSET_BASE, O_VAR_I2C_STATUS);
 
 	return finish;
 }

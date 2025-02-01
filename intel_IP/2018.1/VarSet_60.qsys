@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<system name="$${FILENAME}">
+ <component
+   name="$${FILENAME}"
+   displayName="$${FILENAME}"
+   version="1.0"
+   description=""
+   tags="INTERNAL_COMPONENT=true"
+   categories="" />
+ <parameter name="bonusData"><![CDATA[bonusData 
+{
+   element new_component_0
+   {
+      datum _sortIndex
+      {
+         value = "0";
+         type = "int";
+      }
+   }
+}
+]]></parameter>
+ <parameter name="clockCrossingAdapter" value="HANDSHAKE" />
+ <parameter name="device" value="EP4CE30F23I7" />
+ <parameter name="deviceFamily" value="Cyclone IV E" />
+ <parameter name="deviceSpeedGrade" value="7" />
+ <parameter name="fabricMode" value="QSYS" />
+ <parameter name="generateLegacySim" value="false" />
+ <parameter name="generationId" value="0" />
+ <parameter name="globalResetBus" value="false" />
+ <parameter name="hdlLanguage" value="VERILOG" />
+ <parameter name="hideFromIPCatalog" value="true" />
+ <parameter name="lockedInterfaceDefinition" value="" />
+ <parameter name="maxAdditionalLatency" value="1" />
+ <parameter name="projectName" value="" />
+ <parameter name="sopcBorderPoints" value="false" />
+ <parameter name="systemHash" value="0" />
+ <parameter name="testBenchDutName" value="" />
+ <parameter name="timeStamp" value="0" />
+ <parameter name="useTestBenchNamingPattern" value="false" />
+ <instanceScript></instanceScript>
+ <interface
+   name="avalon_slave_0"
+   internal="new_component_0.avalon_slave_0"
+   type="avalon"
+   dir="end">
+  <port name="address" internal="address" />
+  <port name="chipselect" internal="chipselect" />
+  <port name="rst_n" internal="rst_n" />
+  <port name="write_n" internal="write_n" />
+  <port name="writedata" internal="writedata" />
+  <port name="readdata" internal="readdata" />
+  <port name="o_reg0" internal="o_reg0" />
+  <port name="o_reg1" internal="o_reg1" />
+  <port name="o_reg2" internal="o_reg2" />
+  <port name="o_reg3" internal="o_reg3" />
+  <port name="o_reg4" internal="o_reg4" />
+  <port name="o_reg5" internal="o_reg5" />
+  <port name="o_reg6" internal="o_reg6" />
+  <port name="o_reg7" internal="o_reg7" />
+  <port name="o_reg8" internal="o_reg8" />
+  <port name="o_reg9" internal="o_reg9" />
+  <port name="o_reg10" internal="o_reg10" />
+  <port name="o_reg11" internal="o_reg11" />
+  <port name="o_reg12" internal="o_reg12" />
+  <port name="o_reg13" internal="o_reg13" />
+  <port name="o_reg14" internal="o_reg14" />
+  <port name="o_reg15" internal="o_reg15" />
+  <port name="o_reg16" internal="o_reg16" />
+  <port name="o_reg17" internal="o_reg17" />
+  <port name="o_reg18" internal="o_reg18" />
+  <port name="o_reg19" internal="o_reg19" />
+  <port name="o_reg20" internal="o_reg20" />
+  <port name="o_reg21" internal="o_reg21" />
+  <port name="o_reg22" internal="o_reg22" />
+  <port name="o_reg23" internal="o_reg23" />
+  <port name="o_reg24" internal="o_reg24" />
+  <port name="o_reg25" internal="o_reg25" />
+  <port name="o_reg26" internal="o_reg26" />
+  <port name="o_reg27" internal="o_reg27" />
+  <port name="o_reg28" internal="o_reg28" />
+  <port name="o_reg29" internal="o_reg29" />
+  <port name="o_reg30" internal="o_reg30" />
+  <port name="o_reg31" internal="o_reg31" />
+  <port name="o_reg32" internal="o_reg32" />
+  <port name="o_reg33" internal="o_reg33" />
+  <port name="o_reg34" internal="o_reg34" />
+  <port name="o_reg35" internal="o_reg35" />
+  <port name="o_reg36" internal="o_reg36" />
+  <port name="o_reg37" internal="o_reg37" />
+  <port name="o_reg38" internal="o_reg38" />
+  <port name="o_reg39" internal="o_reg39" />
+  <port name="o_reg40" internal="o_reg40" />
+  <port name="o_reg41" internal="o_reg41" />
+  <port name="o_reg42" internal="o_reg42" />
+  <port name="o_reg43" internal="o_reg43" />
+  <port name="o_reg44" internal="o_reg44" />
+  <port name="o_reg45" internal="o_reg45" />
+  <port name="o_reg46" internal="o_reg46" />
+  <port name="o_reg47" internal="o_reg47" />
+  <port name="o_reg48" internal="o_reg48" />
+  <port name="o_reg49" internal="o_reg49" />
+  <port name="o_reg50" internal="o_reg50" />
+  <port name="o_reg51" internal="o_reg51" />
+  <port name="o_reg52" internal="o_reg52" />
+  <port name="o_reg53" internal="o_reg53" />
+  <port name="o_reg54" internal="o_reg54" />
+  <port name="o_reg55" internal="o_reg55" />
+  <port name="o_reg56" internal="o_reg56" />
+  <port name="o_reg57" internal="o_reg57" />
+  <port name="o_reg58" internal="o_reg58" />
+  <port name="o_reg59" internal="o_reg59" />
+  <port name="i_var0" internal="i_var0" />
+  <port name="i_var1" internal="i_var1" />
+  <port name="i_var2" internal="i_var2" />
+  <port name="i_var3" internal="i_var3" />
+  <port name="i_var4" internal="i_var4" />
+  <port name="i_var5" internal="i_var5" />
+  <port name="i_var6" internal="i_var6" />
+  <port name="i_var7" internal="i_var7" />
+  <port name="i_var8" internal="i_var8" />
+  <port name="i_var9" internal="i_var9" />
+  <port name="i_var10" internal="i_var10" />
+  <port name="i_var11" internal="i_var11" />
+  <port name="i_var12" internal="i_var12" />
+  <port name="i_var13" internal="i_var13" />
+  <port name="i_var14" internal="i_var14" />
+  <port name="i_var15" internal="i_var15" />
+  <port name="i_var16" internal="i_var16" />
+  <port name="i_var17" internal="i_var17" />
+  <port name="i_var18" internal="i_var18" />
+  <port name="i_var19" internal="i_var19" />
+  <port name="i_var20" internal="i_var20" />
+  <port name="i_var21" internal="i_var21" />
+  <port name="i_var22" internal="i_var22" />
+  <port name="i_var23" internal="i_var23" />
+  <port name="i_var24" internal="i_var24" />
+  <port name="i_var25" internal="i_var25" />
+  <port name="i_var26" internal="i_var26" />
+  <port name="i_var27" internal="i_var27" />
+  <port name="i_var28" internal="i_var28" />
+  <port name="i_var29" internal="i_var29" />
+  <port name="i_var30" internal="i_var30" />
+  <port name="i_var31" internal="i_var31" />
+  <port name="i_var32" internal="i_var32" />
+  <port name="i_var33" internal="i_var33" />
+  <port name="i_var34" internal="i_var34" />
+  <port name="i_var35" internal="i_var35" />
+  <port name="i_var36" internal="i_var36" />
+  <port name="i_var37" internal="i_var37" />
+  <port name="i_var38" internal="i_var38" />
+  <port name="i_var39" internal="i_var39" />
+  <port name="i_var40" internal="i_var40" />
+  <port name="i_var41" internal="i_var41" />
+  <port name="i_var42" internal="i_var42" />
+  <port name="i_var43" internal="i_var43" />
+  <port name="i_var44" internal="i_var44" />
+  <port name="i_var45" internal="i_var45" />
+  <port name="i_var46" internal="i_var46" />
+  <port name="i_var47" internal="i_var47" />
+  <port name="i_var48" internal="i_var48" />
+  <port name="i_var49" internal="i_var49" />
+  <port name="i_var50" internal="i_var50" />
+  <port name="i_var51" internal="i_var51" />
+  <port name="i_var52" internal="i_var52" />
+  <port name="i_var53" internal="i_var53" />
+  <port name="i_var54" internal="i_var54" />
+  <port name="i_var55" internal="i_var55" />
+  <port name="i_var56" internal="i_var56" />
+  <port name="i_var57" internal="i_var57" />
+  <port name="i_var58" internal="i_var58" />
+  <port name="i_var59" internal="i_var59" />
+ </interface>
+ <interface name="clock" internal="new_component_0.clock" type="clock" dir="end">
+  <port name="clk" internal="clk" />
+ </interface>
+ <module
+   name="new_component_0"
+   kind="new_component"
+   version="1.0"
+   enabled="1"
+   autoexport="1" />
+ <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
+ <interconnectRequirement for="$system" name="qsys_mm.enableEccProtection" value="FALSE" />
+ <interconnectRequirement for="$system" name="qsys_mm.insertDefaultSlave" value="FALSE" />
+ <interconnectRequirement for="$system" name="qsys_mm.maxAdditionalLatency" value="1" />
+</system>
