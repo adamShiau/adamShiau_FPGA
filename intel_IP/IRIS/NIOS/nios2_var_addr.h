@@ -16,6 +16,7 @@
 #define var_wait_cnt_DAC3           13
 #define var_avg_sel_DAC3            14
 
+
 #define var_i2c_357_status	    60 + 0
 #define var_i2c_357_rdata_1	    60 + 1
 #define var_i2c_357_rdata_2	    60 + 2

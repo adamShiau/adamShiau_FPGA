@@ -20,8 +20,8 @@ alt_32 cnt=0;
 
 typedef union
 {
-  alt_32 int_val;
-  alt_u8 bin_val[4];
+	alt_32	int_val;
+	alt_u8	bin_val[4];
 }my_aalt32_t;
 
 int main(void)
@@ -84,7 +84,7 @@ void fog_parameter(alt_u8 *data, fog_parameter_t* fog_inst)
 			uart_cmd = data[0];
 			uart_value = data[1]<<24 | data[2]<<16 | data[3]<<8 | data[4];
 			uart_ch = data[5];
-			printf("uart_cmd, uart_value, ch: %x, %d, %d\n\n", uart_cmd, uart_value, uart_ch);
+			printf("\nuart_cmd, uart_value, ch: %u, %d, %d\n", uart_cmd, uart_value, uart_ch);
 
 			if(uart_ch == 1) base = MEM_BASE_X;
 			else if(uart_ch == 2) base = MEM_BASE_Y;
@@ -104,6 +104,13 @@ void fog_parameter(alt_u8 *data, fog_parameter_t* fog_inst)
 					printf("WAIT_CNT:\n");
 					PARAMETER_Write_s(base, WAIT_CNT - PARAMETER_OFFSET, uart_value, fog_inst);
 					IOWR(VARSET_BASE, var_wait_cnt_DAC3, uart_value);
+
+					break;
+				} 
+				case CUT_OFF: {
+					printf("CUT_OFF:\n");
+					PARAMETER_Write_s(base, CUT_OFF - PARAMETER_OFFSET, uart_value, fog_inst);
+					// IOWR(VARSET_BASE, var_wait_cnt_DAC3, uart_value); not yet
 
 					break;
 				}

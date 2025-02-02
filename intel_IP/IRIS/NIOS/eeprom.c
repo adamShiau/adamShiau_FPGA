@@ -43,24 +43,31 @@ void PARAMETER_Write_f(alt_u8 base, alt_u8 number , alt_32 data)
 void PARAMETER_Write_s(alt_u8 base, alt_u8 number , alt_32 data, fog_parameter_t* fog_params)
 {
 	alt_32 check;
+	alt_8 err = 0;
 
 	// load old value from parameter container
 	if(base == MEM_BASE_X) check = fog_params->paramX[number].int_val;
 	else if(base == MEM_BASE_Y ) check = fog_params->paramY[number].int_val;
 	else if(base == MEM_BASE_Z ) check = fog_params->paramZ[number].int_val;
-	else printf("Base address ERROR!");
+	else {
+		printf("Base address ERROR!\n");
+		err = 1;
+	}
 	
 	// compare new value to the old value. if changed, write to eeprom. 
-	if(data == check) printf("The data is the same\n");
-	else {
-		printf("Data changed: %d -> %d\n", check, data);
-		printf("update to eeprom!");
-		PARAMETER_Write_f(base, number, data);
+	if(err == 0) {
+		if(data == check) printf("The data is the same\n");
+		else {
+			printf("Data changed: %d -> %d\n", check, data);
+			printf("update to eeprom!");
+			PARAMETER_Write_f(base, number, data);
 
-		if(base == MEM_BASE_X) fog_params->paramX[number].int_val = data;
-		else if(base == MEM_BASE_Y ) fog_params->paramY[number].int_val = data;
-		else if(base == MEM_BASE_Z ) fog_params->paramZ[number].int_val = data;
+			if(base == MEM_BASE_X) fog_params->paramX[number].int_val = data;
+			else if(base == MEM_BASE_Y ) fog_params->paramY[number].int_val = data;
+			else if(base == MEM_BASE_Z ) fog_params->paramZ[number].int_val = data;
+		}
 	}
+
 }
 
 void EEPROM_Write_initial_parameter()

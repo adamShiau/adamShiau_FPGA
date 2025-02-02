@@ -7,8 +7,9 @@
 
 typedef union
 {
-  alt_32 int_val;
-  alt_u8 bin_val[4];
+    float	float_val;
+    alt_32  int_val;
+    alt_u8  bin_val[4];
 }mem_unit_t;
 
 typedef struct {
@@ -96,7 +97,8 @@ enum {
     WAIT_CNT,
     ERR_AVG,
     MOD_AMP_H,
-    MOD_AMP_L
+    MOD_AMP_L,
+    CUT_OFF = 22
 };
 
 void initialize_fog_params(fog_parameter_t *fog_params);
