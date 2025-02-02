@@ -5,12 +5,23 @@
 
 #define MEN_LEN 40 // 定義陣列大小
 
-typedef union
-{
+typedef union{
     float	float_val;
     alt_32  int_val;
     alt_u8  bin_val[4];
+}data_t;
+
+typedef enum {
+    TYPE_INT,   // 0, 代表 data 為整數
+    TYPE_FLOAT  // 1, 代表 data 為浮點數
+} type_t;
+
+typedef struct
+{
+    type_t type;
+    data_t data;
 }mem_unit_t;
+
 
 typedef struct {
     char sn[12];      // serial number，12 words

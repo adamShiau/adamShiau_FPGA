@@ -33,7 +33,7 @@ int main(void)
 	uartInit(); //interrupt method of uart defined in uart.c not main()
 	init_ADDA();
 	init_EEPROM();
-//	initialize_fog_params(&fog_params);
+	initialize_fog_params(&fog_params);
 
 //	EEPROM_Write_initial_parameter();
 	 LOAD_FOG_PARAMETER(&fog_params);
