@@ -8,9 +8,13 @@ void initialize_fog_params(fog_parameter_t *fog_params) {
 
     // 初始化 paramX, paramY, paramZ
     for (int i = 0; i < MEN_LEN; i++) {
-        fog_params->paramX[i].data.int_val = fog_parameter_init[i];
-        fog_params->paramY[i].data.int_val = fog_parameter_init[i];
-        fog_params->paramZ[i].data.int_val = fog_parameter_init[i];
+        fog_params->paramX[i].data.int_val = fog_parameter_init[i].data.int_val;
+        fog_params->paramY[i].data.int_val = fog_parameter_init[i].data.int_val;
+        fog_params->paramZ[i].data.int_val = fog_parameter_init[i].data.int_val;
+
+        fog_params->paramX[i].type = fog_parameter_init[i].type;
+        fog_params->paramY[i].type = fog_parameter_init[i].type;
+        fog_params->paramZ[i].type = fog_parameter_init[i].type;
     }
 }
 

@@ -43,12 +43,28 @@ void PARAMETER_Write_f(alt_u8 base, alt_u8 number , alt_32 data)
 void PARAMETER_Write_s(alt_u8 base, alt_u8 number , alt_32 data, fog_parameter_t* fog_params)
 {
 	alt_32 check;
-	alt_8 err = 0;
+	float data_f;
+	alt_8 err = 0, type;
+	data_t my_data;
+
+	my_data.int_val = data;
 
 	// load old value from parameter container
-	if(base == MEM_BASE_X) check = fog_params->paramX[number].data.int_val;
-	else if(base == MEM_BASE_Y ) check = fog_params->paramY[number].data.int_val;
-	else if(base == MEM_BASE_Z ) check = fog_params->paramZ[number].data.int_val;
+	if(base == MEM_BASE_X) {
+		check = fog_params->paramX[number].data.int_val;
+		data_f = fog_params->paramX[number].data.float_val;
+		type = fog_params->paramX[number].type;
+	}
+	else if(base == MEM_BASE_Y ) {
+		check = fog_params->paramY[number].data.int_val;
+		data_f = fog_params->paramX[number].data.float_val;
+		type = fog_params->paramX[number].type;
+	}
+	else if(base == MEM_BASE_Z ) {
+		check = fog_params->paramZ[number].data.int_val;
+		data_f = fog_params->paramX[number].data.float_val;
+		type = fog_params->paramX[number].type;
+	}
 	else {
 		printf("Base address ERROR!\n");
 		err = 1;
@@ -58,9 +74,17 @@ void PARAMETER_Write_s(alt_u8 base, alt_u8 number , alt_32 data, fog_parameter_t
 	if(err == 0) {
 		if(data == check) printf("The data is the same\n");
 		else {
-			printf("Data changed: %d -> %d\n", check, data);
-			printf("update to eeprom!");
-			PARAMETER_Write_f(base, number, data);
+			if(type == TYPE_INT) {
+				printf("Data changed: %d -> %d\n", check, data);
+				printf("update to eeprom!");
+				PARAMETER_Write_f(base, number, data);
+			}
+			else if(type == TYPE_FLOAT) {
+				printf("Data changed: %f -> %f\n", data_f, my_data.float_val);
+				printf("update to eeprom!");
+				PARAMETER_Write_f(base, number, data);
+			}
+			else printf("data type error!\n");
 
 			if(base == MEM_BASE_X) fog_params->paramX[number].data.int_val = data;
 			else if(base == MEM_BASE_Y ) fog_params->paramY[number].data.int_val = data;
@@ -75,9 +99,9 @@ void EEPROM_Write_initial_parameter()
 	printf("starting EEPROM_Write_initial_parameter()...\n");
 	for(int i=0; i<MEN_LEN; i++)
 	{
-		PARAMETER_Write_f(MEM_BASE_X, i, fog_parameter_init[i]);
-		PARAMETER_Write_f(MEM_BASE_Y, i, fog_parameter_init[i]);
-		PARAMETER_Write_f(MEM_BASE_Z, i, fog_parameter_init[i]);
+		PARAMETER_Write_f(MEM_BASE_X, i, fog_parameter_init[i].data.int_val);
+		PARAMETER_Write_f(MEM_BASE_Y, i, fog_parameter_init[i].data.int_val);
+		PARAMETER_Write_f(MEM_BASE_Z, i, fog_parameter_init[i].data.int_val);
 	}
 	printf("writing EEPROM_Write_initial_parameter() done! \n");
 }
@@ -89,6 +113,10 @@ void LOAD_FOG_PARAMETER(fog_parameter_t* fog_params)
 		PARAMETER_Read(MEM_BASE_X, i , fog_params->paramX[i].data.bin_val);
         PARAMETER_Read(MEM_BASE_Y, i , fog_params->paramY[i].data.bin_val);
 		PARAMETER_Read(MEM_BASE_Z, i , fog_params->paramZ[i].data.bin_val);
+
+		fog_params->paramX[i].type = fog_parameter_init[i].type;
+		fog_params->paramY[i].type = fog_parameter_init[i].type;
+		fog_params->paramZ[i].type = fog_parameter_init[i].type;
     }
 	printf("Loading EEPROM FOG Parameters done!\n");
 }
@@ -98,15 +126,15 @@ void PRINT_FOG_PARAMETER(fog_parameter_t* fog_params)
 	printf("Printing EEPROM FOG Parameters...\n");
 	printf("FOG X Parameter:\n");
 	for (int i = 0; i < MEN_LEN; i++) {
-		printf("%d. %d\n", i, fog_params->paramX[i].data.int_val);
+		printf("%d. %d, type: %d\n", i, fog_params->paramX[i].data.int_val, fog_params->paramX[i].type);
 	}
 	printf("FOG Y Parameter:\n");
 	for (int i = 0; i < MEN_LEN; i++) {
-		printf("%d. %d\n", i, fog_params->paramY[i].data.int_val);
+		printf("%d. %d, type: %d\n", i, fog_params->paramY[i].data.int_val, fog_params->paramY[i].type);
 	}
 	printf("FOG Z Parameter:\n");
 	for (int i = 0; i < MEN_LEN; i++) {
-		printf("%d. %d\n", i, fog_params->paramZ[i].data.int_val);
+		printf("%d. %d, type: %d\n", i, fog_params->paramZ[i].data.int_val, fog_params->paramZ[i].type);
 	}
 	printf("Printing EEPROM FOG Parameters done!\n");
 }
