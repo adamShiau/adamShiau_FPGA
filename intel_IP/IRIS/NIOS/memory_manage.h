@@ -105,14 +105,17 @@ const mem_unit_t fog_parameter_init[MEN_LEN] = {
     { .data.int_val = INIT_BIAS_3_OFFSET,  .type = TYPE_FLOAT }
 };
 
-
+/*** CMD 1 ~ 7 劉給輸出模式  ***/ 
 enum {
     MOD_FREQ = 8,
     WAIT_CNT,
     ERR_AVG,
     MOD_AMP_H,
     MOD_AMP_L,
-    CUT_OFF = 22
+    CUT_OFF = 22,   //0x16
+    DUMP_FOG = 101, //0x65
+    DUMP_MIS = 129 //0x81
+
 };
 
 void initialize_fog_params(fog_parameter_t *fog_params);

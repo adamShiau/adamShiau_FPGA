@@ -4,10 +4,11 @@
 
 #include "IRIS_V1.h"
 
-
 void sendTx(alt_32);
 void checkByte(alt_u8);
 void fog_parameter(alt_u8*, fog_parameter_t*);
+void dump_fog_param(fog_parameter_t* fog_inst, alt_u8 ch);
+void send_json_uart(const char* buffer);
 
 const alt_u8 cmd_header[2] = {0xAB, 0xBA};
 const alt_u8 cmd_trailer[2] = {0x55, 0x56};
@@ -68,7 +69,6 @@ void sendTx(alt_32 data)
 void checkByte(alt_u8 data)
 {
 	while(!(IORD_ALTERA_AVALON_UART_STATUS(UART_BASE)& ALTERA_AVALON_UART_STATUS_TRDY_MSK));
-//		printf("wait\n");
 	IOWR_ALTERA_AVALON_UART_TXDATA(UART_BASE, data);
 }
 
@@ -112,10 +112,13 @@ void fog_parameter(alt_u8 *data, fog_parameter_t* fog_inst)
 					printf("CUT_OFF:\n");
 					PARAMETER_Write_s(base, CUT_OFF - PARAMETER_OFFSET, uart_value, fog_inst);
 					// IOWR(VARSET_BASE, var_wait_cnt_DAC3, uart_value); not yet
-
 					break;
 				}
-
+				case DUMP_FOG: {
+					printf("DUMP_FOG:\n");
+					dump_fog_param(fog_inst, uart_ch);
+					break;
+				}
 
 				default:{
 					printf("default case\n");
@@ -125,3 +128,57 @@ void fog_parameter(alt_u8 *data, fog_parameter_t* fog_inst)
 	}
 
 }
+
+void dump_fog_param(fog_parameter_t* fog_inst, alt_u8 ch) {
+    if (!fog_inst || ch < 1 || ch > 3) return; // 確保指標有效，ch 在範圍內
+    
+    mem_unit_t* param;
+    switch (ch) {
+        case 1: param = fog_inst->paramX; break;
+        case 2: param = fog_inst->paramY; break;
+        case 3: param = fog_inst->paramZ; break;
+        default: return; 
+    }
+    
+    char buffer[1024]; // 假設最大輸出長度
+    int offset = 0;
+    offset += snprintf(buffer + offset, sizeof(buffer) - offset, "{");
+    
+    for (int i = 0; i < MEN_LEN; i++) {
+        offset += snprintf(buffer + offset, sizeof(buffer) - offset, "\"%d\":\"%d\"", i, param[i].data.int_val);
+        if (i < MEN_LEN - 1) offset += snprintf(buffer + offset, sizeof(buffer) - offset, ", ");
+    }
+    
+    snprintf(buffer + offset, sizeof(buffer) - offset, "}\n");
+    printf("%s", buffer);
+	send_json_uart(buffer);
+}
+
+void send_json_uart(const char* buffer) {
+    while (*buffer) {
+        checkByte((alt_u8)*buffer);
+        buffer++;
+    }
+}
+
+// void dump_fog_param(fog_parameter_t* fog_inst, alt_u8 ch) {
+//     if (!fog_inst || ch < 1 || ch > 3) { // 確保指標有效，ch 在範圍內
+// 		printf("dump_fog_param err\n");
+// 		return; 
+// 	}
+//     mem_unit_t* param;
+//     switch (ch) {
+//         case 1: param = fog_inst->paramX; break;
+//         case 2: param = fog_inst->paramY; break;
+//         case 3: param = fog_inst->paramZ; break;
+//         default: return; 
+//     }
+    
+//     printf("{");
+//     for (int i = 0; i < MEN_LEN; i++) {
+//         printf("\"%d\":\"%d\"", i, param[i].data.int_val);
+//         if (i < MEN_LEN - 1) printf(", ");
+//     }
+//     printf("}\n");
+// }
+
