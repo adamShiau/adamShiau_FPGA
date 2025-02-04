@@ -12,6 +12,10 @@ module my_err_signal_gen_v1 #(
     input logic signed [31:0] i_err_offset,
     input logic signed [ADC_BIT-1:0] i_adc_data,
     input logic [31:0] i_avg_sel,
+    output logic o_step_sync,
+    output logic o_step_sync_dly,
+    output logic o_rate_sync,
+    output logic o_ramp_sync,
     output logic signed [31:0] o_err
     
     ,output logic signed [31:0] o_adc_sum
@@ -75,22 +79,26 @@ module my_err_signal_gen_v1 #(
         nstate = cstate; // Default to current state
         case (cstate)
             RST: begin
+                // start the SM when MOD output is High.
                 if (i_status == 1'b1) nstate = WAIT_L_STATE;
             end
 
-            WAIT_L_STATE: begin
+            WAIT_L_STATE: begin 
+                // When MOD output transitions from High to Low, i_trig is triggered.  
                 if (i_trig) begin
                     nstate = WAIT_STABLE_L;
                 end
             end
 
-            WAIT_STABLE_L: begin
+            WAIT_STABLE_L: begin 
+                // Wait for 'wait_counter' clocks to ensure data stability 
                 if (wait_counter == 0) begin
                     nstate = ACQ_L;
                 end
             end
 
             ACQ_L: begin
+                // Perform average for num_samples times
                 if (sample_count == num_samples) begin
                     nstate = WAIT_H_STATE;
                 end
@@ -147,6 +155,10 @@ module my_err_signal_gen_v1 #(
             low_avg <= 0;
             high_avg <= 0;
             o_err <= 0;
+            o_step_sync <= 1'b0;
+            o_step_sync_dly <= 1'b0;
+            o_ramp_sync <= 1'b0;
+            o_rate_sync <= 1'b0;
         end else begin
             case (cstate)
                 RST: begin
@@ -210,6 +222,26 @@ module my_err_signal_gen_v1 #(
                     end else begin
                         o_err <= low_avg - high_avg;
                     end
+                    o_step_sync <= 1'b1;
+                end
+
+                ERR_GEN_DLY: begin
+                    o_step_sync_dly <= 1'b1;
+				    o_step_sync <= 1'b0;
+                end
+
+                RATE_SYNC_GEN: begin
+                    o_rate_sync <= 1'b1;
+				    o_step_sync_dly <= 1'b0;
+                end
+
+                RAMP_SYNC_GEN: begin
+                    o_ramp_sync <= 1'b1;
+				    o_rate_sync <= 1'b0;
+                end
+
+                WAIT_NEXT: begin
+                    o_ramp_sync <= 1'b0;
                 end
 
                 default: begin

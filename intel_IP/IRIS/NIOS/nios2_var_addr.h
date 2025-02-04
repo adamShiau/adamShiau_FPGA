@@ -9,12 +9,17 @@
 #define var_i2c_EEPROM_w_data		6
 #define var_i2c_EEPROM_ctrl		    7
 #define var_i2c_EEPROM_reg_addr		8
+/*** fog ch3 ***/
 #define var_freq_cnt_DAC3		    9
 #define var_amp_H_DAC3	            10
 #define var_amp_L_DAC3		        11
 #define var_polarity_DAC3           12
 #define var_wait_cnt_DAC3           13
 #define var_avg_sel_DAC3            14
+#define var_gainSel_step_3          15
+#define var_const_step_3            16
+#define var_fb_ON_3            		17
+#define var_gainSel_ramp_3          18
 
 
 #define var_i2c_357_status	    60 + 0
