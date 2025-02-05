@@ -40,18 +40,18 @@ typedef struct {
 
 /*** initialization of FOG parameters */
 #define INIT_MOD_FREQ          100      
-#define INIT_WAIT_CNT           20      
-#define INIT_ERR_AVG            5       
 #define INIT_MOD_AMP_H          3000    
 #define INIT_MOD_AMP_L          -3000   
+#define INIT_POLARITY           1   
+#define INIT_WAIT_CNT           20      
+#define INIT_ERR_AVG            5    
+#define INIT_GAIN1              5
+#define INIT_CONST_STEP         5000    
+#define INIT_FB_ON              1
+#define INIT_GAIN2              4
 #define INIT_ERR_OFFSET         0       
 #define INIT_OUT_TH             0       
 #define INIT_OUT_TH_EN          0 
-#define INIT_POLARITY           1       
-#define INIT_CONST_STEP         5000 
-#define INIT_GAIN1              5
-#define INIT_GAIN2              4
-#define INIT_FB_ON              1
 #define INIT_DAC_GAIN           30
 #define INIT_CUT_OFF            FLOAT_660
 #define INIT_SF_COMP_T1         10 
@@ -73,18 +73,18 @@ typedef struct {
 
 const mem_unit_t fog_parameter_init[MEN_LEN] = {
     { .data.int_val = INIT_MOD_FREQ,         .type = TYPE_INT },
-    { .data.int_val = INIT_WAIT_CNT,         .type = TYPE_INT },
-    { .data.int_val = INIT_ERR_AVG,          .type = TYPE_INT },
     { .data.int_val = INIT_MOD_AMP_H,        .type = TYPE_INT },
     { .data.int_val = INIT_MOD_AMP_L,        .type = TYPE_INT },
+    { .data.int_val = INIT_POLARITY,         .type = TYPE_INT },
+    { .data.int_val = INIT_WAIT_CNT,         .type = TYPE_INT },
+    { .data.int_val = INIT_ERR_AVG,          .type = TYPE_INT },
+    { .data.int_val = INIT_GAIN1,            .type = TYPE_INT },
+    { .data.int_val = INIT_CONST_STEP,       .type = TYPE_INT },
+    { .data.int_val = INIT_FB_ON,            .type = TYPE_INT },
+    { .data.int_val = INIT_GAIN2,            .type = TYPE_INT },
     { .data.int_val = INIT_ERR_OFFSET,       .type = TYPE_INT },
     { .data.int_val = INIT_OUT_TH,           .type = TYPE_INT },
     { .data.int_val = INIT_OUT_TH_EN,        .type = TYPE_INT },
-    { .data.int_val = INIT_POLARITY,         .type = TYPE_INT },
-    { .data.int_val = INIT_CONST_STEP,       .type = TYPE_INT },
-    { .data.int_val = INIT_GAIN1,            .type = TYPE_INT },
-    { .data.int_val = INIT_GAIN2,            .type = TYPE_INT },
-    { .data.int_val = INIT_FB_ON,            .type = TYPE_INT },
     { .data.int_val = INIT_DAC_GAIN,         .type = TYPE_INT },
     { .data.int_val = INIT_CUT_OFF,        .type = TYPE_FLOAT },
     { .data.int_val = INIT_SF_COMP_T1,     .type = TYPE_FLOAT }, 
@@ -105,16 +105,28 @@ const mem_unit_t fog_parameter_init[MEN_LEN] = {
     { .data.int_val = INIT_BIAS_3_OFFSET,  .type = TYPE_FLOAT }
 };
 
-/*** CMD 1 ~ 7 劉給輸出模式  ***/ 
+#define CONTAINER_TO_CMD_OFFSET     8   
+#define CMD_TO_HW_REG_OFFSET_CH1    23
+#define CMD_TO_HW_REG_OFFSET_CH2    12
+#define CMD_TO_HW_REG_OFFSET_CH3    1
+
+/*** CMD 1 ~ 7 reserve for ooutput mode  ***/ 
 enum {
-    MOD_FREQ = 8,
-    WAIT_CNT,
-    ERR_AVG,
-    MOD_AMP_H,
-    MOD_AMP_L,
-    CUT_OFF = 22,   //0x16
-    DUMP_FOG = 101, //0x65
-    DUMP_MIS = 129 //0x81
+    CMD_MOD_FREQ = 8,   
+    CMD_MOD_AMP_H,      
+    CMD_MOD_AMP_L,      //0x0A
+    CMD_POLARITY,       //0x0B
+    CMD_WAIT_CNT,       //0x0C
+    CMD_ERR_AVG,        //0x0D
+    CMD_GAIN1,          //0x0E
+    CMD_CONST_STEP,     //0x0F
+    CMD_FB_ON,          //0x10
+    CMD_GAIN2,          //0x11
+    CMD_ERR_OFFSET,     //0x12
+
+    CMD_CUT_OFF = 22,   //0x16
+    CMD_DUMP_FOG = 101, //0x65
+    CMD_DUMP_MIS = 129  //0x81
 
 };
 

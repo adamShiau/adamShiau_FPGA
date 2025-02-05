@@ -10,17 +10,41 @@
 #define var_i2c_EEPROM_ctrl		    7
 #define var_i2c_EEPROM_reg_addr		8
 /*** fog ch3 ***/
-#define var_freq_cnt_DAC3		    9
-#define var_amp_H_DAC3	            10
-#define var_amp_L_DAC3		        11
-#define var_polarity_DAC3           12
-#define var_wait_cnt_DAC3           13
-#define var_avg_sel_DAC3            14
+#define var_freq_cnt_3		        9
+#define var_amp_H_3	                10
+#define var_amp_L_3		            11
+#define var_polarity_3              12
+#define var_wait_cnt_3              13
+#define var_avg_sel_3               14
 #define var_gainSel_step_3          15
 #define var_const_step_3            16
 #define var_fb_ON_3            		17
 #define var_gainSel_ramp_3          18
+#define var_err_offset_3            19
 
+#define var_freq_cnt_2		        20
+#define var_amp_H_2	                21
+#define var_amp_L_2		            22
+#define var_polarity_2              23
+#define var_wait_cnt_2              24
+#define var_avg_sel_2              	25
+#define var_gainSel_step_2          26
+#define var_const_step_2            27
+#define var_fb_ON_2            		28
+#define var_gainSel_ramp_2          29
+#define var_err_offset_2            30
+
+#define var_freq_cnt_1		        31
+#define var_amp_H_1	                32
+#define var_amp_L_1		            33
+#define var_polarity_1              34
+#define var_wait_cnt_1              35
+#define var_avg_sel_1              	36
+#define var_gainSel_step_1          37
+#define var_const_step_1            38
+#define var_fb_ON_1            		39
+#define var_gainSel_ramp_1          40
+#define var_err_offset_1            41
 
 #define var_i2c_357_status	    60 + 0
 #define var_i2c_357_rdata_1	    60 + 1
