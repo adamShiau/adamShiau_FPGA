@@ -46,6 +46,9 @@
 #define var_gainSel_ramp_1          40
 #define var_err_offset_1            41
 
+#define var_timer_rst               58
+#define var_sync_count              59
+
 #define var_i2c_357_status	    60 + 0
 #define var_i2c_357_rdata_1	    60 + 1
 #define var_i2c_357_rdata_2	    60 + 2
@@ -63,7 +66,9 @@
 #define var_i2c_EEPROM_rdata_2  60 + 14
 #define var_i2c_EEPROM_rdata_3  60 + 15
 #define var_i2c_EEPROM_rdata_4  60 + 16
-#define o_err_DAC3              60 + 17
+#define i_var_step_3            60 + 30
+#define i_var_err_3             60 + 31
+#define i_var_timer             60 + 32
 
 // #define var_i2c_357_status	25 + 0
 // #define var_i2c_357_rdata_1	25 + 1

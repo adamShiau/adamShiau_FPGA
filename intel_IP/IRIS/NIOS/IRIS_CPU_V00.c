@@ -4,12 +4,18 @@
 
 #include "IRIS_V1.h"
 
+#define COE_TIMER 0.0001
+
 void sendTx(alt_32);
 void checkByte(alt_u8);
 void fog_parameter(alt_u8*, fog_parameter_t*);
 void dump_fog_param(fog_parameter_t* fog_inst, alt_u8 ch);
 void send_json_uart(const char* buffer);
 void update_fog_parameters_to_HW_REG(alt_u8 base, fog_parameter_t* fog_params); 
+int IEEE_754_F2INT(float in);
+void TRIGGER_IRQ_init(void);
+void IRQ_TRIGGER_ISR(void);
+
 
 const alt_u8 cmd_header[2] = {0xAB, 0xBA};
 const alt_u8 cmd_trailer[2] = {0x55, 0x56};
@@ -17,8 +23,20 @@ static alt_u16 try_cnt;
 volatile alt_u8 uart_complete;
 static alt_u8 uart_cmd, uart_ch;
 static alt_32 uart_value;
+static alt_u8 start_flag = 0;
+static alt_u8 trigger_sig = 0;
 
 alt_32 cnt=0;
+
+typedef union
+{
+  float float_val;
+  alt_u8 bin_val[4];
+  alt_32 int_val;
+}
+my_float_t;
+
+my_float_t my_f;
 
 typedef union
 {
@@ -30,8 +48,11 @@ int main(void)
 {
 	my_aalt32_t eeprom_buf;
 	fog_parameter_t fog_params;
+	alt_32 time, err3, step3;
+	float err3_f, time_f, step3_f;
 
 	printf("Running IRIS CPU!\n");
+	TRIGGER_IRQ_init();
 	uartInit(); //interrupt method of uart defined in uart.c not main()
 	init_ADDA();
 	init_EEPROM();
@@ -50,9 +71,33 @@ int main(void)
 	// PRINT_FOG_PARAMETER(&fog_params);
 
 
-  while(1){
-	  fog_parameter(readData2(cmd_header, 2, &try_cnt, cmd_trailer, 2), &fog_params);
-  }
+	while(1){
+		fog_parameter(readData2(cmd_header, 2, &try_cnt, cmd_trailer, 2), &fog_params);
+		time = IORD(VARSET_BASE, i_var_timer);
+		time_f = (float)time*COE_TIMER;
+		err3 = IORD(VARSET_BASE, i_var_err_3);
+		step3 = IORD(VARSET_BASE, i_var_step_3);
+
+		if(start_flag == 0){ 	//IDLE mode
+
+		}
+		else if(start_flag == 2){ // sync mode
+		
+		if(trigger_sig) {
+			trigger_sig = 0;
+			checkByte(0xFE);
+			checkByte(0x81);
+			checkByte(0xFF);
+			checkByte(0x55);
+			sendTx(IEEE_754_F2INT(time_f));
+			sendTx(err3);
+			sendTx(step3);
+			sendTx(25);
+			// checkByte(PD_temp>>8);
+			// checkByte(PD_temp);
+		}
+		}
+	}
 
   return 0;
 }
@@ -74,7 +119,13 @@ void checkByte(alt_u8 data)
 	IOWR_ALTERA_AVALON_UART_TXDATA(UART_BASE, data);
 }
 
-// #define PARAMETER_OFFSET 8
+int IEEE_754_F2INT(float in)
+{
+	my_float_t temp;
+	temp.float_val = in;
+
+	return temp.int_val;
+}
 
 void fog_parameter(alt_u8 *data, fog_parameter_t* fog_inst)
 {
@@ -180,6 +231,16 @@ void fog_parameter(alt_u8 *data, fog_parameter_t* fog_inst)
 					printf("CMD_DUMP_FOG:\n");
 					dump_fog_param(fog_inst, uart_ch);
 					break;
+				} 
+				case CMD_DATA_OUT_START: {
+					printf("CMD_DATA_OUT_START:\n");
+					start_flag = uart_value;
+					break;
+				}
+				case CMD_SYNC_CNT: {
+					printf("CMD_SYNC_CNT:\n");
+					IOWR(VARSET_BASE, var_sync_count, uart_value);
+					break;
 				}
 
 				default:{
@@ -260,7 +321,8 @@ void dump_fog_param(fog_parameter_t* fog_inst, alt_u8 ch) {
     offset += snprintf(buffer + offset, sizeof(buffer) - offset, "{");
     
     for (int i = 0; i < MEN_LEN; i++) {
-        offset += snprintf(buffer + offset, sizeof(buffer) - offset, "\"%d\":\"%d\"", i, param[i].data.int_val);
+        // offset += snprintf(buffer + offset, sizeof(buffer) - offset, "\"%d\":\"%d\"", i, param[i].data.int_val);
+		offset += snprintf(buffer + offset, sizeof(buffer) - offset, "\"%d\":%d", i, param[i].data.int_val);
         if (i < MEN_LEN - 1) offset += snprintf(buffer + offset, sizeof(buffer) - offset, ", "); // Add comma if not the last element
     }
     
@@ -274,6 +336,24 @@ void send_json_uart(const char* buffer) {
         checkByte((alt_u8)*buffer);
         buffer++;
     }
+}
+
+void TRIGGER_IRQ_init()
+{
+	IOWR_ALTERA_AVALON_PIO_EDGE_CAP(TRIGGER_IN_BASE, 1); //clear edge capture register
+	IOWR_ALTERA_AVALON_PIO_IRQ_MASK(TRIGGER_IN_BASE, 1); //enable irq mask
+	alt_ic_isr_register(
+	TRIGGER_IN_IRQ_INTERRUPT_CONTROLLER_ID,
+	TRIGGER_IN_IRQ,
+	IRQ_TRIGGER_ISR,
+	0x0,
+	0x0);
+}
+
+void IRQ_TRIGGER_ISR()
+{
+	IOWR_ALTERA_AVALON_PIO_EDGE_CAP(TRIGGER_IN_BASE, 1); //clear edge capture register
+	trigger_sig = 1;
 }
 
 
