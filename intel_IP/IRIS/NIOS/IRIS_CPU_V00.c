@@ -5,6 +5,9 @@
 #include "IRIS_V1.h"
 
 #define COE_TIMER 0.0001
+#define WIDTH_32 32
+#define TOPBIT_32 (1 << (WIDTH_32 - 1))
+#define POLYNOMIAL_32 0x04C11DB7
 
 void sendTx(alt_32);
 void checkByte(alt_u8);
@@ -15,8 +18,13 @@ void update_fog_parameters_to_HW_REG(alt_u8 base, fog_parameter_t* fog_params);
 int IEEE_754_F2INT(float in);
 void TRIGGER_IRQ_init(void);
 void IRQ_TRIGGER_ISR(void);
+void crc_32(alt_u8  message[], alt_u8 nBytes, alt_u8* crc);
+void SerialWrite(alt_u8* buf, alt_u8 num); 
+void Serialwrite_r(alt_u8* buf, alt_u8 num); 
+void update_IRIS_config_to_HW_REG(void);
 
 
+const unsigned char KVH_HEADER[4] = {0xFE, 0x81, 0xFF, 0x55};
 const alt_u8 cmd_header[2] = {0xAB, 0xBA};
 const alt_u8 cmd_trailer[2] = {0x55, 0x56};
 static alt_u16 try_cnt;
@@ -48,8 +56,8 @@ int main(void)
 {
 	my_aalt32_t eeprom_buf;
 	fog_parameter_t fog_params;
-	alt_32 time, err3, step3;
-	float err3_f, time_f, step3_f;
+	my_float_t err3, time, step3, temp3;
+	 
 
 	printf("Running IRIS CPU!\n");
 	TRIGGER_IRQ_init();
@@ -65,6 +73,7 @@ int main(void)
 	update_fog_parameters_to_HW_REG(MEM_BASE_Z, &fog_params); 
 	update_fog_parameters_to_HW_REG(MEM_BASE_X, &fog_params); 
 	update_fog_parameters_to_HW_REG(MEM_BASE_Y, &fog_params); 
+	update_IRIS_config_to_HW_REG();
 	// PARAMETER_Write_s(MEM_BASE_X, 0, 121, &fog_params);
 	// PARAMETER_Write_s(MEM_BASE_Y, 0, 131, &fog_params);
 	// PARAMETER_Write_s(MEM_BASE_Z, 0, 141, &fog_params);
@@ -73,10 +82,10 @@ int main(void)
 
 	while(1){
 		fog_parameter(readData2(cmd_header, 2, &try_cnt, cmd_trailer, 2), &fog_params);
-		time = IORD(VARSET_BASE, i_var_timer);
-		time_f = (float)time*COE_TIMER;
-		err3 = IORD(VARSET_BASE, i_var_err_3);
-		step3 = IORD(VARSET_BASE, i_var_step_3);
+		time.float_val = (float)IORD(VARSET_BASE, i_var_timer)*COE_TIMER;
+		err3.int_val = IORD(VARSET_BASE, i_var_err_3);
+		step3.int_val = IORD(VARSET_BASE, i_var_step_3);
+		temp3.float_val = 25.35;
 
 		if(start_flag == 0){ 	//IDLE mode
 
@@ -84,22 +93,71 @@ int main(void)
 		else if(start_flag == 2){ // sync mode
 		
 		if(trigger_sig) {
+
+			alt_u8* imu_data = (alt_u8*)malloc(20+4); // KVH_HEADER:4 + pig:16
+			alt_u8 CRC32[4];
+
 			trigger_sig = 0;
-			checkByte(0xFE);
-			checkByte(0x81);
-			checkByte(0xFF);
-			checkByte(0x55);
-			sendTx(IEEE_754_F2INT(time_f));
-			sendTx(err3);
-			sendTx(step3);
-			sendTx(25);
-			// checkByte(PD_temp>>8);
-			// checkByte(PD_temp);
+
+			memcpy(imu_data, KVH_HEADER, 4);
+			memcpy(imu_data+4, time.bin_val, 4); 
+			memcpy(imu_data+8, err3.bin_val, 4); 
+			memcpy(imu_data+12, step3.bin_val, 4); 
+			memcpy(imu_data+16, temp3.bin_val, 4); 
+			memcpy(imu_data+20, time.bin_val, 4); 
+			crc_32(imu_data, 24, CRC32);
+			free(imu_data);
+
+
+
+			SerialWrite(KVH_HEADER, 4); 
+			SerialWrite(time.bin_val, 4); 
+			SerialWrite(err3.bin_val, 4); 
+			SerialWrite(step3.bin_val, 4); 
+			SerialWrite(temp3.bin_val, 4); 
+			SerialWrite(time.bin_val, 4); 
+			SerialWrite(CRC32, 4); 
+
+			// printf("%f, %d\n", time.float_val, err3.int_val);
 		}
 		}
 	}
 
   return 0;
+}
+
+void update_IRIS_config_to_HW_REG()
+{
+	IOWR(VARSET_BASE, var_sync_count, 1e6);
+}
+
+void crc_32(alt_u8  message[], alt_u8 nBytes, alt_u8* crc)
+{
+	alt_u32  remainder = 0xFFFFFFFF;
+	
+	
+	for (alt_u8 byte = 0; byte < nBytes; ++byte)
+	{
+		remainder ^= (message[byte] << (WIDTH_32 - 8));
+		
+		
+		for (alt_u8 bit = 8; bit > 0; --bit)
+		{
+			if (remainder & TOPBIT_32)
+			{
+				remainder = (remainder << 1) ^ POLYNOMIAL_32;
+			}
+			else
+			{
+				remainder = (remainder << 1);
+			}
+		}
+	}
+	for (alt_u8 i=0; i<sizeof(remainder); i++) 
+	{
+		*(crc + i) = remainder >> (24 - (i<<3));
+		
+	}
 }
 
 void sendTx(alt_32 data)
@@ -118,6 +176,40 @@ void checkByte(alt_u8 data)
 	while(!(IORD_ALTERA_AVALON_UART_STATUS(UART_BASE)& ALTERA_AVALON_UART_STATUS_TRDY_MSK));
 	IOWR_ALTERA_AVALON_UART_TXDATA(UART_BASE, data);
 }
+void SerialWrite(alt_u8* buf, alt_u8 num) 
+{
+    for (alt_u8 i = 0; i < num; i++) 
+    {
+        while (!(IORD_ALTERA_AVALON_UART_STATUS(UART_BASE) & ALTERA_AVALON_UART_STATUS_TRDY_MSK));
+        IOWR_ALTERA_AVALON_UART_TXDATA(UART_BASE, buf[i]);
+    }
+}
+
+void Serialwrite_r(alt_u8* buf, alt_u8 num) 
+{
+    for (alt_u8 i = num; i > 0; i--) 
+    {
+        while (!(IORD_ALTERA_AVALON_UART_STATUS(UART_BASE) & ALTERA_AVALON_UART_STATUS_TRDY_MSK));
+        IOWR_ALTERA_AVALON_UART_TXDATA(UART_BASE, buf[i - 1]);
+    }
+}
+
+
+
+
+/*** 
+void checkByte(alt_u8 data)
+{
+    int timeout = 100000;  // 設定一個合理的超時值
+    while (!(IORD_ALTERA_AVALON_UART_STATUS(UART_BASE) & ALTERA_AVALON_UART_STATUS_TRDY_MSK) && --timeout);
+    
+    if (timeout > 0) {
+        IOWR_ALTERA_AVALON_UART_TXDATA(UART_BASE, data);
+    } else {
+        // 超時處理，例如記錄錯誤或重試
+    }
+}
+*/
 
 int IEEE_754_F2INT(float in)
 {
@@ -240,6 +332,11 @@ void fog_parameter(alt_u8 *data, fog_parameter_t* fog_inst)
 				case CMD_SYNC_CNT: {
 					printf("CMD_SYNC_CNT:\n");
 					IOWR(VARSET_BASE, var_sync_count, uart_value);
+					break;
+				} 
+				case CMD_HW_TIMER_RST: {
+					printf("CMD_HW_TIMER_RST:\n");
+					IOWR(VARSET_BASE, var_timer_rst, uart_value);
 					break;
 				}
 
