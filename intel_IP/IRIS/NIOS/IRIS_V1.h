@@ -6,15 +6,15 @@
 /******** my Library *******/
 // uart
 #include "uart.h"
-#include "uart.c"
+// #include "uart.c"
 // adda
 #include "adda_config.h"
-#include "adda_config.c"
+// #include "adda_config.c"
 //memory_manage
 #include "memory_manage.h"
-#include "memory_manage.c"
+// #include "memory_manage.c"
 //eeprom
 #include "eeprom.h"
-#include "eeprom.c"
+// #include "eeprom.c"
 
 
