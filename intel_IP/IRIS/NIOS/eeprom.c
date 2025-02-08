@@ -1,5 +1,5 @@
 #include "eeprom.h" 
-
+#define VARSET_BASE VARSET_1_BASE
 
 
 typedef union

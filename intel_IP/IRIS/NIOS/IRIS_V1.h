@@ -1,7 +1,7 @@
 /******** NIOS II Variable IP address definition*******/
 #include "nios2_var_addr.h"
 
- #define VARSET_BASE VARSET_1_BASE
+#define VARSET_BASE VARSET_1_BASE
 
 /******** my Library *******/
 // uart
