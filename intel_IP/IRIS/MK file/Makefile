@@ -4,18 +4,12 @@
 
 # List of include directories for -I compiler option (-I added when used).
 # Includes the BSP.
-ALT_INCLUDE_DIRS := D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS
-
-SRC_FILES := main.c \
-             D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/uart.c \
-             D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/adda_config.c \
-             D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/memory_manage.c \
-             D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/eeprom.c
+ALT_INCLUDE_DIRS :=
+ALT_INCLUDE_DIRS += D:\github\adamShiau_FPGA\intel_IP\IRIS\NIOS
 
 # List of library directories for -L linker option (-L added when used).
 # Includes the BSP.
-ALT_LIBRARY_DIRS := 
-
+ALT_LIBRARY_DIRS :=
 
 # List of library names for -l linker option (-l added when used).
 # Includes the BSP.
@@ -37,17 +31,12 @@ MAKEABLE_LIBRARY_ROOT_DIRS :=
 
 # Generic flags passed to the compiler for different types of input files.
 ALT_CFLAGS :=
-ALT_CPPFLAGS += $(foreach inc, $(ALT_INCLUDE_DIRS), -I$(inc))
-
 ALT_CXXFLAGS :=
-#ALT_CPPFLAGS :=
+ALT_CPPFLAGS :=
 ALT_ASFLAGS :=
 ALT_LDFLAGS :=
 
-CFLAGS += $(ALT_CPPFLAGS)
 
-IRIS_CPU.elf: $(SRC_FILES)
-	nios2-elf-gcc $(CFLAGS) -o IRIS_CPU.elf $(SRC_FILES)
 #------------------------------------------------------------------------------
 #                         The adjust-path macro
 # 
@@ -151,17 +140,17 @@ ACDS_VERSION := 18.1
 # Define path to the application ELF. 
 # It may be used by the makefile fragments so is defined before including them. 
 # 
-ELF := IRIS_CPU.elf
+ELF := IRIS_CPU_V00.elf
 
 # Paths to C, C++, and assembly source files.
-C_SRCS := D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V00.c
+C_SRCS += D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V00.c
+C_SRCS += D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/uart.c
+C_SRCS += D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/adda_config.c
+C_SRCS += D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/eeprom.c
+C_SRCS += D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/memory_manage.c
 CXX_SRCS :=
 ASM_SRCS :=
-#C_SRCS += D:/github/adamShiau_FPGA/nios2_lib/uart.c
-#C_SRCS += D:\github\adamShiau_FPGA\intel_IP\IRIS\NIOS\adda_config.c
-#C_SRCS += D:\github\adamShiau_FPGA\intel_IP\IRIS\NIOS\eeprom.c
-#C_SRCS += D:\github\adamShiau_FPGA\intel_IP\IRIS\NIOS\memory_manage.c
-#C_SRCS += 
+
 
 
 # Path to root of object file tree.
@@ -194,11 +183,10 @@ CRT0 :=
 SYS_LIB :=
 
 # Define path to the root of the BSP.
-BSP_ROOT_DIR := ../IRIS_CPU_bsp/
+BSP_ROOT_DIR := ../IRIS_CPU_V00_bsp/
 
 # List of application specific include directories, library directories and library names
-APP_INCLUDE_DIRS := D:\github\adamShiau_FPGA\intel_IP\IRIS\NIOS
-#APP_INCLUDE_DIRS += D:\github\adamShiau_FPGA\intel_IP\IRIS\NIOS
+APP_INCLUDE_DIRS :=
 APP_LIBRARY_DIRS :=
 APP_LIBRARY_NAMES :=
 

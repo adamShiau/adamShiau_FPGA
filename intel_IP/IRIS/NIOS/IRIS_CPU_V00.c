@@ -46,15 +46,9 @@ my_float_t;
 
 my_float_t my_f;
 
-typedef union
-{
-	alt_32	int_val;
-	alt_u8	bin_val[4];
-}my_aalt32_t;
 
 int main(void)
 {
-	my_aalt32_t eeprom_buf;
 	fog_parameter_t fog_params;
 	my_float_t err3, time, step3, temp3;
 	 
@@ -224,9 +218,6 @@ void fog_parameter(alt_u8 *data, fog_parameter_t* fog_inst)
 
 	if(data){
 		alt_u8 base = 0, cmd2hwreg=0;
-		// if(uart_complete)
-		// {
-			// uart_complete = 0;
 			uart_cmd = data[0];
 			uart_value = data[1]<<24 | data[2]<<16 | data[3]<<8 | data[4];
 			uart_ch = data[5];
