@@ -9,6 +9,10 @@
 
 #define VARSET_BASE VARSET_1_BASE
 
+#define WIDTH_32 32
+#define TOPBIT_32 (1 << (WIDTH_32 - 1))
+#define POLYNOMIAL_32 0x04C11DB7
+
 #define MUX_OUTPUT		    0
 #define MUX_PARAMETER	    1
 #define MUX_ESCAPE		    2
@@ -48,6 +52,7 @@ void sendTx(alt_32);
 void checkByte(alt_u8);
 void SerialWrite(alt_u8* buf, alt_u8 num); 
 void Serialwrite_r(alt_u8* buf, alt_u8 num); 
+void crc_32(alt_u8  message[], alt_u8 nBytes, alt_u8* crc);
 
 void get_uart_cmd(alt_u8*, uart_rx_t*);
 void cmd_mux(uart_rx_t*);

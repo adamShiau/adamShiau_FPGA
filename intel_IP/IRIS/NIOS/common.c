@@ -35,6 +35,35 @@ void Serialwrite_r(alt_u8* buf, alt_u8 num)
     }
 }
 
+void crc_32(alt_u8  message[], alt_u8 nBytes, alt_u8* crc)
+{
+	alt_u32  remainder = 0xFFFFFFFF;
+	
+	
+	for (alt_u8 byte = 0; byte < nBytes; ++byte)
+	{
+		remainder ^= (message[byte] << (WIDTH_32 - 8));
+		
+		
+		for (alt_u8 bit = 8; bit > 0; --bit)
+		{
+			if (remainder & TOPBIT_32)
+			{
+				remainder = (remainder << 1) ^ POLYNOMIAL_32;
+			}
+			else
+			{
+				remainder = (remainder << 1);
+			}
+		}
+	}
+	for (alt_u8 i=0; i<sizeof(remainder); i++) 
+	{
+		*(crc + i) = remainder >> (24 - (i<<3));
+		
+	}
+}
+
 void get_uart_cmd(alt_u8* data, uart_rx_t* rx)
 {
     if(data){

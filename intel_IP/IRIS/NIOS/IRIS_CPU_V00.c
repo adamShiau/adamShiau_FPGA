@@ -8,9 +8,7 @@
 #include "IRIS_V1.h"
 
 #define COE_TIMER 0.0001
-#define WIDTH_32 32
-#define TOPBIT_32 (1 << (WIDTH_32 - 1))
-#define POLYNOMIAL_32 0x04C11DB7
+
 
 
 void dump_fog_param(fog_parameter_t* fog_inst, alt_u8 ch);
@@ -19,7 +17,6 @@ void update_fog_parameters_to_HW_REG(alt_u8 base, fog_parameter_t* fog_params);
 int IEEE_754_F2INT(float in);
 void TRIGGER_IRQ_init(void);
 void IRQ_TRIGGER_ISR(void *context);
-void crc_32(alt_u8  message[], alt_u8 nBytes, alt_u8* crc);
 
 void update_IRIS_config_to_HW_REG(void);
 
@@ -73,7 +70,6 @@ int main(void)
 
 
 	while(1){
-		// fog_parameter(readData2(cmd_header, 2, &try_cnt, cmd_trailer, 2), &fog_params);
 		get_uart_cmd(readData2(cmd_header, 2, &try_cnt, cmd_trailer, 2), &my_cmd);
 		cmd_mux(&my_cmd);
 		fog_parameter(&my_cmd, &fog_params);
@@ -127,34 +123,7 @@ void update_IRIS_config_to_HW_REG()
 	IOWR(VARSET_BASE, var_sync_count, 1e6);
 }
 
-void crc_32(alt_u8  message[], alt_u8 nBytes, alt_u8* crc)
-{
-	alt_u32  remainder = 0xFFFFFFFF;
-	
-	
-	for (alt_u8 byte = 0; byte < nBytes; ++byte)
-	{
-		remainder ^= (message[byte] << (WIDTH_32 - 8));
-		
-		
-		for (alt_u8 bit = 8; bit > 0; --bit)
-		{
-			if (remainder & TOPBIT_32)
-			{
-				remainder = (remainder << 1) ^ POLYNOMIAL_32;
-			}
-			else
-			{
-				remainder = (remainder << 1);
-			}
-		}
-	}
-	for (alt_u8 i=0; i<sizeof(remainder); i++) 
-	{
-		*(crc + i) = remainder >> (24 - (i<<3));
-		
-	}
-}
+
 
 
 /*** 
