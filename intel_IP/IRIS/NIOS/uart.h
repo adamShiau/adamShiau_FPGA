@@ -15,9 +15,9 @@ void uartAck(alt_u8);
 alt_u8* readData(alt_u8* expected_header, alt_u8 header_size, alt_u16* try_cnt, 
                 alt_u8* expected_trailer, alt_u8 trailer_sizes, alt_u8* cmd_complete);
 
-alt_u8* readData2(alt_u8* expected_header, alt_u8 header_size, alt_u16* try_cnt, 
-                alt_u8* expected_trailer, alt_u8 trailer_sizes);
+alt_u8* readData2(const alt_u8* expected_header, alt_u8 header_size, alt_u16* try_cnt,
+		const alt_u8* expected_trailer, alt_u8 trailer_sizes);
 
-extern volatile alt_u8 uart_complete;
+// extern volatile alt_u8 uart_complete;
 
 #endif /* __UART_H */

@@ -1,3 +1,6 @@
+#ifndef __IRIS_V1_H
+#define __IRIS_V1_H
+
 /******** NIOS II Variable IP address definition*******/
 #include "nios2_var_addr.h"
 
@@ -16,5 +19,13 @@
 //eeprom
 #include "eeprom.h"
 // #include "eeprom.c"
+
+// commonly used type define and funciotn
+#include "common.h"
+
+#endif // __IRIS_V1_H
+
+
+
 
 

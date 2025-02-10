@@ -73,7 +73,7 @@ static void uartISR(void *context)
 
 	pUartBuffer = context;
 
-	uart_complete = 1;
+	// uart_complete = 1;
 
 	/**
 	 * If new RX data arrives, store the data into rxBuf[rxBufPut], 
@@ -146,7 +146,7 @@ void uartInit(void)
 	gUartBuffer.txBufPut = 0;
 	gUartBuffer.txBufTake = 0;
 
-	uart_complete = 0;
+	// uart_complete = 0;
 
 	// Disable interrupts
 	IOWR_ALTERA_AVALON_UART_CONTROL(UART_BASE,0);
@@ -363,8 +363,8 @@ alt_u8* readData(alt_u8* expected_header, alt_u8 header_size, alt_u16* try_cnt,
 	return NULL;
 }
 
-alt_u8* readData2(alt_u8* expected_header, alt_u8 header_size, alt_u16* try_cnt, 
-                 alt_u8* expected_trailer, alt_u8 trailer_size)
+alt_u8* readData2(const alt_u8* expected_header, alt_u8 header_size, alt_u16* try_cnt,
+		const alt_u8* expected_trailer, alt_u8 trailer_size)
 {
 	const alt_u8 data_size_expected = CMD_LENGTH;
     static alt_u8 buffer[CMD_LENGTH];
