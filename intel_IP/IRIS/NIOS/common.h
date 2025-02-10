@@ -28,6 +28,14 @@
 #define SEL_HP_TEST 	    8
 #define SEL_ATT_NMEA 	    9
 
+#define MODE_RST 	        0
+#define MODE_FOG	        1
+#define MODE_IMU	        2
+#define MODE_FOG_HP_TEST	3
+#define MODE_NMEA		    4
+#define MODE_ATT_NMEA		5
+#define MODE_FOG_PARAMETER  6
+
 typedef union
 {
   float float_val;
@@ -38,14 +46,32 @@ my_float_t;
 
 typedef struct
 {
-    alt_u8 complete;
-    alt_u8 mux;
-    alt_u8 select_fn;
-    alt_u8 ch;
-    alt_u8 cmd;
-    alt_32 value;
+  alt_u8 complete;
+  alt_u8 mux;
+  alt_u8 select_fn;
+  alt_u8 ch;
+  alt_u8 cmd;
+  alt_32 value;
 }uart_rx_t;
 
+typedef struct {
+  my_float_t err;  
+  my_float_t step; 
+} fog_component_t;
+
+typedef struct {
+  fog_component_t fogx;
+  fog_component_t fogy;
+  fog_component_t fogz;
+} fog_t;
+
+typedef struct 
+{
+  fog_t fog;
+  
+}my_sensor_t;
+
+typedef void (*fn_ptr) (uart_rx_t*, my_sensor_t*);
 
 
 void sendTx(alt_32);
@@ -57,5 +83,6 @@ void crc_32(alt_u8  message[], alt_u8 nBytes, alt_u8* crc);
 void get_uart_cmd(alt_u8*, uart_rx_t*);
 void cmd_mux(uart_rx_t*);
 void fog_parameter(uart_rx_t*, fog_parameter_t*);
+void output_mode_setting(uart_rx_t*);
 
 #endif /* __COMMON_H */

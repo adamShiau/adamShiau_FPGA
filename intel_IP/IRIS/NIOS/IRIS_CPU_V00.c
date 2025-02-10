@@ -34,6 +34,8 @@ static alt_u8 trigger_sig = 0;
 alt_32 cnt=0;
 
 my_float_t my_f;
+
+// instance of cmd control, initialize below
 uart_rx_t my_cmd = {
     .complete = 0,
     .mux = MUX_ESCAPE,
@@ -42,6 +44,15 @@ uart_rx_t my_cmd = {
     .cmd = 0,
     .value = 0
 };
+
+// instance of sensor, initialize below
+my_sensor_t sensor;
+sensor.fog.fogx.err.int_val = 0;
+sensor.fog.fogx.step.int_val = 0;
+sensor.fog.fogy.err.int_val = 0;
+sensor.fog.fogy.step.int_val = 0;
+sensor.fog.fogz.err.int_val = 0;
+sensor.fog.fogz.step.int_val = 0;
 
 
 int main(void)
@@ -73,6 +84,7 @@ int main(void)
 		get_uart_cmd(readData2(cmd_header, 2, &try_cnt, cmd_trailer, 2), &my_cmd);
 		cmd_mux(&my_cmd);
 		fog_parameter(&my_cmd, &fog_params);
+		output_mode_setting(&my_cmd);
 
 		time.float_val = (float)IORD(VARSET_BASE, i_var_timer)*COE_TIMER;
 		err3.int_val = IORD(VARSET_BASE, i_var_err_3);

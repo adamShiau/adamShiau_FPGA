@@ -88,6 +88,73 @@ void cmd_mux(uart_rx_t* rx)
 	}
 }
 
+void output_mode_setting(uart_rx_t* rx)
+{
+	if(rx->mux == MUX_OUTPUT)
+	{
+		rx->mux = MUX_ESCAPE;
+
+		switch(rx->cmd) {
+			case MODE_RST: {
+				output_fn = fn_rst;
+				select_fn = SEL_RST;
+       			rst_fn_flag = MODE_RST;
+				break;
+			}
+			case MODE_FOG: {
+				output_fn = acq_fog;
+				select_fn = SEL_FOG_1;
+        		rst_fn_flag = MODE_FOG;
+				break;
+			}
+
+      default: break;
+      }
+	}
+
+//   if(fog_op_status==1) // for auto reset
+//   {
+    // fog_op_status=0;
+    // Serial.println("AUTO RST select function");
+	// 	switch(rst_fn_flag) {
+	// 		case MODE_RST: {
+	// 			output_fn = fn_rst;
+	// 			break;
+	// 		}
+	// 		case MODE_FOG: {
+	// 			output_fn = acq_fog;
+    //     Serial.println("MODE_FOG");
+	// 			break;
+	// 		}
+	// 		case MODE_IMU: {
+	// 			output_fn = acq_imu; 
+	// 			break;
+	// 		}
+	// 		case MODE_FOG_HP_TEST: {
+	// 			output_fn = acq_HP_test; 
+	// 			break;
+	// 		}
+	// 		case MODE_NMEA: {
+	// 			output_fn = acq_nmea;
+	// 			break;
+    //         }
+    //   case MODE_ATT_NMEA: {
+	// 			output_fn = acq_att_nmea;
+	// 			break;
+    //         }
+    //   case MODE_FOG_PARAMETER: {
+    //       output_fn = acq_fog_parameter;
+    //       break;
+    //   }
+    //   default: break;
+    //   }
+    //   eeprom.Parameter_Write(EEPROM_ADDR_SELECT_FN, select_fn);
+    //   eeprom.Parameter_Write(EEPROM_ADDR_OUTPUT_FN, rst_fn_flag);
+    //   eeprom.Parameter_Write(EEPROM_ADDR_REG_VALUE, uart_value);
+	// }
+}
+
+
 // void fog_parameter(alt_u8 *data, fog_parameter_t* fog_inst)
 void fog_parameter(uart_rx_t* rx, fog_parameter_t* fog_inst)
 {
