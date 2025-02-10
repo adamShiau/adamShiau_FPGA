@@ -7,6 +7,7 @@
 ALT_INCLUDE_DIRS :=
 ALT_INCLUDE_DIRS += D:\github\adamShiau_FPGA\intel_IP\IRIS\NIOS
 
+
 # List of library directories for -L linker option (-L added when used).
 # Includes the BSP.
 ALT_LIBRARY_DIRS :=
@@ -140,7 +141,7 @@ ACDS_VERSION := 18.1
 # Define path to the application ELF. 
 # It may be used by the makefile fragments so is defined before including them. 
 # 
-ELF := IRIS_CPU_V00.elf
+ELF := IRIS_CPU.elf
 
 # Paths to C, C++, and assembly source files.
 C_SRCS += D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V00.c
@@ -148,9 +149,9 @@ C_SRCS += D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/uart.c
 C_SRCS += D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/adda_config.c
 C_SRCS += D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/eeprom.c
 C_SRCS += D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/memory_manage.c
+C_SRCS += D:/github\adamShiau_FPGA/intel_IP/IRIS/NIOS/common.c
 CXX_SRCS :=
 ASM_SRCS :=
-
 
 
 # Path to root of object file tree.
@@ -183,7 +184,7 @@ CRT0 :=
 SYS_LIB :=
 
 # Define path to the root of the BSP.
-BSP_ROOT_DIR := ../IRIS_CPU_V00_bsp/
+BSP_ROOT_DIR := ../IRIS_CPU_bsp/
 
 # List of application specific include directories, library directories and library names
 APP_INCLUDE_DIRS :=
