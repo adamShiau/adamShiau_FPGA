@@ -35,24 +35,40 @@ alt_32 cnt=0;
 
 my_float_t my_f;
 
-// instance of cmd control, initialize below
-uart_rx_t my_cmd = {
+// Definition and initialization of my_cmd, structure type is defined in common.h
+cmd_ctrl_t my_cmd = {
     .complete = 0,
     .mux = MUX_ESCAPE,
-    .select_fn = SEL_DEFAULT,
+    .select_fn = SEL_IDLE,
     .ch = 0,
     .cmd = 0,
     .value = 0
 };
 
-// instance of sensor, initialize below
-my_sensor_t sensor;
-sensor.fog.fogx.err.int_val = 0;
-sensor.fog.fogx.step.int_val = 0;
-sensor.fog.fogy.err.int_val = 0;
-sensor.fog.fogy.step.int_val = 0;
-sensor.fog.fogz.err.int_val = 0;
-sensor.fog.fogz.step.int_val = 0;
+// Definition and initialization of auto_rst, structure type is defined in common.h
+auto_rst_t auto_rst = {
+	.status = 0,
+	.fn_mode = MODE_RST
+};
+
+
+// Definition of a function pointer for output processing.  
+// Initialized to NULL to prevent undefined behavior.  
+// The assigned function will be implemented in output_fn.c.  
+fn_ptr output_fn = acq_rst;
+
+
+// Definition and initialization of sensor, structure type is defined in common.h
+my_sensor_t sensor = {
+    .fog = {
+        .fogx = { .err = { .int_val = 0 }, .step = { .int_val = 0 }},
+        .fogy = { .err = { .int_val = 0 }, .step = { .int_val = 0 }},
+        .fogz = { .err = { .int_val = 0 }, .step = { .int_val = 0 }}
+    }
+};
+
+
+
 
 
 int main(void)
@@ -84,7 +100,8 @@ int main(void)
 		get_uart_cmd(readData2(cmd_header, 2, &try_cnt, cmd_trailer, 2), &my_cmd);
 		cmd_mux(&my_cmd);
 		fog_parameter(&my_cmd, &fog_params);
-		output_mode_setting(&my_cmd);
+		output_mode_setting(&my_cmd, output_fn, &auto_rst);
+		output_fn(&my_cmd, &sensor);
 
 		time.float_val = (float)IORD(VARSET_BASE, i_var_timer)*COE_TIMER;
 		err3.int_val = IORD(VARSET_BASE, i_var_err_3);

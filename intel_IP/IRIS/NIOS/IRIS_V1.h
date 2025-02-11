@@ -7,6 +7,13 @@
 #define VARSET_BASE VARSET_1_BASE
 
 /******** my Library *******/
+
+// commonly used type define and funciotn
+#include "common.h"
+
+#include "output_fn.h"
+
+#include "output_mode.h"
 // uart
 #include "uart.h"
 // #include "uart.c"
@@ -20,8 +27,7 @@
 #include "eeprom.h"
 // #include "eeprom.c"
 
-// commonly used type define and funciotn
-#include "common.h"
+
 
 #endif // __IRIS_V1_H
 

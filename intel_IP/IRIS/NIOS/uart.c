@@ -368,9 +368,8 @@ alt_u8* readData2(const alt_u8* expected_header, alt_u8 header_size, alt_u16* tr
 {
 	const alt_u8 data_size_expected = CMD_LENGTH;
     static alt_u8 buffer[CMD_LENGTH];
-    
+	// printf("uartAvailable: %d\n", uartAvailable());
     if ( uartAvailable() == 0 ) return NULL; //return immediately if no serial data in buffer
-
     int data = uartGetByte();
 
     #if defined(TEST_MODE)
