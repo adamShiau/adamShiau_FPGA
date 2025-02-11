@@ -1,6 +1,6 @@
 #include "output_mode.h"
 
-void output_mode_setting(cmd_ctrl_t* rx, fn_ptr output_fn, auto_rst_t* auto_rst)
+void output_mode_setting(cmd_ctrl_t* rx, fn_ptr *output_fn, auto_rst_t* auto_rst)
 {
 	if(rx->mux == MUX_OUTPUT)
 	{
@@ -10,13 +10,13 @@ void output_mode_setting(cmd_ctrl_t* rx, fn_ptr output_fn, auto_rst_t* auto_rst)
 
 		switch(rx->cmd) {
 			case MODE_RST: {
-				output_fn = acq_rst;
+				*output_fn = acq_rst;
 				rx->select_fn = SEL_RST;
 				auto_rst->fn_mode = MODE_RST;
 				break;
 			}
 			case MODE_FOG: {
-				output_fn = acq_fog;
+				*output_fn = acq_fog;
 				printf("output_fn select to acq_fog\n");
 				rx->select_fn = SEL_FOG_1;
 				auto_rst->fn_mode = MODE_FOG;
@@ -29,7 +29,7 @@ void output_mode_setting(cmd_ctrl_t* rx, fn_ptr output_fn, auto_rst_t* auto_rst)
 	else if(rx->mux == MUX_DEFAULT)
 	{
 		rx->mux = MUX_ESCAPE;
-		output_fn = acq_rst;
+		*output_fn = acq_rst;
 		printf("just start, enter acq_rst ");
 	}
 

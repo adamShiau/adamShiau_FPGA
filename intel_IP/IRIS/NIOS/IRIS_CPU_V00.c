@@ -100,7 +100,7 @@ int main(void)
 		get_uart_cmd(readData2(cmd_header, 2, &try_cnt, cmd_trailer, 2), &my_cmd);
 		cmd_mux(&my_cmd);
 		fog_parameter(&my_cmd, &fog_params);
-		output_mode_setting(&my_cmd, output_fn, &auto_rst);
+		output_mode_setting(&my_cmd, &output_fn, &auto_rst);
 		output_fn(&my_cmd, &sensor);
 
 		time.float_val = (float)IORD(VARSET_BASE, i_var_timer)*COE_TIMER;

@@ -97,6 +97,6 @@ void crc_32(alt_u8  message[], alt_u8 nBytes, alt_u8* crc);
 void get_uart_cmd(alt_u8*, cmd_ctrl_t*);
 void cmd_mux(cmd_ctrl_t*);
 void fog_parameter(cmd_ctrl_t*, fog_parameter_t*);
-void output_mode_setting(cmd_ctrl_t*, fn_ptr, auto_rst_t*);
+void output_mode_setting(cmd_ctrl_t*, fn_ptr*, auto_rst_t*);
 
 #endif /* __COMMON_H */
