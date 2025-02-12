@@ -35,6 +35,14 @@ void Serialwrite_r(alt_u8* buf, alt_u8 num)
     }
 }
 
+int IEEE_754_F2INT(float in)
+{
+	my_float_t temp;
+	temp.float_val = in;
+
+	return temp.int_val;
+}
+
 void crc_32(alt_u8  message[], alt_u8 nBytes, alt_u8* crc)
 {
 	alt_u32  remainder = 0xFFFFFFFF;

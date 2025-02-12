@@ -14,23 +14,17 @@
 void dump_fog_param(fog_parameter_t* fog_inst, alt_u8 ch);
 void send_json_uart(const char* buffer);
 void update_fog_parameters_to_HW_REG(alt_u8 base, fog_parameter_t* fog_params);
-int IEEE_754_F2INT(float in);
+
 void TRIGGER_IRQ_init(void);
 void IRQ_TRIGGER_ISR(void *context);
-
 void update_IRIS_config_to_HW_REG(void);
 
 
 const alt_u8 cmd_header[2] = {0xAB, 0xBA};
 const alt_u8 cmd_trailer[2] = {0x55, 0x56};
 static alt_u16 try_cnt;
-// volatile alt_u8 uart_complete;
-// static alt_u8 uart_cmd, uart_ch;
-// static alt_32 uart_value;
-static alt_u8 start_flag = 0;
-alt_u8 trigger_sig = 0;
 
-alt_32 cnt=0;
+alt_u8 trigger_sig = 0;
 
 my_float_t my_f;
 
@@ -80,9 +74,7 @@ my_sensor_t sensor_data = {
 
 int main(void)
 {
-	fog_parameter_t fog_params;
-	// my_float_t err3, time, step3, temp3;
-	 
+	fog_parameter_t fog_params;	 
 
 	printf("Running IRIS CPU!\n");
 
@@ -142,13 +134,7 @@ void checkByte(alt_u8 data)
 }
 */
 
-int IEEE_754_F2INT(float in)
-{
-	my_float_t temp;
-	temp.float_val = in;
 
-	return temp.int_val;
-}
 
 
 void update_fog_parameters_to_HW_REG(alt_u8 base, fog_parameter_t* fog_params) 

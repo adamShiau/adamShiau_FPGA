@@ -23,11 +23,11 @@ typedef struct
 }mem_unit_t;
 
 
-typedef struct {
+typedef struct {    // for parameter container, container size defined by MEN_LEN
     char sn[12];      // serial number，12 words
-    mem_unit_t paramX[MEN_LEN];    // 參數X，大小由LEN決定
-    mem_unit_t paramY[MEN_LEN];    // 參數Y，大小由LEN決定
-    mem_unit_t paramZ[MEN_LEN];    // 參數Z，大小由LEN決定
+    mem_unit_t paramX[MEN_LEN];    
+    mem_unit_t paramY[MEN_LEN];    
+    mem_unit_t paramZ[MEN_LEN];    
 } fog_parameter_t;
 
 
@@ -103,6 +103,6 @@ enum {
 
 void initialize_fog_params(fog_parameter_t *fog_params);
 
-extern fog_parameter_t fog_params; // 全域變數宣告
+// extern fog_parameter_t fog_params;
 
 #endif/* __MEMORY_MANAGE_H */
