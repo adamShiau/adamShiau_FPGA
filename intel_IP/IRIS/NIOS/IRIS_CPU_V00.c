@@ -21,7 +21,6 @@ void IRQ_TRIGGER_ISR(void *context);
 void update_IRIS_config_to_HW_REG(void);
 
 
-const unsigned char KVH_HEADER[4] = {0xFE, 0x81, 0xFF, 0x55};
 const alt_u8 cmd_header[2] = {0xAB, 0xBA};
 const alt_u8 cmd_trailer[2] = {0x55, 0x56};
 static alt_u16 try_cnt;
@@ -29,7 +28,7 @@ static alt_u16 try_cnt;
 // static alt_u8 uart_cmd, uart_ch;
 // static alt_32 uart_value;
 static alt_u8 start_flag = 0;
-static alt_u8 trigger_sig = 0;
+alt_u8 trigger_sig = 0;
 
 alt_32 cnt=0;
 
@@ -42,6 +41,7 @@ cmd_ctrl_t my_cmd = {
     .select_fn = SEL_IDLE,
     .ch = 0,
     .cmd = 0,
+	.run = 0,
     .value = 0
 };
 
@@ -56,15 +56,22 @@ auto_rst_t auto_rst = {
 // Initialized to NULL to prevent undefined behavior.  
 // The assigned function will be implemented in output_fn.c.  
 fn_ptr output_fn = acq_rst;
+// fn_ptr output_fn = NULL;
 
 
 // Definition and initialization of sensor, structure type is defined in common.h
-my_sensor_t sensor = {
+my_sensor_t sensor_data = {
     .fog = {
         .fogx = { .err = { .int_val = 0 }, .step = { .int_val = 0 }},
         .fogy = { .err = { .int_val = 0 }, .step = { .int_val = 0 }},
         .fogz = { .err = { .int_val = 0 }, .step = { .int_val = 0 }}
-    }
+    },
+	.time = {.time.float_val = 0},
+	.temp = {
+		.tempx.float_val = 0,
+		.tempy.float_val = 0,
+		.tempz.float_val = 0
+	}
 };
 
 
@@ -74,7 +81,7 @@ my_sensor_t sensor = {
 int main(void)
 {
 	fog_parameter_t fog_params;
-	my_float_t err3, time, step3, temp3;
+	// my_float_t err3, time, step3, temp3;
 	 
 
 	printf("Running IRIS CPU!\n");
@@ -97,51 +104,17 @@ int main(void)
 
 
 	while(1){
+		sensor_data.time.time.float_val = (float)IORD(VARSET_BASE, i_var_timer)*COE_TIMER;
+		sensor_data.fog.fogz.err.int_val = IORD(VARSET_BASE, i_var_err_3);
+		sensor_data.fog.fogz.step.int_val = IORD(VARSET_BASE, i_var_step_3);
+		sensor_data.temp.tempz.float_val = 25.35;
+
+
 		get_uart_cmd(readData2(cmd_header, 2, &try_cnt, cmd_trailer, 2), &my_cmd);
 		cmd_mux(&my_cmd);
 		fog_parameter(&my_cmd, &fog_params);
 		output_mode_setting(&my_cmd, &output_fn, &auto_rst);
-		output_fn(&my_cmd, &sensor);
-
-		time.float_val = (float)IORD(VARSET_BASE, i_var_timer)*COE_TIMER;
-		err3.int_val = IORD(VARSET_BASE, i_var_err_3);
-		step3.int_val = IORD(VARSET_BASE, i_var_step_3);
-		temp3.float_val = 25.35;
-
-		// if(start_flag == 0){ 	//IDLE mode
-
-		// }
-		// else if(start_flag == 2){ // sync mode
-		
-		// 	if(trigger_sig) {
-
-		// 		alt_u8* imu_data = (alt_u8*)malloc(20+4); // KVH_HEADER:4 + pig:16
-		// 		alt_u8 CRC32[4];
-
-		// 		trigger_sig = 0;
-
-		// 		memcpy(imu_data, KVH_HEADER, 4);
-		// 		memcpy(imu_data+4, time.bin_val, 4); 
-		// 		memcpy(imu_data+8, err3.bin_val, 4); 
-		// 		memcpy(imu_data+12, step3.bin_val, 4); 
-		// 		memcpy(imu_data+16, temp3.bin_val, 4); 
-		// 		memcpy(imu_data+20, time.bin_val, 4); 
-		// 		crc_32(imu_data, 24, CRC32);
-		// 		free(imu_data);
-
-
-
-		// 		SerialWrite((alt_u8*)KVH_HEADER, 4); 
-		// 		SerialWrite(time.bin_val, 4); 
-		// 		SerialWrite(err3.bin_val, 4); 
-		// 		SerialWrite(step3.bin_val, 4); 
-		// 		SerialWrite(temp3.bin_val, 4); 
-		// 		SerialWrite(time.bin_val, 4); 
-		// 		SerialWrite(CRC32, 4); 
-
-		// 		// printf("%f, %d\n", time.float_val, err3.int_val);
-		// 	}
-		// }
+		output_fn(&my_cmd, &sensor_data, &trigger_sig);
 	}
 
   return 0;

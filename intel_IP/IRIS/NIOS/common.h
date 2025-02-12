@@ -21,7 +21,7 @@
 
 #define SEL_IDLE      0
 #define SEL_RST			  1
-#define SEL_FOG_1 		2
+#define SEL_FOG 		  2
 #define SEL_FOG_2		  3
 #define SEL_FOG_3 		4
 #define SEL_IMU 		  5
@@ -54,6 +54,7 @@ typedef struct
   alt_u8 select_fn;
   alt_u8 ch;
   alt_u8 cmd;
+  alt_u8 run;
   alt_32 value;
 }cmd_ctrl_t;
 
@@ -70,14 +71,26 @@ typedef struct {
   fog_component_t fogz;
 } fog_t;
 
+typedef struct {
+  my_float_t tempx;  
+  my_float_t tempy; 
+  my_float_t tempz; 
+} temp_t;
+
+typedef struct {
+  my_float_t time;  
+} my_time_t;
+
 typedef struct 
 {
+  my_time_t time;
   fog_t fog;
+  temp_t temp;
   
 }my_sensor_t;
 
 /*** output function type delaration */
-typedef void (*fn_ptr) (cmd_ctrl_t*, my_sensor_t*);
+typedef void (*fn_ptr) (cmd_ctrl_t*, my_sensor_t*, alt_u8*);
 
 // typedef struct cmd_ctrl_t cmd_ctrl_t;
 
