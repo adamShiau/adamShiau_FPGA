@@ -80,6 +80,7 @@ void get_uart_cmd(alt_u8* data, cmd_ctrl_t* rx)
         rx->value = data[1]<<24 | data[2]<<16 | data[3]<<8 | data[4];
         rx->ch = data[5];
         // printf("\nuart_cmd, uart_value, ch: %u, %ld, %d\n", rx->cmd , rx->value, rx->ch);
+		DEBUG_PRINT("\nuart_cmd, uart_value, ch: %u, %ld, %d\n", rx->cmd , rx->value, rx->ch);
     }
     else return;
 }

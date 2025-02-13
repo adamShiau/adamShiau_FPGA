@@ -9,6 +9,14 @@
 #include "adda_config.h"
 // #include "output_fn.h"
 
+#define DEBUG
+
+#ifdef DEBUG
+    #define DEBUG_PRINT(...) printf(__VA_ARGS__)
+#else
+    #define DEBUG_PRINT(...)
+#endif
+
 #define VARSET_BASE VARSET_1_BASE
 
 #define WIDTH_32 32

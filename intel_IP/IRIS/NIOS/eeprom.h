@@ -6,6 +6,7 @@
 #include "nios2_var_addr.h"
 #include "io.h"
 #include "memory_manage.h" 
+#include "common.h"
 
 /******** I2C device address*********/
 #define I2C_DEV_ADDR	0x57

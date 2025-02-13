@@ -12,7 +12,7 @@ void acq_rst (cmd_ctrl_t* rx, my_sensor_t* data, alt_u8* sync)
 {
     if(dly_cnt++ > DLY_NUM) {
         dly_cnt = 0;
-        printf("acq_rst mode, ");
+        DEBUG_PRINT("acq_rst mode, ");
     }
 
     
@@ -29,17 +29,18 @@ void acq_fog (cmd_ctrl_t* rx, my_sensor_t* data, alt_u8* sync)
 
     if(rx->select_fn == SEL_FOG) {
         rx->select_fn = SEL_IDLE; //clear select_fn
-        printf("select acq_fog mode\n");
+        DEBUG_PRINT("select acq_fog mode\n");
         if(rx->value == INT_SYNC) { //internal sync mode
-            printf("acq_fog select internal mode\n");
+            // DEBUG_PRINT("acq_fog select internal mode\n");
+            DEBUG_PRINT("acq_fog select internal mode\n");
             rx->run = 1;
         }
         else if(rx->value == EXT_SYNC) { //external sync mode
-            printf("acq_fog select external mode\n");
+            DEBUG_PRINT("acq_fog select external mode\n");
             rx->run = 1;
         }
         else if(rx->value == STOP_RUN) { //stop
-            printf("acq_fog select stop\n");
+            DEBUG_PRINT("acq_fog select stop\n");
             rx->run = 0;
         }
     }
@@ -65,11 +66,11 @@ void acq_fog (cmd_ctrl_t* rx, my_sensor_t* data, alt_u8* sync)
             SerialWrite(temp3.bin_val, 4); 
             SerialWrite(CRC32, 4); 
             
-//             printf("%f, %d, %x, %x, %x, %x\n", time.float_val, err3.int_val, err3.bin_val[3],
+//             DEBUG_PRINT("%f, %d, %x, %x, %x, %x\n", time.float_val, err3.int_val, err3.bin_val[3],
 //            		err3.bin_val[2], err3.bin_val[1], err3.bin_val[0]);
-//             printf("time: %f\n", data->time.time.float_val);
-//             printf("err: %d\n", data->fog.fogz.err.int_val);
-            // printf("temp: %f\n", data->temp.tempz.float_val);
+//             DEBUG_PRINT("time: %f\n", data->time.time.float_val);
+//             DEBUG_PRINT("err: %d\n", data->fog.fogz.err.int_val);
+            // DEBUG_PRINT("temp: %f\n", data->temp.tempz.float_val);
 
         }
     }

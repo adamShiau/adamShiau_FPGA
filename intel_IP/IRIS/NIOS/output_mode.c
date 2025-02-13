@@ -4,8 +4,8 @@ void output_mode_setting(cmd_ctrl_t* rx, fn_ptr *output_fn, auto_rst_t* auto_rst
 {
 	if(rx->mux == MUX_OUTPUT)
 	{
-		printf("in output_mode_setting\n");
-		printf("cmd= %u\n", rx->cmd);
+		DEBUG_PRINT("in output_mode_setting\n");
+		DEBUG_PRINT("cmd= %u\n", rx->cmd);
 		rx->mux = MUX_ESCAPE;
 
 		switch(rx->cmd) {
@@ -17,20 +17,20 @@ void output_mode_setting(cmd_ctrl_t* rx, fn_ptr *output_fn, auto_rst_t* auto_rst
 			}
 			case MODE_FOG: {
 				*output_fn = acq_fog;
-				printf("output_fn select to acq_fog\n");
+				DEBUG_PRINT("output_fn select to acq_fog\n");
 				rx->select_fn = SEL_FOG;
 				auto_rst->fn_mode = MODE_FOG;
 				break;
 			}
 
-      		default: printf("function mode out of range\n");break;
+      		default: DEBUG_PRINT("function mode out of range\n");break;
       }
 	}
 	else if(rx->mux == MUX_DEFAULT)
 	{
 		rx->mux = MUX_ESCAPE;
 		*output_fn = acq_rst;
-		printf("just start, enter acq_rst ");
+		DEBUG_PRINT("just start, enter acq_rst ");
 	}
 
 //   if(fog_op_status==1) // for auto reset

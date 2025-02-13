@@ -31,7 +31,7 @@ void EEPROM_Write_4B(alt_u16 reg_addr, alt_32 data)
 */
 void PARAMETER_Write_f(alt_u8 base, alt_u8 number , alt_32 data)
 {
-	// printf("reg_addr: %d, data: %d\n", base + number, data);
+	// DEBUG_PRINT("reg_addr: %d, data: %d\n", base + number, data);
 	EEPROM_Write_4B( (alt_u16) (base + number), data);
 }
 
@@ -66,24 +66,24 @@ void PARAMETER_Write_s(alt_u8 base, alt_u8 number , alt_32 data, fog_parameter_t
 		type = fog_params->paramX[number].type;
 	}
 	else {
-		printf("Base address ERROR!\n");
+		DEBUG_PRINT("Base address ERROR!\n");
 		return;
 	}
 	
 	// compare new value to the old value. if changed, write to eeprom. 
-	if(data == check) printf("The data is the same\n");
+	if(data == check) DEBUG_PRINT("The data is the same\n");
 	else {
 		if(type == TYPE_INT) {
-			// printf("Data changed: %d -> %d\n", check, data);
-			// printf("update to eeprom!");
+			// DEBUG_PRINT("Data changed: %d -> %d\n", check, data);
+			// DEBUG_PRINT("update to eeprom!");
 			PARAMETER_Write_f(base, number, data);
 		}
 		else if(type == TYPE_FLOAT) {
-			// printf("Data changed: %f -> %f\n", data_f, my_data.float_val);
-			// printf("update to eeprom!");
+			// DEBUG_PRINT("Data changed: %f -> %f\n", data_f, my_data.float_val);
+			// DEBUG_PRINT("update to eeprom!");
 			PARAMETER_Write_f(base, number, data);
 		}
-		else printf("data type error!\n");
+		else DEBUG_PRINT("data type error!\n");
 
 		if(base == MEM_BASE_X) fog_params->paramX[number].data.int_val = data;
 		else if(base == MEM_BASE_Y ) fog_params->paramY[number].data.int_val = data;
@@ -94,19 +94,19 @@ void PARAMETER_Write_s(alt_u8 base, alt_u8 number , alt_32 data, fog_parameter_t
 
 void EEPROM_Write_initial_parameter()
 {	
-	printf("starting EEPROM_Write_initial_parameter()...\n");
+	DEBUG_PRINT("starting EEPROM_Write_initial_parameter()...\n");
 	for(int i=0; i<MEN_LEN; i++)
 	{
 		PARAMETER_Write_f(MEM_BASE_X, i, fog_parameter_init[i].data.int_val);
 		PARAMETER_Write_f(MEM_BASE_Y, i, fog_parameter_init[i].data.int_val);
 		PARAMETER_Write_f(MEM_BASE_Z, i, fog_parameter_init[i].data.int_val);
 	}
-	printf("writing EEPROM_Write_initial_parameter() done! \n");
+	DEBUG_PRINT("writing EEPROM_Write_initial_parameter() done! \n");
 }
 
 void LOAD_FOG_PARAMETER(fog_parameter_t* fog_params)
 {
-	printf("Loading EEPROM FOG Parameters...\n");
+	DEBUG_PRINT("Loading EEPROM FOG Parameters...\n");
 	for (int i = 0; i < MEN_LEN; i++) {
 		PARAMETER_Read(MEM_BASE_X, i , fog_params->paramX[i].data.bin_val);
         PARAMETER_Read(MEM_BASE_Y, i , fog_params->paramY[i].data.bin_val);
@@ -116,33 +116,33 @@ void LOAD_FOG_PARAMETER(fog_parameter_t* fog_params)
 		fog_params->paramY[i].type = fog_parameter_init[i].type;
 		fog_params->paramZ[i].type = fog_parameter_init[i].type;
     }
-	printf("Loading EEPROM FOG Parameters done!\n");
+	DEBUG_PRINT("Loading EEPROM FOG Parameters done!\n");
 }
 
 void PRINT_FOG_PARAMETER(fog_parameter_t* fog_params)
 {
-	printf("Printing EEPROM FOG Parameters...\n");
-	// printf("FOG X Parameter:\n");
+	DEBUG_PRINT("Printing EEPROM FOG Parameters...\n");
+	// DEBUG_PRINT("FOG X Parameter:\n");
 	// for (int i = 0; i < MEN_LEN; i++) {
-	// 	printf("%d. %d, type: %d\n", i, fog_params->paramX[i].data.int_val, fog_params->paramX[i].type);
+	// 	DEBUG_PRINT("%d. %d, type: %d\n", i, fog_params->paramX[i].data.int_val, fog_params->paramX[i].type);
 	// }
-	// printf("FOG Y Parameter:\n");
+	// DEBUG_PRINT("FOG Y Parameter:\n");
 	// for (int i = 0; i < MEN_LEN; i++) {
-	// 	printf("%d. %d, type: %d\n", i, fog_params->paramY[i].data.int_val, fog_params->paramY[i].type);
+	// 	DEBUG_PRINT("%d. %d, type: %d\n", i, fog_params->paramY[i].data.int_val, fog_params->paramY[i].type);
 	// }
-	printf("FOG Z Parameter:\n");
+	DEBUG_PRINT("FOG Z Parameter:\n");
 	for (int i = 0; i < MEN_LEN; i++) {
-		printf("%d. %d, type: %d\n", i, fog_params->paramZ[i].data.int_val, fog_params->paramZ[i].type);
+		DEBUG_PRINT("%d. %d, type: %d\n", i, fog_params->paramZ[i].data.int_val, fog_params->paramZ[i].type);
 	}
-	printf("Printing EEPROM FOG Parameters done!\n");
+	DEBUG_PRINT("Printing EEPROM FOG Parameters done!\n");
 }
 
 void EEPROM_Read_4B(alt_u16 reg_addr, alt_u8* buf)
 {
 	alt_u8 i=0;
 
-	// printf("VARSET_BASE22 18: %d\n", IORD(VARSET_BASE, 18));
-	// printf("VARSET_BASE22 19: %d\n", IORD(VARSET_BASE, 19));
+	// DEBUG_PRINT("VARSET_BASE22 18: %d\n", IORD(VARSET_BASE, 18));
+	// DEBUG_PRINT("VARSET_BASE22 19: %d\n", IORD(VARSET_BASE, 19));
 
 	reg_addr <<= 2;
 	// Set I2C device address
@@ -160,8 +160,8 @@ void EEPROM_Read_4B(alt_u16 reg_addr, alt_u8* buf)
 	buf[2] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_2);
 	buf[1] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_3);
 	buf[0] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_4);
-	// printf("MSB: %x, %x, %x, %x\n", buf[3], buf[2], buf[1], buf[0]);
-	// printf("%d\n", buf[3]<<24|buf[2]<<16|buf[1]<<8|buf[0]);
+	// DEBUG_PRINT("MSB: %x, %x, %x, %x\n", buf[3], buf[2], buf[1], buf[0]);
+	// DEBUG_PRINT("%d\n", buf[3]<<24|buf[2]<<16|buf[1]<<8|buf[0]);
 }
 
 void PARAMETER_Read(alt_u8 base, alt_u8 number , alt_u8* buf)
@@ -250,7 +250,7 @@ alt_u8 I2C_sm_read_finish()
 	alt_u8 finish=0;
 
 	finish = (alt_u8)(IORD(VARSET_BASE, O_VAR_I2C_STATUS)>>status_finish_pos) & 0x01;
-	// printf("I2C_sm_read_finish: %x, %d\n", VARSET_BASE, O_VAR_I2C_STATUS);
+	// DEBUG_PRINT("I2C_sm_read_finish: %x, %d\n", VARSET_BASE, O_VAR_I2C_STATUS);
 
 	return finish;
 }
