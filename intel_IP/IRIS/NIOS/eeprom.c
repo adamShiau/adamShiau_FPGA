@@ -31,7 +31,7 @@ void EEPROM_Write_4B(alt_u16 reg_addr, alt_32 data)
 */
 void PARAMETER_Write_f(alt_u8 base, alt_u8 number , alt_32 data)
 {
-	printf("reg_addr: %d, data: %d\n", base + number, data);
+	// printf("reg_addr: %d, data: %d\n", base + number, data);
 	EEPROM_Write_4B( (alt_u16) (base + number), data);
 }
 
@@ -74,13 +74,13 @@ void PARAMETER_Write_s(alt_u8 base, alt_u8 number , alt_32 data, fog_parameter_t
 	if(data == check) printf("The data is the same\n");
 	else {
 		if(type == TYPE_INT) {
-			printf("Data changed: %d -> %d\n", check, data);
-			printf("update to eeprom!");
+			// printf("Data changed: %d -> %d\n", check, data);
+			// printf("update to eeprom!");
 			PARAMETER_Write_f(base, number, data);
 		}
 		else if(type == TYPE_FLOAT) {
-			printf("Data changed: %f -> %f\n", data_f, my_data.float_val);
-			printf("update to eeprom!");
+			// printf("Data changed: %f -> %f\n", data_f, my_data.float_val);
+			// printf("update to eeprom!");
 			PARAMETER_Write_f(base, number, data);
 		}
 		else printf("data type error!\n");

@@ -79,7 +79,7 @@ void get_uart_cmd(alt_u8* data, cmd_ctrl_t* rx)
         rx->cmd = data[0];
         rx->value = data[1]<<24 | data[2]<<16 | data[3]<<8 | data[4];
         rx->ch = data[5];
-        printf("\nuart_cmd, uart_value, ch: %u, %ld, %d\n", rx->cmd , rx->value, rx->ch);
+        // printf("\nuart_cmd, uart_value, ch: %u, %ld, %d\n", rx->cmd , rx->value, rx->ch);
     }
     else return;
 }
@@ -92,7 +92,7 @@ void cmd_mux(cmd_ctrl_t* rx)
 		rx->complete = 0;
 		if(rx->cmd >7) rx->mux = MUX_PARAMETER; 
 		else rx->mux = MUX_OUTPUT;
-        printf("cmd_mux: mux=%u, complete=%u\n", rx->mux, rx->complete);
+        // printf("cmd_mux: mux=%u, complete=%u\n", rx->mux, rx->complete);
 	}
 }
 
@@ -112,7 +112,7 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 {
 
 	if(rx->mux == MUX_PARAMETER){
-        printf("fog_parameter\n");
+        // printf("fog_parameter\n");
         rx->mux = MUX_ESCAPE;
 		alt_u8 base = 0, cmd2hwreg=0;
 
@@ -197,10 +197,9 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 					break;
 				} 
 				case CMD_DAC_GAIN: {
-					printf("CMD_DAC_GAIN:\n");
+					// printf("CMD_DAC_GAIN:\n");
 					PARAMETER_Write_s(base, CMD_DAC_GAIN - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
 					Set_Dac_Gain(rx->value);
-					// IOWR(VARSET_BASE, CMD_DAC_GAIN + cmd2hwreg, rx->value);
 					break;
 				}
 				case CMD_CUT_OFF: {
