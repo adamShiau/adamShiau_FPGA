@@ -6,6 +6,7 @@
 #include "altera_avalon_uart_regs.h"
 #include "memory_manage.h"
 #include "nios2_var_addr.h"
+#include "adda_config.h"
 // #include "output_fn.h"
 
 #define VARSET_BASE VARSET_1_BASE
@@ -105,8 +106,9 @@ void sendTx(alt_32);
 void checkByte(alt_u8);
 void SerialWrite(alt_u8* buf, alt_u8 num); 
 void Serialwrite_r(alt_u8* buf, alt_u8 num); 
-int IEEE_754_F2INT(float in);
+ int IEEE_754_F2INT(float in);
 void crc_32(alt_u8  message[], alt_u8 nBytes, alt_u8* crc);
+void Set_Dac_Gain(alt_32 gain);
 
 void get_uart_cmd(alt_u8*, cmd_ctrl_t*);
 void cmd_mux(cmd_ctrl_t*);

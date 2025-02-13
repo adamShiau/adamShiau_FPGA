@@ -96,6 +96,16 @@ void cmd_mux(cmd_ctrl_t* rx)
 	}
 }
 
+void Set_Dac_Gain(alt_32 gain)
+{
+	// for fogz, DAC_1CH with DAC2
+	IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_ADDA_BASE, SEL_CS_DAC_1CH); usleep (10); //select DAC_1CH
+	// IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_ADDA_BASE, (DAC1_GAIN_LSB_ADDR<<8) | (gain&0xFF)); usleep (10);
+	// IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_ADDA_BASE, (DAC1_GAIN_MSB_ADDR<<8) | (gain>>8)); usleep (10);
+	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_ADDA_BASE, (DAC2_GAIN_LSB_ADDR<<8) | (gain&0xFF)); usleep (10);
+	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_ADDA_BASE, (DAC2_GAIN_MSB_ADDR<<8) | (gain>>8)); usleep (10);
+}
+
 
 // void fog_parameter(alt_u8 *data, fog_parameter_t* fog_inst)
 void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
@@ -186,7 +196,13 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 					IOWR(VARSET_BASE, CMD_ERR_OFFSET + cmd2hwreg, rx->value);
 					break;
 				} 
-
+				case CMD_DAC_GAIN: {
+					printf("CMD_DAC_GAIN:\n");
+					PARAMETER_Write_s(base, CMD_DAC_GAIN - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+					Set_Dac_Gain(rx->value);
+					// IOWR(VARSET_BASE, CMD_DAC_GAIN + cmd2hwreg, rx->value);
+					break;
+				}
 				case CMD_CUT_OFF: {
 					printf("CMD_CUT_OFF:\n");
 					PARAMETER_Write_s(base, CMD_CUT_OFF - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);

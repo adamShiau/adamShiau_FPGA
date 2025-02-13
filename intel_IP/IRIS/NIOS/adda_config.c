@@ -1,6 +1,6 @@
 #include "adda_config.h"
-#include "system.h"
-#include "altera_avalon_spi_regs.h"
+// #include "system.h"
+// #include "altera_avalon_spi_regs.h"
 
 void init_ADDA(void)
 {

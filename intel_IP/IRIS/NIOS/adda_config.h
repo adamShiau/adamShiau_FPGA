@@ -2,6 +2,8 @@
 #define __ADDA_CONFIG_H
 
 #include "alt_types.h"
+#include "system.h"
+#include "altera_avalon_spi_regs.h"
 
 /******** ADC config definition*********/
 /***from datasheet p28, The first bit of the 16-bit input word is the R/W bit. 

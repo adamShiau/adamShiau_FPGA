@@ -98,7 +98,7 @@ int main(void)
 	while(1){
 		sensor_data.time.time.float_val = (float)IORD(VARSET_BASE, i_var_timer)*COE_TIMER;
 		sensor_data.fog.fogz.err.int_val = IORD(VARSET_BASE, i_var_err_3);
-		sensor_data.fog.fogz.step.int_val = IORD(VARSET_BASE, i_var_step_3);
+		sensor_data.fog.fogz.step.float_val = (float)IORD(VARSET_BASE, i_var_step_3);
 		sensor_data.temp.tempz.float_val = 25.35;
 
 
