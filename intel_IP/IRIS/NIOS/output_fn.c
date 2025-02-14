@@ -12,7 +12,7 @@ void acq_rst (cmd_ctrl_t* rx, my_sensor_t* data, alt_u8* sync)
 {
     if(dly_cnt++ > DLY_NUM) {
         dly_cnt = 0;
-        DEBUG_PRINT("acq_rst mode, ");
+        DEBUG_PRINT("acq_rst mode\n");
     }
 
     

@@ -9,7 +9,7 @@
 #include "adda_config.h"
 // #include "output_fn.h"
 
-#define DEBUG
+//#define DEBUG
 
 #ifdef DEBUG
     #define DEBUG_PRINT(...) printf(__VA_ARGS__)

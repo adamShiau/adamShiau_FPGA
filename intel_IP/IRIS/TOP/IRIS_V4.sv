@@ -1,4 +1,4 @@
-module IRIS_V3(
+module IRIS_V4(
 
 	//////////// CLOCK INPUT //////////
 	CLOCK_50M, 
@@ -388,37 +388,70 @@ always @(posedge CLOCK_DAC_2) begin
 	reg_adc2_sync <= reg_adc2;
 end
 
- my_modulation_gen_v1 inst_my_modulation_gen_ch3 (
-	.i_clk(CLOCK_DAC_1),                // System clock 
-	.i_rst_n(locked_1),            // Active-low reset 
-	.i_freq_cnt(var_freq_cnt_3),      // Frequency control input (32-bit unsigned)
-	.i_amp_H(var_amp_H_3),            // Positive amplitude input (32-bit signed)
-	.i_amp_L(var_amp_L_3),            // Negative amplitude input (32-bit signed)
-	.o_mod_out(mod_out_DAC3),        // Modulated output signal (32-bit signed)
-	.o_status(status_DAC3),          // Cycle status output (1-bit)
-	.o_stepTrig(stepTrig_DAC3)       // Switching trigger output (1-bit)
+//  my_modulation_gen_v1 inst_my_modulation_gen_ch3 (
+// 	.i_clk(CLOCK_DAC_1),                // System clock 
+// 	.i_rst_n(locked_1),            // Active-low reset 
+// 	.i_freq_cnt(var_freq_cnt_3),      // Frequency control input (32-bit unsigned)
+// 	.i_amp_H(var_amp_H_3),            // Positive amplitude input (32-bit signed)
+// 	.i_amp_L(var_amp_L_3),            // Negative amplitude input (32-bit signed)
+// 	.o_mod_out(mod_out_DAC3),        // Modulated output signal (32-bit signed)
+// 	.o_status(status_DAC3),          // Cycle status output (1-bit)
+// 	.o_stepTrig(stepTrig_DAC3)       // Switching trigger output (1-bit)
+// );
+
+modulation_gen_v2 mod_gen_inst(
+	.i_amp_H(var_amp_H_3),
+	.i_amp_L(var_amp_L_3),
+	.i_clk(CLOCK_DAC_1),
+	.i_freq_cnt(var_freq_cnt_3),
+	.i_rst_n(locked_1),
+	.o_SM(),
+	.o_mod_out(mod_out_DAC3),
+	.o_status(status_DAC3),
+	.o_stepTrig(stepTrig_DAC3)
 );
 
- my_err_signal_gen_v1 #(
-        .ADC_BIT(14)  // ADC_BIT specifies the width of the ADC input data, typically 14 bits.
-    ) u_my_err_signal_gen_ch3
-     (
-        .i_clk(CLOCK_DAC_1),               // Clock signal (1 bit)
-        .i_rst_n(locked_1),           // Active low reset signal (1 bit)
-        .i_status(status_DAC3),         // Status signal (1 bit) indicating the current status
-        .i_polarity(var_polarity_3),     // Polarity signal (1 bit) used to adjust signal polarity
-        .i_trig(stepTrig_DAC3),             // Trigger signal (1 bit) used to initiate error generation
-        .i_wait_cnt(var_wait_cnt_3),     // Wait counter (32 bits) for delay purposes unti signal stable 
-        .i_err_offset(var_err_offset_3), // Error offset (32 bits) used to introduce error adjustments
-        .i_adc_data(reg_adc3_sync),     // ADC data input (ADC_BIT bits, typically 14 bits)
-		// .i_adc_data(ADC_3),
-        .i_avg_sel(var_avg_sel_3),       // Average selection signal (32 bits) to select averaging mode
-		.o_step_sync(o_step_sync_3),          // Output one clock trigger to feedback step gen.i_trig 
-        .o_step_sync_dly(o_step_sync_dly_3),  // Output one clock trigger to feedback step gen.i_trig_dly 
-        .o_rate_sync(o_rate_sync_3),          // Output one clock trigger to phase ramp gen.i_rate_trig 
-        .o_ramp_sync(o_ramp_sync_3),          // Output one clock trigger to phase ramp gen.i_ramp_trig 
-        .o_err(o_err_DAC3)                // Output error signal (32 bits) representing the computed error
-    );
+//  my_err_signal_gen_v1 #(
+//         .ADC_BIT(14)  // ADC_BIT specifies the width of the ADC input data, typically 14 bits.
+//     ) u_my_err_signal_gen_ch3
+//      (
+//         .i_clk(CLOCK_DAC_1),               // Clock signal (1 bit)
+//         .i_rst_n(locked_1),           // Active low reset signal (1 bit)
+//         .i_status(status_DAC3),         // Status signal (1 bit) indicating the current status
+//         .i_polarity(var_polarity_3),     // Polarity signal (1 bit) used to adjust signal polarity
+//         .i_trig(stepTrig_DAC3),             // Trigger signal (1 bit) used to initiate error generation
+//         .i_wait_cnt(var_wait_cnt_3),     // Wait counter (32 bits) for delay purposes unti signal stable 
+//         .i_err_offset(var_err_offset_3), // Error offset (32 bits) used to introduce error adjustments
+//         .i_adc_data(reg_adc3_sync),     // ADC data input (ADC_BIT bits, typically 14 bits)
+//         .i_avg_sel(var_avg_sel_3),       // Average selection signal (32 bits) to select averaging mode
+// 		.o_step_sync(o_step_sync_3),          // Output one clock trigger to feedback step gen.i_trig 
+//         .o_step_sync_dly(o_step_sync_dly_3),  // Output one clock trigger to feedback step gen.i_trig_dly 
+//         .o_rate_sync(o_rate_sync_3),          // Output one clock trigger to phase ramp gen.i_rate_trig 
+//         .o_ramp_sync(o_ramp_sync_3),          // Output one clock trigger to phase ramp gen.i_ramp_trig 
+//         .o_err(o_err_DAC3)                // Output error signal (32 bits) representing the computed error
+//     );
+
+	err_signal_gen_v4 err_signal_gen_inst(
+	.i_clk(CLOCK_DAC_1),
+	.i_rst_n(locked_1),
+	.i_status(status_DAC3),
+	.i_polarity(var_polarity_3),
+	.i_trig(stepTrig_DAC3), 
+	.i_wait_cnt(var_wait_cnt_3),
+//	.i_err_offset(o_var_offset), 
+	.i_err_offset(var_err_offset_3),
+	.i_adc_data(reg_adc3_sync),
+	.i_avg_sel(var_avg_sel_3),
+	.o_err(o_err_DAC3),
+	.o_step_sync(o_step_sync_3),
+	.o_step_sync_dly(o_step_sync_dly_3),
+	.o_rate_sync(o_rate_sync_3),
+	.o_ramp_sync(o_ramp_sync_3),
+	.o_adc(),
+	.o_adc_sum(),
+	.o_cstate(),
+	.o_nstate()
+);
 
 feedback_step_gen_v4 fb_step_gen_ch3(
 	.i_clk(CLOCK_DAC_1),
