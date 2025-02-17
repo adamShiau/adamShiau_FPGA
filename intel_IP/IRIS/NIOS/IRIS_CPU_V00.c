@@ -76,7 +76,7 @@ int main(void)
 {
 	fog_parameter_t fog_params;	 
 
-	printf("Running IRIS CPU!\n");
+	INFO_PRINT("Running IRIS CPU!\n");
 
 	TRIGGER_IRQ_init();
 	uartInit(); //interrupt method of uart defined in uart.c not main()
@@ -100,6 +100,9 @@ int main(void)
 		sensor_data.fog.fogz.err.int_val = IORD(VARSET_BASE, i_var_err_3);
 		sensor_data.fog.fogz.step.float_val = (float)IORD(VARSET_BASE, i_var_step_3);
 		sensor_data.temp.tempz.float_val = 25.35;
+		sensor_data.fog.fogz.pd_high.int_val = IORD(VARSET_BASE, i_var_high);
+		sensor_data.fog.fogz.pd_low.int_val = IORD(VARSET_BASE, i_var_low);
+
 
 
 		get_uart_cmd(readData2(cmd_header, 2, &try_cnt, cmd_trailer, 2), &my_cmd);
@@ -142,7 +145,7 @@ void update_fog_parameters_to_HW_REG(alt_u8 base, fog_parameter_t* fog_params)
 	int rt_val, is_valid = 1, valid[10]={0};
 	if(base == MEM_BASE_Z) 
 	{
-		printf("updating fog paramemetr Z to FPGA....\n ");
+		INFO_PRINT("updating fog paramemetr Z to FPGA....\n ");
 		for(int container_idx=0; container_idx<10+1; container_idx++) { // container index, check excel table
 			// update the value from container to FPGA register 
 			IOWR(VARSET_BASE, container_idx + CONTAINER_TO_CMD_OFFSET + CMD_TO_HW_REG_OFFSET_CH3, fog_params->paramZ[container_idx].data.int_val);
@@ -151,10 +154,10 @@ void update_fog_parameters_to_HW_REG(alt_u8 base, fog_parameter_t* fog_params)
 			// check if two value are the same or not. 
 			valid[container_idx] = fog_params->paramZ[container_idx].data.int_val == rt_val;
 			is_valid &=  valid[container_idx];
-			printf("container_idx: %d, %d, %d\n",container_idx, rt_val, valid[container_idx]);
+			INFO_PRINT("container_idx: %d, %d, %d\n",container_idx, rt_val, valid[container_idx]);
 		}
-		printf("is_valid = %d\n", is_valid);
-		printf("Done.\n ");
+		INFO_PRINT("is_valid = %d\n", is_valid);
+		INFO_PRINT("Done.\n ");
 	}
 	else if(base == MEM_BASE_X) 
 	{

@@ -7,8 +7,8 @@ module GyroVarSet_60 (
     input          clk,
     input          rst_n,
     input          write_n,
-    input   [31:0] writedata,
-    output reg [31:0] readdata,
+    input  signed [31:0] writedata,  
+    output reg signed [31:0] readdata, 
 
     // var outputs:
     output reg signed [31:0] o_reg0, o_reg1, o_reg2, o_reg3, o_reg4, o_reg5, o_reg6, o_reg7, o_reg8, o_reg9,
@@ -19,13 +19,14 @@ module GyroVarSet_60 (
     output reg signed [31:0] o_reg50, o_reg51, o_reg52, o_reg53, o_reg54, o_reg55, o_reg56, o_reg57, o_reg58, o_reg59,
 
     // var inputs:
-    input [31:0] i_var0, i_var1, i_var2, i_var3, i_var4, i_var5, i_var6, i_var7, i_var8, i_var9,
-    input [31:0] i_var10, i_var11, i_var12, i_var13, i_var14, i_var15, i_var16, i_var17, i_var18, i_var19,
-    input [31:0] i_var20, i_var21, i_var22, i_var23, i_var24, i_var25, i_var26, i_var27, i_var28, i_var29,
-    input [31:0] i_var30, i_var31, i_var32, i_var33, i_var34, i_var35, i_var36, i_var37, i_var38, i_var39,
-    input [31:0] i_var40, i_var41, i_var42, i_var43, i_var44, i_var45, i_var46, i_var47, i_var48, i_var49,
-    input [31:0] i_var50, i_var51, i_var52, i_var53, i_var54, i_var55, i_var56, i_var57, i_var58, i_var59
+    input signed [31:0] i_var0, i_var1, i_var2, i_var3, i_var4, i_var5, i_var6, i_var7, i_var8, i_var9,
+    input signed [31:0] i_var10, i_var11, i_var12, i_var13, i_var14, i_var15, i_var16, i_var17, i_var18, i_var19,
+    input signed [31:0] i_var20, i_var21, i_var22, i_var23, i_var24, i_var25, i_var26, i_var27, i_var28, i_var29,
+    input signed [31:0] i_var30, i_var31, i_var32, i_var33, i_var34, i_var35, i_var36, i_var37, i_var38, i_var39,
+    input signed [31:0] i_var40, i_var41, i_var42, i_var43, i_var44, i_var45, i_var46, i_var47, i_var48, i_var49,
+    input signed [31:0] i_var50, i_var51, i_var52, i_var53, i_var54, i_var55, i_var56, i_var57, i_var58, i_var59
 );
+
 
 // Initialize registers and handle Avalon bus operations
 always @(posedge clk or negedge rst_n) begin

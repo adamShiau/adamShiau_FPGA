@@ -198,7 +198,7 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 					break;
 				} 
 				case CMD_DAC_GAIN: {
-					// DEBUG_PRINT("CMD_DAC_GAIN:\n");
+					DEBUG_PRINT("CMD_DAC_GAIN:\n");
 					PARAMETER_Write_s(base, CMD_DAC_GAIN - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
 					Set_Dac_Gain(rx->value);
 					break;

@@ -117,7 +117,7 @@ output 			 DAC_RST;
 //////////// ADC //////////
 input	[13:0] 		 ADC_1;
 input	[13:0] 		 ADC_2;
-input	[13:0]		 ADC_3;
+input signed	[13:0]		 ADC_3;
 output 				 CS_ADC_1;
 output 				 CS_ADC_2;
 
@@ -208,7 +208,7 @@ reg reg_dacrst;
 
 reg[13:0] reg_adc1, reg_adc1_sync;
 reg[13:0] reg_adc2, reg_adc2_sync;
-reg signed [13:0] reg_adc3, reg_adc3_sync;
+reg signed [13:0] reg_adc3, reg_adc3_sync, reg_adc3_mon;
 
 /////////// MIOC Modulation parameter //////////
 wire [31:0] var_freq_cnt_3, var_amp_H_3, var_amp_L_3;
@@ -217,11 +217,11 @@ wire status_DAC3, stepTrig_DAC3;
 
 /////////// MIOC Err Gen parameter //////////
 wire [31:0] var_polarity_3, var_wait_cnt_3, var_avg_sel_3, var_err_offset_3;
-wire [31:0] o_err_DAC3;
+logic signed [31:0] o_err_DAC3, o_err_DAC3_MV, o_pd_high, o_pd_low;
 wire o_step_sync_3, o_step_sync_dly_3, o_rate_sync_3, o_ramp_sync_3;
 
 /////////// FB Step Gen parameter //////////
-wire [31:0] o_step_3, i_var_step_3, i_var_err_3;
+logic signed [31:0] o_step_3, i_var_step_3, i_var_err_3, i_var_high, i_var_low;
 wire [31:0] var_gainSel_step_3, var_const_step_3, var_fb_ON_3;
 
 /////////// Phase Ramp Gen parameter //////////
@@ -238,7 +238,10 @@ assign DAC_1 =  0;
 assign DAC_2 =  0;
 
 assign i_var_step_3 = o_step_3;
-assign i_var_err_3 = o_err_DAC3;
+// assign i_var_err_3 = o_err_DAC3;
+assign i_var_err_3 = o_err_DAC3_MV;
+assign i_var_high = o_pd_high;
+assign i_var_low = o_pd_low;
 
 // assign DAC_3 =  reg_dac3; 
 // assign DAC_3 =  mod_out_DAC3[15:0] ;
@@ -378,7 +381,7 @@ always @(posedge CLOCK_DAC_1) begin
 	reg_adc3 <= (adc3_fir >>> 16);
 	reg_adc3_sync <= reg_adc3;
 end
-
+// {{18{i_adc_data[ADC_BIT-1]}}, i_adc_data};
 // double register adc signal from CLOCK_ADC_2 to CLOCK_DAC_2
 always @(posedge CLOCK_DAC_2) begin
 	reg_adc1 <= (adc1_fir >>> 16);
@@ -399,7 +402,7 @@ end
 	.o_stepTrig(stepTrig_DAC3)       // Switching trigger output (1-bit)
 );
 
- my_err_signal_gen_v1 #(
+ my_err_signal_gen_v2 #(
         .ADC_BIT(14)  // ADC_BIT specifies the width of the ADC input data, typically 14 bits.
     ) u_my_err_signal_gen_ch3
      (
@@ -418,13 +421,40 @@ end
         .o_rate_sync(o_rate_sync_3),          // Output one clock trigger to phase ramp gen.i_rate_trig 
         .o_ramp_sync(o_ramp_sync_3),          // Output one clock trigger to phase ramp gen.i_ramp_trig 
         .o_err(o_err_DAC3)                // Output error signal (32 bits) representing the computed error
+		,.o_low_avg(o_pd_low)
+    	,.o_high_avg(o_pd_high)
     );
+
+myfir_filter_gate #(
+	.N(32), 
+	.WIDTH(14),
+	.COEFF_SET(N32FC2)
+) fir_gate_ch3_inst 
+(
+	.clk(CLOCK_DAC_1),
+	.n_rst(locked_1),
+	.i_trig(o_step_sync_3),
+	.din(o_err_DAC3[13:0]),  // 14 bit
+	.dout(o_err_DAC3_MV) // 32 bit
+);
+
+// myMV_filter_v1 #(
+// 	.WINDOW(16384)
+// )
+//  u_myMV_filter_ch3
+// (
+// 	.clk(CLOCK_DAC_1),
+//     .n_rst(locked_1),
+//     .din(o_err_DAC3),
+//     .dout(o_err_DAC3_MV)
+// );
 
 feedback_step_gen_v4 fb_step_gen_ch3(
 	.i_clk(CLOCK_DAC_1),
 	.i_rst_n(locked_1),
 	.i_const_step(var_const_step_3),
-	.i_err(o_err_DAC3),
+	// .i_err(o_err_DAC3),
+	.i_err(o_err_DAC3_MV),
 	.i_fb_ON(var_fb_ON_3),
 	.i_gain_sel(var_gainSel_step_3),
 	.i_trig(o_step_sync_3),
@@ -459,17 +489,17 @@ phase_ramp_gen phase_ramp_gen_ch3(
 	.o_ramp_init()
 );
 
+
+// always @(posedge CLOCK_DAC_1 or negedge locked_1) begin
+// 	if(!locked_1) begin
+// 		reg_adc3_mon <= 0;
+// 	end
+// 	else begin
+// 		reg_adc3_mon <= ADC_3;
+// 	end
+
+// end
 /*** 
-always @(posedge CLOCK_DAC_1 or negedge locked_1) begin
-	if(!locked_1) begin
-		reg_adc3 <= 0;
-	end
-	else begin
-		reg_adc3 <= ADC_3;
-	end
-
-end
-
 reg[2:0] dac_sm1 = 0, dac_sm2 = 0; 
 reg[31:0] dac_cnt1, dac_cnt2;
 localparam CNT_1us = 1000;
@@ -902,9 +932,14 @@ CPU u0 (
 	.varset_1_i_var29  (),  
 	.varset_1_i_var30  (i_var_step_3),  
 	.varset_1_i_var31  (i_var_err_3),  
+	// .varset_1_i_var31  (ADC_3),
 	.varset_1_i_var32  (i_var_timer),  
-	.varset_1_i_var33  (),  
-	.varset_1_i_var34  (),  
+	// .varset_1_i_var33  ({{18{ADC_3[13]}}, ADC_3}),  
+	// .varset_1_i_var33  (reg_adc3),  
+	.varset_1_i_var33  (i_var_high),  
+	// .varset_1_i_var34  (reg_adc3_sync),  
+	// .varset_1_i_var34  (reg_adc3_mon),  
+	.varset_1_i_var34  (i_var_low),  
 	.varset_1_i_var35  (),  
 	.varset_1_i_var36  (),  
 	.varset_1_i_var37  (),  

@@ -9,12 +9,19 @@
 #include "adda_config.h"
 // #include "output_fn.h"
 
-//#define DEBUG
+#define DEBUG
+#define INFO
 
 #ifdef DEBUG
     #define DEBUG_PRINT(...) printf(__VA_ARGS__)
 #else
     #define DEBUG_PRINT(...)
+#endif
+
+#ifdef INFO
+    #define INFO_PRINT(...) printf(__VA_ARGS__)
+#else
+    #define INFO_PRINT(...)
 #endif
 
 #define VARSET_BASE VARSET_1_BASE
@@ -71,6 +78,8 @@ typedef struct
 /*** sensor data structure delaration */
 typedef struct {
   my_float_t err;  
+  my_float_t pd_high;
+  my_float_t pd_low;    
   my_float_t step; 
 } fog_component_t;
 
