@@ -217,11 +217,11 @@ wire status_DAC3, stepTrig_DAC3;
 
 /////////// MIOC Err Gen parameter //////////
 wire [31:0] var_polarity_3, var_wait_cnt_3, var_avg_sel_3, var_err_offset_3;
-logic signed [31:0] o_err_DAC3, o_err_DAC3_MV, o_pd_high, o_pd_low;
+logic signed [31:0] o_err_DAC3, o_err_DAC3_FIR, o_err_DAC3_MV, o_pd_high, o_pd_low;
 wire o_step_sync_3, o_step_sync_dly_3, o_rate_sync_3, o_ramp_sync_3;
 
 /////////// FB Step Gen parameter //////////
-logic signed [31:0] o_step_3, i_var_step_3, i_var_err_3, i_var_high, i_var_low;
+logic signed [31:0] o_step_3, o_step_3_MV, i_var_step_3, i_var_err_3, i_var_high, i_var_low;
 wire [31:0] var_gainSel_step_3, var_const_step_3, var_fb_ON_3;
 
 /////////// Phase Ramp Gen parameter //////////
@@ -237,9 +237,9 @@ assign DAC_3 =  o_phaseRamp_3[15:0];
 assign DAC_1 =  0;
 assign DAC_2 =  0;
 
-assign i_var_step_3 = o_step_3;
+assign i_var_step_3 = o_step_3_MV;
 // assign i_var_err_3 = o_err_DAC3;
-assign i_var_err_3 = o_err_DAC3_MV;
+assign i_var_err_3 = o_err_DAC3_FIR;
 assign i_var_high = o_pd_high;
 assign i_var_low = o_pd_low;
 
@@ -435,26 +435,15 @@ myfir_filter_gate #(
 	.n_rst(locked_1),
 	.i_trig(o_step_sync_3),
 	.din(o_err_DAC3[13:0]),  // 14 bit
-	.dout(o_err_DAC3_MV) // 32 bit
+	.dout(o_err_DAC3_FIR) // 32 bit
 );
-
-// myMV_filter_v1 #(
-// 	.WINDOW(16384)
-// )
-//  u_myMV_filter_ch3
-// (
-// 	.clk(CLOCK_DAC_1),
-//     .n_rst(locked_1),
-//     .din(o_err_DAC3),
-//     .dout(o_err_DAC3_MV)
-// );
 
 feedback_step_gen_v4 fb_step_gen_ch3(
 	.i_clk(CLOCK_DAC_1),
 	.i_rst_n(locked_1),
 	.i_const_step(var_const_step_3),
 	// .i_err(o_err_DAC3),
-	.i_err(o_err_DAC3_MV),
+	.i_err(o_err_DAC3_FIR),
 	.i_fb_ON(var_fb_ON_3),
 	.i_gain_sel(var_gainSel_step_3),
 	.i_trig(o_step_sync_3),
@@ -467,6 +456,19 @@ feedback_step_gen_v4 fb_step_gen_ch3(
 	.o_status(),
 	.o_change(),
 	.o_step_init() 
+);
+
+myMV_filter_gate #(
+	.WINDOW(512),
+	.DIV_FACTOR(6)
+)
+ u_myMV_filter_ch3
+(
+	.clk(CLOCK_DAC_1),
+    .n_rst(locked_1),
+	.trig(o_step_sync_3),
+    .din(o_step_3),
+    .dout(o_step_3_MV)
 );
 
 phase_ramp_gen phase_ramp_gen_ch3(

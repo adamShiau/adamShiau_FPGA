@@ -74,7 +74,7 @@ void acq_fog (cmd_ctrl_t* rx, my_sensor_t* data, alt_u8* sync)
             SerialWrite(temp3.bin_val, 4); 
             SerialWrite(CRC32, 4); 
             
-            INFO_PRINT("%f, %d, %d, %d\n", time.float_val, err3.int_val, pd_high.int_val, pd_low.int_val);
+            // INFO_PRINT("%f, %d, %d, %d\n", time.float_val, err3.int_val, pd_high.int_val, pd_low.int_val);
                 // 	err3.bin_val[2], err3.bin_val[1], err3.bin_val[0]);
             // DEBUG_PRINT("%f, %d, %x, %x, %x, %x\n", time.float_val, err3.int_val, err3.bin_val[3],
            	// 	err3.bin_val[2], err3.bin_val[1], err3.bin_val[0]);

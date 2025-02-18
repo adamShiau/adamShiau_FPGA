@@ -16,22 +16,22 @@ module myfir_filter_gate #(
 );
 
 
-    reg fir_enable;
+    // reg fir_enable;
     reg signed [WIDTH-1:0] fir_input;
     logic signed [WIDTH+15:0] fir_output;
 
     // 鎖存數據
     always_ff @(posedge clk or negedge n_rst) begin
         if (!n_rst) begin
-            fir_enable <= 1'b0;
+            // fir_enable <= 1'b0;
             fir_input  <= 0;
         end 
         else if (i_trig) begin
-            fir_enable <= 1'b1;  // 啟動 FIR 濾波
+            // fir_enable <= 1'b1;  // 啟動 FIR 濾波
             fir_input  <= din;   // 鎖存輸入數據
         end 
         else begin
-            fir_enable <= 1'b0;
+            // fir_enable <= 1'b0;
         end
     end
 

@@ -12,15 +12,6 @@ module myMV_filter_v1 #(
     reg [ADDR_WIDTH-1:0] index; // 緩衝區索引
     reg signed [47:0] sum;  // 48-bit 累加器，避免溢位
 
-    // integer i;
-    
-    // **建議使用 initial 區塊 (僅模擬有效)，避免 for 迴圈在 always 內**
-    // initial begin
-    //     for (i = 0; i < WINDOW; i = i + 1) begin
-    //         buffer[i] = 0;
-    //     end
-    // end
-
     always @(posedge clk or negedge n_rst) begin
         if (!n_rst) begin
             dout <= 0;

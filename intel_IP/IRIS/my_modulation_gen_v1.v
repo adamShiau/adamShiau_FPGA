@@ -26,7 +26,7 @@ module my_modulation_gen_v1 (
             o_stepTrig <= 1'b0;
             o_status <= LOW;
         end else begin
-            if (cnt < i_freq_cnt - 1) begin
+            if (cnt < i_freq_cnt) begin
                 // increment counter
                 cnt <= cnt + 1;
                 o_stepTrig <= 1'b0; // default: no trigger
