@@ -93,6 +93,24 @@ enum {
     CMD_ERR_OFFSET,     //0x12
     CMD_DAC_GAIN,       //0x13
     CMD_CUT_OFF,        //0x14
+
+    CMD_SF_COMP_T1 = 23,    //0x17
+    CMD_SF_COMP_T2,         //0x18
+    CMD_SF_1_SLOPE,         //0x19
+    CMD_SF_1_OFFSET,        //0x1A
+    CMD_SF_2_SLOPE,         //0x1B
+    CMD_SF_2_OFFSET,        //0x1C
+    CMD_SF_3_SLOPE,         //0x1D
+    CMD_SF_3_OFFSET,        //0x1E
+    CMD_BIAS_COMP_T1,       //0x1F
+    CMD_BIAS_COMP_T2,       //0x20
+    CMD_BIAS_1_SLOPE,       //0x21
+    CMD_BIAS_1_OFFSET,      //0x22
+    CMD_BIAS_2_SLOPE,       //0x23
+    CMD_BIAS_2_OFFSET,      //0x24
+    CMD_BIAS_3_SLOPE,       //0x25
+    CMD_BIAS_3_OFFSET,      //0x26
+
     CMD_DATA_OUT_START = 99,    //0x63
     CMD_HW_TIMER_RST = 100,     //0x64
     CMD_SYNC_CNT = 101,         //0x65

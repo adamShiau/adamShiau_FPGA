@@ -209,6 +209,102 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 					IOWR(VARSET_BASE, CMD_CUT_OFF + cmd2hwreg, rx->value);
 					break;
 				}
+				case CMD_SF_COMP_T1: {
+					DEBUG_PRINT("CMD_SF_COMP_T1:\n");
+					PARAMETER_Write_s(base, CMD_SF_COMP_T1 - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+					IOWR(VARSET_BASE, CMD_SF_COMP_T1 + cmd2hwreg, rx->value);
+					break;
+				}
+				case CMD_SF_COMP_T2: {
+					DEBUG_PRINT("CMD_SF_COMP_T2:\n");
+					PARAMETER_Write_s(base, CMD_SF_COMP_T2 - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+					IOWR(VARSET_BASE, CMD_SF_COMP_T2 + cmd2hwreg, rx->value);
+					break;
+				}
+				case CMD_SF_1_SLOPE: {
+					DEBUG_PRINT("CMD_SF_1_SLOPE:\n");
+					PARAMETER_Write_s(base, CMD_SF_1_SLOPE - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+					IOWR(VARSET_BASE, CMD_SF_1_SLOPE + cmd2hwreg, rx->value);
+					break;
+				}
+				case CMD_SF_1_OFFSET: {
+					DEBUG_PRINT("CMD_SF_1_OFFSET:\n");
+					PARAMETER_Write_s(base, CMD_SF_1_OFFSET - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+					IOWR(VARSET_BASE, CMD_SF_1_OFFSET + cmd2hwreg, rx->value);
+					break;
+				}
+				case CMD_SF_2_SLOPE: {
+					DEBUG_PRINT("CMD_SF_2_SLOPE:\n");
+					PARAMETER_Write_s(base, CMD_SF_2_SLOPE - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+					IOWR(VARSET_BASE, CMD_SF_2_SLOPE + cmd2hwreg, rx->value);
+					break;
+				}
+				case CMD_SF_2_OFFSET: {
+					DEBUG_PRINT("CMD_SF_2_OFFSET:\n");
+					PARAMETER_Write_s(base, CMD_SF_2_OFFSET - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+					IOWR(VARSET_BASE, CMD_SF_2_OFFSET + cmd2hwreg, rx->value);
+					break;
+				}
+				case CMD_SF_3_SLOPE: {
+					DEBUG_PRINT("CMD_SF_3_SLOPE:\n");
+					PARAMETER_Write_s(base, CMD_SF_3_SLOPE - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+					IOWR(VARSET_BASE, CMD_SF_3_SLOPE + cmd2hwreg, rx->value);
+					break;
+				}
+				case CMD_SF_3_OFFSET: {
+					DEBUG_PRINT("CMD_SF_3_OFFSET:\n");
+					PARAMETER_Write_s(base, CMD_SF_3_OFFSET - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+					IOWR(VARSET_BASE, CMD_SF_3_OFFSET + cmd2hwreg, rx->value);
+					break;
+				}
+				case CMD_BIAS_COMP_T1: {
+					DEBUG_PRINT("CMD_BIAS_COMP_T1:\n");
+					PARAMETER_Write_s(base, CMD_BIAS_COMP_T1 - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+					IOWR(VARSET_BASE, CMD_BIAS_COMP_T1 + cmd2hwreg, rx->value);
+					break;
+				}
+				case CMD_BIAS_COMP_T2: {
+					DEBUG_PRINT("CMD_BIAS_COMP_T2:\n");
+					PARAMETER_Write_s(base, CMD_BIAS_COMP_T2 - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+					IOWR(VARSET_BASE, CMD_BIAS_COMP_T2 + cmd2hwreg, rx->value);
+					break;
+				}
+				case CMD_BIAS_1_SLOPE: {
+					DEBUG_PRINT("CMD_BIAS_1_SLOPE:\n");
+					PARAMETER_Write_s(base, CMD_BIAS_1_SLOPE - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+					IOWR(VARSET_BASE, CMD_BIAS_1_SLOPE + cmd2hwreg, rx->value);
+					break;
+				}
+				case CMD_BIAS_1_OFFSET: {
+					DEBUG_PRINT("CMD_BIAS_1_OFFSET:\n");
+					PARAMETER_Write_s(base, CMD_BIAS_1_OFFSET - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+					IOWR(VARSET_BASE, CMD_BIAS_1_OFFSET + cmd2hwreg, rx->value);
+					break;
+				}
+				case CMD_BIAS_2_SLOPE: {
+					DEBUG_PRINT("CMD_BIAS_2_SLOPE:\n");
+					PARAMETER_Write_s(base, CMD_BIAS_2_SLOPE - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+					IOWR(VARSET_BASE, CMD_BIAS_2_SLOPE + cmd2hwreg, rx->value);
+					break;
+				}
+				case CMD_BIAS_2_OFFSET: {
+					DEBUG_PRINT("CMD_BIAS_2_OFFSET:\n");
+					PARAMETER_Write_s(base, CMD_BIAS_2_OFFSET - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+					IOWR(VARSET_BASE, CMD_BIAS_2_OFFSET + cmd2hwreg, rx->value);
+					break;
+				}
+				case CMD_BIAS_3_SLOPE: {
+					DEBUG_PRINT("CMD_BIAS_3_SLOPE:\n");
+					PARAMETER_Write_s(base, CMD_BIAS_3_SLOPE - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+					IOWR(VARSET_BASE, CMD_BIAS_3_SLOPE + cmd2hwreg, rx->value);
+					break;
+				}
+				case CMD_BIAS_3_OFFSET: {
+					DEBUG_PRINT("CMD_BIAS_3_OFFSET:\n");
+					PARAMETER_Write_s(base, CMD_BIAS_3_OFFSET - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+					IOWR(VARSET_BASE, CMD_BIAS_3_OFFSET + cmd2hwreg, rx->value);
+					break;
+				}
 				case CMD_DUMP_FOG: {
 					DEBUG_PRINT("CMD_DUMP_FOG:\n");
 					dump_fog_param(fog_inst, rx->ch);
