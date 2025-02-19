@@ -12,10 +12,10 @@ const mem_unit_t fog_parameter_init[MEN_LEN] = {
     { .data.int_val = INIT_FB_ON,            .type = TYPE_INT }, //8
     { .data.int_val = INIT_GAIN2,            .type = TYPE_INT }, //9
     { .data.int_val = INIT_ERR_OFFSET,       .type = TYPE_INT }, //10
-    { .data.int_val = INIT_OUT_TH,           .type = TYPE_INT }, //11
-    { .data.int_val = INIT_OUT_TH_EN,        .type = TYPE_INT }, //12
-    { .data.int_val = INIT_DAC_GAIN,         .type = TYPE_INT }, //13
-    { .data.int_val = INIT_CUT_OFF,        .type = TYPE_FLOAT }, //14
+    { .data.int_val = INIT_DAC_GAIN,         .type = TYPE_INT }, //11
+    { .data.int_val = INIT_CUT_OFF,        .type = TYPE_FLOAT }, //12
+    { .data.int_val = INIT_OUT_TH,           .type = TYPE_INT }, //13
+    { .data.int_val = INIT_OUT_TH_EN,        .type = TYPE_INT }, //14
     { .data.int_val = INIT_SF_COMP_T1,     .type = TYPE_FLOAT }, //15
     { .data.int_val = INIT_SF_COMP_T2,     .type = TYPE_FLOAT }, //16
     { .data.int_val = INIT_SF_1_SLOPE,     .type = TYPE_FLOAT }, //17

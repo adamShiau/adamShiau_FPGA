@@ -10,10 +10,10 @@
 
 
 /*** output function type delaration */
-typedef void (*fn_ptr) (cmd_ctrl_t*, my_sensor_t*, alt_u8*);
+typedef void (*fn_ptr) (cmd_ctrl_t*, my_sensor_t*, alt_u8*, fog_parameter_t);
 
-void acq_rst (cmd_ctrl_t*, my_sensor_t*, alt_u8*);
-void acq_fog (cmd_ctrl_t*, my_sensor_t*, alt_u8*);
+void acq_rst (cmd_ctrl_t*, my_sensor_t*, alt_u8*, fog_parameter_t);
+void acq_fog (cmd_ctrl_t*, my_sensor_t*, alt_u8*, fog_parameter_t);
 
 
 #endif /* __OUTPUT_FN_H */

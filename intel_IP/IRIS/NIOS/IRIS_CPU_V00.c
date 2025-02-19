@@ -13,7 +13,6 @@
 
 void dump_fog_param(fog_parameter_t* fog_inst, alt_u8 ch);
 void send_json_uart(const char* buffer);
-void update_fog_parameters_to_HW_REG(alt_u8 base, fog_parameter_t* fog_params);
 
 void TRIGGER_IRQ_init(void);
 void IRQ_TRIGGER_ISR(void *context);
@@ -74,7 +73,7 @@ my_sensor_t sensor_data = {
 
 int main(void)
 {
-	fog_parameter_t fog_params;	 
+	fog_parameter_t fog_params;	 //parameter container
 
 	INFO_PRINT("Running IRIS CPU!\n");
 
@@ -101,10 +100,10 @@ int main(void)
 		sensor_data.fog.fogz.step.float_val = (float)IORD(VARSET_BASE, i_var_step_3);
 		sensor_data.temp.tempz.float_val = 25.35;
 		/***monitor */
-		sensor_data.fog.fogz.sum_high.int_val = IORD(VARSET_BASE, i_var_high);
-		sensor_data.fog.fogz.sum_low.int_val = IORD(VARSET_BASE, i_var_low);
-		sensor_data.fog.fogz.buf.int_val = IORD(VARSET_BASE, i_var_buf);
-		sensor_data.fog.fogz.o_step.int_val = IORD(VARSET_BASE, i_var_o_step3);
+		// sensor_data.fog.fogz.sum_high.int_val = IORD(VARSET_BASE, i_var_high);
+		// sensor_data.fog.fogz.sum_low.int_val = IORD(VARSET_BASE, i_var_low);
+		// sensor_data.fog.fogz.buf.int_val = IORD(VARSET_BASE, i_var_buf);
+		// sensor_data.fog.fogz.o_step.int_val = IORD(VARSET_BASE, i_var_o_step3);
 
 
 
@@ -112,7 +111,7 @@ int main(void)
 		cmd_mux(&my_cmd);
 		fog_parameter(&my_cmd, &fog_params);
 		output_mode_setting(&my_cmd, &output_fn, &auto_rst);
-		output_fn(&my_cmd, &sensor_data, &trigger_sig);
+		output_fn(&my_cmd, &sensor_data, &trigger_sig, fog_params);
 	}
 
   return 0;
@@ -143,59 +142,6 @@ void checkByte(alt_u8 data)
 
 
 
-void update_fog_parameters_to_HW_REG(alt_u8 base, fog_parameter_t* fog_params) 
-{
-	int rt_val, is_valid = 1, valid[10]={0};
-	if(base == MEM_BASE_Z) 
-	{
-		INFO_PRINT("updating fog paramemetr Z to FPGA....\n ");
-		for(int container_idx=0; container_idx<10+1; container_idx++) { // container index, check excel table
-			// update the value from container to FPGA register 
-			IOWR(VARSET_BASE, container_idx + CONTAINER_TO_CMD_OFFSET + CMD_TO_HW_REG_OFFSET_CH3, fog_params->paramZ[container_idx].data.int_val);
-			// read back the value from FPGA register
-			rt_val = IORD(VARSET_BASE, container_idx + CONTAINER_TO_CMD_OFFSET + CMD_TO_HW_REG_OFFSET_CH3);
-			// check if two value are the same or not. 
-			valid[container_idx] = fog_params->paramZ[container_idx].data.int_val == rt_val;
-			is_valid &=  valid[container_idx];
-			INFO_PRINT("container_idx: %d, %d, %d\n",container_idx, rt_val, valid[container_idx]);
-		}
-		INFO_PRINT("is_valid = %d\n", is_valid);
-		INFO_PRINT("Done.\n ");
-	}
-	else if(base == MEM_BASE_X) 
-	{
-		DEBUG_PRINT("updating fog paramemetr X to FPGA....\n ");
-		for(int container_idx=0; container_idx<10+1; container_idx++) { // container index, check excel table
-			// update the value from container to FPGA register 
-			IOWR(VARSET_BASE, container_idx + CONTAINER_TO_CMD_OFFSET + CMD_TO_HW_REG_OFFSET_CH1, fog_params->paramX[container_idx].data.int_val);
-			// read back the value from FPGA register
-			rt_val = IORD(VARSET_BASE, container_idx + CONTAINER_TO_CMD_OFFSET + CMD_TO_HW_REG_OFFSET_CH1);
-			// check if two value are the same or not. 
-			valid[container_idx] = fog_params->paramX[container_idx].data.int_val == rt_val;
-			is_valid &=  valid[container_idx];
-			DEBUG_PRINT("container_idx: %d, %d, %d\n",container_idx, rt_val, valid[container_idx]);
-		}
-		DEBUG_PRINT("is_valid = %d\n", is_valid);
-		DEBUG_PRINT("Done.\n ");
-	}
-	else if(base == MEM_BASE_Y)
-	{
-		DEBUG_PRINT("updating fog paramemetr Y to FPGA....\n ");
-		for(int container_idx=0; container_idx<10+1; container_idx++) { // container index, check excel table
-			// update the value from container to FPGA register 
-			IOWR(VARSET_BASE, container_idx + CONTAINER_TO_CMD_OFFSET + CMD_TO_HW_REG_OFFSET_CH2, fog_params->paramY[container_idx].data.int_val);
-			// read back the value from FPGA register
-			rt_val = IORD(VARSET_BASE, container_idx + CONTAINER_TO_CMD_OFFSET + CMD_TO_HW_REG_OFFSET_CH2);
-			// check if two value are the same or not. 
-			valid[container_idx] = fog_params->paramY[container_idx].data.int_val == rt_val;
-			is_valid &=  valid[container_idx];
-			DEBUG_PRINT("container_idx: %d, %d, %d\n",container_idx, rt_val, valid[container_idx]);
-		}
-		DEBUG_PRINT("is_valid = %d\n", is_valid);
-		DEBUG_PRINT("Done.\n ");
-	}
-}
-
 void dump_fog_param(fog_parameter_t* fog_inst, alt_u8 ch) {
     if (!fog_inst || ch < 1 || ch > 3) return; // Ensure the pointer is valid and ch is within range
     
@@ -212,7 +158,6 @@ void dump_fog_param(fog_parameter_t* fog_inst, alt_u8 ch) {
     offset += snprintf(buffer + offset, sizeof(buffer) - offset, "{");
     
     for (int i = 0; i < MEN_LEN; i++) {
-        // offset += snprintf(buffer + offset, sizeof(buffer) - offset, "\"%d\":\"%d\"", i, param[i].data.int_val);
 		offset += snprintf(buffer + offset, sizeof(buffer) - offset, "\"%d\":%ld", i, param[i].data.int_val);
         if (i < MEN_LEN - 1) offset += snprintf(buffer + offset, sizeof(buffer) - offset, ", "); // Add comma if not the last element
     }

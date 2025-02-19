@@ -240,8 +240,7 @@ assign DAC_2 =  0;
 assign i_var_step_3 = o_step_3_MV;
 // assign i_var_err_3 = o_err_DAC3;
 assign i_var_err_3 = o_err_DAC3_FIR;
-// assign i_var_high = o_pd_high;
-// assign i_var_low = o_pd_low;
+
 
 // assign DAC_3 =  reg_dac3; 
 // assign DAC_3 =  mod_out_DAC3[15:0] ;
@@ -471,7 +470,7 @@ feedback_step_gen_v4 fb_step_gen_ch3(
 //     .dout(o_step_3_MV)
 // );
 
-myMV_filter_gate_v2 #(
+myMV_filter_gate_v3 #(
 	.WINDOW(512),
 	.DIV_FACTOR(6)
 )

@@ -8,7 +8,7 @@
 const unsigned char KVH_HEADER[4] = {0xFE, 0x81, 0xFF, 0x55};
 alt_u32 dly_cnt = 0;
 
-void acq_rst (cmd_ctrl_t* rx, my_sensor_t* data, alt_u8* sync)
+void acq_rst (cmd_ctrl_t* rx, my_sensor_t* data, alt_u8* sync, fog_parameter_t fog_parameter)
 {
     if(dly_cnt++ > DLY_NUM) {
         dly_cnt = 0;
@@ -18,22 +18,17 @@ void acq_rst (cmd_ctrl_t* rx, my_sensor_t* data, alt_u8* sync)
     
 }
 
-void acq_fog (cmd_ctrl_t* rx, my_sensor_t* data, alt_u8* sync)
+void acq_fog (cmd_ctrl_t* rx, my_sensor_t* data, alt_u8* sync, fog_parameter_t fog_parameter)
 {
     my_float_t time, err3, step3, temp3;
-    my_float_t sum_high, sum_low, o_step3, buf;// monitor
 
     time.float_val = data->time.time.float_val;
     err3.int_val = data->fog.fogz.err.int_val;
     step3.int_val = data->fog.fogz.step.int_val;
     temp3.float_val = data->temp.tempz.float_val;
 
-    sum_high.int_val = data->fog.fogz.sum_high.int_val;
-    sum_low.int_val = data->fog.fogz.sum_high.int_val;
-    buf.int_val = data->fog.fogz.buf.int_val;
-    o_step3.int_val = data->fog.fogz.o_step.int_val;
-    long long sum = ((long long)sum_high.int_val << 32) | (unsigned int)sum_low.int_val;
-    
+    float sf_1_slope, sf_2_slope, sf_3_slope;
+    float sf_1_offset, sf_2_offset, sf_3_offset;
 
     if(rx->select_fn == SEL_FOG) {
         rx->select_fn = SEL_IDLE; //clear select_fn
@@ -77,7 +72,7 @@ void acq_fog (cmd_ctrl_t* rx, my_sensor_t* data, alt_u8* sync)
             SerialWrite(temp3.bin_val, 4); 
             SerialWrite(CRC32, 4); 
             
-            INFO_PRINT("%f, %d, %d, %d, %ld, %d\n", step3.float_val, o_step3.int_val, sum_high.int_val, sum_low.int_val, sum, buf.int_val);
+            // INFO_PRINT("%f, %d, %d, %d, %ld, %d\n", step3.float_val, o_step3.int_val, sum_high.int_val, sum_low.int_val, sum, buf.int_val);
             // DEBUG_PRINT("%f, %d, %x, %x, %x, %x\n", time.float_val, err3.int_val, err3.bin_val[3],
            	// 	err3.bin_val[2], err3.bin_val[1], err3.bin_val[0]);
 //             DEBUG_PRINT("time: %f\n", data->time.time.float_val);

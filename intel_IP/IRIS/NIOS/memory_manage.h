@@ -91,8 +91,8 @@ enum {
     CMD_FB_ON,          //0x10
     CMD_GAIN2,          //0x11
     CMD_ERR_OFFSET,     //0x12
-    CMD_DAC_GAIN = 21,  //0x15
-    CMD_CUT_OFF,                //0x16
+    CMD_DAC_GAIN,       //0x13
+    CMD_CUT_OFF,        //0x14
     CMD_DATA_OUT_START = 99,    //0x63
     CMD_HW_TIMER_RST = 100,     //0x64
     CMD_SYNC_CNT = 101,         //0x65

@@ -8,8 +8,8 @@
 #include "nios2_var_addr.h"
 #include "adda_config.h"
 
-#define DEBUG
-//#define INFO
+// #define DEBUG
+// #define INFO
 
 #ifdef DEBUG
     #define DEBUG_PRINT(...) printf(__VA_ARGS__)
@@ -76,12 +76,13 @@ typedef struct
 
 /*** sensor data structure delaration */
 typedef struct {
-  my_float_t err;  
-  my_float_t sum_high;
-  my_float_t sum_low;    
-  my_float_t buf;
-  my_float_t o_step;    
+  my_float_t err; 
   my_float_t step; 
+  // monitor 
+  // my_float_t sum_high;
+  // my_float_t sum_low;    
+  // my_float_t buf;
+  // my_float_t o_step;    
 } fog_component_t;
 
 typedef struct {
@@ -109,7 +110,7 @@ typedef struct
 }my_sensor_t;
 
 /*** output function type delaration */
-typedef void (*fn_ptr) (cmd_ctrl_t*, my_sensor_t*, alt_u8*);
+typedef void (*fn_ptr) (cmd_ctrl_t*, my_sensor_t*, alt_u8*, fog_parameter_t);
 
 // typedef struct cmd_ctrl_t cmd_ctrl_t;
 
@@ -132,5 +133,6 @@ void get_uart_cmd(alt_u8*, cmd_ctrl_t*);
 void cmd_mux(cmd_ctrl_t*);
 void fog_parameter(cmd_ctrl_t*, fog_parameter_t*);
 void output_mode_setting(cmd_ctrl_t*, fn_ptr*, auto_rst_t*);
+void update_fog_parameters_to_HW_REG(alt_u8, fog_parameter_t*);
 
 #endif /* __COMMON_H */

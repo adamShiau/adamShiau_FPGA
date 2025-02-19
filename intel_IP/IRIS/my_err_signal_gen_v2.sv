@@ -85,7 +85,7 @@ module my_err_signal_gen_v2 #(
 
             WAIT_L_STATE: begin 
                 // When MOD output transitions from High to Low, i_trig is triggered.  
-                if (i_trig) begin
+                if (i_trig && !i_status) begin
                     nstate = WAIT_STABLE_L;
                 end
             end
