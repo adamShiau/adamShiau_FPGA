@@ -217,11 +217,11 @@ wire status_DAC3, stepTrig_DAC3;
 
 /////////// MIOC Err Gen parameter //////////
 wire [31:0] var_polarity_3, var_wait_cnt_3, var_avg_sel_3, var_err_offset_3;
-logic signed [31:0] o_err_DAC3, o_err_DAC3_FIR, o_err_DAC3_MV, o_pd_high, o_pd_low;
+logic signed [31:0] o_err_DAC3, o_err_DAC3_FIR, o_err_DAC3_MV;
 wire o_step_sync_3, o_step_sync_dly_3, o_rate_sync_3, o_ramp_sync_3;
 
 /////////// FB Step Gen parameter //////////
-logic signed [31:0] o_step_3, o_step_3_MV, i_var_step_3, i_var_err_3, i_var_high, i_var_low;
+logic signed [31:0] o_step_3, o_step_3_MV, i_var_step_3, i_var_err_3, i_var_high, i_var_low, i_var_buf;
 wire [31:0] var_gainSel_step_3, var_const_step_3, var_fb_ON_3;
 
 /////////// Phase Ramp Gen parameter //////////
@@ -240,8 +240,8 @@ assign DAC_2 =  0;
 assign i_var_step_3 = o_step_3_MV;
 // assign i_var_err_3 = o_err_DAC3;
 assign i_var_err_3 = o_err_DAC3_FIR;
-assign i_var_high = o_pd_high;
-assign i_var_low = o_pd_low;
+// assign i_var_high = o_pd_high;
+// assign i_var_low = o_pd_low;
 
 // assign DAC_3 =  reg_dac3; 
 // assign DAC_3 =  mod_out_DAC3[15:0] ;
@@ -421,8 +421,8 @@ end
         .o_rate_sync(o_rate_sync_3),          // Output one clock trigger to phase ramp gen.i_rate_trig 
         .o_ramp_sync(o_ramp_sync_3),          // Output one clock trigger to phase ramp gen.i_ramp_trig 
         .o_err(o_err_DAC3)                // Output error signal (32 bits) representing the computed error
-		,.o_low_avg(o_pd_low)
-    	,.o_high_avg(o_pd_high)
+		,.o_low_avg()
+    	,.o_high_avg()
     );
 
 myfir_filter_gate #(
@@ -458,7 +458,20 @@ feedback_step_gen_v4 fb_step_gen_ch3(
 	.o_step_init() 
 );
 
-myMV_filter_gate #(
+// myMV_filter_gate #(
+// 	.WINDOW(512),
+// 	.DIV_FACTOR(6)
+// )
+//  u_myMV_filter_ch3
+// (
+// 	.clk(CLOCK_DAC_1),
+//     .n_rst(locked_1),
+// 	.trig(o_step_sync_3),
+//     .din(o_step_3),
+//     .dout(o_step_3_MV)
+// );
+
+myMV_filter_gate_v2 #(
 	.WINDOW(512),
 	.DIV_FACTOR(6)
 )
@@ -469,6 +482,9 @@ myMV_filter_gate #(
 	.trig(o_step_sync_3),
     .din(o_step_3),
     .dout(o_step_3_MV)
+	,.monitor_sum_high(i_var_high)
+	,.monitor_sum_low(i_var_low)
+	,.monitor_buffer(i_var_buf)
 );
 
 phase_ramp_gen phase_ramp_gen_ch3(
@@ -936,9 +952,9 @@ CPU u0 (
 	.varset_1_i_var31  (i_var_err_3),  
 	.varset_1_i_var32  (i_var_timer),  
 	.varset_1_i_var33  (o_step_3),  
-	.varset_1_i_var34  (i_var_low),  
-	.varset_1_i_var35  (),  
-	.varset_1_i_var36  (),  
+	.varset_1_i_var34  (i_var_high),  
+	.varset_1_i_var35  (i_var_low),  
+	.varset_1_i_var36  (i_var_buf),  
 	.varset_1_i_var37  (),  
 	.varset_1_i_var38  (),  
 	.varset_1_i_var39  (),  

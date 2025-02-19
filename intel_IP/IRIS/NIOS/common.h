@@ -7,10 +7,9 @@
 #include "memory_manage.h"
 #include "nios2_var_addr.h"
 #include "adda_config.h"
-// #include "output_fn.h"
 
 #define DEBUG
-#define INFO
+//#define INFO
 
 #ifdef DEBUG
     #define DEBUG_PRINT(...) printf(__VA_ARGS__)
@@ -78,8 +77,10 @@ typedef struct
 /*** sensor data structure delaration */
 typedef struct {
   my_float_t err;  
-  my_float_t pd_high;
-  my_float_t pd_low;    
+  my_float_t sum_high;
+  my_float_t sum_low;    
+  my_float_t buf;
+  my_float_t o_step;    
   my_float_t step; 
 } fog_component_t;
 

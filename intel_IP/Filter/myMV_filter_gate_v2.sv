@@ -1,4 +1,4 @@
-module myMV_filter_gate #(
+module myMV_filter_gate_v2 #(
     parameter WINDOW = 8192,  // 預設窗口大小 (2^13)
     parameter DIV_FACTOR = 4,       // 觸發訊號分頻因子 (可設定為1)
     parameter ADDR_WIDTH = (WINDOW > 1) ? $clog2(WINDOW) : 1
@@ -8,7 +8,7 @@ module myMV_filter_gate #(
     input trig,
     input signed [31:0] din,
     output reg signed [31:0] dout,
-    output reg signed [31:0] monitor_sum,  // 監視 sum
+    output reg signed [31:0] monitor_sum_high, monitor_sum_low,  // 監視 sum
     output reg signed [31:0] monitor_buffer // 監視 buffer[index]
 );
 
@@ -49,7 +49,8 @@ module myMV_filter_gate #(
             dout <= 0;
             sum <= 0;
             index <= 0;
-            monitor_sum <= 0;
+            monitor_sum_high <= 0;
+            monitor_sum_low <= 0;
             monitor_buffer <= 0;
         end 
         else if(slow_trig) begin
@@ -66,7 +67,8 @@ module myMV_filter_gate #(
             dout <= sum >>> $clog2(WINDOW);
             
             // 更新監視訊號
-            monitor_sum <= sum[31:0];
+            monitor_sum_high <= sum[47:32];
+            monitor_sum_low <= sum[31:0];
             monitor_buffer <= buffer[index];
         end
     end

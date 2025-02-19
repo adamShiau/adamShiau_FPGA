@@ -100,8 +100,11 @@ int main(void)
 		sensor_data.fog.fogz.err.int_val = IORD(VARSET_BASE, i_var_err_3);
 		sensor_data.fog.fogz.step.float_val = (float)IORD(VARSET_BASE, i_var_step_3);
 		sensor_data.temp.tempz.float_val = 25.35;
-		sensor_data.fog.fogz.pd_high.int_val = IORD(VARSET_BASE, i_var_high);
-		sensor_data.fog.fogz.pd_low.int_val = IORD(VARSET_BASE, i_var_low);
+		/***monitor */
+		sensor_data.fog.fogz.sum_high.int_val = IORD(VARSET_BASE, i_var_high);
+		sensor_data.fog.fogz.sum_low.int_val = IORD(VARSET_BASE, i_var_low);
+		sensor_data.fog.fogz.buf.int_val = IORD(VARSET_BASE, i_var_buf);
+		sensor_data.fog.fogz.o_step.int_val = IORD(VARSET_BASE, i_var_o_step3);
 
 
 
