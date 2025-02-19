@@ -78,20 +78,6 @@ module i2c_controller_pullup_eeprom
 	localparam STOP 		= 	31;
 	localparam STOP2 		= 	32;
 	localparam NOP1 		= 	33;
-	// localparam READ_DATA5 	= 	19;
-	// localparam WRITE_ACK5 	= 	20;
-	// localparam READ_DATA6 	= 	21;
-	// localparam WRITE_ACK6 	= 	22;
-	// localparam READ_DATA7 	= 	23;
-	// localparam WRITE_ACK7 	= 	24;
-	// localparam READ_DATA8 	= 	25;
-	// localparam WRITE_ACK8 	= 	26;
-	// localparam READ_DATA9 	= 	27;
-	// localparam WRITE_ACK9 	= 	28;
-	// localparam READ_DATA10 	= 	29;
-	// localparam WRITE_ACK10 	= 	30;
-	// localparam READ_DATA11 	= 	31;
-	// localparam WRITE_ACK11 	= 	32;
 
 
 	reg [7:0] state;
