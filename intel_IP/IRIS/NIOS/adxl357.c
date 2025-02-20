@@ -148,7 +148,7 @@ void init_ADXL357()
 	I2C_op_mode_sel_ADXL357(HW_11);
 }
 
-void read_355_temp()
+void read_357_temp()
 {
 	alt_u8 H, L;
 	float temp;

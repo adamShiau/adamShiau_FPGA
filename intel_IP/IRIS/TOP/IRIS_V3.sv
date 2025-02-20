@@ -161,8 +161,9 @@ wire [29:0] adc1_fir, adc2_fir, adc3_fir;
 
 
 /////////// I2C ADXL357 Var definition //////////
-wire [31:0] var_i2c_357_dev_addr, var_i2c_357_reg_addr, var_i2c_357_w_data, var_i2c_357_rdata_1, var_i2c_357_rdata_2, var_i2c_357_rdata_3, var_i2c_357_rdata_4;
-wire [31:0] var_i2c_357_rdata_5, var_i2c_357_rdata_6, var_i2c_357_rdata_7, var_i2c_357_rdata_8, var_i2c_357_rdata_9, var_i2c_357_rdata_10, var_i2c_357_rdata_11;
+wire [31:0] var_i2c_357_dev_addr, var_i2c_357_reg_addr, var_i2c_357_w_data;
+wire signed [31:0] var_i2c_357_rdata_1, var_i2c_357_rdata_2, var_i2c_357_rdata_3, var_i2c_357_rdata_4;
+wire signed [31:0] var_i2c_357_rdata_5, var_i2c_357_rdata_6, var_i2c_357_rdata_7, var_i2c_357_rdata_8, var_i2c_357_rdata_9, var_i2c_357_rdata_10, var_i2c_357_rdata_11;
 wire [31:0] var_i2c_357_ctrl, var_i2c_357_status;
 
 /////////// I2C EEPROM Var definition //////////
@@ -595,7 +596,7 @@ end
 ***/ 	
 
 /**** ADXL 357****/
-i2c_controller_pullup_9
+i2c_controller_pullup_ADXL357
 inst_i2c_adxl357 (
 	.i_clk(CPU_CLK),
 	.i_rst_n(locked_0),
@@ -610,19 +611,48 @@ inst_i2c_adxl357 (
 	.i_drdy(DRDY_357),
 
 	.o_status(var_i2c_357_status),
-	.o_rd_data(var_i2c_357_rdata_1),
-	.o_rd_data_2(var_i2c_357_rdata_2),
-	.o_rd_data_3(var_i2c_357_rdata_3),
-	.o_rd_data_4(var_i2c_357_rdata_4),
-	.o_rd_data_5(var_i2c_357_rdata_5),
-	.o_rd_data_6(var_i2c_357_rdata_6),
-	.o_rd_data_7(var_i2c_357_rdata_7),
-	.o_rd_data_8(var_i2c_357_rdata_8),
-	.o_rd_data_9(var_i2c_357_rdata_9),
-	.o_rd_data_10(var_i2c_357_rdata_10),
-	.o_rd_data_11(var_i2c_357_rdata_11),
+	.o_ACCX(var_i2c_357_rdata_1),
+	.o_ACCY(var_i2c_357_rdata_2),
+	.o_ACCZ(var_i2c_357_rdata_3),
+	// .o_rd_data_4(var_i2c_357_rdata_4),
+	// .o_rd_data_5(var_i2c_357_rdata_5),
+	// .o_rd_data_6(var_i2c_357_rdata_6),
+	// .o_rd_data_7(var_i2c_357_rdata_7),
+	// .o_rd_data_8(var_i2c_357_rdata_8),
+	// .o_rd_data_9(var_i2c_357_rdata_9),
+	// .o_rd_data_10(var_i2c_357_rdata_10),
+	// .o_rd_data_11(var_i2c_357_rdata_11),
 	.o_w_enable()
 );
+
+// i2c_controller_pullup_9
+// inst_i2c_adxl357 (
+// 	.i_clk(CPU_CLK),
+// 	.i_rst_n(locked_0),
+// 	.i2c_scl(SCL_357),
+// 	.i2c_sda(SDA_357),
+// 	.i2c_clk_out(),
+// 	.i_dev_addr(var_i2c_357_dev_addr),
+// 	.i_reg_addr(var_i2c_357_reg_addr),
+// 	.i_w_data(var_i2c_357_w_data),  
+	
+// 	.i_ctrl(var_i2c_357_ctrl),
+// 	.i_drdy(DRDY_357),
+
+// 	.o_status(var_i2c_357_status),
+// 	.o_rd_data(var_i2c_357_rdata_1),
+// 	.o_rd_data_2(var_i2c_357_rdata_2),
+// 	.o_rd_data_3(var_i2c_357_rdata_3),
+// 	.o_rd_data_4(var_i2c_357_rdata_4),
+// 	.o_rd_data_5(var_i2c_357_rdata_5),
+// 	.o_rd_data_6(var_i2c_357_rdata_6),
+// 	.o_rd_data_7(var_i2c_357_rdata_7),
+// 	.o_rd_data_8(var_i2c_357_rdata_8),
+// 	.o_rd_data_9(var_i2c_357_rdata_9),
+// 	.o_rd_data_10(var_i2c_357_rdata_10),
+// 	.o_rd_data_11(var_i2c_357_rdata_11),
+// 	.o_w_enable()
+// );
 	
 /**** I2C EEPROM****/
 i2c_controller_pullup_eeprom
