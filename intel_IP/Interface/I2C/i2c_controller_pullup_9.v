@@ -127,7 +127,7 @@ module i2c_controller_pullup_9
                  		(i2c_clk == 1 ? 1'bz : 0));
 	assign i2c_sda = (write_enable == 1) ? sda_out : 1'bz;
 
-	/******* CLK_VALUE depends on input clock frequency, default is for 50 MHz********/
+	/******* CLK_VALUE depends on input clock frequency********/
 	always@(posedge i_clk) begin
 		if(!i_rst_n) begin
 			reg_clock_rate <= CLK_390K;

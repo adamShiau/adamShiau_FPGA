@@ -55,7 +55,6 @@ module IRIS_V3(
 	//////////// SYNC //////////
 	EXT_SYNC_IN,
 	EXT_SYNC2,
-	PIO_C21,
 	
 	//////////// ADXL357 I2C //////////
 	SDA_357,
@@ -134,7 +133,6 @@ output 				LED_FPGA;
 //////////// SYNC //////////
 input				EXT_SYNC_IN;
 output				EXT_SYNC2;
-output 				PIO_C21;
 
 //////////// ADXL357 //////////
 inout				SDA_357;
@@ -163,7 +161,7 @@ wire [29:0] adc1_fir, adc2_fir, adc3_fir;
 /////////// I2C ADXL357 Var definition //////////
 wire [31:0] var_i2c_357_dev_addr, var_i2c_357_reg_addr, var_i2c_357_w_data, var_i2c_357_rdata_1, var_i2c_357_rdata_2, var_i2c_357_rdata_3, var_i2c_357_rdata_4;
 wire [31:0] var_i2c_357_rdata_5, var_i2c_357_rdata_6, var_i2c_357_rdata_7, var_i2c_357_rdata_8, var_i2c_357_rdata_9, var_i2c_357_rdata_10, var_i2c_357_rdata_11;
-wire [31:0] var_i2c_357_ctrl, var_i2c_357_status;
+wire [31:0] var_i2c_357_ctrl, var_i2c_357_status, var_reg_sync_period;
 
 /////////// I2C EEPROM Var definition //////////
 wire [31:0] var_i2c_EEPROM_dev_addr, var_i2c_EEPROM_reg_addr, var_i2c_EEPROM_w_data, var_i2c_EEPROM_rdata_1, var_i2c_EEPROM_rdata_2, var_i2c_EEPROM_rdata_3;
@@ -171,7 +169,6 @@ wire [31:0] var_i2c_EEPROM_rdata_4;
 wire [31:0] var_i2c_EEPROM_ctrl, var_i2c_EEPROM_status;
 
 assign EXT_SYNC2 = sync_out;
-//assign PIO_C21 = sync_out;
 
 	
 
@@ -180,8 +177,6 @@ assign EXT_SYNC2 = sync_out;
 `define cnt_ms 125000
 `define cnt_10ms 1250000
 `define cnt_1000ms 125000000
-
-
 
 
 wire CPU_CLK;
@@ -323,22 +318,6 @@ PLL2	PLL2_inst (
         330, 223, 148, 102, 82
     };
 
-	// reg [19:0] count;      // 20-bit 計數器可達 1,048,575 (>500,000)
-	// reg clk_out;
-
-	// always @(posedge CPU_CLK or negedge locked_0) begin
-	// 	if (!locked_0) begin
-	// 		count <= 0;
-	// 		clk_out <= 0;
-	// 	end else begin
-	// 		if (count == 500_000 - 1) begin
-	// 		count <= 0;           // 重設計數器
-	// 		clk_out <= ~clk_out;  // 翻轉輸出訊號
-	// 	end else begin
-	// 		count <= count + 1;   // 計數
-	// 	end
-	// 	end
-	// end
 
 wire sync_out;
 wire [31:0] var_sync_count;
@@ -346,8 +325,7 @@ my_sync_gen sync_gen_inst
 (
     .i_clk(CPU_CLK),
     .i_rst_n(locked_0),
-   .i_sync_count(var_sync_count),
-	//  .i_sync_count(1000000),
+    .i_sync_count(var_sync_count),
     .o_sync_out(sync_out)
 );
 
@@ -881,7 +859,7 @@ CPU u0 (
 	.varset_1_o_reg0     (var_i2c_357_dev_addr),     //           .o_reg0
 	.varset_1_o_reg1     (var_i2c_357_w_data),     //     varset_1.o_reg1
 	.varset_1_o_reg2     (var_i2c_357_ctrl),     //           .o_reg2
-	.varset_1_o_reg3     (),     //           .o_reg3
+	.varset_1_o_reg3     (var_reg_sync_period),     //           .o_reg3
 	.varset_1_o_reg4     (var_i2c_357_reg_addr),     //           .o_reg4
 	.varset_1_o_reg5     (var_i2c_EEPROM_dev_addr),     //           .o_reg5
 	.varset_1_o_reg6     (var_i2c_EEPROM_w_data),     //           .o_reg6

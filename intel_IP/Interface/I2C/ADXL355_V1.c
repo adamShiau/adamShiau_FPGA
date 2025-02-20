@@ -3,6 +3,9 @@
 #include "system.h"
 #include "altera_avalon_pio_regs.h"
 
+#define VARSET_BASE VARSET_1_BASE
+
+
 /******** SYNC rate definition*********/
 #define SYNC_100Hz 	250000
 #define SYNC_200Hz 	125000
@@ -11,10 +14,10 @@
 #define SYNC_1000Hz 2500
 
 /******** I2C lock rate definition*********/
-#define CLK_195K 	 7
-#define CLK_390K 	 6
-#define CLK_781K 	 5
-#define CLK_1562K 	 4
+#define CLK_390K 	 7
+#define CLK_781K 	 6
+#define CLK_1562K 	 5
+#define CLK_3125K 	 4
 
 /******** VAR Register*********/
 #define	O_VAR_DEV_ADDR		0
@@ -22,18 +25,19 @@
 #define O_VAR_I2C_CTRL		2
 #define O_VAR_SYNC_PER		3
 #define O_VAR_REG_ADDR		4
-#define O_VAR_I2C_STATUS	25 + 0
-#define O_VAR_I2C_RDATA_1	25 + 1
-#define O_VAR_I2C_RDATA_2	25 + 2
-#define O_VAR_I2C_RDATA_3	25 + 3
-#define O_VAR_I2C_RDATA_4	25 + 4
-#define O_VAR_I2C_RDATA_5	25 + 5
-#define O_VAR_I2C_RDATA_6	25 + 6
-#define O_VAR_I2C_RDATA_7	25 + 7
-#define O_VAR_I2C_RDATA_8	25 + 8
-#define O_VAR_I2C_RDATA_9	25 + 9
-#define O_VAR_I2C_RDATA_10	25 + 10
-#define O_VAR_I2C_RDATA_11	25 + 11
+#define var_sync_count 		59
+#define O_VAR_I2C_STATUS	60 + 0
+#define O_VAR_I2C_RDATA_1	60 + 1
+#define O_VAR_I2C_RDATA_2	60 + 2
+#define O_VAR_I2C_RDATA_3	60 + 3
+#define O_VAR_I2C_RDATA_4	60 + 4
+#define O_VAR_I2C_RDATA_5	60 + 5
+#define O_VAR_I2C_RDATA_6	60 + 6
+#define O_VAR_I2C_RDATA_7	60 + 7
+#define O_VAR_I2C_RDATA_8	60 + 8
+#define O_VAR_I2C_RDATA_9	60 + 9
+#define O_VAR_I2C_RDATA_10	60 + 10
+#define O_VAR_I2C_RDATA_11	60 + 11
 
 #define I2C_READ			0x1
 #define I2C_WRITE			0x0
@@ -120,8 +124,9 @@
 #define True 1
 #define False 0
 
-void IRQ_TRIGGER_ISR(void);
+void IRQ_TRIGGER_ISR(void *context);
 void TRIGGER_IRQ_init(void);
+void update_IRIS_config_to_HW_REG(void);
 
 /*** high level declaration */
 void I2C_read_357_CPU11(alt_u8 reg_addr);
@@ -146,15 +151,26 @@ alt_u8 I2C_sm_read_finish(void);
 alt_u32 set_bit_safe(alt_u32 old_addr,  alt_u8 pos);
 alt_u32 clear_bit_safe(alt_u32 old_addr,  alt_u8 pos);
 
+alt_u8 trigger_sig = 0;
+
 
 int main()
 {
   printf("Hello from Nios II!\n");
+  update_IRIS_config_to_HW_REG();
   TRIGGER_IRQ_init(); // register EXTT interrupt
+
   init_ADXL355();
   
   while(1){
-	print_9_reg();
+	  if(trigger_sig==1) {
+		  trigger_sig = 0;
+//		  printf("1\n");
+//		  print_11_reg();
+//		  read_355_temp();
+		  print_9_reg();
+	  }
+
 
   }
   return 0;
@@ -164,7 +180,7 @@ int main()
 
 void init_ADXL355()
 {
-	IOWR(VARSET_BASE, O_VAR_SYNC_PER, SYNC_100Hz);
+//	IOWR(VARSET_BASE, O_VAR_SYNC_PER, SYNC_100Hz);
 
 	/*** configure the ADXL355/357 ***/
 	I2C_clock_rate_sel(CLK_390K);
@@ -197,12 +213,11 @@ void TRIGGER_IRQ_init()
 	0x0);
 }
 
-void IRQ_TRIGGER_ISR()
+void IRQ_TRIGGER_ISR(void *context)
 {
+	(void) context;
 	IOWR_ALTERA_AVALON_PIO_EDGE_CAP(TRIGGER_IN_BASE, 1); //clear edge capture register
-//	printf("IRQ\n");
-//	 read_355_temp();
-	//  I2C_read_357_CPU11(TEMP2_ADDR);
+	trigger_sig = 1;
 }
 
 void read_355_temp()
@@ -295,9 +310,9 @@ void print_11_reg()
 	ZL = IORD(VARSET_BASE, O_VAR_I2C_RDATA_11);
 
 	temp = ((float)((H<<8)|L)-1885.0)/(-9.05)+25.0;
-	accl_x = (XH>>7)? ((float)(XH<<12|XM<<4|XL>>4)-1048576.0)*SENS_8G : (float)(XH<<12|XM<<4|XL>>4)*SENS_8G;
-	accl_y = (YH>>7)? ((float)(YH<<12|YM<<4|YL>>4)-1048576.0)*SENS_8G : (float)(YH<<12|YM<<4|YL>>4)*SENS_8G;
-	accl_z = (ZH>>7)? ((float)(ZH<<12|ZM<<4|ZL>>4)-1048576.0)*SENS_8G : (float)(ZH<<12|ZM<<4|ZL>>4)*SENS_8G;
+	accl_x = (XH>>7)? ((float)(XH<<12|XM<<4|XL>>4)-1048576.0)*SENS_40G : (float)(XH<<12|XM<<4|XL>>4)*SENS_40G;
+	accl_y = (YH>>7)? ((float)(YH<<12|YM<<4|YL>>4)-1048576.0)*SENS_40G : (float)(YH<<12|YM<<4|YL>>4)*SENS_40G;
+	accl_z = (ZH>>7)? ((float)(ZH<<12|ZM<<4|ZL>>4)-1048576.0)*SENS_40G : (float)(ZH<<12|ZM<<4|ZL>>4)*SENS_40G;
 
 	printf("%.3f, %.4f, %.4f, %.4f\n", temp, accl_x, accl_y, accl_z);
 
@@ -321,9 +336,9 @@ void print_9_reg()
 	ZM = IORD(VARSET_BASE, O_VAR_I2C_RDATA_8);
 	ZL = IORD(VARSET_BASE, O_VAR_I2C_RDATA_9);
 
-	accl_x = (XH>>7)? ((float)(XH<<12|XM<<4|XL>>4)-1048576.0)*SENS_8G : (float)(XH<<12|XM<<4|XL>>4)*SENS_8G;
-	accl_y = (YH>>7)? ((float)(YH<<12|YM<<4|YL>>4)-1048576.0)*SENS_8G : (float)(YH<<12|YM<<4|YL>>4)*SENS_8G;
-	accl_z = (ZH>>7)? ((float)(ZH<<12|ZM<<4|ZL>>4)-1048576.0)*SENS_8G : (float)(ZH<<12|ZM<<4|ZL>>4)*SENS_8G;
+	accl_x = (XH>>7)? ((float)(XH<<12|XM<<4|XL>>4)-1048576.0)*SENS_40G : (float)(XH<<12|XM<<4|XL>>4)*SENS_40G;
+	accl_y = (YH>>7)? ((float)(YH<<12|YM<<4|YL>>4)-1048576.0)*SENS_40G : (float)(YH<<12|YM<<4|YL>>4)*SENS_40G;
+	accl_z = (ZH>>7)? ((float)(ZH<<12|ZM<<4|ZL>>4)-1048576.0)*SENS_40G : (float)(ZH<<12|ZM<<4|ZL>>4)*SENS_40G;
 
 	printf("%.4f, %.4f, %.4f\n", accl_x, accl_y, accl_z);
 
@@ -410,6 +425,10 @@ alt_u8 I2C_sm_read_finish()
 	return finish;
 }
 
+void update_IRIS_config_to_HW_REG()
+{
+	IOWR(VARSET_BASE, var_sync_count, 5e5);
+}
 
 
 // void I2C_sm_set_enable()

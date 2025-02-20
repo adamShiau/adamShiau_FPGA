@@ -81,6 +81,7 @@ int main(void)
 	uartInit(); //interrupt method of uart defined in uart.c not main()
 	init_ADDA();
 	init_EEPROM();
+	init_ADXL357();
 
 	// initialize_fog_params(&fog_params);
 	// EEPROM_Write_initial_parameter();
@@ -119,7 +120,7 @@ int main(void)
 
 void update_IRIS_config_to_HW_REG()
 {
-	IOWR(VARSET_BASE, var_sync_count, 1e6);
+	IOWR(VARSET_BASE, var_sync_count, SYNC_200HZ);
 }
 
 

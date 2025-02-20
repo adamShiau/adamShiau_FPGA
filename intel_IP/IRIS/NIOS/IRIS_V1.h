@@ -5,6 +5,8 @@
 #include "nios2_var_addr.h"
 
 #define VARSET_BASE VARSET_1_BASE
+#define SYNC_100HZ 5e5
+#define SYNC_200HZ 2.5e5
 
 /******** my Library *******/
 
@@ -26,6 +28,8 @@
 //eeprom
 #include "eeprom.h"
 // #include "eeprom.c"
+
+#include "adxl357.h"
 
 
 

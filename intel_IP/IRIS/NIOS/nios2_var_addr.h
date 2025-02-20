@@ -3,7 +3,7 @@
 #define	var_i2c_357_dev_addr		0
 #define var_i2c_357_w_data		    1
 #define var_i2c_357_ctrl		    2
-#define var_reg_sync_period		    3
+// #define var_reg_sync_period		    3 // not use now
 #define var_i2c_357_reg_addr		4
 #define var_i2c_EEPROM_dev_addr		5
 #define var_i2c_EEPROM_w_data		6
@@ -59,7 +59,7 @@
 #define var_i2c_357_rdata_7	    60 + 7
 #define var_i2c_357_rdata_8	    60 + 8
 #define var_i2c_357_rdata_9	    60 + 9
-#define var_i2c_357_rdata_0	    60 + 10
+#define var_i2c_357_rdata_10	60 + 10
 #define var_i2c_357_rdata_11	60 + 11
 #define var_i2c_EEPROM_status   60 + 12
 #define var_i2c_EEPROM_rdata_1  60 + 13

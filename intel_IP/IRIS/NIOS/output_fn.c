@@ -59,10 +59,9 @@ void acq_fog (cmd_ctrl_t* rx, my_sensor_t* data, alt_u8* sync, fog_parameter_t f
             temp3.float_val = data->temp.tempz.float_val;
             err3.int_val = data->fog.fogz.err.int_val;
             step3.float_val = data->fog.fogz.step.float_val*(sf_1_slope*temp3.float_val + sf_1_offset);
+
+            print_9_reg();
             
-
-
-
             alt_u8* imu_data = (alt_u8*)malloc(16+4); // KVH_HEADER:4 + time:4 + err:4 + fog:4 + temp:4
 			alt_u8 CRC32[4];
 

@@ -5,6 +5,7 @@
 #include <stdlib.h>  // malloc(), free()
 #include <string.h>  // memcpy()
 #include "common.h"
+#include "adxl357.h"
 
 #define DLY_NUM 10000
 
