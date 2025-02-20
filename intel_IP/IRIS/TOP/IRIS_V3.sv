@@ -55,7 +55,7 @@ module IRIS_V3(
 	//////////// SYNC //////////
 	EXT_SYNC_IN,
 	EXT_SYNC2,
-	PIO_C21,
+//	PIO_C21,
 	
 	//////////// ADXL357 I2C //////////
 	SDA_357,
@@ -134,7 +134,7 @@ output 				LED_FPGA;
 //////////// SYNC //////////
 input				EXT_SYNC_IN;
 output				EXT_SYNC2;
-output 				PIO_C21;
+//output 				PIO_C21;
 
 //////////// ADXL357 //////////
 inout				SDA_357;

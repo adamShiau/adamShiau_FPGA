@@ -101,12 +101,19 @@ typedef struct {
   my_float_t time;  
 } my_time_t;
 
+typedef struct {
+  my_float_t ax;  
+  my_float_t ay; 
+  my_float_t az; 
+  my_float_t temp;
+} accl_t;
+
 typedef struct 
 {
   my_time_t time;
   fog_t fog;
   temp_t temp;
-  
+  accl_t adxl357;
 }my_sensor_t;
 
 /*** output function type delaration */

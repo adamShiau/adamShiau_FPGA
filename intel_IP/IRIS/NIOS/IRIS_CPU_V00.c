@@ -64,6 +64,12 @@ my_sensor_t sensor_data = {
 		.tempx.float_val = 0,
 		.tempy.float_val = 0,
 		.tempz.float_val = 0
+	},
+	.adxl357 = {
+		.ax.float_val = 0,
+		.ay.float_val = 0,
+		.az.float_val = 0,
+		.temp.float_val = 0
 	}
 };
 
@@ -96,10 +102,16 @@ int main(void)
 
 
 	while(1){
+		/*** fog */
 		sensor_data.time.time.float_val = (float)IORD(VARSET_BASE, i_var_timer)*COE_TIMER;
 		sensor_data.fog.fogz.err.int_val = IORD(VARSET_BASE, i_var_err_3);
 		sensor_data.fog.fogz.step.float_val = (float)IORD(VARSET_BASE, i_var_step_3);
 		sensor_data.temp.tempz.float_val = 25.35;
+		/*** ADXL357 */
+		sensor_data.adxl357.ax.int_val = IORD(VARSET_BASE, var_i2c_357_rdata_1);
+		sensor_data.adxl357.ay.int_val = IORD(VARSET_BASE, var_i2c_357_rdata_2);
+		sensor_data.adxl357.az.int_val = IORD(VARSET_BASE, var_i2c_357_rdata_3);
+		sensor_data.adxl357.temp.float_val = 30.123;
 		/***monitor */
 		// sensor_data.fog.fogz.sum_high.int_val = IORD(VARSET_BASE, i_var_high);
 		// sensor_data.fog.fogz.sum_low.int_val = IORD(VARSET_BASE, i_var_low);

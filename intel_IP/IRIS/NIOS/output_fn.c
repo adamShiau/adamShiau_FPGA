@@ -21,7 +21,7 @@ void acq_rst (cmd_ctrl_t* rx, my_sensor_t* data, alt_u8* sync, fog_parameter_t f
 void acq_fog (cmd_ctrl_t* rx, my_sensor_t* data, alt_u8* sync, fog_parameter_t fog_parameter)
 {
     my_float_t time, err3, step3, temp3;
-
+    my_float_t ax, ay, az;
     
     /*** update container parameters */
     float sf_1_slope, sf_2_slope, sf_3_slope;
@@ -60,7 +60,11 @@ void acq_fog (cmd_ctrl_t* rx, my_sensor_t* data, alt_u8* sync, fog_parameter_t f
             err3.int_val = data->fog.fogz.err.int_val;
             step3.float_val = data->fog.fogz.step.float_val*(sf_1_slope*temp3.float_val + sf_1_offset);
 
-            print_9_reg();
+            ax.int_val = data->adxl357.ax.int_val;
+            ay.int_val = data->adxl357.ay.int_val;
+            az.int_val = data->adxl357.az.int_val;
+
+            // print_9_reg();
             // read_357_temp();
             
             alt_u8* imu_data = (alt_u8*)malloc(16+4); // KVH_HEADER:4 + time:4 + err:4 + fog:4 + temp:4
@@ -84,6 +88,7 @@ void acq_fog (cmd_ctrl_t* rx, my_sensor_t* data, alt_u8* sync, fog_parameter_t f
             SerialWrite(temp3.bin_val, 4); 
             SerialWrite(CRC32, 4); 
 
+            INFO_PRINT("%d, %d, %d\n", ax.int_val, ay.int_val, az.int_val);
             // INFO_PRINT("%f, %f, %f, %f, %f, %f\n", sf_1_slope, sf_1_offset, sf_2_slope, sf_2_offset, sf_3_slope, sf_3_offset);
             
             // INFO_PRINT("%f, %d, %d, %d, %ld, %d\n", step3.float_val, o_step3.int_val, sum_high.int_val, sum_low.int_val, sum, buf.int_val);
