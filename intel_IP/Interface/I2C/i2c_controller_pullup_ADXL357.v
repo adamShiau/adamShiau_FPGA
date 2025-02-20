@@ -81,17 +81,17 @@ module i2c_controller_pullup_ADXL357
 	localparam STOP2 		= 	34;
 	localparam NOP1 		= 	35;
 
-	reg signed [7:0] 	reg_rd_data,
-	reg signed [7:0] 	reg_rd_data_2,
-	reg signed [7:0] 	reg_rd_data_3,
-	reg signed [7:0] 	reg_rd_data_4,
-	reg signed [7:0] 	reg_rd_data_5,
-	reg signed [7:0] 	reg_rd_data_6,
-	reg signed [7:0] 	reg_rd_data_7,
-	reg signed [7:0] 	reg_rd_data_8,
-	reg signed [7:0] 	reg_rd_data_9,
-	reg signed [7:0] 	reg_rd_data_10,
-	reg signed [7:0] 	reg_rd_data_11,
+	reg signed [7:0] 	reg_rd_data;
+	reg signed [7:0] 	reg_rd_data_2;
+	reg signed [7:0] 	reg_rd_data_3;
+	reg signed [7:0] 	reg_rd_data_4;
+	reg signed [7:0] 	reg_rd_data_5;
+	reg signed [7:0] 	reg_rd_data_6;
+	reg signed [7:0] 	reg_rd_data_7;
+	reg signed [7:0] 	reg_rd_data_8;
+	reg signed [7:0] 	reg_rd_data_9;
+	reg signed [7:0] 	reg_rd_data_10;
+	reg signed [7:0] 	reg_rd_data_11;
 
 	reg [7:0] state;
 	reg [7:0] saved_addr;
