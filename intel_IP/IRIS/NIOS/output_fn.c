@@ -8,7 +8,7 @@
 const unsigned char KVH_HEADER[4] = {0xFE, 0x81, 0xFF, 0x55};
 alt_u32 dly_cnt = 0;
 
-void acq_rst (cmd_ctrl_t* rx, my_sensor_t* data, alt_u8* sync, fog_parameter_t fog_parameter)
+void acq_rst (cmd_ctrl_t* rx, my_sensor_t data, alt_u8* sync, fog_parameter_t fog_parameter)
 {
     if(dly_cnt++ > DLY_NUM) {
         dly_cnt = 0;
@@ -18,7 +18,7 @@ void acq_rst (cmd_ctrl_t* rx, my_sensor_t* data, alt_u8* sync, fog_parameter_t f
     
 }
 
-void acq_fog (cmd_ctrl_t* rx, my_sensor_t* data, alt_u8* sync, fog_parameter_t fog_parameter)
+void acq_fog (cmd_ctrl_t* rx, my_sensor_t data, alt_u8* sync, fog_parameter_t fog_parameter)
 {
     my_float_t time, err3, step3, temp3;
     my_float_t ax, ay, az;
@@ -55,14 +55,14 @@ void acq_fog (cmd_ctrl_t* rx, my_sensor_t* data, alt_u8* sync, fog_parameter_t f
             sf_3_slope = fog_parameter.paramZ[21].data.float_val;
             sf_3_offset = fog_parameter.paramZ[22].data.float_val;
 
-            time.float_val = data->time.time.float_val;
-            temp3.float_val = data->temp.tempz.float_val;
-            err3.int_val = data->fog.fogz.err.int_val;
-            step3.float_val = data->fog.fogz.step.float_val*(sf_1_slope*temp3.float_val + sf_1_offset);
+            time.float_val = data.time.time.float_val;
+            temp3.float_val = data.temp.tempz.float_val;
+            err3.int_val = data.fog.fogz.err.int_val;
+            step3.float_val = data.fog.fogz.step.float_val*(sf_1_slope*temp3.float_val + sf_1_offset);
 
-            ax.float_val = data->adxl357.ax.float_val*SENS_ADXL357_40G;
-            ay.float_val = data->adxl357.ay.float_val*SENS_ADXL357_40G;
-            az.float_val = data->adxl357.az.float_val*SENS_ADXL357_40G;
+            ax.float_val = data.adxl357.ax.float_val*SENS_ADXL357_20G;
+            ay.float_val = data.adxl357.ay.float_val*SENS_ADXL357_20G;
+            az.float_val = data.adxl357.az.float_val*SENS_ADXL357_20G;
             
             alt_u8* imu_data = (alt_u8*)malloc(16+4); // KVH_HEADER:4 + time:4 + err:4 + fog:4 + temp:4
 			alt_u8 CRC32[4];
@@ -82,7 +82,7 @@ void acq_fog (cmd_ctrl_t* rx, my_sensor_t* data, alt_u8* sync, fog_parameter_t f
             SerialWrite(temp3.bin_val, 4); 
             SerialWrite(CRC32, 4); 
 
-            // INFO_PRINT("%f, %f, %f\n", ax.float_val, ay.float_val, az.float_val);
+            INFO_PRINT("%f, %f, %f\n", ax.float_val, ay.float_val, az.float_val);
 
         }
     }

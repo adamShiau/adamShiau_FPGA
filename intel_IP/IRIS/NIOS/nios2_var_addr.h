@@ -54,13 +54,13 @@
 #define var_i2c_357_rdata_2	    60 + 2
 #define var_i2c_357_rdata_3	    60 + 3
 #define var_i2c_357_rdata_4	    60 + 4
-#define var_i2c_357_rdata_5	    60 + 5
-#define var_i2c_357_rdata_6	    60 + 6
-#define var_i2c_357_rdata_7	    60 + 7
-#define var_i2c_357_rdata_8	    60 + 8
-#define var_i2c_357_rdata_9	    60 + 9
-#define var_i2c_357_rdata_10	60 + 10
-#define var_i2c_357_rdata_11	60 + 11
+// #define var_i2c_357_rdata_5	    60 + 5
+// #define var_i2c_357_rdata_6	    60 + 6
+// #define var_i2c_357_rdata_7	    60 + 7
+// #define var_i2c_357_rdata_8	    60 + 8
+// #define var_i2c_357_rdata_9	    60 + 9
+// #define var_i2c_357_rdata_10	60 + 10
+// #define var_i2c_357_rdata_11	60 + 11
 #define var_i2c_EEPROM_status   60 + 12
 #define var_i2c_EEPROM_rdata_1  60 + 13
 #define var_i2c_EEPROM_rdata_2  60 + 14

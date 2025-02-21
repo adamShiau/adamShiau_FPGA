@@ -22,13 +22,13 @@
 #define O_VAR_I2C_RDATA_2	var_i2c_357_rdata_2
 #define O_VAR_I2C_RDATA_3	var_i2c_357_rdata_3
 #define O_VAR_I2C_RDATA_4	var_i2c_357_rdata_4
-#define O_VAR_I2C_RDATA_5	var_i2c_357_rdata_5
-#define O_VAR_I2C_RDATA_6	var_i2c_357_rdata_6
-#define O_VAR_I2C_RDATA_7	var_i2c_357_rdata_7
-#define O_VAR_I2C_RDATA_8	var_i2c_357_rdata_8
-#define O_VAR_I2C_RDATA_9	var_i2c_357_rdata_9
-#define O_VAR_I2C_RDATA_10	var_i2c_357_rdata_10
-#define O_VAR_I2C_RDATA_11	var_i2c_357_rdata_11
+// #define O_VAR_I2C_RDATA_5	var_i2c_357_rdata_5
+// #define O_VAR_I2C_RDATA_6	var_i2c_357_rdata_6
+// #define O_VAR_I2C_RDATA_7	var_i2c_357_rdata_7
+// #define O_VAR_I2C_RDATA_8	var_i2c_357_rdata_8
+// #define O_VAR_I2C_RDATA_9	var_i2c_357_rdata_9
+// #define O_VAR_I2C_RDATA_10	var_i2c_357_rdata_10
+// #define O_VAR_I2C_RDATA_11	var_i2c_357_rdata_11
 
 #define I2C_READ			0x1
 #define I2C_WRITE			0x0
@@ -121,7 +121,7 @@ void I2C_read_357_CPU11(alt_u8 reg_addr)
 	// start the I2C SM 
 	I2C_sm_start_ADXL357();
 	// Print data from 11 successive registers of ADXL355/357
-	print_11_reg();
+	// print_11_reg();
 }
 
 void init_ADXL357()
@@ -130,7 +130,7 @@ void init_ADXL357()
 	I2C_clock_rate_sel_ADXL357(CLK_390K);
 	/*** set adxl357 parameters ***/
 	I2C_write_357_register(RST_ADDR, POR);
-	I2C_write_357_register(RANGE_ADDR, F_MODE | INT_POL_H | RANGE_40G);
+	I2C_write_357_register(RANGE_ADDR, F_MODE | INT_POL_H | RANGE_20G);
 	I2C_read_357_register(RANGE_ADDR, 1);
 //	I2C_write_357_register(FILTER_ADDR, ODR_500);
 //	I2C_read_357_register(FILTER_ADDR);
@@ -152,64 +152,64 @@ void read_357_temp()
 	H = I2C_read_357_register(TEMP2_ADDR, 0); // 0x06
 	L = I2C_read_357_register(TEMP1_ADDR, 0); // 0x06
 	temp = ((float)((H<<8)|L)-1885.0)/(-9.05)+25.0;
-	printf("%f\n", temp);
+	INFO_PRINT("%f\n", temp);
 }
 
-void print_11_reg()
-{
-	alt_u8 H, L;
-	alt_u8 XH, XM, XL;
-	alt_u8 YH, YM, YL;
-	alt_u8 ZH, ZM, ZL;
-	float temp, accl_x, accl_y, accl_z;
+// void print_11_reg()
+// {
+// 	alt_u8 H, L;
+// 	alt_u8 XH, XM, XL;
+// 	alt_u8 YH, YM, YL;
+// 	alt_u8 ZH, ZM, ZL;
+// 	float temp, accl_x, accl_y, accl_z;
 
-	while( !I2C_sm_read_finish_ADXL357()){}
-	H = IORD(VARSET_BASE, O_VAR_I2C_RDATA_1);
-	L = IORD(VARSET_BASE, O_VAR_I2C_RDATA_2);
-	XH = IORD(VARSET_BASE, O_VAR_I2C_RDATA_3);
-	XM = IORD(VARSET_BASE, O_VAR_I2C_RDATA_4);
-	XL = IORD(VARSET_BASE, O_VAR_I2C_RDATA_5);
-	YH = IORD(VARSET_BASE, O_VAR_I2C_RDATA_6);
-	YM = IORD(VARSET_BASE, O_VAR_I2C_RDATA_7);
-	YL = IORD(VARSET_BASE, O_VAR_I2C_RDATA_8);
-	ZH = IORD(VARSET_BASE, O_VAR_I2C_RDATA_9);
-	ZM = IORD(VARSET_BASE, O_VAR_I2C_RDATA_10);
-	ZL = IORD(VARSET_BASE, O_VAR_I2C_RDATA_11);
+// 	while( !I2C_sm_read_finish_ADXL357()){}
+// 	H = IORD(VARSET_BASE, O_VAR_I2C_RDATA_1);
+// 	L = IORD(VARSET_BASE, O_VAR_I2C_RDATA_2);
+// 	XH = IORD(VARSET_BASE, O_VAR_I2C_RDATA_3);
+// 	XM = IORD(VARSET_BASE, O_VAR_I2C_RDATA_4);
+// 	XL = IORD(VARSET_BASE, O_VAR_I2C_RDATA_5);
+// 	YH = IORD(VARSET_BASE, O_VAR_I2C_RDATA_6);
+// 	YM = IORD(VARSET_BASE, O_VAR_I2C_RDATA_7);
+// 	YL = IORD(VARSET_BASE, O_VAR_I2C_RDATA_8);
+// 	ZH = IORD(VARSET_BASE, O_VAR_I2C_RDATA_9);
+// 	ZM = IORD(VARSET_BASE, O_VAR_I2C_RDATA_10);
+// 	ZL = IORD(VARSET_BASE, O_VAR_I2C_RDATA_11);
 
-	temp = ((float)((H<<8)|L)-1885.0)/(-9.05)+25.0;
-	accl_x = (XH>>7)? ((float)(XH<<12|XM<<4|XL>>4)-1048576.0)*SENS_ADXL357_40G : (float)(XH<<12|XM<<4|XL>>4)*SENS_ADXL357_40G;
-	accl_y = (YH>>7)? ((float)(YH<<12|YM<<4|YL>>4)-1048576.0)*SENS_ADXL357_40G : (float)(YH<<12|YM<<4|YL>>4)*SENS_ADXL357_40G;
-	accl_z = (ZH>>7)? ((float)(ZH<<12|ZM<<4|ZL>>4)-1048576.0)*SENS_ADXL357_40G : (float)(ZH<<12|ZM<<4|ZL>>4)*SENS_ADXL357_40G;
+// 	temp = ((float)((H<<8)|L)-1885.0)/(-9.05)+25.0;
+// 	accl_x = (XH>>7)? ((float)(XH<<12|XM<<4|XL>>4)-1048576.0)*SENS_ADXL357_40G : (float)(XH<<12|XM<<4|XL>>4)*SENS_ADXL357_40G;
+// 	accl_y = (YH>>7)? ((float)(YH<<12|YM<<4|YL>>4)-1048576.0)*SENS_ADXL357_40G : (float)(YH<<12|YM<<4|YL>>4)*SENS_ADXL357_40G;
+// 	accl_z = (ZH>>7)? ((float)(ZH<<12|ZM<<4|ZL>>4)-1048576.0)*SENS_ADXL357_40G : (float)(ZH<<12|ZM<<4|ZL>>4)*SENS_ADXL357_40G;
 
-	printf("%.3f, %.4f, %.4f, %.4f\n", temp, accl_x, accl_y, accl_z);
+// 	INFO_PRINT("%.3f, %.4f, %.4f, %.4f\n", temp, accl_x, accl_y, accl_z);
 
-}
+// }
 
-void print_9_reg()
-{
-	alt_u8 XH, XM, XL;
-	alt_u8 YH, YM, YL;
-	alt_u8 ZH, ZM, ZL;
-	float accl_x, accl_y, accl_z;
+// void print_9_reg()
+// {
+// 	alt_u8 XH, XM, XL;
+// 	alt_u8 YH, YM, YL;
+// 	alt_u8 ZH, ZM, ZL;
+// 	float accl_x, accl_y, accl_z;
 
-	while( !I2C_sm_read_finish_ADXL357()){}
-	XH = IORD(VARSET_BASE, O_VAR_I2C_RDATA_1);
-	XM = IORD(VARSET_BASE, O_VAR_I2C_RDATA_2);
-	XL = IORD(VARSET_BASE, O_VAR_I2C_RDATA_3);
-	YH = IORD(VARSET_BASE, O_VAR_I2C_RDATA_4);
-	YM = IORD(VARSET_BASE, O_VAR_I2C_RDATA_5);
-	YL = IORD(VARSET_BASE, O_VAR_I2C_RDATA_6);
-	ZH = IORD(VARSET_BASE, O_VAR_I2C_RDATA_7);
-	ZM = IORD(VARSET_BASE, O_VAR_I2C_RDATA_8);
-	ZL = IORD(VARSET_BASE, O_VAR_I2C_RDATA_9);
+// 	while( !I2C_sm_read_finish_ADXL357()){}
+// 	XH = IORD(VARSET_BASE, O_VAR_I2C_RDATA_1);
+// 	XM = IORD(VARSET_BASE, O_VAR_I2C_RDATA_2);
+// 	XL = IORD(VARSET_BASE, O_VAR_I2C_RDATA_3);
+// 	YH = IORD(VARSET_BASE, O_VAR_I2C_RDATA_4);
+// 	YM = IORD(VARSET_BASE, O_VAR_I2C_RDATA_5);
+// 	YL = IORD(VARSET_BASE, O_VAR_I2C_RDATA_6);
+// 	ZH = IORD(VARSET_BASE, O_VAR_I2C_RDATA_7);
+// 	ZM = IORD(VARSET_BASE, O_VAR_I2C_RDATA_8);
+// 	ZL = IORD(VARSET_BASE, O_VAR_I2C_RDATA_9);
 
-	accl_x = (XH>>7)? ((float)(XH<<12|XM<<4|XL>>4)-1048576.0)*SENS_ADXL357_40G : (float)(XH<<12|XM<<4|XL>>4)*SENS_ADXL357_40G;
-	accl_y = (YH>>7)? ((float)(YH<<12|YM<<4|YL>>4)-1048576.0)*SENS_ADXL357_40G : (float)(YH<<12|YM<<4|YL>>4)*SENS_ADXL357_40G;
-	accl_z = (ZH>>7)? ((float)(ZH<<12|ZM<<4|ZL>>4)-1048576.0)*SENS_ADXL357_40G : (float)(ZH<<12|ZM<<4|ZL>>4)*SENS_ADXL357_40G;
+// 	accl_x = (XH>>7)? ((float)(XH<<12|XM<<4|XL>>4)-1048576.0)*SENS_ADXL357_40G : (float)(XH<<12|XM<<4|XL>>4)*SENS_ADXL357_40G;
+// 	accl_y = (YH>>7)? ((float)(YH<<12|YM<<4|YL>>4)-1048576.0)*SENS_ADXL357_40G : (float)(YH<<12|YM<<4|YL>>4)*SENS_ADXL357_40G;
+// 	accl_z = (ZH>>7)? ((float)(ZH<<12|ZM<<4|ZL>>4)-1048576.0)*SENS_ADXL357_40G : (float)(ZH<<12|ZM<<4|ZL>>4)*SENS_ADXL357_40G;
 
-	// printf("%.4f, %.4f, %.4f\n", accl_x, accl_y, accl_z);
+// 	// INFO_PRINT("%.4f, %.4f, %.4f\n", accl_x, accl_y, accl_z);
 
-}
+// }
 
 
 
@@ -276,7 +276,7 @@ alt_u8 I2C_read_357_register(alt_u8 reg_addr, alt_u8 print)
 	// Retrieve the data read from the specified register
 	rt = IORD(VARSET_BASE, O_VAR_I2C_RDATA_1);
 	// Print the register address and its read value if 'print' is enabled
-	if(print) 	printf("reg:%x, value:%x\n", reg_addr, rt);
+	if(print) 	INFO_PRINT("reg:%x, value:%x\n", reg_addr, rt);
 
 	return rt;
 }

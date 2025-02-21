@@ -8,8 +8,8 @@
 #include "nios2_var_addr.h"
 #include "adda_config.h"
 
-#define DEBUG
-#define INFO
+// #define DEBUG
+// #define INFO
 
 #ifdef DEBUG
     #define DEBUG_PRINT(...) printf(__VA_ARGS__)
@@ -117,7 +117,7 @@ typedef struct
 }my_sensor_t;
 
 /*** output function type delaration */
-typedef void (*fn_ptr) (cmd_ctrl_t*, my_sensor_t*, alt_u8*, fog_parameter_t);
+typedef void (*fn_ptr) (cmd_ctrl_t*, my_sensor_t, alt_u8*, fog_parameter_t);
 
 // typedef struct cmd_ctrl_t cmd_ctrl_t;
 

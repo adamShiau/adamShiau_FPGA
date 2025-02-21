@@ -17,8 +17,8 @@
 void I2C_read_357_CPU11(alt_u8 reg_addr);
 void init_ADXL357(void);
 void read_357_temp(void);
-void print_11_reg(void);
-void print_9_reg(void);
+// void print_11_reg(void);
+// void print_9_reg(void);
 
 /*** mid level declaration */
 void I2C_sm_start_ADXL357();

@@ -11,14 +11,8 @@ module i2c_controller_pullup_ADXL357
 	output reg signed [32-1:0] 	o_ACCX,
 	output reg signed [32-1:0] 	o_ACCY,
 	output reg signed [32-1:0] 	o_ACCZ,
-	// output reg signed [20-1:0] 	o_rd_data_4,
-	// output reg signed [31:0] 	o_rd_data_5,
-	// output reg signed [31:0] 	o_rd_data_6,
-	// output reg signed [31:0] 	o_rd_data_7,
-	// output reg signed [31:0] 	o_rd_data_8,
-	// output reg signed [31:0] 	o_rd_data_9,
-	// output reg signed [31:0] 	o_rd_data_10,
-	// output reg signed [31:0] 	o_rd_data_11,
+	output reg signed [32-1:0] 	o_TEMP,
+
 
 	output wire [31:0] 	o_status,
 	output wire 		o_w_enable,
@@ -342,9 +336,6 @@ module i2c_controller_pullup_ADXL357
 					if(write_done==1'b0) begin
 						sm_enable <= 1'b0;
 					end
-					// o_ACCX <= {reg_rd_data,   reg_rd_data_2, reg_rd_data_3[7:4]};
-					// o_ACCY <= {reg_rd_data_4, reg_rd_data_5, reg_rd_data_6[7:4]};
-					// o_ACCZ <= {reg_rd_data_7, reg_rd_data_8, reg_rd_data_9[7:4]};
 					o_ACCX <= {{12{reg_rd_data[7]}},   reg_rd_data,   reg_rd_data_2, reg_rd_data_3[7:4]};
 					o_ACCY <= {{12{reg_rd_data_4[7]}}, reg_rd_data_4, reg_rd_data_5, reg_rd_data_6[7:4]};
 					o_ACCZ <= {{12{reg_rd_data_7[7]}}, reg_rd_data_7, reg_rd_data_8, reg_rd_data_9[7:4]};

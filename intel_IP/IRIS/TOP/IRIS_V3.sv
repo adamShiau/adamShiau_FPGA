@@ -163,7 +163,7 @@ wire [29:0] adc1_fir, adc2_fir, adc3_fir;
 /////////// I2C ADXL357 Var definition //////////
 wire [31:0] var_i2c_357_dev_addr, var_i2c_357_reg_addr, var_i2c_357_w_data;
 wire signed [31:0] var_i2c_357_rdata_1, var_i2c_357_rdata_2, var_i2c_357_rdata_3, var_i2c_357_rdata_4;
-wire signed [31:0] var_i2c_357_rdata_5, var_i2c_357_rdata_6, var_i2c_357_rdata_7, var_i2c_357_rdata_8, var_i2c_357_rdata_9, var_i2c_357_rdata_10, var_i2c_357_rdata_11;
+// wire signed [31:0] var_i2c_357_rdata_5, var_i2c_357_rdata_6, var_i2c_357_rdata_7, var_i2c_357_rdata_8, var_i2c_357_rdata_9, var_i2c_357_rdata_10, var_i2c_357_rdata_11;
 wire [31:0] var_i2c_357_ctrl, var_i2c_357_status;
 
 /////////// I2C EEPROM Var definition //////////
@@ -227,7 +227,7 @@ logic signed [31:0] o_err_DAC3, o_err_DAC3_FIR, o_err_DAC3_MV;
 wire o_step_sync_3, o_step_sync_dly_3, o_rate_sync_3, o_ramp_sync_3;
 
 /////////// FB Step Gen parameter //////////
-logic signed [31:0] o_step_3, o_step_3_MV, i_var_step_3, i_var_err_3, i_var_high, i_var_low, i_var_buf;
+logic signed [31:0] o_step_3, o_step_3_MV, i_var_step_3, i_var_err_3;
 wire [31:0] var_gainSel_step_3, var_const_step_3, var_fb_ON_3;
 
 /////////// Phase Ramp Gen parameter //////////
@@ -447,6 +447,7 @@ end
     	,.o_high_avg()
     );
 
+//filter err signal before step gen
 // fc ~ freq. of i_trig * 0.05 = 300KHz * 0.05 = 15KHz
 myfir_filter_gate #(
 	.N(32), 
@@ -481,7 +482,7 @@ feedback_step_gen_v4 fb_step_gen_ch3(
 	.o_step_init() 
 );
 
-
+//filter step output signal before send to CPU
 // fs = frequency of trig/DIV_FACTOR
 // fc ~ 0.5* fs / N  = 0.5 * (300/6) / 512 KHz = 48.8 Hz  
 myMV_filter_gate_v1 #(
@@ -495,9 +496,6 @@ myMV_filter_gate_v1 #(
 	.trig(o_step_sync_3),
     .din(o_step_3),
     .dout(o_step_3_MV)
-	,.monitor_sum_high(i_var_high)
-	,.monitor_sum_low(i_var_low)
-	,.monitor_buffer(i_var_buf)
 );
 
 phase_ramp_gen phase_ramp_gen_ch3(
@@ -605,45 +603,9 @@ inst_i2c_adxl357 (
 	.o_ACCX(var_i2c_357_rdata_1),
 	.o_ACCY(var_i2c_357_rdata_2),
 	.o_ACCZ(var_i2c_357_rdata_3),
-	// .o_rd_data_4(var_i2c_357_rdata_4),
-	// .o_rd_data_5(var_i2c_357_rdata_5),
-	// .o_rd_data_6(var_i2c_357_rdata_6),
-	// .o_rd_data_7(var_i2c_357_rdata_7),
-	// .o_rd_data_8(var_i2c_357_rdata_8),
-	// .o_rd_data_9(var_i2c_357_rdata_9),
-	// .o_rd_data_10(var_i2c_357_rdata_10),
-	// .o_rd_data_11(var_i2c_357_rdata_11),
+	.o_TEMP(var_i2c_357_rdata_4),
 	.o_w_enable()
 );
-
-// i2c_controller_pullup_9
-// inst_i2c_adxl357 (
-// 	.i_clk(CPU_CLK),
-// 	.i_rst_n(locked_0),
-// 	.i2c_scl(SCL_357),
-// 	.i2c_sda(SDA_357),
-// 	.i2c_clk_out(),
-// 	.i_dev_addr(var_i2c_357_dev_addr),
-// 	.i_reg_addr(var_i2c_357_reg_addr),
-// 	.i_w_data(var_i2c_357_w_data),  
-	
-// 	.i_ctrl(var_i2c_357_ctrl),
-// 	.i_drdy(DRDY_357),
-
-// 	.o_status(var_i2c_357_status),
-// 	.o_rd_data(var_i2c_357_rdata_1),
-// 	.o_rd_data_2(var_i2c_357_rdata_2),
-// 	.o_rd_data_3(var_i2c_357_rdata_3),
-// 	.o_rd_data_4(var_i2c_357_rdata_4),
-// 	.o_rd_data_5(var_i2c_357_rdata_5),
-// 	.o_rd_data_6(var_i2c_357_rdata_6),
-// 	.o_rd_data_7(var_i2c_357_rdata_7),
-// 	.o_rd_data_8(var_i2c_357_rdata_8),
-// 	.o_rd_data_9(var_i2c_357_rdata_9),
-// 	.o_rd_data_10(var_i2c_357_rdata_10),
-// 	.o_rd_data_11(var_i2c_357_rdata_11),
-// 	.o_w_enable()
-// );
 	
 /**** I2C EEPROM****/
 i2c_controller_pullup_eeprom
@@ -961,17 +923,17 @@ CPU u0 (
 	.varset_1_o_reg59  (var_sync_count), 
 
 	.varset_1_i_var0     (var_i2c_357_status),     //           .i_var0
-	.varset_1_i_var1     (var_i2c_357_rdata_1),     //           .i_var1
-	.varset_1_i_var2     (var_i2c_357_rdata_2),     //           .i_var2
-	.varset_1_i_var3     (var_i2c_357_rdata_3),     //           .i_var3
-	.varset_1_i_var4     (var_i2c_357_rdata_4),     //           .i_var4
-	.varset_1_i_var5     (var_i2c_357_rdata_5),     //           .i_var5
-	.varset_1_i_var6     (var_i2c_357_rdata_6),     //           .i_var6
-	.varset_1_i_var7     (var_i2c_357_rdata_7),     //           .i_var7
-	.varset_1_i_var8     (var_i2c_357_rdata_8),     //           .i_var8
-	.varset_1_i_var9     (var_i2c_357_rdata_9),     //           .i_var9
-	.varset_1_i_var10    (var_i2c_357_rdata_10),    //           .i_var10
-	.varset_1_i_var11    (var_i2c_357_rdata_11),    //           .i_var11
+	.varset_1_i_var1     (var_i2c_357_rdata_1),     //           accl_x
+	.varset_1_i_var2     (var_i2c_357_rdata_2),     //           accl_y
+	.varset_1_i_var3     (var_i2c_357_rdata_3),     //           accl_z
+	.varset_1_i_var4     (var_i2c_357_rdata_4),     //           temp
+	.varset_1_i_var5     (),     //           .i_var5
+	.varset_1_i_var6     (),     //           .i_var6
+	.varset_1_i_var7     (),     //           .i_var7
+	.varset_1_i_var8     (),     //           .i_var8
+	.varset_1_i_var9     (),     //           .i_var9
+	.varset_1_i_var10    (),    //           .i_var10
+	.varset_1_i_var11    (),    //           .i_var11
 	.varset_1_i_var12    (var_i2c_EEPROM_status),    //           .i_var12
 	.varset_1_i_var13    (var_i2c_EEPROM_rdata_1),    //           .i_var13
 	.varset_1_i_var14    (var_i2c_EEPROM_rdata_2),    //           .i_var14
@@ -993,10 +955,10 @@ CPU u0 (
 	.varset_1_i_var30  (i_var_step_3),  
 	.varset_1_i_var31  (i_var_err_3),  
 	.varset_1_i_var32  (i_var_timer),  
-	.varset_1_i_var33  (o_step_3),  
-	.varset_1_i_var34  (i_var_high),  
-	.varset_1_i_var35  (i_var_low),  
-	.varset_1_i_var36  (i_var_buf),  
+	.varset_1_i_var33  (),  
+	.varset_1_i_var34  (),  
+	.varset_1_i_var35  (),  
+	.varset_1_i_var36  (),  
 	.varset_1_i_var37  (),  
 	.varset_1_i_var38  (),  
 	.varset_1_i_var39  (),  
