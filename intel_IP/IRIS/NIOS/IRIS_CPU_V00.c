@@ -108,9 +108,9 @@ int main(void)
 		sensor_data.fog.fogz.step.float_val = (float)IORD(VARSET_BASE, i_var_step_3);
 		sensor_data.temp.tempz.float_val = 25.35;
 		/*** ADXL357 */
-		sensor_data.adxl357.ax.int_val = IORD(VARSET_BASE, var_i2c_357_rdata_1);
-		sensor_data.adxl357.ay.int_val = IORD(VARSET_BASE, var_i2c_357_rdata_2);
-		sensor_data.adxl357.az.int_val = IORD(VARSET_BASE, var_i2c_357_rdata_3);
+		sensor_data.adxl357.ax.float_val = (float)IORD(VARSET_BASE, var_i2c_357_rdata_1);
+		sensor_data.adxl357.ay.float_val = (float)IORD(VARSET_BASE, var_i2c_357_rdata_2);
+		sensor_data.adxl357.az.float_val = (float)IORD(VARSET_BASE, var_i2c_357_rdata_3);
 		sensor_data.adxl357.temp.float_val = 30.123;
 		/***monitor */
 		// sensor_data.fog.fogz.sum_high.int_val = IORD(VARSET_BASE, i_var_high);
@@ -132,7 +132,7 @@ int main(void)
 
 void update_IRIS_config_to_HW_REG()
 {
-	IOWR(VARSET_BASE, var_sync_count, SYNC_200HZ);
+	IOWR(VARSET_BASE, var_sync_count, SYNC_100HZ);
 }
 
 

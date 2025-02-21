@@ -8,6 +8,11 @@
 #include "io.h"
 #include "common.h"
 
+/***ADXL357 ***/
+#define SENS_ADXL357_10G 19.5e-6
+#define SENS_ADXL357_20G 39e-6
+#define SENS_ADXL357_40G 78e-6
+
 /*** high level declaration */
 void I2C_read_357_CPU11(alt_u8 reg_addr);
 void init_ADXL357(void);

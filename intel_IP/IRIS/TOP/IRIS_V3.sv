@@ -447,6 +447,7 @@ end
     	,.o_high_avg()
     );
 
+// fc ~ freq. of i_trig * 0.05 = 300KHz * 0.05 = 15KHz
 myfir_filter_gate #(
 	.N(32), 
 	.WIDTH(14),
@@ -480,26 +481,16 @@ feedback_step_gen_v4 fb_step_gen_ch3(
 	.o_step_init() 
 );
 
-// myMV_filter_gate #(
-// 	.WINDOW(512),
-// 	.DIV_FACTOR(6)
-// )
-//  u_myMV_filter_ch3
-// (
-// 	.clk(CLOCK_DAC_1),
-//     .n_rst(locked_1),
-// 	.trig(o_step_sync_3),
-//     .din(o_step_3),
-//     .dout(o_step_3_MV)
-// );
 
-myMV_filter_gate_v3 #(
+// fs = frequency of trig/DIV_FACTOR
+// fc ~ 0.5* fs / N  = 0.5 * (300/6) / 512 KHz = 48.8 Hz  
+myMV_filter_gate_v1 #(
 	.WINDOW(512),
 	.DIV_FACTOR(6)
 )
  u_myMV_filter_ch3
 (
-	.clk(CLOCK_DAC_1),
+	.clk(CLOCK_DAC_1), 
     .n_rst(locked_1),
 	.trig(o_step_sync_3),
     .din(o_step_3),

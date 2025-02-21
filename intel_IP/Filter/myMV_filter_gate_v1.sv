@@ -1,4 +1,4 @@
-module myMV_filter_gate_v3 #(
+module myMV_filter_gate_v1 #(
     parameter WINDOW = 8192,  // Default window size (2^13)
     parameter DIV_FACTOR = 4, // Trigger signal division factor (can be set to 1)
     parameter ADDR_WIDTH = (WINDOW > 1) ? $clog2(WINDOW) : 1

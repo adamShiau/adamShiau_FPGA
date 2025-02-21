@@ -74,10 +74,7 @@
 #define RANGE_20G 	0x02
 #define RANGE_40G 	0x03
 
-/***ADXL357 ***/
-#define SENS_10G 19.5e-6
-#define SENS_20G 39e-6
-#define SENS_40G 78e-6
+
 
 /*** reset parameter ***/
 #define POR 		0x52
@@ -180,9 +177,9 @@ void print_11_reg()
 	ZL = IORD(VARSET_BASE, O_VAR_I2C_RDATA_11);
 
 	temp = ((float)((H<<8)|L)-1885.0)/(-9.05)+25.0;
-	accl_x = (XH>>7)? ((float)(XH<<12|XM<<4|XL>>4)-1048576.0)*SENS_40G : (float)(XH<<12|XM<<4|XL>>4)*SENS_40G;
-	accl_y = (YH>>7)? ((float)(YH<<12|YM<<4|YL>>4)-1048576.0)*SENS_40G : (float)(YH<<12|YM<<4|YL>>4)*SENS_40G;
-	accl_z = (ZH>>7)? ((float)(ZH<<12|ZM<<4|ZL>>4)-1048576.0)*SENS_40G : (float)(ZH<<12|ZM<<4|ZL>>4)*SENS_40G;
+	accl_x = (XH>>7)? ((float)(XH<<12|XM<<4|XL>>4)-1048576.0)*SENS_ADXL357_40G : (float)(XH<<12|XM<<4|XL>>4)*SENS_ADXL357_40G;
+	accl_y = (YH>>7)? ((float)(YH<<12|YM<<4|YL>>4)-1048576.0)*SENS_ADXL357_40G : (float)(YH<<12|YM<<4|YL>>4)*SENS_ADXL357_40G;
+	accl_z = (ZH>>7)? ((float)(ZH<<12|ZM<<4|ZL>>4)-1048576.0)*SENS_ADXL357_40G : (float)(ZH<<12|ZM<<4|ZL>>4)*SENS_ADXL357_40G;
 
 	printf("%.3f, %.4f, %.4f, %.4f\n", temp, accl_x, accl_y, accl_z);
 
@@ -206,9 +203,9 @@ void print_9_reg()
 	ZM = IORD(VARSET_BASE, O_VAR_I2C_RDATA_8);
 	ZL = IORD(VARSET_BASE, O_VAR_I2C_RDATA_9);
 
-	accl_x = (XH>>7)? ((float)(XH<<12|XM<<4|XL>>4)-1048576.0)*SENS_40G : (float)(XH<<12|XM<<4|XL>>4)*SENS_40G;
-	accl_y = (YH>>7)? ((float)(YH<<12|YM<<4|YL>>4)-1048576.0)*SENS_40G : (float)(YH<<12|YM<<4|YL>>4)*SENS_40G;
-	accl_z = (ZH>>7)? ((float)(ZH<<12|ZM<<4|ZL>>4)-1048576.0)*SENS_40G : (float)(ZH<<12|ZM<<4|ZL>>4)*SENS_40G;
+	accl_x = (XH>>7)? ((float)(XH<<12|XM<<4|XL>>4)-1048576.0)*SENS_ADXL357_40G : (float)(XH<<12|XM<<4|XL>>4)*SENS_ADXL357_40G;
+	accl_y = (YH>>7)? ((float)(YH<<12|YM<<4|YL>>4)-1048576.0)*SENS_ADXL357_40G : (float)(YH<<12|YM<<4|YL>>4)*SENS_ADXL357_40G;
+	accl_z = (ZH>>7)? ((float)(ZH<<12|ZM<<4|ZL>>4)-1048576.0)*SENS_ADXL357_40G : (float)(ZH<<12|ZM<<4|ZL>>4)*SENS_ADXL357_40G;
 
 	// printf("%.4f, %.4f, %.4f\n", accl_x, accl_y, accl_z);
 

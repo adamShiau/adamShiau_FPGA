@@ -60,18 +60,12 @@ void acq_fog (cmd_ctrl_t* rx, my_sensor_t* data, alt_u8* sync, fog_parameter_t f
             err3.int_val = data->fog.fogz.err.int_val;
             step3.float_val = data->fog.fogz.step.float_val*(sf_1_slope*temp3.float_val + sf_1_offset);
 
-            ax.int_val = data->adxl357.ax.int_val;
-            ay.int_val = data->adxl357.ay.int_val;
-            az.int_val = data->adxl357.az.int_val;
-
-            // print_9_reg();
-            // read_357_temp();
+            ax.float_val = data->adxl357.ax.float_val*SENS_ADXL357_40G;
+            ay.float_val = data->adxl357.ay.float_val*SENS_ADXL357_40G;
+            az.float_val = data->adxl357.az.float_val*SENS_ADXL357_40G;
             
             alt_u8* imu_data = (alt_u8*)malloc(16+4); // KVH_HEADER:4 + time:4 + err:4 + fog:4 + temp:4
 			alt_u8 CRC32[4];
-
-            // if( (err3.int_val>>13)&0x00000001 == 1) err3.int_val -= (1<<14);
-            // INFO_PRINT("%d, %d\n", (err3.int_val>>13)&0x00000001, err3.int_val);
 
             memcpy(imu_data, KVH_HEADER, 4);
             memcpy(imu_data+4, time.bin_val, 4); 
@@ -88,15 +82,7 @@ void acq_fog (cmd_ctrl_t* rx, my_sensor_t* data, alt_u8* sync, fog_parameter_t f
             SerialWrite(temp3.bin_val, 4); 
             SerialWrite(CRC32, 4); 
 
-            INFO_PRINT("%d, %d, %d\n", ax.int_val, ay.int_val, az.int_val);
-            // INFO_PRINT("%f, %f, %f, %f, %f, %f\n", sf_1_slope, sf_1_offset, sf_2_slope, sf_2_offset, sf_3_slope, sf_3_offset);
-            
-            // INFO_PRINT("%f, %d, %d, %d, %ld, %d\n", step3.float_val, o_step3.int_val, sum_high.int_val, sum_low.int_val, sum, buf.int_val);
-            // DEBUG_PRINT("%f, %d, %x, %x, %x, %x\n", time.float_val, err3.int_val, err3.bin_val[3],
-           	// 	err3.bin_val[2], err3.bin_val[1], err3.bin_val[0]);
-//             DEBUG_PRINT("time: %f\n", data->time.time.float_val);
-//             DEBUG_PRINT("err: %d\n", data->fog.fogz.err.int_val);
-            // DEBUG_PRINT("temp: %f\n", data->temp.tempz.float_val);
+            // INFO_PRINT("%f, %f, %f\n", ax.float_val, ay.float_val, az.float_val);
 
         }
     }
