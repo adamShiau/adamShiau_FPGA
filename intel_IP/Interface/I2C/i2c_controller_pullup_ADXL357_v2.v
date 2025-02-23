@@ -302,7 +302,6 @@ module i2c_controller_pullup_ADXL357
 				READ_ACK_B: begin
 					counter <= 7;
 					if(rw == 0) begin
-						// if(op_mode==HW_11) saved_data = REG_ADXL355_TEMP2;
 						if(op_mode==HW_11) saved_data = REG_ADXL355_TXDATA3;
 						else saved_data = i_reg_addr;
 						state <= REG_ADDR;
