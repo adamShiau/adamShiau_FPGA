@@ -1,5 +1,43 @@
 #include "common.h"
 
+// Initialize the Moving Average filter
+void moving_average_init(MovingAverage_t *ma, alt_u32 window) {
+    ma->buffer = (float *)malloc(window * sizeof(float));
+    if (!ma->buffer) {
+        // printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    ma->window_size = window;
+    ma->index = 0;
+    ma->sum = 0.0f;
+    for (alt_u32 i = 0; i < window; i++) {
+        ma->buffer[i] = 0.0f;
+    }
+}
+
+// Process new data and return filtered result
+float moving_average_update(MovingAverage_t *ma, float din) {
+    // Subtract the oldest value from sum
+    ma->sum -= ma->buffer[ma->index];
+    
+    // Store new value in buffer
+    ma->buffer[ma->index] = din;
+    
+    // Add new value to sum
+    ma->sum += din;
+    
+    // Move index forward in circular manner
+    ma->index = (ma->index + 1) % ma->window_size;
+    
+    // Return the average
+    return ma->sum / (ma->window_size);
+}
+
+// Free allocated memory
+void moving_average_free(MovingAverage_t *ma) {
+    free(ma->buffer);
+}
+
 void sendTx(alt_32 data)
 {
 	while(!(IORD_ALTERA_AVALON_UART_STATUS(UART_BASE)& ALTERA_AVALON_UART_STATUS_TRDY_MSK));

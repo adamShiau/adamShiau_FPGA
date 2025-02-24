@@ -53,6 +53,14 @@
 #define MODE_ATT_NMEA		5
 #define MODE_FOG_PARAMETER  6
 
+// Moving Average structure
+typedef struct {
+  float *buffer;
+  alt_u32 window_size;
+  alt_u32 index;
+  float sum;
+} MovingAverage_t;
+
 typedef union
 {
   float float_val;
@@ -127,6 +135,9 @@ typedef struct {
   alt_u8 fn_mode;
 } auto_rst_t;
 
+void moving_average_init(MovingAverage_t *, alt_u32); 
+float moving_average_update(MovingAverage_t *, float);
+void moving_average_free(MovingAverage_t *);
 
 void sendTx(alt_32);
 void checkByte(alt_u8);
