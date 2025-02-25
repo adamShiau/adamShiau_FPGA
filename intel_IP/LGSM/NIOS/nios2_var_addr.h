@@ -1,0 +1,30 @@
+/******** FOG Register*********/
+/***W***/
+#define	O_VAR_FREQ			0
+#define O_VAR_AMP_H			1
+#define O_VAR_AMP_L			2
+#define O_VAR_OFFSET		3
+#define O_VAR_POLARITY		4
+#define O_VAR_WAITCNT		5
+#define O_VAR_ERRTH			6
+#define O_VAR_AVGSEL		7
+#define O_VAR_TIMER_RST 	8
+#define O_VAR_GAIN1_SEL		9
+#define O_VAR_GAIN2_SEL		10
+#define O_VAR_FB_ON			11
+#define O_VAR_CONST_STEP  	12
+#define O_VAR_KAL_Q			13
+#define O_VAR_KAL_R  		14
+#define O_VAR_LED1  		15
+/***R***/
+#define I_VAR_TIMER		25
+#define I_VAR_STEP		26 
+#define I_VAR_AMP_H		27
+#define I_VAR_AMP_L		28
+#define I_VAR_ERR		29
+#define I_VAR_OFFSET	30
+#define I_VAR_STEP_ORI	31
+#define I_VAR_FB_ON		32
+#define I_VAR_NSTATE	33
+#define I_VAR_CSTATE	34
+#define I_VAR_ERR_KAL	35
