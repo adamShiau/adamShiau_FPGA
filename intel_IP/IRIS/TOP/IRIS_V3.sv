@@ -243,8 +243,8 @@ assign DAC_3 =  o_phaseRamp_3[15:0];
 assign DAC_1 =  0;
 assign DAC_2 =  0;
 
-// assign i_var_step_3 = o_step_3;
-assign i_var_step_3 = o_step_3_MV;
+assign i_var_step_3 = o_step_3;
+// assign i_var_step_3 = o_step_3_MV;
 // assign i_var_err_3 = o_err_DAC3;
 assign i_var_err_3 = o_err_DAC3_FIR;
 

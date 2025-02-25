@@ -74,7 +74,7 @@ my_sensor_t sensor_data = {
 };
 
 
-
+#define BUFFER_SIZE_TT 100
 
 
 int main(void)
@@ -84,8 +84,11 @@ int main(void)
 
 	INFO_PRINT("Running IRIS CPU!\n");
 
+	float buffer[BUFFER_SIZE_TT];
+	alt_u32 index = 0;
+
 	TRIGGER_IRQ_init();
-	moving_average_init(&ma, 500);
+	moving_average_init(&ma, 13);
 	uartInit(); //interrupt method of uart defined in uart.c not main()
 	init_ADDA();
 	init_EEPROM();
@@ -120,7 +123,17 @@ int main(void)
 		// sensor_data.fog.fogz.sum_low.int_val = IORD(VARSET_BASE, i_var_low);
 		// sensor_data.fog.fogz.buf.int_val = IORD(VARSET_BASE, i_var_buf);
 		// sensor_data.fog.fogz.o_step.int_val = IORD(VARSET_BASE, i_var_o_step3);
+		
 
+		// buffer[index++] = sensor_data.time.time.float_val;
+		// if (index >= BUFFER_SIZE_TT) {
+        //     printf("Buffered Values:\n");
+        //     for (alt_u32 i = 0; i < BUFFER_SIZE_TT; i++) {
+        //         printf("%.4f ", buffer[i]);
+        //     }
+        //     printf("\n");
+        //     index = 0; // 重置索引
+        // }
 
 
 		get_uart_cmd(readData2(cmd_header, 2, &try_cnt, cmd_trailer, 2), &my_cmd);
