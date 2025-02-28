@@ -1,4 +1,4 @@
-module i2c_controller_pullup_ADXL357
+module i2c_controller_pullup_ADXL357_v2
 (
 	input wire 			i_clk,
 	input wire 			i_rst_n,
@@ -19,7 +19,7 @@ module i2c_controller_pullup_ADXL357
 	output wire			i2c_clk_out,
 	inout				i2c_scl,
 	inout 				i2c_sda
-	);
+);
 
 	/*** regidter definition***/
 	localparam ADXL355_DEV_ADDR  	= 7'h1D;
@@ -27,15 +27,15 @@ module i2c_controller_pullup_ADXL357
 	localparam REG_ADXL355_TXDATA3 	= 8'h08;
 
 	/*** I2C Clock rate definition for 50MHz input clock ***/
-	localparam CLK_195K 	= 	7;
-	localparam CLK_390K 	= 	6;
-	localparam CLK_781K 	= 	5;
-	localparam CLK_1562K 	= 	4;
+	localparam CLK_390K 	= 	7;
+	localparam CLK_781K 	= 	6;
+	localparam CLK_1562K 	= 	5;
+	localparam CLK_3125K 	= 	4;
 
 	/*** op mode definition ***/
-	localparam CPU_1 		= 	0;
-	localparam CPU_11 		= 	1;
-	localparam HW_11 		= 	2;
+	localparam CPU_1 		= 	2'b00;
+	localparam CPU_11 		= 	2'b01;
+	localparam HW_11 		= 	2'b11;
 
 	/*** state machine definition ***/
 	localparam IDLE 		= 	0;
@@ -106,7 +106,7 @@ module i2c_controller_pullup_ADXL357
 	wire i_enable, rw_reg, finish_ack;
 	wire [1:0] op_mode;
 	wire [2:0] clk_rate;
-	reg sm_enable = 0;
+	reg sm_enable;
 
 	wire w_en1, write_enable;
 	reg w_en2 = 0;
@@ -123,7 +123,8 @@ module i2c_controller_pullup_ADXL357
 	/******* status register********/
 	assign o_status[0] = ((i_rst_n == 1) && (state == IDLE) && (write_done == 0)) ? 1 : 0; //ready
 	assign o_status[1] = finish; //finish 
-	assign o_status[9:2] = state; 
+	assign o_status[9:2] = state;  
+	assign o_status[10]  = sm_enable;
 
 
 	assign i2c_clk_out = i2c_clk;
@@ -141,17 +142,17 @@ module i2c_controller_pullup_ADXL357
 		else begin
 			reg_clock_rate <= clk_rate;
 			case(clk_rate)
-				CLK_195K : reg_clock_rate <= CLK_195K;
 				CLK_390K : reg_clock_rate <= CLK_390K;
 				CLK_781K : reg_clock_rate <= CLK_781K;
-				CLK_1562K: reg_clock_rate <= CLK_1562K;
+				CLK_1562K : reg_clock_rate <= CLK_1562K;
+				CLK_3125K: reg_clock_rate <= CLK_3125K;
 				default  : reg_clock_rate <= CLK_390K;
 			endcase
 		end
 	end
 
 	always@(posedge i_clk) begin
-		CLK_COUNT <= CLK_COUNT + 1;//CLK_COUNT[6]:50000/2^(6+1)=390.625 kHz, CLK_COUNT[5]:781.25 KHz
+		CLK_COUNT <= CLK_COUNT + 1;//CLK_COUNT[6]:100000/2^(7+1)=390.625 kHz, CLK_COUNT[6]:781.25 KHz
 		i2c_clk <= CLK_COUNT[reg_clock_rate];
 		clk_2x  <= CLK_COUNT[reg_clock_rate-1];
 	end
@@ -160,7 +161,7 @@ module i2c_controller_pullup_ADXL357
 		if(!i_rst_n) begin
 			i2c_scl_enable <= 1;
 		end else begin
-			if ( (state == READ_ACK_B)|| (state == READ_ACK2_B) ) begin
+			if ( (state == READ_ACK_B)|| (state == READ_ACK2_B) ) begin 
 				i2c_scl_enable <= 0;
 			end 
 			else if ( (state == IDLE) ||(state == START) || (state == STOP) || (state == STOP2 ) || (state == NOP1 )) begin
@@ -235,6 +236,16 @@ module i2c_controller_pullup_ADXL357
 		end
 	end
 
+// State machine states
+typedef enum logic [1:0] {
+	W_REG_ACC = 2'd0,
+	READ_ACC = 2'd1,
+	W_REG_TEMP = 2'd2,
+	READ_TEMP = 2'd3
+} state_t;
+
+state_t SM;
+
 /*** SM update**/
 	always @(posedge i2c_clk or negedge i_rst_n) begin
 		if(!i_rst_n) begin
@@ -245,7 +256,11 @@ module i2c_controller_pullup_ADXL357
 			reg_rd_data_4 <= 0;reg_rd_data_5 <= 0;reg_rd_data_6 <= 0;
 			reg_rd_data_7 <= 0;reg_rd_data_8 <= 0;reg_rd_data_9 <= 0;
 			reg_rd_data_10 <= 0;reg_rd_data_11 <= 0;
-			o_ACCX <= 0; o_ACCY <= 0; o_ACCZ <= 0; 
+			o_ACCX <= 0; o_ACCY <= 0; o_ACCZ <= 0; o_TEMP <= 0;
+			sm_enable <= 0; 
+			saved_data <= 0;
+			finish <= 0;
+			SM <= W_REG_ACC;
 		end		
 		else begin
 			case(state)
@@ -269,20 +284,32 @@ module i2c_controller_pullup_ADXL357
 							else rw <= 1'b0; // write reg mode							
 						end			
 
-						if(op_mode==HW_11) begin // in HW mode, always write the reg first
-							if(write_done == 1'b0) rw <= 1'b0;// in read reg mode, when write_done flag = 0 means it must write which reg you want to read first.  
-							else rw <= 1'b1;
-						end
+						// if(op_mode==HW_11) begin // in HW mode, always write the reg first
+						// 	if(write_done == 1'b0) rw <= 1'b0;// in read reg mode, when write_done flag = 0 means it must write which reg you want to read first.  
+						// 	else rw <= 1'b1;
+						// end
 					end
 					else state <= IDLE;
 				end
 
-
-
 				START: begin
-					counter <= 7; // set counter = 7 here because the next state will use it.
-					if(op_mode==HW_11) saved_addr <= {ADXL355_DEV_ADDR, rw};
-					else saved_addr <= {i_dev_addr, rw};
+					counter <= 7; // Initialize counter to 7 in this state, as it will be used as an index in the next state.
+
+					// if(op_mode==HW_11) begin
+					// 	saved_addr <= {ADXL355_DEV_ADDR, rw};
+					// end
+					// else saved_addr <= {i_dev_addr, rw};
+
+					if (op_mode == HW_11) begin
+						case (SM)
+							W_REG_ACC, W_REG_TEMP: saved_addr <= {ADXL355_DEV_ADDR, 1'b0};
+							READ_ACC, READ_TEMP:   saved_addr <= {ADXL355_DEV_ADDR, 1'b1};
+							default:               saved_addr <= {ADXL355_DEV_ADDR, 1'b0};
+						endcase
+					end else begin
+						saved_addr <= {i_dev_addr, rw};
+					end
+
 					state <= ADDRESS;
 				end
 
@@ -300,13 +327,42 @@ module i2c_controller_pullup_ADXL357
 				end
 
 				READ_ACK_B: begin
-					counter <= 7;
-					if(rw == 0) begin
-						if(op_mode==HW_11) saved_data = REG_ADXL355_TXDATA3;
-						else saved_data = i_reg_addr;
-						state <= REG_ADDR;
+					counter <= 7; // Initialize counter to 7 in this state, as it will be used as an index in the next state.
+
+					// if(rw == 0) begin
+					// 	if(op_mode==HW_11) saved_data = REG_ADXL355_TXDATA3;
+					// 	else saved_data = i_reg_addr;
+					// 	state <= REG_ADDR;
+					// end
+					// else state <= READ_DATA;
+
+					if(op_mode==HW_11) begin
+						case (SM)
+							W_REG_ACC: begin
+								saved_data <= REG_ADXL355_TXDATA3;
+								state <= REG_ADDR;
+							end
+							READ_ACC: begin
+								state <= READ_DATA;
+							end
+							W_REG_TEMP: begin
+								saved_data <= REG_ADXL355_TEMP2;
+								state <= REG_ADDR;
+							end
+							READ_TEMP: begin
+								state <= READ_DATA10;
+							end
+							default: begin
+								saved_data <= REG_ADXL355_TXDATA3;
+							end
+						endcase
+					end else begin
+						if(rw == 0) begin
+							saved_data <= i_reg_addr;
+							state <= REG_ADDR;
+						end
+						else state <= READ_DATA;
 					end
-					else state <= READ_DATA;
 				end
 
 				REG_ADDR: begin 
@@ -323,21 +379,50 @@ module i2c_controller_pullup_ADXL357
 				end
 
 				READ_ACK2_B: begin 
-					if( rw_reg == 1'b1) state <= STOP;
+					// if( rw_reg == 1'b1) state <= STOP;
+					// else begin
+					// 	counter <= 7;
+					// 	saved_data = i_w_data;
+					// 	state <= WRITE_DATA;
+					// end
+
+					if(op_mode==HW_11) state <= STOP;	
 					else begin
-						counter <= 7;
-						saved_data = i_w_data;
-						state <= WRITE_DATA;
+						if( rw_reg == 1'b1) state <= STOP;
+						else begin
+							counter <= 7;
+							saved_data = i_w_data;
+							state <= WRITE_DATA;
+						end
 					end
 				end
 
 				STOP: begin
-					if(write_done==1'b0) begin
+					// if(write_done==1'b0) begin
+					// 	sm_enable <= 1'b0;
+					// end
+					if(op_mode==HW_11) begin
+						case (SM)
+							W_REG_ACC: SM <= READ_ACC;								
+							READ_ACC: SM <= W_REG_TEMP;
+							W_REG_TEMP: SM <= READ_TEMP;	
+							READ_TEMP: begin
+								SM <= W_REG_ACC;	
+								sm_enable <= 1'b0;
+							end
+							default: begin
+								sm_enable <= 1'b1;
+							end
+						endcase
+					end 
+					else if(write_done==1'b0) begin
 						sm_enable <= 1'b0;
 					end
+	
 					o_ACCX <= {{12{reg_rd_data[7]}},   reg_rd_data,   reg_rd_data_2, reg_rd_data_3[7:4]};
 					o_ACCY <= {{12{reg_rd_data_4[7]}}, reg_rd_data_4, reg_rd_data_5, reg_rd_data_6[7:4]};
 					o_ACCZ <= {{12{reg_rd_data_7[7]}}, reg_rd_data_7, reg_rd_data_8, reg_rd_data_9[7:4]};
+					o_TEMP <= {20'b0, reg_rd_data_10[3:0], reg_rd_data_11};
 					state <= STOP2;
 				end
 
@@ -450,9 +535,7 @@ module i2c_controller_pullup_ADXL357
 					else counter <= counter - 1;
 				end
 				WRITE_ACK9: begin
-					// counter <= 7;
-					// state <= READ_DATA10;
-					finish <= 1;
+					// finish <= 1;
 					state <= STOP;
 				end
 

@@ -39,9 +39,9 @@ module i2c_controller_pullup_eeprom
 	localparam CLK_3125K 	= 	4;
 
 	/*** op mode definition ***/
-	localparam CPU_1 		= 	0;
-	localparam CPU_11 		= 	1;
-	localparam HW_11 		= 	2;
+	localparam CPU_1 		= 	2'b00;
+	localparam CPU_11 		= 	2'b01;
+	localparam HW_11 		= 	2'b11;
 
 	/*** state machine definition ***/
 	localparam IDLE 		= 	0;
