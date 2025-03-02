@@ -243,8 +243,8 @@ assign DAC_3 =  o_phaseRamp_3[15:0];
 assign DAC_1 =  0;
 assign DAC_2 =  0;
 
-assign i_var_step_3 = o_step_3;
-// assign i_var_step_3 = o_step_3_MV;
+// assign i_var_step_3 = o_step_3;
+assign i_var_step_3 = o_step_3_MV;
 // assign i_var_err_3 = o_err_DAC3;
 assign i_var_err_3 = o_err_DAC3_FIR;
 
@@ -487,7 +487,7 @@ feedback_step_gen_v4 fb_step_gen_ch3(
 // fs = frequency of trig/DIV_FACTOR
 // fc ~ 0.5* fs / N  = 0.5 * (300/6) / 512 KHz = 48.8 Hz  
 myMV_filter_gate_v1 #(
-	.WINDOW(4096),
+	.WINDOW(512),
 	.DIV_FACTOR(6) // trigger devider
 )
  u_myMV_filter_ch3

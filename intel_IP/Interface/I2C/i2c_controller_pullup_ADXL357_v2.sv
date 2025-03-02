@@ -35,7 +35,7 @@ module i2c_controller_pullup_ADXL357_v2
 	/*** op mode definition ***/
 	localparam CPU_1 		= 	2'b00;
 	localparam CPU_11 		= 	2'b01;
-	localparam HW_11 		= 	2'b11;
+	localparam HW_11 		= 	2'b10;
 
 	/*** state machine definition ***/
 	localparam IDLE 		= 	0;
@@ -160,10 +160,10 @@ module i2c_controller_pullup_ADXL357_v2
 
 	always @(negedge i2c_clk or negedge i_rst_n) begin
 		if(!i_rst_n) begin
-			STOP <= 1;
+			i2c_scl_enable <= 1;
 		end else begin
 			if ( (state == READ_ACK_B)|| (state == READ_ACK2_B) ) begin 
-				STOP <= 0;
+				i2c_scl_enable <= 0;
 			end 
 			else if ( (state == IDLE) ||(state == START) || (state == STOP) || (state == STOP2 ) || (state == NOP1 )) begin
 				i2c_scl_enable <= 1;

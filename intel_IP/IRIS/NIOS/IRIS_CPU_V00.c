@@ -117,7 +117,8 @@ int main(void)
 		sensor_data.adxl357.ax.float_val = (float)IORD(VARSET_BASE, var_i2c_357_rdata_1);
 		sensor_data.adxl357.ay.float_val = (float)IORD(VARSET_BASE, var_i2c_357_rdata_2);
 		sensor_data.adxl357.az.float_val = (float)IORD(VARSET_BASE, var_i2c_357_rdata_3);
-		sensor_data.adxl357.temp.float_val = 30.123;
+		sensor_data.adxl357.temp.float_val = (float)IORD(VARSET_BASE, var_i2c_357_rdata_4);
+		// sensor_data.adxl357.temp.float_val = 30.123;
 		/***monitor */
 		// sensor_data.fog.fogz.sum_high.int_val = IORD(VARSET_BASE, i_var_high);
 		// sensor_data.fog.fogz.sum_low.int_val = IORD(VARSET_BASE, i_var_low);

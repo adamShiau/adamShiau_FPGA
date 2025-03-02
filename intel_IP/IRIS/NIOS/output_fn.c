@@ -21,7 +21,7 @@ void acq_rst (cmd_ctrl_t* rx, my_sensor_t data, alt_u8* sync, fog_parameter_t fo
 void acq_fog (cmd_ctrl_t* rx, my_sensor_t data, alt_u8* sync, fog_parameter_t fog_parameter)
 {
     my_float_t time, err3, step3, temp3;
-    my_float_t ax, ay, az;
+    my_float_t ax, ay, az, acc_temp;
     
     /*** update container parameters */
     float sf_1_slope, sf_2_slope, sf_3_slope;
@@ -63,6 +63,7 @@ void acq_fog (cmd_ctrl_t* rx, my_sensor_t data, alt_u8* sync, fog_parameter_t fo
             ax.float_val = data.adxl357.ax.float_val*SENS_ADXL357_20G;
             ay.float_val = data.adxl357.ay.float_val*SENS_ADXL357_20G;
             az.float_val = data.adxl357.az.float_val*SENS_ADXL357_20G;
+            acc_temp.float_val = 233.2873 - 0.1105*data.adxl357.temp.float_val;
             
             alt_u8* imu_data = (alt_u8*)malloc(16+4); // KVH_HEADER:4 + time:4 + err:4 + fog:4 + temp:4
 			alt_u8 CRC32[4];
@@ -82,7 +83,7 @@ void acq_fog (cmd_ctrl_t* rx, my_sensor_t data, alt_u8* sync, fog_parameter_t fo
             SerialWrite(temp3.bin_val, 4); 
             SerialWrite(CRC32, 4); 
 
-            INFO_PRINT("%f, %f, %f\n", ax.float_val, ay.float_val, az.float_val);
+            INFO_PRINT("%f, %f, %f. %f\n", ax.float_val, ay.float_val, az.float_val, acc_temp.float_val);
 
         }
     }
