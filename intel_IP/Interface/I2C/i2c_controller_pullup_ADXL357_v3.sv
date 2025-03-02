@@ -1,4 +1,4 @@
-module i2c_controller_pullup_ADS122C04_SE
+module i2c_controller_pullup_ADXL357_v3
 (
 	input wire 			i_clk,
 	input wire 			i_rst_n,
@@ -7,12 +7,11 @@ module i2c_controller_pullup_ADS122C04_SE
 	input wire [7:0] 	i_reg_addr,
 	input wire [31:0]	i_ctrl,
 	input wire 			i_drdy,
-	input wire 			i_sync,
 
-	output reg signed [32-1:0] 	o_AIN0,
-	output reg signed [32-1:0] 	o_AIN1,
-	output reg signed [32-1:0] 	o_AIN2,
-	output reg signed [32-1:0] 	o_AIN3,
+	output reg signed [32-1:0] 	o_ACCX,
+	output reg signed [32-1:0] 	o_ACCY,
+	output reg signed [32-1:0] 	o_ACCZ,
+	output reg signed [32-1:0] 	o_TEMP,
 
 
 	output wire [31:0] 	o_status,
@@ -34,25 +33,9 @@ module i2c_controller_pullup_ADS122C04_SE
 	localparam CLK_3125K 	= 	4;
 
 	/*** op mode definition ***/
-	localparam CPU_WREG	= 	2'b00;
-	localparam CPU_RREG = 	2'b01;
-	localparam HW 		= 	2'b10;
-
-	/*** WREG definition    ***/
-	localparam WREG_CONFIG_0 = 8'b0100_0000;
-	localparam WREG_CONFIG_1 = 8'b0100_0100;
-	localparam WREG_CONFIG_2 = 8'b0100_1000;
-	localparam WREG_CONFIG_3 = 8'b0100_1100;
-
-	/*** CMD definition    ***/
-	localparam CMD_START = 8'b0000_1000;
-	localparam CMD_RDATA = 8'b0001_0000;
-
-	/*** Ain MUX Configuration    ***/
-	localparam MUX_AIN0 = 8'b1000_0001;
-	localparam MUX_AIN1 = 8'b1001_0001;
-	localparam MUX_AIN2 = 8'b1010_0001;
-	localparam MUX_AIN3 = 8'b1011_0001;
+	localparam CPU_1 		= 	2'b00;
+	localparam CPU_11 		= 	2'b01;
+	localparam HW_11 		= 	2'b11;
 
 	/*** state machine definition ***/
 	localparam IDLE 		= 	0;
@@ -95,14 +78,14 @@ module i2c_controller_pullup_ADS122C04_SE
 	reg signed [7:0] 	reg_rd_data;
 	reg signed [7:0] 	reg_rd_data_2;
 	reg signed [7:0] 	reg_rd_data_3;
-	// reg signed [7:0] 	reg_rd_data_4;
-	// reg signed [7:0] 	reg_rd_data_5;
-	// reg signed [7:0] 	reg_rd_data_6;
-	// reg signed [7:0] 	reg_rd_data_7;
-	// reg signed [7:0] 	reg_rd_data_8;
-	// reg signed [7:0] 	reg_rd_data_9;
-	// reg signed [7:0] 	reg_rd_data_10;
-	// reg signed [7:0] 	reg_rd_data_11;
+	reg signed [7:0] 	reg_rd_data_4;
+	reg signed [7:0] 	reg_rd_data_5;
+	reg signed [7:0] 	reg_rd_data_6;
+	reg signed [7:0] 	reg_rd_data_7;
+	reg signed [7:0] 	reg_rd_data_8;
+	reg signed [7:0] 	reg_rd_data_9;
+	reg signed [7:0] 	reg_rd_data_10;
+	reg signed [7:0] 	reg_rd_data_11;
 
 	reg [7:0] state;
 	reg [7:0] saved_addr;
@@ -177,10 +160,10 @@ module i2c_controller_pullup_ADS122C04_SE
 
 	always @(negedge i2c_clk or negedge i_rst_n) begin
 		if(!i_rst_n) begin
-			i2c_scl_enable <= 1;
+			STOP <= 1;
 		end else begin
 			if ( (state == READ_ACK_B)|| (state == READ_ACK2_B) ) begin 
-				i2c_scl_enable <= 0;
+				STOP <= 0;
 			end 
 			else if ( (state == IDLE) ||(state == START) || (state == STOP) || (state == STOP2 ) || (state == NOP1 )) begin
 				i2c_scl_enable <= 1;
@@ -254,44 +237,15 @@ module i2c_controller_pullup_ADS122C04_SE
 		end
 	end
 
-// rising edge detection
-
-reg i_sync_d, r_sync;
-
-always @(posedge i2c_clk or negedge i_rst_n) begin
-	if (!i_rst_n) begin
-		i_sync_d <= 0;
-		r_sync   <= 0;
-	end else begin
-		i_sync_d <= i_sync;  // 記錄前一個時鐘的 i_sync
-		r_sync   <= i_sync & ~i_sync_d;  // 產生 1-clock 寬度脈衝
-	end
-end
-
 // State machine states
-typedef enum logic {
-	W_REG = 1'b0,
-	READ = 1'b1
-} CPU_SM_t;
-
-typedef enum logic [2:0] {
-	W_REG_MUX 	= 3'd0,
-	W_START_CMD = 3'd1,
-	WAIT_DRDY   = 3'd2,
-	W_REG_RDATA = 3'd3,
-	READ_ADC	= 3'd4
-} HW_SM_t;
-
 typedef enum logic [1:0] {
-	AIN0 = 2'd0,
-	AIN1 = 2'd1,
-	AIN2 = 2'd2,
-	AIN3 = 2'd3
-} AIN_SM_t;
+	W_REG_ACC = 2'd0,
+	READ_ACC = 2'd1,
+	W_REG_TEMP = 2'd2,
+	READ_TEMP = 2'd3
+} state_t;
 
-CPU_SM_t CPU_SM;
-HW_SM_t  HW_SM;
-AIN_SM_t AIN_SM;
+state_t SM;
 
 /*** SM update**/
 	always @(posedge i2c_clk or negedge i_rst_n) begin
@@ -303,57 +257,59 @@ AIN_SM_t AIN_SM;
 			reg_rd_data_4 <= 0;reg_rd_data_5 <= 0;reg_rd_data_6 <= 0;
 			reg_rd_data_7 <= 0;reg_rd_data_8 <= 0;reg_rd_data_9 <= 0;
 			reg_rd_data_10 <= 0;reg_rd_data_11 <= 0;
-			o_AIN0 <= 0; o_AIN1 <= 0; o_AIN2 <= 0; o_AIN3 <= 0;
+			o_ACCX <= 0; o_ACCY <= 0; o_ACCZ <= 0; o_TEMP <= 0;
 			sm_enable <= 0; 
 			saved_data <= 0;
 			finish <= 0;
-			/***  SM initialization  ***/
-			CPU_SM <= W_REG;
-			HW_SM <= W_REG_MUX;
-			AIN_SM <= AIN0;
+			SM <= W_REG_ACC;
 		end		
 		else begin
 			case(state)
-				IDLE: begin // 根據op_mode模式來啟動狀態機
+				IDLE: begin
+					if(op_mode==CPU_1 || op_mode==CPU_11) begin
+						if(i_enable) sm_enable <= 1; 
+					end
+					
+					if(op_mode==HW_11) begin
+						if(i_drdy ) sm_enable <= 1; 
+					end
 
-					case (op_mode)
-						CPU_WREG, CPU_RREG: if(i_enable) state <= START;
-						HW: begin
-							case(HW_SM)
-								WAIT_DRDY: begin
-									if(~i_drdy) HW_SM <= W_REG_RDATA;
-									state <= IDLE;
-								end
-								default: state <= START;
-							endcase
-						end
-						default: state <= IDLE;
-					endcase
+					if (sm_enable) begin
+						state <= START;
+
+						if(op_mode==CPU_1 || op_mode==CPU_11) begin
+							if(rw_reg == 1'b1) begin// read reg mode
+								if(write_done == 1'b0) rw <= 1'b0;// in read reg mode, when write_done flag = 0 means it must write which reg you want to read first.  
+								else rw <= 1'b1;
+							end
+							else rw <= 1'b0; // write reg mode							
+						end			
+
+						// if(op_mode==HW_11) begin // in HW mode, always write the reg first
+						// 	if(write_done == 1'b0) rw <= 1'b0;// in read reg mode, when write_done flag = 0 means it must write which reg you want to read first.  
+						// 	else rw <= 1'b1;
+						// end
+					end
+					else state <= IDLE;
 				end
 
 				START: begin
 					counter <= 7; // Initialize counter to 7 in this state, as it will be used as an index in the next state.
 
-					case (op_mode)
-						CPU_WREG: begin
-							saved_addr <= {i_dev_addr, 1'b0};
-						end
-						CPU_RREG: begin
-							if(CPU_SM == W_REG) saved_addr <= {i_dev_addr, 1'b0};
-							else if(CPU_SM == READ) saved_addr <= {i_dev_addr, 1'b1};
-						end
-						HW: begin
-							if (HW_SM == W_REG_MUX || HW_SM == W_START_CMD || HW_SM == W_REG_RDATA) begin
-								saved_addr <= {i_dev_addr, 1'b0};
-							end 
-							else if (HW_SM == READ_ADC) begin
-								saved_addr <= {i_dev_addr, 1'b1};
-							end
-						end
-						default: begin
-							 
-						end
-					endcase
+					// if(op_mode==HW_11) begin
+					// 	saved_addr <= {ADXL355_DEV_ADDR, rw};
+					// end
+					// else saved_addr <= {i_dev_addr, rw};
+
+					if (op_mode == HW_11) begin
+						case (SM)
+							W_REG_ACC, W_REG_TEMP: saved_addr <= {ADXL355_DEV_ADDR, 1'b0};
+							READ_ACC, READ_TEMP:   saved_addr <= {ADXL355_DEV_ADDR, 1'b1};
+							default:               saved_addr <= {ADXL355_DEV_ADDR, 1'b0};
+						endcase
+					end else begin
+						saved_addr <= {i_dev_addr, rw};
+					end
 
 					state <= ADDRESS;
 				end
@@ -361,9 +317,7 @@ AIN_SM_t AIN_SM;
 				ADDRESS: begin
 					if (counter == 0) begin 
 						state <= READ_ACK;
-					end else begin
-						counter <= counter - 1;
-					end
+					end else counter <= counter - 1;
 				end
 
 				READ_ACK: begin
@@ -376,45 +330,42 @@ AIN_SM_t AIN_SM;
 				READ_ACK_B: begin
 					counter <= 7; // Initialize counter to 7 in this state, as it will be used as an index in the next state.
 
-					case (op_mode)
-						CPU_WREG: begin
+					if(op_mode==HW_11) begin
+						case (SM)
+							W_REG_ACC: begin
+								saved_data <= REG_ADXL355_TXDATA3;
+								state <= REG_ADDR;
+							end
+							READ_ACC: begin
+								state <= READ_DATA;
+							end
+							W_REG_TEMP: begin
+								saved_data <= REG_ADXL355_TEMP2;
+								state <= REG_ADDR;
+							end
+							READ_TEMP: begin
+								state <= READ_DATA10;
+							end
+							default: begin
+								saved_data <= REG_ADXL355_TXDATA3;
+							end
+						endcase
+					end else begin
+						if(rw == 0) begin
 							saved_data <= i_reg_addr;
 							state <= REG_ADDR;
 						end
-						CPU_RREG: begin
-							if(CPU_SM == W_REG) begin
-								saved_data <= i_reg_addr;
-								state <= REG_ADDR;
-							end
-							else if(CPU_SM == READ) state <= READ_DATA;
-						end
-						HW: begin 
-							case(HW_SM)
-								W_REG_MUX: begin 
-									saved_data <= WREG_CONFIG_0;
-									state <= REG_ADDR;
-								end
-								W_START_CMD: begin
-									saved_data <= CMD_START; 
-									state <= REG_ADDR;
-								end
-								W_REG_RDATA: begin
-									saved_data <= CMD_RDATA; 
-									state <= REG_ADDR;
-								end
-								READ_ADC: state <= READ_DATA;
-							endcase
-						end
-						default: state <= STOP;							 
-					endcase
+						else state <= READ_DATA;
+					end
 				end
 
 				REG_ADDR: begin 
-					if (counter == 0) begin 
+					if(rw_reg == 1'b1) //read reg mode
+						write_done <= 1'b1;
+
+					if(counter == 0) begin
 						state <= READ_ACK2;
-					end else begin
-						counter <= counter - 1;
-					end
+					end else counter <= counter - 1;
 				end
 
 				READ_ACK2: begin 
@@ -422,81 +373,51 @@ AIN_SM_t AIN_SM;
 				end
 
 				READ_ACK2_B: begin 
+					// if( rw_reg == 1'b1) state <= STOP;
+					// else begin
+					// 	counter <= 7;
+					// 	saved_data = i_w_data;
+					// 	state <= WRITE_DATA;
+					// end
 
-					case (op_mode)
-						CPU_WREG: begin
+					if(op_mode==HW_11) state <= STOP;	
+					else begin
+						if( rw_reg == 1'b1) state <= STOP;
+						else begin
 							counter <= 7;
-							saved_data <= i_w_data;
+							saved_data = i_w_data;
 							state <= WRITE_DATA;
 						end
-						CPU_RREG: state <= STOP;	
-						HW: begin
-							if(HW_SM == W_START_CMD || HW_SM == W_REG_RDATA) state <= STOP;	
-							else if(HW_SM == W_REG_MUX) begin
-								case(AIN_SM)
-									AIN0: saved_data <= MUX_AIN0; 
-									AIN1: saved_data <= MUX_AIN1; 
-									AIN2: saved_data <= MUX_AIN2; 
-									AIN3: saved_data <= MUX_AIN3; 
-								endcase
-								counter <= 7;
-								state <= WRITE_DATA;
-							end
-						end
-						default: begin
-							 state <= STOP;
-						end
-					endcase
+					end
 				end
 
 				STOP: begin
-					case (op_mode)
-						// CPU_WREG: sm_enable <= 1'b0;
-						CPU_RREG: begin
-							if(CPU_SM == W_REG) CPU_SM <= READ;
-							else if(CPU_SM == READ) begin
-								CPU_SM <= W_REG;
-								// sm_enable <= 1'b0;
+					// if(write_done==1'b0) begin
+					// 	sm_enable <= 1'b0;
+					// end
+					if(op_mode==HW_11) begin
+						case (SM)
+							W_REG_ACC: SM <= READ_ACC;								
+							READ_ACC: SM <= W_REG_TEMP;
+							W_REG_TEMP: SM <= READ_TEMP;	
+							READ_TEMP: begin
+								SM <= W_REG_ACC;	
+								sm_enable <= 1'b0;
 							end
-						end
-						HW: begin
-							case(HW_SM)
-								W_REG_MUX: HW_SM <= W_START_CMD; 
-								W_START_CMD: HW_SM <= WAIT_DRDY;
-								W_REG_RDATA: HW_SM <= READ_ADC;
-								READ_ADC: begin
-									HW_SM <= W_REG_MUX;
-									case(AIN_SM)
-										AIN0: begin 
-											o_AIN0 <= {12'b0, reg_rd_data, reg_rd_data_2, reg_rd_data_3};
-											AIN_SM <= AIN1;
-										end
-										AIN1: begin 
-											o_AIN1 <= {12'b0, reg_rd_data, reg_rd_data_2, reg_rd_data_3};
-											AIN_SM <= AIN2;
-										end
-										AIN2: begin
-											o_AIN2 <= {12'b0, reg_rd_data, reg_rd_data_2, reg_rd_data_3}; 
-											AIN_SM <= AIN3;
-										end
-										AIN3: begin 
-											o_AIN3 <= {12'b0, reg_rd_data, reg_rd_data_2, reg_rd_data_3};
-											AIN_SM <= AIN0;
-										end
-									endcase
-								end
-							endcase
-						end
-						default: state <= STOP;
-					endcase
-
-					state <= STOP2;
+							default: begin
+								sm_enable <= 1'b1;
+							end
+						endcase
+					end 
+					else if(write_done==1'b0) begin
+						sm_enable <= 1'b0;
+					end
 	
-					
-					o_AIN1 <= {{12{reg_rd_data_4[7]}}, reg_rd_data_4, reg_rd_data_5, reg_rd_data_6[7:4]};
-					o_AIN2 <= {{12{reg_rd_data_7[7]}}, reg_rd_data_7, reg_rd_data_8, reg_rd_data_9[7:4]};
-					o_AIN3 <= {20'b0, reg_rd_data_10[3:0], reg_rd_data_11};
-					
+					o_ACCX <= {{12{reg_rd_data[7]}},   reg_rd_data,   reg_rd_data_2, reg_rd_data_3[7:4]};
+					o_ACCY <= {{12{reg_rd_data_4[7]}}, reg_rd_data_4, reg_rd_data_5, reg_rd_data_6[7:4]};
+					o_ACCZ <= {{12{reg_rd_data_7[7]}}, reg_rd_data_7, reg_rd_data_8, reg_rd_data_9[7:4]};
+					o_TEMP <= {20'b0, reg_rd_data_10[3:0], reg_rd_data_11};
+					state <= STOP2;
 				end
 
 				STOP2: begin
@@ -509,41 +430,27 @@ AIN_SM_t AIN_SM;
 				end
 
 				WRITE_DATA: begin 
-					if (counter == 0) begin 
+					if(counter == 0) begin
 						state <= READ_ACK3;
-					end else begin
-						counter <= counter - 1;
-					end
+					end else counter <= counter - 1;
 				end
 
-				READ_DATA: begin//11					
+				READ_DATA: begin//11
+					if(write_done == 1'b1) write_done <= 1'b0;
 					reg_rd_data[counter] <= i2c_sda;
 					if (counter == 0) state <= WRITE_ACK;
 					else counter <= counter - 1;
 				end
 				
 				WRITE_ACK: begin//12
-					case (op_mode)
-						CPU_RREG: begin
-							finish <= 1;
-							state <= STOP;
-						end
-						HW: begin
-
-						end
-						default: begin
-							 
-						end
-					endcase
-
-					// if(op_mode == CPU_1) begin
-					// 	finish <= 1;
-					// 	state <= STOP; //00, CPU read 1 byte
-					// end
-					// else begin// else, CPU/FPGA read 11 bytes
-					// 	counter <= 7;
-					// 	state <= READ_DATA2;
-					// end
+					if(op_mode == CPU_1) begin
+						finish <= 1;
+						state <= STOP; //00, CPU read 1 byte
+					end
+					else begin// else, CPU/FPGA read 11 bytes
+						counter <= 7;
+						state <= READ_DATA2;
+					end
 				end
 
 				READ_DATA2: begin
