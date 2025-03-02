@@ -24,7 +24,8 @@ module i2c_controller_pullup_ADXL357_v3
 	/*** regidter definition***/
 	localparam ADXL355_DEV_ADDR  	= 7'h1D;
 	localparam REG_ADXL355_TEMP2 	= 8'h06;
-	localparam REG_ADXL355_TXDATA3 	= 8'h08;
+	localparam REG_ADXL355_XDATA3 	= 8'h08;
+	localparam REG_ADXL355_ZDATA3 	= 8'h0E;
 
 	/*** I2C Clock rate definition for 50MHz input clock ***/
 	localparam CLK_390K 	= 	7;
@@ -35,7 +36,7 @@ module i2c_controller_pullup_ADXL357_v3
 	/*** op mode definition ***/
 	localparam CPU_1 		= 	2'b00;
 	localparam CPU_11 		= 	2'b01;
-	localparam HW_11 		= 	2'b11;
+	localparam HW_11 		= 	2'b10;
 
 	/*** state machine definition ***/
 	localparam IDLE 		= 	0;
@@ -160,10 +161,10 @@ module i2c_controller_pullup_ADXL357_v3
 
 	always @(negedge i2c_clk or negedge i_rst_n) begin
 		if(!i_rst_n) begin
-			STOP <= 1;
+			i2c_scl_enable <= 1;
 		end else begin
 			if ( (state == READ_ACK_B)|| (state == READ_ACK2_B) ) begin 
-				STOP <= 0;
+				i2c_scl_enable <= 0;
 			end 
 			else if ( (state == IDLE) ||(state == START) || (state == STOP) || (state == STOP2 ) || (state == NOP1 )) begin
 				i2c_scl_enable <= 1;
@@ -261,7 +262,7 @@ state_t SM;
 			sm_enable <= 0; 
 			saved_data <= 0;
 			finish <= 0;
-			SM <= W_REG_ACC;
+			SM <= W_REG_TEMP;
 		end		
 		else begin
 			case(state)
@@ -284,11 +285,6 @@ state_t SM;
 							end
 							else rw <= 1'b0; // write reg mode							
 						end			
-
-						// if(op_mode==HW_11) begin // in HW mode, always write the reg first
-						// 	if(write_done == 1'b0) rw <= 1'b0;// in read reg mode, when write_done flag = 0 means it must write which reg you want to read first.  
-						// 	else rw <= 1'b1;
-						// end
 					end
 					else state <= IDLE;
 				end
@@ -305,7 +301,7 @@ state_t SM;
 						case (SM)
 							W_REG_ACC, W_REG_TEMP: saved_addr <= {ADXL355_DEV_ADDR, 1'b0};
 							READ_ACC, READ_TEMP:   saved_addr <= {ADXL355_DEV_ADDR, 1'b1};
-							default:               saved_addr <= {ADXL355_DEV_ADDR, 1'b0};
+							// default:               saved_addr <= {ADXL355_DEV_ADDR, 1'b0};
 						endcase
 					end else begin
 						saved_addr <= {i_dev_addr, rw};
@@ -317,7 +313,9 @@ state_t SM;
 				ADDRESS: begin
 					if (counter == 0) begin 
 						state <= READ_ACK;
-					end else counter <= counter - 1;
+					end else begin
+						 counter <= counter - 1;
+					end
 				end
 
 				READ_ACK: begin
@@ -332,23 +330,23 @@ state_t SM;
 
 					if(op_mode==HW_11) begin
 						case (SM)
-							W_REG_ACC: begin
-								saved_data <= REG_ADXL355_TXDATA3;
-								state <= REG_ADDR;
-							end
-							READ_ACC: begin
-								state <= READ_DATA;
-							end
 							W_REG_TEMP: begin
 								saved_data <= REG_ADXL355_TEMP2;
 								state <= REG_ADDR;
 							end
 							READ_TEMP: begin
-								state <= READ_DATA10;
+								state <= READ_DATA;
 							end
-							default: begin
-								saved_data <= REG_ADXL355_TXDATA3;
+							W_REG_ACC: begin
+								saved_data <= REG_ADXL355_ZDATA3;
+								state <= REG_ADDR;
 							end
+							READ_ACC: begin
+								state <= READ_DATA9;
+							end
+							// default: begin
+							// 	saved_data <= REG_ADXL355_XDATA3;
+							// end
 						endcase
 					end else begin
 						if(rw == 0) begin
@@ -365,7 +363,9 @@ state_t SM;
 
 					if(counter == 0) begin
 						state <= READ_ACK2;
-					end else counter <= counter - 1;
+					end else begin 
+						counter <= counter - 1;
+					end
 				end
 
 				READ_ACK2: begin 
@@ -397,11 +397,14 @@ state_t SM;
 					// end
 					if(op_mode==HW_11) begin
 						case (SM)
-							W_REG_ACC: SM <= READ_ACC;								
-							READ_ACC: SM <= W_REG_TEMP;
 							W_REG_TEMP: SM <= READ_TEMP;	
 							READ_TEMP: begin
 								SM <= W_REG_ACC;	
+								// sm_enable <= 1'b0;
+							end
+							W_REG_ACC: SM <= READ_ACC;								
+							READ_ACC: begin
+								SM <= W_REG_TEMP;
 								sm_enable <= 1'b0;
 							end
 							default: begin
@@ -412,11 +415,11 @@ state_t SM;
 					else if(write_done==1'b0) begin
 						sm_enable <= 1'b0;
 					end
-	
-					o_ACCX <= {{12{reg_rd_data[7]}},   reg_rd_data,   reg_rd_data_2, reg_rd_data_3[7:4]};
-					o_ACCY <= {{12{reg_rd_data_4[7]}}, reg_rd_data_4, reg_rd_data_5, reg_rd_data_6[7:4]};
-					o_ACCZ <= {{12{reg_rd_data_7[7]}}, reg_rd_data_7, reg_rd_data_8, reg_rd_data_9[7:4]};
-					o_TEMP <= {20'b0, reg_rd_data_10[3:0], reg_rd_data_11};
+					o_TEMP <= {20'b0, reg_rd_data[3:0], reg_rd_data_2};
+					o_ACCX <= {{12{reg_rd_data_3[7]}}, reg_rd_data_3, reg_rd_data_4, reg_rd_data_5[7:4]};
+					o_ACCY <= {{12{reg_rd_data_6[7]}}, reg_rd_data_6, reg_rd_data_7, reg_rd_data_8[7:4]};
+					o_ACCZ <= {{12{reg_rd_data_9[7]}}, reg_rd_data_9, reg_rd_data_10, reg_rd_data_11[7:4]};
+					
 					state <= STOP2;
 				end
 
@@ -432,14 +435,19 @@ state_t SM;
 				WRITE_DATA: begin 
 					if(counter == 0) begin
 						state <= READ_ACK3;
-					end else counter <= counter - 1;
+					end else begin
+						counter <= counter - 1;
+					end
 				end
 
 				READ_DATA: begin//11
 					if(write_done == 1'b1) write_done <= 1'b0;
 					reg_rd_data[counter] <= i2c_sda;
+
 					if (counter == 0) state <= WRITE_ACK;
-					else counter <= counter - 1;
+					else begin
+						counter <= counter - 1;
+					end
 				end
 				
 				WRITE_ACK: begin//12
@@ -456,7 +464,9 @@ state_t SM;
 				READ_DATA2: begin
 					reg_rd_data_2[counter] <= i2c_sda;
 					if (counter == 0) state <= WRITE_ACK2;
-					else counter <= counter - 1;
+					else begin
+						counter <= counter - 1;
+					end
 				end
 				WRITE_ACK2: begin
 					counter <= 7;
@@ -466,7 +476,9 @@ state_t SM;
 				READ_DATA3: begin
 					reg_rd_data_3[counter] <= i2c_sda;
 					if (counter == 0) state <= WRITE_ACK3;
-					else counter <= counter - 1;
+					else begin
+						counter <= counter - 1;
+					end
 				end
 				WRITE_ACK3: begin
 					counter <= 7;
@@ -476,7 +488,9 @@ state_t SM;
 				READ_DATA4: begin
 					reg_rd_data_4[counter] <= i2c_sda;
 					if (counter == 0) state <= WRITE_ACK4;
-					else counter <= counter - 1;
+					else begin
+						counter <= counter - 1;
+					end
 				end
 				WRITE_ACK4: begin
 					counter <= 7;
@@ -486,7 +500,9 @@ state_t SM;
 				READ_DATA5: begin
 					reg_rd_data_5[counter] <= i2c_sda;
 					if (counter == 0) state <= WRITE_ACK5;
-					else counter <= counter - 1;
+					else begin
+						counter <= counter - 1;
+					end
 				end
 				WRITE_ACK5: begin
 					counter <= 7;
@@ -496,7 +512,9 @@ state_t SM;
 				READ_DATA6: begin
 					reg_rd_data_6[counter] <= i2c_sda;
 					if (counter == 0) state <= WRITE_ACK6;
-					else counter <= counter - 1;
+					else begin
+						counter <= counter - 1;
+					end
 				end
 				WRITE_ACK6: begin
 					counter <= 7;
@@ -506,7 +524,9 @@ state_t SM;
 				READ_DATA7: begin
 					reg_rd_data_7[counter] <= i2c_sda;
 					if (counter == 0) state <= WRITE_ACK7;
-					else counter <= counter - 1;
+					else begin
+						counter <= counter - 1;
+					end
 				end
 				WRITE_ACK7: begin
 					counter <= 7;
@@ -516,27 +536,35 @@ state_t SM;
 				READ_DATA8: begin
 					reg_rd_data_8[counter] <= i2c_sda;
 					if (counter == 0) state <= WRITE_ACK8;
-					else counter <= counter - 1;
+					else begin
+						counter <= counter - 1;
+					end
 				end
 				WRITE_ACK8: begin
-					counter <= 7;
-					state <= READ_DATA9;
+					state <= STOP;
+					// counter <= 7;
+					// state <= READ_DATA9;
 				end
 
 				READ_DATA9: begin
 					reg_rd_data_9[counter] <= i2c_sda;
 					if (counter == 0) state <= WRITE_ACK9;
-					else counter <= counter - 1;
+					else begin
+						counter <= counter - 1;
+					end
 				end
 				WRITE_ACK9: begin
-					// finish <= 1;
-					state <= STOP;
+					counter <= 7;
+					state <= READ_DATA10;
+					// state <= STOP;
 				end
 
 				READ_DATA10: begin
 					reg_rd_data_10[counter] <= i2c_sda;
 					if (counter == 0) state <= WRITE_ACK10;
-					else counter <= counter - 1;
+					else begin
+						counter <= counter - 1;
+					end
 				end
 
 				WRITE_ACK10: begin
@@ -547,7 +575,9 @@ state_t SM;
 				READ_DATA11: begin
 					reg_rd_data_11[counter] <= i2c_sda;
 					if (counter == 0) state <= WRITE_ACK11;
-					else counter <= counter - 1;
+					else begin
+						counter <= counter - 1;
+					end
 				end
 
 				WRITE_ACK11: begin
