@@ -13,8 +13,8 @@
 #include "stddef.h"
 #include "alt_types.h"
 #include "altera_avalon_pio_regs.h"
-#include "sys/alt_timestamp.h"
-#include "sys/alt_alarm.h"
+//#include "sys/alt_timestamp.h"
+//#include "sys/alt_alarm.h"
 
 /******** NIOS II Variable IP address definition*******/
 #include "nios2_var_addr.h"
@@ -24,7 +24,7 @@
 #include "myiic.h"
 #include "Tsensor_DS1775.h"
 
-#define FPGA_VERSION "FPGA-GP-PLL100-30"
+#define FPGA_VERSION "LGSM_V1_allFilter"
 #define NMEA_HEADER "YAW,"
 
 #define TRIGGER_IN_BASE 0x2002160

@@ -160,7 +160,8 @@ assign DAC1 =  o_phaseRamp[15:0];
 assign DAC_RST = 1'b0;
 
 assign i_var_err = o_err;
-assign i_var_step = o_step;
+assign i_var_step = o_step_MV;
+// assign i_var_step = o_step;
 
 assign CS_DAC = SS[0];
 assign CS_ADC = SS[1];
@@ -246,8 +247,8 @@ my_err_signal_gen_v2 #(
 	.i_trig(o_stepTrig),             // Trigger signal (1 bit) used to initiate error generation
 	.i_wait_cnt(o_var_waitCnt),     // Wait counter (32 bits) for delay purposes unti signal stable 
 	.i_err_offset(o_var_offset), // Error offset (32 bits) used to introduce error adjustments
-	// .i_adc_data(reg_adc_sync),     // ADC data input (ADC_BIT bits, typically 14 bits)
-	.i_adc_data(ADC_D1),
+	.i_adc_data(reg_adc_sync),     // ADC data input (ADC_BIT bits, typically 14 bits)
+	// .i_adc_data(ADC_D1),
 	.i_avg_sel(o_var_errAvg),       // Average selection signal (32 bits) to select averaging mode
 	.o_step_sync(o_step_sync),          // Output one clock trigger to feedback step gen.i_trig 
 	.o_step_sync_dly(o_step_sync_dly),  // Output one clock trigger to feedback step gen.i_trig_dly 
@@ -277,8 +278,8 @@ myfir_filter_gate #(
 feedback_step_gen_v4 fb_step_gen_inst(
 	.i_clk(DAC_CLK),
 	.i_const_step(o_var_const_step),
-	.i_err(o_err),
-//	.i_err(o_err_FIR),
+	// .i_err(o_err),
+	.i_err(o_err_FIR),
 	.i_fb_ON(o_var_fb_ON),
 	.i_gain_sel(o_var_gainSel_step),
 	.i_rst_n(locked),
@@ -298,7 +299,7 @@ feedback_step_gen_v4 fb_step_gen_inst(
 // fs = frequency of trig/DIV_FACTOR
 // fc ~ 0.5* fs / N  = 0.5 * (300/6) / 512 KHz = 48.8 Hz  
 myMV_filter_gate_v1 #(
-	.WINDOW(4096),
+	.WINDOW(512),
 	.DIV_FACTOR(6) // trigger devider
 )
  u_myMV_filter_ch3
