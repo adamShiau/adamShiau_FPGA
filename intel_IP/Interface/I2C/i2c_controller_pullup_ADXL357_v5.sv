@@ -131,6 +131,8 @@ module i2c_controller_pullup_ADXL357_v5
 	assign o_status[1] = finish; //finish 
 	assign o_status[9:2] = state;  
 	assign o_status[10]  = sm_enable;
+	assign o_status[12:11]  = HW_SM;
+	assign o_status[15:13]  = CPU_SM;
 
 
 	assign i2c_clk_out = i2c_clk;
