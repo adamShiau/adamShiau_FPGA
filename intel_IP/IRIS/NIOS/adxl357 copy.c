@@ -36,7 +36,7 @@
 /**** CTRL ******/
 #define ctrl_en_pos			0
 #define ctrl_rw_reg_pos		1
-#define ctrl_op_mode_pos 	1
+#define ctrl_op_mode_pos 	2
 #define ctrl_clk_rate_pos	4
 
 /**** STATUS ******/
@@ -100,33 +100,29 @@
 #define TEMP_OFF_MSK	0x02
 
 /*** OP mode***/
-#define CPU_RREG	0
-#define CPU_WREG	1
-#define CPU_RD_TEMP	2
-#define CPU_RD_ACCL	3
-#define HW_ALL		4
-#define HW_ACC		5
-#define HW_TEMP		6
+#define CPU_1	0
+#define CPU_11	1
+#define HW_11	2
 
 #define True 1
 #define False 0
 
 /***********high level definition */
-//void I2C_read_357_CPU11(alt_u8 reg_addr)
-//{
-//	// Set I2C operation mode to read 11 bytes (CPU mode 11)
-//	I2C_op_mode_sel_ADXL357(HW);
-//	// Set I2C device address for ADXL355/357 (0x1D)
-//	IOWR(VARSET_BASE, O_VAR_DEV_ADDR, I2C_DEV_ADDR);
-//	// Set the starting register address for reading 11 successive registers
-//	IOWR(VARSET_BASE, O_VAR_REG_ADDR, reg_addr);
-//	// Set the I2C SM to read mode
-//	I2C_set_read_mode_ADXL357();
-//	// start the I2C SM
-//	I2C_sm_start_ADXL357();
-//	// Print data from 11 successive registers of ADXL355/357
-//	// print_11_reg();
-//}
+void I2C_read_357_CPU11(alt_u8 reg_addr)
+{
+	// Set I2C operation mode to read 11 bytes (CPU mode 11)
+	I2C_op_mode_sel_ADXL357(CPU_11);
+	// Set I2C device address for ADXL355/357 (0x1D)
+	IOWR(VARSET_BASE, O_VAR_DEV_ADDR, I2C_DEV_ADDR);
+	// Set the starting register address for reading 11 successive registers
+	IOWR(VARSET_BASE, O_VAR_REG_ADDR, reg_addr);
+	// Set the I2C SM to read mode
+	I2C_set_read_mode_ADXL357();
+	// start the I2C SM 
+	I2C_sm_start_ADXL357();
+	// Print data from 11 successive registers of ADXL355/357
+	// print_11_reg();
+}
 
 void init_ADXL357()
 {
@@ -146,106 +142,17 @@ void init_ADXL357()
 	I2C_read_357_register(POWER_CTL_ADDR, 1); 
 
 	// Set I2C operation mode to read 11 bytes (HW mode 11)
-	// I2C_op_mode_sel_ADXL357(HW_11);
+	I2C_op_mode_sel_ADXL357(HW_11);
 }
 
-void read_357_temp_CPU()
+void read_357_temp()
 {
+	alt_u8 H, L;
 	float temp;
-
-	// setting mode to r/w 1 byte
-	I2C_op_mode_sel_ADXL357(CPU_RD_TEMP);
-
-	I2C_sm_start_ADXL357();
-	// Wait for the I2C SM to complete the operation
-	while( !I2C_sm_read_finish_ADXL357()){}
-
-	temp = 233.2873 - 0.1105*(float)IORD(VARSET_BASE, var_i2c_357_rdata_4);
-
-//	printf("temp: %f\n", temp);
-	uart_printf("temp: %f\n", temp);
-
-}
-
-void read_357_temp_HW()
-{
-	float temp;
-
-	// setting mode to r/w 1 byte
-	I2C_op_mode_sel_ADXL357(HW_TEMP);
-
-//	I2C_sm_start_ADXL357();
-	// Wait for the I2C SM to complete the operation
-//	while( !I2C_sm_read_finish_ADXL357()){}
-
-	temp = 233.2873 - 0.1105*(float)IORD(VARSET_BASE, var_i2c_357_rdata_4);
-
-//	printf("temp: %f\n", temp);
-	uart_printf("temp: %f\n", temp);
-
-}
-
-void read_357_accl_CPU()
-{
-	float ax, ay, az;
-
-	// setting mode to r/w 1 byte
-	I2C_op_mode_sel_ADXL357(CPU_RD_ACCL);
-
-	I2C_sm_start_ADXL357();
-	// Wait for the I2C SM to complete the operation
-	while( !I2C_sm_read_finish_ADXL357()){}
-
-
-	ax = (float)IORD(VARSET_BASE, var_i2c_357_rdata_1)*SENS_ADXL357_20G;
-	ay = (float)IORD(VARSET_BASE, var_i2c_357_rdata_2)*SENS_ADXL357_20G;
-	az = (float)IORD(VARSET_BASE, var_i2c_357_rdata_3)*SENS_ADXL357_20G;
-
-//	printf("%f, %f, %f\n", ax, ay, az);
-	uart_printf("%f, %f, %f\n", ax, ay, az);
-
-}
-
-void read_357_accl_HW()
-{
-	float ax, ay, az;
-
-	// setting mode to r/w 1 byte
-	I2C_op_mode_sel_ADXL357(HW_ACC);
-
-//	I2C_sm_start_ADXL357();
-	// Wait for the I2C SM to complete the operation
-//	while( !I2C_sm_read_finish_ADXL357()){}
-
-
-	ax = (float)IORD(VARSET_BASE, var_i2c_357_rdata_1)*SENS_ADXL357_20G;
-	ay = (float)IORD(VARSET_BASE, var_i2c_357_rdata_2)*SENS_ADXL357_20G;
-	az = (float)IORD(VARSET_BASE, var_i2c_357_rdata_3)*SENS_ADXL357_20G;
-
-//	printf("%f, %f, %f\n", ax, ay, az);
-	uart_printf("%f, %f, %f\n", ax, ay, az);
-
-}
-
-void read_357_all()
-{
-	float temp, ax, ay, az;
-
-	// setting mode to r/w 1 byte
-	I2C_op_mode_sel_ADXL357(HW_ALL);
-
-//	I2C_sm_start_ADXL357();
-	// Wait for the I2C SM to complete the operation
-//	while( !I2C_sm_read_finish_ADXL357()){}
-
-	ax = (float)IORD(VARSET_BASE, var_i2c_357_rdata_1)*SENS_ADXL357_20G;
-	ay = (float)IORD(VARSET_BASE, var_i2c_357_rdata_2)*SENS_ADXL357_20G;
-	az = (float)IORD(VARSET_BASE, var_i2c_357_rdata_3)*SENS_ADXL357_20G;
-	temp = 233.2873 - 0.1105*(float)IORD(VARSET_BASE, var_i2c_357_rdata_4);
-
-//	printf("%f, %f, %f\n", ax, ay, az);
-	uart_printf("%f, %f, %f, %f\n", ax, ay, az, temp);
-
+	H = I2C_read_357_register(TEMP2_ADDR, 0); // 0x06
+	L = I2C_read_357_register(TEMP1_ADDR, 0); // 0x06
+	temp = ((float)((H<<8)|L)-1885.0)/(-9.05)+25.0;
+	INFO_PRINT("%f\n", temp);
 }
 
 // void print_11_reg()
@@ -322,7 +229,7 @@ void I2C_op_mode_sel_ADXL357(alt_u8 mode)
 {
 	alt_32 old = IORD(VARSET_BASE, O_VAR_I2C_CTRL);
 
-	IOWR(VARSET_BASE, O_VAR_I2C_CTRL, (old & 0xFFFFFFF1) | (mode<<ctrl_op_mode_pos));
+	IOWR(VARSET_BASE, O_VAR_I2C_CTRL, (old & 0xFFFFFFF3) | (mode<<ctrl_op_mode_pos));
 }
 
 void I2C_clock_rate_sel_ADXL357(alt_u8 rate)
@@ -335,15 +242,13 @@ void I2C_clock_rate_sel_ADXL357(alt_u8 rate)
 void I2C_write_357_register(alt_u8 reg_addr, alt_u8 data)
 {
 	// setting mode to r/w 1 byte
-	I2C_op_mode_sel_ADXL357(CPU_WREG);
+	I2C_op_mode_sel_ADXL357(CPU_1); 
 	// Set I2C device address for ADXL355/357 (0x1D)
 	IOWR(VARSET_BASE, O_VAR_DEV_ADDR, I2C_DEV_ADDR);
 	// Set the target register address for read or write operations
 	IOWR(VARSET_BASE, O_VAR_REG_ADDR, reg_addr);
-
 	// set I2C SM to write mode
-	// I2C_set_write_mode_ADXL357();
-
+	I2C_set_write_mode_ADXL357();
 	// Set the data value to be written to the target register
 	IOWR(VARSET_BASE, O_VAR_W_DATA, data);
 	// start the I2C SM 
@@ -357,15 +262,13 @@ alt_u8 I2C_read_357_register(alt_u8 reg_addr, alt_u8 print)
 	alt_u8 rt;
 
 	// setting mode to r/w 1 byte
-	I2C_op_mode_sel_ADXL357(CPU_RREG);
+	I2C_op_mode_sel_ADXL357(CPU_1);
 	// Set I2C device address for ADXL355/357 (0x1D)
 	IOWR(VARSET_BASE, O_VAR_DEV_ADDR, I2C_DEV_ADDR);
 	// Set the target register address for read or write operations
 	IOWR(VARSET_BASE, O_VAR_REG_ADDR, reg_addr);
-
 	// Set the I2C SM to read mode
-	// I2C_set_read_mode_ADXL357();
-
+	I2C_set_read_mode_ADXL357();
 	// start the I2C SM 
 	I2C_sm_start_ADXL357();
 	// Wait for the I2C SM to complete the operation

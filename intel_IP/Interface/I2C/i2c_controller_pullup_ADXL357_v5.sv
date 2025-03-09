@@ -1,4 +1,4 @@
-module i2c_controller_pullup_ADXL357_v4
+module i2c_controller_pullup_ADXL357_v5
 (
 	input wire 			i_clk,
 	input wire 			i_rst_n,
@@ -38,7 +38,9 @@ module i2c_controller_pullup_ADXL357_v4
 	localparam CPU_WREG 		= 	3'd1;
 	localparam CPU_RD_TEMP 		= 	3'd2;
 	localparam CPU_RD_ACCL 		= 	3'd3;
-	localparam HW 				= 	3'd4;
+	localparam HW_ALL 			= 	3'd4;
+	localparam HW_ACC 			= 	3'd5;
+	localparam HW_TEMP 			= 	3'd6;
 
 	/*** state machine definition ***/
 	localparam IDLE 		= 	0;
@@ -242,10 +244,10 @@ module i2c_controller_pullup_ADXL357_v4
 
 // State machine states
 typedef enum logic [1:0] {
-	W_REG_ACC = 2'd0,
-	READ_ACC = 2'd1,
-	W_REG_TEMP = 2'd2,
-	READ_TEMP = 2'd3
+	HW_SM_W_REG_TEMP = 2'd0,
+	HW_SM_R_TEMP = 2'd1,
+	HW_SM_W_REG_ACC = 2'd2,
+	HW_SM_R_ACC = 2'd3
 } state_t;
 
 typedef enum logic [2:0] {
@@ -255,7 +257,7 @@ typedef enum logic [2:0] {
 	CPU_SM_R_ACCL = 3'd3
 } CPU_state_t;
 
-// state_t SM;
+state_t HW_SM;
 CPU_state_t CPU_SM;
 
 /*** SM update**/
@@ -273,33 +275,19 @@ CPU_state_t CPU_SM;
 			saved_data <= 0;
 			finish <= 0;
 			CPU_SM <= CPU_SM_W_REG;
+			// HW_SM <= HW_SM_W_REG_TEMP;
+			HW_SM <= HW_SM_W_REG_ACC;
 		end		
 		else begin
 
-	// 			localparam CPU_RREG 		= 	3'd0;
-	// localparam CPU_WREG 		= 	3'd1;
-	// localparam CPU_RD_TEMP 		= 	3'd2;
-	// localparam CPU_RD_ACCL 		= 	3'd3;
-	// localparam HW 				= 	3'd4;
 			case(state)
 				IDLE: begin
-					// if(op_mode==CPU_1 || op_mode==CPU_11) begin
-					// 	if(i_enable) sm_enable <= 1; 
-					// end
-					
-					// if(op_mode==HW_11) begin
-					// 	if(i_drdy ) sm_enable <= 1; 
-					// end
-
-					// if (sm_enable) begin
-					// 	state <= START;
-
 					case(op_mode) 
 						CPU_WREG, CPU_RREG, CPU_RD_TEMP, CPU_RD_ACCL: begin
 							if(i_enable) sm_enable <= 1; 
 						end
-						HW: begin
-
+						HW_ALL, HW_ACC, HW_TEMP: begin
+							if(i_drdy) sm_enable <= 1; 
 						end 
 						default: state <= IDLE;
 
@@ -327,6 +315,10 @@ CPU_state_t CPU_SM;
 						CPU_RD_ACCL: begin
 							if(CPU_SM == CPU_SM_W_REG) saved_addr <= {ADXL355_DEV_ADDR, 1'b0};
 							else if(CPU_SM == CPU_SM_R_ACCL) saved_addr <= {ADXL355_DEV_ADDR, 1'b1};
+						end
+						HW_ALL, HW_ACC, HW_TEMP: begin
+							if(HW_SM == HW_SM_W_REG_TEMP || HW_SM == HW_SM_W_REG_ACC) saved_addr <= {ADXL355_DEV_ADDR, 1'b0};
+							else if(HW_SM == HW_SM_R_TEMP || HW_SM == HW_SM_R_ACC) saved_addr <= {ADXL355_DEV_ADDR, 1'b1};
 						end
 					endcase
 					state <= ADDRESS;
@@ -377,6 +369,18 @@ CPU_state_t CPU_SM;
 							end
 							else if(CPU_SM == CPU_SM_R_ACCL) state <= READ_DATA;
 						end
+						HW_ALL, HW_ACC, HW_TEMP: begin
+							if(HW_SM == HW_SM_W_REG_TEMP) begin
+								saved_data <= REG_ADXL355_TEMP2;
+								state <= REG_ADDR;
+							end
+							else if(HW_SM == HW_SM_R_TEMP) state <= READ_DATA;
+							else if(HW_SM == HW_SM_W_REG_ACC) begin
+								saved_data <= REG_ADXL355_XDATA3;
+								state <= REG_ADDR;
+							end
+							else if(HW_SM == HW_SM_R_ACC) state <= READ_DATA;
+						end
 					endcase
 				end
 
@@ -393,14 +397,20 @@ CPU_state_t CPU_SM;
 				end
 
 				READ_ACK2_B: begin 
-					case(op_mode) 
-						CPU_WREG: begin
-							counter <= 7;
-							saved_data = i_w_data;
-							state <= WRITE_DATA;
-						end
-						CPU_RREG, CPU_RD_TEMP, CPU_RD_ACCL: state <= STOP;
-					endcase
+					if(op_mode == CPU_WREG) begin
+						counter <= 7;
+						saved_data = i_w_data;
+						state <= WRITE_DATA;
+					end
+					else state <= STOP;
+					// case(op_mode) 
+					// 	CPU_WREG: begin
+					// 		counter <= 7;
+					// 		saved_data = i_w_data;
+					// 		state <= WRITE_DATA;
+					// 	end
+					// 	CPU_RREG, CPU_RD_TEMP, CPU_RD_ACCL, HW_ALL, HW_ACC, HW_TEMP: state <= STOP;
+					// endcase
 				end
 
 				STOP: begin
@@ -434,12 +444,41 @@ CPU_state_t CPU_SM;
 								o_ACCZ <= {{12{reg_rd_data_7[7]}}, reg_rd_data_7, reg_rd_data_8, reg_rd_data_9[7:4]};
 							end
 						end
+						HW_ALL: begin
+							if(HW_SM == HW_SM_W_REG_TEMP) HW_SM <= HW_SM_R_TEMP;
+							else if(HW_SM == HW_SM_R_TEMP) HW_SM <= HW_SM_W_REG_ACC;
+							else if(HW_SM == HW_SM_W_REG_ACC) HW_SM <= HW_SM_R_ACC;
+							else if(HW_SM == HW_SM_R_ACC) begin
+								HW_SM <= HW_SM_W_REG_TEMP;
+								sm_enable <= 0;
+								o_TEMP <= {20'b0, reg_rd_data[3:0], reg_rd_data_2};
+								o_ACCX <= {{12{reg_rd_data_3[7]}}, reg_rd_data_3, reg_rd_data_4, reg_rd_data_5[7:4]};
+								o_ACCY <= {{12{reg_rd_data_6[7]}}, reg_rd_data_6, reg_rd_data_7, reg_rd_data_8[7:4]};
+								o_ACCZ <= {{12{reg_rd_data_9[7]}}, reg_rd_data_9, reg_rd_data_10, reg_rd_data_11[7:4]};	
+							end
+						end
+						HW_TEMP: begin
+							if(HW_SM == HW_SM_W_REG_TEMP) HW_SM <= HW_SM_R_TEMP;
+							else if(HW_SM == HW_SM_R_TEMP) begin
+								HW_SM <= HW_SM_W_REG_TEMP;
+								sm_enable <= 0;
+								o_TEMP <= {20'b0, reg_rd_data[3:0], reg_rd_data_2};
+							end
+						end
+						HW_ACC: begin
+							if(HW_SM == HW_SM_W_REG_ACC) HW_SM <= HW_SM_R_ACC;
+							else if(HW_SM == HW_SM_R_ACC) begin
+								HW_SM <= HW_SM_W_REG_ACC;
+								sm_enable <= 0;
+								o_ACCX <= {{12{reg_rd_data[7]}}, reg_rd_data, reg_rd_data_2, reg_rd_data_3[7:4]};
+								o_ACCY <= {{12{reg_rd_data_4[7]}}, reg_rd_data_4, reg_rd_data_5, reg_rd_data_6[7:4]};
+								o_ACCZ <= {{12{reg_rd_data_7[7]}}, reg_rd_data_7, reg_rd_data_8, reg_rd_data_9[7:4]};
+							end
+						end
 					endcase
 					state <= STOP2;	
 					// o_TEMP <= {20'b0, reg_rd_data[3:0], reg_rd_data_2};
-					// o_ACCX <= {{12{reg_rd_data_3[7]}}, reg_rd_data_3, reg_rd_data_4, reg_rd_data_5[7:4]};
-					// o_ACCY <= {{12{reg_rd_data_6[7]}}, reg_rd_data_6, reg_rd_data_7, reg_rd_data_8[7:4]};
-					// o_ACCZ <= {{12{reg_rd_data_9[7]}}, reg_rd_data_9, reg_rd_data_10, reg_rd_data_11[7:4]};				
+								
 				end
 
 				STOP2: begin
@@ -478,20 +517,24 @@ CPU_state_t CPU_SM;
 				end
 				
 				WRITE_ACK: begin//12
-					case(op_mode) 
-						CPU_RREG: begin
-							finish <= 1;
-							state <= STOP;
-						end
-						CPU_RD_TEMP, CPU_RD_ACCL: begin
-							counter <= 7;
-							state <= READ_DATA2;
-						end
-						// CPU_RD_ACCL: begin
-						// 	counter <= 7;
-						// 	state <= READ_DATA2;
-						// end
-					endcase
+					if(op_mode == CPU_RREG) begin
+						finish <= 1;
+						state <= STOP;
+					end
+					else begin
+						counter <= 7;
+						state <= READ_DATA2;
+					end
+					// case(op_mode) 
+					// 	CPU_RREG: begin
+					// 		finish <= 1;
+					// 		state <= STOP;
+					// 	end
+					// 	CPU_RD_TEMP, CPU_RD_ACCL, HW_ALL: begin
+					// 		counter <= 7;
+					// 		state <= READ_DATA2;
+					// 	end
+					// endcase
 				end
 
 				READ_DATA2: begin
@@ -502,16 +545,14 @@ CPU_state_t CPU_SM;
 					end
 				end
 				WRITE_ACK2: begin
-					case(op_mode) 
-						CPU_RD_TEMP: begin
-							finish <= 1;
-							state <= STOP;
-						end
-						CPU_RD_ACCL: begin
-							counter <= 7;
-							state <= READ_DATA3;
-						end
-					endcase
+					if(op_mode == CPU_RD_TEMP) begin
+						finish <= 1;
+						state <= STOP;
+					end
+					else begin
+						counter <= 7;
+						state <= READ_DATA3;
+					end
 				end
 
 				READ_DATA3: begin
