@@ -586,7 +586,7 @@ end
 ***/ 	
 
 /**** ADXL 357****/
-i2c_controller_pullup_ADXL357_v7
+i2c_controller_pullup_ADXL357
 inst_i2c_adxl357 (
 	.i_clk(CPU_CLK),
 	.i_rst_n(locked_0),

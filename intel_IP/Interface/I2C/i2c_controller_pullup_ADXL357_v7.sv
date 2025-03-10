@@ -539,14 +539,21 @@ CPU_state_t CPU_SM;
 					end
 				end
 				WRITE_ACK2: begin
-					if(op_mode == CPU_RD_TEMP || HW_TEMP) begin
-						finish <= 1;
-						state <= STOP;
-					end
-					else if(op_mode == HW_ALL) begin
-						counter <= 7;
-						state <= READ_DATA3;
-					end
+					// if(op_mode == CPU_RD_TEMP) begin
+					// 	finish <= 1;
+					// 	state <= STOP;
+					// end
+					// else if(op_mode == HW_TEMP) begin
+					// 	finish <= 1;
+					// 	state <= STOP;
+					// end
+					// else if(op_mode == HW_ALL) begin
+					// 	counter <= 7;
+					// 	state <= READ_DATA3;
+					// end
+					counter <= 7;
+					state <= READ_DATA3;
+
 
 					// else if(op_mode == HW_TEMP) state <= STOP;
 					// else begin
@@ -745,6 +752,12 @@ CPU_state_t CPU_SM;
 					sda_out <= 0;
 				end
 				WRITE_ACK9: begin
+					sda_out <= 0;
+				end
+				WRITE_ACK10: begin
+					sda_out <= 0;
+				end
+				WRITE_ACK11: begin
 					sda_out <= 0;
 				end
 				READ_DATA: begin

@@ -167,24 +167,6 @@ void read_357_temp_CPU()
 
 }
 
-void read_357_temp_HW()
-{
-	float temp;
-
-	// setting mode to r/w 1 byte
-	I2C_op_mode_sel_ADXL357(HW_TEMP);
-
-//	I2C_sm_start_ADXL357();
-	// Wait for the I2C SM to complete the operation
-//	while( !I2C_sm_read_finish_ADXL357()){}
-
-	temp = 233.2873 - 0.1105*(float)IORD(VARSET_BASE, var_i2c_357_rdata_4);
-
-//	printf("temp: %f\n", temp);
-	uart_printf("temp: %f\n", temp);
-
-}
-
 void read_357_accl_CPU()
 {
 	float ax, ay, az;
@@ -195,27 +177,6 @@ void read_357_accl_CPU()
 	I2C_sm_start_ADXL357();
 	// Wait for the I2C SM to complete the operation
 	while( !I2C_sm_read_finish_ADXL357()){}
-
-
-	ax = (float)IORD(VARSET_BASE, var_i2c_357_rdata_1)*SENS_ADXL357_20G;
-	ay = (float)IORD(VARSET_BASE, var_i2c_357_rdata_2)*SENS_ADXL357_20G;
-	az = (float)IORD(VARSET_BASE, var_i2c_357_rdata_3)*SENS_ADXL357_20G;
-
-//	printf("%f, %f, %f\n", ax, ay, az);
-	uart_printf("%f, %f, %f\n", ax, ay, az);
-
-}
-
-void read_357_accl_HW()
-{
-	float ax, ay, az;
-
-	// setting mode to r/w 1 byte
-	I2C_op_mode_sel_ADXL357(HW_ACC);
-
-//	I2C_sm_start_ADXL357();
-	// Wait for the I2C SM to complete the operation
-//	while( !I2C_sm_read_finish_ADXL357()){}
 
 
 	ax = (float)IORD(VARSET_BASE, var_i2c_357_rdata_1)*SENS_ADXL357_20G;
