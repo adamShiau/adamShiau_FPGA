@@ -1,4 +1,4 @@
-module i2c_controller_pullup_ADXL357_v5
+module i2c_controller_pullup_ADXL357_v6
 (
 	input wire 			i_clk,
 	input wire 			i_rst_n,
@@ -405,6 +405,7 @@ CPU_state_t CPU_SM;
 						state <= WRITE_DATA;
 					end
 					else state <= STOP;
+
 					// case(op_mode) 
 					// 	CPU_WREG: begin
 					// 		counter <= 7;
@@ -448,15 +449,17 @@ CPU_state_t CPU_SM;
 						end
 						HW_ALL: begin
 							if(HW_SM == HW_SM_W_REG_TEMP) HW_SM <= HW_SM_R_TEMP;
-							else if(HW_SM == HW_SM_R_TEMP) HW_SM <= HW_SM_W_REG_ACC;
+							else if(HW_SM == HW_SM_R_TEMP) begin
+								HW_SM <= HW_SM_W_REG_ACC;
+								o_TEMP <= {20'b0, reg_rd_data[3:0], reg_rd_data_2};
+							end
 							else if(HW_SM == HW_SM_W_REG_ACC) HW_SM <= HW_SM_R_ACC;
 							else if(HW_SM == HW_SM_R_ACC) begin
 								HW_SM <= HW_SM_W_REG_TEMP;
 								sm_enable <= 0;
-								o_TEMP <= {20'b0, reg_rd_data[3:0], reg_rd_data_2};
-								o_ACCX <= {{12{reg_rd_data_3[7]}}, reg_rd_data_3, reg_rd_data_4, reg_rd_data_5[7:4]};
-								o_ACCY <= {{12{reg_rd_data_6[7]}}, reg_rd_data_6, reg_rd_data_7, reg_rd_data_8[7:4]};
-								o_ACCZ <= {{12{reg_rd_data_9[7]}}, reg_rd_data_9, reg_rd_data_10, reg_rd_data_11[7:4]};	
+								o_ACCX <= {{12{reg_rd_data[7]}}, reg_rd_data, reg_rd_data_2, reg_rd_data_3[7:4]};
+								o_ACCY <= {{12{reg_rd_data_4[7]}}, reg_rd_data_4, reg_rd_data_5, reg_rd_data_6[7:4]};
+								o_ACCZ <= {{12{reg_rd_data_7[7]}}, reg_rd_data_7, reg_rd_data_8, reg_rd_data_9[7:4]};
 							end
 						end
 						HW_TEMP: begin
@@ -551,6 +554,7 @@ CPU_state_t CPU_SM;
 						finish <= 1;
 						state <= STOP;
 					end
+					else if(op_mode == HW_TEMP) state <= STOP;
 					else begin
 						counter <= 7;
 						state <= READ_DATA3;
