@@ -144,6 +144,9 @@ void init_ADXL357()
 	I2C_read_357_register(SYNC_ADDR, 1);
 	I2C_write_357_register(POWER_CTL_ADDR, MEASURE_MODE);
 	I2C_read_357_register(POWER_CTL_ADDR, 1); 
+	
+	I2C_op_mode_sel_ADXL357(HW_ALL);
+
 
 	// Set I2C operation mode to read 11 bytes (HW mode 11)
 	// I2C_op_mode_sel_ADXL357(HW_11);

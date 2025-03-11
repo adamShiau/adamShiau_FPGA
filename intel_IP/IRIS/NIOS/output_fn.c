@@ -83,7 +83,7 @@ void acq_fog (cmd_ctrl_t* rx, my_sensor_t data, alt_u8* sync, fog_parameter_t fo
             SerialWrite(temp3.bin_val, 4); 
             SerialWrite(CRC32, 4); 
 
-            INFO_PRINT("%f, %f, %f. %f\n", ax.float_val, ay.float_val, az.float_val, acc_temp.float_val);
+            // INFO_PRINT("%f, %f, %f. %f\n", ax.float_val, ay.float_val, az.float_val, acc_temp.float_val);
 
         }
     }
