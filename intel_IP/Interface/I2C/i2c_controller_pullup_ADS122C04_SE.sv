@@ -34,9 +34,9 @@ module i2c_controller_pullup_ADS122C04_SE
 	localparam CLK_3125K 	= 	4;
 
 	/*** op mode definition ***/
-	localparam CPU_WREG	= 	2'b00;
-	localparam CPU_RREG = 	2'b01;
-	localparam HW 		= 	2'b10;
+	localparam CPU_WREG	= 	3'b00;
+	localparam CPU_RREG = 	3'b01;
+	localparam HW 		= 	3'b10;
 
 	/*** WREG definition    ***/
 	localparam WREG_CONFIG_0 = 8'b0100_0000;
@@ -95,14 +95,14 @@ module i2c_controller_pullup_ADS122C04_SE
 	reg signed [7:0] 	reg_rd_data;
 	reg signed [7:0] 	reg_rd_data_2;
 	reg signed [7:0] 	reg_rd_data_3;
-	// reg signed [7:0] 	reg_rd_data_4;
-	// reg signed [7:0] 	reg_rd_data_5;
-	// reg signed [7:0] 	reg_rd_data_6;
-	// reg signed [7:0] 	reg_rd_data_7;
-	// reg signed [7:0] 	reg_rd_data_8;
-	// reg signed [7:0] 	reg_rd_data_9;
-	// reg signed [7:0] 	reg_rd_data_10;
-	// reg signed [7:0] 	reg_rd_data_11;
+	reg signed [7:0] 	reg_rd_data_4;
+	reg signed [7:0] 	reg_rd_data_5;
+	reg signed [7:0] 	reg_rd_data_6;
+	reg signed [7:0] 	reg_rd_data_7;
+	reg signed [7:0] 	reg_rd_data_8;
+	reg signed [7:0] 	reg_rd_data_9;
+	reg signed [7:0] 	reg_rd_data_10;
+	reg signed [7:0] 	reg_rd_data_11;
 
 	reg [7:0] state;
 	reg [7:0] saved_addr;
@@ -120,8 +120,8 @@ module i2c_controller_pullup_ADS122C04_SE
 	reg r_drdy = 0;
 	reg [2:0] reg_clock_rate = 6;
 
-	wire i_enable, rw_reg, finish_ack;
-	wire [1:0] op_mode;
+	wire i_enable, finish_ack;
+	wire [2:0] op_mode;
 	wire [2:0] clk_rate;
 	reg sm_enable;
 
@@ -134,8 +134,7 @@ module i2c_controller_pullup_ADS122C04_SE
 
 	/******* control register********/
 	assign i_enable = i_ctrl[0];
-	assign rw_reg = i_ctrl[1];
-	assign op_mode = i_ctrl[3:2]; //00: CPU 1 byte, 01: CPU 11 bytes, 10: FPGA 11 bytes, 11: reserved
+	assign op_mode = i_ctrl[3:1];
 	assign clk_rate = i_ctrl[6:4];
 
 	/******* status register********/
@@ -270,23 +269,23 @@ end
 
 // State machine states
 typedef enum logic {
-	W_REG = 1'b0,
-	READ = 1'b1
+	CPU_SM_W_REG = 1'b0,
+	CPU_SM_READ  = 1'b1
 } CPU_SM_t;
 
 typedef enum logic [2:0] {
-	W_REG_MUX 	= 3'd0,
-	W_START_CMD = 3'd1,
-	WAIT_DRDY   = 3'd2,
-	W_REG_RDATA = 3'd3,
-	READ_ADC	= 3'd4
+	HW_SM_W_REG_MUX 	= 3'd0,
+	HW_SM_W_START_CMD   = 3'd1,
+	HW_SM_WAIT_DRDY     = 3'd2,
+	HW_SM_W_REG_RDATA   = 3'd3,
+	HW_SM_READ_ADC	    = 3'd4
 } HW_SM_t;
 
 typedef enum logic [1:0] {
-	AIN0 = 2'd0,
-	AIN1 = 2'd1,
-	AIN2 = 2'd2,
-	AIN3 = 2'd3
+	AIN_SM_AIN0 = 2'd0,
+	AIN_SM_AIN1 = 2'd1,
+	AIN_SM_AIN2 = 2'd2,
+	AIN_SM_AIN3 = 2'd3
 } AIN_SM_t;
 
 CPU_SM_t CPU_SM;
@@ -308,27 +307,27 @@ AIN_SM_t AIN_SM;
 			saved_data <= 0;
 			finish <= 0;
 			/***  SM initialization  ***/
-			CPU_SM <= W_REG;
-			HW_SM <= W_REG_MUX;
-			AIN_SM <= AIN0;
+			CPU_SM <= CPU_SM_W_REG;
+			HW_SM <= HW_SM_W_REG_MUX;
+			AIN_SM <= AIN_SM_AIN0;
 		end		
 		else begin
 			case(state)
 				IDLE: begin // 根據op_mode模式來啟動狀態機
 
 					case (op_mode)
-						CPU_WREG, CPU_RREG: if(i_enable) state <= START;
+						CPU_WREG, CPU_RREG: if(i_enable) sm_enable <= 1; 
 						HW: begin
-							case(HW_SM)
-								WAIT_DRDY: begin
-									if(~i_drdy) HW_SM <= W_REG_RDATA;
-									state <= IDLE;
-								end
-								default: state <= START;
-							endcase
+							if(HW_SM == HW_SM_WAIT_DRDY) begin
+								if(~i_drdy) HW_SM <= HW_SM_W_REG_RDATA;
+								state <= IDLE;
+							end
+							else sm_enable <= 1;
 						end
-						default: state <= IDLE;
 					endcase
+
+					if (sm_enable) state <= START;
+					else state <= IDLE;
 				end
 
 				START: begin
@@ -339,19 +338,18 @@ AIN_SM_t AIN_SM;
 							saved_addr <= {i_dev_addr, 1'b0};
 						end
 						CPU_RREG: begin
-							if(CPU_SM == W_REG) saved_addr <= {i_dev_addr, 1'b0};
-							else if(CPU_SM == READ) saved_addr <= {i_dev_addr, 1'b1};
+							if(CPU_SM == CPU_SM_W_REG) saved_addr <= {i_dev_addr, 1'b0};
+							else if(CPU_SM == CPU_SM_READ) saved_addr <= {i_dev_addr, 1'b1};
 						end
 						HW: begin
-							if (HW_SM == W_REG_MUX || HW_SM == W_START_CMD || HW_SM == W_REG_RDATA) begin
-								saved_addr <= {i_dev_addr, 1'b0};
-							end 
-							else if (HW_SM == READ_ADC) begin
-								saved_addr <= {i_dev_addr, 1'b1};
-							end
-						end
-						default: begin
-							 
+							if(HW_SM == HW_SM_READ_ADC) saved_addr <= {i_dev_addr, 1'b1};
+							else saved_addr <= {i_dev_addr, 1'b0};
+							// if (HW_SM == HW_SM_W_REG_MUX || HW_SM == W_START_CMD || HW_SM == W_REG_RDATA) begin
+							// 	saved_addr <= {i_dev_addr, 1'b0};
+							// end 
+							// else if (HW_SM == READ_ADC) begin
+							// 	saved_addr <= {i_dev_addr, 1'b1};
+							// end
 						end
 					endcase
 
@@ -382,30 +380,30 @@ AIN_SM_t AIN_SM;
 							state <= REG_ADDR;
 						end
 						CPU_RREG: begin
-							if(CPU_SM == W_REG) begin
+							if(CPU_SM == CPU_SM_W_REG) begin
 								saved_data <= i_reg_addr;
 								state <= REG_ADDR;
 							end
-							else if(CPU_SM == READ) state <= READ_DATA;
+							else if(CPU_SM == CPU_SM_READ) state <= READ_DATA;
 						end
 						HW: begin 
 							case(HW_SM)
-								W_REG_MUX: begin 
+								HW_SM_W_REG_MUX: begin 
 									saved_data <= WREG_CONFIG_0;
 									state <= REG_ADDR;
 								end
-								W_START_CMD: begin
+								HW_SM_W_START_CMD: begin
 									saved_data <= CMD_START; 
 									state <= REG_ADDR;
 								end
-								W_REG_RDATA: begin
+								HW_SM_W_REG_RDATA: begin
 									saved_data <= CMD_RDATA; 
 									state <= REG_ADDR;
 								end
-								READ_ADC: state <= READ_DATA;
+								HW_SM_READ_ADC: state <= READ_DATA;
+								HW_SM_WAIT_DRDY: state <= READ_ACK_B;
 							endcase
 						end
-						default: state <= STOP;							 
 					endcase
 				end
 
@@ -431,13 +429,13 @@ AIN_SM_t AIN_SM;
 						end
 						CPU_RREG: state <= STOP;	
 						HW: begin
-							if(HW_SM == W_START_CMD || HW_SM == W_REG_RDATA) state <= STOP;	
-							else if(HW_SM == W_REG_MUX) begin
+							if(HW_SM == HW_SM_W_START_CMD || HW_SM == HW_SM_W_REG_RDATA) state <= STOP;	
+							else if(HW_SM == HW_SM_W_REG_MUX) begin
 								case(AIN_SM)
-									AIN0: saved_data <= MUX_AIN0; 
-									AIN1: saved_data <= MUX_AIN1; 
-									AIN2: saved_data <= MUX_AIN2; 
-									AIN3: saved_data <= MUX_AIN3; 
+									AIN_SM_AIN0: saved_data <= MUX_AIN0; 
+									AIN_SM_AIN1: saved_data <= MUX_AIN1; 
+									AIN_SM_AIN2: saved_data <= MUX_AIN2; 
+									AIN_SM_AIN3: saved_data <= MUX_AIN3; 
 								endcase
 								counter <= 7;
 								state <= WRITE_DATA;
@@ -451,37 +449,38 @@ AIN_SM_t AIN_SM;
 
 				STOP: begin
 					case (op_mode)
-						// CPU_WREG: sm_enable <= 1'b0;
+						CPU_WREG: sm_enable <= 0;
 						CPU_RREG: begin
-							if(CPU_SM == W_REG) CPU_SM <= READ;
-							else if(CPU_SM == READ) begin
-								CPU_SM <= W_REG;
-								// sm_enable <= 1'b0;
+							if(CPU_SM == CPU_SM_W_REG) CPU_SM <= CPU_SM_READ;
+							else if(CPU_SM == CPU_SM_READ) begin
+								CPU_SM <= CPU_SM_W_REG;
+								sm_enable <= 0;
+								o_AIN0 <= {24'b0, reg_rd_data};
 							end
 						end
 						HW: begin
 							case(HW_SM)
-								W_REG_MUX: HW_SM <= W_START_CMD; 
-								W_START_CMD: HW_SM <= WAIT_DRDY;
-								W_REG_RDATA: HW_SM <= READ_ADC;
-								READ_ADC: begin
-									HW_SM <= W_REG_MUX;
+								HW_SM_W_REG_MUX: HW_SM <= HW_SM_W_START_CMD; 
+								HW_SM_W_START_CMD: HW_SM <= HW_SM_WAIT_DRDY;
+								HW_SM_W_REG_RDATA: HW_SM <= HW_SM_READ_ADC;
+								HW_SM_READ_ADC: begin
+									HW_SM <= HW_SM_W_REG_MUX;
 									case(AIN_SM)
-										AIN0: begin 
+										AIN_SM_AIN0: begin 
 											o_AIN0 <= {12'b0, reg_rd_data, reg_rd_data_2, reg_rd_data_3};
-											AIN_SM <= AIN1;
+											AIN_SM <= AIN_SM_AIN1;
 										end
-										AIN1: begin 
+										AIN_SM_AIN1: begin 
 											o_AIN1 <= {12'b0, reg_rd_data, reg_rd_data_2, reg_rd_data_3};
-											AIN_SM <= AIN2;
+											AIN_SM <= AIN_SM_AIN2;
 										end
-										AIN2: begin
+										AIN_SM_AIN2: begin
 											o_AIN2 <= {12'b0, reg_rd_data, reg_rd_data_2, reg_rd_data_3}; 
-											AIN_SM <= AIN3;
+											AIN_SM <= AIN_SM_AIN3;
 										end
-										AIN3: begin 
+										AIN_SM_AIN3: begin 
 											o_AIN3 <= {12'b0, reg_rd_data, reg_rd_data_2, reg_rd_data_3};
-											AIN_SM <= AIN0;
+											AIN_SM <= AIN_SM_AIN0;
 										end
 									endcase
 								end
@@ -493,9 +492,9 @@ AIN_SM_t AIN_SM;
 					state <= STOP2;
 	
 					
-					o_AIN1 <= {{12{reg_rd_data_4[7]}}, reg_rd_data_4, reg_rd_data_5, reg_rd_data_6[7:4]};
-					o_AIN2 <= {{12{reg_rd_data_7[7]}}, reg_rd_data_7, reg_rd_data_8, reg_rd_data_9[7:4]};
-					o_AIN3 <= {20'b0, reg_rd_data_10[3:0], reg_rd_data_11};
+					// o_AIN1 <= {{12{reg_rd_data_4[7]}}, reg_rd_data_4, reg_rd_data_5, reg_rd_data_6[7:4]};
+					// o_AIN2 <= {{12{reg_rd_data_7[7]}}, reg_rd_data_7, reg_rd_data_8, reg_rd_data_9[7:4]};
+					// o_AIN3 <= {20'b0, reg_rd_data_10[3:0], reg_rd_data_11};
 					
 				end
 
@@ -529,21 +528,10 @@ AIN_SM_t AIN_SM;
 							state <= STOP;
 						end
 						HW: begin
-
-						end
-						default: begin
-							 
+							counter <= 7;
+							state <= READ_DATA2;
 						end
 					endcase
-
-					// if(op_mode == CPU_1) begin
-					// 	finish <= 1;
-					// 	state <= STOP; //00, CPU read 1 byte
-					// end
-					// else begin// else, CPU/FPGA read 11 bytes
-					// 	counter <= 7;
-					// 	state <= READ_DATA2;
-					// end
 				end
 
 				READ_DATA2: begin
@@ -562,8 +550,10 @@ AIN_SM_t AIN_SM;
 					else counter <= counter - 1;
 				end
 				WRITE_ACK3: begin
-					counter <= 7;
-					state <= READ_DATA4;
+					finish <= 1;
+					state <= STOP;
+					// counter <= 7;
+					// state <= READ_DATA4;
 				end
 
 				READ_DATA4: begin
@@ -737,6 +727,12 @@ AIN_SM_t AIN_SM;
 				WRITE_ACK9: begin
 					sda_out <= 0;
 				end
+				WRITE_ACK10: begin
+					sda_out <= 0;
+				end
+				WRITE_ACK11: begin
+					sda_out <= 0;
+				end
 				READ_DATA: begin
 					sda_out <= 1;			
 				end
@@ -762,6 +758,12 @@ AIN_SM_t AIN_SM;
 					sda_out <= 1;			
 				end
 				READ_DATA9: begin
+					sda_out <= 1;				
+				end
+				READ_DATA10: begin
+					sda_out <= 1;				
+				end
+				READ_DATA11: begin
 					sda_out <= 1;				
 				end
 				STOP: begin

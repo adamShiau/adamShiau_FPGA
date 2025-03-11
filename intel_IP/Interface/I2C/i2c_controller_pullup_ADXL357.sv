@@ -122,7 +122,6 @@ module i2c_controller_pullup_ADXL357
 
 	/******* control register********/
 	assign i_enable = i_ctrl[0];
-	// assign rw_reg = i_ctrl[1];
 	assign op_mode = i_ctrl[3:1]; //00: CPU 1 byte, 01: CPU 11 bytes, 10: FPGA 11 bytes, 11: reserved
 	assign clk_rate = i_ctrl[6:4];
 
@@ -247,9 +246,6 @@ module i2c_controller_pullup_ADXL357
 // State machine states
 typedef enum logic [2:0] {
 	HW_SM_W_REG_TEMP = 3'd0,
-	// HW_SM_R_TEMP = 3'd1,
-	// HW_SM_W_REG_ACC = 3'd2,
-	// HW_SM_R_ACC = 3'd3,
 	HW_SM_R_ALL = 3'd1
 } state_t;
 

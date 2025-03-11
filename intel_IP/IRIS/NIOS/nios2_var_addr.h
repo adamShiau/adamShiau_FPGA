@@ -45,6 +45,10 @@
 #define var_fb_ON_1            		39
 #define var_gainSel_ramp_1          40
 #define var_err_offset_1            41
+#define var_i2c_ads122c04_temp_dev_addr 42
+#define var_i2c_ads122c04_temp_w_data   43
+#define var_i2c_ads122c04_ctrl          44
+#define var_i2c_ads122c04_temp_reg_addr 45
 
 #define var_timer_rst               58
 #define var_sync_count              59
@@ -66,6 +70,11 @@
 #define var_i2c_EEPROM_rdata_2  60 + 14
 #define var_i2c_EEPROM_rdata_3  60 + 15
 #define var_i2c_EEPROM_rdata_4  60 + 16
+#define var_i2c_ads122c04_status 60 + 17
+#define var_i2c_ads122c04_temp_rdata_1 60 + 18
+#define var_i2c_ads122c04_temp_rdata_2 60 + 19
+#define var_i2c_ads122c04_temp_rdata_3 60 + 20
+#define var_i2c_ads122c04_temp_rdata_4 60 + 21
 #define i_var_step_3            60 + 30
 #define i_var_err_3             60 + 31
 #define i_var_timer             60 + 32
