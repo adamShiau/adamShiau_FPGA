@@ -141,6 +141,7 @@ void moving_average_free(MovingAverage_t *);
 
 void sendTx(alt_32);
 void checkByte(alt_u8);
+void uart_printf(const char *format, ...);
 void SerialWrite(alt_u8* buf, alt_u8 num); 
 void Serialwrite_r(alt_u8* buf, alt_u8 num); 
  int IEEE_754_F2INT(float in);

@@ -1,4 +1,6 @@
 #include "common.h"
+#include <stdarg.h>
+#include <string.h>
 
 // Initialize the Moving Average filter
 void moving_average_init(MovingAverage_t *ma, alt_u32 window) {
@@ -53,6 +55,18 @@ void checkByte(alt_u8 data)
 {
 	while(!(IORD_ALTERA_AVALON_UART_STATUS(UART_BASE)& ALTERA_AVALON_UART_STATUS_TRDY_MSK));
 	IOWR_ALTERA_AVALON_UART_TXDATA(UART_BASE, data);
+}
+
+void uart_printf(const char *format, ...)
+{
+    char buffer[128];  // 128 is buffer size, can increase if need 
+    va_list args;                   
+
+    va_start(args, format);           
+    vsnprintf(buffer, 128, format, args);  
+    va_end(args);
+
+    SerialWrite((alt_u8*)buffer, strlen(buffer));
 }
 
 void SerialWrite(alt_u8* buf, alt_u8 num) 
