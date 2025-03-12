@@ -162,7 +162,7 @@ wire [29:0] adc1_fir, adc2_fir, adc3_fir;
 /*** I2C 24 bit ADC ads122c04 temp Var definition***/
 wire [31:0] var_i2c_ads122c04_temp_dev_addr, var_i2c_ads122c04_temp_reg_addr, var_i2c_ads122c04_temp_w_data;
 wire signed [31:0] var_i2c_ads122c04_temp_rdata_1, var_i2c_ads122c04_temp_rdata_2, var_i2c_ads122c04_temp_rdata_3, var_i2c_ads122c04_temp_rdata_4;
-wire [31:0] var_i2c_ads122c04_ctrl, var_i2c_ads122c04_status;
+wire [31:0] var_i2c_ads122c04_temp_ctrl, var_i2c_ads122c04_temp_status;
 
 /////////// I2C ADXL357 Var definition //////////
 wire [31:0] var_i2c_357_dev_addr, var_i2c_357_reg_addr, var_i2c_357_w_data;
@@ -599,10 +599,10 @@ inst_i2c_ADS122C04_temp (
 	.i_reg_addr(var_i2c_ads122c04_temp_reg_addr),
 	.i_w_data(var_i2c_ads122c04_temp_w_data),  
 	
-	.i_ctrl(var_i2c_ads122c04_ctrl),
+	.i_ctrl(var_i2c_ads122c04_temp_ctrl),
 	.i_drdy(DRDY_ADC_TEMP),
 
-	.o_status(var_i2c_ads122c04_status),
+	.o_status(var_i2c_ads122c04_temp_status),
 	.o_AIN0(var_i2c_ads122c04_temp_rdata_1),
 	.o_AIN1(var_i2c_ads122c04_temp_rdata_2),
 	.o_AIN2(var_i2c_ads122c04_temp_rdata_3),
@@ -931,7 +931,7 @@ CPU u0 (
 	.varset_1_o_reg41  (),  
 	.varset_1_o_reg42  (var_i2c_ads122c04_temp_dev_addr),  
 	.varset_1_o_reg43  (var_i2c_ads122c04_temp_w_data),  
-	.varset_1_o_reg44  (var_i2c_ads122c04_ctrl),  
+	.varset_1_o_reg44  (var_i2c_ads122c04_temp_ctrl),  
 	.varset_1_o_reg45  (var_i2c_ads122c04_temp_reg_addr),  
 	.varset_1_o_reg46  (),  
 	.varset_1_o_reg47  (),  
@@ -965,7 +965,7 @@ CPU u0 (
 	.varset_1_i_var14    (var_i2c_EEPROM_rdata_2),    //           .i_var14
 	.varset_1_i_var15    (var_i2c_EEPROM_rdata_3),    //           .i_var15
 	.varset_1_i_var16    (var_i2c_EEPROM_rdata_4),    //           .i_var16
-	.varset_1_i_var17    (var_i2c_ads122c04_status),    //           .i_var17
+	.varset_1_i_var17    (var_i2c_ads122c04_temp_status),    //           .i_var17
 	.varset_1_i_var18    (var_i2c_ads122c04_temp_rdata_1),  //           .i_var18
 	.varset_1_i_var19    (var_i2c_ads122c04_temp_rdata_2),  //           .i_var19
 	.varset_1_i_var20    (var_i2c_ads122c04_temp_rdata_3),  //           .i_var20

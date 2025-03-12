@@ -47,7 +47,7 @@
 #define var_err_offset_1            41
 #define var_i2c_ads122c04_temp_dev_addr 42
 #define var_i2c_ads122c04_temp_w_data   43
-#define var_i2c_ads122c04_ctrl          44
+#define var_i2c_ads122c04_temp_ctrl     44
 #define var_i2c_ads122c04_temp_reg_addr 45
 
 #define var_timer_rst               58
@@ -70,7 +70,7 @@
 #define var_i2c_EEPROM_rdata_2  60 + 14
 #define var_i2c_EEPROM_rdata_3  60 + 15
 #define var_i2c_EEPROM_rdata_4  60 + 16
-#define var_i2c_ads122c04_status 60 + 17
+#define var_i2c_ads122c04_temp_status  60 + 17
 #define var_i2c_ads122c04_temp_rdata_1 60 + 18
 #define var_i2c_ads122c04_temp_rdata_2 60 + 19
 #define var_i2c_ads122c04_temp_rdata_3 60 + 20

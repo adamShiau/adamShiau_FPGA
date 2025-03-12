@@ -34,9 +34,9 @@ module i2c_controller_pullup_ADS122C04_SE
 	localparam CLK_3125K 	= 	4;
 
 	/*** op mode definition ***/
-	localparam CPU_WREG	= 	3'b00;
-	localparam CPU_RREG = 	3'b01;
-	localparam HW 		= 	3'b10;
+	localparam CPU_WREG	= 	3'd0;
+	localparam CPU_RREG = 	3'd1;
+	localparam HW 		= 	3'd2;
 
 	/*** WREG definition    ***/
 	localparam WREG_CONFIG_0 = 8'b0100_0000;
@@ -142,6 +142,9 @@ module i2c_controller_pullup_ADS122C04_SE
 	assign o_status[1] = finish; //finish 
 	assign o_status[9:2] = state;  
 	assign o_status[10]  = sm_enable;
+	assign o_status[11]  = CPU_SM;
+	assign o_status[14:12]  = HW_SM;
+	assign o_status[16:15]  = AIN_SM;
 
 
 	assign i2c_clk_out = i2c_clk;
