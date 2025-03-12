@@ -108,10 +108,10 @@ void read_ADS122C04_TEMP()
 	// Set I2C device address
 	I2C_set_device_addr_ADS122C04_TEMP(I2C_DEV_ADDR);
 
-	ain0 = (float)IORD(VARSET_BASE, O_VAR_I2C_RDATA_1)*1;
-	ain1 = (float)IORD(VARSET_BASE, O_VAR_I2C_RDATA_2)*1;
-	ain2 = (float)IORD(VARSET_BASE, O_VAR_I2C_RDATA_3)*1;
-	ain3 = (float)IORD(VARSET_BASE, O_VAR_I2C_RDATA_4)*1;
+	ain0 = (float)IORD(VARSET_BASE, O_VAR_I2C_RDATA_1)*2.048/8388608.0;
+	ain1 = (float)IORD(VARSET_BASE, O_VAR_I2C_RDATA_2)*2.048/8388608.0;
+	ain2 = (float)IORD(VARSET_BASE, O_VAR_I2C_RDATA_3)*2.048/8388608.0;
+	ain3 = (float)IORD(VARSET_BASE, O_VAR_I2C_RDATA_4)*2.048/8388608.0;
 
 //	printf("%f, %f, %f\n", ax, ay, az);
 	uart_printf("%f, %f, %f, %f\n", ain0, ain1, ain2, ain3);

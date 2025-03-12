@@ -322,8 +322,11 @@ AIN_SM_t AIN_SM;
 						CPU_WREG, CPU_RREG: if(i_enable) sm_enable <= 1; 
 						HW: begin
 							if(HW_SM == HW_SM_WAIT_DRDY) begin
-								if(~i_drdy) HW_SM <= HW_SM_W_REG_RDATA;
-								state <= IDLE;
+								if(i_drdy == 1'b0) begin 
+									HW_SM <= HW_SM_W_REG_RDATA;
+									sm_enable <= 1;
+								end
+								else sm_enable <= 0;
 							end
 							else sm_enable <= 1;
 						end
@@ -464,7 +467,10 @@ AIN_SM_t AIN_SM;
 						HW: begin
 							case(HW_SM)
 								HW_SM_W_REG_MUX: HW_SM <= HW_SM_W_START_CMD; 
-								HW_SM_W_START_CMD: HW_SM <= HW_SM_WAIT_DRDY;
+								HW_SM_W_START_CMD: begin
+									HW_SM <= HW_SM_WAIT_DRDY;
+									sm_enable <= 0;
+								end
 								HW_SM_W_REG_RDATA: HW_SM <= HW_SM_READ_ADC;
 								HW_SM_READ_ADC: begin
 									HW_SM <= HW_SM_W_REG_MUX;
