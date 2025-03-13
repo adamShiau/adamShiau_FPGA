@@ -5,6 +5,7 @@
 #include "nios2_var_addr.h"
 
 #define VARSET_BASE VARSET_1_BASE
+#define SYNC_50HZ  1e6
 #define SYNC_100HZ 5e5
 #define SYNC_200HZ 2.5e5
 

@@ -21,6 +21,13 @@ void output_mode_setting(cmd_ctrl_t* rx, fn_ptr *output_fn, auto_rst_t* auto_rst
 				rx->select_fn = SEL_FOG;
 				auto_rst->fn_mode = MODE_FOG;
 				break;
+			} 
+			case MODE_IMU: {
+				*output_fn = acq_imu;
+				DEBUG_PRINT("output_fn select to acq_imu\n");
+				rx->select_fn = SEL_IMU;
+				auto_rst->fn_mode = MODE_IMU;
+				break;
 			}
 
       		default: DEBUG_PRINT("function mode out of range\n");break;

@@ -110,9 +110,14 @@ int main(void)
 	while(1){
 		/*** fog */
 		sensor_data.time.time.float_val = (float)IORD(VARSET_BASE, i_var_timer)*COE_TIMER;
+		sensor_data.fog.fogx.err.int_val = 0;
+		sensor_data.fog.fogx.step.float_val = 0.0;
+		sensor_data.fog.fogy.err.int_val = 0;
+		sensor_data.fog.fogy.step.float_val = 0.0;
 		sensor_data.fog.fogz.err.int_val = IORD(VARSET_BASE, i_var_err_3);
 		sensor_data.fog.fogz.step.float_val = (float)IORD(VARSET_BASE, i_var_step_3);
 		// sensor_data.fog.fogz.step.float_val = moving_average_update(&ma, (float)IORD(VARSET_BASE, i_var_step_3));
+		
 		/***ads122c04 temperature */
 		sensor_data.temp.tempx.float_val = (float)IORD(VARSET_BASE, var_i2c_ads122c04_temp_rdata_1);
 		sensor_data.temp.tempy.float_val = (float)IORD(VARSET_BASE, var_i2c_ads122c04_temp_rdata_2);
@@ -154,7 +159,7 @@ int main(void)
 
 void update_IRIS_config_to_HW_REG()
 {
-	IOWR(VARSET_BASE, var_sync_count, SYNC_100HZ);
+	IOWR(VARSET_BASE, var_sync_count, SYNC_50HZ);
 }
 
 
