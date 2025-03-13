@@ -4,6 +4,10 @@
 #define EXT_SYNC 2
 #define STOP_RUN 4
 
+/*** ADC convertion coefficient */
+#define ADC_CONV_TEMP 0.00004447005 // 2.048/8388608.0*1000.0/5.49
+
+
 
 const unsigned char KVH_HEADER[4] = {0xFE, 0x81, 0xFF, 0x55};
 alt_u32 dly_cnt = 0;
@@ -56,9 +60,9 @@ void acq_fog (cmd_ctrl_t* rx, my_sensor_t data, alt_u8* sync, fog_parameter_t fo
             sf_3_offset = fog_parameter.paramZ[22].data.float_val;
 
             time.float_val = data.time.time.float_val;
-            temp1.float_val = data.temp.tempx.float_val*2.048/8388608.0*1000.0/5.49-273.15;
-            temp2.float_val = data.temp.tempy.float_val*2.048/8388608.0*1000.0/5.49-273.15;
-            temp3.float_val = data.temp.tempz.float_val*2.048/8388608.0*1000.0/5.49-273.15;
+            temp1.float_val = data.temp.tempx.float_val*ADC_CONV_TEMP-273.15;
+            temp2.float_val = data.temp.tempy.float_val*ADC_CONV_TEMP-273.15;
+            temp3.float_val = data.temp.tempz.float_val*ADC_CONV_TEMP-273.15;
             err3.int_val = data.fog.fogz.err.int_val;
             step3.float_val = data.fog.fogz.step.float_val*(sf_1_slope*temp1.float_val + sf_1_offset);
 
@@ -129,9 +133,9 @@ void acq_imu (cmd_ctrl_t* rx, my_sensor_t data, alt_u8* sync, fog_parameter_t fo
             sf_3_offset = fog_parameter.paramZ[22].data.float_val;
 
             time.float_val = data.time.time.float_val;
-            temp1.float_val = data.temp.tempx.float_val*2.048/8388608.0;
-            temp2.float_val = data.temp.tempy.float_val*2.048/8388608.0;
-            temp3.float_val = data.temp.tempz.float_val*2.048/8388608.0;
+            temp1.float_val = data.temp.tempx.float_val*ADC_CONV_TEMP - 273.15;
+            temp2.float_val = data.temp.tempy.float_val*ADC_CONV_TEMP - 273.15;
+            temp3.float_val = data.temp.tempz.float_val*ADC_CONV_TEMP - 273.15;
             err3.int_val = data.fog.fogz.err.int_val;
             err2.int_val = data.fog.fogy.err.int_val;
             err1.int_val = data.fog.fogx.err.int_val;

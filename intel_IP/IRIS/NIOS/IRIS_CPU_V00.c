@@ -159,7 +159,7 @@ int main(void)
 
 void update_IRIS_config_to_HW_REG()
 {
-	IOWR(VARSET_BASE, var_sync_count, SYNC_50HZ);
+	IOWR(VARSET_BASE, var_sync_count, SYNC_100HZ);
 }
 
 
