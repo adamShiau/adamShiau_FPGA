@@ -25,9 +25,7 @@ int main()
 	  if(trigger_sig==1) {
 		  trigger_sig = 0;
           read_ADS122C04_TEMP();
-		//   read_357_all();
-//		  read_357_temp_CPU();
-//		  read_357_accl_CPU();
+//          uart_printf("%d\n", cnt++);
 	  }
 
 

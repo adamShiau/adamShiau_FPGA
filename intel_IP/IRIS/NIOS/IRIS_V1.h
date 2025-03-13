@@ -31,6 +31,8 @@
 
 #include "adxl357.h"
 
+#include "ads122c04_se.h"
+
 
 
 #endif // __IRIS_V1_H

@@ -93,10 +93,14 @@ void init_ADS122C04_TEMP()
 	/*** set adxl357 parameters ***/
 	// I2C_write_ADS122C04_TEMP_register(RST_ADDR, POR);
 	I2C_read_ADS122C04_TEMP_register(RREG_CONFIG_0, 1);
-	I2C_write_ADS122C04_TEMP_register(WREG_CONFIG_1, DR_330_660|MODE_NORMAL|CM_SINGLE_SHOT|VREF_INTERNAL|TS_DISABLE);
+	I2C_write_ADS122C04_TEMP_register(WREG_CONFIG_1, DR_20_40|MODE_NORMAL|CM_SINGLE_SHOT|VREF_INTERNAL|TS_DISABLE);
 	I2C_read_ADS122C04_TEMP_register(RREG_CONFIG_1, 1);
 	I2C_read_ADS122C04_TEMP_register(RREG_CONFIG_2, 1);
 	I2C_read_ADS122C04_TEMP_register(RREG_CONFIG_3, 1);
+	// setting mode 
+	I2C_op_mode_sel_ADS122C04_TEMP(HW);
+	// Set I2C device address
+	I2C_set_device_addr_ADS122C04_TEMP(I2C_DEV_ADDR);
 }
 
 void read_ADS122C04_TEMP()
@@ -114,7 +118,10 @@ void read_ADS122C04_TEMP()
 	ain3 = (float)IORD(VARSET_BASE, O_VAR_I2C_RDATA_4)*2.048/8388608.0;
 
 //	printf("%f, %f, %f\n", ax, ay, az);
-	uart_printf("%f, %f, %f, %f\n", ain0, ain1, ain2, ain3);
+	// uart_printf("%f\n", ain0);
+	// uart_printf("%f, %f\n", ain0, ain1);
+	uart_printf("%f, %f, %f\n", ain0, ain1, ain2);
+	// uart_printf("%f, %f, %f, %f\n", ain0, ain1, ain2, ain3);
 }
 
 /***********mid level definition */

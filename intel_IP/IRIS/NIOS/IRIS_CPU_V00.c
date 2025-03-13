@@ -93,6 +93,7 @@ int main(void)
 	init_ADDA();
 	init_EEPROM();
 	init_ADXL357();
+	init_ADS122C04_TEMP();
 
 	// initialize_fog_params(&fog_params);
 	// EEPROM_Write_initial_parameter();
@@ -110,15 +111,19 @@ int main(void)
 		/*** fog */
 		sensor_data.time.time.float_val = (float)IORD(VARSET_BASE, i_var_timer)*COE_TIMER;
 		sensor_data.fog.fogz.err.int_val = IORD(VARSET_BASE, i_var_err_3);
-		// sensor_data.fog.fogz.step.float_val = (float)IORD(VARSET_BASE, i_var_step_3);
-		sensor_data.fog.fogz.step.float_val = moving_average_update(&ma, (float)IORD(VARSET_BASE, i_var_step_3));
-		sensor_data.temp.tempz.float_val = 25.35;
+		sensor_data.fog.fogz.step.float_val = (float)IORD(VARSET_BASE, i_var_step_3);
+		// sensor_data.fog.fogz.step.float_val = moving_average_update(&ma, (float)IORD(VARSET_BASE, i_var_step_3));
+		/***ads122c04 temperature */
+		sensor_data.temp.tempx.float_val = (float)IORD(VARSET_BASE, var_i2c_ads122c04_temp_rdata_1);
+		sensor_data.temp.tempy.float_val = (float)IORD(VARSET_BASE, var_i2c_ads122c04_temp_rdata_2);
+		sensor_data.temp.tempz.float_val = (float)IORD(VARSET_BASE, var_i2c_ads122c04_temp_rdata_3);
 		/*** ADXL357 */
 		sensor_data.adxl357.ax.float_val = (float)IORD(VARSET_BASE, var_i2c_357_rdata_1);
 		sensor_data.adxl357.ay.float_val = (float)IORD(VARSET_BASE, var_i2c_357_rdata_2);
 		sensor_data.adxl357.az.float_val = (float)IORD(VARSET_BASE, var_i2c_357_rdata_3);
 		sensor_data.adxl357.temp.float_val = (float)IORD(VARSET_BASE, var_i2c_357_rdata_4);
-		// sensor_data.adxl357.temp.float_val = 30.123;
+		
+
 		/***monitor */
 		// sensor_data.fog.fogz.sum_high.int_val = IORD(VARSET_BASE, i_var_high);
 		// sensor_data.fog.fogz.sum_low.int_val = IORD(VARSET_BASE, i_var_low);
