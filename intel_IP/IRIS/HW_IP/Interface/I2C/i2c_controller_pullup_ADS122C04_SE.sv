@@ -16,6 +16,7 @@ module i2c_controller_pullup_ADS122C04_SE
 
 
 	output wire [31:0] 	o_status,
+	output wire [31:0] 	o_cnt,
 	output wire 		o_w_enable,
 	output wire			i2c_clk_out,
 	inout				i2c_scl,
@@ -124,6 +125,7 @@ module i2c_controller_pullup_ADS122C04_SE
 	wire [2:0] op_mode;
 	wire [2:0] clk_rate;
 	reg sm_enable;
+	reg [31:0] cnt_HW;
 
 	wire w_en1, write_enable;
 	reg w_en2 = 0;
@@ -145,6 +147,7 @@ module i2c_controller_pullup_ADS122C04_SE
 	assign o_status[11]  = CPU_SM;
 	assign o_status[14:12]  = HW_SM;
 	assign o_status[16:15]  = AIN_SM;
+	assign o_cnt = cnt_HW;
 
 
 	assign i2c_clk_out = i2c_clk;
@@ -309,6 +312,7 @@ AIN_SM_t AIN_SM;
 			sm_enable <= 0; 
 			saved_data <= 0;
 			finish <= 0;
+			cnt_HW <= 0;
 			/***  SM initialization  ***/
 			CPU_SM <= CPU_SM_W_REG;
 			HW_SM <= HW_SM_W_REG_MUX;
@@ -325,8 +329,12 @@ AIN_SM_t AIN_SM;
 								if(i_drdy == 1'b0) begin 
 									HW_SM <= HW_SM_W_REG_RDATA;
 									sm_enable <= 1;
+									cnt_HW <= 32'd0;
 								end
-								else sm_enable <= 0;
+								else begin
+									sm_enable <= 0;
+									cnt_HW <= cnt_HW + 1'b1;
+								end
 							end
 							else sm_enable <= 1;
 						end
@@ -407,7 +415,7 @@ AIN_SM_t AIN_SM;
 									state <= REG_ADDR;
 								end
 								HW_SM_READ_ADC: state <= READ_DATA;
-								HW_SM_WAIT_DRDY: state <= READ_ACK_B;
+								// HW_SM_WAIT_DRDY: state <= READ_ACK_B;
 							endcase
 						end
 					endcase
@@ -471,6 +479,7 @@ AIN_SM_t AIN_SM;
 									HW_SM <= HW_SM_WAIT_DRDY;
 									sm_enable <= 0;
 								end
+								// HW_SM_WAIT_DRDY: HW_SM <= HW_SM_W_REG_RDATA; 
 								HW_SM_W_REG_RDATA: HW_SM <= HW_SM_READ_ADC;
 								HW_SM_READ_ADC: begin
 									HW_SM <= HW_SM_W_REG_MUX;

@@ -382,7 +382,8 @@ inst_i2c_ADS122C04_temp (
 	.o_AIN1(var_i2c_ads122c04_temp_rdata_2),
 	.o_AIN2(var_i2c_ads122c04_temp_rdata_3),
 	.o_AIN3(var_i2c_ads122c04_temp_rdata_4),
-	.o_w_enable()
+	.o_w_enable(),
+	.o_cnt()
 );
 
 /**** ADXL 357****/
