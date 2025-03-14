@@ -252,32 +252,8 @@ assign i_var_step_3 = o_step_3_MV;
 assign i_var_err_3 = o_err_DAC3_FIR;
 
 
-// assign DAC_3 =  reg_dac3; 
-// assign DAC_3 =  mod_out_DAC3[15:0] ;
-// assign DAC_3 =  o_err_DAC3[15:0] ;
-
-// genvar i;
-// generate
-//     for (i = 0; i < 16; i = i + 1) begin : gen_DAC_3
-//         assign DAC_3[i] = reg_dac3[i];
-//     end
-// endgenerate
-
-//  assign DAC_3 = (adc3_fir >>> 14);
 assign DAC_RST = reg_dacrst;
 
-//assign LED_FPGA = CLK_COUNT[22]; //fg
-//assign LED_FPGA = CLK_COUNT[25]; //clkout
-//assign C21 = CLOCK_SDRAM;
-//assign Y2 = CPU_CLK;
-// assign SDA_EEPROM = sync_out;
-// assign SCL_A_EEPROM = !sync_out;
-
-
-//always@(posedge CLOCK_50M) begin //fg
-//always@(posedge CLOCK_ADC_1) begin //clkout
-//	CLK_COUNT <= CLK_COUNT + 1;
-//end
 
 
 PLL0	PLL0_inst (
@@ -328,23 +304,6 @@ PLL2	PLL2_inst (
         330, 223, 148, 102, 82
     };
 
-	// reg [19:0] count;      // 20-bit 計數器可達 1,048,575 (>500,000)
-	// reg clk_out;
-
-	// always @(posedge CPU_CLK or negedge locked_0) begin
-	// 	if (!locked_0) begin
-	// 		count <= 0;
-	// 		clk_out <= 0;
-	// 	end else begin
-	// 		if (count == 500_000 - 1) begin
-	// 		count <= 0;           // 重設計數器
-	// 		clk_out <= ~clk_out;  // 翻轉輸出訊號
-	// 	end else begin
-	// 		count <= count + 1;   // 計數
-	// 	end
-	// 	end
-	// end
-
 wire sync_out;
 wire [31:0] var_sync_count;
 my_sync_gen sync_gen_inst
@@ -352,7 +311,6 @@ my_sync_gen sync_gen_inst
     .i_clk(CPU_CLK),
     .i_rst_n(locked_0),
    .i_sync_count(var_sync_count),
-	//  .i_sync_count(1000000),
     .o_sync_out(sync_out)
 );
 
@@ -374,8 +332,8 @@ myfir_filter #(
 (
 	.clk(CLOCK_ADC_1),
 	.n_rst(locked_1),
-	.din(ADC_3),  // 輸入數據, [WIDTH-1:0]
-	.dout(adc3_fir) // 濾波後數據, [WIDTH+15:0]
+	.din(ADC_3),  // ADC input, [WIDTH-1:0] 
+	.dout(adc3_fir) // filtered ADC data [WIDTH+15:0]
 );
 
 myfir_filter #(
@@ -386,8 +344,8 @@ myfir_filter #(
 (
 	.clk(CLOCK_ADC_2),
 	.n_rst(locked_2),
-	.din(ADC_1),  // 輸入數據, [WIDTH-1:0]
-	.dout(adc1_fir) // 濾波後數據, [WIDTH+15:0]
+	.din(ADC_1),
+	.dout(adc1_fir)
 );
 
 myfir_filter #(
@@ -398,8 +356,8 @@ myfir_filter #(
 (
 	.clk(CLOCK_ADC_2),
 	.n_rst(locked_2),
-	.din(ADC_2),  // 輸入數據, [WIDTH-1:0]
-	.dout(adc2_fir) // 濾波後數據, [WIDTH+15:0]
+	.din(ADC_2),
+	.dout(adc2_fir)
 );
 
 // double register adc signal from CLOCK_ADC_1 to CLOCK_DAC_1
@@ -407,7 +365,7 @@ always @(posedge CLOCK_DAC_1) begin
 	reg_adc3 <= (adc3_fir >>> 16);
 	reg_adc3_sync <= reg_adc3;
 end
-// {{18{i_adc_data[ADC_BIT-1]}}, i_adc_data};
+
 // double register adc signal from CLOCK_ADC_2 to CLOCK_DAC_2
 always @(posedge CLOCK_DAC_2) begin
 	reg_adc1 <= (adc1_fir >>> 16);
@@ -522,72 +480,6 @@ phase_ramp_gen phase_ramp_gen_ch3(
 	.o_ramp_init()
 );
 
-
-// always @(posedge CLOCK_DAC_1 or negedge locked_1) begin
-// 	if(!locked_1) begin
-// 		reg_adc3_mon <= 0;
-// 	end
-// 	else begin
-// 		reg_adc3_mon <= ADC_3;
-// 	end
-
-// end
-/*** 
-reg[2:0] dac_sm1 = 0, dac_sm2 = 0; 
-reg[31:0] dac_cnt1, dac_cnt2;
-localparam CNT_1us = 1000;
-
-always @(posedge CLOCK_DAC_2 or negedge locked_2) begin
-	if(!locked_2) begin
-		reg_dac1 <= 0;
-		reg_dac2 <= 0;
-		dac_sm1 <= 0;
-		dac_cnt1 <= CNT_1us;
-		reg_dacrst <= 1;
-	end
-	else begin
-		reg_dacrst <= 0;
-		case(dac_sm1)
-			0: begin
-				if(dac_cnt1>0) dac_cnt1 <= dac_cnt1 - 1;
-				else begin
-					dac_cnt1 <= CNT_1us;
-					dac_sm1 <= 1;
-				end
-			end
-			1: begin
-				reg_dac1 <= reg_dac1 + 1;
-				reg_dac2 <= reg_dac2 + 1;
-				dac_sm1 <= 0;
-			end
-		endcase
-	end
-end
-
-always @(posedge CLOCK_DAC_1 or negedge locked_1) begin
-	if(!locked_1) begin
-		reg_dac3 <= 0;
-		dac_sm2<= 0;
-		dac_cnt2 <= CNT_1us;
-	end
-	else begin
-		case(dac_sm2)
-			0: begin
-				if(dac_cnt2>0) dac_cnt2 <= dac_cnt2 - 1;
-				else begin
-					dac_cnt2 <= CNT_1us;
-					dac_sm2 <= 1;
-				end
-			end
-			1: begin
-				reg_dac3 <= reg_dac3 + 1;
-				dac_sm2 <= 0;
-			end
-		endcase
-	end
-end
-***/ 	
-
 i2c_controller_pullup_ADS122C04_SE
 inst_i2c_ADS122C04_temp (
 	.i_clk(CPU_CLK),
@@ -657,44 +549,6 @@ inst_i2c_eeprom (
 );
 
 
-//--- MIOC modulation gen---//
-
-
-
-// modulation_gen_v2 mod_gen_1(
-// 	.i_amp_H(o_var_amp_H_1),
-// 	.i_amp_L(o_var_amp_L_1),
-// 	.i_clk(CLOCK_DAC_1),
-// 	.i_freq_cnt(o_var_freq_1),
-// 	.i_rst_n(locked_1),
-// 	.o_SM(),
-// 	.o_mod_out(o_mod_out_1),
-// 	.o_status(o_status_1),
-// 	.o_stepTrig(o_stepTrig_1)
-// );
-// modulation_gen_v2 mod_gen_2(
-// 	.i_amp_H(o_var_amp_H_2),
-// 	.i_amp_L(o_var_amp_L_2),
-// 	.i_clk(CLOCK_DAC_2),
-// 	.i_freq_cnt(o_var_freq_2),
-// 	.i_rst_n(locked_2),
-// 	.o_SM(),
-// 	.o_mod_out(o_mod_out_2),
-// 	.o_status(o_status_2),
-// 	.o_stepTrig(o_stepTrig_2)
-// );
-// modulation_gen_v2 mod_gen_3(
-// 	.i_amp_H(o_var_amp_H_3),
-// 	.i_amp_L(o_var_amp_L_3),
-// 	.i_clk(CLOCK_DAC_2),
-// 	.i_freq_cnt(o_var_freq_3),
-// 	.i_rst_n(locked_2),
-// 	.o_SM(),
-// 	.o_mod_out(o_mod_out_3),
-// 	.o_status(o_status_3),
-// 	.o_stepTrig(o_stepTrig_3)
-// );
-
 //--- err sig gen---//
 // NUM1
 wire [31:0] o_err_1;
@@ -706,66 +560,6 @@ wire o_step_sync_2, o_step_sync_dly_2, o_rate_sync_2, o_ramp_sync_2;
 wire [31:0] o_var_polarity_2, o_var_waitCnt_2, o_var_offset_2, o_var_errAvg_2;
 
 
-// err_signal_gen_v4 err_signal_gen_1(
-// 	.i_clk(CLOCK_ADC_1),
-// 	.i_rst_n(locked_1),
-// 	.i_status(o_status_1),
-// 	.i_polarity(o_var_polarity_1),
-// 	.i_trig(o_stepTrig_1), 
-// 	.i_wait_cnt(o_var_waitCnt_1),
-// 	.i_err_offset(o_var_offset_1),
-// 	.i_adc_data(ADC_1),
-// 	.i_avg_sel(o_var_errAvg_1),
-// 	.o_err(o_err_1),
-// 	.o_step_sync(o_step_sync_1),
-// 	.o_step_sync_dly(o_step_sync_dly_1),
-// 	.o_rate_sync(o_rate_sync_1),
-// 	.o_ramp_sync(o_ramp_sync_1),
-// 	.o_adc(),
-// 	.o_adc_sum(),
-// 	.o_cstate(),
-// 	.o_nstate()
-// );
-// err_signal_gen_v4 err_signal_gen_2(
-// 	.i_clk(CLOCK_ADC_2),
-// 	.i_rst_n(locked_2),
-// 	.i_status(o_status_2),
-// 	.i_polarity(o_var_polarity_2),
-// 	.i_trig(o_stepTrig_2), 
-// 	.i_wait_cnt(o_var_waitCnt_2),
-// 	.i_err_offset(o_var_offset_2),
-// 	.i_adc_data(ADC_2),
-// 	.i_avg_sel(o_var_errAvg_2),
-// 	.o_err(o_err_2),
-// 	.o_step_sync(o_step_sync_2),
-// 	.o_step_sync_dly(o_step_sync_dly_2),
-// 	.o_rate_sync(o_rate_sync_2),
-// 	.o_ramp_sync(o_ramp_sync_2),
-// 	.o_adc(),
-// 	.o_adc_sum(),
-// 	.o_cstate(),
-// 	.o_nstate()
-// );
-// err_signal_gen_v4 err_signal_gen_3(
-// 	.i_clk(CLOCK_ADC_2),
-// 	.i_rst_n(locked_2),
-// 	.i_status(o_status_3),
-// 	.i_polarity(o_var_polarity_3),
-// 	.i_trig(o_stepTrig_3), 
-// 	.i_wait_cnt(o_var_waitCnt_3),
-// 	.i_err_offset(o_var_offset_3),
-// 	.i_adc_data(ADC_3),
-// 	.i_avg_sel(o_var_errAvg_3),
-// 	.o_err(o_err_3),
-// 	.o_step_sync(o_step_sync_3),
-// 	.o_step_sync_dly(o_step_sync_dly_3),
-// 	.o_rate_sync(o_rate_sync_3),
-// 	.o_ramp_sync(o_ramp_sync_3),
-// 	.o_adc(),
-// 	.o_adc_sum(),
-// 	.o_cstate(),
-// 	.o_nstate()
-// );
 
 //--- feedback step gen---//
 // NUM1
@@ -774,89 +568,12 @@ wire [31:0] o_var_gainSel_step_1, o_var_const_step_1, o_var_fb_ON_1, o_step_1;
 wire [31:0] o_var_gainSel_step_2, o_var_const_step_2, o_var_fb_ON_2, o_step_2;
 
 
-
-// feedback_step_gen_v4 fb_step_gen_1(
-// 	.i_clk(CLOCK_ADC_1),
-// 	.i_const_step(o_var_const_step_1),
-// 	.i_err(o_err_1),
-// 	.i_fb_ON(o_var_fb_ON_1),
-// 	.i_gain_sel(o_var_gainSel_step_1),
-// 	.i_rst_n(locked_1),
-// 	.i_trig(o_step_sync_1),
-// 	.i_trig_dly(o_step_sync_dly_1),
-// 	.o_fb_ON(),
-// 	.o_gain_sel(),
-// 	.o_gain_sel2(),
-// 	.o_step(o_step_1),
-// 	.o_step_pre(),
-// 	.o_status(),
-// 	.o_change(),
-// 	.o_step_init() 
-// );
-// feedback_step_gen_v4 fb_step_gen_2(
-// 	.i_clk(CLOCK_ADC_2),
-// 	.i_const_step(o_var_const_step_2),
-// 	.i_err(o_err_2),
-// 	.i_fb_ON(o_var_fb_ON_2),
-// 	.i_gain_sel(o_var_gainSel_step_2),
-// 	.i_rst_n(locked_2),
-// 	.i_trig(o_step_sync_2),
-// 	.i_trig_dly(o_step_sync_dly_2),
-// 	.o_fb_ON(),
-// 	.o_gain_sel(),
-// 	.o_gain_sel2(),
-// 	.o_step(o_step_2),
-// 	.o_step_pre(),
-// 	.o_status(),
-// 	.o_change(),
-// 	.o_step_init() 
-// );
-
-
 //--- phase ramp gen---//
 // NUM1
 wire [31:0] o_var_gainSel_ramp_1, o_phaseRamp_1;
 // NUM2
 wire [31:0] o_var_gainSel_ramp_2, o_phaseRamp_2;
 
-
-// phase_ramp_gen phase_ramp_gen_1(
-// 	.i_clk(CLOCK_ADC_1),
-// 	.i_fb_ON(o_var_fb_ON_1),
-// 	.i_gain_sel(o_var_gainSel_ramp_1),
-// 	.i_mod(o_mod_out_1),
-// 	.i_rst_n(locked_1),
-// 	.i_step(o_step_1),
-// 	.i_rate_trig(o_rate_sync_1),
-// 	.i_ramp_trig(o_ramp_sync_1),
-// 	.i_mod_trig(o_stepTrig_1),
-// 	.o_change(),
-// 	.o_gain_sel(),
-// 	.o_gain_sel2(),
-// 	.o_phaseRamp_pre(),
-// 	.o_phaseRamp(o_phaseRamp_1),
-// 	.o_ramp_init()
-// );
-// phase_ramp_gen phase_ramp_gen_2(
-// 	.i_clk(CLOCK_ADC_2),
-// 	.i_fb_ON(o_var_fb_ON_2),
-// 	.i_gain_sel(o_var_gainSel_ramp_2),
-// 	.i_mod(o_mod_out_2),
-// 	.i_rst_n(locked_2),
-// 	.i_step(o_step_2),
-// 	.i_rate_trig(o_rate_sync_2),
-// 	.i_ramp_trig(o_ramp_sync_2),
-// 	.i_mod_trig(o_stepTrig_2),
-// 	.o_change(),
-// 	.o_gain_sel(),
-// 	.o_gain_sel2(),
-// 	.o_phaseRamp_pre(),
-// 	.o_phaseRamp(o_phaseRamp_2),
-// 	.o_ramp_init()
-// );
-
-
-	
 
 CPU u0 (
 	.clk_clk        (CPU_CLK),        //      clk.clk
@@ -1008,8 +725,5 @@ CPU u0 (
 	.varset_1_i_var57  (),  
 	.varset_1_i_var58  (),  
 	.varset_1_i_var59  () 
-	
 );
-
-
 endmodule
