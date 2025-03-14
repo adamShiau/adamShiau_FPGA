@@ -14,14 +14,9 @@
 #define SENS_ADXL357_40G 78e-6
 
 /*** high level declaration */
-//void I2C_read_357_CPU11(alt_u8 reg_addr);
 void init_ADS122C04_TEMP(void);
 void read_ADS122C04_TEMP(void);
-// void read_357_temp_CPU(void);
-// void read_357_accl_CPU(void);
-// void read_357_all(void);
-// void print_11_reg(void);
-// void print_9_reg(void);
+
 
 /*** mid level declaration */
 void I2C_sm_start_ADS122C04_TEMP();

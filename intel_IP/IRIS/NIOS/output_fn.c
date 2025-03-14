@@ -64,7 +64,7 @@ void acq_fog (cmd_ctrl_t* rx, my_sensor_t data, alt_u8* sync, fog_parameter_t fo
             temp2.float_val = data.temp.tempy.float_val*ADC_CONV_TEMP-273.15;
             temp3.float_val = data.temp.tempz.float_val*ADC_CONV_TEMP-273.15;
             err3.int_val = data.fog.fogz.err.int_val;
-            step3.float_val = data.fog.fogz.step.float_val*(sf_1_slope*temp1.float_val + sf_1_offset);
+            step3.float_val = data.fog.fogz.step.float_val*(sf_1_slope*temp1.float_val + sf_1_offset); // temporary use temp1 for IRIS configuration
 
             ax.float_val = data.adxl357.ax.float_val*SENS_ADXL357_20G;
             ay.float_val = data.adxl357.ay.float_val*SENS_ADXL357_20G;
