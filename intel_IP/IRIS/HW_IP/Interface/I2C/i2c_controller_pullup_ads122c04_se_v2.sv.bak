@@ -1,4 +1,4 @@
-module i2c_controller_pullup_ADS122C04_SE
+module i2c_controller_pullup_ADS122C04_SE_V2
 (
 	input wire 			i_clk,
 	input wire 			i_rst_n,
@@ -23,7 +23,7 @@ module i2c_controller_pullup_ADS122C04_SE
 	inout 				i2c_sda
 );
 
-	/*** I2C Clock rate definition for 50MHz input clock ***/
+	/*** I2C Clock rate definition for 100MHz input clock ***/
 	localparam CLK_390K 	= 	7;
 	localparam CLK_781K 	= 	6;
 	localparam CLK_1562K 	= 	5;
@@ -120,10 +120,10 @@ module i2c_controller_pullup_ADS122C04_SE
 	wire [2:0] op_mode;
 	wire [2:0] clk_rate;
 	reg sm_enable;
-	reg [31:0] cnt_HW;
 
 	wire w_en1, write_enable;
 	reg w_en2 = 0;
+	reg [31:0] drdy_timeout;
 
 	// assign w_en1 = (sda_out==1)? 0:1 ;
 	assign w_en1 = ~sda_out;
@@ -142,7 +142,7 @@ module i2c_controller_pullup_ADS122C04_SE
 	assign o_status[11]  = CPU_SM;
 	assign o_status[14:12]  = HW_SM;
 	assign o_status[16:15]  = AIN_SM;
-	assign o_cnt = cnt_HW;
+	assign o_cnt = drdy_timeout;
 
 
 	assign i2c_clk_out = i2c_clk;
@@ -293,6 +293,8 @@ CPU_SM_t CPU_SM;
 HW_SM_t  HW_SM;
 AIN_SM_t AIN_SM;
 
+
+
 /*** SM update**/
 	always @(posedge i2c_clk or negedge i_rst_n) begin
 		if(!i_rst_n) begin
@@ -308,6 +310,8 @@ AIN_SM_t AIN_SM;
 			saved_data <= 0;
 			finish <= 0;
 			cnt_HW <= 0;
+			/*** drdy_timeout init ***/
+			drdy_timeout <= 0;
 			/***  SM initialization  ***/
 			CPU_SM <= CPU_SM_W_REG;
 			HW_SM <= HW_SM_W_REG_MUX;
@@ -316,7 +320,6 @@ AIN_SM_t AIN_SM;
 		else begin
 			case(state)
 				IDLE: begin // 根據op_mode模式來啟動狀態機
-
 					case (op_mode)
 						CPU_WREG, CPU_RREG: if(i_enable) sm_enable <= 1; 
 						HW: begin
@@ -324,11 +327,15 @@ AIN_SM_t AIN_SM;
 								if(i_drdy == 1'b0) begin 
 									HW_SM <= HW_SM_W_REG_RDATA;
 									sm_enable <= 1;
-									// cnt_HW <= 32'd0;
+									drdy_timeout <= 32'd0;
+								end
+								else if (drdy_timeout < 32'd1000) begin
+									drdy_timeout <= drdy_timeout + 1;
+									sm_enable <= 0;
 								end
 								else begin
-									sm_enable <= 0;
-									// cnt_HW <= cnt_HW + 1'b1;
+									HW_SM <= HW_SM_W_REG_RDATA; // 超時後強制繼續
+            						drdy_timeout <= 0;
 								end
 							end
 							else sm_enable <= 1;
