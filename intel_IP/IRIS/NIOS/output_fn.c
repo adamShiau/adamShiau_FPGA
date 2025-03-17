@@ -35,7 +35,6 @@ void acq_fog (cmd_ctrl_t* rx, my_sensor_t data, alt_u8* sync, fog_parameter_t fo
         rx->select_fn = SEL_IDLE; //clear select_fn
         DEBUG_PRINT("select acq_fog mode\n");
         if(rx->value == INT_SYNC) { //internal sync mode
-            // DEBUG_PRINT("acq_fog select internal mode\n");
             DEBUG_PRINT("acq_fog select internal mode\n");
             rx->run = 1;
         }
