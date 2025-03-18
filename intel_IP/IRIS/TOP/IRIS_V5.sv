@@ -1,4 +1,4 @@
-module IRIS_V4(
+module IRIS_V5(
 
 	//////////// CLOCK INPUT //////////
 	CLOCK_50M, 
@@ -256,34 +256,8 @@ assign DAC_3 =  o_phaseRamp_3[15:0];
 assign DAC_1 =  o_phaseRamp_1[15:0];
 assign DAC_2 =  o_phaseRamp_2[15:0];
 
-// assign i_var_step_3 = o_step_3;
-// assign i_var_err_3 = o_err_DAC3;
-
-assign i_var_step_3 = o_step_3_MV;
-// assign i_var_err_3 = o_err_DAC3_FIR; 
-assign i_var_err_3 = {{18{ADC_3[13]}}, ADC_3};
-
-// assign i_var_step_3 = sync2_step_3_MV;
-// assign i_var_err_3 = sync2_err_DAC3_FIR;
-
-// logic signed [31:0] sync1_step_3_MV, sync2_step_3_MV;
-// logic signed [31:0] sync1_err_DAC3_FIR, sync2_err_DAC3_FIR;
-
-// always @(posedge CPU_CLK or negedge locked_0) begin
-// 	if (!locked_0) begin
-// 		sync1_step_3_MV <= 32'd0;
-// 		sync2_step_3_MV <= 32'd0;
-// 		sync1_err_DAC3_FIR <= 32'd0;
-// 		sync2_err_DAC3_FIR <= 32'd0;
-// 	end
-// 	else begin
-// 		sync1_step_3_MV <= o_step_3_MV;
-// 		sync2_step_3_MV <= sync1_step_3_MV;
-
-// 		sync1_err_DAC3_FIR <= o_err_DAC3_FIR;
-// 		sync2_err_DAC3_FIR <= sync1_err_DAC3_FIR;
-// 	end
-// end
+assign i_var_step_3 = o_step_3;
+assign i_var_err_3 = o_err_DAC3;
 
 
 assign DAC_RST = reg_dacrst;
@@ -358,9 +332,7 @@ timer_inst
     .o_timer(i_var_timer)
 );
 
-my_fog_v1 #(
-    .COEFF_SET(N32FC2) // Default coefficient set N32FC5
-) my_fog_ch3_inst (
+lgsm_fog_v1 my_fog_ch3_inst (
     // ============================ Common Signals ============================
     .CLOCK_ADC(CLOCK_ADC_1), // ADC clock (1-bit)
     .CLOCK_DAC(CLOCK_DAC_1), // DAC clock (1-bit)

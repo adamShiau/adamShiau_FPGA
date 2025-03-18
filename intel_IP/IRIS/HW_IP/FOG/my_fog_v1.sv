@@ -55,6 +55,7 @@ parameter logic signed [15:0] COEFF_SET [0:31] = '{ // default use coeff. N32FC5
     logic o_step_sync, o_step_sync_dly;  // Internal synchronization triggers
     logic o_rate_sync, o_ramp_sync;      // Internal synchronization triggers
 
+
 // ============================ FIR Filter for ADC ============================
 myfir_filter #(
 	.N(32), 
@@ -88,6 +89,8 @@ end
 );
 
 // ============================ Error Signal Generator ============================
+wire signed [31:0] output_err_raw;
+
 my_err_signal_gen_v2 #(
     .ADC_BIT(14)  // ADC_BIT specifies the width of the ADC input data, typically 14 bits.
 ) u_my_err_signal_gen
@@ -107,9 +110,22 @@ my_err_signal_gen_v2 #(
     .o_rate_sync(o_rate_sync),          // Output one clock trigger to phase ramp gen.i_rate_trig 
     .o_ramp_sync(o_ramp_sync),          // Output one clock trigger to phase ramp gen.i_ramp_trig 
     .o_err(o_err_DAC)                // Output error signal (32 bits) representing the computed error
+    // .o_err(output_err_raw)                // Output error signal (32 bits) representing the computed error
     ,.o_low_avg()
     ,.o_high_avg()
 );
+
+// ============================ Threshold Filter for Err output ============================
+
+// threshold_filter #(
+//     .DATA_WIDTH(32)
+// ) u_threshold_filter (
+//     .i_clk(CLOCK_ADC),
+//     .i_rst_n(locked),
+//     .i_data(output_err_raw),
+//     .i_threshold(32'd1000),
+//     .o_filtered(o_err_DAC)
+// );
 
 // ============================ FIR Filter for Error Signal ============================
 myfir_filter_gate #(

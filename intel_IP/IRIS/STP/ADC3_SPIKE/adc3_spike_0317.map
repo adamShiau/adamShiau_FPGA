@@ -1,0 +1,16 @@
+BLOCK		START ADDRESS		END ADDRESS
+
+hw.hex		0x00000000		0x0007EF4A
+sw.hex		0x0007EF4B		0x00097096
+
+
+Configuration device: EP4CE30
+Configuration mode: Active Serial
+Quad-Serial configuration device dummy clock cycle: 0
+
+
+Notes:
+
+- Data checksum for this conversion is 0x18DA3615
+
+- All the addresses in this file are byte addresses
