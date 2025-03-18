@@ -441,3 +441,35 @@ void update_fog_parameters_to_HW_REG(alt_u8 base, fog_parameter_t* fog_params)
 		DEBUG_PRINT("Done.\n ");
 	}
 }
+
+void dump_fog_param(fog_parameter_t* fog_inst, alt_u8 ch) {
+    if (!fog_inst || ch < 1 || ch > 3) return; // Ensure the pointer is valid and ch is within range
+    
+    mem_unit_t* param;
+    switch (ch) {
+        case 1: param = fog_inst->paramX; break;
+        case 2: param = fog_inst->paramY; break;
+        case 3: param = fog_inst->paramZ; break;
+        default: return; 
+    }
+    
+    char buffer[1024]; // Assume maximum output length
+    int offset = 0;
+    offset += snprintf(buffer + offset, sizeof(buffer) - offset, "{");
+    
+    for (int i = 0; i < PAR_LEN; i++) {
+		offset += snprintf(buffer + offset, sizeof(buffer) - offset, "\"%d\":%ld", i, param[i].data.int_val);
+        if (i < PAR_LEN - 1) offset += snprintf(buffer + offset, sizeof(buffer) - offset, ", "); // Add comma if not the last element
+    }
+    
+    snprintf(buffer + offset, sizeof(buffer) - offset, "}\n"); // Close JSON structure
+    DEBUG_PRINT("%s", buffer); // Print the formatted JSON string
+	send_json_uart(buffer); // Send the JSON data via UART
+}
+
+void send_json_uart(const char* buffer) {
+    while (*buffer) {
+        checkByte((alt_u8)*buffer);
+        buffer++;
+    }
+}

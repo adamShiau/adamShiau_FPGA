@@ -154,4 +154,7 @@ void fog_parameter(cmd_ctrl_t*, fog_parameter_t*);
 void output_mode_setting(cmd_ctrl_t*, fn_ptr*, auto_rst_t*);
 void update_fog_parameters_to_HW_REG(alt_u8, fog_parameter_t*);
 
+void dump_fog_param(fog_parameter_t* fog_inst, alt_u8 ch);
+void send_json_uart(const char* buffer);
+
 #endif /* __COMMON_H */
