@@ -131,19 +131,30 @@ void PARAMETER_Write_s(alt_u8 base, alt_u8 number , alt_32 data, fog_parameter_t
 void EEPROM_Write_initial_parameter()
 {	
 	DEBUG_PRINT("starting EEPROM_Write_initial_parameter()...\n");
-	for(int i=0; i<MEN_LEN; i++)
+	for(int i=0; i<PAR_LEN; i++)
 	{
 		PARAMETER_Write_f(MEM_BASE_X, i, fog_parameter_init[i].data.int_val);
 		PARAMETER_Write_f(MEM_BASE_Y, i, fog_parameter_init[i].data.int_val);
 		PARAMETER_Write_f(MEM_BASE_Z, i, fog_parameter_init[i].data.int_val);
 	}
 	DEBUG_PRINT("writing EEPROM_Write_initial_parameter() done! \n");
+} 
+
+void LOAD_FOG_MISALIGNMENT(fog_parameter_t* fog_params)
+{
+	DEBUG_PRINT("Loading EEPROM Mis-alignment Parameters...\n");
+	for (int i = 0; i < MIS_LEN; i++) {
+		PARAMETER_Read(MEM_BASE_MIS, i , fog_params->misalignment[i].data.bin_val);
+
+		fog_params->misalignment[i].type = TYPE_FLOAT;
+    }
+	DEBUG_PRINT("Loading EEPROM Mis-alignment Parameters done!\n");
 }
 
 void LOAD_FOG_PARAMETER(fog_parameter_t* fog_params)
 {
 	DEBUG_PRINT("Loading EEPROM FOG Parameters...\n");
-	for (int i = 0; i < MEN_LEN; i++) {
+	for (int i = 0; i < PAR_LEN; i++) {
 		PARAMETER_Read(MEM_BASE_X, i , fog_params->paramX[i].data.bin_val);
         PARAMETER_Read(MEM_BASE_Y, i , fog_params->paramY[i].data.bin_val);
 		PARAMETER_Read(MEM_BASE_Z, i , fog_params->paramZ[i].data.bin_val);
@@ -159,15 +170,15 @@ void PRINT_FOG_PARAMETER(fog_parameter_t* fog_params)
 {
 	DEBUG_PRINT("Printing EEPROM FOG Parameters...\n");
 	// DEBUG_PRINT("FOG X Parameter:\n");
-	// for (int i = 0; i < MEN_LEN; i++) {
+	// for (int i = 0; i < PAR_LEN; i++) {
 	// 	DEBUG_PRINT("%d. %d, type: %d\n", i, fog_params->paramX[i].data.int_val, fog_params->paramX[i].type);
 	// }
 	// DEBUG_PRINT("FOG Y Parameter:\n");
-	// for (int i = 0; i < MEN_LEN; i++) {
+	// for (int i = 0; i < PAR_LEN; i++) {
 	// 	DEBUG_PRINT("%d. %d, type: %d\n", i, fog_params->paramY[i].data.int_val, fog_params->paramY[i].type);
 	// }
 	DEBUG_PRINT("FOG Z Parameter:\n");
-	for (int i = 0; i < MEN_LEN; i++) {
+	for (int i = 0; i < PAR_LEN; i++) {
 		DEBUG_PRINT("%d. %d, type: %d\n", i, fog_params->paramZ[i].data.int_val, fog_params->paramZ[i].type);
 	}
 	DEBUG_PRINT("Printing EEPROM FOG Parameters done!\n");

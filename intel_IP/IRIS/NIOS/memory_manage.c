@@ -1,6 +1,6 @@
 #include "memory_manage.h"
 
-const mem_unit_t fog_parameter_init[MEN_LEN] = {
+const mem_unit_t fog_parameter_init[PAR_LEN] = {
     { .data.int_val = INIT_MOD_FREQ,         .type = TYPE_INT }, //0
     { .data.int_val = INIT_MOD_AMP_H,        .type = TYPE_INT }, //1
     { .data.int_val = INIT_MOD_AMP_L,        .type = TYPE_INT }, //2
@@ -40,7 +40,7 @@ void initialize_fog_params(fog_parameter_t *fog_params) {
     fog_params->sn[sizeof(fog_params->sn) - 1] = '\0'; // 確保結尾有空字符
 
     // 初始化 paramX, paramY, paramZ
-    for (int i = 0; i < MEN_LEN; i++) {
+    for (int i = 0; i < PAR_LEN; i++) {
         fog_params->paramX[i].data.int_val = fog_parameter_init[i].data.int_val;
         fog_params->paramY[i].data.int_val = fog_parameter_init[i].data.int_val;
         fog_params->paramZ[i].data.int_val = fog_parameter_init[i].data.int_val;

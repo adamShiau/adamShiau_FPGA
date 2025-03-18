@@ -3,7 +3,8 @@
 
 #include "alt_types.h"
 
-#define MEN_LEN 40 // 定義陣列大小
+#define PAR_LEN 40 // 定義陣列大小
+#define MIS_LEN 30
 
 typedef union{
     float	float_val;
@@ -23,17 +24,19 @@ typedef struct
 }mem_unit_t;
 
 
-typedef struct {    // for parameter container, container size defined by MEN_LEN
+typedef struct {    // for parameter container, container size defined by PAR_LEN
     char sn[12];      // serial number，12 words
-    mem_unit_t paramX[MEN_LEN];    
-    mem_unit_t paramY[MEN_LEN];    
-    mem_unit_t paramZ[MEN_LEN];    
+    mem_unit_t paramX[PAR_LEN];    
+    mem_unit_t paramY[PAR_LEN];    
+    mem_unit_t paramZ[PAR_LEN];  
+    mem_unit_t misalignment[MIS_LEN];  
 } fog_parameter_t;
 
 
 #define MEM_BASE_X 2
-#define MEM_BASE_Y (MEM_BASE_X + MEN_LEN)
-#define MEM_BASE_Z (MEM_BASE_Y + MEN_LEN)
+#define MEM_BASE_Y (MEM_BASE_X + PAR_LEN)
+#define MEM_BASE_Z (MEM_BASE_Y + PAR_LEN)
+#define MEM_BASE_MIS (MEM_BASE_Z + PAR_LEN)
 
 /*** float value define*/
 #define FLOAT_660 0x44250000
@@ -71,7 +74,7 @@ typedef struct {    // for parameter container, container size defined by MEN_LE
 #define INIT_BIAS_3_SLOPE       0   
 #define INIT_BIAS_3_OFFSET      1   
 
-extern const mem_unit_t fog_parameter_init[MEN_LEN];
+extern const mem_unit_t fog_parameter_init[PAR_LEN];
 
 #define CONTAINER_TO_CMD_OFFSET     8   
 #define CMD_TO_HW_REG_OFFSET_CH1    23

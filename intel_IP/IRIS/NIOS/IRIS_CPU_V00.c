@@ -197,9 +197,9 @@ void dump_fog_param(fog_parameter_t* fog_inst, alt_u8 ch) {
     int offset = 0;
     offset += snprintf(buffer + offset, sizeof(buffer) - offset, "{");
     
-    for (int i = 0; i < MEN_LEN; i++) {
+    for (int i = 0; i < PAR_LEN; i++) {
 		offset += snprintf(buffer + offset, sizeof(buffer) - offset, "\"%d\":%ld", i, param[i].data.int_val);
-        if (i < MEN_LEN - 1) offset += snprintf(buffer + offset, sizeof(buffer) - offset, ", "); // Add comma if not the last element
+        if (i < PAR_LEN - 1) offset += snprintf(buffer + offset, sizeof(buffer) - offset, ", "); // Add comma if not the last element
     }
     
     snprintf(buffer + offset, sizeof(buffer) - offset, "}\n"); // Close JSON structure

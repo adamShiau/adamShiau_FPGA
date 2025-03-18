@@ -362,7 +362,7 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 					dump_fog_param(fog_inst, rx->ch);
 					break;
 				} 
-				case CMD_DATA_OUT_START: {
+				case CMD_DATA_OUT_START: { // not use now
 					DEBUG_PRINT("CMD_DATA_OUT_START:\n");
 					// start_flag = rx->value;
 					break;
