@@ -181,6 +181,9 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 				base = MEM_BASE_Z;
 				cmd2hwreg = CMD_TO_HW_REG_OFFSET_CH3;
 			}
+			else if(rx->ch == 4) {
+				base = MEM_BASE_MIS;
+			}
 
 			switch(rx->cmd ){
 				case CMD_MOD_FREQ: {
@@ -264,97 +267,243 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 				case CMD_SF_COMP_T1: {
 					DEBUG_PRINT("CMD_SF_COMP_T1:\n");
 					PARAMETER_Write_s(base, CMD_SF_COMP_T1 - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-					IOWR(VARSET_BASE, CMD_SF_COMP_T1 + cmd2hwreg, rx->value);
+					// IOWR(VARSET_BASE, CMD_SF_COMP_T1 + cmd2hwreg, rx->value);
 					break;
 				}
 				case CMD_SF_COMP_T2: {
 					DEBUG_PRINT("CMD_SF_COMP_T2:\n");
 					PARAMETER_Write_s(base, CMD_SF_COMP_T2 - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-					IOWR(VARSET_BASE, CMD_SF_COMP_T2 + cmd2hwreg, rx->value);
+					// IOWR(VARSET_BASE, CMD_SF_COMP_T2 + cmd2hwreg, rx->value);
 					break;
 				}
 				case CMD_SF_1_SLOPE: {
 					DEBUG_PRINT("CMD_SF_1_SLOPE:\n");
 					PARAMETER_Write_s(base, CMD_SF_1_SLOPE - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-					IOWR(VARSET_BASE, CMD_SF_1_SLOPE + cmd2hwreg, rx->value);
+					// IOWR(VARSET_BASE, CMD_SF_1_SLOPE + cmd2hwreg, rx->value);
 					break;
 				}
 				case CMD_SF_1_OFFSET: {
 					DEBUG_PRINT("CMD_SF_1_OFFSET:\n");
 					PARAMETER_Write_s(base, CMD_SF_1_OFFSET - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-					IOWR(VARSET_BASE, CMD_SF_1_OFFSET + cmd2hwreg, rx->value);
+					// IOWR(VARSET_BASE, CMD_SF_1_OFFSET + cmd2hwreg, rx->value);
 					break;
 				}
 				case CMD_SF_2_SLOPE: {
 					DEBUG_PRINT("CMD_SF_2_SLOPE:\n");
 					PARAMETER_Write_s(base, CMD_SF_2_SLOPE - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-					IOWR(VARSET_BASE, CMD_SF_2_SLOPE + cmd2hwreg, rx->value);
+					// IOWR(VARSET_BASE, CMD_SF_2_SLOPE + cmd2hwreg, rx->value);
 					break;
 				}
 				case CMD_SF_2_OFFSET: {
 					DEBUG_PRINT("CMD_SF_2_OFFSET:\n");
 					PARAMETER_Write_s(base, CMD_SF_2_OFFSET - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-					IOWR(VARSET_BASE, CMD_SF_2_OFFSET + cmd2hwreg, rx->value);
+					// IOWR(VARSET_BASE, CMD_SF_2_OFFSET + cmd2hwreg, rx->value);
 					break;
 				}
 				case CMD_SF_3_SLOPE: {
 					DEBUG_PRINT("CMD_SF_3_SLOPE:\n");
 					PARAMETER_Write_s(base, CMD_SF_3_SLOPE - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-					IOWR(VARSET_BASE, CMD_SF_3_SLOPE + cmd2hwreg, rx->value);
+					// IOWR(VARSET_BASE, CMD_SF_3_SLOPE + cmd2hwreg, rx->value);
 					break;
 				}
 				case CMD_SF_3_OFFSET: {
 					DEBUG_PRINT("CMD_SF_3_OFFSET:\n");
 					PARAMETER_Write_s(base, CMD_SF_3_OFFSET - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-					IOWR(VARSET_BASE, CMD_SF_3_OFFSET + cmd2hwreg, rx->value);
+					// IOWR(VARSET_BASE, CMD_SF_3_OFFSET + cmd2hwreg, rx->value);
 					break;
 				}
 				case CMD_BIAS_COMP_T1: {
 					DEBUG_PRINT("CMD_BIAS_COMP_T1:\n");
 					PARAMETER_Write_s(base, CMD_BIAS_COMP_T1 - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-					IOWR(VARSET_BASE, CMD_BIAS_COMP_T1 + cmd2hwreg, rx->value);
+					// IOWR(VARSET_BASE, CMD_BIAS_COMP_T1 + cmd2hwreg, rx->value);
 					break;
 				}
 				case CMD_BIAS_COMP_T2: {
 					DEBUG_PRINT("CMD_BIAS_COMP_T2:\n");
 					PARAMETER_Write_s(base, CMD_BIAS_COMP_T2 - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-					IOWR(VARSET_BASE, CMD_BIAS_COMP_T2 + cmd2hwreg, rx->value);
+					// IOWR(VARSET_BASE, CMD_BIAS_COMP_T2 + cmd2hwreg, rx->value);
 					break;
 				}
 				case CMD_BIAS_1_SLOPE: {
 					DEBUG_PRINT("CMD_BIAS_1_SLOPE:\n");
 					PARAMETER_Write_s(base, CMD_BIAS_1_SLOPE - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-					IOWR(VARSET_BASE, CMD_BIAS_1_SLOPE + cmd2hwreg, rx->value);
+					// IOWR(VARSET_BASE, CMD_BIAS_1_SLOPE + cmd2hwreg, rx->value);
 					break;
 				}
 				case CMD_BIAS_1_OFFSET: {
 					DEBUG_PRINT("CMD_BIAS_1_OFFSET:\n");
 					PARAMETER_Write_s(base, CMD_BIAS_1_OFFSET - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-					IOWR(VARSET_BASE, CMD_BIAS_1_OFFSET + cmd2hwreg, rx->value);
+					// IOWR(VARSET_BASE, CMD_BIAS_1_OFFSET + cmd2hwreg, rx->value);
 					break;
 				}
 				case CMD_BIAS_2_SLOPE: {
 					DEBUG_PRINT("CMD_BIAS_2_SLOPE:\n");
 					PARAMETER_Write_s(base, CMD_BIAS_2_SLOPE - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-					IOWR(VARSET_BASE, CMD_BIAS_2_SLOPE + cmd2hwreg, rx->value);
+					// IOWR(VARSET_BASE, CMD_BIAS_2_SLOPE + cmd2hwreg, rx->value);
 					break;
 				}
 				case CMD_BIAS_2_OFFSET: {
 					DEBUG_PRINT("CMD_BIAS_2_OFFSET:\n");
 					PARAMETER_Write_s(base, CMD_BIAS_2_OFFSET - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-					IOWR(VARSET_BASE, CMD_BIAS_2_OFFSET + cmd2hwreg, rx->value);
+					// IOWR(VARSET_BASE, CMD_BIAS_2_OFFSET + cmd2hwreg, rx->value);
 					break;
 				}
 				case CMD_BIAS_3_SLOPE: {
 					DEBUG_PRINT("CMD_BIAS_3_SLOPE:\n");
 					PARAMETER_Write_s(base, CMD_BIAS_3_SLOPE - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-					IOWR(VARSET_BASE, CMD_BIAS_3_SLOPE + cmd2hwreg, rx->value);
+					// IOWR(VARSET_BASE, CMD_BIAS_3_SLOPE + cmd2hwreg, rx->value);
 					break;
 				}
 				case CMD_BIAS_3_OFFSET: {
 					DEBUG_PRINT("CMD_BIAS_3_OFFSET:\n");
 					PARAMETER_Write_s(base, CMD_BIAS_3_OFFSET - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-					IOWR(VARSET_BASE, CMD_BIAS_3_OFFSET + cmd2hwreg, rx->value);
+					// IOWR(VARSET_BASE, CMD_BIAS_3_OFFSET + cmd2hwreg, rx->value);
+					break;
+				}
+				/***------------- mis-alignment command, accl */
+				case CMD_MIS_AX: {
+					DEBUG_PRINT("CMD_MIS_AX:\n");
+					if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
+					PARAMETER_Write_s(base, CMD_MIS_AX - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+					break;
+				}
+				case CMD_MIS_AY: {
+					DEBUG_PRINT("CMD_MIS_AY:\n");
+					if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
+					PARAMETER_Write_s(base, CMD_MIS_AY - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+					break;
+				}
+				case CMD_MIS_AZ: {
+					DEBUG_PRINT("CMD_MIS_AZ:\n");
+					if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
+					PARAMETER_Write_s(base, CMD_MIS_AZ - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+					break;
+				}
+				case CMD_MIS_A11: {
+					DEBUG_PRINT("CMD_MIS_A11:\n");
+					if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
+					PARAMETER_Write_s(base, CMD_MIS_A11 - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+					break;
+				}
+				case CMD_MIS_A12: {
+					DEBUG_PRINT("CMD_MIS_A12:\n");
+					if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
+					PARAMETER_Write_s(base, CMD_MIS_A12 - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+					break;
+				}
+				case CMD_MIS_A13: {
+					DEBUG_PRINT("CMD_MIS_A13:\n");
+					if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
+					PARAMETER_Write_s(base, CMD_MIS_A13 - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+					break;
+				}
+				case CMD_MIS_A21: {
+					DEBUG_PRINT("CMD_MIS_A21:\n");
+					if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
+					PARAMETER_Write_s(base, CMD_MIS_A21 - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+					break;
+				}
+				case CMD_MIS_A22: {
+					DEBUG_PRINT("CMD_MIS_A22:\n");
+					if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
+					PARAMETER_Write_s(base, CMD_MIS_A22 - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+					break;
+				}
+				case CMD_MIS_A23: {
+					DEBUG_PRINT("CMD_MIS_A23:\n");
+					if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
+					PARAMETER_Write_s(base, CMD_MIS_A23 - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+					break;
+				}
+				case CMD_MIS_A31: {
+					DEBUG_PRINT("CMD_MIS_A31:\n");
+					if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
+					PARAMETER_Write_s(base, CMD_MIS_A31 - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+					break;
+				}
+				case CMD_MIS_A32: {
+					DEBUG_PRINT("CMD_MIS_A32:\n");
+					if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
+					PARAMETER_Write_s(base, CMD_MIS_A32 - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+					break;
+				}
+				case CMD_MIS_A33: {
+					DEBUG_PRINT("CMD_MIS_A33:\n");
+					if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
+					PARAMETER_Write_s(base, CMD_MIS_A33 - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+					break;
+				}
+				/***------------- mis-alignment command, gyro */
+				case CMD_MIS_GX: {
+					DEBUG_PRINT("CMD_MIS_GX:\n");
+					if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
+					PARAMETER_Write_s(base, CMD_MIS_GX - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+					break;
+				}
+				case CMD_MIS_GY: {
+					DEBUG_PRINT("CMD_MIS_GY:\n");
+					if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
+					PARAMETER_Write_s(base, CMD_MIS_GY - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+					break;
+				}
+				case CMD_MIS_GZ: {
+					DEBUG_PRINT("CMD_MIS_GZ:\n");
+					if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
+					PARAMETER_Write_s(base, CMD_MIS_GZ - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+					break;
+				}
+				case CMD_MIS_G11: {
+					DEBUG_PRINT("CMD_MIS_G11:\n");
+					if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
+					PARAMETER_Write_s(base, CMD_MIS_G11 - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+					break;
+				}
+				case CMD_MIS_G12: {
+					DEBUG_PRINT("CMD_MIS_G12:\n");
+					if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
+					PARAMETER_Write_s(base, CMD_MIS_G12 - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+					break;
+				}
+				case CMD_MIS_G13: {
+					DEBUG_PRINT("CMD_MIS_G13:\n");
+					if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
+					PARAMETER_Write_s(base, CMD_MIS_G13 - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+					break;
+				}
+				case CMD_MIS_G21: {
+					DEBUG_PRINT("CMD_MIS_G21:\n");
+					if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
+					PARAMETER_Write_s(base, CMD_MIS_G21 - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+					break;
+				}
+				case CMD_MIS_G22: {
+					DEBUG_PRINT("CMD_MIS_G22:\n");
+					if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
+					PARAMETER_Write_s(base, CMD_MIS_G22 - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+					break;
+				}
+				case CMD_MIS_G23: {
+					DEBUG_PRINT("CMD_MIS_G23:\n");
+					if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
+					PARAMETER_Write_s(base, CMD_MIS_G23 - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+					break;
+				}
+				case CMD_MIS_G31: {
+					DEBUG_PRINT("CMD_MIS_G31:\n");
+					if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
+					PARAMETER_Write_s(base, CMD_MIS_G31 - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+					break;
+				}
+				case CMD_MIS_G32: {
+					DEBUG_PRINT("CMD_MIS_G32:\n");
+					if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
+					PARAMETER_Write_s(base, CMD_MIS_G32 - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+					break;
+				}
+				case CMD_MIS_G33: {
+					DEBUG_PRINT("CMD_MIS_G33:\n");
+					if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
+					PARAMETER_Write_s(base, CMD_MIS_G33 - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
 					break;
 				}
 				case CMD_DUMP_FOG: {

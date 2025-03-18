@@ -81,6 +81,8 @@ extern const mem_unit_t fog_parameter_init[PAR_LEN];
 #define CMD_TO_HW_REG_OFFSET_CH2    12
 #define CMD_TO_HW_REG_OFFSET_CH3    1
 
+#define MIS_CONTAINER_TO_CMD_OFFSET     39  
+
 /*** CMD 1 ~ 7 reserve for ooutput mode  ***/ 
 enum {
     CMD_MOD_FREQ = 8,   
@@ -113,6 +115,33 @@ enum {
     CMD_BIAS_2_OFFSET,      //0x24
     CMD_BIAS_3_SLOPE,       //0x25
     CMD_BIAS_3_OFFSET,      //0x26
+
+    CMD_MIS_AX = 39,            //0x27
+    CMD_MIS_AY,
+    CMD_MIS_AZ,
+    CMD_MIS_A11,
+    CMD_MIS_A12,
+    CMD_MIS_A13,
+    CMD_MIS_A21,
+    CMD_MIS_A22,
+    CMD_MIS_A23,
+    CMD_MIS_A31,
+    CMD_MIS_A32,
+    CMD_MIS_A33,
+
+    CMD_MIS_GX = 51,            //0x33
+    CMD_MIS_GY,
+    CMD_MIS_GZ,
+    CMD_MIS_G11,
+    CMD_MIS_G12,
+    CMD_MIS_G13,
+    CMD_MIS_G21,
+    CMD_MIS_G22,
+    CMD_MIS_G23,
+    CMD_MIS_G31,
+    CMD_MIS_G32,
+    CMD_MIS_G33,
+
 
     CMD_DATA_OUT_START = 99,    //0x63
     CMD_HW_TIMER_RST = 100,     //0x64

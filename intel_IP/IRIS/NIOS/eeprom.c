@@ -101,6 +101,11 @@ void PARAMETER_Write_s(alt_u8 base, alt_u8 number , alt_32 data, fog_parameter_t
 		data_f = fog_params->paramX[number].data.float_val;
 		type = fog_params->paramX[number].type;
 	}
+	else if(base == MEM_BASE_MIS ) {
+		check = fog_params->misalignment[number].data.int_val;
+		data_f = fog_params->misalignment[number].data.float_val;
+		type = fog_params->misalignment[number].type;
+	}
 	else {
 		DEBUG_PRINT("Base address ERROR!\n");
 		return;
@@ -112,18 +117,20 @@ void PARAMETER_Write_s(alt_u8 base, alt_u8 number , alt_32 data, fog_parameter_t
 		if(type == TYPE_INT) {
 			// DEBUG_PRINT("Data changed: %d -> %d\n", check, data);
 			// DEBUG_PRINT("update to eeprom!");
-			PARAMETER_Write_f(base, number, data);
+			// PARAMETER_Write_f(base, number, data);
 		}
 		else if(type == TYPE_FLOAT) {
 			// DEBUG_PRINT("Data changed: %f -> %f\n", data_f, my_data.float_val);
 			// DEBUG_PRINT("update to eeprom!");
-			PARAMETER_Write_f(base, number, data);
+			// PARAMETER_Write_f(base, number, data);
 		}
 		else DEBUG_PRINT("data type error!\n");
+		PARAMETER_Write_f(base, number, data);
 
 		if(base == MEM_BASE_X) fog_params->paramX[number].data.int_val = data;
 		else if(base == MEM_BASE_Y ) fog_params->paramY[number].data.int_val = data;
 		else if(base == MEM_BASE_Z ) fog_params->paramZ[number].data.int_val = data;
+		else if(base == MEM_BASE_MIS ) fog_params->misalignment[number].data.int_val = data;
 	}
 
 }
