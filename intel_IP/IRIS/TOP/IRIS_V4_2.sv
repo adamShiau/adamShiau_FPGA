@@ -1,4 +1,4 @@
-module IRIS_V4(
+module IRIS_V4_2(
 
 	//////////// CLOCK INPUT //////////
 	CLOCK_50M, 
@@ -290,16 +290,24 @@ assign DAC_RST = reg_dacrst;
 
 
 
-PLL0	PLL0_inst (
-	.inclk0 ( CLOCK_50M ),
-	.c0 ( CLOCK_SDRAM ),
-	.c1 ( CPU_CLK ),
-	.locked ( locked_0 )
-	);
+//PLL0	PLL0_inst (
+//	.inclk0 ( CLOCK_50M ),
+//	.c0 ( CLOCK_SDRAM ),
+//	.c1 ( CPU_CLK ),
+//	.locked ( locked_0 )
+//	);
+
+//PLL1	PLL1_inst (
+//.inclk0 ( CLOCK_ADC_1 ),
+//.c0 ( CLOCK_DAC_1 ),
+//.locked ( locked_1 )
+//);
 
  PLL1	PLL1_inst (
  	.inclk0 ( CLOCK_ADC_1 ),
  	.c0 ( CLOCK_DAC_1 ),
+ 	.c1 ( CLOCK_SDRAM ),
+ 	.c2 ( CPU_CLK ),
  	.locked ( locked_1 )
  	);
 	
@@ -343,7 +351,7 @@ wire [31:0] var_sync_count;
 my_sync_gen sync_gen_inst
 (
     .i_clk(CPU_CLK),
-    .i_rst_n(locked_0),
+    .i_rst_n(locked_1),
    .i_sync_count(var_sync_count),
     .o_sync_out(sync_out)
 );
@@ -353,7 +361,7 @@ my_timer
 timer_inst
 (
     .i_clk(CPU_CLK),
-    .i_rst_n(locked_0),
+    .i_rst_n(locked_1),
     .i_timer_rst(var_timer_rst),
     .o_timer(i_var_timer)
 );
@@ -438,7 +446,7 @@ my_fog_v1 #(
 i2c_controller_pullup_ADS122C04_SE_V2
 inst_i2c_ADS122C04_temp (
 	.i_clk(CPU_CLK),
-	.i_rst_n(locked_0),
+	.i_rst_n(locked_1),
 	.i2c_scl(SCL_ADC_TEMP),
 	.i2c_sda(SDA_ADC_TEMP),
 	.i2c_clk_out(),
@@ -462,7 +470,7 @@ inst_i2c_ADS122C04_temp (
 i2c_controller_pullup_ADXL357
 inst_i2c_adxl357 (
 	.i_clk(CPU_CLK),
-	.i_rst_n(locked_0),
+	.i_rst_n(locked_1),
 	.i2c_scl(SCL_357),
 	.i2c_sda(SDA_357),
 	.i2c_clk_out(),
@@ -485,7 +493,7 @@ inst_i2c_adxl357 (
 i2c_controller_pullup_eeprom
 inst_i2c_eeprom (
 	.i_clk(CPU_CLK),
-	.i_rst_n(locked_0),
+	.i_rst_n(locked_1),
 	.i2c_scl(SCL_EEPROM),
 	.i2c_sda(SDA_EEPROM),
 	.i2c_clk_out(),
@@ -507,8 +515,7 @@ inst_i2c_eeprom (
 
 CPU u0 (
 	.clk_clk        (CPU_CLK),        //      clk.clk 
-	.reset_reset_n  (locked_0),  //    reset.reset_n
-
+	.reset_reset_n  (locked_1),  //    reset.reset_n
 	.spi_adda_MISO  (MISO_CFG),  // spi_adda.MISO
 	.spi_adda_MOSI  (MOSI_CFG),  //         .MOSI
 	.spi_adda_SCLK  (SCLK_CFG),  //         .SCLK
