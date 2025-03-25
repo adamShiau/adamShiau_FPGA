@@ -483,8 +483,8 @@ alt_u8* readData2(const alt_u8* expected_header, alt_u8 header_size, alt_u16* tr
 #define TRAILER1_SIZE 2
 #define TRAILER2_SIZE 2
 #define DATA1_SIZE 6   // 狀況 1 的數據長度
-#define DATA2_SIZE 12  // 狀況 2 的數據長度
-#define MAX_DATA_SIZE 12  // 最大數據長度 (狀況 2)
+#define DATA2_SIZE 13  // 狀況 2 的數據長度
+#define MAX_DATA_SIZE 13  // 最大數據長度 (狀況 2)
 #define BUFFER_SIZE (MAX_DATA_SIZE + 1)  // 緩衝區大小，包含狀況 byte
 
 // 狀況 1 的 Header 和 Trailer

@@ -72,6 +72,8 @@ my_float_t;
 /*** cmd control structure delaration */
 typedef struct
 {
+  alt_u8 condition;
+  char SN[13];
   alt_u8 complete;
   alt_u8 mux;
   alt_u8 select_fn;
