@@ -59,11 +59,11 @@ void checkByte(alt_u8 data)
 
 void uart_printf(const char *format, ...)
 {
-    char buffer[128];  // 128 is buffer size, can increase if need 
+    char buffer[256];  // 128 is buffer size, can increase if need 
     va_list args;                   
 
     va_start(args, format);           
-    vsnprintf(buffer, 128, format, args);  
+    vsnprintf(buffer, 256, format, args);  
     va_end(args);
 
     SerialWrite((alt_u8*)buffer, strlen(buffer));
@@ -511,6 +511,11 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 					dump_fog_param(fog_inst, rx->ch);
 					break;
 				} 
+				case CMD_DUMP_MIS: {
+					DEBUG_PRINT("CMD_DUMP_MIS:\n");
+					dump_misalignment_param(fog_inst);
+					break;
+				} 
 				case CMD_DATA_OUT_START: { // not use now
 					DEBUG_PRINT("CMD_DATA_OUT_START:\n");
 					// start_flag = rx->value;
@@ -529,7 +534,7 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 
 				default:{
 					DEBUG_PRINT("default case\n");
-				}
+				} 
 			}
 	}
 
@@ -609,6 +614,27 @@ void dump_fog_param(fog_parameter_t* fog_inst, alt_u8 ch) {
     for (int i = 0; i < PAR_LEN; i++) {
 		offset += snprintf(buffer + offset, sizeof(buffer) - offset, "\"%d\":%ld", i, param[i].data.int_val);
         if (i < PAR_LEN - 1) offset += snprintf(buffer + offset, sizeof(buffer) - offset, ", "); // Add comma if not the last element
+    }
+    
+    snprintf(buffer + offset, sizeof(buffer) - offset, "}\n"); // Close JSON structure
+    DEBUG_PRINT("%s", buffer); // Print the formatted JSON string
+	// uart_printf("%s", buffer);
+	send_json_uart(buffer); // Send the JSON data via UART
+}
+
+void dump_misalignment_param(fog_parameter_t* fog_inst) {
+    if (!fog_inst) return; // Ensure the pointer is valid and ch is within range
+    
+	mem_unit_t* param;
+	param = fog_inst->misalignment;
+    
+    char buffer[1024]; // Assume maximum output length
+    int offset = 0;
+    offset += snprintf(buffer + offset, sizeof(buffer) - offset, "{");
+    
+    for (int i = 0; i < MIS_LEN; i++) {
+		offset += snprintf(buffer + offset, sizeof(buffer) - offset, "\"%d\":%ld", i, param[i].data.int_val);
+        if (i < MIS_LEN - 1) offset += snprintf(buffer + offset, sizeof(buffer) - offset, ", "); // Add comma if not the last element
     }
     
     snprintf(buffer + offset, sizeof(buffer) - offset, "}\n"); // Close JSON structure

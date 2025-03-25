@@ -99,6 +99,7 @@ int main(void)
 	// EEPROM_Write_initial_parameter();
 
 	LOAD_FOG_PARAMETER(&fog_params);
+	LOAD_FOG_MISALIGNMENT(&fog_params);
 	PRINT_FOG_PARAMETER(&fog_params);
 	update_fog_parameters_to_HW_REG(MEM_BASE_Z, &fog_params); 
 	update_fog_parameters_to_HW_REG(MEM_BASE_X, &fog_params); 
@@ -147,6 +148,7 @@ int main(void)
         // }
 
 
+		// get_uart_cmd(readData2(cmd_header, 2, &try_cnt, cmd_trailer, 2), &my_cmd);
 		get_uart_cmd(readData2(cmd_header, 2, &try_cnt, cmd_trailer, 2), &my_cmd);
 		cmd_mux(&my_cmd);
 		fog_parameter(&my_cmd, &fog_params);

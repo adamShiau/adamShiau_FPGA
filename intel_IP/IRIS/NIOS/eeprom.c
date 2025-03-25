@@ -105,6 +105,9 @@ void PARAMETER_Write_s(alt_u8 base, alt_u8 number , alt_32 data, fog_parameter_t
 		check = fog_params->misalignment[number].data.int_val;
 		data_f = fog_params->misalignment[number].data.float_val;
 		type = fog_params->misalignment[number].type;
+		DEBUG_PRINT("base: %d\n", base);
+		DEBUG_PRINT("container idx: %d\n", number);
+		DEBUG_PRINT("type: %d\n", type);
 	}
 	else {
 		DEBUG_PRINT("Base address ERROR!\n");
@@ -115,17 +118,21 @@ void PARAMETER_Write_s(alt_u8 base, alt_u8 number , alt_32 data, fog_parameter_t
 	if(data == check) DEBUG_PRINT("The data is the same\n");
 	else {
 		if(type == TYPE_INT) {
-			// DEBUG_PRINT("Data changed: %d -> %d\n", check, data);
-			// DEBUG_PRINT("update to eeprom!");
-			// PARAMETER_Write_f(base, number, data);
+			DEBUG_PRINT("Data changed: %d -> %d\n", check, data);
+			DEBUG_PRINT("update to eeprom!");
+			// uart_printf("Data changed: %d -> %d\n", check, data);
+			// uart_printf("update to eeprom!");
+			PARAMETER_Write_f(base, number, data);
 		}
 		else if(type == TYPE_FLOAT) {
-			// DEBUG_PRINT("Data changed: %f -> %f\n", data_f, my_data.float_val);
-			// DEBUG_PRINT("update to eeprom!");
-			// PARAMETER_Write_f(base, number, data);
+			DEBUG_PRINT("Data changed: %f -> %f\n", data_f, my_data.float_val);
+			DEBUG_PRINT("update to eeprom!");
+			// uart_printf("Data changed: %f -> %f\n", data_f, my_data.float_val);
+			// uart_printf("update to eeprom!");
+			PARAMETER_Write_f(base, number, data);
 		}
 		else DEBUG_PRINT("data type error!\n");
-		PARAMETER_Write_f(base, number, data);
+		// PARAMETER_Write_f(base, number, data);
 
 		if(base == MEM_BASE_X) fog_params->paramX[number].data.int_val = data;
 		else if(base == MEM_BASE_Y ) fog_params->paramY[number].data.int_val = data;

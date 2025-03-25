@@ -477,6 +477,113 @@ alt_u8* readData2(const alt_u8* expected_header, alt_u8 header_size, alt_u16* tr
 	return NULL;
 }
 
+// 定義兩種狀況的常數
+#define HEADER1_SIZE 2
+#define HEADER2_SIZE 2
+#define TRAILER1_SIZE 2
+#define TRAILER2_SIZE 2
+#define DATA1_SIZE 6   // 狀況 1 的數據長度
+#define DATA2_SIZE 12  // 狀況 2 的數據長度
+#define MAX_DATA_SIZE 12  // 最大數據長度 (狀況 2)
+#define BUFFER_SIZE (MAX_DATA_SIZE + 1)  // 緩衝區大小，包含狀況 byte
+
+// 狀況 1 的 Header 和 Trailer
+static const alt_u8 HEADER1[] = {0xAB, 0xBA};
+static const alt_u8 TRAILER1[] = {0x55, 0x56};
+
+// 狀況 2 的 Header 和 Trailer
+static const alt_u8 HEADER2[] = {0xCD, 0xDC};
+static const alt_u8 TRAILER2[] = {0x57, 0x58};
+
+// 定義狀態枚舉
+typedef enum {
+    EXPECTING_HEADER,
+    EXPECTING_PAYLOAD,
+    EXPECTING_TRAILER
+} State;
+
+alt_u8* readDataDynamic(alt_u16* try_cnt)
+{
+    static alt_u8 buffer[BUFFER_SIZE];  // 緩衝區：1 byte 狀況 + 最大數據長度
+    static alt_u8 bytes_received = 0;
+    static State state = EXPECTING_HEADER;
+    static alt_u8 condition = 0;  // 0: 未確定, 1: 狀況 1, 2: 狀況 2
+    static alt_u8 data_size_expected = 0;  // 動態數據長度
+    static const alt_u8* expected_trailer = NULL;  // 動態 Trailer
+    static alt_u8 trailer_size = 0;
+
+    // 檢查 UART 是否有數據
+    if (uartAvailable() == 0) return NULL;
+    int data = uartGetByte();
+
+    switch (state) {
+        case EXPECTING_HEADER:
+            // 檢查是否匹配任一 Header
+            if (bytes_received < HEADER1_SIZE) {
+                if (data == HEADER1[bytes_received]) {
+                    bytes_received++;
+                    if (bytes_received == HEADER1_SIZE) {
+                        condition = 1;  // 狀況 1
+                        data_size_expected = DATA1_SIZE;
+                        expected_trailer = TRAILER1;
+                        trailer_size = TRAILER1_SIZE;
+                        state = EXPECTING_PAYLOAD;
+                        bytes_received = 0;
+                    }
+                } else if (data == HEADER2[bytes_received]) {
+                    bytes_received++;
+                    if (bytes_received == HEADER2_SIZE) {
+                        condition = 2;  // 狀況 2
+                        data_size_expected = DATA2_SIZE;
+                        expected_trailer = TRAILER2;
+                        trailer_size = TRAILER2_SIZE;
+                        state = EXPECTING_PAYLOAD;
+                        bytes_received = 0;
+                    }
+                } else {
+                    bytes_received = 0;
+                    (*try_cnt)++;
+                }
+            }
+            break;
+
+        case EXPECTING_PAYLOAD:
+            buffer[bytes_received + 1] = data;  // 數據從 buffer[1] 開始存儲
+            bytes_received++;
+
+            if (bytes_received >= data_size_expected) {
+                state = EXPECTING_TRAILER;
+                bytes_received = 0;
+            }
+            break;
+
+        case EXPECTING_TRAILER:
+            if (data != expected_trailer[bytes_received]) {
+                state = EXPECTING_HEADER;
+                bytes_received = 0;
+                condition = 0;
+                (*try_cnt)++;
+            } else {
+                bytes_received++;
+                if (bytes_received >= trailer_size) {
+                    // Trailer 確認完成，準備返回數據
+                    state = EXPECTING_HEADER;
+                    bytes_received = 0;
+                    *try_cnt = 0;
+
+                    // 在 buffer[0] 存儲狀況 byte
+                    buffer[0] = condition;
+
+                    // 返回緩衝區指針
+                    return buffer;
+                }
+            }
+            break;
+    }
+
+    return NULL;
+}
+
 /*-----------------------------------------------------------------------------
 --------------------------------------------------------------- uartAck
 -------------------------------------------------------------------------------
