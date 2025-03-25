@@ -128,9 +128,13 @@ void get_uart_cmd(alt_u8* data, cmd_ctrl_t* rx)
 {
     if(data){
         rx->complete = 1;
-        rx->cmd = data[0];
-        rx->value = data[1]<<24 | data[2]<<16 | data[3]<<8 | data[4];
-        rx->ch = data[5];
+        // rx->cmd = data[0];
+        // rx->value = data[1]<<24 | data[2]<<16 | data[3]<<8 | data[4];
+        // rx->ch = data[5];
+		DEBUG_PRINT("\ncondition: %u\n", data[0]);
+		rx->cmd = data[1];
+        rx->value = data[2]<<24 | data[3]<<16 | data[4]<<8 | data[5];
+        rx->ch = data[6];
         // DEBUG_PRINT("\nuart_cmd, uart_value, ch: %u, %ld, %d\n", rx->cmd , rx->value, rx->ch);
 		DEBUG_PRINT("\nuart_cmd, uart_value, ch: %u, %ld, %d\n", rx->cmd , rx->value, rx->ch);
     }
