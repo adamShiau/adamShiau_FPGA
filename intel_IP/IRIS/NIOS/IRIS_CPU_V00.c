@@ -102,6 +102,7 @@ int main(void)
 
 	LOAD_FOG_PARAMETER(&fog_params);
 	LOAD_FOG_MISALIGNMENT(&fog_params);
+	LOAD_FOG_SN(&fog_params);
 	PRINT_FOG_PARAMETER(&fog_params);
 	update_fog_parameters_to_HW_REG(MEM_BASE_Z, &fog_params); 
 	update_fog_parameters_to_HW_REG(MEM_BASE_X, &fog_params); 

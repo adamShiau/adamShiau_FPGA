@@ -8,8 +8,8 @@
 #include "nios2_var_addr.h"
 #include "adda_config.h"
 
-#define DEBUG
-#define INFO
+// #define DEBUG
+// #define INFO
 
 #ifdef DEBUG
     #define DEBUG_PRINT(...) printf(__VA_ARGS__)
@@ -73,7 +73,7 @@ my_float_t;
 typedef struct
 {
   alt_u8 condition;
-  char SN[13];
+  alt_u8 SN[13];
   alt_u8 complete;
   alt_u8 mux;
   alt_u8 select_fn;
@@ -87,12 +87,7 @@ typedef struct
 /*** sensor data structure delaration */
 typedef struct {
   my_float_t err; 
-  my_float_t step; 
-  // monitor 
-  // my_float_t sum_high;
-  // my_float_t sum_low;    
-  // my_float_t buf;
-  // my_float_t o_step;    
+  my_float_t step;     
 } fog_component_t;
 
 typedef struct {
@@ -158,6 +153,7 @@ void update_fog_parameters_to_HW_REG(alt_u8, fog_parameter_t*);
 
 void dump_fog_param(fog_parameter_t* fog_inst, alt_u8 ch);
 void dump_misalignment_param(fog_parameter_t* fog_inst);
+void dump_SN(fog_parameter_t* fog_inst);
 void send_json_uart(const char* buffer);
 
 #endif /* __COMMON_H */

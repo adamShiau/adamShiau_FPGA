@@ -25,15 +25,15 @@ typedef struct
 
 
 typedef struct {    // for parameter container, container size defined by PAR_LEN
-    char sn[12];      // serial number，12 words
+    alt_u8 sn[13];      // serial number，12 words
     mem_unit_t paramX[PAR_LEN];    
     mem_unit_t paramY[PAR_LEN];    
     mem_unit_t paramZ[PAR_LEN];  
     mem_unit_t misalignment[MIS_LEN];  
 } fog_parameter_t;
 
-
-#define MEM_BASE_X 2
+#define MEM_BASE_SN 0
+#define MEM_BASE_X 3
 #define MEM_BASE_Y (MEM_BASE_X + PAR_LEN)
 #define MEM_BASE_Z (MEM_BASE_Y + PAR_LEN)
 #define MEM_BASE_MIS (MEM_BASE_Z + PAR_LEN)
@@ -148,7 +148,8 @@ enum {
     CMD_SYNC_CNT = 101,         //0x65
     CMD_DUMP_FOG = 102, //0x66
     CMD_WRITE_SN = 110,  //0x6E
-    CMD_DUMP_MIS = 129  //0x81
+    CMD_DUMP_MIS = 129,  //0x81
+    CMD_DUMP_SN = 130  //0x82
 
 
 };

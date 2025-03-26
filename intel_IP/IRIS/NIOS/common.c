@@ -138,7 +138,6 @@ void get_uart_cmd(alt_u8* data, cmd_ctrl_t* rx)
 		else if(rx->condition==2) {
 			for (int i = 0; i < 12; i++) {
 				rx->SN[i] = data[i + 2];  
-				// DEBUG_PRINT("%x, ",  rx->SN[i]);
 			}
 			// DEBUG_PRINT("\n");
 			rx->SN[12] = '\0'; 
@@ -529,6 +528,11 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 						dump_misalignment_param(fog_inst);
 						break;
 					} 
+					case CMD_DUMP_SN: {
+						DEBUG_PRINT("CMD_DUMP_SN:\n");
+						dump_SN(fog_inst);
+						break;
+					} 
 					case CMD_DATA_OUT_START: { // not use now
 						DEBUG_PRINT("CMD_DATA_OUT_START:\n");
 						// start_flag = rx->value;
@@ -554,7 +558,16 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 				switch(rx->cmd ){
 					case CMD_WRITE_SN: {
 						DEBUG_PRINT("CMD_WRITE_SN:\n");
-						
+						alt_32 SN1, SN2, SN3;
+						SN1 =  rx->SN[0]<<24 | rx->SN[1]<<16 | rx->SN[2]<<8 | rx->SN[3];
+						SN2 =  rx->SN[4]<<24 | rx->SN[5]<<16 | rx->SN[6]<<8 | rx->SN[7];
+						SN3 =  rx->SN[8]<<24 | rx->SN[9]<<16 | rx->SN[10]<<8 | rx->SN[11];
+						PARAMETER_Write_f(MEM_BASE_SN, 0, SN1);
+						PARAMETER_Write_f(MEM_BASE_SN, 0, SN2);
+						PARAMETER_Write_f(MEM_BASE_SN, 0, SN3);
+						for (alt_u8 i = 0; i < 13; i++) {
+							fog_inst->sn[i] = rx->SN[i];
+						}
 						break;
 					}
 					default:{
@@ -667,6 +680,10 @@ void dump_misalignment_param(fog_parameter_t* fog_inst) {
     snprintf(buffer + offset, sizeof(buffer) - offset, "}\n"); // Close JSON structure
     DEBUG_PRINT("%s", buffer); // Print the formatted JSON string
 	send_json_uart(buffer); // Send the JSON data via UART
+}
+
+void dump_SN(fog_parameter_t* fog_inst) {
+	SerialWrite(fog_inst->sn, 13);
 }
 
 void send_json_uart(const char* buffer) {

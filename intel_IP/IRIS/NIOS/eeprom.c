@@ -154,6 +154,16 @@ void EEPROM_Write_initial_parameter()
 	DEBUG_PRINT("writing EEPROM_Write_initial_parameter() done! \n");
 } 
 
+void LOAD_FOG_SN(fog_parameter_t* fog_params)
+{
+    DEBUG_PRINT("Loading EEPROM SN...\n");
+    for (int i = 0; i < 3; i++) {
+        PARAMETER_Read(MEM_BASE_SN, i, &fog_params->sn[i * 4]);
+    }
+	fog_params->sn[12] = '\0'; 
+    DEBUG_PRINT("Loading EEPROM Mis-alignment Parameters done!\n");
+}
+
 void LOAD_FOG_MISALIGNMENT(fog_parameter_t* fog_params)
 {
 	DEBUG_PRINT("Loading EEPROM Mis-alignment Parameters...\n");

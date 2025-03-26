@@ -17,6 +17,7 @@ void EEPROM_Write_initial_parameter(void);
 void LOAD_FOG_PARAMETER(fog_parameter_t* fog_params);
 void PRINT_FOG_PARAMETER(fog_parameter_t* fog_params);
 void LOAD_FOG_MISALIGNMENT(fog_parameter_t* fog_params);
+void LOAD_FOG_SN(fog_parameter_t* fog_params);
 
 /*** Initialization method */
 void init_EEPROM(void);
