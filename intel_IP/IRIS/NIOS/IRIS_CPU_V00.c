@@ -29,7 +29,7 @@ my_float_t my_f;
 
 // Definition and initialization of my_cmd, structure type is defined in common.h
 cmd_ctrl_t my_cmd = {
-	.condition = 0,
+	.condition = RX_CONDITION_INIT,
 	.SN = {0},
     .complete = 0,
     .mux = MUX_ESCAPE,

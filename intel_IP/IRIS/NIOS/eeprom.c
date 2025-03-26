@@ -158,7 +158,7 @@ void LOAD_FOG_SN(fog_parameter_t* fog_params)
 {
     DEBUG_PRINT("Loading EEPROM SN...\n");
     for (int i = 0; i < 3; i++) {
-        PARAMETER_Read(MEM_BASE_SN, i, &fog_params->sn[i * 4]);
+        PARAMETER_Read_R(MEM_BASE_SN, i, &fog_params->sn[i * 4]);
     }
 	fog_params->sn[12] = '\0'; 
     DEBUG_PRINT("Loading EEPROM Mis-alignment Parameters done!\n");
@@ -235,11 +235,42 @@ void EEPROM_Read_4B(alt_u16 reg_addr, alt_u8* buf)
 	// DEBUG_PRINT("%d\n", buf[3]<<24|buf[2]<<16|buf[1]<<8|buf[0]);
 }
 
+void EEPROM_Read_4B_R(alt_u16 reg_addr, alt_u8* buf)
+{
+	alt_u8 i=0;
+
+	// DEBUG_PRINT("VARSET_BASE22 18: %d\n", IORD(VARSET_BASE, 18));
+	// DEBUG_PRINT("VARSET_BASE22 19: %d\n", IORD(VARSET_BASE, 19));
+
+	reg_addr <<= 2;
+	// Set I2C device address
+	IOWR(VARSET_BASE, O_VAR_DEV_ADDR, I2C_DEV_ADDR);
+	// Set the target register address for read or write operations
+	IOWR(VARSET_BASE, O_VAR_REG_ADDR, reg_addr);
+	// Set the I2C SM to read mode
+	I2C_set_read_mode();
+	// start the I2C SM 
+	I2C_sm_start();
+	// Wait for the I2C SM to complete the operation
+	 while( !I2C_sm_read_finish()){}
+	// Retrieve the data read from the specified register
+	buf[0] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_1);
+	buf[1] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_2);
+	buf[2] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_3);
+	buf[3] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_4);
+	// DEBUG_PRINT("MSB: %x, %x, %x, %x\n", buf[3], buf[2], buf[1], buf[0]);
+	// DEBUG_PRINT("%d\n", buf[3]<<24|buf[2]<<16|buf[1]<<8|buf[0]);
+}
+
 void PARAMETER_Read(alt_u8 base, alt_u8 number , alt_u8* buf)
 {
 	EEPROM_Read_4B((alt_u16) (base + number), buf);
 }
 
+void PARAMETER_Read_R(alt_u8 base, alt_u8 number , alt_u8* buf)
+{
+	EEPROM_Read_4B_R((alt_u16) (base + number), buf);
+}
 /*** Initialization method */
 void init_EEPROM(void)
 {

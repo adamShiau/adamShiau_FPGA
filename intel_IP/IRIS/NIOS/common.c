@@ -78,7 +78,7 @@ void SerialWrite(alt_u8* buf, alt_u8 num)
     }
 }
 
-void Serialwrite_r(alt_u8* buf, alt_u8 num) 
+void SerialWrite_r(alt_u8* buf, alt_u8 num) 
 {
     for (alt_u8 i = num; i > 0; i--) 
     {
@@ -130,16 +130,15 @@ void get_uart_cmd(alt_u8* data, cmd_ctrl_t* rx)
         rx->complete = 1;
 		rx->condition = data[0];
 		rx->cmd = data[1];
-		if(rx->condition==1) { 
+		if(rx->condition == RX_CONDITION_ABBA_5556) { 
 			rx->value = data[2]<<24 | data[3]<<16 | data[4]<<8 | data[5];
 			rx->ch = data[6];
 			DEBUG_PRINT("\nuart_cmd, uart_value, ch, condition: 0x%x, %ld, %d, %u\n", rx->cmd , rx->value, rx->ch, rx->condition);
 		}
-		else if(rx->condition==2) {
+		else if(rx->condition == RX_CONDITION_CDDC_5758) {
 			for (int i = 0; i < 12; i++) {
 				rx->SN[i] = data[i + 2];  
 			}
-			// DEBUG_PRINT("\n");
 			rx->SN[12] = '\0'; 
 			DEBUG_PRINT("\nuart_cmd, condition, SN: 0x%x, %u, %s\n", rx->cmd , rx->condition, rx->SN);
 		}
@@ -563,8 +562,8 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 						SN2 =  rx->SN[4]<<24 | rx->SN[5]<<16 | rx->SN[6]<<8 | rx->SN[7];
 						SN3 =  rx->SN[8]<<24 | rx->SN[9]<<16 | rx->SN[10]<<8 | rx->SN[11];
 						PARAMETER_Write_f(MEM_BASE_SN, 0, SN1);
-						PARAMETER_Write_f(MEM_BASE_SN, 0, SN2);
-						PARAMETER_Write_f(MEM_BASE_SN, 0, SN3);
+						PARAMETER_Write_f(MEM_BASE_SN, 1, SN2);
+						PARAMETER_Write_f(MEM_BASE_SN, 2, SN3);
 						for (alt_u8 i = 0; i < 13; i++) {
 							fog_inst->sn[i] = rx->SN[i];
 						}
@@ -683,7 +682,12 @@ void dump_misalignment_param(fog_parameter_t* fog_inst) {
 }
 
 void dump_SN(fog_parameter_t* fog_inst) {
-	SerialWrite(fog_inst->sn, 13);
+	SerialWrite(&fog_inst->sn[0], 4);
+	SerialWrite(&fog_inst->sn[4], 4);
+	SerialWrite(&fog_inst->sn[8], 4);
+	// for(alt_u8 i=0; i<12; i++) {
+	// 	SerialWrite(&fog_inst->sn[i], 1);
+	// }
 }
 
 void send_json_uart(const char* buffer) {

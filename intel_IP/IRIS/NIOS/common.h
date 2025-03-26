@@ -69,10 +69,16 @@ typedef union
 }
 my_float_t;
 
+typedef enum {
+  RX_CONDITION_INIT,  
+  RX_CONDITION_ABBA_5556,
+  RX_CONDITION_CDDC_5758,
+} rx_condition_t;
+
 /*** cmd control structure delaration */
 typedef struct
 {
-  alt_u8 condition;
+  rx_condition_t condition;
   alt_u8 SN[13];
   alt_u8 complete;
   alt_u8 mux;
@@ -140,7 +146,7 @@ void sendTx(alt_32);
 void checkByte(alt_u8);
 void uart_printf(const char *format, ...);
 void SerialWrite(alt_u8* buf, alt_u8 num); 
-void Serialwrite_r(alt_u8* buf, alt_u8 num); 
+void SerialWrite_r(alt_u8* buf, alt_u8 num); 
  int IEEE_754_F2INT(float in);
 void crc_32(alt_u8  message[], alt_u8 nBytes, alt_u8* crc);
 void Set_Dac_Gain(alt_32 gain);
