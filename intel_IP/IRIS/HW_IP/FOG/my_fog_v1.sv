@@ -28,7 +28,7 @@ parameter logic signed [15:0] COEFF_SET [0:31] = '{ // default use coeff. N32FC5
 
     // ============================ Feedback Control ============================
     input logic [31:0] var_const_step, // Constant step value
-    input logic var_fb_ON,             // Feedback enable
+    input logic [31:0] var_fb_ON,             // Feedback enable
     input logic [31:0] var_gainSel_step,// Gain selection for step feedback
 
     // ============================ Phase Ramp Control ============================
