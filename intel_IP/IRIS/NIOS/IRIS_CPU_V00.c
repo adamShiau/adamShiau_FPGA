@@ -82,7 +82,7 @@ my_sensor_t sensor_data = {
 int main(void)
 {
 	fog_parameter_t fog_params;	 //parameter container
-	MovingAverage_t ma;
+	MovingAverage_t mz_z;
 
 	INFO_PRINT("Running IRIS CPU!\n");
 
@@ -90,7 +90,7 @@ int main(void)
 	alt_u32 index = 0;
 
 	TRIGGER_IRQ_init();
-	moving_average_init(&ma, 13);
+	moving_average_init(&mz_z, 13);
 	uartInit(); //interrupt method of uart defined in uart.c not main()
 	init_ADDA();
 	init_EEPROM();
@@ -114,13 +114,16 @@ int main(void)
 	while(1){
 		/*** fog */
 		sensor_data.time.time.float_val = (float)IORD(VARSET_BASE, i_var_timer)*COE_TIMER;
+		/***---x axis--- */
 		sensor_data.fog.fogx.err.int_val = 0;
 		sensor_data.fog.fogx.step.float_val = 0.0;
+		/***---y axis--- */
 		sensor_data.fog.fogy.err.int_val = 0;
 		sensor_data.fog.fogy.step.float_val = 0.0;
+		/***---z axis--- */
 		sensor_data.fog.fogz.err.int_val = IORD(VARSET_BASE, i_var_err_3);
 		// sensor_data.fog.fogz.step.float_val = (float)IORD(VARSET_BASE, i_var_step_3);
-		sensor_data.fog.fogz.step.float_val = moving_average_update(&ma, (float)IORD(VARSET_BASE, i_var_step_3));
+		sensor_data.fog.fogz.step.float_val = moving_average_update(&mz_z, (float)IORD(VARSET_BASE, i_var_step_3));
 		
 		/***ads122c04 temperature */
 		sensor_data.temp.tempx.float_val = (float)IORD(VARSET_BASE, var_i2c_ads122c04_temp_rdata_1);

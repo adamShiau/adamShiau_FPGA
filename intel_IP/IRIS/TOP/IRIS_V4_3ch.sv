@@ -261,7 +261,10 @@ assign DAC_2 =  o_phaseRamp_2[15:0];
 
 assign i_var_step_3 = o_step_3_MV;
 assign i_var_err_3 = o_err_DAC3_FIR; 
-// assign i_var_err_3 = {{18{ADC_3[13]}}, ADC_3};
+assign i_var_step_2 = o_step_2_MV;
+assign i_var_err_2 = o_err_DAC2_FIR; 
+assign i_var_step_1 = o_step_1_MV;
+assign i_var_err_1 = o_err_DAC1_FIR; 
 
 // assign i_var_step_3 = sync2_step_3_MV;
 // assign i_var_err_3 = sync2_err_DAC3_FIR;
@@ -396,43 +399,81 @@ my_fog_v1 #(
     .o_phaseRamp(o_phaseRamp_3)      // Phase ramp output (32-bit, signed)
 );
 
-//my_fog_v1 #(
-//    .COEFF_SET(N32FC2) // Default coefficient set N32FC5
-//) my_fog_ch2_inst (
-//    // ============================ Common Signals ============================
-//    .CLOCK_ADC(CLOCK_ADC_2), // ADC clock (1-bit)
-//    .CLOCK_DAC(CLOCK_DAC_2), // DAC clock (1-bit)
-//    .locked(locked_2),    // Global reset signal, active low (1-bit)
-//
-//    // ============================ ADC Processing ============================
-//    .ADC(ADC_2), // Raw ADC input signal (14-bit)
-//
-//    // ============================ Modulation Generator ============================
-//    .var_freq_cnt(var_freq_cnt_2), // Frequency control input (32-bit)
-//    .var_amp_H(var_amp_H_2),    // Positive amplitude control (32-bit)
-//    .var_amp_L(var_amp_L_2),    // Negative amplitude control (32-bit)
-//
-//    // ============================ Error Signal Processing ============================
-//    .var_polarity(var_polarity_2),     // Polarity control (1-bit)
-//    .var_wait_cnt(var_wait_cnt_2),     // Wait counter for stabilization (32-bit)
-//    .var_err_offset(var_err_offset_2),   // Error offset adjustment (32-bit)
-//    .var_avg_sel(var_avg_sel_2),      // Average selection control (32-bit)
-//
-//    // ============================ Feedback Control ============================
-//    .var_const_step(var_const_step_2),    // Constant step value (32-bit)
-//    .var_fb_ON(var_fb_ON_2),         // Feedback enable (1-bit)
-//    .var_gainSel_step(var_gainSel_step_2),  // Gain selection for step feedback (32-bit)
-//
-//    // ============================ Phase Ramp Control ============================
-//    .var_gainSel_ramp(var_gainSel_ramp_2), // Gain selection for ramp control (32-bit)
-//
-//    // ============================ Output Signals ============================
-//    .o_err_DAC(o_err_DAC2),       // Processed error signal output (32-bit, signed)
-//    .o_err_DAC_FIR(o_err_DAC2_FIR),   // FIR filtered error signal (32-bit, signed)
-//    .o_step(o_step_2),          // Feedback step output (32-bit, signed)
-//    .o_step_MV(o_step_2_MV),       // Filtered step output (32-bit, signed)
-//    .o_phaseRamp(o_phaseRamp_2)      // Phase ramp output (32-bit, signed)
-//);
+my_fog_v1 #(
+   .COEFF_SET(N32FC2) // Default coefficient set N32FC5
+) my_fog_ch2_inst (
+   // ============================ Common Signals ============================
+   .CLOCK_ADC(CLOCK_ADC_2), // ADC clock (1-bit)
+   .CLOCK_DAC(CLOCK_DAC_2), // DAC clock (1-bit)
+   .locked(locked_2),    // Global reset signal, active low (1-bit)
+
+   // ============================ ADC Processing ============================
+   .ADC(ADC_2), // Raw ADC input signal (14-bit)
+
+   // ============================ Modulation Generator ============================
+   .var_freq_cnt(var_freq_cnt_2), // Frequency control input (32-bit)
+   .var_amp_H(var_amp_H_2),    // Positive amplitude control (32-bit)
+   .var_amp_L(var_amp_L_2),    // Negative amplitude control (32-bit)
+
+   // ============================ Error Signal Processing ============================
+   .var_polarity(var_polarity_2),     // Polarity control (1-bit)
+   .var_wait_cnt(var_wait_cnt_2),     // Wait counter for stabilization (32-bit)
+   .var_err_offset(var_err_offset_2),   // Error offset adjustment (32-bit)
+   .var_avg_sel(var_avg_sel_2),      // Average selection control (32-bit)
+
+   // ============================ Feedback Control ============================
+   .var_const_step(var_const_step_2),    // Constant step value (32-bit)
+   .var_fb_ON(var_fb_ON_2),         // Feedback enable (1-bit)
+   .var_gainSel_step(var_gainSel_step_2),  // Gain selection for step feedback (32-bit)
+
+   // ============================ Phase Ramp Control ============================
+   .var_gainSel_ramp(var_gainSel_ramp_2), // Gain selection for ramp control (32-bit)
+
+   // ============================ Output Signals ============================
+   .o_err_DAC(o_err_DAC2),       // Processed error signal output (32-bit, signed)
+   .o_err_DAC_FIR(o_err_DAC2_FIR),   // FIR filtered error signal (32-bit, signed)
+   .o_step(o_step_2),          // Feedback step output (32-bit, signed)
+   .o_step_MV(o_step_2_MV),       // Filtered step output (32-bit, signed)
+   .o_phaseRamp(o_phaseRamp_2)      // Phase ramp output (32-bit, signed)
+);
+
+my_fog_v1 #(
+   .COEFF_SET(N32FC2) // Default coefficient set N32FC5
+) my_fog_ch1_inst (
+   // ============================ Common Signals ============================
+   .CLOCK_ADC(CLOCK_ADC_2), // ADC clock (1-bit)
+   .CLOCK_DAC(CLOCK_DAC_2), // DAC clock (1-bit)
+   .locked(locked_2),    // Global reset signal, active low (1-bit)
+
+   // ============================ ADC Processing ============================
+   .ADC(ADC_2), // Raw ADC input signal (14-bit)
+
+   // ============================ Modulation Generator ============================
+   .var_freq_cnt(var_freq_cnt_1), // Frequency control input (32-bit)
+   .var_amp_H(var_amp_H_1),    // Positive amplitude control (32-bit)
+   .var_amp_L(var_amp_L_1),    // Negative amplitude control (32-bit)
+
+   // ============================ Error Signal Processing ============================
+   .var_polarity(var_polarity_1),     // Polarity control (1-bit)
+   .var_wait_cnt(var_wait_cnt_1),     // Wait counter for stabilization (32-bit)
+   .var_err_offset(var_err_offset_1),   // Error offset adjustment (32-bit)
+   .var_avg_sel(var_avg_sel_1),      // Average selection control (32-bit)
+
+   // ============================ Feedback Control ============================
+   .var_const_step(var_const_step_1),    // Constant step value (32-bit)
+   .var_fb_ON(var_fb_ON_1),         // Feedback enable (1-bit)
+   .var_gainSel_step(var_gainSel_step_1),  // Gain selection for step feedback (32-bit)
+
+   // ============================ Phase Ramp Control ============================
+   .var_gainSel_ramp(var_gainSel_ramp_1), // Gain selection for ramp control (32-bit)
+
+   // ============================ Output Signals ============================
+   .o_err_DAC(o_err_DAC1),       // Processed error signal output (32-bit, signed)
+   .o_err_DAC_FIR(o_err_DAC1_FIR),   // FIR filtered error signal (32-bit, signed)
+   .o_step(o_step_1),          // Feedback step output (32-bit, signed)
+   .o_step_MV(o_step_1_MV),       // Filtered step output (32-bit, signed)
+   .o_phaseRamp(o_phaseRamp_1)      // Phase ramp output (32-bit, signed)
+);
 
 
 i2c_controller_pullup_ADS122C04_SE_V2

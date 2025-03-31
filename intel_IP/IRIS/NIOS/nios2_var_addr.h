@@ -78,10 +78,10 @@
 #define i_var_step_3            60 + 30
 #define i_var_err_3             60 + 31
 #define i_var_timer             60 + 32
-#define i_var_o_step3           60 + 33
-#define i_var_high              60 + 34
-#define i_var_low               60 + 35
-#define i_var_buf               60 + 36
+#define i_var_step_2            60 + 33
+#define i_var_err_2             60 + 34
+#define i_var_step_1            60 + 35
+#define i_var_err_1             60 + 36
 
 // #define var_i2c_357_status	25 + 0
 // #define var_i2c_357_rdata_1	25 + 1
