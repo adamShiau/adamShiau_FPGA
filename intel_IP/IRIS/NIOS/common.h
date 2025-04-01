@@ -162,4 +162,6 @@ void dump_misalignment_param(fog_parameter_t* fog_inst);
 void dump_SN(fog_parameter_t* fog_inst);
 void send_json_uart(const char* buffer);
 
+float  temp_compensation_1st_order(float temperature, float slope, float offset);
+
 #endif /* __COMMON_H */

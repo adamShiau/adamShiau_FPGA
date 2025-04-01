@@ -696,3 +696,11 @@ void send_json_uart(const char* buffer) {
         buffer++;
     }
 }
+
+
+float  temp_compensation_1st_order(float temperature, float slope, float offset) {
+
+	float compensated_data = slope * temperature + offset;
+    
+    return compensated_data;
+}

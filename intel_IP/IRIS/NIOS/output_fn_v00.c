@@ -64,7 +64,7 @@ void acq_fog (cmd_ctrl_t* rx, my_sensor_t data, alt_u8* sync, fog_parameter_t fo
             temp2.float_val = data.temp.tempy.float_val*ADC_CONV_TEMP-273.15;
             temp3.float_val = data.temp.tempz.float_val*ADC_CONV_TEMP-273.15;
             err3.int_val = data.fog.fogz.err.int_val;
-            step3.float_val = data.fog.fogz.step.float_val*(sf_3_slope*temp1.float_val + sf_3_offset); 
+            step3.float_val = data.fog.fogz.step.float_val*(sf_1_slope*temp1.float_val + sf_1_offset); 
             // step3.float_val = data.fog.fogz.step.float_val*(sf_1_slope*temp1.float_val + sf_1_offset); // temporary use temp1 for IRIS configuration
 
             ax.float_val = data.adxl357.ax.float_val*SENS_ADXL357_20G;
@@ -104,7 +104,6 @@ void acq_imu (cmd_ctrl_t* rx, my_sensor_t data, alt_u8* sync, fog_parameter_t fo
     /*** update container parameters */
     float sf_1_slope, sf_2_slope, sf_3_slope;
     float sf_1_offset, sf_2_offset, sf_3_offset;
-    float sf_1_T, sf_2_T, sf_3_T;
 
     if(rx->select_fn == SEL_IMU) {
         rx->select_fn = SEL_IDLE; //clear select_fn
@@ -141,18 +140,9 @@ void acq_imu (cmd_ctrl_t* rx, my_sensor_t data, alt_u8* sync, fog_parameter_t fo
             err3.int_val = data.fog.fogz.err.int_val;
             err2.int_val = data.fog.fogy.err.int_val;
             err1.int_val = data.fog.fogx.err.int_val;
-            // step3.float_val = data.fog.fogz.step.float_val*(sf_3_slope*temp3.float_val + sf_3_offset);
-            // step2.float_val = data.fog.fogy.step.float_val*(sf_2_slope*temp2.float_val + sf_2_offset);
-            // step1.float_val = data.fog.fogx.step.float_val*(sf_1_slope*temp1.float_val + sf_1_offset);
-            
-            /*** scale factor temperature  compesation*/
-            sf_1_T = temp_compensation_1st_order(temp1.float_val, sf_1_slope, sf_1_offset);
-            sf_2_T = temp_compensation_1st_order(temp2.float_val, sf_2_slope, sf_2_offset);
-            sf_3_T = temp_compensation_1st_order(temp3.float_val, sf_3_slope, sf_3_offset);
-
-            step1.float_val = data.fog.fogx.step.float_val * sf_1_T;
-            step2.float_val = data.fog.fogy.step.float_val * sf_2_T;
-            step3.float_val = data.fog.fogz.step.float_val * sf_3_T;
+            step3.float_val = data.fog.fogz.step.float_val*(sf_1_slope*temp3.float_val + sf_1_offset);
+            step2.float_val = data.fog.fogy.step.float_val*(sf_1_slope*temp3.float_val + sf_1_offset);
+            step1.float_val = data.fog.fogx.step.float_val*(sf_1_slope*temp3.float_val + sf_1_offset);
 
             ax.float_val = data.adxl357.ax.float_val*SENS_ADXL357_20G;
             ay.float_val = data.adxl357.ay.float_val*SENS_ADXL357_20G;
