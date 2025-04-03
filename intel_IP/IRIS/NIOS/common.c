@@ -371,6 +371,26 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 						// IOWR(VARSET_BASE, CMD_BIAS_3_OFFSET + cmd2hwreg, rx->value);
 						break;
 					}
+					case CMD_SF_SLOPE_XLM: {
+						DEBUG_PRINT("CMD_SF_SLOPE_XLM:\n");
+						PARAMETER_Write_s(base, CMD_SF_SLOPE_XLM - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+						break;
+					}
+					case CMD_SF_OFFSET_XLM: {
+						DEBUG_PRINT("CMD_SF_OFFSET_XLM:\n");
+						PARAMETER_Write_s(base, CMD_SF_OFFSET_XLM - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+						break;
+					}
+					case CMD_BIAS_SLOPE_XLM: {
+						DEBUG_PRINT("CMD_BIAS_SLOPE_XLM:\n");
+						PARAMETER_Write_s(base, CMD_BIAS_SLOPE_XLM - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+						break;
+					}
+					case CMD_BIAS_OFFSET_XLM: {
+						DEBUG_PRINT("CMD_BIAS_OFFSET_XLM:\n");
+						PARAMETER_Write_s(base, CMD_BIAS_OFFSET_XLM - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+						break;
+					}
 					/***------------- mis-alignment command, accl */
 					case CMD_MIS_AX: {
 						DEBUG_PRINT("CMD_MIS_AX:\n");
@@ -698,9 +718,298 @@ void send_json_uart(const char* buffer) {
 }
 
 
-float  temp_compensation_1st_order(float temperature, float slope, float offset) {
+float SF_temp_compensation_1st_order_fog(my_sensor_t sensor, fog_parameter_t para, CH_t ch) {
+    float temp;
+    float slope;
+    float offset;
+    float compensated_value;
 
-	float compensated_data = slope * temperature + offset;
-    
-    return compensated_data;
+    // Select the corresponding temperature, slope, and offset based on the axis (ch)
+    switch (ch) {
+        case X_AXIS: // X-axis
+            // Check if the parameter type is correct
+            if (para.paramX[17].type != TYPE_FLOAT || para.paramX[18].type != TYPE_FLOAT) {
+                DEBUG_PRINT("Error: Incorrect parameter type for X-axis compensation\n");
+                return 0.0f; // Return a default value or handle the error appropriately
+            }
+            temp = sensor.temp.tempx.float_val;
+            slope = para.paramX[17].data.float_val;
+            offset = para.paramX[18].data.float_val;
+            break;
+        case Y_AXIS: // Y-axis
+            // Check if the parameter type is correct
+            if (para.paramY[17].type != TYPE_FLOAT || para.paramY[18].type != TYPE_FLOAT) {
+                DEBUG_PRINT("Error: Incorrect parameter type for Y-axis compensation\n");
+                return 0.0f; // Return a default value or handle the error appropriately
+            }
+            temp = sensor.temp.tempy.float_val;
+            slope = para.paramY[17].data.float_val;
+            offset = para.paramY[18].data.float_val;
+            break;
+        case Z_AXIS: // Z-axis
+            // Check if the parameter type is correct
+            if (para.paramZ[17].type != TYPE_FLOAT || para.paramZ[18].type != TYPE_FLOAT) {
+                DEBUG_PRINT("Error: Incorrect parameter type for Z-axis compensation\n");
+                return 0.0f; // Return a default value or handle the error appropriately
+            }
+            temp = sensor.temp.tempz.float_val;
+            slope = para.paramZ[17].data.float_val;
+            offset = para.paramZ[18].data.float_val;
+            break;
+        default:
+            // Invalid axis selection, return 0 or other default value
+            DEBUG_PRINT("Error: Invalid axis selection in SF_temp_compensation_1st_order\n");
+            return 0.0f;
+    }
+
+    // Perform first-order temperature compensation calculation
+    compensated_value = temp * slope + offset;
+
+    return compensated_value;
 }
+
+
+float SF_temp_compensation_1st_order_adxl357(my_sensor_t sensor, fog_parameter_t para, CH_t ch) {
+    float temp;
+    float slope;
+    float offset;
+    float compensated_value;
+
+    // Select the corresponding temperature, slope, and offset based on the axis (ch)
+    switch (ch) {
+        case X_AXIS: // X-axis
+            // Check if the parameter type is correct
+            if (para.paramX[31].type != TYPE_FLOAT || para.paramX[32].type != TYPE_FLOAT) {
+                DEBUG_PRINT("Error: Incorrect parameter type for X-axis compensation\n");
+                return 0.0f; // Return a default value or handle the error appropriately
+            }
+            temp = sensor.adxl357.temp.float_val;
+            slope = para.paramX[31].data.float_val;
+            offset = para.paramX[32].data.float_val;
+            break;
+        case Y_AXIS: // Y-axis
+            // Check if the parameter type is correct
+            if (para.paramY[31].type != TYPE_FLOAT || para.paramY[32].type != TYPE_FLOAT) {
+                DEBUG_PRINT("Error: Incorrect parameter type for Y-axis compensation\n");
+                return 0.0f; // Return a default value or handle the error appropriately
+            }
+            temp = sensor.adxl357.temp.float_val;
+            slope = para.paramY[31].data.float_val;
+            offset = para.paramY[32].data.float_val;
+            break;
+        case Z_AXIS: // Z-axis
+            // Check if the parameter type is correct
+            if (para.paramZ[31].type != TYPE_FLOAT || para.paramZ[32].type != TYPE_FLOAT) {
+                DEBUG_PRINT("Error: Incorrect parameter type for Z-axis compensation\n");
+                return 0.0f; // Return a default value or handle the error appropriately
+            }
+            temp = sensor.adxl357.temp.float_val;
+            slope = para.paramZ[31].data.float_val;
+            offset = para.paramZ[32].data.float_val;
+            break;
+        default:
+            // Invalid axis selection, return 0 or other default value
+            DEBUG_PRINT("Error: Invalid axis selection in SF_temp_compensation_1st_order\n");
+            return 0.0f;
+    }
+
+    // Perform first-order temperature compensation calculation
+    compensated_value = temp * slope + offset;
+
+    return compensated_value;
+}
+
+
+float BIAS_temp_compensation_1st_order_fog_3T(my_sensor_t sensor, fog_parameter_t para, CH_t ch) {
+    float temp;
+    float T1, T2;
+    float slope1, offset1, slope2, offset2, slope3, offset3;
+    float compensated_value;
+
+    // Select the corresponding parameters based on the axis (ch)
+    switch (ch) {
+        case X_AXIS: // X-axis
+            // Check if the parameter type is correct
+            if (para.paramX[23].type != TYPE_FLOAT || para.paramX[24].type != TYPE_FLOAT ||
+                para.paramX[25].type != TYPE_FLOAT || para.paramX[26].type != TYPE_FLOAT ||
+                para.paramX[27].type != TYPE_FLOAT || para.paramX[28].type != TYPE_FLOAT ||
+                para.paramX[29].type != TYPE_FLOAT || para.paramX[30].type != TYPE_FLOAT) {
+                DEBUG_PRINT("Error: Incorrect parameter type for X-axis bias compensation\n");
+                return 0.0f; // Return a default value or handle the error appropriately
+            }
+            temp = sensor.temp.tempx.float_val;
+            T1 = para.paramX[23].data.float_val;
+            T2 = para.paramX[24].data.float_val;
+            slope1 = para.paramX[25].data.float_val;
+            offset1 = para.paramX[26].data.float_val;
+            slope2 = para.paramX[27].data.float_val;
+            offset2 = para.paramX[28].data.float_val;
+            slope3 = para.paramX[29].data.float_val;
+            offset3 = para.paramX[30].data.float_val;
+            break;
+        case Y_AXIS: // Y-axis
+            // Check if the parameter type is correct
+            if (para.paramY[23].type != TYPE_FLOAT || para.paramY[24].type != TYPE_FLOAT ||
+                para.paramY[25].type != TYPE_FLOAT || para.paramY[26].type != TYPE_FLOAT ||
+                para.paramY[27].type != TYPE_FLOAT || para.paramY[28].type != TYPE_FLOAT ||
+                para.paramY[29].type != TYPE_FLOAT || para.paramY[30].type != TYPE_FLOAT) {
+                DEBUG_PRINT("Error: Incorrect parameter type for Y-axis bias compensation\n");
+                return 0.0f; // Return a default value or handle the error appropriately
+            }
+            temp = sensor.temp.tempy.float_val;
+            T1 = para.paramY[23].data.float_val;
+            T2 = para.paramY[24].data.float_val;
+            slope1 = para.paramY[25].data.float_val;
+            offset1 = para.paramY[26].data.float_val;
+            slope2 = para.paramY[27].data.float_val;
+            offset2 = para.paramY[28].data.float_val;
+            slope3 = para.paramY[29].data.float_val;
+            offset3 = para.paramY[30].data.float_val;
+            break;
+        case Z_AXIS: // Z-axis
+            // Check if the parameter type is correct
+            if (para.paramZ[23].type != TYPE_FLOAT || para.paramZ[24].type != TYPE_FLOAT ||
+                para.paramZ[25].type != TYPE_FLOAT || para.paramZ[26].type != TYPE_FLOAT ||
+                para.paramZ[27].type != TYPE_FLOAT || para.paramZ[28].type != TYPE_FLOAT ||
+                para.paramZ[29].type != TYPE_FLOAT || para.paramZ[30].type != TYPE_FLOAT) {
+                DEBUG_PRINT("Error: Incorrect parameter type for Z-axis bias compensation\n");
+                return 0.0f; // Return a default value or handle the error appropriately
+            }
+            temp = sensor.temp.tempz.float_val;
+            T1 = para.paramZ[23].data.float_val;
+            T2 = para.paramZ[24].data.float_val;
+            slope1 = para.paramZ[25].data.float_val;
+            offset1 = para.paramZ[26].data.float_val;
+            slope2 = para.paramZ[27].data.float_val;
+            offset2 = para.paramZ[28].data.float_val;
+            slope3 = para.paramZ[29].data.float_val;
+            offset3 = para.paramZ[30].data.float_val;
+            break;
+        default:
+            // Invalid axis selection, return 0 or other default value
+            DEBUG_PRINT("Error: Invalid axis selection in BIAS_temp_compensation_1st_order_3T\n");
+            return 0.0f;
+    }
+
+    // Perform temperature zone selection and compensation calculation
+    if (temp < T1) {
+        compensated_value = temp * slope1 + offset1;
+    } else if (temp >= T1 && temp < T2) {
+        compensated_value = temp * slope2 + offset2;
+    } else { // temp >= T2
+        compensated_value = temp * slope3 + offset3;
+    }
+
+    return compensated_value;
+}
+
+float BIAS_temp_compensation_1st_order_adxl357(my_sensor_t sensor, fog_parameter_t para, CH_t ch) {
+    float temp;
+    float slope;
+    float offset;
+    float compensated_value;
+
+    // Select the corresponding temperature, slope, and offset based on the axis (ch)
+    switch (ch) {
+        case X_AXIS: // X-axis
+            // Check if the parameter type is correct
+            if (para.paramX[33].type != TYPE_FLOAT || para.paramX[34].type != TYPE_FLOAT) {
+                DEBUG_PRINT("Error: Incorrect parameter type for X-axis compensation\n");
+                return 0.0f; // Return a default value or handle the error appropriately
+            }
+            temp = sensor.adxl357.temp.float_val;
+            slope = para.paramX[33].data.float_val;
+            offset = para.paramX[34].data.float_val;
+            break;
+        case Y_AXIS: // Y-axis
+            // Check if the parameter type is correct
+            if (para.paramY[33].type != TYPE_FLOAT || para.paramY[34].type != TYPE_FLOAT) {
+                DEBUG_PRINT("Error: Incorrect parameter type for Y-axis compensation\n");
+                return 0.0f; // Return a default value or handle the error appropriately
+            }
+            temp = sensor.adxl357.temp.float_val;
+            slope = para.paramY[33].data.float_val;
+            offset = para.paramY[34].data.float_val;
+            break;
+        case Z_AXIS: // Z-axis
+            // Check if the parameter type is correct
+            if (para.paramZ[33].type != TYPE_FLOAT || para.paramZ[34].type != TYPE_FLOAT) {
+                DEBUG_PRINT("Error: Incorrect parameter type for Z-axis compensation\n");
+                return 0.0f; // Return a default value or handle the error appropriately
+            }
+            temp = sensor.adxl357.temp.float_val;
+            slope = para.paramZ[33].data.float_val;
+            offset = para.paramZ[34].data.float_val;
+            break;
+        default:
+            // Invalid axis selection, return 0 or other default value
+            DEBUG_PRINT("Error: Invalid axis selection in SF_temp_compensation_1st_order\n");
+            return 0.0f;
+    }
+
+    // Perform first-order temperature compensation calculation
+    compensated_value = temp * slope + offset;
+
+    return compensated_value;
+}
+
+calibrated_data_t misalignment_calibration(float din_x, float din_y, float din_z, fog_parameter_t para, CH_t ch) {
+    calibrated_data_t result;
+    float cx, cy, cz;
+    float c11, c12, c13, c21, c22, c23, c31, c32, c33;
+
+    // Check if the parameter type is correct
+    for (int i = 0; i < 24; i++) {
+        if (para.misalignment[i].type != TYPE_FLOAT) {
+            DEBUG_PRINT("Error: Incorrect parameter type for misalignment compensation\n");
+            result.x.float_val = 0.0f;
+            result.y.float_val = 0.0f;
+            result.z.float_val = 0.0f;
+            return result; // Return a default value or handle the error appropriately
+        }
+    }
+
+    // Select the corresponding parameters based on the calibration type (ch)
+    if (ch == MIS_CALI_GYRO) {
+        cx = para.misalignment[12].data.float_val;
+        cy = para.misalignment[13].data.float_val;
+        cz = para.misalignment[14].data.float_val;
+        c11 = para.misalignment[15].data.float_val;
+        c12 = para.misalignment[16].data.float_val;
+        c13 = para.misalignment[17].data.float_val;
+        c21 = para.misalignment[18].data.float_val;
+        c22 = para.misalignment[19].data.float_val;
+        c23 = para.misalignment[20].data.float_val;
+        c31 = para.misalignment[21].data.float_val;
+        c32 = para.misalignment[22].data.float_val;
+        c33 = para.misalignment[23].data.float_val;
+    } else if (ch == MIS_CALI_ACCL) {
+        cx = para.misalignment[0].data.float_val;
+        cy = para.misalignment[1].data.float_val;
+        cz = para.misalignment[2].data.float_val;
+        c11 = para.misalignment[3].data.float_val;
+        c12 = para.misalignment[4].data.float_val;
+        c13 = para.misalignment[5].data.float_val;
+        c21 = para.misalignment[6].data.float_val;
+        c22 = para.misalignment[7].data.float_val;
+        c23 = para.misalignment[8].data.float_val;
+        c31 = para.misalignment[9].data.float_val;
+        c32 = para.misalignment[10].data.float_val;
+        c33 = para.misalignment[11].data.float_val;
+    } else {
+        // Invalid calibration type, return 0 or other default value
+        DEBUG_PRINT("Error: Invalid calibration type in misalignment_calibration\n");
+        result.x.float_val = 0.0f;
+        result.y.float_val = 0.0f;
+        result.z.float_val = 0.0f;
+        return result;
+    }
+
+    // Perform misalignment calibration calculation
+    result.x.float_val = c11 * din_x + c12 * din_y + c13 * din_z + cx;
+    result.y.float_val = c21 * din_x + c22 * din_y + c23 * din_z + cy;
+    result.z.float_val = c31 * din_x + c32 * din_y + c33 * din_z + cz;
+
+    return result;
+}
+

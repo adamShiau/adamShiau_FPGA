@@ -53,6 +53,9 @@
 #define MODE_ATT_NMEA		5
 #define MODE_FOG_PARAMETER  6
 
+/*** ADC convertion coefficient */
+#define ADC_CONV_TEMP 0.00004447005 // 2.048/8388608.0*1000.0/5.49
+
 // Moving Average structure
 typedef struct {
   float *buffer;
@@ -88,6 +91,14 @@ typedef struct
   alt_u8 run;
   alt_32 value;
 }cmd_ctrl_t;
+
+typedef enum {
+  X_AXIS = 1,
+  Y_AXIS,
+  Z_AXIS,
+  MIS_CALI_GYRO,
+  MIS_CALI_ACCL
+} CH_t;
 
 
 /*** sensor data structure delaration */
@@ -127,8 +138,15 @@ typedef struct
   accl_t adxl357;
 }my_sensor_t;
 
+typedef struct {
+  my_float_t x;
+  my_float_t y;
+  my_float_t z;
+} calibrated_data_t;
+
 /*** output function type delaration */
-typedef void (*fn_ptr) (cmd_ctrl_t*, my_sensor_t, alt_u8*, fog_parameter_t);
+// typedef void (*fn_ptr) (cmd_ctrl_t*, my_sensor_t, alt_u8*, fog_parameter_t);
+typedef void (*fn_ptr) (cmd_ctrl_t*, my_sensor_t, fog_parameter_t);
 
 // typedef struct cmd_ctrl_t cmd_ctrl_t;
 
@@ -162,6 +180,12 @@ void dump_misalignment_param(fog_parameter_t* fog_inst);
 void dump_SN(fog_parameter_t* fog_inst);
 void send_json_uart(const char* buffer);
 
-float  temp_compensation_1st_order(float temperature, float slope, float offset);
+float SF_temp_compensation_1st_order_fog(my_sensor_t, fog_parameter_t, CH_t);
+float SF_temp_compensation_1st_order_adxl357(my_sensor_t, fog_parameter_t, CH_t);
+
+float BIAS_temp_compensation_1st_order_fog_3T(my_sensor_t, fog_parameter_t, CH_t);
+float BIAS_temp_compensation_1st_order_adxl357(my_sensor_t, fog_parameter_t, CH_t);
+
+calibrated_data_t misalignment_calibration(float , float , float , fog_parameter_t , CH_t );
 
 #endif /* __COMMON_H */

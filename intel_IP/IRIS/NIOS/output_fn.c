@@ -4,25 +4,29 @@
 #define EXT_SYNC 2
 #define STOP_RUN 4
 
-/*** ADC convertion coefficient */
-#define ADC_CONV_TEMP 0.00004447005 // 2.048/8388608.0*1000.0/5.49
-
 
 
 const unsigned char KVH_HEADER[4] = {0xFE, 0x81, 0xFF, 0x55};
 alt_u32 dly_cnt = 0;
 
-void acq_rst (cmd_ctrl_t* rx, my_sensor_t data, alt_u8* sync, fog_parameter_t fog_parameter)
+// void acq_rst (cmd_ctrl_t* rx, my_sensor_t data, alt_u8* sync, fog_parameter_t fog_parameter)
+// {
+//     if(dly_cnt++ > DLY_NUM) {
+//         dly_cnt = 0;
+//         // DEBUG_PRINT("acq_rst mode\n");
+//     }  
+// }
+
+void acq_rst (cmd_ctrl_t* rx, my_sensor_t data, fog_parameter_t fog_parameter)
 {
     if(dly_cnt++ > DLY_NUM) {
         dly_cnt = 0;
         // DEBUG_PRINT("acq_rst mode\n");
-    }
-
-    
+    }  
 }
 
-void acq_fog (cmd_ctrl_t* rx, my_sensor_t data, alt_u8* sync, fog_parameter_t fog_parameter)
+// void acq_fog (cmd_ctrl_t* rx, my_sensor_t data, alt_u8* sync, fog_parameter_t fog_parameter)
+void acq_fog (cmd_ctrl_t* rx, my_sensor_t data, fog_parameter_t fog_parameter)
 {
     my_float_t time, err1, step1, err2, step2, err3, step3;
     my_float_t temp3, temp2, temp1;
@@ -49,8 +53,6 @@ void acq_fog (cmd_ctrl_t* rx, my_sensor_t data, alt_u8* sync, fog_parameter_t fo
         }
     }
     if(rx->run == 1) {
-        if(*sync == 1) {
-            *sync = 0;
 
             sf_1_slope = fog_parameter.paramZ[17].data.float_val;
             sf_1_offset = fog_parameter.paramZ[18].data.float_val;
@@ -92,27 +94,20 @@ void acq_fog (cmd_ctrl_t* rx, my_sensor_t data, alt_u8* sync, fog_parameter_t fo
 
             // INFO_PRINT("%f, %f, %f. %f\n", ax.float_val, ay.float_val, az.float_val, acc_temp.float_val);
             // INFO_PRINT("%f, %f, %f\n", temp1.float_val, temp2.float_val, temp3.float_val);
-        }
     }
 }
 
-void acq_imu (cmd_ctrl_t* rx, my_sensor_t data, alt_u8* sync, fog_parameter_t fog_parameter)
+void acq_imu (cmd_ctrl_t* rx, my_sensor_t data, fog_parameter_t fog_parameter)
 {
-    my_float_t time, err_z, err_y, err_x, step_z, step_y, step_x, temp_z, temp_y, temp_x;
-    my_float_t ax, ay, az, acc_temp;
+    calibrated_data_t gyro_misalign_calibrated, accl_misalign_calibrated;
     
-    /*** local variables for gyro container parameters */
-    float sf_x_slope, sf_y_slope, sf_z_slope;
-    float sf_x_offset, sf_y_offset, sf_z_offset;
-    float sf_x_comp, sf_y_comp, sf_z_comp;
-    float bias_x_T1, bias_x_T2, bias_y_T1, bias_y_T2, bias_z_T1, bias_z_T2;
-    float bias_x_slope_1, bias_x_slope_2, bias_x_slope_3, bias_x_offset_1, bias_x_offset_2, bias_x_offset_3;
-    float bias_y_slope_1, bias_y_slope_2, bias_y_slope_3, bias_y_offset_1, bias_y_offset_2, bias_y_offset_3;
-    float bias_z_slope_1, bias_z_slope_2, bias_z_slope_3, bias_z_offset_1, bias_z_offset_2, bias_z_offset_3;
-    float bias_x_comp, bias_y_comp, bias_z_comp;
-    /*** local variables for xlm container parameters */
-    // float bias_x_slope_xlm, bias_y_slope_xlm, bias_z_slope_xlm;
-    // float bias_x_offset_xlm, bias_y_offset_xlm, bias_z_offset_xlm;
+    float step_x_comp, step_y_comp, step_z_comp;
+    float accl_x_comp, accl_y_comp, accl_z_comp;
+    
+    float sf_x_comp_gyro, sf_y_comp_gyro, sf_z_comp_gyro;
+    float sf_x_comp_accl, sf_y_comp_accl, sf_z_comp_accl;
+    float bias_x_comp_gyro, bias_y_comp_gyro, bias_z_comp_gyro;
+    float bias_x_comp_accl, bias_y_comp_accl, bias_z_comp_accl;
     
 
     if(rx->select_fn == SEL_IMU) {
@@ -132,118 +127,87 @@ void acq_imu (cmd_ctrl_t* rx, my_sensor_t data, alt_u8* sync, fog_parameter_t fo
             rx->run = 0;
         }
     }
-    if(rx->run == 1) {
-        if(*sync == 1) {
-            *sync = 0;
-
-            /*** obtain gyro temperature  compensation parameters*/
-            /*** -------scale factor------- */
-            sf_x_slope = fog_parameter.paramX[17].data.float_val;
-            sf_x_offset = fog_parameter.paramX[18].data.float_val;
-            sf_y_slope = fog_parameter.paramY[17].data.float_val;
-            sf_y_offset = fog_parameter.paramY[18].data.float_val;
-            sf_z_slope = fog_parameter.paramZ[17].data.float_val;
-            sf_z_offset = fog_parameter.paramZ[18].data.float_val;
-            /*** -------bias------- */
-            bias_x_T1 = fog_parameter.paramX[23].data.float_val;
-            bias_x_T2 = fog_parameter.paramX[24].data.float_val;
-            bias_y_T1 = fog_parameter.paramY[23].data.float_val;
-            bias_y_T2 = fog_parameter.paramY[24].data.float_val;
-            bias_z_T1 = fog_parameter.paramZ[23].data.float_val;
-            bias_z_T2 = fog_parameter.paramZ[24].data.float_val;
-            bias_x_slope_1 = fog_parameter.paramX[25].data.float_val;
-            bias_x_slope_2 = fog_parameter.paramX[27].data.float_val;
-            bias_x_slope_3 = fog_parameter.paramX[29].data.float_val;
-            bias_x_offset_1 = fog_parameter.paramX[26].data.float_val;
-            bias_x_offset_2 = fog_parameter.paramX[28].data.float_val;
-            bias_x_offset_3 = fog_parameter.paramX[30].data.float_val;
-            bias_y_slope_1 = fog_parameter.paramY[25].data.float_val;
-            bias_y_slope_2 = fog_parameter.paramY[27].data.float_val;
-            bias_y_slope_3 = fog_parameter.paramY[29].data.float_val;
-            bias_y_offset_1 = fog_parameter.paramY[26].data.float_val;
-            bias_y_offset_2 = fog_parameter.paramY[28].data.float_val;
-            bias_y_offset_3 = fog_parameter.paramY[30].data.float_val;
-            bias_z_slope_1 = fog_parameter.paramZ[25].data.float_val;
-            bias_z_slope_2 = fog_parameter.paramZ[27].data.float_val;
-            bias_z_slope_3 = fog_parameter.paramZ[29].data.float_val;
-            bias_z_offset_1 = fog_parameter.paramZ[26].data.float_val;
-            bias_z_offset_2 = fog_parameter.paramZ[28].data.float_val;
-            bias_z_offset_3 = fog_parameter.paramZ[30].data.float_val;
-            /*** obtain xlm temperature  compensation parameters*/
-            /*** -------bias------- */
-            // bias_x_slope_xlm = fog_parameter.paramX[31].data.float_val;
-            // bias_x_offset_xlm = fog_parameter.paramX[32].data.float_val;
-            // bias_y_slope_xlm = fog_parameter.paramY[31].data.float_val;
-            // bias_y_offset_xlm = fog_parameter.paramY[32].data.float_val;
-            // bias_z_slope_xlm = fog_parameter.paramZ[31].data.float_val;
-            // bias_z_offset_xlm = fog_parameter.paramZ[32].data.float_val;
-
-            time.float_val = data.time.time.float_val;
-            temp_x.float_val = data.temp.tempx.float_val*ADC_CONV_TEMP - 273.15;
-            temp_y.float_val = data.temp.tempy.float_val*ADC_CONV_TEMP - 273.15;
-            temp_z.float_val = data.temp.tempz.float_val*ADC_CONV_TEMP - 273.15;
-            err_z.int_val = data.fog.fogz.err.int_val;
-            err_y.int_val = data.fog.fogy.err.int_val;
-            err_x.int_val = data.fog.fogx.err.int_val;
-            // step_z.float_val = data.fog.fogz.step.float_val*(sf_z_slope*temp_z.float_val + sf_z_offset);
-            // step_y.float_val = data.fog.fogy.step.float_val*(sf_y_slope*temp_y.float_val + sf_y_offset);
-            // step_x.float_val = data.fog.fogx.step.float_val*(sf_x_slope*temp_x.float_val + sf_x_offset);
-            
+    if(rx->run == 1) {            
             /*** gyro scale factor temperature  compesation*/
-            sf_x_comp = temp_compensation_1st_order(temp_x.float_val, sf_x_slope, sf_x_offset);
-            sf_y_comp = temp_compensation_1st_order(temp_y.float_val, sf_y_slope, sf_y_offset);
-            sf_z_comp = temp_compensation_1st_order(temp_z.float_val, sf_z_slope, sf_z_offset);
+            sf_x_comp_gyro = SF_temp_compensation_1st_order_fog(data, fog_parameter, X_AXIS); // gyro x axis SF Temp. compensation
+            sf_y_comp_gyro = SF_temp_compensation_1st_order_fog(data, fog_parameter, Y_AXIS); // gyro y axis SF Temp. compensation
+            sf_z_comp_gyro = SF_temp_compensation_1st_order_fog(data, fog_parameter, Z_AXIS); // gyro z axis SF Temp. compensation
+            /*** xlm scale factor temperature  compesation*/
+            sf_x_comp_accl = SF_temp_compensation_1st_order_adxl357(data, fog_parameter, X_AXIS); // accl x axis SF Temp. compensation;
+            sf_y_comp_accl = SF_temp_compensation_1st_order_adxl357(data, fog_parameter, Y_AXIS); // accl y axis SF Temp. compensation;
+            sf_z_comp_accl = SF_temp_compensation_1st_order_adxl357(data, fog_parameter, Z_AXIS); // accl z axis SF Temp. compensation;
             /*** gyro bias temperature  compesation*/
-            // bias_x_comp = temp_compensation_1st_order_3T(temp_x.float_val, bias_x_T1, bias_x_T2, bias_x_slope_1, bias_x_offset_1, 
-            //     bias_x_slope_2, bias_x_offset_2, bias_x_slope_3, bias_x_offset_3);
-            // bias_y_comp = temp_compensation_1st_order_3T(temp_y.float_val, bias_y_T1, bias_y_T2, bias_y_slope_1, bias_y_offset_1, 
-            //     bias_y_slope_2, bias_y_offset_2, bias_y_slope_3, bias_y_offset_3);
-            // bias_z_comp = temp_compensation_1st_order_3T(temp_z.float_val, bias_z_T1, bias_z_T2, bias_z_slope_1, bias_z_offset_1, 
-            //     bias_z_slope_2, bias_z_offset_2, bias_z_slope_3, bias_z_offset_3);
+            bias_x_comp_gyro = BIAS_temp_compensation_1st_order_fog_3T(data, fog_parameter, X_AXIS); // gyro x axis Bias Temp. compensation
+            bias_y_comp_gyro = BIAS_temp_compensation_1st_order_fog_3T(data, fog_parameter, Y_AXIS); // gyro y axis Bias Temp. compensation
+            bias_z_comp_gyro = BIAS_temp_compensation_1st_order_fog_3T(data, fog_parameter, Z_AXIS); // gyro z axis Bias Temp. compensation
+            /*** xlm bias temperature  compesation*/
+            bias_x_comp_accl = BIAS_temp_compensation_1st_order_adxl357(data, fog_parameter, X_AXIS); // accl x axis Bias Temp. compensation
+            bias_y_comp_accl = BIAS_temp_compensation_1st_order_adxl357(data, fog_parameter, Y_AXIS); // accl y axis Bias Temp. compensation
+            bias_z_comp_accl = BIAS_temp_compensation_1st_order_adxl357(data, fog_parameter, Z_AXIS); // accl z axis Bias Temp. compensation
+            /*** calculate temperature compensated gyro data */
+            step_x_comp = data.fog.fogx.step.float_val * sf_x_comp_gyro - bias_x_comp_gyro;
+            step_y_comp = data.fog.fogy.step.float_val * sf_y_comp_gyro - bias_y_comp_gyro;
+            step_z_comp = data.fog.fogz.step.float_val * sf_z_comp_gyro - bias_z_comp_gyro;
+            /*** calculate temperature compensated accl data */
+            accl_x_comp = data.adxl357.ax.float_val * sf_x_comp_accl - bias_x_comp_accl;
+            accl_y_comp = data.adxl357.ay.float_val * sf_y_comp_accl - bias_y_comp_accl;
+            accl_z_comp = data.adxl357.az.float_val * sf_z_comp_accl - bias_z_comp_accl;
+            /*** calculate mis-alignment calibrated gyro data */
+            gyro_misalign_calibrated = misalignment_calibration(step_x_comp, step_y_comp, step_z_comp, fog_parameter, MIS_CALI_GYRO);
+            /*** calculate mis-alignment calibrated accl data */
+            accl_misalign_calibrated = misalignment_calibration(accl_x_comp, accl_y_comp, accl_z_comp, fog_parameter, MIS_CALI_ACCL);
 
-            step_x.float_val = data.fog.fogx.step.float_val * sf_x_comp;
-            step_y.float_val = data.fog.fogy.step.float_val * sf_y_comp;
-            step_z.float_val = data.fog.fogz.step.float_val * sf_z_comp;
 
-            ax.float_val = data.adxl357.ax.float_val*SENS_ADXL357_20G;
-            ay.float_val = data.adxl357.ay.float_val*SENS_ADXL357_20G;
-            az.float_val = data.adxl357.az.float_val*SENS_ADXL357_20G;
-            acc_temp.float_val = 233.2873 - 0.1105*data.adxl357.temp.float_val;
+
+            // ax.float_val = data.adxl357.ax.float_val*SENS_ADXL357_20G;
+            // ay.float_val = data.adxl357.ay.float_val*SENS_ADXL357_20G;
+            // az.float_val = data.adxl357.az.float_val*SENS_ADXL357_20G;
+            // acc_temp.float_val = 233.2873 - 0.1105*data.adxl357.temp.float_val;
             
             alt_u8* imu_data = (alt_u8*)malloc(48); // KVH_HEADER:4 + fog:12 + accl:12 + fog_temp:12 + accl_temp:4 + time:4 
 			alt_u8 CRC32[4];
 
             memcpy(imu_data, KVH_HEADER, 4);
-            memcpy(imu_data+4, step_x.bin_val, 4); 
-            memcpy(imu_data+8, step_y.bin_val, 4); 
-            memcpy(imu_data+12, step_z.bin_val, 4); 
-            memcpy(imu_data+16, ax.bin_val, 4); 
-            memcpy(imu_data+20, ay.bin_val, 4); 
-            memcpy(imu_data+24, az.bin_val, 4); 
-            memcpy(imu_data+28, temp_x.bin_val, 4); 
-            memcpy(imu_data+32, temp_y.bin_val, 4); 
-            memcpy(imu_data+36, temp_z.bin_val, 4); 
-            memcpy(imu_data+40, acc_temp.bin_val, 4); 
-            memcpy(imu_data+44, time.bin_val, 4);            
+            // memcpy(imu_data+4, step_x.bin_val, 4); 
+            // memcpy(imu_data+8, step_y.bin_val, 4); 
+            // memcpy(imu_data+12, step_z.bin_val, 4); 
+            memcpy(imu_data+4, gyro_misalign_calibrated.x.bin_val, 4); 
+            memcpy(imu_data+8, gyro_misalign_calibrated.y.bin_val, 4); 
+            memcpy(imu_data+12, gyro_misalign_calibrated.z.bin_val, 4); 
+            // memcpy(imu_data+16, ax.bin_val, 4); 
+            // memcpy(imu_data+20, ay.bin_val, 4); 
+            // memcpy(imu_data+24, az.bin_val, 4); 
+            memcpy(imu_data+16, accl_misalign_calibrated.x.bin_val, 4); 
+            memcpy(imu_data+20, accl_misalign_calibrated.y.bin_val, 4); 
+            memcpy(imu_data+24, accl_misalign_calibrated.z.bin_val, 4); 
+            // memcpy(imu_data+28, temp_x.bin_val, 4); 
+            // memcpy(imu_data+32, temp_y.bin_val, 4); 
+            // memcpy(imu_data+36, temp_z.bin_val, 4); 
+            memcpy(imu_data+28, data.temp.tempx.bin_val, 4); 
+            memcpy(imu_data+28, data.temp.tempy.bin_val, 4); 
+            memcpy(imu_data+28, data.temp.tempz.bin_val, 4); 
+            // memcpy(imu_data+40, acc_temp.bin_val, 4); 
+            memcpy(imu_data+40, data.adxl357.temp.bin_val, 4); 
+            // memcpy(imu_data+44, time.bin_val, 4);
+            memcpy(imu_data+44, data.time.time.bin_val, 4);              
             crc_32(imu_data, 48, CRC32);
             free(imu_data);
 
             SerialWrite((alt_u8*)KVH_HEADER, 4); 
-            SerialWrite(step_x.bin_val, 4); 
-            SerialWrite(step_y.bin_val, 4); 
-            SerialWrite(step_z.bin_val, 4); 
-            SerialWrite(ax.bin_val, 4); 
-            SerialWrite(ay.bin_val, 4); 
-            SerialWrite(az.bin_val, 4); 
-            SerialWrite(temp_x.bin_val, 4);
-            SerialWrite(temp_y.bin_val, 4);
-            SerialWrite(temp_z.bin_val, 4); 
-            SerialWrite(acc_temp.bin_val, 4);
-            SerialWrite(time.bin_val, 4);
+            SerialWrite(gyro_misalign_calibrated.x.bin_val, 4); 
+            SerialWrite(gyro_misalign_calibrated.y.bin_val, 4); 
+            SerialWrite(gyro_misalign_calibrated.z.bin_val, 4); 
+            SerialWrite(accl_misalign_calibrated.x.bin_val, 4); 
+            SerialWrite(accl_misalign_calibrated.y.bin_val, 4); 
+            SerialWrite(accl_misalign_calibrated.z.bin_val, 4); 
+            SerialWrite(data.temp.tempx.bin_val, 4);
+            SerialWrite(data.temp.tempy.bin_val, 4);
+            SerialWrite(data.temp.tempz.bin_val, 4); 
+            SerialWrite(data.adxl357.temp.bin_val, 4);
+            SerialWrite(data.time.time.bin_val, 4);
             SerialWrite(CRC32, 4); 
 
             // INFO_PRINT("%f, %f, %f. %f\n", ax.float_val, ay.float_val, az.float_val, acc_temp.float_val);
             // INFO_PRINT("%f, %f, %f\n", temp_x.float_val, temp_y.float_val, temp_z.float_val);
-        }
     }
 }

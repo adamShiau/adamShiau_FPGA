@@ -134,6 +134,7 @@ void PARAMETER_Write_s(alt_u8 base, alt_u8 number , alt_32 data, fog_parameter_t
 		else DEBUG_PRINT("data type error!\n");
 		// PARAMETER_Write_f(base, number, data);
 
+		// update new value to container
 		if(base == MEM_BASE_X) fog_params->paramX[number].data.int_val = data;
 		else if(base == MEM_BASE_Y ) fog_params->paramY[number].data.int_val = data;
 		else if(base == MEM_BASE_Z ) fog_params->paramZ[number].data.int_val = data;
