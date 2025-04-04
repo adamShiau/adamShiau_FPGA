@@ -617,8 +617,8 @@ void update_fog_parameters_to_HW_REG(alt_u8 base, fog_parameter_t* fog_params)
 			INFO_PRINT("container_idx: %d, %d, %d\n",container_idx, rt_val, valid[container_idx]);
 		}
 		INFO_PRINT("is_valid = %d\n", is_valid);
-		DEBUG_PRINT("DAC GAIN: %d\n", fog_params->paramZ[13].data.int_val);
-		Set_Dac_Gain(fog_params->paramZ[13].data.int_val);
+		DEBUG_PRINT("DAC GAIN: %d\n", fog_params->paramZ[11].data.int_val);
+		Set_Dac_Gain(fog_params->paramZ[11].data.int_val);
 		INFO_PRINT("Done.\n ");
 	}
 	else if(base == MEM_BASE_X) 
@@ -634,8 +634,10 @@ void update_fog_parameters_to_HW_REG(alt_u8 base, fog_parameter_t* fog_params)
 			is_valid &=  valid[container_idx];
 			DEBUG_PRINT("container_idx: %d, %d, %d\n",container_idx, rt_val, valid[container_idx]);
 		}
-		DEBUG_PRINT("is_valid = %d\n", is_valid);
-		DEBUG_PRINT("Done.\n ");
+		INFO_PRINT("is_valid = %d\n", is_valid);
+		DEBUG_PRINT("DAC GAIN: %d\n", fog_params->paramX[11].data.int_val);
+		Set_Dac_Gain(fog_params->paramX[11].data.int_val);
+		INFO_PRINT("Done.\n ");
 	}
 	else if(base == MEM_BASE_Y)
 	{
@@ -650,8 +652,10 @@ void update_fog_parameters_to_HW_REG(alt_u8 base, fog_parameter_t* fog_params)
 			is_valid &=  valid[container_idx];
 			DEBUG_PRINT("container_idx: %d, %d, %d\n",container_idx, rt_val, valid[container_idx]);
 		}
-		DEBUG_PRINT("is_valid = %d\n", is_valid);
-		DEBUG_PRINT("Done.\n ");
+		INFO_PRINT("is_valid = %d\n", is_valid);
+		DEBUG_PRINT("DAC GAIN: %d\n", fog_params->paramY[11].data.int_val);
+		Set_Dac_Gain(fog_params->paramY[11].data.int_val);
+		INFO_PRINT("Done.\n ");
 	}
 }
 
