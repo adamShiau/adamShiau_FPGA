@@ -159,7 +159,8 @@ int main(void)
 		cmd_mux(&my_cmd);
 		fog_parameter(&my_cmd, &fog_params);
 		output_mode_setting(&my_cmd, &output_fn, &auto_rst);
-		output_fn(&my_cmd, sensor_data, &trigger_sig, fog_params);
+		output_fn(&my_cmd, sensor_data, fog_params);
+		// output_fn(&my_cmd, sensor_data, &trigger_sig, fog_params);
 	}
 
   return 0;

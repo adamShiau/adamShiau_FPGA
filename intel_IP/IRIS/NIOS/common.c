@@ -134,6 +134,7 @@ void get_uart_cmd(alt_u8* data, cmd_ctrl_t* rx)
 			rx->value = data[2]<<24 | data[3]<<16 | data[4]<<8 | data[5];
 			rx->ch = data[6];
 			DEBUG_PRINT("\nuart_cmd, uart_value, ch, condition: 0x%x, %ld, %d, %u\n", rx->cmd , rx->value, rx->ch, rx->condition);
+			// uart_printf("\nuart_cmd, uart_value, ch, condition: 0x%x, %ld, %d, %u\n", rx->cmd , rx->value, rx->ch, rx->condition);
 		}
 		else if(rx->condition == RX_CONDITION_CDDC_5758) {
 			for (int i = 0; i < 12; i++) {
@@ -987,6 +988,7 @@ calibrated_data_t misalignment_calibration(float din_x, float din_y, float din_z
         c31 = para.misalignment[21].data.float_val;
         c32 = para.misalignment[22].data.float_val;
         c33 = para.misalignment[23].data.float_val;
+		// uart_printf("GYRO MODE\n");
     } else if (ch == MIS_CALI_ACCL) {
         cx = para.misalignment[0].data.float_val;
         cy = para.misalignment[1].data.float_val;
@@ -1013,6 +1015,8 @@ calibrated_data_t misalignment_calibration(float din_x, float din_y, float din_z
     result.x.float_val = c11 * din_x + c12 * din_y + c13 * din_z + cx;
     result.y.float_val = c21 * din_x + c22 * din_y + c23 * din_z + cy;
     result.z.float_val = c31 * din_x + c32 * din_y + c33 * din_z + cz;
+	uart_printf("%f, %f, %f, %f\n", c31, c32, c33, cz);
+	uart_printf("%f, %f, %f, %f\n", din_x, din_y, din_z, result.z.float_val);
 
     return result;
 }

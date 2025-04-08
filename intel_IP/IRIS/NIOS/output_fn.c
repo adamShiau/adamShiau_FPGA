@@ -137,7 +137,7 @@ void acq_fog (cmd_ctrl_t* rx, my_sensor_t data, fog_parameter_t fog_parameter)
                 temp.float_val = data.temp.tempy.float_val;
                 sf_comp_gyro = SF_temp_compensation_1st_order_fog(data, fog_parameter, Y_AXIS);
                 bias_comp_gyro = BIAS_temp_compensation_1st_order_fog_3T(data, fog_parameter, Y_AXIS);
-                step_comp = data.fog.fogx.step.float_val * sf_comp_gyro - bias_comp_gyro;
+                step_comp = data.fog.fogy.step.float_val * sf_comp_gyro - bias_comp_gyro;
                 /*** calculate mis-alignment calibrated gyro data */
                 step_cali.float_val = misalignment_calibration(0, step_comp, 0, fog_parameter, MIS_CALI_GYRO).y.float_val;
             break;
@@ -146,9 +146,11 @@ void acq_fog (cmd_ctrl_t* rx, my_sensor_t data, fog_parameter_t fog_parameter)
                 temp.float_val = data.temp.tempz.float_val;    
                 sf_comp_gyro = SF_temp_compensation_1st_order_fog(data, fog_parameter, Z_AXIS);
                 bias_comp_gyro = BIAS_temp_compensation_1st_order_fog_3T(data, fog_parameter, Z_AXIS);
-                step_comp = data.fog.fogx.step.float_val * sf_comp_gyro - bias_comp_gyro;
+                step_comp = data.fog.fogz.step.float_val * sf_comp_gyro - bias_comp_gyro;
                 /*** calculate mis-alignment calibrated gyro data */
                 step_cali.float_val = misalignment_calibration(0, 0, step_comp, fog_parameter, MIS_CALI_GYRO).z.float_val;
+                // uart_printf("%f\n", step_cali.float_val);
+                // step_cali.float_val = step_comp;
             break;
         }
         
@@ -163,15 +165,12 @@ void acq_fog (cmd_ctrl_t* rx, my_sensor_t data, fog_parameter_t fog_parameter)
             crc_32(imu_data, 20, CRC32);
             free(imu_data);
 
-            SerialWrite((alt_u8*)KVH_HEADER, 4); 
-            SerialWrite(data.time.time.bin_val, 4); 
-            SerialWrite(err.bin_val, 4); 
-            SerialWrite(step_cali.bin_val, 4); 
-            SerialWrite(temp.bin_val, 4); 
-            SerialWrite(CRC32, 4); 
-
-            // INFO_PRINT("%f, %f, %f. %f\n", ax.float_val, ay.float_val, az.float_val, acc_temp.float_val);
-            // INFO_PRINT("%f, %f, %f\n", temp1.float_val, temp2.float_val, temp3.float_val);
+            // SerialWrite((alt_u8*)KVH_HEADER, 4); 
+            // SerialWrite(data.time.time.bin_val, 4); 
+            // SerialWrite(err.bin_val, 4); 
+            // SerialWrite(step_cali.bin_val, 4); 
+            // SerialWrite(temp.bin_val, 4); 
+            // SerialWrite(CRC32, 4); 
     }
 }
 
@@ -207,19 +206,19 @@ void acq_imu (cmd_ctrl_t* rx, my_sensor_t data, fog_parameter_t fog_parameter)
         }
     }
     if(rx->run == 1) {            
-            /*** gyro scale factor temperature  compesation*/
+            /*** gyro scale factor temperature  compensation*/
             sf_x_comp_gyro = SF_temp_compensation_1st_order_fog(data, fog_parameter, X_AXIS); // gyro x axis SF Temp. compensation
             sf_y_comp_gyro = SF_temp_compensation_1st_order_fog(data, fog_parameter, Y_AXIS); // gyro y axis SF Temp. compensation
             sf_z_comp_gyro = SF_temp_compensation_1st_order_fog(data, fog_parameter, Z_AXIS); // gyro z axis SF Temp. compensation
-            /*** xlm scale factor temperature  compesation*/
+            /*** accelerometer scale factor temperature compensation*/
             sf_x_comp_accl = SF_temp_compensation_1st_order_adxl357(data, fog_parameter, X_AXIS); // accl x axis SF Temp. compensation;
             sf_y_comp_accl = SF_temp_compensation_1st_order_adxl357(data, fog_parameter, Y_AXIS); // accl y axis SF Temp. compensation;
             sf_z_comp_accl = SF_temp_compensation_1st_order_adxl357(data, fog_parameter, Z_AXIS); // accl z axis SF Temp. compensation;
-            /*** gyro bias temperature  compesation*/
+            /*** gyro bias temperature  compensation*/
             bias_x_comp_gyro = BIAS_temp_compensation_1st_order_fog_3T(data, fog_parameter, X_AXIS); // gyro x axis Bias Temp. compensation
             bias_y_comp_gyro = BIAS_temp_compensation_1st_order_fog_3T(data, fog_parameter, Y_AXIS); // gyro y axis Bias Temp. compensation
             bias_z_comp_gyro = BIAS_temp_compensation_1st_order_fog_3T(data, fog_parameter, Z_AXIS); // gyro z axis Bias Temp. compensation
-            /*** xlm bias temperature  compesation*/
+            /*** xlm bias temperature  compensation*/
             bias_x_comp_accl = BIAS_temp_compensation_1st_order_adxl357(data, fog_parameter, X_AXIS); // accl x axis Bias Temp. compensation
             bias_y_comp_accl = BIAS_temp_compensation_1st_order_adxl357(data, fog_parameter, Y_AXIS); // accl y axis Bias Temp. compensation
             bias_z_comp_accl = BIAS_temp_compensation_1st_order_adxl357(data, fog_parameter, Z_AXIS); // accl z axis Bias Temp. compensation

@@ -116,6 +116,7 @@ int main(void)
 		fog_parameter(&my_cmd, &fog_params);
 		output_mode_setting(&my_cmd, &output_fn, &auto_rst);
 		if (trigger_sig == 1) {
+			update_sensor_data(&sensor_data);
 			output_fn(&my_cmd, sensor_data, fog_params);
 			trigger_sig = 0;
 		}
@@ -137,6 +138,7 @@ void update_sensor_data(my_sensor_t *data) {
     /***---z axis--- */
     data->fog.fogz.err.int_val = IORD(VARSET_BASE, i_var_err_3);
     data->fog.fogz.step.float_val = moving_average_update(&mz_z, (float)IORD(VARSET_BASE, i_var_step_3));
+	// data->fog.fogz.step.float_val = (float)IORD(VARSET_BASE, i_var_step_3);
     /***ads122c04 temperature */
     data->temp.tempx.float_val = (float)IORD(VARSET_BASE, var_i2c_ads122c04_temp_rdata_1) * ADC_CONV_TEMP - 273.15;
     data->temp.tempy.float_val = (float)IORD(VARSET_BASE, var_i2c_ads122c04_temp_rdata_2) * ADC_CONV_TEMP - 273.15;
@@ -170,7 +172,6 @@ void IRQ_TRIGGER_ISR(void *context)
 {
 	(void) context;
 	IOWR_ALTERA_AVALON_PIO_EDGE_CAP(TRIGGER_IN_BASE, 1); //clear edge capture register
-	update_sensor_data(&sensor_data);
 	trigger_sig = 1;
 }
 
