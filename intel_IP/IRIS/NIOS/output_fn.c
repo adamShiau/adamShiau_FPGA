@@ -149,8 +149,7 @@ void acq_fog (cmd_ctrl_t* rx, my_sensor_t data, fog_parameter_t fog_parameter)
                 step_comp = data.fog.fogz.step.float_val * sf_comp_gyro - bias_comp_gyro;
                 /*** calculate mis-alignment calibrated gyro data */
                 step_cali.float_val = misalignment_calibration(0, 0, step_comp, fog_parameter, MIS_CALI_GYRO).z.float_val;
-                // uart_printf("%f\n", step_cali.float_val);
-                // step_cali.float_val = step_comp;
+                // UART_PRINT("%f\n", step_cali.float_val);
             break;
         }
         
@@ -165,12 +164,12 @@ void acq_fog (cmd_ctrl_t* rx, my_sensor_t data, fog_parameter_t fog_parameter)
             crc_32(imu_data, 20, CRC32);
             free(imu_data);
 
-            // SerialWrite((alt_u8*)KVH_HEADER, 4); 
-            // SerialWrite(data.time.time.bin_val, 4); 
-            // SerialWrite(err.bin_val, 4); 
-            // SerialWrite(step_cali.bin_val, 4); 
-            // SerialWrite(temp.bin_val, 4); 
-            // SerialWrite(CRC32, 4); 
+            SerialWrite((alt_u8*)KVH_HEADER, 4); 
+            SerialWrite(data.time.time.bin_val, 4); 
+            SerialWrite(err.bin_val, 4); 
+            SerialWrite(step_cali.bin_val, 4); 
+            SerialWrite(temp.bin_val, 4); 
+            SerialWrite(CRC32, 4); 
     }
 }
 

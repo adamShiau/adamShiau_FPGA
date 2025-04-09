@@ -116,6 +116,8 @@ int main(void)
 		fog_parameter(&my_cmd, &fog_params);
 		output_mode_setting(&my_cmd, &output_fn, &auto_rst);
 		if (trigger_sig == 1) {
+			// uart_printf("0: %f, %f, %f, %f\n", fog_params.misalignment[21].data.float_val, fog_params.misalignment[22].data.float_val, 
+			// 	fog_params.misalignment[23].data.float_val, fog_params.misalignment[14].data.float_val);
 			update_sensor_data(&sensor_data);
 			output_fn(&my_cmd, sensor_data, fog_params);
 			trigger_sig = 0;

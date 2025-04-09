@@ -120,15 +120,15 @@ void PARAMETER_Write_s(alt_u8 base, alt_u8 number , alt_32 data, fog_parameter_t
 		if(type == TYPE_INT) {
 			DEBUG_PRINT("Data changed: %d -> %d\n", check, data);
 			DEBUG_PRINT("update to eeprom!");
-			// uart_printf("Data changed: %d -> %d\n", check, data);
-			// uart_printf("update to eeprom!");
+			UART_PRINT("Data changed: %d -> %d\n", check, data);
+			UART_PRINT("update to eeprom!");
 			PARAMETER_Write_f(base, number, data);
 		}
 		else if(type == TYPE_FLOAT) {
 			DEBUG_PRINT("Data changed: %f -> %f\n", data_f, my_data.float_val);
 			DEBUG_PRINT("update to eeprom!");
-			// uart_printf("Data changed: %f -> %f\n", data_f, my_data.float_val);
-			// uart_printf("update to eeprom!");
+			UART_PRINT("Data changed: %f -> %f\n", data_f, my_data.float_val);
+			UART_PRINT("update to eeprom!");
 			PARAMETER_Write_f(base, number, data);
 		}
 		else DEBUG_PRINT("data type error!\n");
@@ -167,11 +167,13 @@ void LOAD_FOG_SN(fog_parameter_t* fog_params)
 
 void LOAD_FOG_MISALIGNMENT(fog_parameter_t* fog_params)
 {
+	// int dlt = 10000;
+	// while(dlt--) {};
 	DEBUG_PRINT("Loading EEPROM Mis-alignment Parameters...\n");
 	for (int i = 0; i < MIS_LEN; i++) {
 		PARAMETER_Read(MEM_BASE_MIS, i , fog_params->misalignment[i].data.bin_val);
-
 		fog_params->misalignment[i].type = TYPE_FLOAT;
+		UART_PRINT("idx %d, %d, %f\n", i, fog_params->misalignment[i].data.int_val, fog_params->misalignment[i].data.float_val);
     }
 	DEBUG_PRINT("Loading EEPROM Mis-alignment Parameters done!\n");
 }

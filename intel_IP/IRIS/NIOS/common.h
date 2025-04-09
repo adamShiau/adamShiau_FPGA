@@ -10,6 +10,7 @@
 
 // #define DEBUG
 // #define INFO
+// #define UART_DEBUG
 
 #ifdef DEBUG
     #define DEBUG_PRINT(...) printf(__VA_ARGS__)
@@ -21,6 +22,12 @@
     #define INFO_PRINT(...) printf(__VA_ARGS__)
 #else
     #define INFO_PRINT(...)
+#endif
+
+#ifdef UART_DEBUG
+    #define UART_PRINT(...) uart_printf(__VA_ARGS__)
+#else
+    #define UART_PRINT(...)
 #endif
 
 #define VARSET_BASE VARSET_1_BASE
