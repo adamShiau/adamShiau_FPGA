@@ -121,6 +121,7 @@ int main(void)
 			update_sensor_data(&sensor_data);
 			output_fn(&my_cmd, sensor_data, fog_params);
 			trigger_sig = 0;
+			// UART_PRINT("step_raw_z: %f\n", sensor_data.fog.fogz.step.float_val);
 		}
 	}
 

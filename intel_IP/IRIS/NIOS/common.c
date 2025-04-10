@@ -1014,7 +1014,7 @@ calibrated_data_t misalignment_calibration(float din_x, float din_y, float din_z
     result.x.float_val = c11 * din_x + c12 * din_y + c13 * din_z + cx;
     result.y.float_val = c21 * din_x + c22 * din_y + c23 * din_z + cy;
     result.z.float_val = c31 * din_x + c32 * din_y + c33 * din_z + cz;
-
+	// UART_PRINT("c: %f\n", step_cali.float_val);
     return result;
 }
 
