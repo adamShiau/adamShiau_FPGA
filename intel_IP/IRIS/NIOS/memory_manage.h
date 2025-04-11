@@ -73,6 +73,11 @@ typedef struct {    // for parameter container, container size defined by PAR_LE
 #define INIT_BIAS_2_OFFSET      1 
 #define INIT_BIAS_3_SLOPE       0   
 #define INIT_BIAS_3_OFFSET      1   
+#define INIT_SF_SLOPE_XLM       0 
+#define INIT_SF_OFFSET_XLM      1
+#define INIT_BIAS_SLOPE_XLM     0
+#define INIT_BIAS_OFFSET_XLM    1
+
 
 extern const mem_unit_t fog_parameter_init[PAR_LEN];
 
@@ -158,7 +163,11 @@ enum {
 
 };
 
-void initialize_fog_params(fog_parameter_t *fog_params);
+void initialize_fog_params_all(fog_parameter_t *fog_params);
+
+void initialize_fog_params_type(fog_parameter_t *fog_params);
+
+
 
 // extern fog_parameter_t fog_params;
 

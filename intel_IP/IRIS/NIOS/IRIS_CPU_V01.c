@@ -95,7 +95,7 @@ int main(void)
 	init_ADXL357();
 	init_ADS122C04_TEMP();
 
-	// initialize_fog_params(&fog_params);
+	initialize_fog_params_type(&fog_params);
 	// EEPROM_Write_initial_parameter();
 
 	LOAD_FOG_PARAMETER(&fog_params);

@@ -785,36 +785,39 @@ float SF_temp_compensation_1st_order_adxl357(my_sensor_t sensor, fog_parameter_t
         case X_AXIS: // X-axis
             // Check if the parameter type is correct
             if (para.paramX[31].type != TYPE_FLOAT || para.paramX[32].type != TYPE_FLOAT) {
-                DEBUG_PRINT("Error: Incorrect parameter type for X-axis compensation\n");
+                UART_PRINT("Error: Incorrect parameter type for X-axis compensation\n");
                 return 0.0f; // Return a default value or handle the error appropriately
             }
             temp = sensor.adxl357.temp.float_val;
             slope = para.paramX[31].data.float_val;
             offset = para.paramX[32].data.float_val;
+			UART_PRINT("SF_COMP_X AXIS: %f, %f, %f\n", temp, slope, offset);
             break;
         case Y_AXIS: // Y-axis
             // Check if the parameter type is correct
             if (para.paramY[31].type != TYPE_FLOAT || para.paramY[32].type != TYPE_FLOAT) {
-                DEBUG_PRINT("Error: Incorrect parameter type for Y-axis compensation\n");
+                UART_PRINT("Error: Incorrect parameter type for Y-axis compensation\n");
                 return 0.0f; // Return a default value or handle the error appropriately
             }
             temp = sensor.adxl357.temp.float_val;
             slope = para.paramY[31].data.float_val;
             offset = para.paramY[32].data.float_val;
+			UART_PRINT("SF_COMP_Y AXIS: %f, %f, %f\n", temp, slope, offset);
             break;
         case Z_AXIS: // Z-axis
             // Check if the parameter type is correct
             if (para.paramZ[31].type != TYPE_FLOAT || para.paramZ[32].type != TYPE_FLOAT) {
-                DEBUG_PRINT("Error: Incorrect parameter type for Z-axis compensation\n");
+                UART_PRINT("Error: Incorrect parameter type for Z-axis compensation\n");
                 return 0.0f; // Return a default value or handle the error appropriately
             }
             temp = sensor.adxl357.temp.float_val;
             slope = para.paramZ[31].data.float_val;
             offset = para.paramZ[32].data.float_val;
+			UART_PRINT("SF_COMP_Z AXIS: %f, %f, %f\n", temp, slope, offset);
             break;
         default:
             // Invalid axis selection, return 0 or other default value
-            DEBUG_PRINT("Error: Invalid axis selection in SF_temp_compensation_1st_order\n");
+            UART_PRINT("Error: Invalid axis selection in SF_temp_compensation_1st_order\n");
             return 0.0f;
     }
 

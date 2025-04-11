@@ -31,10 +31,15 @@ const mem_unit_t fog_parameter_init[PAR_LEN] = {
     { .data.int_val = INIT_BIAS_2_SLOPE,   .type = TYPE_FLOAT }, //27
     { .data.int_val = INIT_BIAS_2_OFFSET,  .type = TYPE_FLOAT }, //28
     { .data.int_val = INIT_BIAS_3_SLOPE,   .type = TYPE_FLOAT }, //29
-    { .data.int_val = INIT_BIAS_3_OFFSET,  .type = TYPE_FLOAT }  //30
+    { .data.int_val = INIT_BIAS_3_OFFSET,  .type = TYPE_FLOAT }, //30
+    { .data.int_val = INIT_SF_SLOPE_XLM,   .type = TYPE_FLOAT }, //31
+    { .data.int_val = INIT_SF_OFFSET_XLM,  .type = TYPE_FLOAT }, //32
+    { .data.int_val = INIT_BIAS_SLOPE_XLM, .type = TYPE_FLOAT }, //33
+    { .data.int_val = INIT_BIAS_OFFSET_XLM, .type = TYPE_FLOAT } //34
 };
 
-void initialize_fog_params(fog_parameter_t *fog_params) {
+
+void initialize_fog_params_all(fog_parameter_t *fog_params) {
     // 設定序號
     strncpy(fog_params->sn, "NewParameter", sizeof(fog_params->sn) - 1);
     fog_params->sn[sizeof(fog_params->sn) - 1] = '\0'; // 確保結尾有空字符
@@ -45,6 +50,17 @@ void initialize_fog_params(fog_parameter_t *fog_params) {
         fog_params->paramY[i].data.int_val = fog_parameter_init[i].data.int_val;
         fog_params->paramZ[i].data.int_val = fog_parameter_init[i].data.int_val;
 
+        fog_params->paramX[i].type = fog_parameter_init[i].type;
+        fog_params->paramY[i].type = fog_parameter_init[i].type;
+        fog_params->paramZ[i].type = fog_parameter_init[i].type;
+    }
+}
+
+void initialize_fog_params_type(fog_parameter_t *fog_params) {
+
+    fog_params->sn[sizeof(fog_params->sn) - 1] = '\0'; // 確保結尾有空字符
+
+    for (int i = 0; i < PAR_LEN; i++) {
         fog_params->paramX[i].type = fog_parameter_init[i].type;
         fog_params->paramY[i].type = fog_parameter_init[i].type;
         fog_params->paramZ[i].type = fog_parameter_init[i].type;
