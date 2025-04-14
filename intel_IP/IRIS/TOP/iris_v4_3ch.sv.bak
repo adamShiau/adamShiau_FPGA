@@ -32,8 +32,8 @@ module IRIS_V4_3ch(
 	DAC_RST,
 	//////////// ADC //////////
 	ADC_1, //2CH_AIN1, J8
-	ADC_2, //2CH_AIN2, J9, Y axis
-	ADC_3, //1CH_AIN1, X axis
+	ADC_2, //2CH_AIN2, J9
+	ADC_3, //1CH_AIN1
 	//////////// ADDA SPI CFG //////////
 	MISO_CFG,
 	MOSI_CFG,
@@ -256,10 +256,8 @@ assign DAC_3 =  o_phaseRamp_3[15:0];
 assign DAC_1 =  o_phaseRamp_1[15:0];
 assign DAC_2 =  o_phaseRamp_2[15:0];
 
-// assign i_var_step_3 = 32'd3;
-// assign i_var_step_2 = 32'd2;
-// assign i_var_step_1 = 32'd1;
-
+// assign i_var_step_3 = o_step_3;
+// assign i_var_err_3 = o_err_DAC3;
 
 assign i_var_step_3 = o_step_3_MV;
 assign i_var_err_3 = o_err_DAC3_FIR; 
@@ -363,7 +361,7 @@ timer_inst
     .o_timer(i_var_timer)
 );
 
-my_fog_v1 #(	//x axis
+my_fog_v1 #(
     .COEFF_SET(N32FC2) // Default coefficient set N32FC5
 ) my_fog_ch3_inst (
     // ============================ Common Signals ============================
@@ -401,7 +399,7 @@ my_fog_v1 #(	//x axis
     .o_phaseRamp(o_phaseRamp_3)      // Phase ramp output (32-bit, signed)
 );
 
-my_fog_v1 #( // y axis
+my_fog_v1 #(
    .COEFF_SET(N32FC2) // Default coefficient set N32FC5
 ) my_fog_ch2_inst (
    // ============================ Common Signals ============================
@@ -668,12 +666,12 @@ CPU u0 (
 	.varset_1_i_var27  (),  
 	.varset_1_i_var28  (),  
 	.varset_1_i_var29  (),  
-	.varset_1_i_var30  (i_var_step_3),  // x axis
+	.varset_1_i_var30  (i_var_step_3),  
 	.varset_1_i_var31  (i_var_err_3),  
 	.varset_1_i_var32  (i_var_timer),  
-	.varset_1_i_var33  (i_var_step_2),  // y axis
+	.varset_1_i_var33  (i_var_step_2),  
 	.varset_1_i_var34  (i_var_err_2),  
-	.varset_1_i_var35  (i_var_step_1),  // z axis
+	.varset_1_i_var35  (i_var_step_1),  
 	.varset_1_i_var36  (i_var_err_1),  
 	.varset_1_i_var37  (),  
 	.varset_1_i_var38  (),  

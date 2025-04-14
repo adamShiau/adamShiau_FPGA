@@ -133,14 +133,17 @@ void update_sensor_data(my_sensor_t *data) {
     /*** fog */
     data->time.time.float_val = (float)IORD(VARSET_BASE, i_var_timer) * COE_TIMER;
     /***---x axis--- */
-    data->fog.fogx.err.int_val = IORD(VARSET_BASE, i_var_err_1);
-    data->fog.fogx.step.float_val = moving_average_update(&mz_x, (float)IORD(VARSET_BASE, i_var_step_1));
+    data->fog.fogx.err.int_val = IORD(VARSET_BASE, i_var_err_3);
+    data->fog.fogx.step.float_val = moving_average_update(&mz_x, (float)IORD(VARSET_BASE, i_var_step_3));
+	// data->fog.fogx.step.float_val = 1.0;
     /***---y axis--- */
     data->fog.fogy.err.int_val = IORD(VARSET_BASE, i_var_err_2);
     data->fog.fogy.step.float_val = moving_average_update(&mz_y, (float)IORD(VARSET_BASE, i_var_step_2));
+	// data->fog.fogy.step.float_val = 2.0;
     /***---z axis--- */
-    data->fog.fogz.err.int_val = IORD(VARSET_BASE, i_var_err_3);
-    data->fog.fogz.step.float_val = moving_average_update(&mz_z, (float)IORD(VARSET_BASE, i_var_step_3));
+    data->fog.fogz.err.int_val = IORD(VARSET_BASE, i_var_err_1);
+    data->fog.fogz.step.float_val = moving_average_update(&mz_z, (float)IORD(VARSET_BASE, i_var_step_1));
+	// data->fog.fogz.step.float_val = 3.0;
 	// data->fog.fogz.step.float_val = (float)IORD(VARSET_BASE, i_var_step_3);
     /***ads122c04 temperature */
     data->temp.tempx.float_val = (float)IORD(VARSET_BASE, var_i2c_ads122c04_temp_rdata_1) * ADC_CONV_TEMP - 273.15;
@@ -151,6 +154,7 @@ void update_sensor_data(my_sensor_t *data) {
     data->adxl357.ay.float_val = (float)IORD(VARSET_BASE, var_i2c_357_rdata_2) * SENS_ADXL357_20G;
     data->adxl357.az.float_val = (float)IORD(VARSET_BASE, var_i2c_357_rdata_3) * SENS_ADXL357_20G;
     data->adxl357.temp.float_val = 233.2873 - 0.1105 * (float)IORD(VARSET_BASE, var_i2c_357_rdata_4);
+	// UART_PRINT("step_x,y,z: %f, %f, %f \n", data->fog.fogx.step.float_val, data->fog.fogy.step.float_val, data->fog.fogz.step.float_val);
 }
 
 void update_IRIS_config_to_HW_REG()
