@@ -142,7 +142,7 @@ myfir_filter_gate #(
 );
 
 // ============================ Feedback Step Generator ============================
-feedback_step_gen_v4 fb_step_gen_inst(
+feedback_step_gen_v5 fb_step_gen_inst(
 	.i_clk(CLOCK_DAC),
 	.i_rst_n(locked),
 	.i_const_step(var_const_step),
@@ -167,21 +167,21 @@ feedback_step_gen_v4 fb_step_gen_inst(
 // fs = frequency of trig/DIV_FACTOR
 // fc ~ 0.5* fs / N  = 0.5 * (300/6) / 512 KHz = 48.8 Hz  
 
-// myMV_filter_gate_v1 #(
-// 	.WINDOW(512),
-// 	.DIV_FACTOR(6) // trigger devider
-// )
-//  u_myMV_filter
-// (
-// 	.clk(CLOCK_DAC), 
-//     .n_rst(locked),
-// 	.trig(o_step_sync),
-//     .din(o_step),
-//     .dout(o_step_MV)
-// );
+myMV_filter_gate_v1 #(
+	.WINDOW(512),
+	.DIV_FACTOR(6) // trigger devider
+)
+ u_myMV_filter
+(
+	.clk(CLOCK_DAC), 
+    .n_rst(locked),
+	.trig(o_step_sync),
+    .din(o_step),
+    .dout(o_step_MV)
+);
 
 // ============================ Phase Ramp Generator ============================
-phase_ramp_gen phase_ramp_gen_inst(
+phase_ramp_gen_v2 phase_ramp_gen_inst(
 	.i_clk(CLOCK_DAC),
 	.i_rst_n(locked),
 	.i_fb_ON(var_fb_ON),
