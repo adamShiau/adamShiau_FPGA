@@ -26,13 +26,13 @@ module IRIS_V4_3ch(
 	SER_RX,
 	
 	//////////// DAC //////////
-	DAC_1,
-	DAC_2,
-	DAC_3,
+	DAC_1, // Y axis
+	DAC_2,	// Z axis
+	DAC_3, // X axis
 	DAC_RST,
 	//////////// ADC //////////
-	ADC_1, //2CH_AIN1, J8
-	ADC_2, //2CH_AIN2, J9, Y axis
+	ADC_1, //2CH_AIN1, J8, Y axis
+	ADC_2, //2CH_AIN2, J9, Z axis
 	ADC_3, //1CH_AIN1, X axis
 	//////////// ADDA SPI CFG //////////
 	MISO_CFG,
@@ -199,31 +199,14 @@ assign CS_ADC_2 = ADDA_SS[3]; //ADC_1CH
 
 
 /**********MOD gen*********/
-// NUM1
-//wire [31:0] o_var_freq_1, o_var_amp_H_1, o_var_amp_L_1, o_mod_out_1;
-//// NUM2
-//wire [31:0] o_var_freq_2, o_var_amp_H_2, o_var_amp_L_2, o_mod_out_2;
-//wire o_status_2, o_stepTrig_2;
-//// NUM3
-//wire [31:0] o_var_freq_3, o_var_amp_H_3, o_var_amp_L_3, o_mod_out_3;
-//wire o_status_3, o_stepTrig_3;
-
-//reg	[31:0] CLK_COUNT = 0; 	//clock
-
-//reg[15:0] reg_dac1_sync, reg_dac2_sync, reg_dac3_sync;
-//reg[15:0] reg_dac1, reg_dac2, reg_dac3;
 reg reg_dacrst;
-
-//reg[13:0] reg_adc1, reg_adc1_sync;
-//reg[13:0] reg_adc2, reg_adc2_sync;
-//reg signed [13:0] reg_adc3, reg_adc3_sync, reg_adc3_mon;
 
 /////////// MIOC Modulation parameter //////////
 wire [31:0] var_freq_cnt_3, var_amp_H_3, var_amp_L_3;
 wire [31:0] var_freq_cnt_2, var_amp_H_2, var_amp_L_2;
 wire [31:0] var_freq_cnt_1, var_amp_H_1, var_amp_L_1;
-wire [31:0] mod_out_DAC3;
-wire status_DAC3, stepTrig_DAC3;
+// wire [31:0] mod_out_DAC3;
+// wire status_DAC3, stepTrig_DAC3;
 
 /////////// MIOC Err Gen parameter //////////
 wire [31:0] var_polarity_3, var_wait_cnt_3, var_avg_sel_3, var_err_offset_3;
@@ -232,7 +215,7 @@ wire [31:0] var_polarity_1, var_wait_cnt_1, var_avg_sel_1, var_err_offset_1;
 logic signed [31:0] o_err_DAC3, o_err_DAC3_FIR, o_err_DAC3_MV;
 logic signed [31:0] o_err_DAC2, o_err_DAC2_FIR, o_err_DAC2_MV;
 logic signed [31:0] o_err_DAC1, o_err_DAC1_FIR, o_err_DAC1_MV;
-wire o_step_sync_3, o_step_sync_dly_3, o_rate_sync_3, o_ramp_sync_3;
+// wire o_step_sync_3, o_step_sync_dly_3, o_rate_sync_3, o_ramp_sync_3;
 
 /////////// FB Step Gen parameter //////////
 logic signed [31:0] o_step_3, o_step_3_MV, i_var_step_3, i_var_err_3;
@@ -250,46 +233,24 @@ wire [31:0] var_gainSel_ramp_1, o_phaseRamp_1;
 /////////// Timer Gen parameter //////////
 wire [31:0] i_var_timer, var_timer_rst;
 
-// assign DAC_1 =  o_phaseRamp_1[15:0];
-// assign DAC_2 =  o_phaseRamp_2[15:0];
-assign DAC_3 =  o_phaseRamp_3[15:0];
-assign DAC_1 =  o_phaseRamp_1[15:0];
-assign DAC_2 =  o_phaseRamp_2[15:0];
+assign DAC_3 =  o_phaseRamp_1[15:0]; // X axis
+assign DAC_1 =  o_phaseRamp_2[15:0]; // Y axis
+assign DAC_2 =  o_phaseRamp_3[15:0]; // Z axis
 
 // assign i_var_step_3 = 32'd3;
 // assign i_var_step_2 = 32'd2;
 // assign i_var_step_1 = 32'd1;
 
 
-assign i_var_step_3 = o_step_3_MV;
+// assign i_var_step_3 = o_step_3_MV;
+assign i_var_step_3 = o_step_3;
 assign i_var_err_3 = o_err_DAC3_FIR; 
-assign i_var_step_2 = o_step_2_MV;
+// assign i_var_step_2 = o_step_2_MV;
+assign i_var_step_2 = o_step_2;
 assign i_var_err_2 = o_err_DAC2_FIR; 
-assign i_var_step_1 = o_step_1_MV;
+// assign i_var_step_1 = o_step_1_MV;
+assign i_var_step_1 = o_step_1;
 assign i_var_err_1 = o_err_DAC1_FIR; 
-
-// assign i_var_step_3 = sync2_step_3_MV;
-// assign i_var_err_3 = sync2_err_DAC3_FIR;
-
-// logic signed [31:0] sync1_step_3_MV, sync2_step_3_MV;
-// logic signed [31:0] sync1_err_DAC3_FIR, sync2_err_DAC3_FIR;
-
-// always @(posedge CPU_CLK or negedge locked_0) begin
-// 	if (!locked_0) begin
-// 		sync1_step_3_MV <= 32'd0;
-// 		sync2_step_3_MV <= 32'd0;
-// 		sync1_err_DAC3_FIR <= 32'd0;
-// 		sync2_err_DAC3_FIR <= 32'd0;
-// 	end
-// 	else begin
-// 		sync1_step_3_MV <= o_step_3_MV;
-// 		sync2_step_3_MV <= sync1_step_3_MV;
-
-// 		sync1_err_DAC3_FIR <= o_err_DAC3_FIR;
-// 		sync2_err_DAC3_FIR <= sync1_err_DAC3_FIR;
-// 	end
-// end
-
 
 assign DAC_RST = reg_dacrst;
 
@@ -363,16 +324,16 @@ timer_inst
     .o_timer(i_var_timer)
 );
 
-my_fog_v1 #(	//x axis
+my_fog_v1 #(	//z axis
     .COEFF_SET(N32FC2) // Default coefficient set N32FC5
 ) my_fog_ch3_inst (
     // ============================ Common Signals ============================
-    .CLOCK_ADC(CLOCK_ADC_1), // ADC clock (1-bit)
-    .CLOCK_DAC(CLOCK_DAC_1), // DAC clock (1-bit)
-    .locked(locked_1),    // Global reset signal, active low (1-bit)
+    .CLOCK_ADC(CLOCK_ADC_2), // ADC clock (1-bit)
+    .CLOCK_DAC(CLOCK_DAC_2), // DAC clock (1-bit)
+    .locked(locked_2),    // Global reset signal, active low (1-bit)
 
     // ============================ ADC Processing ============================
-    .ADC(ADC_3), // Raw ADC input signal (14-bit)
+    .ADC(ADC_2), // Raw ADC input signal (14-bit)
 
     // ============================ Modulation Generator ============================
     .var_freq_cnt(var_freq_cnt_3), // Frequency control input (32-bit)
@@ -410,7 +371,7 @@ my_fog_v1 #( // y axis
    .locked(locked_2),    // Global reset signal, active low (1-bit)
 
    // ============================ ADC Processing ============================
-   .ADC(ADC_2), // Raw ADC input signal (14-bit)
+   .ADC(ADC_1), // Raw ADC input signal (14-bit)
 
    // ============================ Modulation Generator ============================
    .var_freq_cnt(var_freq_cnt_2), // Frequency control input (32-bit)
@@ -439,16 +400,16 @@ my_fog_v1 #( // y axis
    .o_phaseRamp(o_phaseRamp_2)      // Phase ramp output (32-bit, signed)
 );
 
-my_fog_v1 #(
+my_fog_v1 #( // x axis
    .COEFF_SET(N32FC2) // Default coefficient set N32FC5
 ) my_fog_ch1_inst (
    // ============================ Common Signals ============================
-   .CLOCK_ADC(CLOCK_ADC_2), // ADC clock (1-bit)
-   .CLOCK_DAC(CLOCK_DAC_2), // DAC clock (1-bit)
-   .locked(locked_2),    // Global reset signal, active low (1-bit)
+   .CLOCK_ADC(CLOCK_ADC_1), // ADC clock (1-bit)
+   .CLOCK_DAC(CLOCK_DAC_1), // DAC clock (1-bit)
+   .locked(locked_1),    // Global reset signal, active low (1-bit)
 
    // ============================ ADC Processing ============================
-   .ADC(ADC_2), // Raw ADC input signal (14-bit)
+   .ADC(ADC_3), // Raw ADC input signal (14-bit)
 
    // ============================ Modulation Generator ============================
    .var_freq_cnt(var_freq_cnt_1), // Frequency control input (32-bit)
@@ -668,12 +629,12 @@ CPU u0 (
 	.varset_1_i_var27  (),  
 	.varset_1_i_var28  (),  
 	.varset_1_i_var29  (),  
-	.varset_1_i_var30  (i_var_step_3),  // x axis
+	.varset_1_i_var30  (i_var_step_3),  // z axis
 	.varset_1_i_var31  (i_var_err_3),  
 	.varset_1_i_var32  (i_var_timer),  
 	.varset_1_i_var33  (i_var_step_2),  // y axis
 	.varset_1_i_var34  (i_var_err_2),  
-	.varset_1_i_var35  (i_var_step_1),  // z axis
+	.varset_1_i_var35  (i_var_step_1),  // x axis
 	.varset_1_i_var36  (i_var_err_1),  
 	.varset_1_i_var37  (),  
 	.varset_1_i_var38  (),  

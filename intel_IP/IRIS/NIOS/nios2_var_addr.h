@@ -9,7 +9,7 @@
 #define var_i2c_EEPROM_w_data		6
 #define var_i2c_EEPROM_ctrl		    7
 #define var_i2c_EEPROM_reg_addr		8
-/*** fog ch3 ***/
+/*** fog ch3, z axis ***/
 #define var_freq_cnt_3		        9
 #define var_amp_H_3	                10
 #define var_amp_L_3		            11
@@ -21,7 +21,7 @@
 #define var_fb_ON_3            		17
 #define var_gainSel_ramp_3          18
 #define var_err_offset_3            19
-
+/*** fog ch2, y axis ***/
 #define var_freq_cnt_2		        20
 #define var_amp_H_2	                21
 #define var_amp_L_2		            22
@@ -33,7 +33,7 @@
 #define var_fb_ON_2            		28
 #define var_gainSel_ramp_2          29
 #define var_err_offset_2            30
-
+/*** fog ch1, x axis ***/
 #define var_freq_cnt_1		        31
 #define var_amp_H_1	                32
 #define var_amp_L_1		            33
