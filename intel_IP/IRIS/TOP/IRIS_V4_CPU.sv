@@ -1,6 +1,6 @@
-module IRIS_V4(
+module IRIS_V4_CPU( //05-17-2025 測試I2C
 
-	//////////// CLOCK INPUT //////////
+	//////////// CLOCK INPUT ////////    
 	CLOCK_50M, 
 	CLOCK_ADC_1, //CLOCK_ADC_1ch
 	CLOCK_ADC_2, //CLOCK_ADC_2ch
@@ -26,14 +26,14 @@ module IRIS_V4(
 	SER_RX,
 	
 	//////////// DAC //////////
-	DAC_1,
-	DAC_2,
-	DAC_3,
+	DAC_1, // Y axis
+	DAC_2,	// Z axis
+	DAC_3, // X axis
 	DAC_RST,
 	//////////// ADC //////////
-	ADC_1, //2CH_AIN1, J8
-	ADC_2, //2CH_AIN2, J9
-	ADC_3, //1CH_AIN1
+	ADC_1, //2CH_AIN1, J8, Y axis
+	ADC_2, //2CH_AIN2, J9, Z axis
+	ADC_3, //1CH_AIN1, X axis
 	//////////// ADDA SPI CFG //////////
 	MISO_CFG,
 	MOSI_CFG,
@@ -199,58 +199,58 @@ assign CS_ADC_2 = ADDA_SS[3]; //ADC_1CH
 
 
 /**********MOD gen*********/
-// NUM1
-wire [31:0] o_var_freq_1, o_var_amp_H_1, o_var_amp_L_1, o_mod_out_1;
-wire o_status_1, o_stepTrig_1;
-// NUM2
-wire [31:0] o_var_freq_2, o_var_amp_H_2, o_var_amp_L_2, o_mod_out_2;
-wire o_status_2, o_stepTrig_2;
-// NUM3
-wire [31:0] o_var_freq_3, o_var_amp_H_3, o_var_amp_L_3, o_mod_out_3;
-wire o_status_3, o_stepTrig_3;
-
-reg	[31:0] CLK_COUNT = 0; 	//clock
-
-reg[15:0] reg_dac1_sync, reg_dac2_sync, reg_dac3_sync;
-reg[15:0] reg_dac1, reg_dac2, reg_dac3;
 reg reg_dacrst;
-
-reg[13:0] reg_adc1, reg_adc1_sync;
-reg[13:0] reg_adc2, reg_adc2_sync;
-reg signed [13:0] reg_adc3, reg_adc3_sync, reg_adc3_mon;
 
 /////////// MIOC Modulation parameter //////////
 wire [31:0] var_freq_cnt_3, var_amp_H_3, var_amp_L_3;
-wire [31:0] mod_out_DAC3;
-wire status_DAC3, stepTrig_DAC3;
+wire [31:0] var_freq_cnt_2, var_amp_H_2, var_amp_L_2;
+wire [31:0] var_freq_cnt_1, var_amp_H_1, var_amp_L_1;
+// wire [31:0] mod_out_DAC3;
+// wire status_DAC3, stepTrig_DAC3;
 
 /////////// MIOC Err Gen parameter //////////
 wire [31:0] var_polarity_3, var_wait_cnt_3, var_avg_sel_3, var_err_offset_3;
+wire [31:0] var_polarity_2, var_wait_cnt_2, var_avg_sel_2, var_err_offset_2;
+wire [31:0] var_polarity_1, var_wait_cnt_1, var_avg_sel_1, var_err_offset_1;
 logic signed [31:0] o_err_DAC3, o_err_DAC3_FIR, o_err_DAC3_MV;
-wire o_step_sync_3, o_step_sync_dly_3, o_rate_sync_3, o_ramp_sync_3;
+logic signed [31:0] o_err_DAC2, o_err_DAC2_FIR, o_err_DAC2_MV;
+logic signed [31:0] o_err_DAC1, o_err_DAC1_FIR, o_err_DAC1_MV;
+// wire o_step_sync_3, o_step_sync_dly_3, o_rate_sync_3, o_ramp_sync_3;
 
 /////////// FB Step Gen parameter //////////
 logic signed [31:0] o_step_3, o_step_3_MV, i_var_step_3, i_var_err_3;
+logic signed [31:0] o_step_2, o_step_2_MV, i_var_step_2, i_var_err_2;
+logic signed [31:0] o_step_1, o_step_1_MV, i_var_step_1, i_var_err_1;
 wire [31:0] var_gainSel_step_3, var_const_step_3, var_fb_ON_3;
+wire [31:0] var_gainSel_step_2, var_const_step_2, var_fb_ON_2;
+wire [31:0] var_gainSel_step_1, var_const_step_1, var_fb_ON_1;
 
 /////////// Phase Ramp Gen parameter //////////
 wire [31:0] var_gainSel_ramp_3, o_phaseRamp_3;
+wire [31:0] var_gainSel_ramp_2, o_phaseRamp_2;
+wire [31:0] var_gainSel_ramp_1, o_phaseRamp_1;
 
 /////////// Timer Gen parameter //////////
 wire [31:0] i_var_timer, var_timer_rst;
 
-// assign DAC_1 =  o_phaseRamp_1[15:0];
-// assign DAC_2 =  o_phaseRamp_2[15:0];
-assign DAC_3 =  o_phaseRamp_3[15:0];
+assign DAC_3 =  o_phaseRamp_1[15:0]; // X axis
+assign DAC_1 =  o_phaseRamp_2[15:0]; // Y axis
+assign DAC_2 =  o_phaseRamp_3[15:0]; // Z axis
 
-assign DAC_1 =  0;
-assign DAC_2 =  0;
+// assign i_var_step_3 = 32'd3;
+// assign i_var_step_2 = 32'd2;
+// assign i_var_step_1 = 32'd1;
 
-// assign i_var_step_3 = o_step_3;
-assign i_var_step_3 = o_step_3_MV;
-// assign i_var_err_3 = o_err_DAC3;
-assign i_var_err_3 = o_err_DAC3_FIR;
 
+// assign i_var_step_3 = o_step_3_MV;
+assign i_var_step_3 = o_step_3;
+assign i_var_err_3 = o_err_DAC3_FIR; 
+// assign i_var_step_2 = o_step_2_MV;
+assign i_var_step_2 = o_step_2;
+assign i_var_err_2 = o_err_DAC2_FIR; 
+// assign i_var_step_1 = o_step_1_MV;
+assign i_var_step_1 = o_step_1;
+assign i_var_err_1 = o_err_DAC1_FIR; 
 
 assign DAC_RST = reg_dacrst;
 
@@ -263,11 +263,11 @@ PLL0	PLL0_inst (
 	.locked ( locked_0 )
 	);
 
-PLL1	PLL1_inst (
-	.inclk0 ( CLOCK_ADC_1 ),
-	.c0 ( CLOCK_DAC_1 ),
-	.locked ( locked_1 )
-	);
+ PLL1	PLL1_inst (
+ 	.inclk0 ( CLOCK_ADC_1 ),
+ 	.c0 ( CLOCK_DAC_1 ),
+ 	.locked ( locked_1 )
+ 	);
 	
 PLL2	PLL2_inst (
 	.inclk0 ( CLOCK_ADC_2 ),
@@ -324,46 +324,45 @@ timer_inst
     .o_timer(i_var_timer)
 );
 
-my_fog_v1 #(
-    .COEFF_SET(N32FC2) // Default coefficient set N32FC5
-) my_fog_ch3_inst (
-    // ============================ Common Signals ============================
-    .CLOCK_ADC(CLOCK_ADC_1), // ADC clock (1-bit)
-    .CLOCK_DAC(CLOCK_DAC_1), // DAC clock (1-bit)
-    .locked(locked_1),    // Global reset signal, active low (1-bit)
+// my_fog_v1 #( // y axis
+//    .COEFF_SET(N32FC2) // Default coefficient set N32FC5
+// ) my_fog_ch2_inst (
+//    // ============================ Common Signals ============================
+//    .CLOCK_ADC(CLOCK_ADC_2), // ADC clock (1-bit)
+//    .CLOCK_DAC(CLOCK_DAC_2), // DAC clock (1-bit)
+//    .locked(locked_2),    // Global reset signal, active low (1-bit)
 
-    // ============================ ADC Processing ============================
-    .ADC(ADC_3), // Raw ADC input signal (14-bit)
+//    // ============================ ADC Processing ============================
+//    .ADC(ADC_1), // Raw ADC input signal (14-bit)
 
-    // ============================ Modulation Generator ============================
-    .var_freq_cnt(var_freq_cnt_3), // Frequency control input (32-bit)
-    .var_amp_H(var_amp_H_3),    // Positive amplitude control (32-bit)
-    .var_amp_L(var_amp_L_3),    // Negative amplitude control (32-bit)
+//    // ============================ Modulation Generator ============================
+//    .var_freq_cnt(var_freq_cnt_2), // Frequency control input (32-bit)
+//    .var_amp_H(var_amp_H_2),    // Positive amplitude control (32-bit)
+//    .var_amp_L(var_amp_L_2),    // Negative amplitude control (32-bit)
 
-    // ============================ Error Signal Processing ============================
-    .var_polarity(var_polarity_3),     // Polarity control (1-bit)
-    .var_wait_cnt(var_wait_cnt_3),     // Wait counter for stabilization (32-bit)
-    .var_err_offset(var_err_offset_3),   // Error offset adjustment (32-bit)
-    .var_avg_sel(var_avg_sel_3),      // Average selection control (32-bit)
+//    // ============================ Error Signal Processing ============================
+//    .var_polarity(var_polarity_2),     // Polarity control (1-bit)
+//    .var_wait_cnt(var_wait_cnt_2),     // Wait counter for stabilization (32-bit)
+//    .var_err_offset(var_err_offset_2),   // Error offset adjustment (32-bit)
+//    .var_avg_sel(var_avg_sel_2),      // Average selection control (32-bit)
 
-    // ============================ Feedback Control ============================
-    .var_const_step(var_const_step_3),    // Constant step value (32-bit)
-    .var_fb_ON(var_fb_ON_3),         // Feedback enable (1-bit)
-    .var_gainSel_step(var_gainSel_step_3),  // Gain selection for step feedback (32-bit)
+//    // ============================ Feedback Control ============================
+//    .var_const_step(var_const_step_2),    // Constant step value (32-bit)
+//    .var_fb_ON(var_fb_ON_2),         // Feedback enable (1-bit)
+//    .var_gainSel_step(var_gainSel_step_2),  // Gain selection for step feedback (32-bit)
 
-    // ============================ Phase Ramp Control ============================
-    .var_gainSel_ramp(var_gainSel_ramp_3), // Gain selection for ramp control (32-bit)
+//    // ============================ Phase Ramp Control ============================
+//    .var_gainSel_ramp(var_gainSel_ramp_2), // Gain selection for ramp control (32-bit)
 
-    // ============================ Output Signals ============================
-    .o_err_DAC(o_err_DAC3),       // Processed error signal output (32-bit, signed)
-    .o_err_DAC_FIR(o_err_DAC3_FIR),   // FIR filtered error signal (32-bit, signed)
-    .o_step(o_step_3),          // Feedback step output (32-bit, signed)
-    .o_step_MV(o_step_3_MV),       // Filtered step output (32-bit, signed)
-    .o_phaseRamp(o_phaseRamp_3)      // Phase ramp output (32-bit, signed)
-);
+//    // ============================ Output Signals ============================
+//    .o_err_DAC(o_err_DAC2),       // Processed error signal output (32-bit, signed)
+//    .o_err_DAC_FIR(o_err_DAC2_FIR),   // FIR filtered error signal (32-bit, signed)
+//    .o_step(o_step_2),          // Feedback step output (32-bit, signed)
+//    .o_step_MV(o_step_2_MV),       // Filtered step output (32-bit, signed)
+//    .o_phaseRamp(o_phaseRamp_2)      // Phase ramp output (32-bit, signed)
+// );
 
-
-i2c_controller_pullup_ADS122C04_SE_v3
+i2c_controller_pullup_ADS122C04_SE_V2
 inst_i2c_ADS122C04_temp (
 	.i_clk(CPU_CLK),
 	.i_rst_n(locked_0),
@@ -386,28 +385,28 @@ inst_i2c_ADS122C04_temp (
 	.o_cnt()
 );
 
-/**** ADXL 357****/
-i2c_controller_pullup_ADXL357
-inst_i2c_adxl357 (
-	.i_clk(CPU_CLK),
-	.i_rst_n(locked_0),
-	.i2c_scl(SCL_357),
-	.i2c_sda(SDA_357),
-	.i2c_clk_out(),
-	.i_dev_addr(var_i2c_357_dev_addr),
-	.i_reg_addr(var_i2c_357_reg_addr),
-	.i_w_data(var_i2c_357_w_data),  
+// /**** ADXL 357****/
+// i2c_controller_pullup_ADXL357
+// inst_i2c_adxl357 (
+// 	.i_clk(CPU_CLK),
+// 	.i_rst_n(locked_0),
+// 	.i2c_scl(SCL_357),
+// 	.i2c_sda(SDA_357),
+// 	.i2c_clk_out(),
+// 	.i_dev_addr(var_i2c_357_dev_addr),
+// 	.i_reg_addr(var_i2c_357_reg_addr),
+// 	.i_w_data(var_i2c_357_w_data),  
 	
-	.i_ctrl(var_i2c_357_ctrl),
-	.i_drdy(DRDY_357),
+// 	.i_ctrl(var_i2c_357_ctrl),
+// 	.i_drdy(DRDY_357),
 
-	.o_status(var_i2c_357_status),
-	.o_ACCX(var_i2c_357_rdata_1),
-	.o_ACCY(var_i2c_357_rdata_2),
-	.o_ACCZ(var_i2c_357_rdata_3),
-	.o_TEMP(var_i2c_357_rdata_4),
-	.o_w_enable()
-);
+// 	.o_status(var_i2c_357_status),
+// 	.o_ACCX(var_i2c_357_rdata_1),
+// 	.o_ACCY(var_i2c_357_rdata_2),
+// 	.o_ACCZ(var_i2c_357_rdata_3),
+// 	.o_TEMP(var_i2c_357_rdata_4),
+// 	.o_w_enable()
+// );
 	
 /**** I2C EEPROM****/
 i2c_controller_pullup_eeprom
@@ -434,9 +433,9 @@ inst_i2c_eeprom (
 
 
 CPU u0 (
-	.clk_clk        (CPU_CLK),        //      clk.clk
+	.clk_clk        (CPU_CLK),        //      clk.clk 
 	.reset_reset_n  (locked_0),  //    reset.reset_n
-	
+
 	.spi_adda_MISO  (MISO_CFG),  // spi_adda.MISO
 	.spi_adda_MOSI  (MOSI_CFG),  //         .MOSI
 	.spi_adda_SCLK  (SCLK_CFG),  //         .SCLK
@@ -462,48 +461,48 @@ CPU u0 (
 	.uart_rxd          (SER_RX),          //       uart.rxd
 	.uart_txd          (SER_TX),          //           .txd
 
-	.varset_1_o_reg0     (var_i2c_357_dev_addr),     //           .o_reg0
-	.varset_1_o_reg1     (var_i2c_357_w_data),     //     varset_1.o_reg1
-	.varset_1_o_reg2     (var_i2c_357_ctrl),     //           .o_reg2
-	.varset_1_o_reg3     (),     //           .o_reg3
-	.varset_1_o_reg4     (var_i2c_357_reg_addr),     //           .o_reg4
-	.varset_1_o_reg5     (var_i2c_EEPROM_dev_addr),     //           .o_reg5
-	.varset_1_o_reg6     (var_i2c_EEPROM_w_data),     //           .o_reg6
-	.varset_1_o_reg7     (var_i2c_EEPROM_ctrl),     //           .o_reg7
-	.varset_1_o_reg8     (var_i2c_EEPROM_reg_addr),     //           .o_reg8
-	.varset_1_o_reg9     (var_freq_cnt_3),     //           .o_reg9
-	.varset_1_o_reg10    (var_amp_H_3),    //           .o_reg10
-	.varset_1_o_reg11    (var_amp_L_3),    //           .o_reg11
-	.varset_1_o_reg12    (var_polarity_3),    //           .o_reg12
-	.varset_1_o_reg13    (var_wait_cnt_3),    //           .o_reg13
-	.varset_1_o_reg14    (var_avg_sel_3),    //           .o_reg14
-	.varset_1_o_reg15  	 (var_gainSel_step_3),  //           .o_reg15
-	.varset_1_o_reg16  	 (var_const_step_3),  //           .o_reg16
-	.varset_1_o_reg17  	 (var_fb_ON_3),  //           .o_reg17
-	.varset_1_o_reg18  	 (var_gainSel_ramp_3),  //           .o_reg18
-	.varset_1_o_reg19  	 (var_err_offset_3),  //           .o_reg19
-	.varset_1_o_reg20  	 (),  //           .o_reg20
-	.varset_1_o_reg21  (),  //           .o_reg21
-	.varset_1_o_reg22  (),  //           .o_reg22
-	.varset_1_o_reg23  (),  //           .o_reg23
-	.varset_1_o_reg24  (),  //           .o_reg24
-	.varset_1_o_reg25  (),  
-	.varset_1_o_reg26  (),  
-	.varset_1_o_reg27  (),  
-	.varset_1_o_reg28  (),  
-	.varset_1_o_reg29  (),  
-	.varset_1_o_reg30  (),  
-	.varset_1_o_reg31  (),  
-	.varset_1_o_reg32  (),  
-	.varset_1_o_reg33  (),  
-	.varset_1_o_reg34  (),  
-	.varset_1_o_reg35  (),  
-	.varset_1_o_reg36  (),  
-	.varset_1_o_reg37  (),  
-	.varset_1_o_reg38  (),  
-	.varset_1_o_reg39  (),  
-	.varset_1_o_reg40  (),  
-	.varset_1_o_reg41  (),  
+	.varset_1_o_reg0     (var_i2c_357_dev_addr),     
+	.varset_1_o_reg1     (var_i2c_357_w_data),     
+	.varset_1_o_reg2     (var_i2c_357_ctrl),     
+	.varset_1_o_reg3     (),     
+	.varset_1_o_reg4     (var_i2c_357_reg_addr),     
+	.varset_1_o_reg5     (var_i2c_EEPROM_dev_addr),     
+	.varset_1_o_reg6     (var_i2c_EEPROM_w_data),     
+	.varset_1_o_reg7     (var_i2c_EEPROM_ctrl),    
+	.varset_1_o_reg8     (var_i2c_EEPROM_reg_addr),    
+	.varset_1_o_reg9     (var_freq_cnt_3),    
+	.varset_1_o_reg10    (var_amp_H_3),   
+	.varset_1_o_reg11    (var_amp_L_3),    
+	.varset_1_o_reg12    (var_polarity_3),    
+	.varset_1_o_reg13    (var_wait_cnt_3),    
+	.varset_1_o_reg14    (var_avg_sel_3),    
+	.varset_1_o_reg15  	 (var_gainSel_step_3),  
+	.varset_1_o_reg16  	 (var_const_step_3),  
+	.varset_1_o_reg17  	 (var_fb_ON_3),  
+	.varset_1_o_reg18  	 (var_gainSel_ramp_3),  
+	.varset_1_o_reg19  	 (var_err_offset_3),  
+	.varset_1_o_reg20  (var_freq_cnt_2),  
+	.varset_1_o_reg21  (var_amp_H_2),  
+	.varset_1_o_reg22  (var_amp_L_2),  
+	.varset_1_o_reg23  (var_polarity_2),  
+	.varset_1_o_reg24  (var_wait_cnt_2),  
+	.varset_1_o_reg25  (var_avg_sel_2),  
+	.varset_1_o_reg26  (var_gainSel_step_2),  
+	.varset_1_o_reg27  (var_const_step_2),  
+	.varset_1_o_reg28  (var_fb_ON_2),  
+	.varset_1_o_reg29  (var_gainSel_ramp_2),  
+	.varset_1_o_reg30  (var_err_offset_2), 
+	.varset_1_o_reg31  (var_freq_cnt_1),	
+	.varset_1_o_reg32  (var_amp_H_1),  
+	.varset_1_o_reg33  (var_amp_L_1),  
+	.varset_1_o_reg34  (var_polarity_1),  
+	.varset_1_o_reg35  (var_wait_cnt_1),  
+	.varset_1_o_reg36  (var_avg_sel_1),  
+	.varset_1_o_reg37  (var_gainSel_step_1),  
+	.varset_1_o_reg38  (var_const_step_1),  
+	.varset_1_o_reg39  (var_fb_ON_1),  
+	.varset_1_o_reg40  (var_gainSel_ramp_1),  
+	.varset_1_o_reg41  (var_err_offset_1),  
 	.varset_1_o_reg42  (var_i2c_ads122c04_temp_dev_addr),  
 	.varset_1_o_reg43  (var_i2c_ads122c04_temp_w_data),  
 	.varset_1_o_reg44  (var_i2c_ads122c04_temp_ctrl),  
@@ -553,13 +552,13 @@ CPU u0 (
 	.varset_1_i_var27  (),  
 	.varset_1_i_var28  (),  
 	.varset_1_i_var29  (),  
-	.varset_1_i_var30  (i_var_step_3),  
+	.varset_1_i_var30  (i_var_step_3),  // z axis
 	.varset_1_i_var31  (i_var_err_3),  
 	.varset_1_i_var32  (i_var_timer),  
-	.varset_1_i_var33  (),  
-	.varset_1_i_var34  (),  
-	.varset_1_i_var35  (),  
-	.varset_1_i_var36  (),  
+	.varset_1_i_var33  (i_var_step_2),  // y axis
+	.varset_1_i_var34  (i_var_err_2),  
+	.varset_1_i_var35  (i_var_step_1),  // x axis
+	.varset_1_i_var36  (i_var_err_1),  
 	.varset_1_i_var37  (),  
 	.varset_1_i_var38  (),  
 	.varset_1_i_var39  (),  

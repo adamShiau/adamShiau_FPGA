@@ -1,10 +1,8 @@
-`timescale 1ns / 1ps
-
-
-module i2c_controller(
-	input wire clk,
-	input wire rst,
-	input wire [6:0] addr,
+// test 沒有pull up 的 eeprom 版本
+module i2c_controller_eeprom_v0(
+	input wire i_clk,
+	input wire i_rst_n,
+	input wire [6:0] i_dev_addr,
 	input wire [7:0] data_in,
 	input wire enable,
 	input wire rw,
@@ -38,12 +36,11 @@ module i2c_controller(
 	reg i2c_scl_enable = 0;
 	reg i2c_clk = 1;
 
-	assign ready = ((rst == 0) && (state == IDLE)) ? 1 : 0;
+	assign ready = ((i_rst_n == 0) && (state == IDLE)) ? 1 : 0;
 	assign i2c_scl = (i2c_scl_enable == 0 ) ? 1 : i2c_clk;
 	assign i2c_sda = (write_enable == 1) ? sda_out : 'bz;
 	
-	// 此處產生i2c_clk，頻率為clk 1/(DIVIDE_BY/2)，若DIVIDE_BY = 4，頻率為1/2 clk
-	always @(posedge clk) begin
+	always @(posedge i_clk) begin
 		if (counter2 == (DIVIDE_BY/2) - 1) begin
 			i2c_clk <= ~i2c_clk;
 			counter2 <= 0;
@@ -51,9 +48,8 @@ module i2c_controller(
 		else counter2 <= counter2 + 1;
 	end 
 	
-	// i2c_clk下降緣時改變i2c_scl_enable，進而控制i2c_scl
-	always @(negedge i2c_clk, posedge rst) begin
-		if(rst == 1) begin
+	always @(negedge i2c_clk, posedge i_rst_n) begin
+		if(i_rst_n == 1) begin
 			i2c_scl_enable <= 0;
 		end else begin
 			if ((state == IDLE) || (state == START) || (state == STOP)) begin
@@ -62,20 +58,21 @@ module i2c_controller(
 				i2c_scl_enable <= 1;
 			end
 		end
+	
 	end
 
-	// i2c_clk上升緣時敲入state
-	always @(posedge i2c_clk, posedge rst) begin
-		if(rst == 1) begin
+
+	always @(posedge i2c_clk, posedge i_rst_n) begin
+		if(i_rst_n == 1) begin
 			state <= IDLE;
 		end		
 		else begin
 			case(state)
 			
 				IDLE: begin
-					if (enable) begin //enable 來自外部輸入，啟動i2c
+					if (enable) begin
 						state <= START;
-						saved_addr <= {addr, rw};
+						saved_addr <= {i_dev_addr, rw};
 						saved_data <= data_in;
 					end
 					else state <= IDLE;
@@ -93,7 +90,7 @@ module i2c_controller(
 				end
 
 				READ_ACK: begin
-					if (i2c_sda == 0) begin  //ACK from device
+					if (i2c_sda == 0) begin
 						counter <= 7;
 						if(saved_addr[0] == 0) state <= WRITE_DATA;
 						else state <= READ_DATA;
@@ -128,18 +125,13 @@ module i2c_controller(
 		end
 	end
 	
-	// i2c_clk下降緣時改變sda_out，發生在i2c_scl上升緣改變state後半週期
-	always @(negedge i2c_clk, posedge rst) begin
-		if(rst == 1) begin
+	always @(negedge i2c_clk, posedge i_rst_n) begin
+		if(i_rst_n == 1) begin
 			write_enable <= 1;
 			sda_out <= 1;
 		end else begin
 			case(state)
-				IDLE: begin
-					write_enable <= 1;
-					sda_out <= 1;
-				end
-
+				
 				START: begin
 					write_enable <= 1;
 					sda_out <= 0;

@@ -1,6 +1,6 @@
-module IRIS_V4_3ch(
+module IRIS_V4_3ch( //2025-05-17 目前IRIS V0使用這個
 
-	//////////// CLOCK INPUT //////////
+	//////////// CLOCK INPUT ////////    
 	CLOCK_50M, 
 	CLOCK_ADC_1, //CLOCK_ADC_1ch
 	CLOCK_ADC_2, //CLOCK_ADC_2ch
