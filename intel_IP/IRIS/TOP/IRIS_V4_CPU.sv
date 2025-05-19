@@ -386,26 +386,44 @@ inst_i2c_ADS122C04_temp (
 );
 	
 /**** I2C EEPROM****/
-i2c_controller_pullup_eeprom
-inst_i2c_eeprom (
-	.i_clk(CPU_CLK),
-	.i_rst_n(locked_0),
-	.i2c_scl(SCL_EEPROM),
-	.i2c_sda(SDA_EEPROM),
-	.i2c_clk_out(),
-	.i_dev_addr(var_i2c_EEPROM_dev_addr),
-	.i_reg_addr(var_i2c_EEPROM_reg_addr),
-	.i_w_data(var_i2c_EEPROM_w_data),  
+// i2c_controller_pullup_eeprom
+// inst_i2c_eeprom (
+// 	.i_clk(CPU_CLK),
+// 	.i_rst_n(locked_0),
+// 	.i2c_scl(SCL_EEPROM),
+// 	.i2c_sda(SDA_EEPROM),
+// 	.i2c_clk_out(),
+// 	.i_dev_addr(var_i2c_EEPROM_dev_addr),
+// 	.i_reg_addr(var_i2c_EEPROM_reg_addr),
+// 	.i_w_data(var_i2c_EEPROM_w_data),  
 	
-	.i_ctrl(var_i2c_EEPROM_ctrl),
-	.i_drdy(),
+// 	.i_ctrl(var_i2c_EEPROM_ctrl),
+// 	.i_drdy(),
 
-	.o_status(var_i2c_EEPROM_status),
-	.o_rd_data(var_i2c_EEPROM_rdata_1),
-	.o_rd_data_2(var_i2c_EEPROM_rdata_2),
-	.o_rd_data_3(var_i2c_EEPROM_rdata_3),
-	.o_rd_data_4(var_i2c_EEPROM_rdata_4),
-	.o_w_enable()
+// 	.o_status(var_i2c_EEPROM_status),
+// 	.o_rd_data(var_i2c_EEPROM_rdata_1),
+// 	.o_rd_data_2(var_i2c_EEPROM_rdata_2),
+// 	.o_rd_data_3(var_i2c_EEPROM_rdata_3),
+// 	.o_rd_data_4(var_i2c_EEPROM_rdata_4),
+// 	.o_w_enable()
+// );
+
+i2c_controller_eeprom_v0 inst_i2c_eeprom (
+    .i_clk        (CPU_CLK                 ),  // System clock input
+    .i_rst_n      (locked_0                ),  // Active-low reset
+    .i2c_scl      (SCL_EEPROM              ),  // I2C clock line (bidirectional)
+    .i2c_sda      (SDA_EEPROM              ),  // I2C data line (bidirectional)
+    .i_dev_addr   (var_i2c_EEPROM_dev_addr ),  // 7-bit I2C device address
+    .i_reg_addr   (var_i2c_EEPROM_reg_addr ),  // 16-bit target register address
+    .i_w_data     (var_i2c_EEPROM_w_data   ),  // 32-bit data to be written
+    .i_ctrl       (var_i2c_EEPROM_ctrl     ),  // 32-bit control command
+    .i_drdy       (                        ),  // Data ready signal (start trigger)
+    .o_status     (var_i2c_EEPROM_status   ),  // 32-bit status output
+    .o_rd_data    (var_i2c_EEPROM_rdata_1  ),  // Read-back data byte 1
+    .o_rd_data_2  (var_i2c_EEPROM_rdata_2  ),  // Read-back data byte 2
+    .o_rd_data_3  (var_i2c_EEPROM_rdata_3  ),  // Read-back data byte 3
+    .o_rd_data_4  (var_i2c_EEPROM_rdata_4  ),  // Read-back data byte 4
+    .o_w_enable   (                        )   // Write complete signal
 );
 
 

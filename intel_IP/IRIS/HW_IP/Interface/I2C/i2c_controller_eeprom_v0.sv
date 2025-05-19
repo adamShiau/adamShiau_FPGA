@@ -12,8 +12,8 @@ module i2c_controller_eeprom_v0(
 	output reg [7:0] 	o_rd_data_3,
 	output reg [7:0] 	o_rd_data_4,
 	output wire [31:0] 	o_status,
-	output wire 		o_w_enable,
-	output wire			i2c_clk_out,
+	// output wire 		o_w_enable,
+	// output wire			i2c_clk_out,
 	inout				i2c_scl,
 	inout 				i2c_sda
 	);
@@ -125,18 +125,18 @@ module i2c_controller_eeprom_v0(
 			endcase
 		end
 	end
-	
-	// always @(posedge i_clk) begin
-	// 	if (counter2 == (DIVIDE_BY/2) - 1) begin
-	// 		i2c_clk <= ~i2c_clk;
-	// 		counter2 <= 0;
-	// 	end
-	// 	else counter2 <= counter2 + 1;
-	// end 
+
+	reg	[8:0] CLK_COUNT = 0; 	//clock
+
+	always@(posedge i_clk) begin
+		CLK_COUNT <= CLK_COUNT + 1;//CLK_COUNT[6]:100000/2^(6+1)=781.25 kHz, CLK_COUNT[7+1]:390.625 KHz
+		i2c_clk <= CLK_COUNT[reg_clock_rate];
+		// clk_2x  <= CLK_COUNT[reg_clock_rate-1];
+	end
 
 	/*** i2c_scl_enable logic **/
-	always @(negedge i2c_clk, posedge i_rst_n) begin
-		if(i_rst_n == 1) begin
+	always @(negedge i2c_clk or negedge i_rst_n) begin
+		if(!i_rst_n) begin
 			i2c_scl_enable <= 0;
 		end else begin
 			case (state)
@@ -147,8 +147,9 @@ module i2c_controller_eeprom_v0(
 	end
 
 	/*** SM update**/
-	always @(posedge i2c_clk, posedge i_rst_n) begin
-		if(i_rst_n == 1) begin
+	always @(posedge i2c_clk or negedge i_rst_n) begin
+		if(!i_rst_n) begin
+			finish <= 0;
 			state <= IDLE;
 			o_rd_data <= 8'd0;
 			o_rd_data_2 <= 8'd0;
@@ -290,7 +291,7 @@ module i2c_controller_eeprom_v0(
 				end
 
 				READ_ACK7: begin
-					finish <= 1
+					finish <= 1;
 					state <= SLOW;
 				end
 
@@ -299,6 +300,7 @@ module i2c_controller_eeprom_v0(
 				end
 
 				STOP: begin
+					finish <= 0;
 					case (op_mode)
 						CPU_WREG: sm_enable <= 0;
 						CPU_RREG: begin
@@ -353,12 +355,16 @@ module i2c_controller_eeprom_v0(
 		end
 	end
 	
-	always @(negedge i2c_clk, posedge i_rst_n) begin
-		if(i_rst_n == 1) begin
-			write_enable <= 1;
-			sda_out <= 1;
+	always @(negedge i2c_clk or negedge i_rst_n) begin
+		if(!i_rst_n) begin
+			write_enable <= 0;
+			// sda_out <= 1;
 		end else begin
 			case(state)
+
+				IDLE: begin
+					write_enable <= 0;
+				end
 				
 				START: begin
 					write_enable <= 1;
@@ -366,25 +372,56 @@ module i2c_controller_eeprom_v0(
 				end
 				
 				ADDRESS: begin
+					write_enable <= 1;
 					sda_out <= saved_addr[counter];
 				end
 				
-				READ_ACK: begin
+				READ_ACK, READ_ACK2, READ_ACK3, READ_ACK4, READ_ACK5, READ_ACK6, READ_ACK7: begin
 					write_enable <= 0;
 				end
-				
-				WRITE_DATA: begin 
+
+				WRITE_DATA: begin //write reg value, MSB
 					write_enable <= 1;
-					sda_out <= saved_data[counter];
+					sda_out <= saved_write_3[counter];
+				end
+
+				WRITE_DATA2: begin //write data
+					write_enable <= 1;
+					sda_out <= saved_write_2[counter];
+				end
+
+				WRITE_DATA3: begin //write data
+					write_enable <= 1;
+					sda_out <= saved_write_1[counter];
+				end
+
+				WRITE_DATA4: begin //write data, LSB
+					write_enable <= 1;
+					sda_out <= saved_write_0[counter];
 				end
 				
-				WRITE_ACK: begin
+				WRITE_ACK, WRITE_ACK2, WRITE_ACK3, WRITE_ACK4: begin
 					write_enable <= 1;
 					sda_out <= 0;
 				end
+
+				REG_HBYTE: begin
+					write_enable <= 1;
+					sda_out <= saved_regaddr_H[counter];
+				end
+
+				REG_LBYTE: begin
+					write_enable <= 1;
+					sda_out <= saved_regaddr_L[counter];
+				end
 				
-				READ_DATA: begin
+				READ_DATA, READ_DATA2, READ_DATA3, READ_DATA4: begin
 					write_enable <= 0;				
+				end
+
+				SLOW: begin
+					write_enable <= 1;
+					sda_out <= 0;
 				end
 				
 				STOP: begin

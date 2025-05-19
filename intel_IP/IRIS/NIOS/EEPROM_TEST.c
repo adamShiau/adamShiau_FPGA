@@ -90,9 +90,9 @@ int main(void)
 	alt_u32 index = 0;
 
 	TRIGGER_IRQ_init();
-	moving_average_init(&mz_x, 13);
-	moving_average_init(&mz_y, 13);
-	moving_average_init(&mz_z, 13);
+	// moving_average_init(&mz_x, 13);
+	// moving_average_init(&mz_y, 13);
+	// moving_average_init(&mz_z, 13);
 	uartInit(); //interrupt method of uart defined in uart.c not main()
 	// init_ADDA();
 	init_EEPROM();
@@ -102,14 +102,16 @@ int main(void)
 	// initialize_fog_params(&fog_params);
 	// EEPROM_Write_initial_parameter();
 
-	LOAD_FOG_PARAMETER(&fog_params);
-	LOAD_FOG_MISALIGNMENT(&fog_params);
-	LOAD_FOG_SN(&fog_params);
-	PRINT_FOG_PARAMETER(&fog_params);
-	update_fog_parameters_to_HW_REG(MEM_BASE_Z, &fog_params); 
-	update_fog_parameters_to_HW_REG(MEM_BASE_X, &fog_params); 
-	update_fog_parameters_to_HW_REG(MEM_BASE_Y, &fog_params); 
-	update_IRIS_config_to_HW_REG();
+	EEPROM_RW_TEST();
+
+	// LOAD_FOG_PARAMETER(&fog_params);
+	// LOAD_FOG_MISALIGNMENT(&fog_params);
+	// LOAD_FOG_SN(&fog_params);
+	// PRINT_FOG_PARAMETER(&fog_params);
+	// update_fog_parameters_to_HW_REG(MEM_BASE_Z, &fog_params); 
+	// update_fog_parameters_to_HW_REG(MEM_BASE_X, &fog_params); 
+	// update_fog_parameters_to_HW_REG(MEM_BASE_Y, &fog_params); 
+	// update_IRIS_config_to_HW_REG();
 	// PRINT_FOG_PARAMETER(&fog_params);
 
 

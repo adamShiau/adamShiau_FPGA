@@ -27,7 +27,8 @@
 #include "memory_manage.h"
 // #include "memory_manage.c"
 //eeprom
-#include "eeprom.h"
+// #include "eeprom.h"
+#include "eeprom_v2.h"
 // #include "eeprom.c"
 
 #include "adxl357.h"
