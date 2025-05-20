@@ -51,15 +51,20 @@ typedef union
 void EEPROM_RW_TEST()
 {
 	my_float_t data, tt;
-	tt.float_val = 1.234;
+	DEBUG_PRINT("Start EEPROM R/W testing function\n");
+
+
+	tt.float_val = 1.23456;
+	DEBUG_PRINT("Write int value 123 to memory location 200. \n");
 	PARAMETER_Write_f(MEM_BASE_X, 200, 123);
 	PARAMETER_Read(MEM_BASE_X, 200 , data.bin_val);
-	DEBUG_PRINT("Read int value: %d\n", data.int_val);
+	DEBUG_PRINT("Read out int value: %d\n", data.int_val);
 	DEBUG_PRINT("Raw bytes: %02X %02X %02X %02X\n",
            data.bin_val[0],
            data.bin_val[1],
            data.bin_val[2],
            data.bin_val[3]);
+	DEBUG_PRINT("Write int value -123 to memory location 201. \n");
 	PARAMETER_Write_f(MEM_BASE_X, 201, -123);
 	PARAMETER_Read(MEM_BASE_X, 201 , data.bin_val);
 	DEBUG_PRINT("Read int value: %d\n", data.int_val);
@@ -68,6 +73,7 @@ void EEPROM_RW_TEST()
            data.bin_val[1],
            data.bin_val[2],
            data.bin_val[3]);
+	DEBUG_PRINT("Write float value 1.23456 to memory location 202. \n");
 	PARAMETER_Write_f(MEM_BASE_X, 202, tt.int_val);
 	PARAMETER_Read(MEM_BASE_X, 202 , data.bin_val);
 	DEBUG_PRINT("Read float value: %f\n", data.float_val);
@@ -76,6 +82,7 @@ void EEPROM_RW_TEST()
            data.bin_val[1],
            data.bin_val[2],
            data.bin_val[3]);
+	DEBUG_PRINT("End EEPROM R/W testing function\n");
 
 }
 

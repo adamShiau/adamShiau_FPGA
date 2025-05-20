@@ -12,8 +12,6 @@ module i2c_controller_eeprom_v0(
 	output reg [7:0] 	o_rd_data_3,
 	output reg [7:0] 	o_rd_data_4,
 	output wire [31:0] 	o_status,
-	// output wire 		o_w_enable,
-	// output wire			i2c_clk_out,
 	inout				i2c_scl,
 	inout 				i2c_sda
 	);
@@ -131,7 +129,6 @@ module i2c_controller_eeprom_v0(
 	always@(posedge i_clk) begin
 		CLK_COUNT <= CLK_COUNT + 1;//CLK_COUNT[6]:100000/2^(6+1)=781.25 kHz, CLK_COUNT[7+1]:390.625 KHz
 		i2c_clk <= CLK_COUNT[reg_clock_rate];
-		// clk_2x  <= CLK_COUNT[reg_clock_rate-1];
 	end
 
 	/*** i2c_scl_enable logic **/
@@ -425,8 +422,9 @@ module i2c_controller_eeprom_v0(
 				end
 				
 				STOP: begin
-					write_enable <= 1;
-					sda_out <= 1;
+					write_enable <= 0;
+					// write_enable <= 1;
+					// sda_out <= 1;
 				end
 			endcase
 		end
