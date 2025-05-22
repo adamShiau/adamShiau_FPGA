@@ -1,19 +1,21 @@
 // test 沒有pull up 的 eeprom 版本
 module i2c_controller_eeprom_v0(
-	input wire i_clk,
-	input wire i_rst_n,
-	input wire [6:0] i_dev_addr,
+	input wire 				i_clk,
+	input wire 				i_rst_n,
+	input wire [6:0] 		i_dev_addr,
 	input wire [32-1:0] 	i_w_data,
 	input wire [16-1:0] 	i_reg_addr,
-	input wire [31:0]	i_ctrl,
-	input wire 			i_drdy,
-	output reg [7:0] 	o_rd_data,
-	output reg [7:0] 	o_rd_data_2,
-	output reg [7:0] 	o_rd_data_3,
-	output reg [7:0] 	o_rd_data_4,
-	output wire [31:0] 	o_status,
-	inout				i2c_scl,
-	inout 				i2c_sda
+	input wire [31:0]		i_ctrl,
+	input wire 				i_drdy,
+
+	output reg [7:0] 		o_rd_data,
+	output reg [7:0] 		o_rd_data_2,
+	output reg [7:0] 		o_rd_data_3,
+	output reg [7:0] 		o_rd_data_4,
+	
+	output wire [31:0] 		o_status,
+	inout					i2c_scl,
+	inout 					i2c_sda
 	);
 
 	/*** state machine definition ***/

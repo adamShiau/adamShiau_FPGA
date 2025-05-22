@@ -108,7 +108,7 @@ void EEPROM_Write_4B(alt_u16 reg_addr, alt_32 data)
 /*** force write eeprom on address 
  * write the new value to the eeprom
 */
-void PARAMETER_Write_f(alt_u8 base, alt_u8 number , alt_32 data)
+void aPARAMETER_Write_f(alt_u8 base, alt_u8 number , alt_32 data)
 {
 	// DEBUG_PRINT("reg_addr: %d, data: %d\n", base + number, data);
 	EEPROM_Write_4B( (alt_u16) (base + number), data);
