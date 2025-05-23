@@ -9,8 +9,7 @@
 
 #define COE_TIMER 0.0001
 
-
-
+alt_u32 g_time[5];
 // void dump_fog_param(fog_parameter_t* fog_inst, alt_u8 ch);
 // void send_json_uart(const char* buffer);
 
@@ -22,6 +21,7 @@ void update_IRIS_config_to_HW_REG(void);
 const alt_u8 cmd_header[2] = {0xAB, 0xBA};
 const alt_u8 cmd_trailer[2] = {0x55, 0x56};
 static alt_u16 try_cnt;
+alt_u32 get_timer_int(void);
 
 volatile alt_u8 trigger_sig = 0;
 
@@ -84,17 +84,24 @@ int main(void)
 	
 
 	INFO_PRINT("Running IRIS CPU!\n");
+	UART_PRINT("Running IRIS CPU!\n");
 
+	UART_PRINT("TRIGGER_IRQ_init\n");
 	TRIGGER_IRQ_init();
 	moving_average_init(&mz_x, 13);
 	moving_average_init(&mz_y, 13);
 	moving_average_init(&mz_z, 13);
+	UART_PRINT("uartInit\n");
 	uartInit(); //interrupt method of uart defined in uart.c not main()
+	UART_PRINT("init_ADDA\n");
 	init_ADDA();
+	UART_PRINT("init_EEPROM\n");
 	init_EEPROM();
-	init_ADXL357();
-	init_ADS122C04_TEMP();
-
+	UART_PRINT("init_ADXL357\n");
+//	init_ADXL357();
+	UART_PRINT("init_ADS122C04_TEMP\n");
+//	init_ADS122C04_TEMP();
+	UART_PRINT("initialize_fog_params_type\n");
 	initialize_fog_params_type(&fog_params);
 	// EEPROM_Write_initial_parameter();
 
@@ -116,11 +123,17 @@ int main(void)
 		fog_parameter(&my_cmd, &fog_params);
 		output_mode_setting(&my_cmd, &output_fn, &auto_rst);
 		if (trigger_sig == 1) {
+			g_time[0] = get_timer_int();
+			// UART_PRINT("%d,", get_timer_int());
 			// uart_printf("0: %f, %f, %f, %f\n", fog_params.misalignment[21].data.float_val, fog_params.misalignment[22].data.float_val, 
 			// 	fog_params.misalignment[23].data.float_val, fog_params.misalignment[14].data.float_val);
 			update_sensor_data(&sensor_data);
+			g_time[1] = get_timer_int();
+			// UART_PRINT("%d,", get_timer_int());
 			output_fn(&my_cmd, sensor_data, fog_params);
 			trigger_sig = 0;
+			g_time[4] = get_timer_int();
+			UART_PRINT("%d,%d,%d,%d,%d\n", g_time[0],g_time[1],g_time[2],g_time[3],g_time[4]);
 			// UART_PRINT("step_raw_z: %f\n", sensor_data.fog.fogz.step.float_val);
 		}
 	}
@@ -128,6 +141,10 @@ int main(void)
   return 0;
 }
 
+alt_u32 get_timer_int()
+{
+	return IORD(VARSET_BASE, i_var_timer);
+}
 
 void update_sensor_data(my_sensor_t *data) {
     /*** fog */

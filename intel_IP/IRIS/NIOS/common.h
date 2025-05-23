@@ -8,9 +8,9 @@
 #include "nios2_var_addr.h"
 #include "adda_config.h"
 
- #define DEBUG
- #define INFO
-// #define UART_DEBUG
+//  #define DEBUG
+//  #define INFO
+#define UART_DEBUG
 
 #ifdef DEBUG
     #define DEBUG_PRINT(...) printf(__VA_ARGS__)
