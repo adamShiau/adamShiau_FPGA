@@ -57,24 +57,24 @@ parameter logic signed [15:0] COEFF_SET [0:31] = '{ // default use coeff. N32FC5
 
 
 // ============================ FIR Filter for ADC ============================
-myfir_filter #(
-	.N(32), 
-	.WIDTH(14),
-	.COEFF_SET(COEFF_SET)
-) ADC_fir_inst 
-(
-	.clk(CLOCK_ADC),
-	.n_rst(locked),
-	.din(ADC),  // ADC input, [WIDTH-1:0] 
-	.dout(adc_fir) // filtered ADC data [WIDTH+15:0]
-);
+// myfir_filter #(
+// 	.N(32), 
+// 	.WIDTH(14),
+// 	.COEFF_SET(COEFF_SET)
+// ) ADC_fir_inst 
+// (
+// 	.clk(CLOCK_ADC),
+// 	.n_rst(locked),
+// 	.din(ADC),  // ADC input, [WIDTH-1:0] 
+// 	.dout(adc_fir) // filtered ADC data [WIDTH+15:0]
+// );
 
 // ============================ ADC Signal Register ============================
 // double register adc signal from CLOCK_ADC_1 to CLOCK_DAC_1
-always @(posedge CLOCK_DAC) begin
-	reg_adc <= (adc_fir >>> 16);
-	reg_adc_sync <= reg_adc;
-end
+// always @(posedge CLOCK_DAC) begin
+// 	reg_adc <= (adc_fir >>> 16);
+// 	reg_adc_sync <= reg_adc;
+// end
 
 // ============================ Modulation Generator ============================
  my_modulation_gen_v1 inst_my_modulation_gen (
@@ -102,8 +102,8 @@ my_err_signal_gen_v2 #(
     .i_trig(stepTrig_DAC),             // Trigger signal (1 bit) used to initiate error generation
     .i_wait_cnt(var_wait_cnt),     // Wait counter (32 bits) for delay purposes unti signal stable 
     .i_err_offset(var_err_offset), // Error offset (32 bits) used to introduce error adjustments
-    .i_adc_data(reg_adc_sync),     // ADC data input (ADC_BIT bits, typically 14 bits)
-    // .i_adc_data(ADC),
+    // .i_adc_data(reg_adc_sync),     // ADC data input (ADC_BIT bits, typically 14 bits)
+    .i_adc_data(ADC),
     .i_avg_sel(var_avg_sel),       // Average selection signal (32 bits) to select averaging mode
     .o_step_sync(o_step_sync),          // Output one clock trigger to feedback step gen.i_trig 
     .o_step_sync_dly(o_step_sync_dly),  // Output one clock trigger to feedback step gen.i_trig_dly 

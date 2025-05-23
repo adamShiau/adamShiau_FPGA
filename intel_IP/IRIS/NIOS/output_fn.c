@@ -139,7 +139,7 @@ void acq_fog (cmd_ctrl_t* rx, my_sensor_t data, fog_parameter_t fog_parameter)
             break;
             case Y_AXIS:
             // UART_PRINT("%d,", get_timer_int());
-            g_time[2] = get_timer_int();
+            // g_time[2] = get_timer_int();
                 err.float_val = data.fog.fogy.err.float_val;
                 temp.float_val = data.temp.tempy.float_val;
                 sf_comp_gyro = SF_temp_compensation_1st_order_fog(data, fog_parameter, Y_AXIS);
@@ -166,7 +166,7 @@ void acq_fog (cmd_ctrl_t* rx, my_sensor_t data, fog_parameter_t fog_parameter)
                 // UART_PRINT("fog step_z_cali: %f\n", step_cali.float_val);
             break;
         }
-            g_time[3] = get_timer_int();
+            // g_time[3] = get_timer_int();
             alt_u8* imu_data = (alt_u8*)malloc(20); // KVH_HEADER:4 + time:4 + err:4 + fog:4 + temp:4
 			alt_u8 CRC32[4];
 
@@ -222,34 +222,60 @@ void acq_imu (cmd_ctrl_t* rx, my_sensor_t data, fog_parameter_t fog_parameter)
     if(rx->run == 1) {        
         g_time[2] = get_timer_int();    
             /*** gyro scale factor temperature  compensation*/
+            /**
             sf_x_comp_gyro = SF_temp_compensation_1st_order_fog(data, fog_parameter, X_AXIS); // gyro x axis SF Temp. compensation
             sf_y_comp_gyro = SF_temp_compensation_1st_order_fog(data, fog_parameter, Y_AXIS); // gyro y axis SF Temp. compensation
             sf_z_comp_gyro = SF_temp_compensation_1st_order_fog(data, fog_parameter, Z_AXIS); // gyro z axis SF Temp. compensation
+             */
+            float tempX = data.temp.tempx.float_val;
+            float slopeX = fog_parameter.paramX[17].data.float_val;
+            float offsetX = fog_parameter.paramX[18].data.float_val;
+            sf_x_comp_gyro = tempX * slopeX + offsetX;
+
+            // Y
+            float tempY = data.temp.tempy.float_val;
+            float slopeY = fog_parameter.paramY[17].data.float_val;
+            float offsetY = fog_parameter.paramY[18].data.float_val;
+            sf_y_comp_gyro = tempY * slopeY + offsetY;
+
+            // Z
+            float tempZ = data.temp.tempz.float_val;
+            float slopeZ = fog_parameter.paramZ[17].data.float_val;
+            float offsetZ = fog_parameter.paramZ[18].data.float_val;
+            sf_z_comp_gyro = tempZ * slopeZ + offsetZ;
+
+            g_time[3] = get_timer_int();   
             /*** accelerometer scale factor temperature compensation*/
             sf_x_comp_accl = SF_temp_compensation_1st_order_adxl357(data, fog_parameter, X_AXIS); // accl x axis SF Temp. compensation;
             sf_y_comp_accl = SF_temp_compensation_1st_order_adxl357(data, fog_parameter, Y_AXIS); // accl y axis SF Temp. compensation;
             sf_z_comp_accl = SF_temp_compensation_1st_order_adxl357(data, fog_parameter, Z_AXIS); // accl z axis SF Temp. compensation;
+            g_time[4] = get_timer_int();   
             /*** gyro bias temperature  compensation*/
             bias_x_comp_gyro = BIAS_temp_compensation_1st_order_fog_3T(data, fog_parameter, X_AXIS); // gyro x axis Bias Temp. compensation
             bias_y_comp_gyro = BIAS_temp_compensation_1st_order_fog_3T(data, fog_parameter, Y_AXIS); // gyro y axis Bias Temp. compensation
             bias_z_comp_gyro = BIAS_temp_compensation_1st_order_fog_3T(data, fog_parameter, Z_AXIS); // gyro z axis Bias Temp. compensation
+            g_time[5] = get_timer_int();   
             /*** xlm bias temperature  compensation*/
             bias_x_comp_accl = BIAS_temp_compensation_1st_order_adxl357(data, fog_parameter, X_AXIS); // accl x axis Bias Temp. compensation
             bias_y_comp_accl = BIAS_temp_compensation_1st_order_adxl357(data, fog_parameter, Y_AXIS); // accl y axis Bias Temp. compensation
             bias_z_comp_accl = BIAS_temp_compensation_1st_order_adxl357(data, fog_parameter, Z_AXIS); // accl z axis Bias Temp. compensation
+            g_time[6] = get_timer_int();   
             /*** calculate temperature compensated gyro data */
             step_x_comp = data.fog.fogx.step.float_val * sf_x_comp_gyro - bias_x_comp_gyro;
             step_y_comp = data.fog.fogy.step.float_val * sf_y_comp_gyro - bias_y_comp_gyro;
             step_z_comp = data.fog.fogz.step.float_val * sf_z_comp_gyro - bias_z_comp_gyro;
+            g_time[7] = get_timer_int();   
             /*** calculate temperature compensated accl data */
             accl_x_comp = data.adxl357.ax.float_val * sf_x_comp_accl - bias_x_comp_accl;
             accl_y_comp = data.adxl357.ay.float_val * sf_y_comp_accl - bias_y_comp_accl;
             accl_z_comp = data.adxl357.az.float_val * sf_z_comp_accl - bias_z_comp_accl;
+            g_time[8] = get_timer_int();   
             /*** calculate mis-alignment calibrated gyro data */
             gyro_misalign_calibrated = misalignment_calibration(step_x_comp, step_y_comp, step_z_comp, fog_parameter, MIS_CALI_GYRO);
+            g_time[9] = get_timer_int();   
             /*** calculate mis-alignment calibrated accl data */
             accl_misalign_calibrated = misalignment_calibration(accl_x_comp, accl_y_comp, accl_z_comp, fog_parameter, MIS_CALI_ACCL);
-
+            g_time[10] = get_timer_int();   
             // UART_PRINT("\nimu sf_comp_gyro: %f, %f, %f\n", sf_x_comp_gyro, sf_y_comp_gyro, sf_z_comp_gyro);
             // UART_PRINT("imu bias_comp_gyro: %f, %f, %f\n", bias_x_comp_gyro, bias_y_comp_gyro, bias_z_comp_gyro);
             // UART_PRINT("imu step_comp: %f, %f, %f\n", step_x_comp, step_y_comp, step_z_comp);
@@ -262,7 +288,7 @@ void acq_imu (cmd_ctrl_t* rx, my_sensor_t data, fog_parameter_t fog_parameter)
             // UART_PRINT("imu accl_comp: %f, %f, %f\n", accl_x_comp, accl_y_comp, accl_z_comp);
             // UART_PRINT("accl_cali: %f, %f, %f\n", accl_misalign_calibrated.x.float_val, accl_misalign_calibrated.y.float_val, accl_misalign_calibrated.z.float_val);
             
-            g_time[3] = get_timer_int();
+            // g_time[3] = get_timer_int();
             alt_u8* imu_data = (alt_u8*)malloc(48); // KVH_HEADER:4 + fog:12 + accl:12 + fog_temp:12 + accl_temp:4 + time:4 
 			alt_u8 CRC32[4];
 
@@ -280,7 +306,7 @@ void acq_imu (cmd_ctrl_t* rx, my_sensor_t data, fog_parameter_t fog_parameter)
             memcpy(imu_data+44, data.time.time.bin_val, 4);              
             crc_32(imu_data, 48, CRC32);
             free(imu_data);
-
+            g_time[11] = get_timer_int();   
         //    SerialWrite((alt_u8*)KVH_HEADER, 4);
         //    SerialWrite(gyro_misalign_calibrated.x.bin_val, 4);
         //    SerialWrite(gyro_misalign_calibrated.y.bin_val, 4);

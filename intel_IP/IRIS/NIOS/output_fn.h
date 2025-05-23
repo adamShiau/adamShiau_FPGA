@@ -9,7 +9,7 @@
 
 #define DLY_NUM 10000
 
-extern alt_u32 g_time[5];
+extern alt_u32 g_time[12];
 
 /*** output function type delaration */
 // typedef void (*fn_ptr) (cmd_ctrl_t*, my_sensor_t, alt_u8*, fog_parameter_t);

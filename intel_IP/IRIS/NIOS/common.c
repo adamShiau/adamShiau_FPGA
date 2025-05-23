@@ -774,6 +774,48 @@ float SF_temp_compensation_1st_order_fog(my_sensor_t sensor, fog_parameter_t par
 }
 
 
+// float SF_temp_compensation_1st_order_fog(my_sensor_t sensor, fog_parameter_t para, CH_t ch) {
+//     float temp;
+//     float slope;
+//     float offset;
+//     mem_unit_t* param = NULL;
+
+
+//     // Select the corresponding temperature, slope, and offset based on the axis (ch)
+//     switch (ch) {
+//         case X_AXIS: // X-axis
+//             // Check if the parameter type is correct
+//             param = para.paramX;
+// 			temp = sensor.temp.tempx.float_val;
+//             break;
+//         case Y_AXIS: // Y-axis
+//             // Check if the parameter type is correct
+//             param = para.paramY;
+// 			temp = sensor.temp.tempy.float_val;
+//             break;
+//         case Z_AXIS: // Z-axis
+//             // Check if the parameter type is correct
+//             if (para.paramZ[17].type != TYPE_FLOAT || para.paramZ[18].type != TYPE_FLOAT) {
+//                 DEBUG_PRINT("Error: Incorrect parameter type for Z-axis compensation\n");
+//                 return 0.0f; // Return a default value or handle the error appropriately
+//             }
+//             param = para.paramZ;
+// 			temp = sensor.temp.tempz.float_val;
+//             break;
+//         default:
+//             // Invalid axis selection, return 0 or other default value
+//             DEBUG_PRINT("Error: Invalid axis\n");
+//             return 0.0f;
+//     }
+
+//     // Perform first-order temperature compensation calculation
+//     slope = param[17].data.float_val;
+//     offset = param[18].data.float_val;
+
+//     return temp * slope + offset;
+// }
+
+
 float SF_temp_compensation_1st_order_adxl357(my_sensor_t sensor, fog_parameter_t para, CH_t ch) {
     float temp;
     float slope;

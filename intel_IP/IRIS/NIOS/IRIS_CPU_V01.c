@@ -9,7 +9,7 @@
 
 #define COE_TIMER 0.0001
 
-alt_u32 g_time[5];
+alt_u32 g_time[12];
 // void dump_fog_param(fog_parameter_t* fog_inst, alt_u8 ch);
 // void send_json_uart(const char* buffer);
 
@@ -116,6 +116,7 @@ int main(void)
 	// PRINT_FOG_PARAMETER(&fog_params);
 
 
+
 	while(1){
 		
 		get_uart_cmd(readDataDynamic(&try_cnt), &my_cmd);
@@ -124,16 +125,21 @@ int main(void)
 		output_mode_setting(&my_cmd, &output_fn, &auto_rst);
 		if (trigger_sig == 1) {
 			g_time[0] = get_timer_int();
+			
 			// UART_PRINT("%d,", get_timer_int());
 			// uart_printf("0: %f, %f, %f, %f\n", fog_params.misalignment[21].data.float_val, fog_params.misalignment[22].data.float_val, 
 			// 	fog_params.misalignment[23].data.float_val, fog_params.misalignment[14].data.float_val);
 			update_sensor_data(&sensor_data);
 			g_time[1] = get_timer_int();
+			// g_time[1] = get_timer_int();
 			// UART_PRINT("%d,", get_timer_int());
 			output_fn(&my_cmd, sensor_data, fog_params);
+			// UART_PRINT("%d,", get_timer_int());
 			trigger_sig = 0;
-			g_time[4] = get_timer_int();
-			UART_PRINT("%d,%d,%d,%d,%d\n", g_time[0],g_time[1],g_time[2],g_time[3],g_time[4]);
+			
+			// g_time[4] = get_timer_int();
+			UART_PRINT("%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\n", g_time[0],g_time[1],g_time[2],g_time[3],g_time[4],g_time[5],g_time[6],g_time[7],g_time[8],
+				g_time[9],g_time[10],g_time[11]);
 			// UART_PRINT("step_raw_z: %f\n", sensor_data.fog.fogz.step.float_val);
 		}
 	}
@@ -156,6 +162,7 @@ void update_sensor_data(my_sensor_t *data) {
     /***---y axis--- */
     data->fog.fogy.err.int_val = IORD(VARSET_BASE, i_var_err_2);
     data->fog.fogy.step.float_val = moving_average_update(&mz_y, (float)IORD(VARSET_BASE, i_var_step_2));
+	// data->fog.fogy.step.float_val = 1.0;]
 	// data->fog.fogy.step.float_val = 2.0;
     /***---z axis--- */
     data->fog.fogz.err.int_val = IORD(VARSET_BASE, i_var_err_1);
