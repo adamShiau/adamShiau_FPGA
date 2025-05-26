@@ -13,6 +13,7 @@
 
 // commonly used type define and funciotn
 #include "common.h"
+#include "acq_rst.h"
 
 #include "output_fn.h"
 
