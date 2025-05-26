@@ -152,7 +152,6 @@ typedef struct {
 } calibrated_data_t;
 
 /*** output function type delaration */
-// typedef void (*fn_ptr) (cmd_ctrl_t*, my_sensor_t, alt_u8*, fog_parameter_t);
 typedef void (*fn_ptr) (cmd_ctrl_t*, my_sensor_t, fog_parameter_t);
 
 // typedef struct cmd_ctrl_t cmd_ctrl_t;
@@ -162,6 +161,7 @@ typedef struct {
   alt_u8 status;
   alt_u8 fn_mode;
 } auto_rst_t;
+
 
 void moving_average_init(MovingAverage_t *, alt_u32); 
 float moving_average_update(MovingAverage_t *, float);
@@ -187,12 +187,23 @@ void dump_misalignment_param(fog_parameter_t* fog_inst);
 void dump_SN(fog_parameter_t* fog_inst);
 void send_json_uart(const char* buffer);
 
+
 float SF_temp_compensation_1st_order_fog(my_sensor_t, fog_parameter_t, CH_t);
 float SF_temp_compensation_1st_order_adxl357(my_sensor_t, fog_parameter_t, CH_t);
 
 float BIAS_temp_compensation_1st_order_fog_3T(my_sensor_t, fog_parameter_t, CH_t);
 float BIAS_temp_compensation_1st_order_adxl357(my_sensor_t, fog_parameter_t, CH_t);
 
+// misalignment calibration
 calibrated_data_t misalignment_calibration(float , float , float , fog_parameter_t , CH_t );
+
+// first order temperature compensation, one T
+#define SF_TEMP_COMPENSATION_1ST_ORDER(temp, slope, offset) ((temp) * (slope) + (offset))
+
+// first order temperature compensation, three T
+#define BIAS_TEMP_COMPENSATION_1ST_ORDER_3T(temp, T1, T2, s1, o1, s2, o2, s3, o3) \
+        (((temp) < (T1)) ? ((temp) * (s1) + (o1)) : \
+        ((temp) < (T2)) ? ((temp) * (s2) + (o2)) : \
+                        ((temp) * (s3) + (o3)))
 
 #endif /* __COMMON_H */

@@ -1,5 +1,5 @@
-#ifndef __IRIS_V1_H
-#define __IRIS_V1_H
+#ifndef __IRIS_V02_H
+#define __IRIS_V02_H
 
 /******** NIOS II Variable IP address definition*******/
 #include "nios2_var_addr.h"
@@ -37,7 +37,7 @@
 
 
 
-#endif // __IRIS_V1_H
+#endif // __IRIS_V02_H
 
 
 

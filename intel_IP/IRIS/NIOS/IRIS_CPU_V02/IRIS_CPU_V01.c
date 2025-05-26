@@ -5,7 +5,8 @@
 #include "system.h"
 #include "altera_avalon_uart_regs.h"
 
-#include "IRIS_V02.h"
+#include "IRIS_V1.h"
+#include "acq_rst.h"
 
 #define COE_TIMER 0.0001
 
