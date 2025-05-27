@@ -173,7 +173,7 @@ void LOAD_FOG_MISALIGNMENT(fog_parameter_t* fog_params)
 	for (int i = 0; i < MIS_LEN; i++) {
 		PARAMETER_Read(MEM_BASE_MIS, i , fog_params->misalignment[i].data.bin_val);
 		fog_params->misalignment[i].type = TYPE_FLOAT;
-		UART_PRINT("idx %d, %d, %f\n", i, fog_params->misalignment[i].data.int_val, fog_params->misalignment[i].data.float_val);
+//		UART_PRINT("idx %d, %d, %f\n", i, fog_params->misalignment[i].data.int_val, fog_params->misalignment[i].data.float_val);
     }
 	DEBUG_PRINT("Loading EEPROM Mis-alignment Parameters done!\n");
 }
@@ -195,20 +195,20 @@ void LOAD_FOG_PARAMETER(fog_parameter_t* fog_params)
 
 void PRINT_FOG_PARAMETER(fog_parameter_t* fog_params)
 {
-	DEBUG_PRINT("Printing EEPROM FOG Parameters...\n");
-	// DEBUG_PRINT("FOG X Parameter:\n");
-	// for (int i = 0; i < PAR_LEN; i++) {
-	// 	DEBUG_PRINT("%d. %d, type: %d\n", i, fog_params->paramX[i].data.int_val, fog_params->paramX[i].type);
-	// }
-	// DEBUG_PRINT("FOG Y Parameter:\n");
-	// for (int i = 0; i < PAR_LEN; i++) {
-	// 	DEBUG_PRINT("%d. %d, type: %d\n", i, fog_params->paramY[i].data.int_val, fog_params->paramY[i].type);
-	// }
-	DEBUG_PRINT("FOG Z Parameter:\n");
+	UART_PRINT("Printing EEPROM FOG Parameters...\n");
+	UART_PRINT("FOG X Parameter:\n");
+	 for (int i = 0; i < PAR_LEN; i++) {
+		 UART_PRINT("%d. %d, type: %d\n", i, fog_params->paramX[i].data.int_val, fog_params->paramX[i].type);
+	 }
+	 UART_PRINT("FOG Y Parameter:\n");
+	 for (int i = 0; i < PAR_LEN; i++) {
+		 UART_PRINT("%d. %d, type: %d\n", i, fog_params->paramY[i].data.int_val, fog_params->paramY[i].type);
+	 }
+	 UART_PRINT("FOG Z Parameter:\n");
 	for (int i = 0; i < PAR_LEN; i++) {
-		DEBUG_PRINT("%d. %d, type: %d\n", i, fog_params->paramZ[i].data.int_val, fog_params->paramZ[i].type);
+		UART_PRINT("%d. %d, type: %d\n", i, fog_params->paramZ[i].data.int_val, fog_params->paramZ[i].type);
 	}
-	DEBUG_PRINT("Printing EEPROM FOG Parameters done!\n");
+	UART_PRINT("Printing EEPROM FOG Parameters done!\n");
 }
 
 void EEPROM_Read_4B(alt_u16 reg_addr, alt_u8* buf)

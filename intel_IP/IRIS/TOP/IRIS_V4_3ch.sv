@@ -233,9 +233,10 @@ wire [31:0] var_gainSel_ramp_1, o_phaseRamp_1;
 /////////// Timer Gen parameter //////////
 wire [31:0] i_var_timer, var_timer_rst;
 
-assign DAC_3 =  o_phaseRamp_1[15:0]; // X axis
-assign DAC_1 =  o_phaseRamp_2[15:0]; // Y axis
-assign DAC_2 =  o_phaseRamp_3[15:0]; // Z axis
+
+assign DAC_1 =  o_phaseRamp_1[15:0];
+assign DAC_2 =  o_phaseRamp_2[15:0];
+assign DAC_3 =  o_phaseRamp_3[15:0];
 
 // assign i_var_step_3 = 32'd3;
 // assign i_var_step_2 = 32'd2;
@@ -325,48 +326,10 @@ timer_inst
 );
 ///***
 
-my_fog_v1 #(	//z axis
-    .COEFF_SET(N32FC2) // Default coefficient set N32FC5
-) my_fog_ch3_inst (
-    // ============================ Common Signals ============================
-    .CLOCK_ADC(CLOCK_ADC_2), // ADC clock (1-bit)
-    .CLOCK_DAC(CLOCK_DAC_2), // DAC clock (1-bit)
-    .locked(locked_2),    // Global reset signal, active low (1-bit)
-
-    // ============================ ADC Processing ============================
-    .ADC(ADC_2), // Raw ADC input signal (14-bit)
-
-    // ============================ Modulation Generator ============================
-    .var_freq_cnt(var_freq_cnt_3), // Frequency control input (32-bit)
-    .var_amp_H(var_amp_H_3),    // Positive amplitude control (32-bit)
-    .var_amp_L(var_amp_L_3),    // Negative amplitude control (32-bit)
-
-    // ============================ Error Signal Processing ============================
-    .var_polarity(var_polarity_3),     // Polarity control (1-bit)
-    .var_wait_cnt(var_wait_cnt_3),     // Wait counter for stabilization (32-bit)
-    .var_err_offset(var_err_offset_3),   // Error offset adjustment (32-bit)
-    .var_avg_sel(var_avg_sel_3),      // Average selection control (32-bit)
-
-    // ============================ Feedback Control ============================
-    .var_const_step(var_const_step_3),    // Constant step value (32-bit)
-    .var_fb_ON(var_fb_ON_3),         // Feedback enable (1-bit)
-    .var_gainSel_step(var_gainSel_step_3),  // Gain selection for step feedback (32-bit)
-
-    // ============================ Phase Ramp Control ============================
-    .var_gainSel_ramp(var_gainSel_ramp_3), // Gain selection for ramp control (32-bit)
-
-    // ============================ Output Signals ============================
-    .o_err_DAC(o_err_DAC3),       // Processed error signal output (32-bit, signed)
-    .o_err_DAC_FIR(o_err_DAC3_FIR),   // FIR filtered error signal (32-bit, signed)
-    .o_step(o_step_3),          // Feedback step output (32-bit, signed)
-    .o_step_MV(o_step_3_MV),       // Filtered step output (32-bit, signed)
-    .o_phaseRamp(o_phaseRamp_3)      // Phase ramp output (32-bit, signed)
-);
-//***/
 
 my_fog_v1 #( // y axis
    .COEFF_SET(N32FC2) // Default coefficient set N32FC5
-) my_fog_ch2_inst (
+) my_fog_ch1_inst (
    // ============================ Common Signals ============================
    .CLOCK_ADC(CLOCK_ADC_2), // ADC clock (1-bit)
    .CLOCK_DAC(CLOCK_DAC_2), // DAC clock (1-bit)
@@ -374,44 +337,6 @@ my_fog_v1 #( // y axis
 
    // ============================ ADC Processing ============================
    .ADC(ADC_1), // Raw ADC input signal (14-bit)
-
-   // ============================ Modulation Generator ============================
-   .var_freq_cnt(var_freq_cnt_2), // Frequency control input (32-bit)
-   .var_amp_H(var_amp_H_2),    // Positive amplitude control (32-bit)
-   .var_amp_L(var_amp_L_2),    // Negative amplitude control (32-bit)
-
-   // ============================ Error Signal Processing ============================
-   .var_polarity(var_polarity_2),     // Polarity control (1-bit)
-   .var_wait_cnt(var_wait_cnt_2),     // Wait counter for stabilization (32-bit)
-   .var_err_offset(var_err_offset_2),   // Error offset adjustment (32-bit)
-   .var_avg_sel(var_avg_sel_2),      // Average selection control (32-bit)
-
-   // ============================ Feedback Control ============================
-   .var_const_step(var_const_step_2),    // Constant step value (32-bit)
-   .var_fb_ON(var_fb_ON_2),         // Feedback enable (1-bit)
-   .var_gainSel_step(var_gainSel_step_2),  // Gain selection for step feedback (32-bit)
-
-   // ============================ Phase Ramp Control ============================
-   .var_gainSel_ramp(var_gainSel_ramp_2), // Gain selection for ramp control (32-bit)
-
-   // ============================ Output Signals ============================
-   .o_err_DAC(o_err_DAC2),       // Processed error signal output (32-bit, signed)
-   .o_err_DAC_FIR(o_err_DAC2_FIR),   // FIR filtered error signal (32-bit, signed)
-   .o_step(o_step_2),          // Feedback step output (32-bit, signed)
-   .o_step_MV(o_step_2_MV),       // Filtered step output (32-bit, signed)
-   .o_phaseRamp(o_phaseRamp_2)      // Phase ramp output (32-bit, signed)
-);
-///***
-my_fog_v1 #( // x axis
-   .COEFF_SET(N32FC2) // Default coefficient set N32FC5
-) my_fog_ch1_inst (
-   // ============================ Common Signals ============================
-   .CLOCK_ADC(CLOCK_ADC_1), // ADC clock (1-bit)
-   .CLOCK_DAC(CLOCK_DAC_1), // DAC clock (1-bit)
-   .locked(locked_1),    // Global reset signal, active low (1-bit)
-
-   // ============================ ADC Processing ============================
-   .ADC(ADC_3), // Raw ADC input signal (14-bit)
 
    // ============================ Modulation Generator ============================
    .var_freq_cnt(var_freq_cnt_1), // Frequency control input (32-bit)
@@ -438,6 +363,84 @@ my_fog_v1 #( // x axis
    .o_step(o_step_1),          // Feedback step output (32-bit, signed)
    .o_step_MV(o_step_1_MV),       // Filtered step output (32-bit, signed)
    .o_phaseRamp(o_phaseRamp_1)      // Phase ramp output (32-bit, signed)
+);
+
+my_fog_v1 #(	//x axis
+    .COEFF_SET(N32FC2) // Default coefficient set N32FC5
+) my_fog_ch2_inst (
+    // ============================ Common Signals ============================
+    .CLOCK_ADC(CLOCK_ADC_2), // ADC clock (1-bit)
+    .CLOCK_DAC(CLOCK_DAC_2), // DAC clock (1-bit)
+    .locked(locked_2),    // Global reset signal, active low (1-bit)
+
+    // ============================ ADC Processing ============================
+    .ADC(ADC_2), // Raw ADC input signal (14-bit)
+
+    // ============================ Modulation Generator ============================
+    .var_freq_cnt(var_freq_cnt_2), // Frequency control input (32-bit)
+    .var_amp_H(var_amp_H_2),    // Positive amplitude control (32-bit)
+    .var_amp_L(var_amp_L_2),    // Negative amplitude control (32-bit)
+
+    // ============================ Error Signal Processing ============================
+    .var_polarity(var_polarity_2),     // Polarity control (1-bit)
+    .var_wait_cnt(var_wait_cnt_2),     // Wait counter for stabilization (32-bit)
+    .var_err_offset(var_err_offset_2),   // Error offset adjustment (32-bit)
+    .var_avg_sel(var_avg_sel_2),      // Average selection control (32-bit)
+
+    // ============================ Feedback Control ============================
+    .var_const_step(var_const_step_2),    // Constant step value (32-bit)
+    .var_fb_ON(var_fb_ON_2),         // Feedback enable (1-bit)
+    .var_gainSel_step(var_gainSel_step_2),  // Gain selection for step feedback (32-bit)
+
+    // ============================ Phase Ramp Control ============================
+    .var_gainSel_ramp(var_gainSel_ramp_2), // Gain selection for ramp control (32-bit)
+
+    // ============================ Output Signals ============================
+    .o_err_DAC(o_err_DAC2),       // Processed error signal output (32-bit, signed)
+    .o_err_DAC_FIR(o_err_DAC2_FIR),   // FIR filtered error signal (32-bit, signed)
+    .o_step(o_step_2),          // Feedback step output (32-bit, signed)
+    .o_step_MV(o_step_2_MV),       // Filtered step output (32-bit, signed)
+    .o_phaseRamp(o_phaseRamp_2)      // Phase ramp output (32-bit, signed)
+);
+//***/
+
+///***
+my_fog_v1 #( 
+   .COEFF_SET(N32FC2) // Default coefficient set N32FC5
+) my_fog_ch3_inst (
+   // ============================ Common Signals ============================
+   .CLOCK_ADC(CLOCK_ADC_1), // ADC clock (1-bit)
+   .CLOCK_DAC(CLOCK_DAC_1), // DAC clock (1-bit)
+   .locked(locked_1),    // Global reset signal, active low (1-bit)
+
+   // ============================ ADC Processing ============================
+   .ADC(ADC_3), // Raw ADC input signal (14-bit)
+
+   // ============================ Modulation Generator ============================
+   .var_freq_cnt(var_freq_cnt_3), // Frequency control input (32-bit)
+   .var_amp_H(var_amp_H_3),    // Positive amplitude control (32-bit)
+   .var_amp_L(var_amp_L_3),    // Negative amplitude control (32-bit)
+
+   // ============================ Error Signal Processing ============================
+   .var_polarity(var_polarity_3),     // Polarity control (1-bit)
+   .var_wait_cnt(var_wait_cnt_3),     // Wait counter for stabilization (32-bit)
+   .var_err_offset(var_err_offset_3),   // Error offset adjustment (32-bit)
+   .var_avg_sel(var_avg_sel_3),      // Average selection control (32-bit)
+
+   // ============================ Feedback Control ============================
+   .var_const_step(var_const_step_3),    // Constant step value (32-bit)
+   .var_fb_ON(var_fb_ON_3),         // Feedback enable (1-bit)
+   .var_gainSel_step(var_gainSel_step_3),  // Gain selection for step feedback (32-bit)
+
+   // ============================ Phase Ramp Control ============================
+   .var_gainSel_ramp(var_gainSel_ramp_3), // Gain selection for ramp control (32-bit)
+
+   // ============================ Output Signals ============================
+   .o_err_DAC(o_err_DAC3),       // Processed error signal output (32-bit, signed)
+   .o_err_DAC_FIR(o_err_DAC3_FIR),   // FIR filtered error signal (32-bit, signed)
+   .o_step(o_step_3),          // Feedback step output (32-bit, signed)
+   .o_step_MV(o_step_3_MV),       // Filtered step output (32-bit, signed)
+   .o_phaseRamp(o_phaseRamp_3)      // Phase ramp output (32-bit, signed)
 );
 //***/
 
@@ -549,17 +552,17 @@ CPU u0 (
 	.varset_1_o_reg6     (var_i2c_EEPROM_w_data),     
 	.varset_1_o_reg7     (var_i2c_EEPROM_ctrl),    
 	.varset_1_o_reg8     (var_i2c_EEPROM_reg_addr),    
-	.varset_1_o_reg9     (var_freq_cnt_3),    
-	.varset_1_o_reg10    (var_amp_H_3),   
-	.varset_1_o_reg11    (var_amp_L_3),    
-	.varset_1_o_reg12    (var_polarity_3),    
-	.varset_1_o_reg13    (var_wait_cnt_3),    
-	.varset_1_o_reg14    (var_avg_sel_3),    
-	.varset_1_o_reg15  	 (var_gainSel_step_3),  
-	.varset_1_o_reg16  	 (var_const_step_3),  
-	.varset_1_o_reg17  	 (var_fb_ON_3),  
-	.varset_1_o_reg18  	 (var_gainSel_ramp_3),  
-	.varset_1_o_reg19  	 (var_err_offset_3),  
+	.varset_1_o_reg9     (var_freq_cnt_1),    
+	.varset_1_o_reg10    (var_amp_H_1),   
+	.varset_1_o_reg11    (var_amp_L_1),    
+	.varset_1_o_reg12    (var_polarity_1),    
+	.varset_1_o_reg13    (var_wait_cnt_1),    
+	.varset_1_o_reg14    (var_avg_sel_1),    
+	.varset_1_o_reg15  	 (var_gainSel_step_1),  
+	.varset_1_o_reg16  	 (var_const_step_1),  
+	.varset_1_o_reg17  	 (var_fb_ON_1),  
+	.varset_1_o_reg18  	 (var_gainSel_ramp_1),  
+	.varset_1_o_reg19  	 (var_err_offset_1),  
 	.varset_1_o_reg20  (var_freq_cnt_2),  
 	.varset_1_o_reg21  (var_amp_H_2),  
 	.varset_1_o_reg22  (var_amp_L_2),  
@@ -571,17 +574,17 @@ CPU u0 (
 	.varset_1_o_reg28  (var_fb_ON_2),  
 	.varset_1_o_reg29  (var_gainSel_ramp_2),  
 	.varset_1_o_reg30  (var_err_offset_2), 
-	.varset_1_o_reg31  (var_freq_cnt_1),	
-	.varset_1_o_reg32  (var_amp_H_1),  
-	.varset_1_o_reg33  (var_amp_L_1),  
-	.varset_1_o_reg34  (var_polarity_1),  
-	.varset_1_o_reg35  (var_wait_cnt_1),  
-	.varset_1_o_reg36  (var_avg_sel_1),  
-	.varset_1_o_reg37  (var_gainSel_step_1),  
-	.varset_1_o_reg38  (var_const_step_1),  
-	.varset_1_o_reg39  (var_fb_ON_1),  
-	.varset_1_o_reg40  (var_gainSel_ramp_1),  
-	.varset_1_o_reg41  (var_err_offset_1),  
+	.varset_1_o_reg31  (var_freq_cnt_3),	
+	.varset_1_o_reg32  (var_amp_H_3),  
+	.varset_1_o_reg33  (var_amp_L_3),  
+	.varset_1_o_reg34  (var_polarity_3),  
+	.varset_1_o_reg35  (var_wait_cnt_3),  
+	.varset_1_o_reg36  (var_avg_sel_3),  
+	.varset_1_o_reg37  (var_gainSel_step_3),  
+	.varset_1_o_reg38  (var_const_step_3),  
+	.varset_1_o_reg39  (var_fb_ON_3),  
+	.varset_1_o_reg40  (var_gainSel_ramp_3),  
+	.varset_1_o_reg41  (var_err_offset_3),  
 	.varset_1_o_reg42  (var_i2c_ads122c04_temp_dev_addr),  
 	.varset_1_o_reg43  (var_i2c_ads122c04_temp_w_data),  
 	.varset_1_o_reg44  (var_i2c_ads122c04_temp_ctrl),  

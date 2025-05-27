@@ -182,7 +182,7 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 
             if(rx->ch == 1) {
 				base = MEM_BASE_X;
-				cmd2hwreg = CMD_TO_HW_REG_OFFSET_CH1; // 23
+				cmd2hwreg = CMD_TO_HW_REG_OFFSET_CH1; // 1
 			}
 			else if(rx->ch == 2) {
 				base = MEM_BASE_Y;
@@ -190,7 +190,7 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 			}
 			else if(rx->ch == 3) {
 				base = MEM_BASE_Z;
-				cmd2hwreg = CMD_TO_HW_REG_OFFSET_CH3; // 1
+				cmd2hwreg = CMD_TO_HW_REG_OFFSET_CH3; // 23
 			}
 			else if(rx->ch == 4) {
 				base = MEM_BASE_MIS;

@@ -9,18 +9,18 @@
 #define var_i2c_EEPROM_w_data		6
 #define var_i2c_EEPROM_ctrl		    7
 #define var_i2c_EEPROM_reg_addr		8
-/*** fog ch3, z axis ***/
-#define var_freq_cnt_3		        9
-#define var_amp_H_3	                10
-#define var_amp_L_3		            11
-#define var_polarity_3              12
-#define var_wait_cnt_3              13
-#define var_avg_sel_3               14
-#define var_gainSel_step_3          15
-#define var_const_step_3            16
-#define var_fb_ON_3            		17
-#define var_gainSel_ramp_3          18
-#define var_err_offset_3            19
+/*** fog ch1, x axis ***/
+#define var_freq_cnt_1		        9
+#define var_amp_H_1	                10
+#define var_amp_L_1		            11
+#define var_polarity_1              12
+#define var_wait_cnt_1              13
+#define var_avg_sel_1              	14
+#define var_gainSel_step_1          15
+#define var_const_step_1            16
+#define var_fb_ON_1            		17
+#define var_gainSel_ramp_1          18
+#define var_err_offset_1            19
 /*** fog ch2, y axis ***/
 #define var_freq_cnt_2		        20
 #define var_amp_H_2	                21
@@ -33,18 +33,18 @@
 #define var_fb_ON_2            		28
 #define var_gainSel_ramp_2          29
 #define var_err_offset_2            30
-/*** fog ch1, x axis ***/
-#define var_freq_cnt_1		        31
-#define var_amp_H_1	                32
-#define var_amp_L_1		            33
-#define var_polarity_1              34
-#define var_wait_cnt_1              35
-#define var_avg_sel_1              	36
-#define var_gainSel_step_1          37
-#define var_const_step_1            38
-#define var_fb_ON_1            		39
-#define var_gainSel_ramp_1          40
-#define var_err_offset_1            41
+/*** fog ch3, z axis ***/
+#define var_freq_cnt_3		        31
+#define var_amp_H_3	                32
+#define var_amp_L_3		            33
+#define var_polarity_3              34
+#define var_wait_cnt_3              35
+#define var_avg_sel_3               36
+#define var_gainSel_step_3          37
+#define var_const_step_3            38
+#define var_fb_ON_3            		39
+#define var_gainSel_ramp_3          40
+#define var_err_offset_3            41
 #define var_i2c_ads122c04_temp_dev_addr 42
 #define var_i2c_ads122c04_temp_w_data   43
 #define var_i2c_ads122c04_temp_ctrl     44

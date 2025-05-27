@@ -139,8 +139,8 @@ int main(void)
 			trigger_sig = 0;
 			
 			// g_time[4] = get_timer_int();
-			UART_PRINT("%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\n", g_time[0],g_time[1],g_time[2],g_time[3],g_time[4],g_time[5],g_time[6],g_time[7],g_time[8],
-				g_time[9],g_time[10],g_time[11]);
+			// UART_PRINT("%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\n", g_time[0],g_time[1],g_time[2],g_time[3],g_time[4],g_time[5],g_time[6],g_time[7],g_time[8],
+			// 	g_time[9],g_time[10],g_time[11]);
 			// UART_PRINT("step_raw_z: %f\n", sensor_data.fog.fogz.step.float_val);
 		}
 	}
