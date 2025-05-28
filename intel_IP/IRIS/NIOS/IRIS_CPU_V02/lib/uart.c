@@ -1,8 +1,6 @@
 #include "uart.h"
-
 #include <stdio.h>
 #include <string.h>
-
 #include "alt_types.h"
 #include "altera_avalon_uart_regs.h"
 #include "sys/alt_irq.h"

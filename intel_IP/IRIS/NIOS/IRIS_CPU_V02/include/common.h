@@ -173,7 +173,9 @@ void SerialWrite(alt_u8* buf, alt_u8 num);
 void SerialWrite_r(alt_u8* buf, alt_u8 num); 
  int IEEE_754_F2INT(float in);
 void crc_32(alt_u8  message[], alt_u8 nBytes, alt_u8* crc);
-void Set_Dac_Gain(alt_32 gain);
+void Set_Dac_Gain_x(alt_32 gain);
+void Set_Dac_Gain_y(alt_32 gain);
+void Set_Dac_Gain_z(alt_32 gain);
 
 void get_uart_cmd(alt_u8*, cmd_ctrl_t*);
 void cmd_mux(cmd_ctrl_t*);

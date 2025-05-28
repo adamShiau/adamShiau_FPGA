@@ -160,12 +160,25 @@ void cmd_mux(cmd_ctrl_t* rx)
 	}
 }
 
-void Set_Dac_Gain(alt_32 gain)
+void Set_Dac_Gain_x(alt_32 gain)
 {
-	// for fogz, DAC_1CH with DAC2
-	IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_ADDA_BASE, SEL_CS_DAC_1CH); usleep (10); //select DAC_1CH
+	IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_ADDA_BASE, SEL_CS_DAC_2CH); usleep (10); 
+	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_ADDA_BASE, (DAC1_GAIN_LSB_ADDR<<8) | (gain&0xFF)); usleep (10);
+	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_ADDA_BASE, (DAC1_GAIN_MSB_ADDR<<8) | (gain>>8)); usleep (10);
+	// IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_ADDA_BASE, (DAC2_GAIN_LSB_ADDR<<8) | (gain&0xFF)); usleep (10);
+	// IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_ADDA_BASE, (DAC2_GAIN_MSB_ADDR<<8) | (gain>>8)); usleep (10);
+}
+void Set_Dac_Gain_y(alt_32 gain)
+{
+	IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_ADDA_BASE, SEL_CS_DAC_2CH); usleep (10); 
 	// IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_ADDA_BASE, (DAC1_GAIN_LSB_ADDR<<8) | (gain&0xFF)); usleep (10);
 	// IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_ADDA_BASE, (DAC1_GAIN_MSB_ADDR<<8) | (gain>>8)); usleep (10);
+	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_ADDA_BASE, (DAC2_GAIN_LSB_ADDR<<8) | (gain&0xFF)); usleep (10);
+	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_ADDA_BASE, (DAC2_GAIN_MSB_ADDR<<8) | (gain>>8)); usleep (10);
+}
+void Set_Dac_Gain_z(alt_32 gain)
+{
+	IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_ADDA_BASE, SEL_CS_DAC_1CH); usleep (10); 
 	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_ADDA_BASE, (DAC2_GAIN_LSB_ADDR<<8) | (gain&0xFF)); usleep (10);
 	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_ADDA_BASE, (DAC2_GAIN_MSB_ADDR<<8) | (gain>>8)); usleep (10);
 }
@@ -267,7 +280,9 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 					case CMD_DAC_GAIN: {
 						DEBUG_PRINT("CMD_DAC_GAIN:\n");
 						PARAMETER_Write_s(base, CMD_DAC_GAIN - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-						Set_Dac_Gain(rx->value);
+						if(base == MEM_BASE_X) Set_Dac_Gain_x(rx->value);
+						else if(base == MEM_BASE_Y) Set_Dac_Gain_y(rx->value);
+						else if(base == MEM_BASE_Z) Set_Dac_Gain_z(rx->value);
 						break;
 					}
 					case CMD_CUT_OFF: {
@@ -619,7 +634,7 @@ void update_fog_parameters_to_HW_REG(alt_u8 base, fog_parameter_t* fog_params)
 		}
 		INFO_PRINT("is_valid = %d\n", is_valid);
 		DEBUG_PRINT("DAC GAIN: %d\n", fog_params->paramZ[11].data.int_val);
-		Set_Dac_Gain(fog_params->paramZ[11].data.int_val);
+		Set_Dac_Gain_z(fog_params->paramZ[11].data.int_val);
 		INFO_PRINT("Done.\n ");
 	}
 	else if(base == MEM_BASE_X) 
@@ -637,7 +652,7 @@ void update_fog_parameters_to_HW_REG(alt_u8 base, fog_parameter_t* fog_params)
 		}
 		INFO_PRINT("is_valid = %d\n", is_valid);
 		DEBUG_PRINT("DAC GAIN: %d\n", fog_params->paramX[11].data.int_val);
-		Set_Dac_Gain(fog_params->paramX[11].data.int_val);
+		Set_Dac_Gain_x(fog_params->paramX[11].data.int_val);
 		INFO_PRINT("Done.\n ");
 	}
 	else if(base == MEM_BASE_Y)
@@ -655,7 +670,7 @@ void update_fog_parameters_to_HW_REG(alt_u8 base, fog_parameter_t* fog_params)
 		}
 		INFO_PRINT("is_valid = %d\n", is_valid);
 		DEBUG_PRINT("DAC GAIN: %d\n", fog_params->paramY[11].data.int_val);
-		Set_Dac_Gain(fog_params->paramY[11].data.int_val);
+		Set_Dac_Gain_y(fog_params->paramY[11].data.int_val);
 		INFO_PRINT("Done.\n ");
 	}
 }
