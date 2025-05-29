@@ -62,6 +62,10 @@
 
 /*** ADC convertion coefficient */
 #define ADC_CONV_TEMP 0.00004447005 // 2.048/8388608.0*1000.0/5.49
+#define ADC_SCALE_INT     4447       // 0.00004447005 × 100,000,000
+#define ADC_SCALE_DIV     100000000  // 將結果縮回來
+#define TEMP_OFFSET_x1000 273150     // 273.15 × 1000
+
 
 // Moving Average structure
 typedef struct {
@@ -172,7 +176,10 @@ void uart_printf(const char *format, ...);
 void SerialWrite(alt_u8* buf, alt_u8 num); 
 void SerialWrite_r(alt_u8* buf, alt_u8 num); 
  int IEEE_754_F2INT(float in);
-void crc_32(alt_u8  message[], alt_u8 nBytes, alt_u8* crc);
+void crc32_init_table();
+// void crc_32_bitwise(const alt_u8* message, alt_u8 nBytes, alt_u8* crc);
+void crc_32(const alt_u8* message, alt_u8 nBytes, alt_u8* crc);
+void print_crc(const char* label, alt_u8* crc);
 void Set_Dac_Gain_x(alt_32 gain);
 void Set_Dac_Gain_y(alt_32 gain);
 void Set_Dac_Gain_z(alt_32 gain);

@@ -88,6 +88,7 @@ int main(void)
 	UART_PRINT("Running IRIS CPU!\n");
 
 	UART_PRINT("TRIGGER_IRQ_init\n");
+	crc32_init_table();
 	TRIGGER_IRQ_init();
 	moving_average_init(&mz_x, 13);
 	moving_average_init(&mz_y, 13);
@@ -99,9 +100,9 @@ int main(void)
 	UART_PRINT("init_EEPROM\n");
 	init_EEPROM();
 	UART_PRINT("init_ADXL357\n");
-//	init_ADXL357();
+	init_ADXL357();
 	UART_PRINT("init_ADS122C04_TEMP\n");
-//	init_ADS122C04_TEMP();
+	init_ADS122C04_TEMP();
 	UART_PRINT("initialize_fog_params_type\n");
 	initialize_fog_params_type(&fog_params);
 	// EEPROM_Write_initial_parameter();
@@ -126,22 +127,19 @@ int main(void)
 		output_mode_setting(&my_cmd, &output_fn, &auto_rst);
 		if (trigger_sig == 1) {
 			// g_time[0] = get_timer_int();
-			
-			// UART_PRINT("%d,", get_timer_int());
-			// uart_printf("0: %f, %f, %f, %f\n", fog_params.misalignment[21].data.float_val, fog_params.misalignment[22].data.float_val, 
-			// 	fog_params.misalignment[23].data.float_val, fog_params.misalignment[14].data.float_val);
 			update_sensor_data(&sensor_data);
-			// g_time[1] = get_timer_int();
+			// g_time[9] = get_timer_int();
 			// g_time[1] = get_timer_int();
 			// UART_PRINT("%d,", get_timer_int());
 			output_fn(&my_cmd, sensor_data, fog_params);
+			// g_time[10] = get_timer_int();
 			// UART_PRINT("%d,", get_timer_int());
 			trigger_sig = 0;
+			// g_time[11] = get_timer_int();
 			
 			// g_time[4] = get_timer_int();
 			// UART_PRINT("%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\n", g_time[0],g_time[1],g_time[2],g_time[3],g_time[4],g_time[5],g_time[6],g_time[7],g_time[8],
 			// 	g_time[9],g_time[10],g_time[11]);
-			// UART_PRINT("step_raw_z: %f\n", sensor_data.fog.fogz.step.float_val);
 		}
 	}
 
@@ -154,31 +152,44 @@ alt_u32 get_timer_int()
 }
 
 void update_sensor_data(my_sensor_t *data) {
+	// g_time[1] = get_timer_int();
     /*** fog */
     data->time.time.float_val = (float)IORD(VARSET_BASE, i_var_timer) * COE_TIMER;
+	// g_time[2] = get_timer_int();
     /***---x axis--- */
     data->fog.fogx.err.int_val = IORD(VARSET_BASE, i_var_err_3);
     data->fog.fogx.step.float_val = moving_average_update(&mz_x, (float)IORD(VARSET_BASE, i_var_step_3));
-	// data->fog.fogx.step.float_val = 1.0;
+	// g_time[3] = get_timer_int();
     /***---y axis--- */
     data->fog.fogy.err.int_val = IORD(VARSET_BASE, i_var_err_2);
     data->fog.fogy.step.float_val = moving_average_update(&mz_y, (float)IORD(VARSET_BASE, i_var_step_2));
-	// data->fog.fogy.step.float_val = 1.0;]
-	// data->fog.fogy.step.float_val = 2.0;
+	// g_time[4] = get_timer_int();
     /***---z axis--- */
     data->fog.fogz.err.int_val = IORD(VARSET_BASE, i_var_err_1);
     data->fog.fogz.step.float_val = moving_average_update(&mz_z, (float)IORD(VARSET_BASE, i_var_step_1));
-	// data->fog.fogz.step.float_val = 3.0;
-	// data->fog.fogz.step.float_val = (float)IORD(VARSET_BASE, i_var_step_3);
+	// g_time[5] = get_timer_int();
     /***ads122c04 temperature */
-    data->temp.tempx.float_val = (float)IORD(VARSET_BASE, var_i2c_ads122c04_temp_rdata_1) * ADC_CONV_TEMP - 273.15;
-    data->temp.tempy.float_val = (float)IORD(VARSET_BASE, var_i2c_ads122c04_temp_rdata_2) * ADC_CONV_TEMP - 273.15;
-    data->temp.tempz.float_val = (float)IORD(VARSET_BASE, var_i2c_ads122c04_temp_rdata_3) * ADC_CONV_TEMP - 273.15;
+    // data->temp.tempx.float_val = (float)IORD(VARSET_BASE, var_i2c_ads122c04_temp_rdata_1) * ADC_CONV_TEMP - 273.15;
+    // data->temp.tempy.float_val = (float)IORD(VARSET_BASE, var_i2c_ads122c04_temp_rdata_2) * ADC_CONV_TEMP - 273.15;
+    // data->temp.tempz.float_val = (float)IORD(VARSET_BASE, var_i2c_ads122c04_temp_rdata_3) * ADC_CONV_TEMP - 273.15;
+	alt_32 raw = IORD(VARSET_BASE, var_i2c_ads122c04_temp_rdata_1);
+	alt_32 temp_x1000 = (raw * ADC_SCALE_INT) / ADC_SCALE_DIV * 1000 - TEMP_OFFSET_x1000;
+	data->temp.tempx.float_val = temp_x1000 / 1000.0f;
+	raw = IORD(VARSET_BASE, var_i2c_ads122c04_temp_rdata_2);
+	temp_x1000 = (raw * ADC_SCALE_INT) / ADC_SCALE_DIV * 1000 - TEMP_OFFSET_x1000;
+	data->temp.tempy.float_val = temp_x1000 / 1000.0f;
+	raw = IORD(VARSET_BASE, var_i2c_ads122c04_temp_rdata_3);
+	temp_x1000 = (raw * ADC_SCALE_INT) / ADC_SCALE_DIV * 1000 - TEMP_OFFSET_x1000;
+	data->temp.tempz.float_val = temp_x1000 / 1000.0f;
+
+	// g_time[6] = get_timer_int();
     /*** ADXL357 */
     data->adxl357.ax.float_val = (float)IORD(VARSET_BASE, var_i2c_357_rdata_1) * SENS_ADXL357_20G;
     data->adxl357.ay.float_val = (float)IORD(VARSET_BASE, var_i2c_357_rdata_2) * SENS_ADXL357_20G;
     data->adxl357.az.float_val = (float)IORD(VARSET_BASE, var_i2c_357_rdata_3) * SENS_ADXL357_20G;
+	// g_time[7] = get_timer_int();
     data->adxl357.temp.float_val = 233.2873 - 0.1105 * (float)IORD(VARSET_BASE, var_i2c_357_rdata_4);
+	// g_time[8] = get_timer_int();
 	// UART_PRINT("step_x,y,z: %f, %f, %f \n", data->fog.fogx.step.float_val, data->fog.fogy.step.float_val, data->fog.fogz.step.float_val);
 }
 
