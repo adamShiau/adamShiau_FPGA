@@ -172,16 +172,19 @@ void update_sensor_data(my_sensor_t *data) {
     // data->temp.tempx.float_val = (float)IORD(VARSET_BASE, var_i2c_ads122c04_temp_rdata_1) * ADC_CONV_TEMP - 273.15;
     // data->temp.tempy.float_val = (float)IORD(VARSET_BASE, var_i2c_ads122c04_temp_rdata_2) * ADC_CONV_TEMP - 273.15;
     // data->temp.tempz.float_val = (float)IORD(VARSET_BASE, var_i2c_ads122c04_temp_rdata_3) * ADC_CONV_TEMP - 273.15;
+
 	alt_32 raw = IORD(VARSET_BASE, var_i2c_ads122c04_temp_rdata_1);
-	alt_32 temp_x1000 = (raw * ADC_SCALE_INT) / ADC_SCALE_DIV * 1000 - TEMP_OFFSET_x1000;
+	alt_64 scaled = ((alt_64)raw * ADC_SCALE_INT * 1000) / ADC_SCALE_DIV;
+	alt_32 temp_x1000 = (alt_32)(scaled - TEMP_OFFSET_x1000);
 	data->temp.tempx.float_val = temp_x1000 / 1000.0f;
 	raw = IORD(VARSET_BASE, var_i2c_ads122c04_temp_rdata_2);
-	temp_x1000 = (raw * ADC_SCALE_INT) / ADC_SCALE_DIV * 1000 - TEMP_OFFSET_x1000;
+	scaled = ((alt_64)raw * ADC_SCALE_INT * 1000) / ADC_SCALE_DIV;
+	temp_x1000 = (alt_32)(scaled - TEMP_OFFSET_x1000);
 	data->temp.tempy.float_val = temp_x1000 / 1000.0f;
 	raw = IORD(VARSET_BASE, var_i2c_ads122c04_temp_rdata_3);
-	temp_x1000 = (raw * ADC_SCALE_INT) / ADC_SCALE_DIV * 1000 - TEMP_OFFSET_x1000;
+	scaled = ((alt_64)raw * ADC_SCALE_INT * 1000) / ADC_SCALE_DIV;
+	temp_x1000 = (alt_32)(scaled - TEMP_OFFSET_x1000);
 	data->temp.tempz.float_val = temp_x1000 / 1000.0f;
-
 	// g_time[6] = get_timer_int();
     /*** ADXL357 */
     data->adxl357.ax.float_val = (float)IORD(VARSET_BASE, var_i2c_357_rdata_1) * SENS_ADXL357_20G;
