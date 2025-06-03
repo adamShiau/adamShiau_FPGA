@@ -327,7 +327,7 @@ timer_inst
 ///***
 
 
-my_fog_v1 #( // y axis
+my_fog_v1 #( // x axis
    .COEFF_SET(N32FC2) // Default coefficient set N32FC5
 ) my_fog_ch1_inst (
    // ============================ Common Signals ============================
@@ -365,7 +365,7 @@ my_fog_v1 #( // y axis
    .o_phaseRamp(o_phaseRamp_1)      // Phase ramp output (32-bit, signed)
 );
 
-my_fog_v1 #(	//x axis
+my_fog_v1 #(	//y axis
     .COEFF_SET(N32FC2) // Default coefficient set N32FC5
 ) my_fog_ch2_inst (
     // ============================ Common Signals ============================

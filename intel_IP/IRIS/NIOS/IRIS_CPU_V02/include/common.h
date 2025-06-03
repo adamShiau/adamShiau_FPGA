@@ -66,6 +66,9 @@
 #define ADC_SCALE_DIV     100000000  // 將結果縮回來
 #define TEMP_OFFSET_x1000 273150     // 273.15 × 1000
 
+/*** ADXL357 convertion coefficient */
+#define ADXL357_SCALE_SHIFT 20
+#define ADXL357_SCALE_INT 41 
 
 // Moving Average structure
 typedef struct {

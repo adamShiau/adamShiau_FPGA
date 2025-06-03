@@ -157,27 +157,30 @@ void update_sensor_data(my_sensor_t *data) {
     data->time.time.float_val = (float)IORD(VARSET_BASE, i_var_timer) * COE_TIMER;
 	// g_time[2] = get_timer_int();
     /***---x axis--- */
-    data->fog.fogx.err.int_val = IORD(VARSET_BASE, i_var_err_3);
-    data->fog.fogx.step.float_val = moving_average_update(&mz_x, (float)IORD(VARSET_BASE, i_var_step_3));
+    data->fog.fogx.err.int_val = IORD(VARSET_BASE, i_var_err_1);
+    data->fog.fogx.step.float_val = moving_average_update(&mz_x, (float)IORD(VARSET_BASE, i_var_step_1));
+	// data->fog.fogx.step.float_val = 1.0;
 	// g_time[3] = get_timer_int();
     /***---y axis--- */
     data->fog.fogy.err.int_val = IORD(VARSET_BASE, i_var_err_2);
     data->fog.fogy.step.float_val = moving_average_update(&mz_y, (float)IORD(VARSET_BASE, i_var_step_2));
+	// data->fog.fogy.step.float_val = 2.0;
 	// g_time[4] = get_timer_int();
     /***---z axis--- */
-    data->fog.fogz.err.int_val = IORD(VARSET_BASE, i_var_err_1);
-    data->fog.fogz.step.float_val = moving_average_update(&mz_z, (float)IORD(VARSET_BASE, i_var_step_1));
+    data->fog.fogz.err.int_val = IORD(VARSET_BASE, i_var_err_3);
+    data->fog.fogz.step.float_val = moving_average_update(&mz_z, (float)IORD(VARSET_BASE, i_var_step_3));
+	// data->fog.fogz.step.float_val = 3.0;
 	// g_time[5] = get_timer_int();
     /***ads122c04 temperature */
     // data->temp.tempx.float_val = (float)IORD(VARSET_BASE, var_i2c_ads122c04_temp_rdata_1) * ADC_CONV_TEMP - 273.15;
     // data->temp.tempy.float_val = (float)IORD(VARSET_BASE, var_i2c_ads122c04_temp_rdata_2) * ADC_CONV_TEMP - 273.15;
     // data->temp.tempz.float_val = (float)IORD(VARSET_BASE, var_i2c_ads122c04_temp_rdata_3) * ADC_CONV_TEMP - 273.15;
 
-	alt_32 raw = IORD(VARSET_BASE, var_i2c_ads122c04_temp_rdata_1);
+	alt_32 raw = IORD(VARSET_BASE, var_i2c_ads122c04_temp_rdata_2);
 	alt_64 scaled = ((alt_64)raw * ADC_SCALE_INT * 1000) / ADC_SCALE_DIV;
 	alt_32 temp_x1000 = (alt_32)(scaled - TEMP_OFFSET_x1000);
 	data->temp.tempx.float_val = temp_x1000 / 1000.0f;
-	raw = IORD(VARSET_BASE, var_i2c_ads122c04_temp_rdata_2);
+	raw = IORD(VARSET_BASE, var_i2c_ads122c04_temp_rdata_1);
 	scaled = ((alt_64)raw * ADC_SCALE_INT * 1000) / ADC_SCALE_DIV;
 	temp_x1000 = (alt_32)(scaled - TEMP_OFFSET_x1000);
 	data->temp.tempy.float_val = temp_x1000 / 1000.0f;
@@ -190,8 +193,24 @@ void update_sensor_data(my_sensor_t *data) {
     data->adxl357.ax.float_val = (float)IORD(VARSET_BASE, var_i2c_357_rdata_1) * SENS_ADXL357_20G;
     data->adxl357.ay.float_val = (float)IORD(VARSET_BASE, var_i2c_357_rdata_2) * SENS_ADXL357_20G;
     data->adxl357.az.float_val = (float)IORD(VARSET_BASE, var_i2c_357_rdata_3) * SENS_ADXL357_20G;
+	// raw = IORD(VARSET_BASE, var_i2c_357_rdata_1);
+	// alt_32 scaled_val = (raw * ADXL357_SCALE_INT) >> ADXL357_SCALE_SHIFT;
+	// data->adxl357.ax.float_val = (float)scaled_val;
+
+	// raw = IORD(VARSET_BASE, var_i2c_357_rdata_2);
+	// scaled_val = (raw * ADXL357_SCALE_INT) >> ADXL357_SCALE_SHIFT;
+	// data->adxl357.ay.float_val = (float)scaled_val;
+
+	// raw = IORD(VARSET_BASE, var_i2c_357_rdata_3);
+	// scaled_val = (raw * ADXL357_SCALE_INT) >> ADXL357_SCALE_SHIFT;
+	// data->adxl357.az.float_val = (float)scaled_val;
+
 	// g_time[7] = get_timer_int();
-    data->adxl357.temp.float_val = 233.2873 - 0.1105 * (float)IORD(VARSET_BASE, var_i2c_357_rdata_4);
+    // data->adxl357.temp.float_val = 233.2873 - 0.1105 * (float)IORD(VARSET_BASE, var_i2c_357_rdata_4);
+
+	raw = IORD(VARSET_BASE, var_i2c_357_rdata_4);
+	alt_32 temp_scaled = 2332873 - 1105 * raw; // 放大 10000 倍進行計算
+	data->adxl357.temp.float_val = (float)temp_scaled / 10000.0;
 	// g_time[8] = get_timer_int();
 	// UART_PRINT("step_x,y,z: %f, %f, %f \n", data->fog.fogx.step.float_val, data->fog.fogy.step.float_val, data->fog.fogz.step.float_val);
 }
