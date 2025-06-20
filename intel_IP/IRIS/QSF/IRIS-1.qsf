@@ -1,0 +1,290 @@
+# -------------------------------------------------------------------------- #
+#
+# Copyright (C) 2018  Intel Corporation. All rights reserved.
+# Your use of Intel Corporation's design tools, logic functions 
+# and other software and tools, and its AMPP partner logic 
+# functions, and any output files from any of the foregoing 
+# (including device programming or simulation files), and any 
+# associated documentation or information are expressly subject 
+# to the terms and conditions of the Intel Program License 
+# Subscription Agreement, the Intel Quartus Prime License Agreement,
+# the Intel FPGA IP License Agreement, or other applicable license
+# agreement, including, without limitation, that your use is for
+# the sole purpose of programming logic devices manufactured by
+# Intel and sold by Intel or its authorized distributors.  Please
+# refer to the applicable agreement for further details.
+#
+# -------------------------------------------------------------------------- #
+#
+# Quartus Prime
+# Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
+# Date created = 14:50:51  October 01, 2024
+#
+# -------------------------------------------------------------------------- #
+#
+# Notes:
+#
+# 1) The default values for assignments are stored in the file:
+#		IRIS_assignment_defaults.qdf
+#    If this file doesn't exist, see file:
+#		assignment_defaults.qdf
+#
+# 2) Altera recommends that you do not modify this file. This
+#    file is updated automatically by the Quartus Prime software
+#    and any changes you make may be lost or overwritten.
+#
+# -------------------------------------------------------------------------- #
+
+
+set_global_assignment -name FAMILY "Cyclone IV E"
+set_global_assignment -name DEVICE EP4CE30F23I7
+set_global_assignment -name TOP_LEVEL_ENTITY IRIS_V4_3ch
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION 18.1.0
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "14:50:51  OCTOBER 01, 2024"
+set_global_assignment -name LAST_QUARTUS_VERSION "18.1.0 Lite Edition"
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP "-40"
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 100
+set_global_assignment -name DEVICE_FILTER_PACKAGE FBGA
+set_global_assignment -name DEVICE_FILTER_PIN_COUNT 484
+set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 1
+set_global_assignment -name NOMINAL_CORE_SUPPLY_VOLTAGE 1.2V
+set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim-Altera (Verilog)"
+set_global_assignment -name EDA_TIME_SCALE "1 ps" -section_id eda_simulation
+set_global_assignment -name EDA_OUTPUT_DATA_FORMAT "VERILOG HDL" -section_id eda_simulation
+set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
+set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+set_location_assignment PIN_D20 -to SDRAM_ADDR[11]
+set_location_assignment PIN_J18 -to SDRAM_ADDR[10]
+set_location_assignment PIN_D21 -to SDRAM_ADDR[9]
+set_location_assignment PIN_C20 -to SDRAM_ADDR[7]
+set_location_assignment PIN_C22 -to SDRAM_ADDR[6]
+set_location_assignment PIN_B22 -to SDRAM_ADDR[5]
+set_location_assignment PIN_C21 -to SDRAM_ADDR[4]
+set_location_assignment PIN_F21 -to SDRAM_ADDR[3]
+set_location_assignment PIN_H20 -to SDRAM_ADDR[2]
+set_location_assignment PIN_H19 -to SDRAM_ADDR[1]
+set_location_assignment PIN_F22 -to SDRAM_ADDR[0]
+set_global_assignment -name ENABLE_OCT_DONE OFF
+set_global_assignment -name ENABLE_CONFIGURATION_PINS OFF
+set_global_assignment -name ENABLE_BOOT_SEL_PIN OFF
+set_global_assignment -name USE_CONFIGURATION_DEVICE OFF
+set_global_assignment -name CRC_ERROR_OPEN_DRAIN OFF
+set_global_assignment -name RESERVE_DATA0_AFTER_CONFIGURATION "USE AS REGULAR IO"
+set_global_assignment -name RESERVE_DATA1_AFTER_CONFIGURATION "USE AS REGULAR IO"
+set_global_assignment -name RESERVE_FLASH_NCE_AFTER_CONFIGURATION "USE AS REGULAR IO"
+set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -rise
+set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -fall
+set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -rise
+set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -fall
+set_global_assignment -name RESERVE_DCLK_AFTER_CONFIGURATION "USE AS REGULAR IO"
+set_global_assignment -name POWER_USE_PVA OFF
+set_global_assignment -name ENABLE_SIGNALTAP OFF
+set_global_assignment -name USE_SIGNALTAP_FILE "D:/github/adamShiau_FPGA/intel_IP/IRIS/STP/ADC3_SPIKE/adc3_spike.stp"
+set_global_assignment -name VERILOG_INPUT_VERSION SYSTEMVERILOG_2005
+set_global_assignment -name VERILOG_SHOW_LMF_MAPPING_MESSAGES OFF
+set_global_assignment -name EDA_TEST_BENCH_ENABLE_STATUS TEST_BENCH_MODE -section_id eda_simulation
+set_global_assignment -name EDA_NATIVELINK_SIMULATION_TEST_BENCH iir_filter_tb -section_id eda_simulation
+set_global_assignment -name EDA_TEST_BENCH_NAME fir_filter_tb -section_id eda_simulation
+set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id fir_filter_tb
+set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME fir_filter_tb -section_id fir_filter_tb
+set_global_assignment -name SDC_FILE IRIS_V3.sdc
+set_global_assignment -name QIP_FILE PLL1.qip
+set_global_assignment -name QSYS_FILE CPU.qsys
+set_global_assignment -name VERILOG_FILE IRIS_V1.v
+set_global_assignment -name QIP_FILE PLL2.qip
+set_global_assignment -name QIP_FILE PLL0.qip
+set_global_assignment -name SIGNALTAP_FILE dac.stp
+set_global_assignment -name SIGNALTAP_FILE ADC_2ch.stp
+set_global_assignment -name SIGNALTAP_FILE ADC_1ch.stp
+set_global_assignment -name SIGNALTAP_FILE EEPROM_test.stp
+set_global_assignment -name SIGNALTAP_FILE ADC_2ch_FIR.stp
+set_global_assignment -name SIGNALTAP_FILE ADC1_ADC2_FIR.stp
+set_global_assignment -name EDA_TEST_BENCH_NAME my_err_signal_gen_v1_tb -section_id eda_simulation
+set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id my_err_signal_gen_v1_tb
+set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME my_err_signal_gen_v1_tb -section_id my_err_signal_gen_v1_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE "D:/github/adamShiau_FPGA/intel_IP/Filter/fir_filter_tb.v" -section_id fir_filter_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE "D:/github/adamShiau_FPGA/intel_IP/IRIS/my_err_signal_gen_v1_tb.v" -section_id my_err_signal_gen_v1_tb
+set_global_assignment -name EDA_TEST_BENCH_NAME iir_filter_tb -section_id eda_simulation
+set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id iir_filter_tb
+set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME iir_filter_tb -section_id iir_filter_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE "D:/github/adamShiau_FPGA/intel_IP/Filter/iir_filter_tb.v" -section_id iir_filter_tb
+set_global_assignment -name SIGNALTAP_FILE EEPROM_test_v2.stp
+set_global_assignment -name SIGNALTAP_FILE ADXL357_test.stp
+set_global_assignment -name SIGNALTAP_FILE "ADC_3 comp reg_adc3_sync.stp"
+set_global_assignment -name SIGNALTAP_FILE "ADC_3 comp reg_adc3_sync-2.stp"
+set_global_assignment -name SIGNALTAP_FILE "D:/github/adamShiau_FPGA/intel_IP/IRIS/STP/ADS122C04_SE_TEMP.stp"
+set_global_assignment -name SEARCH_PATH "d:\\github\\adamshiau_fpga\\intel_ip\\iris\\hw_ip\\fog"
+set_global_assignment -name SEARCH_PATH "d:\\github\\adamshiau_fpga\\intel_ip\\iris\\hw_ip\\interface\\i2c"
+set_global_assignment -name SEARCH_PATH "d:\\github\\adamshiau_fpga\\intel_ip\\iris\\hw_ip\\common"
+set_global_assignment -name SEARCH_PATH "d:\\github\\adamshiau_fpga\\intel_ip\\iris\\hw_ip\\filter"
+set_global_assignment -name SEARCH_PATH "d:\\github\\adamshiau_fpga\\intel_ip\\iris\\top"
+set_global_assignment -name SIGNALTAP_FILE "D:/github/adamShiau_FPGA/intel_IP/IRIS/STP/ADC3_SPIKE/adc3_spike.stp"
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_ADDR[12]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_ADDR[11]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_ADDR[10]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_ADDR[9]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_ADDR[8]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_ADDR[7]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_ADDR[6]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_ADDR[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_ADDR[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_ADDR[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_ADDR[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_ADDR[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_ADDR[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_BA[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_BA[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_CAS_N
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_CKE
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_CS_N
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_DQ[15]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_DQ[14]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_DQ[13]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_DQ[12]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_DQ[11]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_DQ[10]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_DQ[9]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_DQ[8]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_DQ[7]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_DQ[6]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_DQ[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_DQ[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_DQ[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_DQ[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_DQ[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_DQ[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_DQM[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_DQM[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_RAS_N
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_WE_N
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to CLOCK_50M
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to CLOCK_SDRAM
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_1[15]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_1[14]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_1[13]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_1[12]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_1[11]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_1[10]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_1[9]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_1[8]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_1[7]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_1[6]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_1[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_1[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_1[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_1[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_1[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_1[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_2[15]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_2[14]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_2[13]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_2[12]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_2[11]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_2[10]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_2[9]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_2[8]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_2[7]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_2[6]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_2[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_2[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_2[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_2[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_2[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_2[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_3[15]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_3[14]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_3[13]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_3[12]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_3[11]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_3[10]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_3[9]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_3[8]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_3[7]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_3[6]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_3[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_3[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_3[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_3[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_3[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_3[0]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_1[13]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_1[12]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_1[11]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_1[10]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_1[9]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_1[8]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_1[7]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_1[6]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_1[5]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_1[4]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_1[3]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_1[2]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_1[1]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_1[0]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_2[13]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_2[12]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_2[11]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_2[10]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_2[9]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_2[8]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_2[7]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_2[6]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_2[5]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_2[4]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_2[3]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_2[2]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_2[1]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_2[0]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_3[13]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_3[12]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_3[11]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_3[10]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_3[9]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_3[8]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_3[7]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_3[6]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_3[5]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_3[4]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_3[3]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_3[2]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_3[1]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_3[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to EPCS_ASDO
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to EPCS_DATA0
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to EPCS_DCLK
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to EPCS_NCSO
+set_instance_assignment -name IO_STANDARD "1.8 V" -to CLOCK_ADC_1
+set_instance_assignment -name IO_STANDARD "1.8 V" -to CLOCK_ADC_2
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to CLOCK_DAC_1
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to CLOCK_DAC_2
+set_instance_assignment -name IO_STANDARD "1.8 V" -to CS_ADC_1
+set_instance_assignment -name IO_STANDARD "1.8 V" -to CS_ADC_2
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to CS_DAC_1
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to CS_DAC_2
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_RST
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to MISO_CFG
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to MOSI_CFG
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SCLK_CFG
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LED_FPGA
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to EXT_SYNC_IN
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to EXT_SYNC2
+set_instance_assignment -name IO_STANDARD "1.8 V" -to DRDY_357
+set_instance_assignment -name IO_STANDARD "1.8 V" -to SCL_357
+set_instance_assignment -name IO_STANDARD "1.8 V" -to SDA_357
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SCL_EEPROM
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDA_EEPROM
+set_instance_assignment -name IO_STANDARD "1.8 V" -to SCL_ADC_TEMP
+set_instance_assignment -name IO_STANDARD "1.8 V" -to SCL_ADC_PD
+set_instance_assignment -name IO_STANDARD "1.8 V" -to SDA_ADC_PD
+set_instance_assignment -name IO_STANDARD "1.8 V" -to SDA_ADC_TEMP
+set_instance_assignment -name IO_STANDARD "1.8 V" -to DRDY_ADC_PD
+set_instance_assignment -name IO_STANDARD "1.8 V" -to DRDY_ADC_TEMP
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SER_RX
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SER_TX
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SER_TX_WRONG
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to PIO_C21
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
