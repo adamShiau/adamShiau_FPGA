@@ -307,7 +307,7 @@ PLL0	PLL0_inst (
 	.c0 ( CLOCK_ADC ),
 	.c1 ( CLOCK_DAC ),
 	.c2 ( CLOCK_SDRAM ),
-	.c3 ( CLOCK_CPU ),
+	.c3 ( CPU_CLK ),
 	.locked ( locked_0 )
 	);
 /********End of PLL setup********/
