@@ -506,13 +506,12 @@ inst_i2c_ADS122C04_temp (
 );
 
 /**** ADXL 357****/
-i2c_controller_pullup_ADXL357
+i2c_controller_ADXL357_v0
 inst_i2c_adxl357 (
 	.i_clk(CPU_CLK),
 	.i_rst_n(locked_0),
 	.i2c_scl(SCL_357),
 	.i2c_sda(SDA_357),
-	.i2c_clk_out(),
 	.i_dev_addr(var_i2c_357_dev_addr),
 	.i_reg_addr(var_i2c_357_reg_addr),
 	.i_w_data(var_i2c_357_w_data),  
@@ -524,18 +523,16 @@ inst_i2c_adxl357 (
 	.o_ACCX(var_i2c_357_rdata_1),
 	.o_ACCY(var_i2c_357_rdata_2),
 	.o_ACCZ(var_i2c_357_rdata_3),
-	.o_TEMP(var_i2c_357_rdata_4),
-	.o_w_enable()
-);
+	.o_TEMP(var_i2c_357_rdata_4)
+	);
 	
 /**** I2C EEPROM****/
-i2c_controller_pullup_eeprom
+i2c_controller_eeprom_v0
 inst_i2c_eeprom (
 	.i_clk(CPU_CLK),
 	.i_rst_n(locked_0),
 	.i2c_scl(SCL_EEPROM),
 	.i2c_sda(SDA_EEPROM),
-	.i2c_clk_out(),
 	.i_dev_addr(var_i2c_EEPROM_dev_addr),
 	.i_reg_addr(var_i2c_EEPROM_reg_addr),
 	.i_w_data(var_i2c_EEPROM_w_data),  
@@ -547,10 +544,8 @@ inst_i2c_eeprom (
 	.o_rd_data(var_i2c_EEPROM_rdata_1),
 	.o_rd_data_2(var_i2c_EEPROM_rdata_2),
 	.o_rd_data_3(var_i2c_EEPROM_rdata_3),
-	.o_rd_data_4(var_i2c_EEPROM_rdata_4),
-	.o_w_enable()
+	.o_rd_data_4(var_i2c_EEPROM_rdata_4)
 );
-
 
 CPU u0 (
 	.clk_clk        (CPU_CLK),        //      clk.clk 

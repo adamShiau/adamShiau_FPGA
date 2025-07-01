@@ -1,5 +1,5 @@
-module i2c_controller_ADXL357_v0
-(
+// test 沒有pull up 的 eeprom 版本
+module i2c_controller_ADXL357_v0(
 	input wire 			i_clk,
 	input wire 			i_rst_n,
 	input wire [6:0] 	i_dev_addr,
@@ -13,13 +13,12 @@ module i2c_controller_ADXL357_v0
 	output reg signed [32-1:0] 	o_ACCZ,
 	output reg signed [32-1:0] 	o_TEMP,
 
-
 	output wire [31:0] 	o_status,
 	inout				i2c_scl,
 	inout 				i2c_sda
 );
 
-	/*** regidter definition***/
+	/*** register definition***/
 	localparam ADXL355_DEV_ADDR  	= 7'h1D;
 	localparam REG_ADXL355_TEMP2 	= 8'h06;
 	localparam REG_ADXL355_XDATA3 	= 8'h08;
@@ -73,6 +72,10 @@ module i2c_controller_ADXL357_v0
 	localparam SLOW 		= 	30;
 	localparam STOP 		= 	31;
 
+	/*** I2C read ack response***/
+	localparam ACK  = 0;
+	localparam NACK = 1;
+
 	reg signed [7:0] 	reg_rd_data;
 	reg signed [7:0] 	reg_rd_data_2;
 	reg signed [7:0] 	reg_rd_data_3;
@@ -85,40 +88,21 @@ module i2c_controller_ADXL357_v0
 	reg signed [7:0] 	reg_rd_data_10;
 	reg signed [7:0] 	reg_rd_data_11;
 
-	reg [7:0] state;
-	reg [7:0] saved_addr;
-	reg [7:0] saved_data;
-	reg [7:0] counter;
-	reg sda_out = 0;
-	reg [1:0] i2c_scl_enable = 0;
-	reg i2c_scl_enable2 = 0;
-	reg i2c_clk = 1;
-	reg clk_2x = 1;
-	reg	[8:0] CLK_COUNT = 0; 	//clock
-	// reg write_done = 0; // write done flag
-	reg finish = 0; // finish flag
-	// reg rw = 0;
 	reg r_drdy = 0;
-	reg [2:0] reg_clock_rate = 6;
-
-	wire i_enable, finish_ack;
+	/******* control register assignment ********/
+	wire i_enable;
 	wire [2:0] op_mode;
 	wire [2:0] clk_rate;
-	reg sm_enable;
 
-	wire w_en1, write_enable;
-	reg w_en2 = 0;
-
-	// assign w_en1 = (sda_out==1)? 0:1 ;
-	assign w_en1 = ~sda_out;
-	assign write_enable = w_en1 | w_en2;
-
-	/******* control register********/
 	assign i_enable = i_ctrl[0];
-	assign op_mode = i_ctrl[3:1]; //00: CPU 1 byte, 01: CPU 11 bytes, 10: FPGA 11 bytes, 11: reserved
+	assign op_mode = i_ctrl[3:1];
 	assign clk_rate = i_ctrl[6:4];
 
-	/******* status register********/
+	/******* status register assignment ********/
+	reg finish = 0;
+	reg [7:0] state;
+	reg sm_enable;
+
 	// assign o_status[0] = ((i_rst_n == 1) && (state == IDLE) && (write_done == 0)) ? 1 : 0; //ready
 	assign o_status[1] = finish; //finish 
 	assign o_status[9:2] = state;  
@@ -126,15 +110,21 @@ module i2c_controller_ADXL357_v0
 	assign o_status[13:11]  = HW_SM;
 	assign o_status[16:14]  = CPU_SM;
 
+	reg [7:0] saved_addr;
+	reg [7:0] saved_data;
+	reg [7:0] counter;
+	reg write_enable;
+	reg sda_out = 0;
+	reg i2c_scl_enable = 0;
+	reg i2c_clk = 1;
 
-	// assign i2c_clk_out = i2c_clk;
-	// assign o_w_enable = write_enable; 
-	assign i2c_scl =	(i2c_scl_enable == 0) ? 0 : 
-						((i2c_scl_enable == 1) ? 1'bz : 
-                 		(i2c_clk == 1 ? 1'bz : 0));
-	assign i2c_sda = (write_enable == 1) ? sda_out : 1'bz; // open drain method
+
+	assign i2c_scl = (i2c_scl_enable == 0 ) ? 1 : i2c_clk;
+	assign i2c_sda = (write_enable == 1) ? sda_out : 'bz;
 
 	/******* CLK_VALUE depends on input clock frequency********/
+	reg [2:0] reg_clock_rate = 6;
+
 	always@(posedge i_clk) begin
 		if(!i_rst_n) begin
 			reg_clock_rate <= CLK_390K;
@@ -151,124 +141,71 @@ module i2c_controller_ADXL357_v0
 		end
 	end
 
+	reg	[8:0] CLK_COUNT = 0; 	//clock
+
 	always@(posedge i_clk) begin
-		CLK_COUNT <= CLK_COUNT + 1;//CLK_COUNT[6]:100000/2^(7+1)=390.625 kHz, CLK_COUNT[6]:781.25 KHz
+		CLK_COUNT <= CLK_COUNT + 1;//CLK_COUNT[6]:100000/2^(6+1)=781.25 kHz, CLK_COUNT[7+1]:390.625 KHz
 		i2c_clk <= CLK_COUNT[reg_clock_rate];
-		clk_2x  <= CLK_COUNT[reg_clock_rate-1];
 	end
 
+	/*** i2c_scl_enable logic **/
 	always @(negedge i2c_clk or negedge i_rst_n) begin
 		if(!i_rst_n) begin
-			i2c_scl_enable <= 1;
+			i2c_scl_enable <= 0;
 		end else begin
-			if ( (state == READ_ACK_B)|| (state == READ_ACK2_B) ) begin 
-				i2c_scl_enable <= 0;
-			end 
-			else if ( (state == IDLE) ||(state == START) || (state == STOP) || (state == STOP2 ) || (state == NOP1 )) begin
-				i2c_scl_enable <= 1;
-			end 
-			else begin
-				i2c_scl_enable <= 2;
-			end
-		end
-	end
-
-	/*** For the states need to WRITE operation, let w_en2 = 1, otherwise w_en2 = 0***/
-	always @(posedge clk_2x or negedge i_rst_n) begin
-		if(!i_rst_n) begin
-			w_en2 <= 0;
-		end 
-		else begin
-			case(state)
-				START: begin	
-					w_en2 <= 1;
-				end
-				ADDRESS: begin
-					if(saved_addr[counter]==0) w_en2 <= 1;
-					else w_en2 <= 0;
-				end
-				REG_ADDR: begin
-					if(saved_data[counter]==0) w_en2 <= 1;
-					else w_en2 <= 0;
-				end
-				WRITE_DATA: begin
-					if(saved_data[counter]==0) w_en2 <= 1;
-					else w_en2 <= 0;
-				end
-				WRITE_ACK: begin
-					w_en2 <= 1;
-				end
-				WRITE_ACK2: begin
-					w_en2 <= 1;
-				end
-				WRITE_ACK3: begin
-					w_en2 <= 1;
-				end
-				WRITE_ACK4: begin
-					w_en2 <= 1;
-				end
-				WRITE_ACK5: begin
-					w_en2 <= 1;
-				end
-				WRITE_ACK6: begin
-					w_en2 <= 1;
-				end
-				WRITE_ACK7: begin
-					w_en2 <= 1;
-				end
-				WRITE_ACK8: begin
-					w_en2 <= 1;
-				end
-				WRITE_ACK9: begin
-					w_en2 <= 1;
-				end
-				WRITE_ACK10: begin
-					w_en2 <= 1;
-				end
-				WRITE_ACK11: begin
-					w_en2 <= 1;
-				end
-				STOP: begin
-					w_en2 <= 1;
-				end
-				default: w_en2 <= 0;
+			case (state)
+				IDLE, START, STOP: i2c_scl_enable <= 0;
+				default: i2c_scl_enable <= 1;
 			endcase
 		end
 	end
 
-// State machine states
-typedef enum logic [2:0] {
-	HW_SM_W_REG_TEMP = 3'd0,
-	HW_SM_R_ALL = 3'd1
-} state_t;
+	// State machine states
+	typedef enum logic [2:0] {
+		HW_SM_W_REG_TEMP = 3'd0,
+		HW_SM_R_ALL = 3'd1
+	} state_t;
 
-typedef enum logic [2:0] {
-	CPU_SM_W_REG = 3'd0,
-	CPU_SM_R_REG = 3'd1,
-	CPU_SM_R_TEMP = 3'd2,
-	CPU_SM_R_ACCL = 3'd3
-} CPU_state_t;
+	typedef enum logic [2:0] {
+		CPU_SM_W_REG = 3'd0,
+		CPU_SM_R_REG = 3'd1,
+		CPU_SM_R_TEMP = 3'd2,
+		CPU_SM_R_ACCL = 3'd3
+	} CPU_state_t;
 
-state_t HW_SM;
-CPU_state_t CPU_SM;
+	state_t HW_SM;
+	CPU_state_t CPU_SM;
+
+
+	reg i_drdy_sync1, i_drdy_sync2;
+	always @(posedge i_clk or negedge i_rst_n) begin
+		if (!i_rst_n) begin
+			i_drdy_sync1 <= 1'b1;
+			i_drdy_sync2 <= 1'b1;
+		end
+		else begin
+			i_drdy_sync1 <= i_drdy;
+			i_drdy_sync2 <= i_drdy_sync1;
+		end
+	end
 
 /*** SM update**/
 	always @(posedge i2c_clk or negedge i_rst_n) begin
 		if(!i_rst_n) begin
+			finish <= 0;
 			state <= IDLE;
-			// write_done <= 1'b0;
-			// rw <= 1'b0;
+			//initialize reg_rd_data and output register 
 			reg_rd_data <= 0;reg_rd_data_2 <= 0;reg_rd_data_3 <= 0;
 			reg_rd_data_4 <= 0;reg_rd_data_5 <= 0;reg_rd_data_6 <= 0;
 			reg_rd_data_7 <= 0;reg_rd_data_8 <= 0;reg_rd_data_9 <= 0;
 			reg_rd_data_10 <= 0;reg_rd_data_11 <= 0;
 			o_ACCX <= 0; o_ACCY <= 0; o_ACCZ <= 0; o_TEMP <= 0;
+
 			sm_enable <= 0; 
 			saved_data <= 0;
-			finish <= 0;
+			
 			CPU_SM <= CPU_SM_W_REG;
 			HW_SM <= HW_SM_W_REG_TEMP;
-			// HW_SM <= HW_SM_W_REG_ACC;
 		end		
 		else begin
 
@@ -279,7 +216,7 @@ CPU_state_t CPU_SM;
 							if(i_enable) sm_enable <= 1; 
 						end
 						HW: begin
-							if(i_drdy) sm_enable <= 1; 
+							if(i_drdy_sync2) sm_enable <= 1; 
 						end 
 						default: state <= IDLE;
 					endcase
@@ -323,49 +260,45 @@ CPU_state_t CPU_SM;
 				end
 
 				READ_ACK: begin
-					if (i2c_sda == 0) begin
-						state <= READ_ACK_B;
-					end 
-					else state <= STOP;
-				end
+					if (i2c_sda == ACK) begin
+						counter <= 7;
 
-				READ_ACK_B: begin
-					counter <= 7; // Initialize counter to 7 in this state, as it will be used as an index in the next state.
-
-					case(op_mode) 
-						CPU_WREG: begin
-							saved_data <= i_reg_addr;
-							state <= REG_ADDR;
-						end
-						CPU_RREG: begin
-							if(CPU_SM == CPU_SM_W_REG) begin
+						case(op_mode) 
+							CPU_WREG: begin
 								saved_data <= i_reg_addr;
 								state <= REG_ADDR;
 							end
-							else if(CPU_SM == CPU_SM_R_REG) state <= READ_DATA;
-						end
-						CPU_RD_TEMP: begin
-							if(CPU_SM == CPU_SM_W_REG) begin
-								saved_data <= REG_ADXL355_TEMP2;
-								state <= REG_ADDR;
+							CPU_RREG: begin
+								if(CPU_SM == CPU_SM_W_REG) begin
+									saved_data <= i_reg_addr;
+									state <= REG_ADDR;
+								end
+								else if(CPU_SM == CPU_SM_R_REG) state <= READ_DATA;
 							end
-							else if(CPU_SM == CPU_SM_R_TEMP) state <= READ_DATA;
-						end
-						CPU_RD_ACCL: begin
-							if(CPU_SM == CPU_SM_W_REG) begin
-								saved_data <= REG_ADXL355_XDATA3;
-								state <= REG_ADDR;
+							CPU_RD_TEMP: begin
+								if(CPU_SM == CPU_SM_W_REG) begin
+									saved_data <= REG_ADXL355_TEMP2;
+									state <= REG_ADDR;
+								end
+								else if(CPU_SM == CPU_SM_R_TEMP) state <= READ_DATA;
 							end
-							else if(CPU_SM == CPU_SM_R_ACCL) state <= READ_DATA3;
-						end
-						HW: begin
-							if(HW_SM == HW_SM_W_REG_TEMP) begin
-								saved_data <= REG_ADXL355_TEMP2;
-								state <= REG_ADDR;
+							CPU_RD_ACCL: begin
+								if(CPU_SM == CPU_SM_W_REG) begin
+									saved_data <= REG_ADXL355_XDATA3;
+									state <= REG_ADDR;
+								end
+								else if(CPU_SM == CPU_SM_R_ACCL) state <= READ_DATA3;
 							end
-							else if(HW_SM == HW_SM_R_ALL) state <= READ_DATA;
-						end
-					endcase
+							HW: begin
+								if(HW_SM == HW_SM_W_REG_TEMP) begin
+									saved_data <= REG_ADXL355_TEMP2;
+									state <= REG_ADDR;
+								end
+								else if(HW_SM == HW_SM_R_ALL) state <= READ_DATA;
+							end
+						endcase
+					end 
+					else state <= SLOW;
 				end
 
 				REG_ADDR: begin 
@@ -377,19 +310,29 @@ CPU_state_t CPU_SM;
 				end
 
 				READ_ACK2: begin 
-					state <= READ_ACK2_B;
-				end
-
-				READ_ACK2_B: begin 
 					if(op_mode == CPU_WREG) begin
 						counter <= 7;
 						saved_data = i_w_data;
 						state <= WRITE_DATA;
 					end
-					else state <= STOP;
+					else state <= SLOW;
+				end
+
+				WRITE_DATA: begin 
+					if(counter == 0) begin
+						state <= READ_ACK3;
+					end else begin
+						counter <= counter - 1;
+					end
+				end
+
+				READ_ACK3: begin 
+					finish <= 1;
+					state <= SLOW;
 				end
 
 				STOP: begin
+					finish <= 0;
 					case(op_mode) 
 						CPU_WREG: begin
 							sm_enable <= 0;
@@ -432,49 +375,21 @@ CPU_state_t CPU_SM;
 							end
 						end
 					endcase
-					state <= STOP2;	
-								
-				end
-
-				STOP2: begin
-					state <= IDLE;
-					finish <= 0;
-				end
-
-				NOP1: begin
-					state <= IDLE;
-				end
-
-				WRITE_DATA: begin 
-					if(counter == 0) begin
-						state <= READ_ACK3;
-					end else begin
-						counter <= counter - 1;
-					end
-				end
-
-				READ_ACK3: begin 
-					state <= READ_ACK3_B;
-				end
-
-				READ_ACK3_B: begin 
-					finish <= 1;
-					state <= STOP;
+					state <= IDLE;				
 				end
 
 				READ_DATA: begin
 					reg_rd_data[counter] <= i2c_sda;
-
 					if (counter == 0) state <= WRITE_ACK;
 					else begin
 						counter <= counter - 1;
 					end
 				end
 				
-				WRITE_ACK: begin//12
+				WRITE_ACK: begin
 					if(op_mode == CPU_RREG) begin
 						finish <= 1;
-						state <= STOP;
+						state <= SLOW;
 					end
 					else begin
 						counter <= 7;
@@ -489,24 +404,13 @@ CPU_state_t CPU_SM;
 						counter <= counter - 1;
 					end
 				end
+
 				WRITE_ACK2: begin
-					// if(op_mode == CPU_RD_TEMP) begin
-					// 	finish <= 1;
-					// 	state <= STOP;
-					// end
-					// else if(op_mode == HW_TEMP) begin
-					// 	finish <= 1;
-					// 	state <= STOP;
-					// end
-					// else if(op_mode == HW) begin
-					// 	counter <= 7;
-					// 	state <= READ_DATA3;
-					// end
 					if(op_mode == CPU_RD_TEMP) begin
 						finish <= 1;
 						state <= STOP;
 					end
-					else begin
+					else begin //HW mode
 						counter <= 7;
 						state <= READ_DATA3;
 					end
@@ -633,122 +537,53 @@ CPU_state_t CPU_SM;
 	***/
 	always @(negedge i2c_clk or negedge i_rst_n) begin
 		if(!i_rst_n) begin
-			sda_out <= 1;
+			write_enable <= 0;
 		end else begin
 			case(state)
+
+				IDLE: begin
+					write_enable <= 0;
+				end
 				
 				START: begin
+					write_enable <= 1;
 					sda_out <= 0;
 				end
 				ADDRESS: begin
+					write_enable <= 1;
 					sda_out <= saved_addr[counter];
 				end
 				
-				READ_ACK: begin
-					sda_out <= 1;
-				end
-
-				READ_ACK_B: begin
-					sda_out <= 1;
-				end
-
-				READ_ACK2: begin
-					sda_out <= 1;
-				end
-
-				READ_ACK2_B: begin 
-					sda_out <= 1;
-				end
-
-				READ_ACK3: begin
-					sda_out <= 1;
-				end
-
-				READ_ACK3_B: begin 
-					sda_out <= 1;
+				READ_ACK, READ_ACK2, READ_ACK3: begin
+					write_enable <= 0;
 				end
 
 				REG_ADDR: begin //write reg addr
+					write_enable <= 1;
 					sda_out <= saved_data[counter];
 				end
 				
 				WRITE_DATA: begin //write reg value
+					write_enable <= 1;
 					sda_out <= saved_data[counter];
 				end
-				WRITE_ACK: begin
+				WRITE_ACK, WRITE_ACK2, WRITE_ACK3, WRITE_ACK4, WRITE_ACK5, WRITE_ACK6, WRITE_ACK7, WRITE_ACK8, WRITE_ACK9, WRITE_ACK10, WRITE_ACK11: begin
+					write_enable <= 1;
 					sda_out <= 0;
 				end
-				WRITE_ACK2: begin
-					sda_out <= 0;
-				end
-				WRITE_ACK3: begin
-					sda_out <= 0;
-				end
-				WRITE_ACK4: begin
-					sda_out <= 0;
-				end
-				WRITE_ACK5: begin
-					sda_out <= 0;
-				end
-				WRITE_ACK6: begin
-					sda_out <= 0;
-				end
-				WRITE_ACK7: begin
-					sda_out <= 0;
-				end
-				WRITE_ACK8: begin
-					sda_out <= 0;
-				end
-				WRITE_ACK9: begin
-					sda_out <= 0;
-				end
-				WRITE_ACK10: begin
-					sda_out <= 0;
-				end
-				WRITE_ACK11: begin
-					sda_out <= 0;
-				end
-				READ_DATA: begin
-					sda_out <= 1;			
-				end
-				READ_DATA2: begin
-					sda_out <= 1;			
-				end
-				READ_DATA3: begin
-					sda_out <= 1;			
-				end
-				READ_DATA4: begin
-					sda_out <= 1;			
-				end
-				READ_DATA5: begin
-					sda_out <= 1;			
-				end
-				READ_DATA6: begin
-					sda_out <= 1;		
-				end
-				READ_DATA7: begin
-					sda_out <= 1;			
-				end
-				READ_DATA8: begin
-					sda_out <= 1;			
-				end
-				READ_DATA9: begin
-					sda_out <= 1;				
-				end
-				READ_DATA10: begin
-					sda_out <= 1;				
-				end
-				READ_DATA11: begin
-					sda_out <= 1;				
-				end
-				STOP: begin
-					sda_out <= 0;
-				end
-				STOP2: begin
-					sda_out <= 1;
+				
+				READ_DATA, READ_DATA2, READ_DATA3, READ_DATA4, READ_DATA5, READ_DATA6, READ_DATA7, READ_DATA8, READ_DATA9, READ_DATA10, READ_DATA11: begin
+					write_enable <= 0;				
 				end
 
-				default:;
+				SLOW: begin
+					write_enable <= 1;
+					sda_out <= 0;
+				end
+				
+				STOP: begin
+					write_enable <= 0;
+				end
 			endcase
 		end
 	end
