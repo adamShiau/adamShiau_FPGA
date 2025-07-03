@@ -9,7 +9,7 @@
 #include "adda_config.h"
 
 //  #define DEBUG
-//  #define INFO
+ #define INFO
 // #define UART_DEBUG
 
 #ifdef DEBUG

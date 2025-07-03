@@ -86,7 +86,7 @@ int main(void)
 
 	INFO_PRINT("Running IRIS CPU!\n");
 	UART_PRINT("Running IRIS CPU!\n");
-
+	set_DAC_reset
 	UART_PRINT("TRIGGER_IRQ_init\n");
 	crc32_init_table();
 	TRIGGER_IRQ_init();

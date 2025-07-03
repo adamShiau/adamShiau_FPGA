@@ -4,6 +4,7 @@
 #include "alt_types.h"
 #include "system.h"
 #include "altera_avalon_spi_regs.h"
+#include "altera_avalon_pio_regs.h"
 
 /*** version ***/
 /***
@@ -90,6 +91,7 @@ accessed during the data transfer of the communications cycle.
 void init_ADDA(void);
 void set_ADC_all_zero(void);
 void set_ADC_all_one(void);
-
+void set_DAC_reset(void);
+void clear_DAC_reset(void);
 
 #endif /* __ADDA_CONFIG_H */

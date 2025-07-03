@@ -20,20 +20,14 @@
 #include "output_mode.h"
 // uart
 #include "uart.h"
-// #include "uart.c"
 // adda
 #include "adda_config.h"
-// #include "adda_config.c"
 //memory_manage
 #include "memory_manage.h"
-// #include "memory_manage.c"
 //eeprom
-#include "eeprom.h"
-// #include "eeprom_v2.h"
-// #include "eeprom.c"
-
+//#include "eeprom.h"
+ #include "eeprom_v2.h"
 #include "adxl357.h"
-
 #include "ads122c04_se.h"
 
 

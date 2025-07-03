@@ -27,15 +27,27 @@ void init_ADDA(void)
 	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, DAC1_GAIN_LSB_W_NR); usleep (10);
 	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, DAC2_GAIN_MSB_W_NR); usleep (10);
 	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, DAC2_GAIN_LSB_W_NR); usleep (10);
+
+	clear_DAC_reset();
 }
 
-void set_ADC_all_zero(void)
+void set_ADC_all_zero()
 {
     IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_ADC_BASE, ADC_ALL_ZERO); usleep (10);
 }
 
 
-void set_ADC_all_one(void)
+void set_ADC_all_one()
 {
     IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_ADC_BASE, ADC_ALL_ONE); usleep (10);
+}
+
+void set_DAC_reset()
+{
+	IOWR_ALTERA_AVALON_PIO_DATA(DAC_RST_BASE, 0x01);
+}
+
+void clear_DAC_reset()
+{
+	IOWR_ALTERA_AVALON_PIO_DATA(DAC_RST_BASE, 0x00);
 }

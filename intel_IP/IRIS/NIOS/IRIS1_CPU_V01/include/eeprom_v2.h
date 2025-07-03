@@ -1,6 +1,7 @@
 #ifndef __EEPROM_H
 #define __EEPROM_H
 
+// test no PU version
 #include "alt_types.h"
 #include "system.h"
 #include "nios2_var_addr.h"
@@ -14,11 +15,13 @@ void PARAMETER_Write_s(alt_u8 base, alt_u8 number , alt_32 data, fog_parameter_t
 void PARAMETER_Read(alt_u8 base, alt_u8 number , alt_u8* buf);
 void PARAMETER_Read_R(alt_u8 base, alt_u8 number , alt_u8* buf);
 
+
 void EEPROM_Write_initial_parameter(void);
 void LOAD_FOG_PARAMETER(fog_parameter_t* fog_params);
 void PRINT_FOG_PARAMETER(fog_parameter_t* fog_params);
 void LOAD_FOG_MISALIGNMENT(fog_parameter_t* fog_params);
 void LOAD_FOG_SN(fog_parameter_t* fog_params);
+void EEPROM_RW_TEST(void);
 
 /*** Initialization method */
 void init_EEPROM(void);
@@ -30,7 +33,7 @@ void EEPROM_Read_4B_R(alt_u16 reg_addr, alt_u8* buf);
 
 /*** I2C mid level declaration */
 void I2C_sm_start();
-void I2C_op_mode_sel(alt_u8 mode);
+void I2C_op_mode_sel_EEPROM(alt_u8 mode);
 void I2C_clock_rate_sel(alt_u8 rate);
 
 /*** I2C low level declaration */

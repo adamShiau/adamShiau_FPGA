@@ -231,6 +231,9 @@ wire [31:0] var_i2c_EEPROM_dev_addr, var_i2c_EEPROM_reg_addr, var_i2c_EEPROM_w_d
 wire [31:0] var_i2c_EEPROM_rdata_4;
 wire [31:0] var_i2c_EEPROM_ctrl, var_i2c_EEPROM_status;
 
+/////////// PIO //////////
+wire [31:0] var_mux_sel, var_dac_rst;
+
 assign INT_SYNC = sync_out;
 
 	
@@ -251,8 +254,6 @@ assign CS_ADC_1 = ADC_CFG_SS[0];
 assign CS_ADC_2 = ADC_CFG_SS[1];
 
 
-/**********MOD gen*********/
-reg reg_dacrst;
 
 /////////// MIOC Modulation parameter //////////
 wire [31:0] var_freq_cnt_3, var_amp_H_3, var_amp_L_3;
@@ -282,9 +283,14 @@ wire [31:0] var_gainSel_ramp_2, o_phaseRamp_2;
 wire [31:0] var_gainSel_ramp_1, o_phaseRamp_1;
 
 
-assign DAC_1_1 =  o_phaseRamp_1[15:0];
-assign DAC_2_1 =  o_phaseRamp_2[15:0];
-assign DAC_2_2 =  o_phaseRamp_3[15:0];
+// assign DAC_1_1 =  o_phaseRamp_1[15:0];
+// assign DAC_2_1 =  o_phaseRamp_2[15:0];
+// assign DAC_2_2 =  o_phaseRamp_3[15:0];
+
+/******* test DAC output ********/
+assign DAC_1_1 =  dac_test_1_1;
+assign DAC_2_1 =  dac_test_2_1;
+assign DAC_2_2 =  dac_test_2_2;
 
 
 assign i_var_step_1 = o_step_1_MV;
@@ -296,7 +302,27 @@ assign i_var_err_2 = o_err_DAC2_FIR;
 assign i_var_step_3 = o_step_3;
 assign i_var_err_3 = o_err_DAC3_FIR; 
 
-assign DAC_RST = reg_dacrst;
+assign DAC_RST = var_dac_rst;
+assign MUX_IN1 = var_mux_sel[0];
+assign MUX_IN2 = var_mux_sel[1];
+
+/******** DAC ramp test********/
+reg [15:0] dac_test_1_1, dac_test_2_1, dac_test_2_2;
+
+always @(posedge CLOCK_DAC or negedge locked_0) begin
+	if(~locked_0) begin
+		dac_test_1_1 <= 16'd0;
+		dac_test_2_1 <= 16'd5000;
+		dac_test_2_2 <= 16'd10000;
+    end
+	else begin
+		dac_test_1_1 <= dac_test_1_1 + 1'b1;
+		dac_test_2_1 <= dac_test_2_1 + 1'b1;
+		dac_test_2_2 <= dac_test_2_2 + 1'b1;
+	end
+	
+end
+/********End of DAC ramp test********/
 
 /******** PLL setup********/
 wire CPU_CLK;
@@ -584,6 +610,8 @@ CPU u0 (
     .uart_dbg_txd      (DBG_TX),      //           .txd
 
 	.wdt_export			(),
+	.dac_rst_export     (var_dac_rst),    //    dac_rst.export
+	.mux_in_export      (var_mux_sel),     //     mux_in.export
 
 	.varset_1_o_reg0     (var_i2c_357_dev_addr),     
 	.varset_1_o_reg1     (var_i2c_357_w_data),     
