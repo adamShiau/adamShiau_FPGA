@@ -331,6 +331,10 @@ module i2c_controller_ADXL357_v0(
 					state <= SLOW;
 				end
 
+				SLOW: begin
+					state <= STOP;
+				end
+
 				STOP: begin
 					finish <= 0;
 					case(op_mode) 

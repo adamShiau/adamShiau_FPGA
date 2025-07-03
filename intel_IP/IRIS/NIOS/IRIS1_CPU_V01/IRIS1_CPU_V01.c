@@ -95,17 +95,23 @@ int main(void)
 	moving_average_init(&mz_y, 13);
 	moving_average_init(&mz_z, 13);
 	UART_PRINT("uartInit\n");
+	DEBUG_PRINT("uartInit\n");
 	uartInit(); //interrupt method of uart defined in uart.c not main()
 	UART_PRINT("init_ADDA\n");
+	DEBUG_PRINT("init_ADDA\n");
 	init_ADDA();
 	UART_PRINT("init_EEPROM\n");
+	DEBUG_PRINT("init_EEPROM\n");
 	init_EEPROM();
 	UART_PRINT("init_ADXL357\n");
+	DEBUG_PRINT("init_ADXL357\n");
 	init_ADXL357();
-	test_CPU_ADXL357_ACCL();
+	// test_CPU_ADXL357_ACCL();
 	UART_PRINT("init_ADS122C04_TEMP\n");
+	DEBUG_PRINT("init_ADS122C04_TEMP\n");
 	init_ADS122C04_TEMP();
 	UART_PRINT("initialize_fog_params_type\n");
+	DEBUG_PRINT("initialize_fog_params_type\n");
 	initialize_fog_params_type(&fog_params);
 	// EEPROM_Write_initial_parameter();
 
