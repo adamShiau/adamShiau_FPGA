@@ -105,29 +105,28 @@
 #define CPU_RD_TEMP	2
 #define CPU_RD_ACCL	3
 #define HW_ALL		4
-#define HW_ACC		5
-#define HW_TEMP		6
+
 
 #define True 1
 #define False 0
 
-/***********high level definition */
-//void I2C_read_357_CPU11(alt_u8 reg_addr)
-//{
-//	// Set I2C operation mode to read 11 bytes (CPU mode 11)
-//	I2C_op_mode_sel_ADXL357(HW);
-//	// Set I2C device address for ADXL355/357 (0x1D)
-//	IOWR(VARSET_BASE, O_VAR_DEV_ADDR, I2C_DEV_ADDR);
-//	// Set the starting register address for reading 11 successive registers
-//	IOWR(VARSET_BASE, O_VAR_REG_ADDR, reg_addr);
-//	// Set the I2C SM to read mode
-//	I2C_set_read_mode_ADXL357();
-//	// start the I2C SM
-//	I2C_sm_start_ADXL357();
-//	// Print data from 11 successive registers of ADXL355/357
-//	// print_11_reg();
-//}
+#define DLY_NUM_357 1000
+static alt_u32 dly_cnt = 0, number = 5000;
 
+
+/***********test funciton */
+void test_CPU_ADXL357_ACCL()
+{
+	DEBUG_PRINT("testing_CPU_ADXL357_ACCL\n");
+	while(number-- != 0 ) {
+		dly_cnt = 0;
+		while(dly_cnt++ < DLY_NUM_357) {} // delay control
+		read_357_accl_CPU();
+		// DEBUG_PRINT("test 357 :%ld\n", number);
+	}
+}
+
+/***********high level definition */
 void init_ADXL357()
 {
 	/*** configure the ADXL355/357 ***/
@@ -186,8 +185,8 @@ void read_357_accl_CPU()
 	ay = (float)IORD(VARSET_BASE, var_i2c_357_rdata_2)*SENS_ADXL357_20G;
 	az = (float)IORD(VARSET_BASE, var_i2c_357_rdata_3)*SENS_ADXL357_20G;
 
-//	printf("%f, %f, %f\n", ax, ay, az);
-	uart_printf("%f, %f, %f\n", ax, ay, az);
+	DEBUG_PRINT("%f, %f, %f\n", ax, ay, az);
+	// uart_printf("%f, %f, %f\n", ax, ay, az);
 
 }
 

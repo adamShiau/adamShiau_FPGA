@@ -86,9 +86,10 @@ int main(void)
 
 	INFO_PRINT("Running IRIS CPU!\n");
 	UART_PRINT("Running IRIS CPU!\n");
-	set_DAC_reset
+	set_DAC_reset();
 	UART_PRINT("TRIGGER_IRQ_init\n");
 	crc32_init_table();
+	// EEPROM_RW_TEST();
 	TRIGGER_IRQ_init();
 	moving_average_init(&mz_x, 13);
 	moving_average_init(&mz_y, 13);
@@ -101,6 +102,7 @@ int main(void)
 	init_EEPROM();
 	UART_PRINT("init_ADXL357\n");
 	init_ADXL357();
+	test_CPU_ADXL357_ACCL();
 	UART_PRINT("init_ADS122C04_TEMP\n");
 	init_ADS122C04_TEMP();
 	UART_PRINT("initialize_fog_params_type\n");
