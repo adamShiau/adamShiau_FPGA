@@ -126,6 +126,14 @@ void test_CPU_ADXL357_ACCL()
 	}
 }
 
+void test_HW_ADXL357()
+{
+	DEBUG_PRINT("testing_HW_ADXL357\n");
+	while(number-- != 0 ) {
+		read_357_all();
+	}
+}
+
 /***********high level definition */
 void init_ADXL357()
 {
@@ -137,25 +145,36 @@ void init_ADXL357()
 	// DEBUG_PRINT("1");
 	I2C_write_357_register(RANGE_ADDR, F_MODE | INT_POL_H | RANGE_20G);
 	// DEBUG_PRINT("2");
-	// I2C_read_357_register(RANGE_ADDR, 1);
+	 I2C_read_357_register(RANGE_ADDR, 1);
 	// DEBUG_PRINT("3");
 //	I2C_write_357_register(FILTER_ADDR, ODR_500);
 //	I2C_read_357_register(FILTER_ADDR);
 
 	I2C_write_357_register(INTERRUPT_ADDR, 0x00); // see datasheet Table 14. Multiplexing of INT2 and DRDY, set INT2(pin 13) to drdy; DRDY pin to SYNC
-	// I2C_read_357_register(INTERRUPT_ADDR, 1);
+	 I2C_read_357_register(INTERRUPT_ADDR, 1);
 	I2C_write_357_register(SYNC_ADDR, EXT_SYNC);
-	// I2C_read_357_register(SYNC_ADDR, 1);
+	 I2C_read_357_register(SYNC_ADDR, 1);
 	I2C_write_357_register(POWER_CTL_ADDR, MEASURE_MODE);
+	 I2C_read_357_register(POWER_CTL_ADDR, 1);
+	
+//	test_CPU_ADXL357_ACCL();
+	// I2C_read_357_register(POWER_CTL_ADDR, 1); 
+	// dly_cnt = 0;
+	// while(dly_cnt++ < 100) {} // delay control
+
+	// I2C_read_357_register(INTERRUPT_ADDR, 1);
+//	 I2C_read_357_register(SYNC_ADDR, 1);
 	// I2C_read_357_register(POWER_CTL_ADDR, 1); 
 
-	I2C_read_357_register(RANGE_ADDR, 1);
+
+
+
 	
 	I2C_op_mode_sel_ADXL357(HW_ALL);
-
+	 test_HW_ADXL357();
 
 	// Set I2C operation mode to read 11 bytes (HW mode 11)
-	// I2C_op_mode_sel_ADXL357(HW_11);
+	//  I2C_op_mode_sel_ADXL357(HW_11);
 }
 
 void read_357_temp_CPU()
@@ -202,11 +221,11 @@ void read_357_all()
 	float temp, ax, ay, az;
 
 	// setting mode to r/w 1 byte
-	I2C_op_mode_sel_ADXL357(HW_ALL);
+	// I2C_op_mode_sel_ADXL357(HW_ALL);
 
 //	I2C_sm_start_ADXL357();
 	// Wait for the I2C SM to complete the operation
-//	while( !I2C_sm_read_finish_ADXL357()){}
+	while( !I2C_sm_read_finish_ADXL357()){}
 
 	ax = (float)IORD(VARSET_BASE, var_i2c_357_rdata_1)*SENS_ADXL357_20G;
 	ay = (float)IORD(VARSET_BASE, var_i2c_357_rdata_2)*SENS_ADXL357_20G;
@@ -214,7 +233,7 @@ void read_357_all()
 	temp = 233.2873 - 0.1105*(float)IORD(VARSET_BASE, var_i2c_357_rdata_4);
 
 //	printf("%f, %f, %f\n", ax, ay, az);
-	uart_printf("%f, %f, %f, %f\n", ax, ay, az, temp);
+	DEBUG_PRINT("%f, %f, %f, %f\n", ax, ay, az, temp);
 
 }
 
@@ -319,9 +338,9 @@ void I2C_write_357_register(alt_u8 reg_addr, alt_u8 data)
 	// start the I2C SM 
 	I2C_sm_start_ADXL357();
 	// Wait for the I2C SM to complete the operation
-	// while( !I2C_sm_read_finish_ADXL357()){} // time duration from sm_enable to finish too short
-	// dly_cnt = 0;
-	// while(dly_cnt++ < 100) {} // delay control
+	 while( !I2C_sm_read_finish_ADXL357()){} // time duration from sm_enable to finish too short
+//	 dly_cnt = 0;
+//	 while(dly_cnt++ < 100) {} // delay control
 
 }
 

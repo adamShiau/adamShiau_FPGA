@@ -532,48 +532,47 @@ inst_i2c_ADS122C04_temp (
 );
 
 /**** ADXL 357****/
-
-//i2c_controller_ADXL357_v0
-//inst_i2c_adxl357 (
-//	.i_clk(CPU_CLK),
-//	.i_rst_n(locked_0),
-//	.i2c_scl(SCL_357),
-//	.i2c_sda(SDA_357),
-//	.i_dev_addr(var_i2c_357_dev_addr),
-//	.i_reg_addr(var_i2c_357_reg_addr),
-//	.i_w_data(var_i2c_357_w_data),  
-//	
-//	.i_ctrl(var_i2c_357_ctrl),
-//	.i_drdy(DRDY_357),
-//
-//	.o_status(var_i2c_357_status),
-//	.o_ACCX(var_i2c_357_rdata_1),
-//	.o_ACCY(var_i2c_357_rdata_2),
-//	.o_ACCZ(var_i2c_357_rdata_3),
-//	.o_TEMP(var_i2c_357_rdata_4)
-//	);
-
-  i2c_controller_pullup_ADXL357
-  inst_i2c_adxl357 (
-  	.i_clk(CPU_CLK),
-  	.i_rst_n(locked_0),
-  	.i2c_scl(SCL_357),
-  	.i2c_sda(SDA_357),
-  	.i2c_clk_out(),
-  	.i_dev_addr(var_i2c_357_dev_addr),
-  	.i_reg_addr(var_i2c_357_reg_addr),
-  	.i_w_data(var_i2c_357_w_data),  
+i2c_controller_ADXL357_v0
+inst_i2c_adxl357 (
+	.i_clk(CPU_CLK),
+	.i_rst_n(locked_0),
+	.i2c_scl(SCL_357),
+	.i2c_sda(SDA_357),
+	.i_dev_addr(var_i2c_357_dev_addr),
+	.i_reg_addr(var_i2c_357_reg_addr),
+	.i_w_data(var_i2c_357_w_data),  
 	
-  	.i_ctrl(var_i2c_357_ctrl),
-  	.i_drdy(DRDY_357),
+	.i_ctrl(var_i2c_357_ctrl),
+	.i_drdy(DRDY_357),
 
-  	.o_status(var_i2c_357_status),
-  	.o_ACCX(var_i2c_357_rdata_1),
-  	.o_ACCY(var_i2c_357_rdata_2),
-  	.o_ACCZ(var_i2c_357_rdata_3),
-  	.o_TEMP(var_i2c_357_rdata_4),
-  	.o_w_enable()
-  );
+	.o_status(var_i2c_357_status),
+	.o_ACCX(var_i2c_357_rdata_1),
+	.o_ACCY(var_i2c_357_rdata_2),
+	.o_ACCZ(var_i2c_357_rdata_3),
+	.o_TEMP(var_i2c_357_rdata_4)
+	);
+
+// i2c_controller_pullup_ADXL357
+// inst_i2c_adxl357 (
+// 	.i_clk(CPU_CLK),
+// 	.i_rst_n(locked_0),
+// 	.i2c_scl(SCL_357),
+// 	.i2c_sda(SDA_357),
+// 	.i2c_clk_out(),
+// 	.i_dev_addr(var_i2c_357_dev_addr),
+// 	.i_reg_addr(var_i2c_357_reg_addr),
+// 	.i_w_data(var_i2c_357_w_data),  
+	
+// 	.i_ctrl(var_i2c_357_ctrl),
+// 	.i_drdy(DRDY_357),
+
+// 	.o_status(var_i2c_357_status),
+// 	.o_ACCX(var_i2c_357_rdata_1),
+// 	.o_ACCY(var_i2c_357_rdata_2),
+// 	.o_ACCZ(var_i2c_357_rdata_3),
+// 	.o_TEMP(var_i2c_357_rdata_4),
+// 	.o_w_enable()
+// );
 	
 /**** I2C EEPROM****/
 i2c_controller_eeprom_v0

@@ -1,5 +1,5 @@
 // test 沒有pull up 的 eeprom 版本
-module i2c_controller_ADXL357_v0(
+module i2c_controller_ADXL357_v0_0(
 	input wire 			i_clk,
 	input wire 			i_rst_n,
 	input wire [6:0] 	i_dev_addr,
@@ -71,8 +71,10 @@ module i2c_controller_ADXL357_v0(
 	localparam WRITE_ACK11 	= 	29;
 	localparam SLOW 		= 	30;
 	localparam STOP 		= 	31;
-	localparam WAIT_FINISH 	= 	32;
-
+	localparam STOP2 		= 	32;
+	localparam STOP3 		= 	33;
+	localparam STOP4 		= 	34;
+	localparam STOP5 		= 	35;
 
 
 	/*** I2C read ack response***/
@@ -93,9 +95,8 @@ module i2c_controller_ADXL357_v0(
 
 	reg r_drdy = 0;
 	/*** delay control to keep finish state at WAIT_FINISH***/
-	localparam FINISH_DLY_CTRL = 2;
+	localparam FINISH_DLY_CTRL = 5;
 	reg [2:0] finish_dly;
-	// reg [1:0] stop_cnt = 0;
 
 	/******* control register assignment ********/
 	wire i_enable;
@@ -122,14 +123,11 @@ module i2c_controller_ADXL357_v0(
 	reg [7:0] saved_addr;
 	reg [7:0] saved_data;
 	reg [7:0] counter;
-	wire write_enable;
-	reg w_en_Clk, w_en_2xClk;
+	reg write_enable;
 	reg sda_out = 0;
 	reg i2c_scl_enable = 0;
 	reg i2c_clk = 1;
-	reg clk_2x = 1;
 
-	assign write_enable = w_en_Clk | w_en_2xClk;
 
 	assign i2c_scl = (i2c_scl_enable == 0 ) ? 1 : i2c_clk;
 	assign i2c_sda = (write_enable == 1) ? sda_out : 'bz;
@@ -158,7 +156,6 @@ module i2c_controller_ADXL357_v0(
 	always@(posedge i_clk) begin
 		CLK_COUNT <= CLK_COUNT + 1;//CLK_COUNT[6]:100000/2^(6+1)=781.25 kHz, CLK_COUNT[7+1]:390.625 KHz
 		i2c_clk <= CLK_COUNT[reg_clock_rate];
-		clk_2x  <= CLK_COUNT[reg_clock_rate-1];
 	end
 
 	/*** i2c_scl_enable logic **/
@@ -167,7 +164,7 @@ module i2c_controller_ADXL357_v0(
 			i2c_scl_enable <= 0;
 		end else begin
 			case (state)
-				IDLE, START, STOP, WAIT_FINISH: i2c_scl_enable <= 0;
+				IDLE, START, STOP, STOP2, STOP3, STOP4, STOP5: i2c_scl_enable <= 0;
 				default: i2c_scl_enable <= 1;
 			endcase
 		end
@@ -218,7 +215,6 @@ module i2c_controller_ADXL357_v0(
 
 			sm_enable <= 0; 
 			saved_data <= 0;
-			// stop_cnt <= 0;
 			
 			CPU_SM <= CPU_SM_W_REG;
 			HW_SM <= HW_SM_W_REG_TEMP;
@@ -228,7 +224,6 @@ module i2c_controller_ADXL357_v0(
 			case(state)
 				IDLE: begin
 					finish_dly <= FINISH_DLY_CTRL;
-					finish <= 0;
 					wait_finish_flag <= 0;
 					case(op_mode) 
 						CPU_WREG, CPU_RREG, CPU_RD_TEMP, CPU_RD_ACCL: begin
@@ -346,7 +341,7 @@ module i2c_controller_ADXL357_v0(
 				end
 
 				READ_ACK3: begin 
-					wait_finish_flag <= 1;
+					finish <= 1;
 					state <= SLOW;
 				end
 
@@ -355,70 +350,79 @@ module i2c_controller_ADXL357_v0(
 				end
 
 				STOP: begin
+					state <= STOP2;
+				end
 
-					// stop_cnt <= stop_cnt + 1;
-					// if (stop_cnt == 2) begin
-					// 	stop_cnt <= 0;
-						
-						if(wait_finish_flag == 1) finish <= 1;
-					
-						case(op_mode) 
-							CPU_WREG: begin
+				STOP2: begin
+					state <= STOP3;
+				end
+
+				STOP3: begin
+					state <= STOP4;
+				end
+
+				STOP4: begin
+					state <= STOP5;
+				end
+
+				STOP5: begin
+					// if(wait_finish_flag == 1) finish <= 1;
+					finish <= 0;
+					case(op_mode) 
+						CPU_WREG: begin
+							sm_enable <= 0;
+						end
+						CPU_RREG: begin
+							if(CPU_SM == CPU_SM_W_REG) CPU_SM <= CPU_SM_R_REG;
+							else if(CPU_SM == CPU_SM_R_REG) begin
+								CPU_SM <= CPU_SM_W_REG;
 								sm_enable <= 0;
+								o_ACCX <= {24'b0, reg_rd_data};
 							end
-							CPU_RREG: begin
-								if(CPU_SM == CPU_SM_W_REG) CPU_SM <= CPU_SM_R_REG;
-								else if(CPU_SM == CPU_SM_R_REG) begin
-									CPU_SM <= CPU_SM_W_REG;
-									sm_enable <= 0;
-									o_ACCX <= {24'b0, reg_rd_data};
-								end
+						end
+						CPU_RD_TEMP: begin
+							if(CPU_SM == CPU_SM_W_REG) CPU_SM <= CPU_SM_R_TEMP;
+							else if(CPU_SM == CPU_SM_R_TEMP) begin
+								CPU_SM <= CPU_SM_W_REG;
+								sm_enable <= 0;
+								o_TEMP <= {20'b0, reg_rd_data[3:0], reg_rd_data_2};
 							end
-							CPU_RD_TEMP: begin
-								if(CPU_SM == CPU_SM_W_REG) CPU_SM <= CPU_SM_R_TEMP;
-								else if(CPU_SM == CPU_SM_R_TEMP) begin
-									CPU_SM <= CPU_SM_W_REG;
-									sm_enable <= 0;
-									o_TEMP <= {20'b0, reg_rd_data[3:0], reg_rd_data_2};
-								end
+						end
+						CPU_RD_ACCL: begin
+							if(CPU_SM == CPU_SM_W_REG) CPU_SM <= CPU_SM_R_ACCL;
+							else if(CPU_SM == CPU_SM_R_ACCL) begin
+								CPU_SM <= CPU_SM_W_REG;
+								sm_enable <= 0;
+								o_ACCX <= {{12{reg_rd_data_3[7]}}, reg_rd_data_3, reg_rd_data_4, reg_rd_data_5[7:4]};
+								o_ACCY <= {{12{reg_rd_data_6[7]}}, reg_rd_data_6, reg_rd_data_7, reg_rd_data_8[7:4]};
+								o_ACCZ <= {{12{reg_rd_data_9[7]}}, reg_rd_data_9, reg_rd_data_10, reg_rd_data_11[7:4]};
 							end
-							CPU_RD_ACCL: begin
-								if(CPU_SM == CPU_SM_W_REG) CPU_SM <= CPU_SM_R_ACCL;
-								else if(CPU_SM == CPU_SM_R_ACCL) begin
-									CPU_SM <= CPU_SM_W_REG;
-									sm_enable <= 0;
-									o_ACCX <= {{12{reg_rd_data_3[7]}}, reg_rd_data_3, reg_rd_data_4, reg_rd_data_5[7:4]};
-									o_ACCY <= {{12{reg_rd_data_6[7]}}, reg_rd_data_6, reg_rd_data_7, reg_rd_data_8[7:4]};
-									o_ACCZ <= {{12{reg_rd_data_9[7]}}, reg_rd_data_9, reg_rd_data_10, reg_rd_data_11[7:4]};
-								end
+						end
+						HW: begin
+							if(HW_SM == HW_SM_W_REG_TEMP) HW_SM <= HW_SM_R_ALL;
+							else if(HW_SM == HW_SM_R_ALL) begin
+								HW_SM <= HW_SM_W_REG_TEMP;
+								sm_enable <= 0;
+								o_TEMP <= {20'b0, reg_rd_data[3:0], reg_rd_data_2};
+								o_ACCX <= {{12{reg_rd_data_3[7]}}, reg_rd_data_3, reg_rd_data_4, reg_rd_data_5[7:4]};
+								o_ACCY <= {{12{reg_rd_data_6[7]}}, reg_rd_data_6, reg_rd_data_7, reg_rd_data_8[7:4]};
+								o_ACCZ <= {{12{reg_rd_data_9[7]}}, reg_rd_data_9, reg_rd_data_10, reg_rd_data_11[7:4]};
 							end
-							HW: begin
-								if(HW_SM == HW_SM_W_REG_TEMP) HW_SM <= HW_SM_R_ALL;
-								else if(HW_SM == HW_SM_R_ALL) begin
-									HW_SM <= HW_SM_W_REG_TEMP;
-									sm_enable <= 0;
-									o_TEMP <= {20'b0, reg_rd_data[3:0], reg_rd_data_2};
-									o_ACCX <= {{12{reg_rd_data_3[7]}}, reg_rd_data_3, reg_rd_data_4, reg_rd_data_5[7:4]};
-									o_ACCY <= {{12{reg_rd_data_6[7]}}, reg_rd_data_6, reg_rd_data_7, reg_rd_data_8[7:4]};
-									o_ACCZ <= {{12{reg_rd_data_9[7]}}, reg_rd_data_9, reg_rd_data_10, reg_rd_data_11[7:4]};
-								end
-							end
-						endcase
-						state <= WAIT_FINISH;	
-								
+						end
+					endcase
+					state <= IDLE;				
 				end
 
-
-				WAIT_FINISH: begin
-					if(wait_finish_flag == 1) finish <= 1;
-					if(finish_dly == 0) begin
-						state <= IDLE;	
-					end
-					else begin
-						finish_dly <= finish_dly - 1;
-						state <= WAIT_FINISH;
-					end
-				end
+				// WAIT_FINISH: begin
+				// 	if(wait_finish_flag == 1) finish <= 1;
+				// 	if(finish_dly == 0) begin
+				// 		state <= IDLE;	
+				// 	end
+				// 	else begin
+				// 		finish_dly <= finish_dly - 1;
+				// 		state <= WAIT_FINISH;
+				// 	end
+				// end
 
 				READ_DATA: begin
 					reg_rd_data[counter] <= i2c_sda;
@@ -430,7 +434,7 @@ module i2c_controller_ADXL357_v0(
 				
 				WRITE_ACK: begin
 					if(op_mode == CPU_RREG) begin
-						wait_finish_flag <= 1;
+						finish <= 1;
 						state <= SLOW;
 					end
 					else begin
@@ -449,7 +453,7 @@ module i2c_controller_ADXL357_v0(
 
 				WRITE_ACK2: begin
 					if(op_mode == CPU_RD_TEMP) begin
-						wait_finish_flag <= 1;
+						finish <= 1;
 						state <= STOP;
 					end
 					else begin //HW mode
@@ -564,7 +568,7 @@ module i2c_controller_ADXL357_v0(
 				end
 
 				WRITE_ACK11: begin
-					wait_finish_flag <= 1;
+					finish <= 1;
 					state <= SLOW;
 				end
 
@@ -579,89 +583,56 @@ module i2c_controller_ADXL357_v0(
 	***/
 	always @(negedge i2c_clk or negedge i_rst_n) begin
 		if(!i_rst_n) begin
-			w_en_Clk <= 0;
+			write_enable <= 0;
 		end else begin
 			case(state)
 
 				IDLE: begin
-					w_en_Clk <= 0;
+					write_enable <= 0;
 				end
 				
 				START: begin
-					w_en_Clk <= 1;
+					write_enable <= 1;
 					sda_out <= 0;
 				end
 				ADDRESS: begin
-					w_en_Clk <= 1;
+					write_enable <= 1;
 					sda_out <= saved_addr[counter];
 				end
 				
 				READ_ACK, READ_ACK2, READ_ACK3: begin
-					w_en_Clk <= 0;
+					write_enable <= 0;
 				end
 
 				REG_ADDR: begin //write reg addr
-					w_en_Clk <= 1;
+					write_enable <= 1;
 					sda_out <= saved_data[counter];
 				end
 				
 				WRITE_DATA: begin //write reg value
-					w_en_Clk <= 1;
+					write_enable <= 1;
 					sda_out <= saved_data[counter];
 				end
 				WRITE_ACK, WRITE_ACK2, WRITE_ACK3, WRITE_ACK4, WRITE_ACK5, WRITE_ACK6, WRITE_ACK7, WRITE_ACK8, WRITE_ACK9, WRITE_ACK10, WRITE_ACK11: begin
-					w_en_Clk <= 1;
+					write_enable <= 1;
 					sda_out <= 0;
 				end
 				
 				READ_DATA, READ_DATA2, READ_DATA3, READ_DATA4, READ_DATA5, READ_DATA6, READ_DATA7, READ_DATA8, READ_DATA9, READ_DATA10, READ_DATA11: begin
-					w_en_Clk <= 0;	
-					// sda_out <= 1'bx;
-					// sda_out <= 0;			
+					write_enable <= 0;	
+					sda_out <= 0;			
 				end
 
 				SLOW: begin
-					w_en_Clk <= 1;
+					write_enable <= 1;
 					sda_out <= 0;
 				end
-
-				WAIT_FINISH: begin
-					// if (finish_dly <= 1) begin
-					// 	w_en_Clk <= 0;  // 在最後一拍釋放 SDA
-					// end else begin
-					// 	w_en_Clk <= 1;
-					// 	sda_out <= 1;
-					// end
-					w_en_Clk <= 1;
-					sda_out <= 1;
-				end
 				
-				STOP: begin
-					// w_en_Clk <= 0;
-					w_en_Clk <= 1;
+				STOP, STOP2, STOP3, STOP4, STOP5: begin
+					// write_enable <= 0;
+					write_enable <= 1;
 					sda_out <= 1;
 				end
-
-			endcase
-		end
-	end
-
-	always@(negedge clk_2x or negedge i_rst_n) begin
-		if(!i_rst_n) begin
-			w_en_2xClk <= 0;
-		end 
-		else begin
-			case(state)
-			START: w_en_2xClk <= 1;
-			ADDRESS: w_en_2xClk <= 1;
-			REG_ADDR: w_en_2xClk <= 1;
-			WRITE_DATA: w_en_2xClk <= 1;
-			WRITE_ACK, WRITE_ACK2, WRITE_ACK3, WRITE_ACK4, WRITE_ACK5, WRITE_ACK6, WRITE_ACK7, WRITE_ACK8, WRITE_ACK9, WRITE_ACK10, WRITE_ACK11: w_en_2xClk <= 1;
-			SLOW: w_en_2xClk <= 1;
-			WAIT_FINISH: w_en_2xClk <= 1;
-			STOP: w_en_2xClk <= 1;
-			default: w_en_2xClk <= 0;
-
 			endcase
 		end
 	end

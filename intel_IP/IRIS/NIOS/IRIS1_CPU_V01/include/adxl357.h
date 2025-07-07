@@ -15,6 +15,7 @@
 
 /*** test function */
 void test_CPU_ADXL357_ACCL(void);
+void test_HW_ADXL357(void);
 
 /*** high level declaration */
 void init_ADXL357(void);

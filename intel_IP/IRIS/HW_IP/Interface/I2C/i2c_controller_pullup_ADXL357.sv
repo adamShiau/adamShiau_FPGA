@@ -168,15 +168,21 @@ module i2c_controller_pullup_ADXL357
 		if(!i_rst_n) begin
 			i2c_scl_enable <= 1;
 		end else begin
-			if ( (state == READ_ACK_B)|| (state == READ_ACK2_B) ) begin 
-				i2c_scl_enable <= 0;
-			end 
-			else if ( (state == IDLE) ||(state == START) || (state == STOP) || (state == STOP2 ) || (state == NOP1 )) begin
-				i2c_scl_enable <= 1;
-			end 
-			else begin
-				i2c_scl_enable <= 2;
-			end
+			// if ( (state == READ_ACK_B)|| (state == READ_ACK2_B) ) begin 
+			// 	i2c_scl_enable <= 0;
+			// end 
+			// else if ( (state == IDLE) ||(state == START) || (state == STOP) || (state == STOP2 ) || (state == NOP1 )) begin
+			// 	i2c_scl_enable <= 1;
+			// end 
+			// else begin
+			// 	i2c_scl_enable <= 2;
+			// end
+
+			case (state)
+				IDLE, START, STOP, STOP2: i2c_scl_enable <= 1;
+				READ_ACK_B, READ_ACK2_B, READ_ACK3_B: i2c_scl_enable <= 0;
+				default: i2c_scl_enable <= 2;
+			endcase 
 		end
 	end
 
