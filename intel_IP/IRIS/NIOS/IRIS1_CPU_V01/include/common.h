@@ -197,6 +197,10 @@ void dump_misalignment_param(fog_parameter_t* fog_inst);
 void dump_SN(fog_parameter_t* fog_inst);
 void send_json_uart(const char* buffer);
 
+void set_MUX_RS422(void);
+void set_MUX_RS232(void);
+void set_MUX_CAN(void);
+
 
 float SF_temp_compensation_1st_order_fog(my_sensor_t, fog_parameter_t, CH_t);
 float SF_temp_compensation_1st_order_adxl357(my_sensor_t, fog_parameter_t, CH_t);

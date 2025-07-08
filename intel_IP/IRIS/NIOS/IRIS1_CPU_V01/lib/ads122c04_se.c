@@ -85,6 +85,8 @@
 #define True 1
 #define False 0
 
+static alt_u32 dly_cnt = 0, number = 5000;
+
 /***********high level definition */
 void init_ADS122C04_TEMP()
 {
@@ -101,6 +103,17 @@ void init_ADS122C04_TEMP()
 	I2C_op_mode_sel_ADS122C04_TEMP(HW);
 	// Set I2C device address
 	I2C_set_device_addr_ADS122C04_TEMP(I2C_DEV_ADDR);
+	test_ADS122C04();
+}
+
+void test_ADS122C04()
+{
+	DEBUG_PRINT("testing_ADS122C04\n");
+	while(number-- != 0 ) {
+		// dly_cnt = 0;
+		// while(dly_cnt++ < DLY_NUM_357) {} // delay control
+		read_ADS122C04_TEMP();
+	}
 }
 
 void read_ADS122C04_TEMP()
@@ -120,7 +133,8 @@ void read_ADS122C04_TEMP()
 //	printf("%f, %f, %f\n", ax, ay, az);
 	// uart_printf("%f\n", ain0);
 	// uart_printf("%f, %f\n", ain0, ain1);
-	uart_printf("%f, %f, %f\n", ain0, ain1, ain2);
+	// uart_printf("%f, %f, %f\n", ain0, ain1, ain2);
+	DEBUG_PRINT("%f, %f, %f, %f\n", ain0, ain1, ain2, ain3);
 	// uart_printf("%f, %f, %f, %f\n", ain0, ain1, ain2, ain3);
 }
 

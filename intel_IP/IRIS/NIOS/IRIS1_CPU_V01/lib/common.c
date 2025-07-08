@@ -651,6 +651,21 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 		}
 
 }
+
+void set_MUX_RS422()
+{
+	IOWR_ALTERA_AVALON_PIO_DATA(MUX_IN_BASE, 0x00);
+}
+
+void set_MUX_RS232()
+{
+	IOWR_ALTERA_AVALON_PIO_DATA(MUX_IN_BASE, 0x02);
+}
+
+void set_MUX_CAN()
+{
+	IOWR_ALTERA_AVALON_PIO_DATA(MUX_IN_BASE, 0x01);
+}
   
 
 void update_fog_parameters_to_HW_REG(alt_u8 base, fog_parameter_t* fog_params) 

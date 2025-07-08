@@ -45,6 +45,7 @@ void set_ADC_all_one()
 void set_DAC_reset()
 {
 	IOWR_ALTERA_AVALON_PIO_DATA(DAC_RST_BASE, 0x01);
+
 }
 
 void clear_DAC_reset()

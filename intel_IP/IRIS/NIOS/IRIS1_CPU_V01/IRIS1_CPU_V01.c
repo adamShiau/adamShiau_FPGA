@@ -123,7 +123,6 @@ int main(void)
 	update_fog_parameters_to_HW_REG(MEM_BASE_Z, &fog_params); 
 	update_fog_parameters_to_HW_REG(MEM_BASE_X, &fog_params); 
 	update_fog_parameters_to_HW_REG(MEM_BASE_Y, &fog_params); 
-	// update_IRIS_config_to_HW_REG();
 	// PRINT_FOG_PARAMETER(&fog_params);
 
 
@@ -226,7 +225,10 @@ void update_sensor_data(my_sensor_t *data) {
 
 void update_IRIS_config_to_HW_REG()
 {
-	IOWR(VARSET_BASE, var_sync_count, SYNC_100HZ);
+	IOWR(VARSET_BASE, var_sync_count, SYNC_100HZ); // set sync data rate
+	// set_MUX_RS422(); // set RS422 output mode
+	set_MUX_RS232();
+	// set_MUX_CAN();
 }
 
 

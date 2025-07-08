@@ -151,11 +151,11 @@ void init_ADXL357()
 //	I2C_read_357_register(FILTER_ADDR);
 
 	I2C_write_357_register(INTERRUPT_ADDR, 0x00); // see datasheet Table 14. Multiplexing of INT2 and DRDY, set INT2(pin 13) to drdy; DRDY pin to SYNC
-	 I2C_read_357_register(INTERRUPT_ADDR, 1);
+	I2C_read_357_register(INTERRUPT_ADDR, 1);
 	I2C_write_357_register(SYNC_ADDR, EXT_SYNC);
-	 I2C_read_357_register(SYNC_ADDR, 1);
+	I2C_read_357_register(SYNC_ADDR, 1);
 	I2C_write_357_register(POWER_CTL_ADDR, MEASURE_MODE);
-	 I2C_read_357_register(POWER_CTL_ADDR, 1);
+	I2C_read_357_register(POWER_CTL_ADDR, 1);
 	
 //	test_CPU_ADXL357_ACCL();
 	// I2C_read_357_register(POWER_CTL_ADDR, 1); 
@@ -171,7 +171,7 @@ void init_ADXL357()
 
 	
 	I2C_op_mode_sel_ADXL357(HW_ALL);
-	 test_HW_ADXL357();
+	//  test_HW_ADXL357();
 
 	// Set I2C operation mode to read 11 bytes (HW mode 11)
 	//  I2C_op_mode_sel_ADXL357(HW_11);
