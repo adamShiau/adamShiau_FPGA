@@ -103,7 +103,7 @@ void init_ADS122C04_TEMP()
 	I2C_op_mode_sel_ADS122C04_TEMP(HW);
 	// Set I2C device address
 	I2C_set_device_addr_ADS122C04_TEMP(I2C_DEV_ADDR);
-	test_ADS122C04();
+	// test_ADS122C04();
 }
 
 void test_ADS122C04()

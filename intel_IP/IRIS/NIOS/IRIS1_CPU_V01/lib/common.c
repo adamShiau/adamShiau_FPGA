@@ -71,6 +71,18 @@ void uart_printf(const char *format, ...)
     SerialWrite((alt_u8*)buffer, strlen(buffer));
 }
 
+void uart_printf_dbg(const char *format, ...)
+{
+    char buffer[256];  // 128 is buffer size, can increase if need 
+    va_list args;                   
+
+    va_start(args, format);           
+    vsnprintf(buffer, 256, format, args);  
+    va_end(args);
+
+    SerialWrite_dbg((alt_u8*)buffer, strlen(buffer));
+}
+
 void SerialWrite(alt_u8* buf, alt_u8 num) 
 {
     for (alt_u8 i = 0; i < num; i++) 
@@ -80,12 +92,30 @@ void SerialWrite(alt_u8* buf, alt_u8 num)
     }
 }
 
+void SerialWrite_dbg(alt_u8* buf, alt_u8 num) 
+{
+    for (alt_u8 i = 0; i < num; i++) 
+    {
+        while (!(IORD_ALTERA_AVALON_UART_STATUS(UART_DBG_BASE) & ALTERA_AVALON_UART_STATUS_TRDY_MSK));
+        IOWR_ALTERA_AVALON_UART_TXDATA(UART_DBG_BASE, buf[i]);
+    }
+}
+
 void SerialWrite_r(alt_u8* buf, alt_u8 num) 
 {
     for (alt_u8 i = num; i > 0; i--) 
     {
         while (!(IORD_ALTERA_AVALON_UART_STATUS(UART_BASE) & ALTERA_AVALON_UART_STATUS_TRDY_MSK));
         IOWR_ALTERA_AVALON_UART_TXDATA(UART_BASE, buf[i - 1]);
+    }
+}
+
+void SerialWrite_dbg_r(alt_u8* buf, alt_u8 num) 
+{
+    for (alt_u8 i = num; i > 0; i--) 
+    {
+        while (!(IORD_ALTERA_AVALON_UART_STATUS(UART_DBG_BASE) & ALTERA_AVALON_UART_STATUS_TRDY_MSK));
+        IOWR_ALTERA_AVALON_UART_TXDATA(UART_DBG_BASE, buf[i - 1]);
     }
 }
 

@@ -10,7 +10,7 @@
 
  #define DEBUG
  #define INFO
-// #define UART_DEBUG
+#define UART_DEBUG
 
 #ifdef DEBUG
     #define DEBUG_PRINT(...) printf(__VA_ARGS__)
@@ -25,7 +25,7 @@
 #endif
 
 #ifdef UART_DEBUG
-    #define UART_PRINT(...) uart_printf(__VA_ARGS__)
+    #define UART_PRINT(...) uart_printf_dbg(__VA_ARGS__)
 #else
     #define UART_PRINT(...)
 #endif
@@ -176,7 +176,9 @@ void moving_average_free(MovingAverage_t *);
 void sendTx(alt_32);
 void checkByte(alt_u8);
 void uart_printf(const char *format, ...);
+void uart_printf_dbg(const char *format, ...);
 void SerialWrite(alt_u8* buf, alt_u8 num); 
+void SerialWrite_dbg(alt_u8* buf, alt_u8 num); 
 void SerialWrite_r(alt_u8* buf, alt_u8 num); 
  int IEEE_754_F2INT(float in);
 void crc32_init_table();
