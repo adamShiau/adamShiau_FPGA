@@ -25,10 +25,11 @@
 #define I2C_WRITE			0x0
 
 /**** CTRL ******/
-#define ctrl_en_pos			0
-#define ctrl_rw_reg_pos		1
-#define ctrl_op_mode_pos 	1
-#define ctrl_clk_rate_pos	4
+#define ctrl_en_pos				0
+#define ctrl_rw_reg_pos			1
+#define ctrl_op_mode_pos 		1
+#define ctrl_clk_rate_pos		4
+#define ctrl_finish_clear_pos	7
 
 /**** STATUS ******/
 #define status_ready_pos	0
@@ -127,7 +128,13 @@ void EEPROM_Write_4B(alt_u16 reg_addr, alt_32 data)
 	// start the I2C SM 
 	I2C_sm_start();
 	// Wait for the I2C SM to complete the operation
-	 while( !I2C_sm_read_finish()){}
+	int timeout = 100000;
+	while (!I2C_sm_read_finish() && timeout-- > 0);
+	if (timeout <= 0) {
+        DEBUG_PRINT("EEPROM write timeout!\n");
+        return;
+    }
+	I2C_sm_set_finish_clear_pulse(); 
 	usleep(1320);
 }
 
@@ -138,6 +145,88 @@ void PARAMETER_Write_f(alt_u8 base, alt_u8 number , alt_32 data)
 {
 	// DEBUG_PRINT("reg_addr: %d, data: %d\n", base + number, data);
 	EEPROM_Write_4B( (alt_u16) (base + number), data);
+}
+
+void EEPROM_Read_4B(alt_u16 reg_addr, alt_u8* buf)
+{
+	alt_u8 i=0;
+
+	reg_addr <<= 2;
+
+	// setting mode to cpu read register
+	I2C_op_mode_sel_EEPROM(CPU_RREG);
+	// Set I2C device address
+	IOWR(VARSET_BASE, O_VAR_DEV_ADDR, I2C_DEV_ADDR);
+	// Set the target register address for read or write operations
+	IOWR(VARSET_BASE, O_VAR_REG_ADDR, reg_addr);
+
+	// start the I2C SM 
+	I2C_sm_start();
+
+	// Wait for the I2C SM to complete the operation
+	int timeout = 100000;
+    while (!I2C_sm_read_finish() && timeout-- > 0);
+
+    if (timeout <= 0) {
+        DEBUG_PRINT("EEPROM read timeout!\n");
+        return;
+    }
+
+//	 DEBUG_PRINT("out\n");
+	// Retrieve the data read from the specified register
+	buf[3] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_1);
+	buf[2] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_2);
+	buf[1] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_3);
+	buf[0] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_4);
+
+	I2C_sm_set_finish_clear_pulse(); 
+
+}
+
+void EEPROM_Read_4B_R(alt_u16 reg_addr, alt_u8* buf)
+{
+	alt_u8 i=0;
+
+	// DEBUG_PRINT("VARSET_BASE22 18: %d\n", IORD(VARSET_BASE, 18));
+	// DEBUG_PRINT("VARSET_BASE22 19: %d\n", IORD(VARSET_BASE, 19));
+
+	reg_addr <<= 2;
+	// setting mode to cpu read register
+	I2C_op_mode_sel_EEPROM(CPU_RREG);
+	// Set I2C device address
+	IOWR(VARSET_BASE, O_VAR_DEV_ADDR, I2C_DEV_ADDR);
+	// Set the target register address for read or write operations
+	IOWR(VARSET_BASE, O_VAR_REG_ADDR, reg_addr);
+
+	// start the I2C SM 
+	I2C_sm_start();
+
+	// Wait for the I2C SM to complete the operation
+	int timeout = 100000;
+    while (!I2C_sm_read_finish() && timeout-- > 0);
+
+    if (timeout <= 0) {
+        DEBUG_PRINT("EEPROM read timeout!\n");
+        return;
+    }
+
+	// Retrieve the data read from the specified register
+	buf[0] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_1);
+	buf[1] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_2);
+	buf[2] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_3);
+	buf[3] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_4);
+
+	I2C_sm_set_finish_clear_pulse(); 
+}
+
+void PARAMETER_Read(alt_u8 base, alt_u8 number , alt_u8* buf)
+{
+	EEPROM_Read_4B((alt_u16) (base + number), buf);
+}
+
+void PARAMETER_Read_R(alt_u8 base, alt_u8 number , alt_u8* buf)
+{
+	EEPROM_Read_4B_R((alt_u16) (base + number), buf);
 }
 
 /*** safe write eeprom on address 
@@ -287,70 +376,6 @@ void PRINT_FOG_PARAMETER(fog_parameter_t* fog_params)
 	DEBUG_PRINT("Printing EEPROM FOG Parameters done!\n");
 }
 
-void EEPROM_Read_4B(alt_u16 reg_addr, alt_u8* buf)
-{
-	alt_u8 i=0;
-
-	reg_addr <<= 2;
-
-	// setting mode to cpu read register
-	I2C_op_mode_sel_EEPROM(CPU_RREG);
-	// Set I2C device address
-	IOWR(VARSET_BASE, O_VAR_DEV_ADDR, I2C_DEV_ADDR);
-	// Set the target register address for read or write operations
-	IOWR(VARSET_BASE, O_VAR_REG_ADDR, reg_addr);
-
-	// start the I2C SM 
-	I2C_sm_start();
-	// Wait for the I2C SM to complete the operation
-//	DEBUG_PRINT("in\n");
-	 while( !I2C_sm_read_finish()){;}
-//	 DEBUG_PRINT("out\n");
-	// Retrieve the data read from the specified register
-	buf[3] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_1);
-	buf[2] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_2);
-	buf[1] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_3);
-	buf[0] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_4);
-
-}
-
-void EEPROM_Read_4B_R(alt_u16 reg_addr, alt_u8* buf)
-{
-	alt_u8 i=0;
-
-	// DEBUG_PRINT("VARSET_BASE22 18: %d\n", IORD(VARSET_BASE, 18));
-	// DEBUG_PRINT("VARSET_BASE22 19: %d\n", IORD(VARSET_BASE, 19));
-
-	reg_addr <<= 2;
-	// setting mode to cpu read register
-	I2C_op_mode_sel_EEPROM(CPU_RREG);
-	// Set I2C device address
-	IOWR(VARSET_BASE, O_VAR_DEV_ADDR, I2C_DEV_ADDR);
-	// Set the target register address for read or write operations
-	IOWR(VARSET_BASE, O_VAR_REG_ADDR, reg_addr);
-
-	// start the I2C SM 
-	I2C_sm_start();
-	// Wait for the I2C SM to complete the operation
-	 while( !I2C_sm_read_finish()){}
-	// Retrieve the data read from the specified register
-	buf[0] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_1);
-	buf[1] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_2);
-	buf[2] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_3);
-	buf[3] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_4);
-	// DEBUG_PRINT("MSB: %x, %x, %x, %x\n", buf[3], buf[2], buf[1], buf[0]);
-	// DEBUG_PRINT("%d\n", buf[3]<<24|buf[2]<<16|buf[1]<<8|buf[0]);
-}
-
-void PARAMETER_Read(alt_u8 base, alt_u8 number , alt_u8* buf)
-{
-	EEPROM_Read_4B((alt_u16) (base + number), buf);
-}
-
-void PARAMETER_Read_R(alt_u8 base, alt_u8 number , alt_u8* buf)
-{
-	EEPROM_Read_4B_R((alt_u16) (base + number), buf);
-}
 /*** Initialization method */
 void init_EEPROM(void)
 {
@@ -414,6 +439,13 @@ void I2C_sm_set_enable()
 void I2C_sm_set_disable()
 {
 	IOWR(VARSET_BASE, O_VAR_I2C_CTRL, clear_bit_safe(O_VAR_I2C_CTRL, ctrl_en_pos) );
+}
+
+void I2C_sm_set_finish_clear_pulse() 
+{
+	IOWR(VARSET_BASE, O_VAR_I2C_CTRL,  set_bit_safe(O_VAR_I2C_CTRL, ctrl_finish_clear_pos));
+	usleep(5);
+	IOWR(VARSET_BASE, O_VAR_I2C_CTRL,  clear_bit_safe(O_VAR_I2C_CTRL, ctrl_finish_clear_pos));
 }
 
 void I2C_set_read_mode()

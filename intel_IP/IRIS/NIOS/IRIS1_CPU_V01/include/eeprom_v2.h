@@ -39,6 +39,7 @@ void I2C_clock_rate_sel(alt_u8 rate);
 /*** I2C low level declaration */
 void I2C_sm_set_enable(void);
 void I2C_sm_set_disable(void);
+void I2C_sm_set_finish_clear_pulse(void);
 void I2C_set_write_mode(void);
 void I2C_set_read_mode(void);
 alt_u8 I2C_sm_read_finish(void);

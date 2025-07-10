@@ -106,7 +106,7 @@ module i2c_controller_eeprom_v2(
 
 
 	/*** delay control to keep finish state at WAIT_FINISH***/
-	localparam FINISH_DLY_CTRL = 5;
+	localparam FINISH_DLY_CTRL = 2;
 	reg [2:0] finish_dly;
 	reg wait_finish_flag = 0;
 	
@@ -162,7 +162,8 @@ module i2c_controller_eeprom_v2(
 	end
 
 	/*** clear pulse logic ***/
-	always @(posedge i_clk or negedge i_rst_n) begin
+	// always @(posedge i_clk or negedge i_rst_n) begin
+	always @(posedge i2c_clk or negedge i_rst_n) begin
 		if (!i_rst_n) begin
 			finish <= 0;
 			prev_clear <= 0;
@@ -172,7 +173,8 @@ module i2c_controller_eeprom_v2(
 
 			// Set finish_latch only在 FSM 執行完成時
 			if ((state == WAIT_FINISH) && (finish_dly == FINISH_DLY_CTRL)) begin
-				finish <= 1;
+				if(wait_finish_flag == 1) finish <= 1;
+				// finish <= 1;
 			end
 			// Clear when pulse detected
 			else if (clear_pulse) begin
@@ -188,7 +190,7 @@ module i2c_controller_eeprom_v2(
 			// finish <= 0;
 			state <= IDLE;
 			wait_finish_flag <= 0;
-			finish_dly <= FINISH_DLY_CTRL;
+			finish_dly <= 0;
 			o_rd_data <= 8'd0;
 			o_rd_data_2 <= 8'd0;
 			o_rd_data_3 <= 8'd0;
@@ -200,7 +202,7 @@ module i2c_controller_eeprom_v2(
 			
 				IDLE: begin
 					// finish <= 0;
-					finish_dly <= FINISH_DLY_CTRL;
+					finish_dly <= 0;
 					wait_finish_flag <= 0;
 					case (op_mode)
 						CPU_WREG, CPU_RREG: if(i_enable) sm_enable <= 1; 
@@ -344,23 +346,25 @@ module i2c_controller_eeprom_v2(
 				STOP: begin
 					// finish <= 0;
 					// if(wait_finish_flag == 1) finish <= 1;
+					finish_dly <= FINISH_DLY_CTRL;
 					case (op_mode)
 						CPU_WREG: begin 
 							sm_enable <= 0;
-							state <= IDLE;
+							// state <= IDLE;
 						end
 						CPU_RREG: begin
 							if(CPU_SM == CPU_SM_W_REG) begin 
 								CPU_SM <= CPU_SM_READ;
-								state <= IDLE;
+								// state <= IDLE;
 							end
 							else if(CPU_SM == CPU_SM_READ) begin
 								CPU_SM <= CPU_SM_W_REG;
 								sm_enable <= 0;
-								state <= WAIT_FINISH;
+								// state <= WAIT_FINISH;
 							end
 						end
 					endcase
+					state <= WAIT_FINISH;
 				end
 
 				WAIT_FINISH: begin
