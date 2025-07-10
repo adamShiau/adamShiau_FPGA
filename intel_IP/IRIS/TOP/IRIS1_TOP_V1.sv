@@ -576,7 +576,7 @@ inst_i2c_ADS122C04_temp (
   );
 	
 /**** I2C EEPROM****/
- i2c_controller_eeprom_v1
+ i2c_controller_eeprom_v2
  inst_i2c_eeprom (
  	.i_clk(CPU_CLK),
  	.i_rst_n(locked_0),

@@ -1,6 +1,6 @@
 // test 沒有pull up 的 eeprom 版本
 // add finish delay control
-// chatGPT 更改
+// 新增i_ctrl[7] = finish_clear
 module i2c_controller_eeprom_v2(
 	input wire 				i_clk,
 	input wire 				i_rst_n,
@@ -67,6 +67,11 @@ module i2c_controller_eeprom_v2(
 	CPU_SM_t CPU_SM;
 
 
+	/******* finish register assignment ********/
+	reg finish = 0;
+	reg prev_clear;
+	wire clear_pulse;
+
 	/******* control register assignment ********/
 	wire i_enable;
 	wire [2:0] op_mode;
@@ -75,9 +80,10 @@ module i2c_controller_eeprom_v2(
 	assign i_enable = i_ctrl[0];
 	assign op_mode = i_ctrl[3:1];
 	assign clk_rate = i_ctrl[6:4];
+	assign clear_pulse = (i_ctrl[7] == 1'b1) && (prev_clear == 1'b0); // up edge detect
+
 
 	/******* status register assignment ********/
-	reg finish = 0;
 	reg [7:0] state;
 	reg sm_enable;
 
@@ -155,10 +161,31 @@ module i2c_controller_eeprom_v2(
 		end
 	end
 
+	/*** clear pulse logic ***/
+	always @(posedge i_clk or negedge i_rst_n) begin
+		if (!i_rst_n) begin
+			finish <= 0;
+			prev_clear <= 0;
+		end 
+		else begin
+			prev_clear <= i_ctrl[7];
+
+			// Set finish_latch only在 FSM 執行完成時
+			if ((state == WAIT_FINISH) && (finish_dly == FINISH_DLY_CTRL)) begin
+				finish <= 1;
+			end
+			// Clear when pulse detected
+			else if (clear_pulse) begin
+				finish <= 0;
+			end
+		end
+	end
+
+
 	/*** SM update**/
 	always @(posedge i2c_clk or negedge i_rst_n) begin
 		if(!i_rst_n) begin
-			finish <= 0;
+			// finish <= 0;
 			state <= IDLE;
 			wait_finish_flag <= 0;
 			finish_dly <= FINISH_DLY_CTRL;
@@ -172,7 +199,7 @@ module i2c_controller_eeprom_v2(
 			case(state)
 			
 				IDLE: begin
-					finish <= 0;
+					// finish <= 0;
 					finish_dly <= FINISH_DLY_CTRL;
 					wait_finish_flag <= 0;
 					case (op_mode)
@@ -316,22 +343,28 @@ module i2c_controller_eeprom_v2(
 
 				STOP: begin
 					// finish <= 0;
-					if(wait_finish_flag == 1) finish <= 1;
+					// if(wait_finish_flag == 1) finish <= 1;
 					case (op_mode)
-						CPU_WREG: sm_enable <= 0;
+						CPU_WREG: begin 
+							sm_enable <= 0;
+							state <= IDLE;
+						end
 						CPU_RREG: begin
-							if(CPU_SM == CPU_SM_W_REG) CPU_SM <= CPU_SM_READ;
+							if(CPU_SM == CPU_SM_W_REG) begin 
+								CPU_SM <= CPU_SM_READ;
+								state <= IDLE;
+							end
 							else if(CPU_SM == CPU_SM_READ) begin
 								CPU_SM <= CPU_SM_W_REG;
 								sm_enable <= 0;
+								state <= WAIT_FINISH;
 							end
 						end
 					endcase
-					state <= WAIT_FINISH;
 				end
 
 				WAIT_FINISH: begin
-					if(wait_finish_flag == 1) finish <= 1;
+					// if(wait_finish_flag == 1) finish <= 1;
 					if(finish_dly == 0) begin
 						state <= IDLE;	
 					end
