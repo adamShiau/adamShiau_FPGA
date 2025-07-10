@@ -90,7 +90,7 @@ int main(void)
 	update_IRIS_config_to_HW_REG();
 	UART_PRINT("TRIGGER_IRQ_init\n");
 	crc32_init_table();
-	EEPROM_RW_TEST();
+	// EEPROM_RW_TEST();
 	TRIGGER_IRQ_init();
 	moving_average_init(&mz_x, 13);
 	moving_average_init(&mz_y, 13);

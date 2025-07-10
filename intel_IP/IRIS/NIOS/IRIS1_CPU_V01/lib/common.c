@@ -59,6 +59,12 @@ void checkByte(alt_u8 data)
 	IOWR_ALTERA_AVALON_UART_TXDATA(UART_BASE, data);
 }
 
+void checkByte_dbg(alt_u8 data)
+{
+	while(!(IORD_ALTERA_AVALON_UART_STATUS(UART_DBG_BASE)& ALTERA_AVALON_UART_STATUS_TRDY_MSK));
+	IOWR_ALTERA_AVALON_UART_TXDATA(UART_DBG_BASE, data);
+}
+
 void uart_printf(const char *format, ...)
 {
     char buffer[256];  // 128 is buffer size, can increase if need 
@@ -205,7 +211,7 @@ void get_uart_cmd(alt_u8* data, cmd_ctrl_t* rx)
 			rx->value = data[2]<<24 | data[3]<<16 | data[4]<<8 | data[5];
 			rx->ch = data[6];
 			DEBUG_PRINT("\nuart_cmd, uart_value, ch, condition: 0x%x, %ld, %d, %u\n", rx->cmd , rx->value, rx->ch, rx->condition);
-			UART_PRINT("\nuart_cmd, uart_value, ch, condition: 0x%x, %ld, %d, %u\n", rx->cmd , rx->value, rx->ch, rx->condition);
+			// UART_PRINT("\nuart_cmd, uart_value, ch, condition: 0x%x, %ld, %d, %u\n", rx->cmd , rx->value, rx->ch, rx->condition);
 		}
 		else if(rx->condition == RX_CONDITION_CDDC_5758) {
 			for (int i = 0; i < 12; i++) {
@@ -213,6 +219,7 @@ void get_uart_cmd(alt_u8* data, cmd_ctrl_t* rx)
 			}
 			rx->SN[12] = '\0'; 
 			DEBUG_PRINT("\nuart_cmd, condition, SN: 0x%x, %u, %s\n", rx->cmd , rx->condition, rx->SN);
+			// UART_PRINT("\nuart_cmd, condition, SN: 0x%x, %u, %s\n", rx->cmd , rx->condition, rx->SN);
 		}
         
     }
@@ -804,17 +811,20 @@ void dump_misalignment_param(fog_parameter_t* fog_inst) {
 }
 
 void dump_SN(fog_parameter_t* fog_inst) {
-	SerialWrite(&fog_inst->sn[0], 4);
-	SerialWrite(&fog_inst->sn[4], 4);
-	SerialWrite(&fog_inst->sn[8], 4);
-	// for(alt_u8 i=0; i<12; i++) {
-	// 	SerialWrite(&fog_inst->sn[i], 1);
-	// }
+	// SerialWrite(&fog_inst->sn[0], 4);
+	// SerialWrite(&fog_inst->sn[4], 4);
+	// SerialWrite(&fog_inst->sn[8], 4);
+
+	SerialWrite_dbg(&fog_inst->sn[0], 4);
+	SerialWrite_dbg(&fog_inst->sn[4], 4);
+	SerialWrite_dbg(&fog_inst->sn[8], 4);
+
 }
 
 void send_json_uart(const char* buffer) {
     while (*buffer) {
-        checkByte((alt_u8)*buffer);
+        // checkByte((alt_u8)*buffer);
+		checkByte_dbg((alt_u8)*buffer);
         buffer++;
     }
 }

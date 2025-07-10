@@ -1,4 +1,4 @@
-#include "eeprom_v2.h" 
+#include "eeprom.h" 
 #define VARSET_BASE VARSET_1_BASE
 
 /******** I2C device address*********/
@@ -27,17 +27,13 @@
 /**** CTRL ******/
 #define ctrl_en_pos			0
 #define ctrl_rw_reg_pos		1
-#define ctrl_op_mode_pos 	1
+#define ctrl_op_mode_pos 	2
 #define ctrl_clk_rate_pos	4
 
 /**** STATUS ******/
 #define status_ready_pos	0
 #define status_finish_pos	1
 #define status_state_pos	9
-
-/*** OP mode***/
-#define CPU_WREG	0
-#define CPU_RREG	1
 
 #define True 1
 #define False 0
@@ -52,12 +48,10 @@ void EEPROM_RW_TEST()
 {
 	my_float_t data, tt;
 	DEBUG_PRINT("Start EEPROM R/W testing function\n");
-	UART_PRINT("Start EEPROM R/W testing function\n");
-	
+
 
 	tt.float_val = 1.23456;
 	DEBUG_PRINT("Write int value 123 to memory location 200. \n");
-	UART_PRINT("Write int value 123 to memory location 200. \n");
 	PARAMETER_Write_f(MEM_BASE_X, 200, 123);
 	PARAMETER_Read(MEM_BASE_X, 200 , data.bin_val);
 	DEBUG_PRINT("Read out int value: %d\n", data.int_val);
@@ -66,34 +60,16 @@ void EEPROM_RW_TEST()
            data.bin_val[1],
            data.bin_val[2],
            data.bin_val[3]);
-	UART_PRINT("Read out int value: %d\n", data.int_val);
-	UART_PRINT("Raw bytes: %02X %02X %02X %02X\n",
-           data.bin_val[0],
-           data.bin_val[1],
-           data.bin_val[2],
-           data.bin_val[3]);
-
-
-	DEBUG_PRINT("Write int value -123 to memory location 201. \n");
 	DEBUG_PRINT("Write int value -123 to memory location 201. \n");
 	PARAMETER_Write_f(MEM_BASE_X, 201, -123);
 	PARAMETER_Read(MEM_BASE_X, 201 , data.bin_val);
-	UART_PRINT("Read int value: %d\n", data.int_val);
-	UART_PRINT("Raw bytes: %02X %02X %02X %02X\n",
-           data.bin_val[0],
-           data.bin_val[1],
-           data.bin_val[2],
-           data.bin_val[3]);
 	DEBUG_PRINT("Read int value: %d\n", data.int_val);
 	DEBUG_PRINT("Raw bytes: %02X %02X %02X %02X\n",
            data.bin_val[0],
            data.bin_val[1],
            data.bin_val[2],
            data.bin_val[3]);
-
-
-	UART_PRINT("Write float value 1.23456 to memory location 202. \n");
-	UART_PRINT("Write float value 1.23456 to memory location 202. \n");
+	DEBUG_PRINT("Write float value 1.23456 to memory location 202. \n");
 	PARAMETER_Write_f(MEM_BASE_X, 202, tt.int_val);
 	PARAMETER_Read(MEM_BASE_X, 202 , data.bin_val);
 	DEBUG_PRINT("Read float value: %f\n", data.float_val);
@@ -103,25 +79,18 @@ void EEPROM_RW_TEST()
            data.bin_val[2],
            data.bin_val[3]);
 	DEBUG_PRINT("End EEPROM R/W testing function\n");
-	UART_PRINT("Read float value: %f\n", data.float_val);
-	UART_PRINT("Raw bytes: %02X %02X %02X %02X\n",
-           data.bin_val[0],
-           data.bin_val[1],
-           data.bin_val[2],
-           data.bin_val[3]);
-	DEBUG_PRINT("End EEPROM R/W testing function\n");
+
 }
 
 void EEPROM_Write_4B(alt_u16 reg_addr, alt_32 data)
 {
 	reg_addr <<= 2;
-	// setting mode to cpu write register
-	I2C_op_mode_sel_EEPROM(CPU_WREG);
 	// Set I2C device address
 	IOWR(VARSET_BASE, O_VAR_DEV_ADDR, I2C_DEV_ADDR);
 	// Set the target register address for read or write operations
 	IOWR(VARSET_BASE, O_VAR_REG_ADDR, reg_addr);
-
+	// set I2C SM to write mode
+	I2C_set_write_mode();
 	// Set the data value to be written to the target register
 	IOWR(VARSET_BASE, O_VAR_W_DATA, data);
 	// start the I2C SM 
@@ -226,14 +195,12 @@ void EEPROM_Write_initial_parameter()
 
 void LOAD_FOG_SN(fog_parameter_t* fog_params)
 {
-    DEBUG_PRINT("\nLoading EEPROM SN...\n");
-    UART_PRINT("\nLoading EEPROM SN...\n");
+    DEBUG_PRINT("Loading EEPROM SN...\n");
     for (int i = 0; i < 3; i++) {
         PARAMETER_Read_R(MEM_BASE_SN, i, &fog_params->sn[i * 4]);
     }
 	fog_params->sn[12] = '\0'; 
-    DEBUG_PRINT("Loading EEPROM SN done!\n");
-    UART_PRINT("Loading EEPROM SN done!\n");
+    DEBUG_PRINT("Loading EEPROM Mis-alignment Parameters done!\n");
 }
 
 void LOAD_FOG_MISALIGNMENT(fog_parameter_t* fog_params)
@@ -241,22 +208,18 @@ void LOAD_FOG_MISALIGNMENT(fog_parameter_t* fog_params)
 	// int dlt = 10000;
 	// while(dlt--) {};
 	DEBUG_PRINT("Loading EEPROM Mis-alignment Parameters...\n");
-	UART_PRINT("\nLoading EEPROM Mis-alignment Parameters...\n");
 	for (int i = 0; i < MIS_LEN; i++) {
 		PARAMETER_Read(MEM_BASE_MIS, i , fog_params->misalignment[i].data.bin_val);
 		fog_params->misalignment[i].type = TYPE_FLOAT;
-		UART_PRINT("idx %d, %d, %f\n", i, fog_params->misalignment[i].data.int_val, fog_params->misalignment[i].data.float_val);
+//		UART_PRINT("idx %d, %d, %f\n", i, fog_params->misalignment[i].data.int_val, fog_params->misalignment[i].data.float_val);
     }
 	DEBUG_PRINT("Loading EEPROM Mis-alignment Parameters done!\n");
-	UART_PRINT("Loading EEPROM Mis-alignment Parameters done!\n");
 }
 
 void LOAD_FOG_PARAMETER(fog_parameter_t* fog_params)
 {
-	DEBUG_PRINT("\nLoading EEPROM FOG Parameters...\n");
-	UART_PRINT("\nLoading EEPROM FOG Parameters...\n");
+	DEBUG_PRINT("Loading EEPROM FOG Parameters...\n");
 	for (int i = 0; i < PAR_LEN; i++) {
-		DEBUG_PRINT("%d\n", i);
 		PARAMETER_Read(MEM_BASE_X, i , fog_params->paramX[i].data.bin_val);
         PARAMETER_Read(MEM_BASE_Y, i , fog_params->paramY[i].data.bin_val);
 		PARAMETER_Read(MEM_BASE_Z, i , fog_params->paramZ[i].data.bin_val);
@@ -266,52 +229,51 @@ void LOAD_FOG_PARAMETER(fog_parameter_t* fog_params)
 		fog_params->paramZ[i].type = fog_parameter_init[i].type;
     }
 	DEBUG_PRINT("Loading EEPROM FOG Parameters done!\n");
-	UART_PRINT("Loading EEPROM FOG Parameters done!\n");
 }
 
 void PRINT_FOG_PARAMETER(fog_parameter_t* fog_params)
 {
-	DEBUG_PRINT("\nPrinting EEPROM FOG Parameters...\n");
-	// DEBUG_PRINT("FOG X Parameter:\n");
-	// for (int i = 0; i < PAR_LEN; i++) {
-	// 	DEBUG_PRINT("%d. %d, type: %d\n", i, fog_params->paramX[i].data.int_val, fog_params->paramX[i].type);
-	// }
-	// DEBUG_PRINT("FOG Y Parameter:\n");
-	// for (int i = 0; i < PAR_LEN; i++) {
-	// 	DEBUG_PRINT("%d. %d, type: %d\n", i, fog_params->paramY[i].data.int_val, fog_params->paramY[i].type);
-	// }
-	DEBUG_PRINT("FOG Z Parameter:\n");
+	UART_PRINT("Printing EEPROM FOG Parameters...\n");
+	UART_PRINT("FOG X Parameter:\n");
+	 for (int i = 0; i < PAR_LEN; i++) {
+		 UART_PRINT("%d. %d, type: %d\n", i, fog_params->paramX[i].data.int_val, fog_params->paramX[i].type);
+	 }
+	 UART_PRINT("FOG Y Parameter:\n");
+	 for (int i = 0; i < PAR_LEN; i++) {
+		 UART_PRINT("%d. %d, type: %d\n", i, fog_params->paramY[i].data.int_val, fog_params->paramY[i].type);
+	 }
+	 UART_PRINT("FOG Z Parameter:\n");
 	for (int i = 0; i < PAR_LEN; i++) {
-		DEBUG_PRINT("%d. %d, type: %d\n", i, fog_params->paramZ[i].data.int_val, fog_params->paramZ[i].type);
+		UART_PRINT("%d. %d, type: %d\n", i, fog_params->paramZ[i].data.int_val, fog_params->paramZ[i].type);
 	}
-	DEBUG_PRINT("Printing EEPROM FOG Parameters done!\n");
+	UART_PRINT("Printing EEPROM FOG Parameters done!\n");
 }
 
 void EEPROM_Read_4B(alt_u16 reg_addr, alt_u8* buf)
 {
 	alt_u8 i=0;
 
-	reg_addr <<= 2;
+	// DEBUG_PRINT("VARSET_BASE22 18: %d\n", IORD(VARSET_BASE, 18));
+	// DEBUG_PRINT("VARSET_BASE22 19: %d\n", IORD(VARSET_BASE, 19));
 
-	// setting mode to cpu read register
-	I2C_op_mode_sel_EEPROM(CPU_RREG);
+	reg_addr <<= 2;
 	// Set I2C device address
 	IOWR(VARSET_BASE, O_VAR_DEV_ADDR, I2C_DEV_ADDR);
 	// Set the target register address for read or write operations
 	IOWR(VARSET_BASE, O_VAR_REG_ADDR, reg_addr);
-
+	// Set the I2C SM to read mode
+	I2C_set_read_mode();
 	// start the I2C SM 
 	I2C_sm_start();
 	// Wait for the I2C SM to complete the operation
-//	DEBUG_PRINT("in\n");
-	 while( !I2C_sm_read_finish()){;}
-//	 DEBUG_PRINT("out\n");
+	 while( !I2C_sm_read_finish()){}
 	// Retrieve the data read from the specified register
 	buf[3] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_1);
 	buf[2] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_2);
 	buf[1] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_3);
 	buf[0] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_4);
-
+	// DEBUG_PRINT("MSB: %x, %x, %x, %x\n", buf[3], buf[2], buf[1], buf[0]);
+	// DEBUG_PRINT("%d\n", buf[3]<<24|buf[2]<<16|buf[1]<<8|buf[0]);
 }
 
 void EEPROM_Read_4B_R(alt_u16 reg_addr, alt_u8* buf)
@@ -322,13 +284,12 @@ void EEPROM_Read_4B_R(alt_u16 reg_addr, alt_u8* buf)
 	// DEBUG_PRINT("VARSET_BASE22 19: %d\n", IORD(VARSET_BASE, 19));
 
 	reg_addr <<= 2;
-	// setting mode to cpu read register
-	I2C_op_mode_sel_EEPROM(CPU_RREG);
 	// Set I2C device address
 	IOWR(VARSET_BASE, O_VAR_DEV_ADDR, I2C_DEV_ADDR);
 	// Set the target register address for read or write operations
 	IOWR(VARSET_BASE, O_VAR_REG_ADDR, reg_addr);
-
+	// Set the I2C SM to read mode
+	I2C_set_read_mode();
 	// start the I2C SM 
 	I2C_sm_start();
 	// Wait for the I2C SM to complete the operation
@@ -355,7 +316,7 @@ void PARAMETER_Read_R(alt_u8 base, alt_u8 number , alt_u8* buf)
 void init_EEPROM(void)
 {
     I2C_clock_rate_sel(CLK_390K);
-	EEPROM_RW_TEST();
+	// EEPROM_RW_TEST();
 }
 
 /***********mid level definition */
@@ -369,11 +330,11 @@ void I2C_sm_start()
 	I2C_sm_set_disable();
 }
 
-void I2C_op_mode_sel_EEPROM(alt_u8 mode)
+void I2C_op_mode_sel(alt_u8 mode)
 {
 	alt_32 old = IORD(VARSET_BASE, O_VAR_I2C_CTRL);
 
-	IOWR(VARSET_BASE, O_VAR_I2C_CTRL, (old & 0xFFFFFFF1) | (mode<<ctrl_op_mode_pos));
+	IOWR(VARSET_BASE, O_VAR_I2C_CTRL, (old & 0xFFFFFFF3) | (mode<<ctrl_op_mode_pos));
 }
 
 void I2C_clock_rate_sel(alt_u8 rate)

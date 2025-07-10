@@ -175,6 +175,7 @@ void moving_average_free(MovingAverage_t *);
 
 void sendTx(alt_32);
 void checkByte(alt_u8);
+void checkByte_dbg(alt_u8);
 void uart_printf(const char *format, ...);
 void uart_printf_dbg(const char *format, ...);
 void SerialWrite(alt_u8* buf, alt_u8 num); 

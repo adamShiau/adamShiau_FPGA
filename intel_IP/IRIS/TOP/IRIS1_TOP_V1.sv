@@ -283,14 +283,14 @@ wire [31:0] var_gainSel_ramp_2, o_phaseRamp_2;
 wire [31:0] var_gainSel_ramp_1, o_phaseRamp_1;
 
 
-// assign DAC_1_1 =  o_phaseRamp_1[15:0];
-// assign DAC_2_1 =  o_phaseRamp_2[15:0];
-// assign DAC_2_2 =  o_phaseRamp_3[15:0];
+assign DAC_1_1 =  o_phaseRamp_1[15:0];
+assign DAC_2_1 =  o_phaseRamp_2[15:0];
+assign DAC_2_2 =  o_phaseRamp_3[15:0];
 
 /******* test DAC output ********/
-assign DAC_1_1 =  dac_test_1_1;
-assign DAC_2_1 =  dac_test_2_1;
-assign DAC_2_2 =  dac_test_2_2;
+// assign DAC_1_1 =  dac_test_1_1;
+// assign DAC_2_1 =  dac_test_2_1;
+// assign DAC_2_2 =  dac_test_2_2;
 
 
 assign i_var_step_1 = o_step_1_MV;
@@ -576,25 +576,46 @@ inst_i2c_ADS122C04_temp (
   );
 	
 /**** I2C EEPROM****/
-i2c_controller_eeprom_v0
-inst_i2c_eeprom (
-	.i_clk(CPU_CLK),
-	.i_rst_n(locked_0),
-	.i2c_scl(SCL_EEPROM),
-	.i2c_sda(SDA_EEPROM),
-	.i_dev_addr(var_i2c_EEPROM_dev_addr),
-	.i_reg_addr(var_i2c_EEPROM_reg_addr),
-	.i_w_data(var_i2c_EEPROM_w_data),  
+ i2c_controller_eeprom_v1
+ inst_i2c_eeprom (
+ 	.i_clk(CPU_CLK),
+ 	.i_rst_n(locked_0),
+ 	.i2c_scl(SCL_EEPROM),
+ 	.i2c_sda(SDA_EEPROM),
+ 	.i_dev_addr(var_i2c_EEPROM_dev_addr),
+ 	.i_reg_addr(var_i2c_EEPROM_reg_addr),
+ 	.i_w_data(var_i2c_EEPROM_w_data),  
 	
-	.i_ctrl(var_i2c_EEPROM_ctrl),
-	.i_drdy(),
+ 	.i_ctrl(var_i2c_EEPROM_ctrl),
+ 	.i_drdy(),
 
-	.o_status(var_i2c_EEPROM_status),
-	.o_rd_data(var_i2c_EEPROM_rdata_1),
-	.o_rd_data_2(var_i2c_EEPROM_rdata_2),
-	.o_rd_data_3(var_i2c_EEPROM_rdata_3),
-	.o_rd_data_4(var_i2c_EEPROM_rdata_4)
-);
+ 	.o_status(var_i2c_EEPROM_status),
+ 	.o_rd_data(var_i2c_EEPROM_rdata_1),
+ 	.o_rd_data_2(var_i2c_EEPROM_rdata_2),
+ 	.o_rd_data_3(var_i2c_EEPROM_rdata_3),
+ 	.o_rd_data_4(var_i2c_EEPROM_rdata_4)
+ );
+// i2c_controller_pullup_eeprom
+//inst_i2c_eeprom (
+//	.i_clk(CPU_CLK),
+//	.i_rst_n(locked_0),
+//	.i2c_scl(SCL_EEPROM),
+//	.i2c_sda(SDA_EEPROM),
+//	.i2c_clk_out(),
+//	.i_dev_addr(var_i2c_EEPROM_dev_addr),
+//	.i_reg_addr(var_i2c_EEPROM_reg_addr),
+//	.i_w_data(var_i2c_EEPROM_w_data),  
+//	
+//	.i_ctrl(var_i2c_EEPROM_ctrl),
+//	.i_drdy(),
+//
+//	.o_status(var_i2c_EEPROM_status),
+//	.o_rd_data(var_i2c_EEPROM_rdata_1),
+//	.o_rd_data_2(var_i2c_EEPROM_rdata_2),
+//	.o_rd_data_3(var_i2c_EEPROM_rdata_3),
+//	.o_rd_data_4(var_i2c_EEPROM_rdata_4),
+//	.o_w_enable()
+//);
 
 CPU u0 (
 	.clk_clk        (CPU_CLK),        //      clk.clk 
