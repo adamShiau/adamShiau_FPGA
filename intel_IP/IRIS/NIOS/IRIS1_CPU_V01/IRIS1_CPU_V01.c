@@ -86,11 +86,9 @@ int main(void)
 
 	INFO_PRINT("Running IRIS CPU!\n");
 	UART_PRINT("Running IRIS CPU!\n");
-	set_DAC_reset();
 	update_IRIS_config_to_HW_REG();
 	UART_PRINT("TRIGGER_IRQ_init\n");
 	crc32_init_table();
-	// EEPROM_RW_TEST();
 	TRIGGER_IRQ_init();
 	moving_average_init(&mz_x, 13);
 	moving_average_init(&mz_y, 13);
@@ -100,6 +98,9 @@ int main(void)
 	uartInit(); //interrupt method of uart defined in uart.c not main()
 	UART_PRINT("init_ADDA\n");
 	DEBUG_PRINT("init_ADDA\n");
+	set_DAC_reset();
+	usleep(50);
+	clear_DAC_reset();
 	init_ADDA();
 	UART_PRINT("init_EEPROM\n");
 	DEBUG_PRINT("init_EEPROM\n");

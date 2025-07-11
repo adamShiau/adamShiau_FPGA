@@ -240,19 +240,26 @@ void cmd_mux(cmd_ctrl_t* rx)
 
 void Set_Dac_Gain_x(alt_32 gain)
 {
-	IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_DAC_BASE, SEL_CS_DAC_2CH); usleep (10); 
+	// UART_PRINT("Set_Dac_Gain_x: %d\n", gain);
+	// DEBUG_PRINT("Set_Dac_Gain_x: %d\n", gain);
+	// IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_DAC_BASE, SEL_CS_DAC_2CH); usleep (10); 
+	IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_DAC_BASE, SEL_CS_DAC_1CH); usleep (10); 
 	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC1_GAIN_LSB_ADDR<<8) | (gain&0xFF)); usleep (10);
 	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC1_GAIN_MSB_ADDR<<8) | (gain>>8)); usleep (10);
 }
 void Set_Dac_Gain_y(alt_32 gain)
 {
+	// UART_PRINT("Set_Dac_Gain_y: %d\n", gain);
+	// DEBUG_PRINT("Set_Dac_Gain_y: %d\n", gain);
 	IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_DAC_BASE, SEL_CS_DAC_2CH); usleep (10); 
-	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC2_GAIN_LSB_ADDR<<8) | (gain&0xFF)); usleep (10);
-	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC2_GAIN_MSB_ADDR<<8) | (gain>>8)); usleep (10);
+	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC1_GAIN_LSB_ADDR<<8) | (gain&0xFF)); usleep (10);
+	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC1_GAIN_MSB_ADDR<<8) | (gain>>8)); usleep (10);
 }
 void Set_Dac_Gain_z(alt_32 gain)
 {
-	IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_DAC_BASE, SEL_CS_DAC_1CH); usleep (10); 
+	// UART_PRINT("Set_Dac_Gain_z: %d\n", gain);
+	// DEBUG_PRINT("Set_Dac_Gain_z: %d\n", gain);
+	IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_DAC_BASE, SEL_CS_DAC_2CH); usleep (10); 
 	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC2_GAIN_LSB_ADDR<<8) | (gain&0xFF)); usleep (10);
 	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC2_GAIN_MSB_ADDR<<8) | (gain>>8)); usleep (10);
 }
@@ -353,6 +360,7 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 					} 
 					case CMD_DAC_GAIN: {
 						DEBUG_PRINT("CMD_DAC_GAIN:\n");
+						UART_PRINT("CMD_DAC_GAIN:\n");
 						PARAMETER_Write_s(base, CMD_DAC_GAIN - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
 						if(base == MEM_BASE_X) Set_Dac_Gain_x(rx->value);
 						else if(base == MEM_BASE_Y) Set_Dac_Gain_y(rx->value);

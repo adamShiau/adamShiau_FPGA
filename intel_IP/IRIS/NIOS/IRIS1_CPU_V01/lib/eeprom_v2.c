@@ -128,14 +128,15 @@ void EEPROM_Write_4B(alt_u16 reg_addr, alt_32 data)
 	// start the I2C SM 
 	I2C_sm_start();
 	// Wait for the I2C SM to complete the operation
-	int timeout = 100000;
-	while (!I2C_sm_read_finish() && timeout-- > 0);
-	if (timeout <= 0) {
-        DEBUG_PRINT("EEPROM write timeout!\n");
-        return;
-    }
+	// int timeout = 100000;
+	// while (!I2C_sm_read_finish() && timeout-- > 0);
+	// if (timeout <= 0) {
+    //     DEBUG_PRINT("EEPROM write timeout!\n");
+    //     return;
+    // }
 	I2C_sm_set_finish_clear_pulse(); 
 	usleep(1320);
+	UART_PRINT("EEPROM_Write_4B done\n");
 }
 
 /*** force write eeprom on address 
@@ -143,7 +144,8 @@ void EEPROM_Write_4B(alt_u16 reg_addr, alt_32 data)
 */
 void PARAMETER_Write_f(alt_u8 base, alt_u8 number , alt_32 data)
 {
-	// DEBUG_PRINT("reg_addr: %d, data: %d\n", base + number, data);
+	UART_PRINT("\nbase: %d, number: %d\n", base, number);
+	UART_PRINT("reg_addr: %d, data: %d\n", base + number, data);
 	EEPROM_Write_4B( (alt_u16) (base + number), data);
 }
 
@@ -164,13 +166,15 @@ void EEPROM_Read_4B(alt_u16 reg_addr, alt_u8* buf)
 	I2C_sm_start();
 
 	// Wait for the I2C SM to complete the operation
-	int timeout = 100000;
-    while (!I2C_sm_read_finish() && timeout-- > 0);
+	while (!I2C_sm_read_finish());
 
-    if (timeout <= 0) {
-        DEBUG_PRINT("EEPROM read timeout!\n");
-        return;
-    }
+	// int timeout = 100000;
+    // while (!I2C_sm_read_finish() && timeout-- > 0);
+
+    // if (timeout <= 0) {
+    //     DEBUG_PRINT("EEPROM read timeout!\n");
+    //     return;
+    // }
 
 //	 DEBUG_PRINT("out\n");
 	// Retrieve the data read from the specified register
@@ -345,7 +349,7 @@ void LOAD_FOG_PARAMETER(fog_parameter_t* fog_params)
 	DEBUG_PRINT("\nLoading EEPROM FOG Parameters...\n");
 	UART_PRINT("\nLoading EEPROM FOG Parameters...\n");
 	for (int i = 0; i < PAR_LEN; i++) {
-		DEBUG_PRINT("%d\n", i);
+		// DEBUG_PRINT("%d\n", i);
 		PARAMETER_Read(MEM_BASE_X, i , fog_params->paramX[i].data.bin_val);
         PARAMETER_Read(MEM_BASE_Y, i , fog_params->paramY[i].data.bin_val);
 		PARAMETER_Read(MEM_BASE_Z, i , fog_params->paramZ[i].data.bin_val);
@@ -380,7 +384,7 @@ void PRINT_FOG_PARAMETER(fog_parameter_t* fog_params)
 void init_EEPROM(void)
 {
     I2C_clock_rate_sel(CLK_390K);
-	EEPROM_RW_TEST();
+	// EEPROM_RW_TEST();
 }
 
 /***********mid level definition */
@@ -390,7 +394,7 @@ void I2C_sm_start()
 	alt_u8 dly = 50;
 
 	I2C_sm_set_enable();
-	while(dly--){}
+	usleep(50);
 	I2C_sm_set_disable();
 }
 

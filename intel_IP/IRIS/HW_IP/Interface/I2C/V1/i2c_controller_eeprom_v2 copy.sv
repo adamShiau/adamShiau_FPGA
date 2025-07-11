@@ -155,34 +155,21 @@ module i2c_controller_eeprom_v2(
 			i2c_scl_enable <= 0;
 		end else begin
 			case (state)
-				IDLE, START, STOP: i2c_scl_enable <= 0;
+				IDLE, START, STOP, WAIT_FINISH: i2c_scl_enable <= 0;
 				default: i2c_scl_enable <= 1;
 			endcase
 		end
 	end
 
 	/*** clear pulse logic ***/
-	always @(posedge i_clk or negedge i_rst_n) begin
-	// always @(posedge i2c_clk or negedge i_rst_n) begin
+	// always @(posedge i_clk or negedge i_rst_n) begin
+	always @(posedge i2c_clk or negedge i_rst_n) begin
 		if (!i_rst_n) begin
 			finish <= 0;
 			prev_clear <= 0;
 		end 
 		else begin
 			prev_clear <= i_ctrl[7];
-
-			case(state)
-
-				STOP: begin
-					if(wait_finish_flag && !finish) finish <= 1;
-				end
-				default: begin
-					if (clear_pulse) finish <= 0;
-				end
-
-			endcase
-
-			/***
 
 			// Set finish_latch only在 FSM 執行完成時
 			if ((state == WAIT_FINISH) && (finish_dly == FINISH_DLY_CTRL)) begin
@@ -193,7 +180,6 @@ module i2c_controller_eeprom_v2(
 			else if (clear_pulse) begin
 				finish <= 0;
 			end
-			***/
 		end
 	end
 
@@ -216,13 +202,10 @@ module i2c_controller_eeprom_v2(
 			
 				IDLE: begin
 					// finish <= 0;
-					// finish_dly <= 0;
+					finish_dly <= 0;
 					wait_finish_flag <= 0;
 					case (op_mode)
-						CPU_WREG, CPU_RREG: if(i_enable && !finish) begin
-							sm_enable <= 1; 
-							// state <= START;
-						end
+						CPU_WREG, CPU_RREG: if(i_enable) sm_enable <= 1; 
 						default: sm_enable <= 0;
 					endcase
 
@@ -363,7 +346,7 @@ module i2c_controller_eeprom_v2(
 				STOP: begin
 					// finish <= 0;
 					// if(wait_finish_flag == 1) finish <= 1;
-					// finish_dly <= FINISH_DLY_CTRL;
+					finish_dly <= FINISH_DLY_CTRL;
 					case (op_mode)
 						CPU_WREG: begin 
 							sm_enable <= 0;
@@ -381,19 +364,19 @@ module i2c_controller_eeprom_v2(
 							end
 						end
 					endcase
-					state <= IDLE;
+					state <= WAIT_FINISH;
 				end
 
-				// WAIT_FINISH: begin
-				// 	// if(wait_finish_flag == 1) finish <= 1;
-				// 	if(finish_dly == 0) begin
-				// 		state <= IDLE;	
-				// 	end
-				// 	else begin
-				// 		finish_dly <= finish_dly - 1;
-				// 		state <= WAIT_FINISH;
-				// 	end
-				// end
+				WAIT_FINISH: begin
+					// if(wait_finish_flag == 1) finish <= 1;
+					if(finish_dly == 0) begin
+						state <= IDLE;	
+					end
+					else begin
+						finish_dly <= finish_dly - 1;
+						state <= WAIT_FINISH;
+					end
+				end
 
 				READ_DATA: begin
 					o_rd_data[counter] <= i2c_sda;
@@ -512,7 +495,7 @@ module i2c_controller_eeprom_v2(
 					sda_out <= 1;
 				end
 
-				// WAIT_FINISH: write_enable <= 0;
+				WAIT_FINISH: write_enable <= 0;
 			endcase
 		end
 	end

@@ -28,7 +28,7 @@ void init_ADDA(void)
 	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, DAC2_GAIN_MSB_W_NR); usleep (10);
 	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, DAC2_GAIN_LSB_W_NR); usleep (10);
 
-	clear_DAC_reset();
+	// clear_DAC_reset();
 }
 
 void set_ADC_all_zero()
