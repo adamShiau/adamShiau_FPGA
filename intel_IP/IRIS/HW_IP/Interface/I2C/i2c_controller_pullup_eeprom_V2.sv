@@ -83,11 +83,7 @@ module i2c_controller_pullup_eeprom_V2
 	localparam STOP 		= 	31;
 	localparam STOP2 		= 	32;
 
-	reg [7:0] 		reg_rd_data,
-	reg [7:0] 		reg_rd_data_2,
-	reg [7:0] 		reg_rd_data_3,
-	reg [7:0] 		reg_rd_data_4,
-
+	reg [7:0] 		reg_rd_data, reg_rd_data_2, reg_rd_data_3, reg_rd_data_4;
 	/******* finish strobe & reesponse ********/
 	reg finish = 0;
 	reg wait_finish_flag = 0;
@@ -172,17 +168,28 @@ module i2c_controller_pullup_eeprom_V2
 				IDLE, START, STOP, STOP2: i2c_scl_enable <= 1;
 				default: i2c_scl_enable <= 2;
 			endcase
+		end
+	end
 
-			// if ( (state == READ_ACK_B) || (state == READ_ACK2_B) || (state == READ_ACK3_B) || (state == READ_ACK4_B) 
-			//  || (state == READ_ACK5_B) || (state == READ_ACK6_B) || (state == READ_ACK7_B)) begin
-			// 	i2c_scl_enable <= 0;
-			// end 
-			// else if ( (state == IDLE) ||(state == START) || (state == STOP) || (state == STOP2 ) || (state == NOP1 )  ) begin
-			// 	i2c_scl_enable <= 1;
-			// end 
-			// else begin
-			// 	i2c_scl_enable <= 2;
-			// end
+	/** Control logic for 'finish': set in STOP state, cleared on i_ctrl[7] rising edge **/
+	always @(posedge i2c_clk or negedge i_rst_n) begin
+		if (!i_rst_n) begin
+			finish <= 0;
+			prev_clear <= 0;
+		end 
+		else begin
+			prev_clear <= i_ctrl[7];
+
+			case(state)
+
+				STOP: begin
+					if(wait_finish_flag) finish <= 1;
+				end
+				default: begin
+					if (clear_pulse) finish <= 0;
+				end
+
+			endcase
 		end
 	end
 	
@@ -250,7 +257,7 @@ module i2c_controller_pullup_eeprom_V2
 		else begin
 			case(state)
 				IDLE: begin
-
+					wait_finish_flag <= 0;
 					case(op_mode) 
 						CPU_WREG, CPU_RREG: if(i_enable) sm_enable <= 1; 
 						default: state <= IDLE;
@@ -279,35 +286,41 @@ module i2c_controller_pullup_eeprom_V2
 				ADDRESS: begin
 					if (counter == 0) begin 
 						state <= READ_ACK;
-					end else counter <= counter - 1;
+					end 
+					else counter <= counter - 1;
 				end
 
 				READ_ACK: begin
-					if (i2c_sda == 0) begin
+					if (i2c_sda == ACK) begin
 						state <= READ_ACK_B;
 					end 
 					else state <= STOP;
 				end
 
 				READ_ACK_B: begin
+
 					counter <= 7;
-					if(rw == 0) begin
-						// if(op_mode==HW_11) saved_data = REG_ADXL355_TEMP2;
-						// if(op_mode==HW_11) saved_data = REG_ADXL355_TXDATA3;
-						// else saved_data <= i_reg_addr;
-						// saved_data <= i_reg_addr;
-						saved_regaddr_H <= i_reg_addr[15:8];
-						saved_regaddr_L <= i_reg_addr[7:0];
-						state <= REG_ADDR;
-					end
-					else state <= READ_DATA;
+
+					case (op_mode)
+						CPU_WREG: begin
+							saved_regaddr_H <= i_reg_addr[15:8];
+							saved_regaddr_L <= i_reg_addr[7:0];
+							state <= REG_HBYTE;
+						end
+						CPU_RREG: begin
+							if(CPU_SM == CPU_SM_W_REG) begin
+								saved_regaddr_H <= i_reg_addr[15:8];
+								saved_regaddr_L <= i_reg_addr[7:0];
+								state <= REG_HBYTE;
+							end
+							else if(CPU_SM == CPU_SM_READ) state <= READ_DATA;
+						end
+					endcase
+
 				end
 
-				REG_ADDR: begin 
-					if(rw_reg == 1'b1) //read reg mode
-						write_done <= 1'b1;
-
-					if(counter == 0) begin
+				REG_HBYTE: begin 
+					if (counter == 0) begin 	
 						state <= READ_ACK2;
 					end else counter <= counter - 1;
 				end
@@ -317,18 +330,12 @@ module i2c_controller_pullup_eeprom_V2
 				end
 
 				READ_ACK2_B: begin 
-					// if( rw_reg == 1'b1) state <= STOP;
-					// else begin
-					// 	counter <= 7;
-					// 	saved_data = i_w_data;
-					// 	state <= WRITE_DATA;
-					// end
 					counter <= 7;
-					state <= REG_ADDR2;
+					state <= REG_LBYTE;
 				end
 
-				REG_ADDR2: begin 
-					if(counter == 0) begin
+				REG_LBYTE: begin 
+					if (counter == 0) begin 
 						state <= READ_ACK3;
 					end else counter <= counter - 1;
 				end
@@ -338,39 +345,27 @@ module i2c_controller_pullup_eeprom_V2
 				end
 
 				READ_ACK3_B: begin 
-					if( rw_reg == 1'b1) state <= STOP;
-					else begin
-						counter <= 7;
-						// saved_data = i_w_data;
-						saved_write_3 <=  i_w_data[31:24]; // MSB
-						saved_write_2 <=  i_w_data[23:16];
-						saved_write_1 <=  i_w_data[15:8];
-						saved_write_0 <=  i_w_data[7:0]; //LSB
-						state <= WRITE_DATA;
-					end
-					// finish <= 1;
-					// state <= STOP;
+
+					case (op_mode)
+						CPU_WREG: begin
+							counter <= 7;
+							saved_write_3 <=  i_w_data[31:24]; // MSB
+							saved_write_2 <=  i_w_data[23:16];
+							saved_write_1 <=  i_w_data[15:8];
+							saved_write_0 <=  i_w_data[7:0]; //LSB
+							state <= WRITE_DATA;
+						end
+						CPU_RREG: state <= STOP;
+					endcase
+
 				end
 
-				STOP: begin
-					if(write_done==1'b0) begin
-						sm_enable <= 1'b0;
-					end
-					state <= STOP2;
-				end
-
-				STOP2: begin
-					state <= IDLE;
-					finish <= 0;
-				end
-
-				NOP1: begin
-					state <= STOP;
-				end
+				// NOP1: begin
+				// 	state <= STOP;
+				// end
 
 				WRITE_DATA: begin 
 					if(counter == 0) begin
-						// state <= READ_ACK3;
 						state <= READ_ACK4;
 					end else counter <= counter - 1;
 				end
@@ -425,16 +420,47 @@ module i2c_controller_pullup_eeprom_V2
 				end
 
 				READ_ACK7_B: begin 
-					finish <= 1;
+					wait_finish_flag <= 1;
 					state <= STOP;
-					// state <= NOP1;
 				end
 
-				READ_DATA: begin//11
-					if(write_done == 1'b1) write_done <= 1'b0;
-					o_rd_data[counter] <= i2c_sda;
+				STOP: begin
+					case(op_mode) 
+						CPU_WREG: begin
+							sm_enable <= 0;
+						end
+						CPU_RREG: begin
+							if(CPU_SM == CPU_SM_W_REG) begin 
+								CPU_SM <= CPU_SM_READ;
+							end
+							else if(CPU_SM == CPU_SM_READ) begin
+								CPU_SM <= CPU_SM_W_REG;
+								sm_enable <= 0;
+								o_rd_data   <= reg_rd_data;
+								o_rd_data_2 <= reg_rd_data_2;
+								o_rd_data_3 <= reg_rd_data_3;
+								o_rd_data_4 <= reg_rd_data_4;
+							end
+						end
+					endcase
+					state <= STOP2;
+				end
+
+				STOP2: begin
+					state <= IDLE;
+				end
+
+				READ_DATA: begin
+
+					reg_rd_data[counter] <= i2c_sda;
 					if (counter == 0) state <= WRITE_ACK;
 					else counter <= counter - 1;
+
+					// o_rd_data[counter] <= i2c_sda;
+					// if(write_done == 1'b1) write_done <= 1'b0;
+					// o_rd_data[counter] <= i2c_sda;
+					// if (counter == 0) state <= WRITE_ACK;
+					// else counter <= counter - 1;
 				end
 				
 				WRITE_ACK: begin//12
@@ -443,7 +469,8 @@ module i2c_controller_pullup_eeprom_V2
 				end
 
 				READ_DATA2: begin
-					o_rd_data_2[counter] <= i2c_sda;
+					// o_rd_data_2[counter] <= i2c_sda;
+					reg_rd_data_2[counter] <= i2c_sda;
 					if (counter == 0) state <= WRITE_ACK2;
 					else counter <= counter - 1;
 				end
@@ -453,7 +480,8 @@ module i2c_controller_pullup_eeprom_V2
 				end
 
 				READ_DATA3: begin
-					o_rd_data_3[counter] <= i2c_sda;
+					// o_rd_data_3[counter] <= i2c_sda;
+					reg_rd_data_3[counter] <= i2c_sda;
 					if (counter == 0) state <= WRITE_ACK3;
 					else counter <= counter - 1;
 				end
@@ -463,14 +491,15 @@ module i2c_controller_pullup_eeprom_V2
 				end
 
 				READ_DATA4: begin
-					o_rd_data_4[counter] <= i2c_sda;
+					// o_rd_data_4[counter] <= i2c_sda;
+					reg_rd_data_4[counter] <= i2c_sda;
 					if (counter == 0) state <= WRITE_ACK4;
 					else counter <= counter - 1;
 				end
 				WRITE_ACK4: begin
 					// counter <= 7;
 					// state <= READ_DATA5;
-					finish <= 1;
+					wait_finish_flag <= 1;
 					state <= STOP;
 				end
 				default: state <= IDLE;
@@ -495,122 +524,48 @@ module i2c_controller_pullup_eeprom_V2
 					sda_out <= saved_addr[counter];
 				end
 				
-				READ_ACK: begin
+				READ_ACK, READ_ACK_B, READ_ACK2, READ_ACK2_B, READ_ACK3, READ_ACK3_B, READ_ACK4, 
+				READ_ACK4_B, READ_ACK5, READ_ACK5_B, READ_ACK6, READ_ACK6_B, READ_ACK7, READ_ACK7: begin
 					sda_out <= 1;
 				end
 
-				READ_ACK_B: begin
-					sda_out <= 1;
-				end
-
-				READ_ACK2: begin
-					sda_out <= 1;
-				end
-
-				READ_ACK2_B: begin 
-					sda_out <= 1;
-				end
-
-				READ_ACK3: begin
-					sda_out <= 1;
-				end
-
-				READ_ACK3_B: begin 
-					sda_out <= 1;
-				end
-
-				READ_ACK4: begin
-					sda_out <= 1;
-				end
-
-				READ_ACK4_B: begin 
-					sda_out <= 1;
-				end
-
-				READ_ACK5: begin
-					sda_out <= 1;
-				end
-
-				READ_ACK5_B: begin 
-					sda_out <= 1;
-				end
-
-				READ_ACK6: begin
-					sda_out <= 1;
-				end
-
-				READ_ACK6_B: begin 
-					sda_out <= 1;
-				end
-
-				READ_ACK7: begin
-					sda_out <= 1;
-				end
-
-				READ_ACK7_B: begin 
-					sda_out <= 1;
-				end
-
-				REG_ADDR: begin //write reg addr
-					// sda_out <= saved_data[counter];
+				REG_HBYTE: begin 
 					sda_out <= saved_regaddr_H[counter];
 				end
 
-				REG_ADDR2: begin //write reg addr L-byte
+				REG_LBYTE: begin 
 					sda_out <= saved_regaddr_L[counter];
 				end
 				
-				WRITE_DATA: begin //write reg value
+				WRITE_DATA: begin 
 					sda_out <= saved_write_3[counter];
 				end
 
-				WRITE_DATA2: begin //write data
+				WRITE_DATA2: begin 
 					sda_out <= saved_write_2[counter];
 				end
 
-				WRITE_DATA3: begin //write data
+				WRITE_DATA3: begin 
 					sda_out <= saved_write_1[counter];
 				end
 
-				WRITE_DATA4: begin //write data, LSB
+				WRITE_DATA4: begin 
 					sda_out <= saved_write_0[counter];
 				end
 
-				WRITE_ACK: begin
-					sda_out <= 0;
-				end
-				WRITE_ACK2: begin
-					sda_out <= 0;
-				end
-				WRITE_ACK3: begin
-					sda_out <= 0;
-				end
-				WRITE_ACK4: begin
+				WRITE_ACK, WRITE_ACK2, WRITE_ACK3, WRITE_ACK4: begin
 					sda_out <= 0;
 				end
 
-				READ_DATA: begin
-					sda_out <= 1;			
-				end
-				READ_DATA2: begin
-					sda_out <= 1;			
-				end
-				READ_DATA3: begin
-					sda_out <= 1;			
-				end
-				READ_DATA4: begin
+				READ_DATA, READ_DATA2, READ_DATA3, READ_DATA4: begin
 					sda_out <= 1;			
 				end
 				
 				STOP: begin
 					sda_out <= 0;
-					// sda_out <= 1;
 				end
 				STOP2: begin
 					sda_out <= 1;
-				end
-				NOP1: begin
-					sda_out <= 0;
 				end
 
 				default:;

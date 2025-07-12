@@ -10,7 +10,7 @@
 
 //  #define DEBUG
 //  #define INFO
-#define UART_DEBUG
+// #define UART_DEBUG
 
 #ifdef DEBUG
     #define DEBUG_PRINT(...) printf(__VA_ARGS__)
@@ -95,6 +95,7 @@ typedef enum {
   RX_CONDITION_INIT,  
   RX_CONDITION_ABBA_5556,
   RX_CONDITION_CDDC_5758,
+  RX_CONDITION_EFFE_5354,
 } rx_condition_t;
 
 /*** cmd control structure delaration */

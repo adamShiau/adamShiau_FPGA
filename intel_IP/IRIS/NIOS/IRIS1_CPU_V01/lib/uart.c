@@ -5,6 +5,7 @@
 #include "altera_avalon_uart_regs.h"
 #include "sys/alt_irq.h"
 #include "system.h"
+#include "common.h"
 
 // #include "generic.h"
 
@@ -526,20 +527,27 @@ alt_u8* readData2(const alt_u8* expected_header, alt_u8 header_size, alt_u16* tr
 // 定義兩種狀況的常數
 #define HEADER1_SIZE 2
 #define HEADER2_SIZE 2
+#define HEADER3_SIZE 2
 #define TRAILER1_SIZE 2
 #define TRAILER2_SIZE 2
+#define TRAILER3_SIZE 2
 #define DATA1_SIZE 6   // 狀況 1 的數據長度
 #define DATA2_SIZE 13  // 狀況 2 的數據長度
+#define DATA3_SIZE 6  // 狀況 2 的數據長度
 #define MAX_DATA_SIZE 13  // 最大數據長度 (狀況 2)
 #define BUFFER_SIZE (MAX_DATA_SIZE + 1)  // 緩衝區大小，包含狀況 byte
 
-// 狀況 1 的 Header 和 Trailer
+// 狀況 1 的 Header 和 Trailer, for 一般 cmd 設定
 static const alt_u8 HEADER1[] = {0xAB, 0xBA};
 static const alt_u8 TRAILER1[] = {0x55, 0x56};
 
-// 狀況 2 的 Header 和 Trailer
+// 狀況 2 的 Header 和 Trailer, for SN 寫入
 static const alt_u8 HEADER2[] = {0xCD, 0xDC};
 static const alt_u8 TRAILER2[] = {0x57, 0x58};
+
+// 狀況 3 的 Header 和 Trailer, for EEPROM 讀數據測試
+static const alt_u8 HEADER3[] = {0xEF, 0xFE};
+static const alt_u8 TRAILER3[] = {0x53, 0x54};
 
 // 定義狀態枚舉
 typedef enum {
@@ -576,7 +584,8 @@ alt_u8* readDataDynamic(alt_u16* try_cnt)
                         state = EXPECTING_PAYLOAD;
                         bytes_received = 0;
                     }
-                } else if (data == HEADER2[bytes_received]) {
+                } 
+				else if (data == HEADER2[bytes_received]) {
                     bytes_received++;
                     if (bytes_received == HEADER2_SIZE) {
                         condition = 2;  // 狀況 2
@@ -586,7 +595,19 @@ alt_u8* readDataDynamic(alt_u16* try_cnt)
                         state = EXPECTING_PAYLOAD;
                         bytes_received = 0;
                     }
-                } else {
+                } 
+				else if (data == HEADER3[bytes_received]) {
+                    bytes_received++;
+                    if (bytes_received == HEADER3_SIZE) {
+                        condition = 3;  // 狀況 3
+                        data_size_expected = DATA3_SIZE;
+                        expected_trailer = TRAILER3;
+                        trailer_size = TRAILER3_SIZE;
+                        state = EXPECTING_PAYLOAD;
+                        bytes_received = 0;
+                    }
+                } 
+				else {
                     bytes_received = 0;
                     (*try_cnt)++;
                 }
@@ -619,7 +640,6 @@ alt_u8* readDataDynamic(alt_u16* try_cnt)
 
                     // 在 buffer[0] 存儲狀況 byte
                     buffer[0] = condition;
-
                     // 返回緩衝區指針
                     return buffer;
                 }

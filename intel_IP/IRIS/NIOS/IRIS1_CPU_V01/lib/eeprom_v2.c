@@ -128,15 +128,15 @@ void EEPROM_Write_4B(alt_u16 reg_addr, alt_32 data)
 	// start the I2C SM 
 	I2C_sm_start();
 	// Wait for the I2C SM to complete the operation
-	// int timeout = 100000;
-	// while (!I2C_sm_read_finish() && timeout-- > 0);
-	// if (timeout <= 0) {
-    //     DEBUG_PRINT("EEPROM write timeout!\n");
-    //     return;
-    // }
+	int timeout = 100000;
+	while (!I2C_sm_read_finish() && timeout-- > 0);
+	if (timeout <= 0) {
+        PRINT_1("EEPROM write timeout!\n");
+        return;
+    }
 	I2C_sm_set_finish_clear_pulse(); 
 	usleep(1320);
-	UART_PRINT("EEPROM_Write_4B done\n");
+	PRINT_1("EEPROM_Write_4B done\n");
 }
 
 /*** force write eeprom on address 
@@ -394,7 +394,7 @@ void I2C_sm_start()
 	alt_u8 dly = 50;
 
 	I2C_sm_set_enable();
-	usleep(50);
+	usleep(1);
 	I2C_sm_set_disable();
 }
 
@@ -448,19 +448,19 @@ void I2C_sm_set_disable()
 void I2C_sm_set_finish_clear_pulse() 
 {
 	IOWR(VARSET_BASE, O_VAR_I2C_CTRL,  set_bit_safe(O_VAR_I2C_CTRL, ctrl_finish_clear_pos));
-	usleep(5);
+	usleep(1);
 	IOWR(VARSET_BASE, O_VAR_I2C_CTRL,  clear_bit_safe(O_VAR_I2C_CTRL, ctrl_finish_clear_pos));
 }
 
-void I2C_set_read_mode()
-{
-	IOWR(VARSET_BASE, O_VAR_I2C_CTRL, set_bit_safe(O_VAR_I2C_CTRL, ctrl_rw_reg_pos));
-}
+//void I2C_set_read_mode()
+//{
+//	IOWR(VARSET_BASE, O_VAR_I2C_CTRL, set_bit_safe(O_VAR_I2C_CTRL, ctrl_rw_reg_pos));
+//}
 
-void I2C_set_write_mode()
-{
-	IOWR(VARSET_BASE, O_VAR_I2C_CTRL, clear_bit_safe(O_VAR_I2C_CTRL, ctrl_rw_reg_pos));
-}
+//void I2C_set_write_mode()
+//{
+//	IOWR(VARSET_BASE, O_VAR_I2C_CTRL, clear_bit_safe(O_VAR_I2C_CTRL, ctrl_rw_reg_pos));
+//}
 
 
 /*** Returns High when the state machine has finished. */
