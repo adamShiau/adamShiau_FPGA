@@ -595,6 +595,7 @@ inst_i2c_ADS122C04_temp (
  	.o_rd_data_3(var_i2c_EEPROM_rdata_3),
  	.o_rd_data_4(var_i2c_EEPROM_rdata_4)
  );
+
 // i2c_controller_pullup_eeprom
 //inst_i2c_eeprom (
 //	.i_clk(CPU_CLK),

@@ -26,7 +26,7 @@
 
 /**** CTRL ******/
 #define ctrl_en_pos				0
-#define ctrl_rw_reg_pos			1
+// #define ctrl_rw_reg_pos			1
 #define ctrl_op_mode_pos 		1
 #define ctrl_clk_rate_pos		4
 #define ctrl_finish_clear_pos	7
@@ -280,20 +280,20 @@ void PARAMETER_Write_s(alt_u8 base, alt_u8 number , alt_32 data, fog_parameter_t
 	if(data == check) DEBUG_PRINT("The data is the same\n");
 	else {
 		if(type == TYPE_INT) {
-			DEBUG_PRINT("Data changed: %d -> %d\n", check, data);
-			DEBUG_PRINT("update to eeprom!");
-			UART_PRINT("Data changed: %d -> %d\n", check, data);
-			UART_PRINT("update to eeprom!");
+			PRINT_1("Data changed: %d -> %d\n", check, data);
+			PRINT_1("update to eeprom!");
+			// UART_PRINT("Data changed: %d -> %d\n", check, data);
+			// UART_PRINT("update to eeprom!");
 			PARAMETER_Write_f(base, number, data);
 		}
 		else if(type == TYPE_FLOAT) {
-			DEBUG_PRINT("Data changed: %f -> %f\n", data_f, my_data.float_val);
-			DEBUG_PRINT("update to eeprom!");
-			UART_PRINT("Data changed: %f -> %f\n", data_f, my_data.float_val);
-			UART_PRINT("update to eeprom!");
+			PRINT_1("Data changed: %f -> %f\n", data_f, my_data.float_val);
+			PRINT_1("update to eeprom!");
+			// UART_PRINT("Data changed: %f -> %f\n", data_f, my_data.float_val);
+			// UART_PRINT("update to eeprom!");
 			PARAMETER_Write_f(base, number, data);
 		}
-		else DEBUG_PRINT("data type error!\n");
+		else PRINT_1("data type error!\n");
 		// PARAMETER_Write_f(base, number, data);
 
 		// update new value to container

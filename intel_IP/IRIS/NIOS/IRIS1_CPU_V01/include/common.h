@@ -30,6 +30,11 @@
     #define UART_PRINT(...)
 #endif
 
+#define PRINT_1(...)  do { \
+    DEBUG_PRINT(__VA_ARGS__); \
+    UART_PRINT(__VA_ARGS__);  \
+} while (0)
+
 #define VARSET_BASE VARSET_1_BASE
 
 #define WIDTH_32 32

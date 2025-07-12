@@ -1,3 +1,4 @@
+// 修正V1時序的問題，目前測試穩定
 module i2c_controller_pullup_ADS122C04_SE_V2
 (
 	input wire 			i_clk,
