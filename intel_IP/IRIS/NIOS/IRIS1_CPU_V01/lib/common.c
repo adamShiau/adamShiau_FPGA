@@ -210,7 +210,7 @@ void get_uart_cmd(alt_u8* data, cmd_ctrl_t* rx)
 			rx->cmd = data[1];
 			rx->value = data[2]<<24 | data[3]<<16 | data[4]<<8 | data[5];
 			rx->ch = data[6];
-			PRINT_1("\nuart_cmd, uart_value, ch, condition: 0x%x, %ld, %d, %u\n", rx->cmd , rx->value, rx->ch, rx->condition);
+			UART_PRINT("\nuart_cmd, uart_value, ch, condition: 0x%x, %ld, %d, %u\n", rx->cmd , rx->value, rx->ch, rx->condition);
 		}
 		else if(rx->condition == RX_CONDITION_CDDC_5758) {
 			rx->complete = 1;
@@ -219,14 +219,14 @@ void get_uart_cmd(alt_u8* data, cmd_ctrl_t* rx)
 				rx->SN[i] = data[i + 2];  
 			}
 			rx->SN[12] = '\0'; 
-			PRINT_1("\nuart_cmd, condition, SN: 0x%x, %u, %s\n", rx->cmd , rx->condition, rx->SN);
+			UART_PRINT("\nuart_cmd, condition, SN: 0x%x, %u, %s\n", rx->cmd , rx->condition, rx->SN);
 		} 
 		else if(rx->condition == RX_CONDITION_EFFE_5354) {
 			rx->complete = 1;
 			rx->cmd = data[1];
 			rx->value = data[2]<<24 | data[3]<<16 | data[4]<<8 | data[5];
 			rx->ch = data[6];
-			PRINT_1("\nuart_cmd, uart_value, ch, condition: 0x%x, %ld, %d, %u\n", rx->cmd , rx->value, rx->ch, rx->condition);
+			UART_PRINT("\nuart_cmd, uart_value, ch, condition: 0x%x, %ld, %d, %u\n", rx->cmd , rx->value, rx->ch, rx->condition);
 		} 
     }
     else return;
@@ -298,16 +298,16 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 			if(rx->condition == 1 || rx->condition == 3) {
 				switch(rx->cmd ){
 					case CMD_MOD_FREQ: {
-						PRINT_1("CMD_MOD_FREQ:\n");	
+						UART_PRINT("CMD_MOD_FREQ:\n");	
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_MOD_FREQ - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
 							IOWR(VARSET_BASE, CMD_MOD_FREQ + cmd2hwreg, rx->value);
-							PRINT_1("WRITE: %d\n", rx->value);	
+							UART_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_MOD_FREQ - CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							PRINT_1("READ: %d\n", data.int_val);	
+							UART_PRINT("READ: %d\n", data.int_val);	
 						}			
 						break;
 					}
