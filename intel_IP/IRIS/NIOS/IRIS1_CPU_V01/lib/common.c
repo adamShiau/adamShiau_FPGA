@@ -211,6 +211,7 @@ void get_uart_cmd(alt_u8* data, cmd_ctrl_t* rx)
 			rx->value = data[2]<<24 | data[3]<<16 | data[4]<<8 | data[5];
 			rx->ch = data[6];
 			UART_PRINT("\nuart_cmd, uart_value, ch, condition: 0x%x, %ld, %d, %u\n", rx->cmd , rx->value, rx->ch, rx->condition);
+			DEBUG_PRINT("\nuart_cmd, uart_value, ch, condition: 0x%x, %ld, %d, %u\n", rx->cmd , rx->value, rx->ch, rx->condition);
 		}
 		else if(rx->condition == RX_CONDITION_CDDC_5758) {
 			rx->complete = 1;
@@ -220,6 +221,7 @@ void get_uart_cmd(alt_u8* data, cmd_ctrl_t* rx)
 			}
 			rx->SN[12] = '\0'; 
 			UART_PRINT("\nuart_cmd, condition, SN: 0x%x, %u, %s\n", rx->cmd , rx->condition, rx->SN);
+			DEBUG_PRINT("\nuart_cmd, condition, SN: 0x%x, %u, %s\n", rx->cmd , rx->condition, rx->SN);
 		} 
 		else if(rx->condition == RX_CONDITION_EFFE_5354) {
 			rx->complete = 1;
@@ -227,6 +229,7 @@ void get_uart_cmd(alt_u8* data, cmd_ctrl_t* rx)
 			rx->value = data[2]<<24 | data[3]<<16 | data[4]<<8 | data[5];
 			rx->ch = data[6];
 			UART_PRINT("\nuart_cmd, uart_value, ch, condition: 0x%x, %ld, %d, %u\n", rx->cmd , rx->value, rx->ch, rx->condition);
+			DEBUG_PRINT("\nuart_cmd, uart_value, ch, condition: 0x%x, %ld, %d, %u\n", rx->cmd , rx->value, rx->ch, rx->condition);
 		} 
     }
     else return;
@@ -844,8 +847,8 @@ void dump_SN(fog_parameter_t* fog_inst) {
 
 void send_json_uart(const char* buffer) {
     while (*buffer) {
-        // checkByte((alt_u8)*buffer);
-		checkByte_dbg((alt_u8)*buffer);
+        checkByte((alt_u8)*buffer);
+		// checkByte_dbg((alt_u8)*buffer);
         buffer++;
     }
 }

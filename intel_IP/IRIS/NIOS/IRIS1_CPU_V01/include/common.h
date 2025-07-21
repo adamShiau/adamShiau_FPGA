@@ -8,9 +8,9 @@
 #include "nios2_var_addr.h"
 #include "adda_config.h"
 
-//  #define DEBUG
+ #define DEBUG
 //  #define INFO
-// #define UART_DEBUG
+#define UART_DEBUG
 
 #ifdef DEBUG
     #define DEBUG_PRINT(...) printf(__VA_ARGS__)
@@ -25,7 +25,7 @@
 #endif
 
 #ifdef UART_DEBUG
-    #define UART_PRINT(...) uart_printf_dbg(__VA_ARGS__)
+    #define UART_PRINT(...) uart_printf(__VA_ARGS__)
 #else
     #define UART_PRINT(...)
 #endif

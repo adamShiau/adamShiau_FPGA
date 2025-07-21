@@ -17,6 +17,7 @@ alt_u32 g_time[12];
 void TRIGGER_IRQ_init(void);
 void IRQ_TRIGGER_ISR(void *context);
 void update_IRIS_config_to_HW_REG(void);
+void update_sensor_data(my_sensor_t *data); 
 
 
 const alt_u8 cmd_header[2] = {0xAB, 0xBA};
@@ -78,15 +79,22 @@ my_sensor_t sensor_data = {
 
 MovingAverage_t mz_x, mz_y, mz_z;
 
+int cntt = 100;
 
 int main(void)
 {
+
 	fog_parameter_t fog_params;	 //parameter container
 	
-
 	INFO_PRINT("Running IRIS CPU!\n");
 	UART_PRINT("Running IRIS CPU!\n");
 	update_IRIS_config_to_HW_REG();
+	while(cntt-- >0)
+	{
+		UART_PRINT("%d\n",cntt);
+		DEBUG_PRINT("%d\n",cntt);
+		usleep(100000);
+	}
 	UART_PRINT("TRIGGER_IRQ_init\n");
 	crc32_init_table();
 	TRIGGER_IRQ_init();
@@ -127,9 +135,8 @@ int main(void)
 	// PRINT_FOG_PARAMETER(&fog_params);
 
 
-
 	while(1){
-		
+
 		get_uart_cmd(readDataDynamic(&try_cnt), &my_cmd);
 		cmd_mux(&my_cmd);
 		fog_parameter(&my_cmd, &fog_params);
@@ -150,6 +157,7 @@ int main(void)
 			// UART_PRINT("%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\n", g_time[0],g_time[1],g_time[2],g_time[3],g_time[4],g_time[5],g_time[6],g_time[7],g_time[8],
 			// 	g_time[9],g_time[10],g_time[11]);
 		}
+
 	}
 
   return 0;
@@ -227,8 +235,8 @@ void update_sensor_data(my_sensor_t *data) {
 void update_IRIS_config_to_HW_REG()
 {
 	IOWR(VARSET_BASE, var_sync_count, SYNC_100HZ); // set sync data rate
-	// set_MUX_RS422(); // set RS422 output mode
-	set_MUX_RS232();
+	set_MUX_RS422(); // set RS422 output mode
+	// set_MUX_RS232();
 	// set_MUX_CAN();
 }
 

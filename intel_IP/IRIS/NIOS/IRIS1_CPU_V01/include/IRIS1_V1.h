@@ -26,7 +26,7 @@
 #include "memory_manage.h"
 //eeprom
 //#include "eeprom.h"
-  #include "eeprom_v2.h"
+#include "eeprom_v2.h"
 #include "adxl357.h"
 #include "ads122c04_se.h"
 
