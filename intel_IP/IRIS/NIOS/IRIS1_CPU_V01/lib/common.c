@@ -210,7 +210,7 @@ void get_uart_cmd(alt_u8* data, cmd_ctrl_t* rx)
 			rx->cmd = data[1];
 			rx->value = data[2]<<24 | data[3]<<16 | data[4]<<8 | data[5];
 			rx->ch = data[6];
-			UART_PRINT("\nuart_cmd, uart_value, ch, condition: 0x%x, %ld, %d, %u\n", rx->cmd , rx->value, rx->ch, rx->condition);
+			// UART_PRINT("\nuart_cmd, uart_value, ch, condition: 0x%x, %ld, %d, %u\n", rx->cmd , rx->value, rx->ch, rx->condition);
 			DEBUG_PRINT("\nuart_cmd, uart_value, ch, condition: 0x%x, %ld, %d, %u\n", rx->cmd , rx->value, rx->ch, rx->condition);
 		}
 		else if(rx->condition == RX_CONDITION_CDDC_5758) {
@@ -220,7 +220,7 @@ void get_uart_cmd(alt_u8* data, cmd_ctrl_t* rx)
 				rx->SN[i] = data[i + 2];  
 			}
 			rx->SN[12] = '\0'; 
-			UART_PRINT("\nuart_cmd, condition, SN: 0x%x, %u, %s\n", rx->cmd , rx->condition, rx->SN);
+			// UART_PRINT("\nuart_cmd, condition, SN: 0x%x, %u, %s\n", rx->cmd , rx->condition, rx->SN);
 			DEBUG_PRINT("\nuart_cmd, condition, SN: 0x%x, %u, %s\n", rx->cmd , rx->condition, rx->SN);
 		} 
 		else if(rx->condition == RX_CONDITION_EFFE_5354) {
@@ -228,7 +228,7 @@ void get_uart_cmd(alt_u8* data, cmd_ctrl_t* rx)
 			rx->cmd = data[1];
 			rx->value = data[2]<<24 | data[3]<<16 | data[4]<<8 | data[5];
 			rx->ch = data[6];
-			UART_PRINT("\nuart_cmd, uart_value, ch, condition: 0x%x, %ld, %d, %u\n", rx->cmd , rx->value, rx->ch, rx->condition);
+			// UART_PRINT("\nuart_cmd, uart_value, ch, condition: 0x%x, %ld, %d, %u\n", rx->cmd , rx->value, rx->ch, rx->condition);
 			DEBUG_PRINT("\nuart_cmd, uart_value, ch, condition: 0x%x, %ld, %d, %u\n", rx->cmd , rx->value, rx->ch, rx->condition);
 		} 
     }
@@ -835,13 +835,13 @@ void dump_misalignment_param(fog_parameter_t* fog_inst) {
 }
 
 void dump_SN(fog_parameter_t* fog_inst) {
-	// SerialWrite(&fog_inst->sn[0], 4);
-	// SerialWrite(&fog_inst->sn[4], 4);
-	// SerialWrite(&fog_inst->sn[8], 4);
+	SerialWrite(&fog_inst->sn[0], 4);
+	SerialWrite(&fog_inst->sn[4], 4);
+	SerialWrite(&fog_inst->sn[8], 4);
 
-	SerialWrite_dbg(&fog_inst->sn[0], 4);
-	SerialWrite_dbg(&fog_inst->sn[4], 4);
-	SerialWrite_dbg(&fog_inst->sn[8], 4);
+	// SerialWrite_dbg(&fog_inst->sn[0], 4);
+	// SerialWrite_dbg(&fog_inst->sn[4], 4);
+	// SerialWrite_dbg(&fog_inst->sn[8], 4);
 
 }
 

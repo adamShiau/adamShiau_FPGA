@@ -83,18 +83,17 @@ int cntt = 100;
 
 int main(void)
 {
-
 	fog_parameter_t fog_params;	 //parameter container
 	
 	INFO_PRINT("Running IRIS CPU!\n");
 	UART_PRINT("Running IRIS CPU!\n");
 	update_IRIS_config_to_HW_REG();
-	while(cntt-- >0)
-	{
-		UART_PRINT("%d\n",cntt);
-		DEBUG_PRINT("%d\n",cntt);
-		usleep(100000);
-	}
+	// while(cntt-- >0)
+	// {
+	// 	UART_PRINT("%d\n",cntt);
+	// 	DEBUG_PRINT("%d\n",cntt);
+	// 	usleep(100000);
+	// }
 	UART_PRINT("TRIGGER_IRQ_init\n");
 	crc32_init_table();
 	TRIGGER_IRQ_init();
