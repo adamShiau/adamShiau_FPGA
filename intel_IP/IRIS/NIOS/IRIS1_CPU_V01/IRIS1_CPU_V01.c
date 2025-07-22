@@ -196,7 +196,7 @@ void update_sensor_data(my_sensor_t *data) {
 	alt_64 scaled = ((alt_64)raw * ADC_SCALE_INT * 1000) / ADC_SCALE_DIV;
 	alt_32 temp_x1000 = (alt_32)(scaled - TEMP_OFFSET_x1000);
 	data->temp.tempx.float_val = temp_x1000 / 1000.0f;
-	raw = IORD(VARSET_BASE, var_i2c_ads122c04_temp_rdata_1);
+	raw = IORD(VARSET_BASE, var_i2c_ads122c04_temp_rdata_4);
 	scaled = ((alt_64)raw * ADC_SCALE_INT * 1000) / ADC_SCALE_DIV;
 	temp_x1000 = (alt_32)(scaled - TEMP_OFFSET_x1000);
 	data->temp.tempy.float_val = temp_x1000 / 1000.0f;
