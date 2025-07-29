@@ -1,0 +1,19 @@
+module FINCH_TOP_V1(
+
+	//////////// CLOCK INPUT ////////    
+	CLOCK_100M, 
+	//////////// CLOCK OUTPUT ////////  
+	CLK_ADC_P,
+	CLK_ADC_N
+	
+);
+
+//////////// CLOCK //////////
+input				CLOCK_100M;
+
+//////////// PLL CLOCK //////////
+output 				CLK_ADC_P;
+output 				CLK_ADC_N;
+ 
+ 
+endmodule
