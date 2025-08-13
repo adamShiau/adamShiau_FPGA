@@ -22,16 +22,16 @@
 #define	TX_BUF_SIZE_MASK	TX_BUF_SIZE - 1
 
 // Receive interrupt control macros
-// #define	RX_INTERRUPT_ON()	IOWR_ALTERA_AVALON_UART_CONTROL(UART_BASE,IORD_ALTERA_AVALON_UART_CONTROL(UART_BASE) | ALTERA_AVALON_UART_CONTROL_RRDY_MSK)
-// #define	RX_INTERRUPT_OFF()	IOWR_ALTERA_AVALON_UART_CONTROL(UART_BASE,IORD_ALTERA_AVALON_UART_CONTROL(UART_BASE) & ~ALTERA_AVALON_UART_CONTROL_RRDY_MSK)
-#define	RX_INTERRUPT_ON()	IOWR_ALTERA_AVALON_UART_CONTROL(UART_DBG_BASE,IORD_ALTERA_AVALON_UART_CONTROL(UART_DBG_BASE) | ALTERA_AVALON_UART_CONTROL_RRDY_MSK)
-#define	RX_INTERRUPT_OFF()	IOWR_ALTERA_AVALON_UART_CONTROL(UART_DBG_BASE,IORD_ALTERA_AVALON_UART_CONTROL(UART_DBG_BASE) & ~ALTERA_AVALON_UART_CONTROL_RRDY_MSK)
+#define	RX_INTERRUPT_ON()	IOWR_ALTERA_AVALON_UART_CONTROL(UART_BASE,IORD_ALTERA_AVALON_UART_CONTROL(UART_BASE) | ALTERA_AVALON_UART_CONTROL_RRDY_MSK)
+#define	RX_INTERRUPT_OFF()	IOWR_ALTERA_AVALON_UART_CONTROL(UART_BASE,IORD_ALTERA_AVALON_UART_CONTROL(UART_BASE) & ~ALTERA_AVALON_UART_CONTROL_RRDY_MSK)
+// #define	RX_INTERRUPT_ON()	IOWR_ALTERA_AVALON_UART_CONTROL(UART_DBG_BASE,IORD_ALTERA_AVALON_UART_CONTROL(UART_DBG_BASE) | ALTERA_AVALON_UART_CONTROL_RRDY_MSK)
+// #define	RX_INTERRUPT_OFF()	IOWR_ALTERA_AVALON_UART_CONTROL(UART_DBG_BASE,IORD_ALTERA_AVALON_UART_CONTROL(UART_DBG_BASE) & ~ALTERA_AVALON_UART_CONTROL_RRDY_MSK)
 
 // Transmit interrupt control macros
-// #define	TX_INTERRUPT_ON()	IOWR_ALTERA_AVALON_UART_CONTROL(UART_BASE,IORD_ALTERA_AVALON_UART_CONTROL(UART_BASE) | ALTERA_AVALON_UART_CONTROL_TRDY_MSK)
-// #define	TX_INTERRUPT_OFF()	IOWR_ALTERA_AVALON_UART_CONTROL(UART_BASE,IORD_ALTERA_AVALON_UART_CONTROL(UART_BASE) & ~ALTERA_AVALON_UART_CONTROL_TRDY_MSK)
-#define	TX_INTERRUPT_ON()	IOWR_ALTERA_AVALON_UART_CONTROL(UART_DBG_BASE,IORD_ALTERA_AVALON_UART_CONTROL(UART_DBG_BASE) | ALTERA_AVALON_UART_CONTROL_TRDY_MSK)
-#define	TX_INTERRUPT_OFF()	IOWR_ALTERA_AVALON_UART_CONTROL(UART_DBG_BASE,IORD_ALTERA_AVALON_UART_CONTROL(UART_DBG_BASE) & ~ALTERA_AVALON_UART_CONTROL_TRDY_MSK)
+#define	TX_INTERRUPT_ON()	IOWR_ALTERA_AVALON_UART_CONTROL(UART_BASE,IORD_ALTERA_AVALON_UART_CONTROL(UART_BASE) | ALTERA_AVALON_UART_CONTROL_TRDY_MSK)
+#define	TX_INTERRUPT_OFF()	IOWR_ALTERA_AVALON_UART_CONTROL(UART_BASE,IORD_ALTERA_AVALON_UART_CONTROL(UART_BASE) & ~ALTERA_AVALON_UART_CONTROL_TRDY_MSK)
+// #define	TX_INTERRUPT_ON()	IOWR_ALTERA_AVALON_UART_CONTROL(UART_DBG_BASE,IORD_ALTERA_AVALON_UART_CONTROL(UART_DBG_BASE) | ALTERA_AVALON_UART_CONTROL_TRDY_MSK)
+// #define	TX_INTERRUPT_OFF()	IOWR_ALTERA_AVALON_UART_CONTROL(UART_DBG_BASE,IORD_ALTERA_AVALON_UART_CONTROL(UART_DBG_BASE) & ~ALTERA_AVALON_UART_CONTROL_TRDY_MSK)
 
 
 
@@ -85,7 +85,6 @@ static void uartISR(void *context)
 	 * it cycles between 0 and RX_BUF_SIZE_MASK.
 	 * rxBufCount: Indicates the current amount of RX data; it will not increase beyond RX_BUF_SIZE.
 	 */
-    /***
 	if(IORD_ALTERA_AVALON_UART_STATUS(UART_BASE) & ALTERA_AVALON_UART_STATUS_RRDY_MSK)
 	{
 		// Get the byte
@@ -102,7 +101,23 @@ static void uartISR(void *context)
 		if(pUartBuffer->rxBufCount < RX_BUF_SIZE) pUartBuffer->rxBufCount++;
 	}
 
-    if(IORD_ALTERA_AVALON_UART_STATUS(UART_BASE) & ALTERA_AVALON_UART_STATUS_TRDY_MSK)
+    // if(IORD_ALTERA_AVALON_UART_STATUS(UART_DBG_BASE) & ALTERA_AVALON_UART_STATUS_RRDY_MSK)
+	// {
+	// 	// Get the byte
+	// 	b = (int)(IORD_ALTERA_AVALON_UART_RXDATA(UART_DBG_BASE));
+
+	// 	// Store the byte
+	// 	pUartBuffer->rxBuf[pUartBuffer->rxBufPut] = (alt_u8)(b);
+
+	// 	// Increment the put index
+	// 	pUartBuffer->rxBufPut++;
+	// 	pUartBuffer->rxBufPut &= RX_BUF_SIZE_MASK;
+
+	// 	// Increment the count while preventing buffer overrun
+	// 	if(pUartBuffer->rxBufCount < RX_BUF_SIZE) pUartBuffer->rxBufCount++;
+	// }
+
+	if(IORD_ALTERA_AVALON_UART_STATUS(UART_BASE) & ALTERA_AVALON_UART_STATUS_TRDY_MSK)
 	{
 		if(pUartBuffer->txBufCount)
 		{
@@ -123,45 +138,28 @@ static void uartISR(void *context)
 			}
 		}
 	}
-    */
 
-    if(IORD_ALTERA_AVALON_UART_STATUS(UART_DBG_BASE) & ALTERA_AVALON_UART_STATUS_RRDY_MSK)
-	{
-		// Get the byte
-		b = (int)(IORD_ALTERA_AVALON_UART_RXDATA(UART_DBG_BASE));
+    // if(IORD_ALTERA_AVALON_UART_STATUS(UART_DBG_BASE) & ALTERA_AVALON_UART_STATUS_TRDY_MSK)
+	// {
+	// 	if(pUartBuffer->txBufCount)
+	// 	{
+	// 		// Write the byte
+	// 		IOWR_ALTERA_AVALON_UART_TXDATA(UART_DBG_BASE,(int)(pUartBuffer->txBuf[pUartBuffer->txBufTake]));
 
-		// Store the byte
-		pUartBuffer->rxBuf[pUartBuffer->rxBufPut] = (alt_u8)(b);
+	// 		// Increment the take index
+	// 		pUartBuffer->txBufTake++;
+	// 		pUartBuffer->txBufTake &= TX_BUF_SIZE_MASK;
 
-		// Increment the put index
-		pUartBuffer->rxBufPut++;
-		pUartBuffer->rxBufPut &= RX_BUF_SIZE_MASK;
+	// 		// Decrement the count
+	// 		pUartBuffer->txBufCount--;
 
-		// Increment the count while preventing buffer overrun
-		if(pUartBuffer->rxBufCount < RX_BUF_SIZE) pUartBuffer->rxBufCount++;
-	}
-
-    if(IORD_ALTERA_AVALON_UART_STATUS(UART_DBG_BASE) & ALTERA_AVALON_UART_STATUS_TRDY_MSK)
-	{
-		if(pUartBuffer->txBufCount)
-		{
-			// Write the byte
-			IOWR_ALTERA_AVALON_UART_TXDATA(UART_DBG_BASE,(int)(pUartBuffer->txBuf[pUartBuffer->txBufTake]));
-
-			// Increment the take index
-			pUartBuffer->txBufTake++;
-			pUartBuffer->txBufTake &= TX_BUF_SIZE_MASK;
-
-			// Decrement the count
-			pUartBuffer->txBufCount--;
-
-			// Turn off the interrupt if no more bytes remain
-			if(!pUartBuffer->txBufCount)
-			{
-				TX_INTERRUPT_OFF();
-			}
-		}
-	}
+	// 		// Turn off the interrupt if no more bytes remain
+	// 		if(!pUartBuffer->txBufCount)
+	// 		{
+	// 			TX_INTERRUPT_OFF();
+	// 		}
+	// 	}
+	// }
 }
 
 /*-----------------------------------------------------------------------------
@@ -192,27 +190,27 @@ void uartInit(void)
 	// uart_complete = 0;
 
 	// Disable interrupts
-	// IOWR_ALTERA_AVALON_UART_CONTROL(UART_BASE,0);
-    IOWR_ALTERA_AVALON_UART_CONTROL(UART_DBG_BASE,0);
+	IOWR_ALTERA_AVALON_UART_CONTROL(UART_BASE,0);
+    // IOWR_ALTERA_AVALON_UART_CONTROL(UART_DBG_BASE,0);
 
 	// Set the baud rate
 	// div = (ALT_CPU_FREQ / UART_BAUD_RATE) - 1;
 	// IOWR_ALTERA_AVALON_UART_DIVISOR(UART_BASE,div);
 
 	// Register the interrupt handler
-    // alt_ic_isr_register(UART_IRQ_INTERRUPT_CONTROLLER_ID,
-    //     UART_IRQ,
-    //     uartISR,
-    //     &gUartBuffer,
-    //     NULL
-    // );
-
-    alt_ic_isr_register(UART_DBG_IRQ_INTERRUPT_CONTROLLER_ID,
-        UART_DBG_IRQ,
+    alt_ic_isr_register(UART_IRQ_INTERRUPT_CONTROLLER_ID,
+        UART_IRQ,
         uartISR,
         &gUartBuffer,
         NULL
     );
+
+    // alt_ic_isr_register(UART_DBG_IRQ_INTERRUPT_CONTROLLER_ID,
+    //     UART_DBG_IRQ,
+    //     uartISR,
+    //     &gUartBuffer,
+    //     NULL
+    // );
 
 	// Turn on the receive interrupt
 	RX_INTERRUPT_ON();
@@ -667,13 +665,13 @@ RETURNS:
 	Nothing.
 -----------------------------------------------------------------------------*/
 
-// void uartAck(alt_u8 data)
-// {
-// 	while(! (IORD_ALTERA_AVALON_UART_STATUS(UART_BASE)& ALTERA_AVALON_UART_STATUS_TRDY_MSK) );
-// 	IOWR_ALTERA_AVALON_UART_TXDATA(UART_BASE, data);
-// }
 void uartAck(alt_u8 data)
 {
-	while(! (IORD_ALTERA_AVALON_UART_STATUS(UART_DBG_BASE)& ALTERA_AVALON_UART_STATUS_TRDY_MSK) );
-	IOWR_ALTERA_AVALON_UART_TXDATA(UART_DBG_BASE, data);
+	while(! (IORD_ALTERA_AVALON_UART_STATUS(UART_BASE)& ALTERA_AVALON_UART_STATUS_TRDY_MSK) );
+	IOWR_ALTERA_AVALON_UART_TXDATA(UART_BASE, data);
 }
+// void uartAck(alt_u8 data)
+// {
+// 	while(! (IORD_ALTERA_AVALON_UART_STATUS(UART_DBG_BASE)& ALTERA_AVALON_UART_STATUS_TRDY_MSK) );
+// 	IOWR_ALTERA_AVALON_UART_TXDATA(UART_DBG_BASE, data);
+// }
