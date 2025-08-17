@@ -835,20 +835,20 @@ void dump_misalignment_param(fog_parameter_t* fog_inst) {
 }
 
 void dump_SN(fog_parameter_t* fog_inst) {
-	SerialWrite(&fog_inst->sn[0], 4);
-	SerialWrite(&fog_inst->sn[4], 4);
-	SerialWrite(&fog_inst->sn[8], 4);
+	// SerialWrite(&fog_inst->sn[0], 4);
+	// SerialWrite(&fog_inst->sn[4], 4);
+	// SerialWrite(&fog_inst->sn[8], 4);
 
-	// SerialWrite_dbg(&fog_inst->sn[0], 4);
-	// SerialWrite_dbg(&fog_inst->sn[4], 4);
-	// SerialWrite_dbg(&fog_inst->sn[8], 4);
+	SerialWrite_dbg(&fog_inst->sn[0], 4);
+	SerialWrite_dbg(&fog_inst->sn[4], 4);
+	SerialWrite_dbg(&fog_inst->sn[8], 4);
 
 }
 
 void send_json_uart(const char* buffer) {
     while (*buffer) {
-        checkByte((alt_u8)*buffer);
-		// checkByte_dbg((alt_u8)*buffer);
+        // checkByte((alt_u8)*buffer);
+		checkByte_dbg((alt_u8)*buffer);
         buffer++;
     }
 }
