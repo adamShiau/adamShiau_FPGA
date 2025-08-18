@@ -25,7 +25,7 @@
 #endif
 
 #ifdef UART_DEBUG
-    #define UART_PRINT(...) uart_printf(__VA_ARGS__)
+    #define UART_PRINT(...) uart_printf_dbg(__VA_ARGS__)
 #else
     #define UART_PRINT(...)
 #endif
