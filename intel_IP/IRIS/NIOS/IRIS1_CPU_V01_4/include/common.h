@@ -11,7 +11,7 @@
 
  #define DEBUG_PRINT
 //  #define INFO
-#define UART_DEBUG
+// #define UART_DEBUG
 
 // #ifdef DEBUG
 //     #define DEBUG_PRINT(...) printf(__VA_ARGS__)

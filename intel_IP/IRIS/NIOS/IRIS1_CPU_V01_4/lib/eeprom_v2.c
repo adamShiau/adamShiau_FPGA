@@ -344,6 +344,16 @@ void LOAD_FOG_MISALIGNMENT(fog_parameter_t* fog_params)
 	UART_PRINT("Loading EEPROM Mis-alignment Parameters done!\n");
 }
 
+void PRINT_FOG_MISALIGNMENT(fog_parameter_t* fog_params)
+{
+	DEBUG_PRINT("\nPrinting EEPROM FOG Mis-alignment...\n");
+	for (int i = 0; i < MIS_LEN; i++) {
+		DEBUG_PRINT("%d,%d\n", i, fog_params->misalignment[i].data.int_val);
+	}
+	DEBUG_PRINT("Printing EEPROM FOG Mis-alignment done!\n");
+}
+
+
 void LOAD_FOG_PARAMETER(fog_parameter_t* fog_params)
 {
 	DEBUG_PRINT("\nLoading EEPROM FOG Parameters...\n");
@@ -365,17 +375,17 @@ void LOAD_FOG_PARAMETER(fog_parameter_t* fog_params)
 void PRINT_FOG_PARAMETER(fog_parameter_t* fog_params)
 {
 	DEBUG_PRINT("\nPrinting EEPROM FOG Parameters...\n");
-	// DEBUG_PRINT("FOG X Parameter:\n");
-	// for (int i = 0; i < PAR_LEN; i++) {
-	// 	DEBUG_PRINT("%d. %d, type: %d\n", i, fog_params->paramX[i].data.int_val, fog_params->paramX[i].type);
-	// }
-	// DEBUG_PRINT("FOG Y Parameter:\n");
-	// for (int i = 0; i < PAR_LEN; i++) {
-	// 	DEBUG_PRINT("%d. %d, type: %d\n", i, fog_params->paramY[i].data.int_val, fog_params->paramY[i].type);
-	// }
+	DEBUG_PRINT("FOG X Parameter:\n");
+	for (int i = 0; i < PAR_LEN; i++) {
+		DEBUG_PRINT("%d,%d,type: %d\n", i, fog_params->paramX[i].data.int_val, fog_params->paramX[i].type);
+	}
+	DEBUG_PRINT("FOG Y Parameter:\n");
+	for (int i = 0; i < PAR_LEN; i++) {
+		DEBUG_PRINT("%d,%d,type: %d\n", i, fog_params->paramY[i].data.int_val, fog_params->paramY[i].type);
+	}
 	DEBUG_PRINT("FOG Z Parameter:\n");
 	for (int i = 0; i < PAR_LEN; i++) {
-		DEBUG_PRINT("%d. %d, type: %d\n", i, fog_params->paramZ[i].data.int_val, fog_params->paramZ[i].type);
+		DEBUG_PRINT("%d,%d,type: %d\n", i, fog_params->paramZ[i].data.int_val, fog_params->paramZ[i].type);
 	}
 	DEBUG_PRINT("Printing EEPROM FOG Parameters done!\n");
 }

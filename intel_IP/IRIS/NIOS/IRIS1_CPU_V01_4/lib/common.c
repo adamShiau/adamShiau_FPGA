@@ -1211,13 +1211,13 @@ void update_fog_parameters_to_HW_REG(alt_u8 base, fog_parameter_t* fog_params)
 			INFO_PRINT("container_idx: %d, %d, %d\n",container_idx, rt_val, valid[container_idx]);
 		}
 		INFO_PRINT("is_valid = %d\n", is_valid);
-		DEBUG_PRINT("DAC GAIN: %d\n", fog_params->paramZ[11].data.int_val);
+		// DEBUG_PRINT("DAC GAIN: %d\n", fog_params->paramZ[11].data.int_val);
 		Set_Dac_Gain_z(fog_params->paramZ[11].data.int_val);
 		INFO_PRINT("Done.\n ");
 	}
 	else if(base == MEM_BASE_X) 
 	{
-		DEBUG_PRINT("updating fog paramemetr X to FPGA....\n ");
+		// DEBUG_PRINT("updating fog paramemetr X to FPGA....\n ");
 		for(int container_idx=0; container_idx<10+1; container_idx++) { // container index, check excel table
 			// update the value from container to FPGA register 
 			IOWR(VARSET_BASE, container_idx + CONTAINER_TO_CMD_OFFSET + CMD_TO_HW_REG_OFFSET_CH1, fog_params->paramX[container_idx].data.int_val);
@@ -1226,16 +1226,16 @@ void update_fog_parameters_to_HW_REG(alt_u8 base, fog_parameter_t* fog_params)
 			// check if two value are the same or not. 
 			valid[container_idx] = fog_params->paramX[container_idx].data.int_val == rt_val;
 			is_valid &=  valid[container_idx];
-			DEBUG_PRINT("container_idx: %d, %d, %d\n",container_idx, rt_val, valid[container_idx]);
+			// DEBUG_PRINT("container_idx: %d, %d, %d\n",container_idx, rt_val, valid[container_idx]);
 		}
 		INFO_PRINT("is_valid = %d\n", is_valid);
-		DEBUG_PRINT("DAC GAIN: %d\n", fog_params->paramX[11].data.int_val);
+		// DEBUG_PRINT("DAC GAIN: %d\n", fog_params->paramX[11].data.int_val);
 		Set_Dac_Gain_x(fog_params->paramX[11].data.int_val);
 		INFO_PRINT("Done.\n ");
 	}
 	else if(base == MEM_BASE_Y)
 	{
-		DEBUG_PRINT("updating fog paramemetr Y to FPGA....\n ");
+		// DEBUG_PRINT("updating fog paramemetr Y to FPGA....\n ");
 		for(int container_idx=0; container_idx<10+1; container_idx++) { // container index, check excel table
 			// update the value from container to FPGA register 
 			IOWR(VARSET_BASE, container_idx + CONTAINER_TO_CMD_OFFSET + CMD_TO_HW_REG_OFFSET_CH2, fog_params->paramY[container_idx].data.int_val);
@@ -1244,10 +1244,10 @@ void update_fog_parameters_to_HW_REG(alt_u8 base, fog_parameter_t* fog_params)
 			// check if two value are the same or not. 
 			valid[container_idx] = fog_params->paramY[container_idx].data.int_val == rt_val;
 			is_valid &=  valid[container_idx];
-			DEBUG_PRINT("container_idx: %d, %d, %d\n",container_idx, rt_val, valid[container_idx]);
+			// DEBUG_PRINT("container_idx: %d, %d, %d\n",container_idx, rt_val, valid[container_idx]);
 		}
 		INFO_PRINT("is_valid = %d\n", is_valid);
-		DEBUG_PRINT("DAC GAIN: %d\n", fog_params->paramY[11].data.int_val);
+		// DEBUG_PRINT("DAC GAIN: %d\n", fog_params->paramY[11].data.int_val);
 		Set_Dac_Gain_y(fog_params->paramY[11].data.int_val);
 		INFO_PRINT("Done.\n ");
 	}
