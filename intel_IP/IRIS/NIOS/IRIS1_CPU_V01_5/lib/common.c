@@ -1118,17 +1118,23 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 					}
 					case CMD_DUMP_FOG: {
 						DEBUG_PRINT("CMD_DUMP_FOG:\n");
-						dump_fog_param(fog_inst, rx->ch);
+						uint32_t seq  = (rx->value >> 1);
+   						uint8_t  nack = (uint8_t)(rx->value & 1); // TODO: 若要支援 NACK：查快取 (seq,ch) → 直接重送上一包；此處略
+						dump_fog_param_framed(fog_inst, rx->ch, seq);
 						break;
 					} 
 					case CMD_DUMP_MIS: {
 						DEBUG_PRINT("CMD_DUMP_MIS:\n");
-						dump_misalignment_param(fog_inst);
+						uint32_t seq  = (rx->value >> 1);
+   						uint8_t  nack = (uint8_t)(rx->value & 1); // TODO: 若要支援 NACK：查快取 (seq,ch) → 直接重送上一包；此處略
+						dump_misalignment_param_framed(fog_inst, seq);
 						break;
 					} 
 					case CMD_DUMP_SN: {
 						DEBUG_PRINT("CMD_DUMP_SN:\n");
-						dump_SN(fog_inst);
+						uint32_t seq  = (rx->value >> 1);
+   						uint8_t  nack = (uint8_t)(rx->value & 1); // TODO: 若要支援 NACK：查快取 (seq,ch) → 直接重送上一包；此處略
+						dump_SN_framed(fog_inst, seq);
 						break;
 					} 
 					case CMD_DATA_OUT_START: { // not use now
@@ -1288,6 +1294,77 @@ void dump_fog_param(fog_parameter_t* fog_inst, alt_u8 ch) {
     send_json_uart(buffer);
 }
 
+// framing 版：把指定軸的參數轉 JSON，包 framing 後送 UART
+void dump_fog_param_framed(fog_parameter_t* fog_inst, uint8_t ch, uint32_t seq)
+{
+    if (!fog_inst || ch < 1 || ch > 3) return;
+
+    mem_unit_t* param = NULL;
+    switch (ch) {
+        case 1: param = fog_inst->paramX; break;
+        case 2: param = fog_inst->paramY; break;
+        case 3: param = fog_inst->paramZ; break;
+        default: return;
+    }
+
+    // === 建 JSON payload（不含換行） ===
+    // 估算：每個項目大約最多 ≈ 20~24 字元，40 筆約 1KB 內;
+    char json[1024];
+    int off = 0;
+
+    // 開頭 {
+    if (off < (int)sizeof(json))
+        off += snprintf(json + off, sizeof(json) - off, "{");
+
+    for (int i = 0; i < PAR_LEN; ++i) {
+        if (off < (int)sizeof(json)) {
+            off += snprintf(json + off, sizeof(json) - off,
+                            "\"%d\":%ld%s",
+                            i, (long)param[i].data.int_val,
+                            (i < PAR_LEN - 1) ? "," : "");
+        }
+    }
+
+    if (off < (int)sizeof(json))
+        off += snprintf(json + off, sizeof(json) - off, "}");
+
+    // 若溢位保護（保險起見）
+    if (off <= 0 || off >= (int)sizeof(json)) {
+        // 也可以送出錯誤封包或記錄
+        return;
+    }
+
+    // === 送 framing ===
+    // 注意：payload_len 只計算 JSON 字串長度（不含任何 \n）
+    send_framed_payload(seq, ch, json, (size_t)off);
+}
+
+// 一次性送出：@seq,ch,len, + payload + *CRC + \r\n
+void send_framed_payload(uint32_t seq, uint8_t ch, const char* payload, size_t payload_len)
+{
+    // 計算 CRC
+    uint16_t crc = crc16_ccitt_buf((const uint8_t*)payload, payload_len);
+
+    // 組 header：@<seq>,<ch>,<len>,
+    // 以一次 write 避免被其他 printf 打斷
+    char header[64];
+    // 用 %lu 以相容 alt_u32/uint32_t；如需更嚴謹可改成 PRIu32
+    int hlen = snprintf(header, sizeof(header), "@%lu,%u,%lu,",
+                        (unsigned long)seq, (unsigned)ch, (unsigned long)payload_len);
+    if (hlen < 0) return;
+
+    uart_write_bytes((const uint8_t*)header, (size_t)hlen);
+
+    // 寫 payload
+    uart_write_bytes((const uint8_t*)payload, payload_len);
+	DEBUG_PRINT("%s", payload);
+
+    // 寫 *CRC 與 CRLF（CRC 4 位大寫 16 進位）
+    char tail[8]; // "*FFFF\r\n" 最多 7 字元
+    int tlen = snprintf(tail, sizeof(tail), "*%04X\r\n", (unsigned)crc);
+    if (tlen > 0) uart_write_bytes((const uint8_t*)tail, (size_t)tlen);
+}
+
 void dump_misalignment_param(fog_parameter_t* fog_inst) {
     if (!fog_inst) return; // Ensure the pointer is valid and ch is within range
     
@@ -1308,6 +1385,38 @@ void dump_misalignment_param(fog_parameter_t* fog_inst) {
 	send_json_uart(buffer); // Send the JSON data via UART
 }
 
+void dump_misalignment_param_framed(fog_parameter_t* fog_inst, uint32_t seq)
+{
+    if (!fog_inst) return;
+
+    char json[2048];
+    int off = 0;
+
+    if (off < (int)sizeof(json))
+        off += snprintf(json + off, sizeof(json) - off, "{");
+
+    for (int i = 0; i < MIS_LEN; ++i) {
+        if (off < (int)sizeof(json)) {
+            off += snprintf(json + off, sizeof(json) - off,
+                            "\"%d\":%ld%s",
+                            i, (long)fog_inst->misalignment[i].data.int_val,
+                            (i < MIS_LEN - 1) ? "," : "");
+        }
+    }
+
+    if (off < (int)sizeof(json))
+        off += snprintf(json + off, sizeof(json) - off, "}");
+
+    if (off <= 0 || off >= (int)sizeof(json)) {
+        // 可加錯誤處理或計數器
+        return;
+    }
+
+    // ch = 4（你們約定 mis-alignment 為第 4 通道）
+    send_framed_payload(seq, /*ch=*/4, json, (size_t)off);
+}
+
+
 void dump_SN(fog_parameter_t* fog_inst) {
 	SerialWrite(&fog_inst->sn[0], 4);
 	SerialWrite(&fog_inst->sn[4], 4);
@@ -1317,6 +1426,22 @@ void dump_SN(fog_parameter_t* fog_inst) {
 	// SerialWrite_dbg(&fog_inst->sn[4], 4);
 	// SerialWrite_dbg(&fog_inst->sn[8], 4);
 
+}
+
+void dump_SN_framed(const fog_parameter_t* fog_inst, uint32_t seq)
+{
+    if (!fog_inst) return;
+
+    // 將 sn 視為 ASCII 字串；以 sn 陣列容量做 safety 限制
+    const char* sn_cstr = (const char*)fog_inst->sn;
+    size_t sn_len = 0;
+
+    // 若可能不是 NUL 結尾，用 strnlen 以陣列容量限制
+    // 假設 fog_inst->sn 是 12~N 字節的可列印字元
+    sn_len = strnlen(sn_cstr, sizeof(fog_inst->sn));
+
+    // framing 發送（ch=5 約定為 SN）
+    send_framed_payload(seq, /*ch=*/5, sn_cstr, sn_len);
 }
 
 void send_json_uart(const char* buffer) {
@@ -1625,3 +1750,24 @@ calibrated_data_t misalignment_calibration(float din_x, float din_y, float din_z
     return result;
 }
 
+// 連續寫 bytes
+void uart_write_bytes(const uint8_t* p, size_t n) {
+    while (n--) checkByte(*p++);
+}
+void uart_write_cstr(const char* s) {
+    uart_write_bytes((const uint8_t*)s, strlen(s));
+}
+
+// CRC16-CCITT (poly=0x1021, init=0xFFFF)
+uint16_t crc16_ccitt_update(uint16_t crc, uint8_t b) {
+    crc ^= (uint16_t)b << 8;
+    for (uint8_t i = 0; i < 8; ++i) {
+        crc = (crc & 0x8000) ? (uint16_t)((crc << 1) ^ 0x1021) : (uint16_t)(crc << 1);
+    }
+    return crc;
+}
+uint16_t crc16_ccitt_buf(const uint8_t* data, size_t len) {
+    uint16_t crc = 0xFFFF;
+    for (size_t i = 0; i < len; ++i) crc = crc16_ccitt_update(crc, data[i]);
+    return crc;
+}
