@@ -1354,7 +1354,7 @@ void send_framed_payload(uint32_t seq, uint8_t ch, const char* payload, size_t p
     if (hlen < 0) return;
 
     uart_write_bytes((const uint8_t*)header, (size_t)hlen);
-
+	DEBUG_PRINT("%s", header);
     // 寫 payload
     uart_write_bytes((const uint8_t*)payload, payload_len);
 	DEBUG_PRINT("%s", payload);
@@ -1363,6 +1363,7 @@ void send_framed_payload(uint32_t seq, uint8_t ch, const char* payload, size_t p
     char tail[8]; // "*FFFF\r\n" 最多 7 字元
     int tlen = snprintf(tail, sizeof(tail), "*%04X\r\n", (unsigned)crc);
     if (tlen > 0) uart_write_bytes((const uint8_t*)tail, (size_t)tlen);
+	DEBUG_PRINT("%s", tail);
 }
 
 void dump_misalignment_param(fog_parameter_t* fog_inst) {
