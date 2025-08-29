@@ -4,6 +4,7 @@
 #include "altera_avalon_pio_regs.h"
 #include "alt_types.h"
 #include "unistd.h"
+#include "system.h"
 
 // 初始化（同時初始化 UART_BASE 與 UART_DBG_BASE、掛 ISR、開 RX 中斷）
 void uartInit(void);

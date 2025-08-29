@@ -19,7 +19,7 @@
 
 #include "output_mode.h"
 // uart
-#include "uart.h"
+#include "uart_dual.h"
 // adda
 #include "adda_config.h"
 //memory_manage

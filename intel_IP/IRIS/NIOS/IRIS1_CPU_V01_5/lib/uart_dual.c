@@ -237,6 +237,7 @@ alt_u8* readDataDynamic(alt_u16* try_cnt)
 
     if (uartAvailable() == 0) return NULL;
     int data = uartGetByte();
+    // DEBUG_PRINT("%x\n", data);
 
     switch (state) {
         case EXPECTING_HEADER:
@@ -321,6 +322,7 @@ alt_u8* readDataDynamic_dbg(alt_u16* try_cnt)
 
     if (uartAvailable_dbg() == 0) return NULL;
     int data = uartGetByte_dbg();
+    // DEBUG_PRINT("dbg %x\n", data);
 
     switch (state) {
         case EXPECTING_HEADER:

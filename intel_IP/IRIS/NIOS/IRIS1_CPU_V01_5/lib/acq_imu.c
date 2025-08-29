@@ -43,20 +43,22 @@ void acq_imu (cmd_ctrl_t* rx, my_sensor_t data, fog_parameter_t fog_parameter)
             rx->run = 0;
         }
     }
-    if(rx->run == 1) {        
-        // g_time[2] = get_timer_int();    
-           SerialWrite((alt_u8*)HD_ABBA, 2);
-           SerialWrite(data.fog.fogx.step.bin_val, 4);
-           SerialWrite(data.fog.fogy.step.bin_val, 4);
-           SerialWrite(data.fog.fogz.step.bin_val, 4);
-           SerialWrite(data.adxl357.ax.bin_val, 4);
-           SerialWrite(data.adxl357.ay.bin_val, 4);
-           SerialWrite(data.adxl357.az.bin_val, 4);
-           SerialWrite(data.temp.tempx.bin_val, 4);
-           SerialWrite(data.temp.tempy.bin_val, 4);
-           SerialWrite(data.temp.tempz.bin_val, 4);
-           SerialWrite(data.adxl357.temp.bin_val, 4);
-           SerialWrite(data.time.time.bin_val, 4);
-           SerialWrite((alt_u8*)TR_5556, 2);
+    if(rx->run == 1) { 
+
+        // g_time[2] = get_timer_int();   
+        
+        SerialWrite((alt_u8*)HD_ABBA, 2);
+        SerialWrite(data.fog.fogx.step.bin_val, 4);
+        SerialWrite(data.fog.fogy.step.bin_val, 4);
+        SerialWrite(data.fog.fogz.step.bin_val, 4);
+        SerialWrite(data.adxl357.ax.bin_val, 4);
+        SerialWrite(data.adxl357.ay.bin_val, 4);
+        SerialWrite(data.adxl357.az.bin_val, 4);
+        SerialWrite(data.temp.tempx.bin_val, 4);
+        SerialWrite(data.temp.tempy.bin_val, 4);
+        SerialWrite(data.temp.tempz.bin_val, 4);
+        SerialWrite(data.adxl357.temp.bin_val, 4);
+        SerialWrite(data.time.time.bin_val, 4);
+        SerialWrite((alt_u8*)TR_5556, 2);  
     }
 }

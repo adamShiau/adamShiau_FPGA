@@ -132,6 +132,7 @@ int main(void)
 	while(1){
 
 		get_uart_cmd(readDataDynamic(&try_cnt), &my_cmd);
+		get_uart_cmd(readDataDynamic_dbg(&try_cnt), &my_cmd);
 		cmd_mux(&my_cmd);
 		fog_parameter(&my_cmd, &fog_params);
 		output_mode_setting(&my_cmd, &output_fn, &auto_rst);
