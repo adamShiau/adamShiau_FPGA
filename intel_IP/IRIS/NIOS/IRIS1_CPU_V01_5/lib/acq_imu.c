@@ -44,13 +44,20 @@ void acq_imu (cmd_ctrl_t* rx, my_sensor_t data, fog_parameter_t fog_parameter)
         }
     }
     if(rx->run == 1) { 
+        my_float_t gx, gy, gz;
+        gx.float_val = 1.0;
+        gy.float_val = 2.0;
+        gz.float_val = 3.0;
 
         // g_time[2] = get_timer_int();   
         
         SerialWrite((alt_u8*)HD_ABBA, 2);
-        SerialWrite(data.fog.fogx.step.bin_val, 4);
-        SerialWrite(data.fog.fogy.step.bin_val, 4);
-        SerialWrite(data.fog.fogz.step.bin_val, 4);
+        // SerialWrite(data.fog.fogx.step.bin_val, 4);
+        // SerialWrite(data.fog.fogy.step.bin_val, 4);
+        // SerialWrite(data.fog.fogz.step.bin_val, 4);
+        SerialWrite(gx.bin_val, 4);
+        SerialWrite(gy.bin_val, 4);
+        SerialWrite(gz.bin_val, 4);
         SerialWrite(data.adxl357.ax.bin_val, 4);
         SerialWrite(data.adxl357.ay.bin_val, 4);
         SerialWrite(data.adxl357.az.bin_val, 4);
