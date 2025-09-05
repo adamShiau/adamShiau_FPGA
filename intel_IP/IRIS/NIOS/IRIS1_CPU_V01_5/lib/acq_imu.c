@@ -14,15 +14,15 @@ static const unsigned char TR_5556[2] = {0x55, 0x56};
 
 void acq_imu (cmd_ctrl_t* rx, my_sensor_t data, fog_parameter_t fog_parameter)
 {
-    calibrated_data_t gyro_misalign_calibrated, accl_misalign_calibrated;
+    // calibrated_data_t gyro_misalign_calibrated, accl_misalign_calibrated;
     
-    float step_x_comp, step_y_comp, step_z_comp;
-    float accl_x_comp, accl_y_comp, accl_z_comp;
+    // float step_x_comp, step_y_comp, step_z_comp;
+    // float accl_x_comp, accl_y_comp, accl_z_comp;
     
-    float sf_x_comp_gyro, sf_y_comp_gyro, sf_z_comp_gyro;
-    float sf_x_comp_accl, sf_y_comp_accl, sf_z_comp_accl;
-    float bias_x_comp_gyro, bias_y_comp_gyro, bias_z_comp_gyro;
-    float bias_x_comp_accl, bias_y_comp_accl, bias_z_comp_accl;
+    // float sf_x_comp_gyro, sf_y_comp_gyro, sf_z_comp_gyro;
+    // float sf_x_comp_accl, sf_y_comp_accl, sf_z_comp_accl;
+    // float bias_x_comp_gyro, bias_y_comp_gyro, bias_z_comp_gyro;
+    // float bias_x_comp_accl, bias_y_comp_accl, bias_z_comp_accl;
     
 
     if(rx->select_fn == SEL_IMU) {
