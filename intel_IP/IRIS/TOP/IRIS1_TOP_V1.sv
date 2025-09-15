@@ -299,7 +299,7 @@ assign i_var_err_1 = o_err_DAC1_FIR;
 assign i_var_step_2 = o_step_2_MV;
 assign i_var_err_2 = o_err_DAC2_FIR; 
 
-assign i_var_step_3 = o_step_3;
+assign i_var_step_3 = o_step_3_MV;
 assign i_var_err_3 = o_err_DAC3_FIR; 
 
 assign DAC_RST = var_dac_rst;
