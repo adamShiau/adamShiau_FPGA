@@ -271,6 +271,14 @@ void PARAMETER_Write_s(alt_u8 base, alt_u8 number , alt_32 data, fog_parameter_t
 		DEBUG_PRINT("container idx: %d\n", number);
 		DEBUG_PRINT("type: %d\n", type);
 	}
+	else if(base == MEM_BASE_CFG ) {
+		check = fog_params->config[number].data.int_val;
+		data_f = fog_params->config[number].data.float_val;
+		type = fog_params->config[number].type;
+		DEBUG_PRINT("base: %d\n", base);
+		DEBUG_PRINT("container idx: %d\n", number);
+		DEBUG_PRINT("type: %d\n", type);
+	}
 	else {
 		DEBUG_PRINT("Base address ERROR!\n");
 		return;
@@ -327,6 +335,28 @@ void LOAD_FOG_SN(fog_parameter_t* fog_params)
 	fog_params->sn[12] = '\0'; 
     DEBUG_PRINT("Loading EEPROM SN done!\n");
     UART_PRINT("Loading EEPROM SN done!\n");
+}
+
+void LOAD_CONFIG(fog_parameter_t* fog_params)
+{
+	DEBUG_PRINT("Loading EEPROM configuration Parameters...\n");
+	UART_PRINT("\nLoading EEPROM configuration Parameters...\n");
+	for (int i = 0; i < CFG_LEN; i++) {
+		PARAMETER_Read(MEM_BASE_CFG, i , fog_params->config[i].data.bin_val);
+		fog_params->config[i].type = TYPE_INT;
+		UART_PRINT("idx %d, %d, %f\n", i, fog_params->config[i].data.int_val, fog_params->config[i].data.float_val);
+    }
+	DEBUG_PRINT("Loading EEPROM configuration Parameters done!\n");
+	UART_PRINT("Loading EEPROM configuration Parameters done!\n");
+}
+
+void PRINT_FOG_CONFIG(fog_parameter_t* fog_params)
+{
+	UART_PRINT("\nPrinting EEPROM configuration...\n");
+	for (int i = 0; i < CFG_LEN; i++) {
+		UART_PRINT("%d,%d\n", i, fog_params->config[i].data.int_val);
+	}
+	UART_PRINT("Printing EEPROM configuration done!\n");
 }
 
 void LOAD_FOG_MISALIGNMENT(fog_parameter_t* fog_params)
