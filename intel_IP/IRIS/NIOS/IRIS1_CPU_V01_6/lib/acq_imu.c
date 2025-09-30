@@ -42,18 +42,18 @@ void acq_imu (cmd_ctrl_t* rx, my_sensor_t data, fog_parameter_t fog_parameter)
         // g_time[2] = get_timer_int();   
         
         SerialWrite((alt_u8*)HD_ABBA, 2);
-        SerialWrite(data.fog.fogx.step.bin_val, 4);
-        SerialWrite(data.fog.fogy.step.bin_val, 4);
-        SerialWrite(data.fog.fogz.step.bin_val, 4);
+        SerialWrite(data.fog.fogx.step.bin_val, 4); //對應到FOG Z軸
+        SerialWrite(data.fog.fogy.step.bin_val, 4); //對應到FOG Y軸
+        SerialWrite(data.fog.fogz.step.bin_val, 4); //對應到FOG X軸
         // SerialWrite(gx.bin_val, 4);
         // SerialWrite(gy.bin_val, 4);
         // SerialWrite(gz.bin_val, 4);
-        SerialWrite(data.adxl357.ax.bin_val, 4);
-        SerialWrite(data.adxl357.ay.bin_val, 4);
-        SerialWrite(data.adxl357.az.bin_val, 4);
-        SerialWrite(data.temp.tempx.bin_val, 4);
-        SerialWrite(data.temp.tempy.bin_val, 4);
-        SerialWrite(data.temp.tempz.bin_val, 4);
+        SerialWrite(data.adxl357.ax.bin_val, 4); //對應到ACCL X軸
+        SerialWrite(data.adxl357.ay.bin_val, 4); //對應到ACCL Y軸
+        SerialWrite(data.adxl357.az.bin_val, 4); //對應到ACCL Z軸
+        SerialWrite(data.temp.tempx.bin_val, 4); //對應到TEMP Z軸
+        SerialWrite(data.temp.tempy.bin_val, 4); //對應到TEMP Y軸
+        SerialWrite(data.temp.tempz.bin_val, 4); //對應到TEMP X軸
         SerialWrite(data.adxl357.temp.bin_val, 4);
         SerialWrite(data.time.time.bin_val, 4);
         SerialWrite((alt_u8*)TR_5556, 2);  
