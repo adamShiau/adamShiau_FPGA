@@ -1,0 +1,71 @@
+module HINS_TOP_V1(
+
+	//////////// TCXO EXT CLOCK //////////
+	input 	logic CLOCK_100M,
+
+	//////////// UART //////////
+	input 	logic FPGA_RX,
+	output 	logic FPGA_TX,
+	input 	logic DBG_RX,
+	output 	logic DBG_TX,
+
+	//////////// EXT SYNC //////////
+	input 	logic SYNC_IN,
+
+	//////////// DAC //////////
+	output 	logic [15:0] DAC_DATA_OUT,
+	output 	logic DAC_CLK,
+	output 	logic DAC_RST,
+	input 	logic DAC_MISO, 
+	output 	logic DAC_MOSI,
+	output 	logic DAC_SCLK,
+	output 	logic DAC_CS,
+
+	//////////// 14-bit parallel ADC (SPI) //////////
+	input 	logic [13:0] ADC_DATA_IN,
+	output 	logic ADC_CLK,
+	input 	logic ADC_MISO,
+	output 	logic ADC_MOSI,
+	output 	logic ADC_SCLK,
+	output 	logic ADC_CS,
+
+	//////////// 24-bit serial ADC I2C//////////
+	inout	wire		SDA_ADC,
+	inout	wire		SCL_ADC,
+	input	logic		DRDY_ADC,
+
+	/////////// EEPROM I2C //////////
+	inout	wire		SDA_EEPROM,
+	inout	wire		SCL_EEPROM,
+
+	//////////// SDRAM //////////
+	output	logic  [12:0]	SDRAM_ADDR,
+	output	logic  [1:0]	SDRAM_BA,
+	output	logic          	SDRAM_CAS_N,
+	output	logic        	SDRAM_CKE,
+	output	logic         	SDRAM_CLK,
+	output	logic         	SDRAM_CS_N,
+	inout 	wire   [15:0]	SDRAM_DQ,
+	output	logic  [1:0]	SDRAM_DQM,
+	output	logic         	SDRAM_RAS_N,
+	output	logic         	SDRAM_WE_N,
+
+	//////////// MEMS IMU I2C //////////
+	inout	wire		SDA_IMU,
+	inout	wire		SCL_IMU,
+	input	logic		DRDY_IMU,
+
+	//////////// EPCS //////////
+	output 	logic          		EPCS_ASDO,
+	input	logic 			    EPCS_DATA0,
+	output	logic	          	EPCS_DCLK,
+	output	logic         		EPCS_NCSO
+);
+
+// -----------------------------------------------------------------------
+// PLL Block
+// -----------------------------------------------------------------------
+
+ 
+ 
+endmodule
