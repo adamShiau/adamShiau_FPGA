@@ -70,17 +70,19 @@ assign CLOCK_ADC   = pll_clk_adc_int;
 assign CLOCK_DAC   = pll_clk_dac_int;
 assign CLOCK_SDRAM = pll_clk_sdram_int;
 
+assign DAC_DATA_OUT = fog_mod_out[15:0];
+
 // *************************************************************************
 // * Internal Signals *
 // *************************************************************************
 
-// PLL & Reset 訊號
-// ------------------------------------------------
+// ---- 1. PLL & Reset 訊號 (來自您原始程式碼) ----
 wire pll_locked;
-wire pll_clk_adc_int; 
+wire pll_clk_adc_int;
 wire pll_clk_dac_int; 
 wire pll_clk_sdram_int;
 wire pll_clk_cpu_int;
+wire RST_SYNC_N; // 最終同步重置訊號
 logic r_locked_sync1, r_locked_sync2;
 logic RST_EXT_N = 1'b1; // 假設外部 nCONFIG 處理後為高
 
@@ -132,22 +134,23 @@ HINS_fog_v1 u_hins_fog_v1 (
     // ADC 接口
     .ADC            (ADC_DATA_IN),     
     
-    // 參數輸入 (使用常數賦值)
-    .var_freq_cnt   (32'd1000),     // 常數：調制頻率計數
-    .var_amp_H      (32'd5000),     // 常數：正振幅
-    .var_amp_L      (32'd5000),     // 常數：負振幅
-    .var_polarity   (1'b0),       // 常數：極性控制
-    .var_wait_cnt   (32'd50),      // 常數：等待週期
-    .var_err_offset (32'd0),       // 常數：誤差偏移
-    .var_avg_sel    (32'd10),      // 常數：平均採樣選擇 (2^10)
-    .var_gain_sel   (32'd5),       // 常數：步進增益 (右移 5 位)
-    .var_fb_ON      (32'd1),       // 常數：啟用回饋 (2'd1 = 積分模式)
-    .var_const_step (32'd100),      // 常數：常數步進值
+    // 參數輸入 (使用常數賦值給所有 NIOS 參數 Port)
+    .var_freq_cnt   (32'd1000),     
+    .var_amp_H      (32'd5000),     
+    .var_amp_L      (32'd5000),     
+    .var_polarity   (1'b0),       
+    .var_wait_cnt   (32'd50),      
+    .var_err_offset (32'd0),       
+    .var_avg_sel    (32'd10),      
+    .var_gainSel_step (32'd5),      // Step Gen 增益常數
+    .var_gainSel_ramp (32'd10),     // Ramp Gen 增益常數
+    .var_fb_ON      (32'd1),       
+    .var_const_step (32'd100),      
     
     // 輸出訊號
-    // .o_err_DAC      (fog_err_out),   
-    // .o_mod_out_DAC  (fog_mod_out),   
-    .o_step         (fog_step_out)   
+    .o_err_DAC      (fog_err_out), 
+    .o_mod_out_DAC  (fog_mod_out), 
+    .o_step         (fog_step_out)  
 );
  
  

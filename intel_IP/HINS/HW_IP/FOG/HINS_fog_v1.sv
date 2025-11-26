@@ -1,16 +1,17 @@
 // =========================================================================
 // 檔案: HINS_fog_v1.sv
-// 目的: 整合調制、ADC同步、解調核心和回饋步進產生器 (Feedback Step Generator)
+// 目的: 整合調制、ADC同步、解調核心、回饋步進產生器和相位斜坡產生器
+//      【更新：使用獨立的增益參數 var_gainSel_step 和 var_gainSel_ramp】
 // =========================================================================
 
 module HINS_fog_v1 (
-    // ============================ Common/System Signals (假設來自 PLL 輸出) ============================
-    input logic CLOCK_ADC,    // 寫入時鐘域 (ADC 採樣時鐘)
-    input logic CLOCK_CPU,    // 讀取/計算時鐘域 (NIOS 主頻)
-    input logic RST_SYNC_N,   // 系統同步重置 (Active Low, 來自 PLL locked 處理)
+    // ============================ Common/System Signals ============================
+    input logic CLOCK_ADC,    
+    input logic CLOCK_CPU,    
+    input logic RST_SYNC_N,   
 
-    // ============================ ADC 接口 (外部 Port) ============================
-    input logic [13:0] ADC,   // ADC raw input signal (14-bit)
+    // ============================ ADC 接口 ============================
+    input logic [13:0] ADC,   
 
     // ============================ Modulator/Control Parameters (來自 NIOS II) ============================
     input logic [31:0] var_freq_cnt, 
@@ -22,41 +23,29 @@ module HINS_fog_v1 (
     input logic [31:0] var_avg_sel,   
 
     // ======== 新增回饋控制參數 (來自 NIOS II) ========
-    input logic [31:0] var_gain_sel,            // 增益控制輸入 (i_gain_sel)
-    input logic [31:0] var_fb_ON,               // 回饋啟用控制 (i_fb_ON)
-    input logic signed [31:0] var_const_step,   // 常數步進值 (i_const_step)
-    
-    // ============================ 輸出 Port ============================
-    output logic [31:0] o_DAC_data,   // 給 DAC 的調制訊號輸出
-    output logic o_mod_status,        // 調制極性狀態 (給外部監控)
-    output logic o_step_sync_out,     // 步進同步訊號 (給外部監控)
-    
-    // ======== 新增回饋輸出 Port ========
-    output logic signed [31:0] o_step           // 最終回饋步進輸出
+    input logic [31:0] var_gainSel_step,  // 【新增】Step Gen 的增益
+    input logic [31:0] var_gainSel_ramp,  // 【新增】Ramp Gen 的增益
+    input logic [31:0] var_fb_ON,         // 回饋啟用/模式
+    input logic signed [31:0] var_const_step, // 常數步進值
+
+    // ============================ 輸出 ============================
+    output logic signed [31:0] o_err_DAC,    
+    output logic signed [31:0] o_mod_out_DAC,// Phase Ramp 輸出
+    output logic signed [31:0] o_step        // 步進輸出 (給 CPU/Monitor)
 );
 
 // *************************************************************************
-// * Internal Signals Declaration *
+// * 內部訊號宣告 (Internal Signals) *
 // *************************************************************************
-
-// -------------------------------------------------------------------------
-// A. 模組間連接線
-// -------------------------------------------------------------------------
-
-// 來自調制產生器 (my_modulation_gen_v1)
-wire signed [31:0] mod_out_data;   // 調制方波數據
-wire mod_status;                   // 調制極性狀態
-wire mod_step_trig;                // 週期切換觸發
-
-// 來自 ADC 同步緩衝區 (adc_sync_buffer)
-wire [13:0] adc_synced_data;       // 14-bit 跨時鐘域後的 ADC 數據
-
-// 來自錯誤產生器 (my_err_signal_gen_v1)
-wire signed [31:0] o_err_DAC;       // 最終誤差輸出 (給 DAC/Feedback)
-wire o_step_sync;                   // 步進同步脈衝 (給 Feedback Generator)
-wire o_step_sync_dly;               // 延遲的步進同步脈衝
-wire o_rate_sync;                   // 速率同步脈衝
-wire o_ramp_sync;                   // 緩坡同步脈衝
+wire [13:0] adc_synced_data;
+wire mod_status;        
+wire mod_step_trig;     
+wire o_step_sync;       
+wire o_step_sync_dly;   
+wire o_rate_sync;       
+wire o_ramp_sync;       
+wire signed [31:0] mod_out_w;        
+wire signed [31:0] phase_ramp_out_w;
 
 
 // -------------------------------------------------------------------------
@@ -116,37 +105,51 @@ my_err_signal_gen_v1 #(.ADC_BIT(14)) u_err_gen (
 );
 
 
-// -------------------------------------------------------------------------
+// =========================================================================
 // D. 回饋步進產生器 (Feedback Step Generator)
-//    功能: 根據 o_err_DAC 計算出最終的 o_step
-// -------------------------------------------------------------------------
+// =========================================================================
 feedback_step_gen_v1 u_fb_step_gen (
-    .i_clk         ( CLOCK_CPU ),      // 運行在 CPU 邏輯時鐘域
-    .i_rst_n       ( RST_SYNC_N ),     // 同步重置
+    .i_clk         ( CLOCK_CPU ),      
+    .i_rst_n       ( RST_SYNC_N ),     
     
-    // 來自錯誤產生器 (my_err_signal_gen_v1) 的訊號
     .i_trig        ( o_step_sync ),
     .i_trig_dly    ( o_step_sync_dly ),
-    .i_err         ( o_err_DAC ),      // 來自解調後的誤差
+    .i_err         ( o_err_DAC ),      
     
-    // 來自 NIOS II 的控制參數 (新加入的 port)
-    .i_gain_sel    ( var_gain_sel ),
+    // 【修正連接】使用 var_gainSel_step
+    .i_gain_sel    ( var_gainSel_step ),
     .i_fb_ON       ( var_fb_ON ),
-    .i_const_step  ( var_const_step ),
+    .i_const_step  ( var_const_step ), 
     
-    // 輸出
-    .o_step        ( o_step )          // 連接到 HINS_fog_v1 的輸出 port
-    // 省略了 Simulation 用的輸出 Port...
+    .o_step        ( o_step )          
+    // ... (省略 Simulation 輸出)
+);
+
+// =========================================================================
+// E. 相位斜坡產生器 (Phase Ramp Generator)
+// =========================================================================
+phase_ramp_gen_v1 #(.OUTPUT_BIT(32)) u_ramp_gen (
+    .i_clk         ( CLOCK_CPU ),      
+    .i_rst_n       ( RST_SYNC_N ),     
+    
+    .i_mod_trig    ( mod_step_trig ),  
+    
+    .i_step        ( o_step ),         
+    .i_fb_ON       ( var_fb_ON ),      
+    .i_mod         ( mod_out_w ),      
+    
+    // 【修正連接】使用 var_gainSel_ramp
+    .i_gain_sel    ( var_gainSel_ramp ),   
+
+    .o_phaseRamp_pre (), 
+    .o_phaseRamp     ( phase_ramp_out_w ) 
 );
 
 
-// *************************************************************************
-// * 頂層輸出連接 (External Output Assignment) *
-// *************************************************************************
+// =========================================================================
+// 最終輸出 Port 連接
+// =========================================================================
 
-assign o_DAC_data      = mod_out_data;
-assign o_mod_status    = mod_status;
-assign o_step_sync_out = o_step_sync; // 將內部訊號連接到外部 Port
-// o_step 已經在 u_fb_step_gen 實例化中直接連接
+assign o_mod_out_DAC = phase_ramp_out_w;
 
 endmodule

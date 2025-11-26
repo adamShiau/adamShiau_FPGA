@@ -1,5 +1,5 @@
 Analysis & Synthesis report for HINS_PRJ_V1
-Wed Nov 26 19:21:49 2025
+Wed Nov 26 21:46:35 2025
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -13,34 +13,40 @@ Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
   5. Analysis & Synthesis Source Files Read
   6. Analysis & Synthesis Resource Usage Summary
   7. Analysis & Synthesis Resource Utilization by Entity
-  8. Analysis & Synthesis IP Cores Summary
-  9. State Machine - |HINS_TOP_V1|HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|cstate
- 10. Registers Removed During Synthesis
- 11. Removed Registers Triggering Further Register Optimizations
- 12. General Register Statistics
- 13. Multiplexer Restructuring Statistics (Restructuring Performed)
- 14. Source assignments for HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component
- 15. Source assignments for HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated
- 16. Source assignments for HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_t57:rdptr_g1p
- 17. Source assignments for HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_pjc:wrptr_g1p
- 18. Source assignments for HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|altsyncram_iv61:fifo_ram
- 19. Source assignments for HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|dffpipe_3dc:rdaclr
- 20. Source assignments for HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_0ol:rs_dgwp
- 21. Source assignments for HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_0ol:rs_dgwp|dffpipe_hd9:dffpipe14
- 22. Source assignments for HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|dffpipe_3dc:wraclr
- 23. Source assignments for HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_1ol:ws_dgrp
- 24. Source assignments for HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_1ol:ws_dgrp|dffpipe_id9:dffpipe17
- 25. Parameter Settings for User Entity Instance: pll:pll_inst|altpll:altpll_component
- 26. Parameter Settings for User Entity Instance: HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo
- 27. Parameter Settings for User Entity Instance: HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component
- 28. Parameter Settings for User Entity Instance: HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen
- 29. altpll Parameter Settings by Entity Instance
- 30. dcfifo Parameter Settings by Entity Instance
- 31. Port Connectivity Checks: "HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen"
- 32. Port Connectivity Checks: "HINS_fog_v1:u_hins_fog_v1"
- 33. Post-Synthesis Netlist Statistics for Top Partition
- 34. Elapsed Time Per Partition
- 35. Analysis & Synthesis Messages
+  8. Analysis & Synthesis RAM Summary
+  9. Analysis & Synthesis IP Cores Summary
+ 10. State Machine - |HINS_TOP_V1|HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|cstate
+ 11. Registers Protected by Synthesis
+ 12. Registers Removed During Synthesis
+ 13. Removed Registers Triggering Further Register Optimizations
+ 14. General Register Statistics
+ 15. Inverted Register Statistics
+ 16. Multiplexer Restructuring Statistics (Restructuring Performed)
+ 17. Source assignments for HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component
+ 18. Source assignments for HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated
+ 19. Source assignments for HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_t57:rdptr_g1p
+ 20. Source assignments for HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_pjc:wrptr_g1p
+ 21. Source assignments for HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|altsyncram_iv61:fifo_ram
+ 22. Source assignments for HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|dffpipe_3dc:rdaclr
+ 23. Source assignments for HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_0ol:rs_dgwp
+ 24. Source assignments for HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_0ol:rs_dgwp|dffpipe_hd9:dffpipe14
+ 25. Source assignments for HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|dffpipe_3dc:wraclr
+ 26. Source assignments for HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_1ol:ws_dgrp
+ 27. Source assignments for HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_1ol:ws_dgrp|dffpipe_id9:dffpipe17
+ 28. Parameter Settings for User Entity Instance: pll:pll_inst|altpll:altpll_component
+ 29. Parameter Settings for User Entity Instance: HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo
+ 30. Parameter Settings for User Entity Instance: HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component
+ 31. Parameter Settings for User Entity Instance: HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen
+ 32. Parameter Settings for User Entity Instance: HINS_fog_v1:u_hins_fog_v1|phase_ramp_gen_v1:u_ramp_gen
+ 33. altpll Parameter Settings by Entity Instance
+ 34. dcfifo Parameter Settings by Entity Instance
+ 35. Port Connectivity Checks: "HINS_fog_v1:u_hins_fog_v1|phase_ramp_gen_v1:u_ramp_gen"
+ 36. Port Connectivity Checks: "HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen"
+ 37. Port Connectivity Checks: "HINS_fog_v1:u_hins_fog_v1|my_modulation_gen_v1:u_mod_gen"
+ 38. Port Connectivity Checks: "HINS_fog_v1:u_hins_fog_v1"
+ 39. Post-Synthesis Netlist Statistics for Top Partition
+ 40. Elapsed Time Per Partition
+ 41. Analysis & Synthesis Messages
 
 
 
@@ -66,18 +72,18 @@ refer to the applicable agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Wed Nov 26 19:21:49 2025       ;
+; Analysis & Synthesis Status        ; Successful - Wed Nov 26 21:46:35 2025       ;
 ; Quartus Prime Version              ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                      ; HINS_PRJ_V1                                 ;
 ; Top-level Entity Name              ; HINS_TOP_V1                                 ;
 ; Family                             ; Cyclone IV E                                ;
-; Total logic elements               ; 0                                           ;
-;     Total combinational functions  ; 0                                           ;
-;     Dedicated logic registers      ; 0                                           ;
-; Total registers                    ; 0                                           ;
+; Total logic elements               ; 643                                         ;
+;     Total combinational functions  ; 516                                         ;
+;     Dedicated logic registers      ; 482                                         ;
+; Total registers                    ; 482                                         ;
 ; Total pins                         ; 98                                          ;
 ; Total virtual pins                 ; 0                                           ;
-; Total memory bits                  ; 0                                           ;
+; Total memory bits                  ; 3,584                                       ;
 ; Embedded Multiplier 9-bit elements ; 0                                           ;
 ; Total PLLs                         ; 1                                           ;
 +------------------------------------+---------------------------------------------+
@@ -174,14 +180,20 @@ refer to the applicable agreement for further details.
 +----------------------------+-------------+
 ; Processors                 ; Number      ;
 +----------------------------+-------------+
-; Number detected on machine ; 16          ;
-; Maximum allowed            ; 16          ;
+; Number detected on machine ; 20          ;
+; Maximum allowed            ; 14          ;
 ;                            ;             ;
 ; Average used               ; 1.00        ;
-; Maximum used               ; 1           ;
+; Maximum used               ; 14          ;
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
+;     Processor 2            ;   0.0%      ;
+;     Processor 3            ;   0.0%      ;
+;     Processor 4            ;   0.0%      ;
+;     Processor 5            ;   0.0%      ;
+;     Processor 6            ;   0.0%      ;
+;     Processors 7-14        ;   0.0%      ;
 +----------------------------+-------------+
 
 
@@ -225,6 +237,7 @@ refer to the applicable agreement for further details.
 ; db/cmpr_f66.tdf                  ; yes             ; Auto-Generated Megafunction        ; D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/db/cmpr_f66.tdf           ;         ;
 ; my_err_signal_gen_v1.sv          ; yes             ; Auto-Found SystemVerilog HDL File  ; D:/github/adamShiau_FPGA/intel_IP/HINS/HW_IP/my_err_signal_gen_v1.sv             ;         ;
 ; feedback_step_gen_v1.sv          ; yes             ; Auto-Found SystemVerilog HDL File  ; D:/github/adamShiau_FPGA/intel_IP/HINS/HW_IP/feedback_step_gen_v1.sv             ;         ;
+; phase_ramp_gen_v1.sv             ; yes             ; Auto-Found SystemVerilog HDL File  ; D:/github/adamShiau_FPGA/intel_IP/HINS/HW_IP/phase_ramp_gen_v1.sv                ;         ;
 +----------------------------------+-----------------+------------------------------------+----------------------------------------------------------------------------------+---------+
 
 
@@ -233,22 +246,24 @@ refer to the applicable agreement for further details.
 +---------------------------------------------+---------------------------------------------------------------------------------+
 ; Resource                                    ; Usage                                                                           ;
 +---------------------------------------------+---------------------------------------------------------------------------------+
+; Estimated Total logic elements              ; 643                                                                             ;
 ;                                             ;                                                                                 ;
-; Total combinational functions               ; 0                                                                               ;
+; Total combinational functions               ; 516                                                                             ;
 ; Logic element usage by number of LUT inputs ;                                                                                 ;
-;     -- 4 input functions                    ; 0                                                                               ;
-;     -- 3 input functions                    ; 0                                                                               ;
-;     -- <=2 input functions                  ; 0                                                                               ;
+;     -- 4 input functions                    ; 107                                                                             ;
+;     -- 3 input functions                    ; 189                                                                             ;
+;     -- <=2 input functions                  ; 220                                                                             ;
 ;                                             ;                                                                                 ;
 ; Logic elements by mode                      ;                                                                                 ;
-;     -- normal mode                          ; 0                                                                               ;
-;     -- arithmetic mode                      ; 0                                                                               ;
+;     -- normal mode                          ; 308                                                                             ;
+;     -- arithmetic mode                      ; 208                                                                             ;
 ;                                             ;                                                                                 ;
-; Total registers                             ; 0                                                                               ;
-;     -- Dedicated logic registers            ; 0                                                                               ;
+; Total registers                             ; 482                                                                             ;
+;     -- Dedicated logic registers            ; 482                                                                             ;
 ;     -- I/O registers                        ; 0                                                                               ;
 ;                                             ;                                                                                 ;
 ; I/O pins                                    ; 98                                                                              ;
+; Total memory bits                           ; 3584                                                                            ;
 ;                                             ;                                                                                 ;
 ; Embedded Multiplier 9-bit elements          ; 0                                                                               ;
 ;                                             ;                                                                                 ;
@@ -256,23 +271,52 @@ refer to the applicable agreement for further details.
 ;     -- PLLs                                 ; 1                                                                               ;
 ;                                             ;                                                                                 ;
 ; Maximum fan-out node                        ; pll:pll_inst|altpll:altpll_component|pll_altpll:auto_generated|wire_pll1_clk[0] ;
-; Maximum fan-out                             ; 4                                                                               ;
-; Total fan-out                               ; 125                                                                             ;
-; Average fan-out                             ; 0.57                                                                            ;
+; Maximum fan-out                             ; 500                                                                             ;
+; Total fan-out                               ; 3907                                                                            ;
+; Average fan-out                             ; 3.17                                                                            ;
 +---------------------------------------------+---------------------------------------------------------------------------------+
 
 
-+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                                                                                        ;
-+--------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+-----------------------------------------------------------------------------+-------------+--------------+
-; Compilation Hierarchy Node           ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                         ; Entity Name ; Library Name ;
-+--------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+-----------------------------------------------------------------------------+-------------+--------------+
-; |HINS_TOP_V1                         ; 0 (0)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 98   ; 0            ; |HINS_TOP_V1                                                                ; HINS_TOP_V1 ; work         ;
-;    |pll:pll_inst|                    ; 0 (0)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |HINS_TOP_V1|pll:pll_inst                                                   ; pll         ; work         ;
-;       |altpll:altpll_component|      ; 0 (0)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |HINS_TOP_V1|pll:pll_inst|altpll:altpll_component                           ; altpll      ; work         ;
-;          |pll_altpll:auto_generated| ; 0 (0)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |HINS_TOP_V1|pll:pll_inst|altpll:altpll_component|pll_altpll:auto_generated ; pll_altpll  ; work         ;
-+--------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+-----------------------------------------------------------------------------+-------------+--------------+
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                                                                                                                                                                                                                          ;
++-------------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------+--------------+
+; Compilation Hierarchy Node                      ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                                                                                       ; Entity Name          ; Library Name ;
++-------------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------+--------------+
+; |HINS_TOP_V1                                    ; 516 (1)             ; 482 (2)                   ; 3584        ; 0            ; 0       ; 0         ; 98   ; 0            ; |HINS_TOP_V1                                                                                                                                                                              ; HINS_TOP_V1          ; work         ;
+;    |HINS_fog_v1:u_hins_fog_v1|                  ; 515 (0)             ; 480 (0)                   ; 3584        ; 0            ; 0       ; 0         ; 0    ; 0            ; |HINS_TOP_V1|HINS_fog_v1:u_hins_fog_v1                                                                                                                                                    ; HINS_fog_v1          ; work         ;
+;       |adc_sync_buffer:u_adc_sync_fifo|         ; 51 (0)              ; 93 (0)                    ; 3584        ; 0            ; 0       ; 0         ; 0    ; 0            ; |HINS_TOP_V1|HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo                                                                                                                    ; adc_sync_buffer      ; work         ;
+;          |fifo:fifo_inst|                       ; 51 (0)              ; 93 (0)                    ; 3584        ; 0            ; 0       ; 0         ; 0    ; 0            ; |HINS_TOP_V1|HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst                                                                                                     ; fifo                 ; work         ;
+;             |dcfifo:dcfifo_component|           ; 51 (0)              ; 93 (0)                    ; 3584        ; 0            ; 0       ; 0         ; 0    ; 0            ; |HINS_TOP_V1|HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component                                                                             ; dcfifo               ; work         ;
+;                |dcfifo_r1k1:auto_generated|     ; 51 (6)              ; 93 (27)                   ; 3584        ; 0            ; 0       ; 0         ; 0    ; 0            ; |HINS_TOP_V1|HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated                                                  ; dcfifo_r1k1          ; work         ;
+;                   |a_graycounter_pjc:wrptr_g1p| ; 18 (18)             ; 13 (13)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |HINS_TOP_V1|HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_pjc:wrptr_g1p                      ; a_graycounter_pjc    ; work         ;
+;                   |a_graycounter_t57:rdptr_g1p| ; 17 (17)             ; 13 (13)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |HINS_TOP_V1|HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_t57:rdptr_g1p                      ; a_graycounter_t57    ; work         ;
+;                   |alt_synch_pipe_0ol:rs_dgwp|  ; 0 (0)               ; 18 (0)                    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |HINS_TOP_V1|HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_0ol:rs_dgwp                       ; alt_synch_pipe_0ol   ; work         ;
+;                      |dffpipe_hd9:dffpipe14|    ; 0 (0)               ; 18 (18)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |HINS_TOP_V1|HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_0ol:rs_dgwp|dffpipe_hd9:dffpipe14 ; dffpipe_hd9          ; work         ;
+;                   |alt_synch_pipe_1ol:ws_dgrp|  ; 0 (0)               ; 18 (0)                    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |HINS_TOP_V1|HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_1ol:ws_dgrp                       ; alt_synch_pipe_1ol   ; work         ;
+;                      |dffpipe_id9:dffpipe17|    ; 0 (0)               ; 18 (18)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |HINS_TOP_V1|HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_1ol:ws_dgrp|dffpipe_id9:dffpipe17 ; dffpipe_id9          ; work         ;
+;                   |altsyncram_iv61:fifo_ram|    ; 0 (0)               ; 0 (0)                     ; 3584        ; 0            ; 0       ; 0         ; 0    ; 0            ; |HINS_TOP_V1|HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|altsyncram_iv61:fifo_ram                         ; altsyncram_iv61      ; work         ;
+;                   |cmpr_f66:rdempty_eq_comp|    ; 5 (5)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |HINS_TOP_V1|HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|cmpr_f66:rdempty_eq_comp                         ; cmpr_f66             ; work         ;
+;                   |cmpr_f66:wrfull_eq_comp|     ; 5 (5)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |HINS_TOP_V1|HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|cmpr_f66:wrfull_eq_comp                          ; cmpr_f66             ; work         ;
+;                   |dffpipe_3dc:rdaclr|          ; 0 (0)               ; 2 (2)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |HINS_TOP_V1|HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|dffpipe_3dc:rdaclr                               ; dffpipe_3dc          ; work         ;
+;                   |dffpipe_3dc:wraclr|          ; 0 (0)               ; 2 (2)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |HINS_TOP_V1|HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|dffpipe_3dc:wraclr                               ; dffpipe_3dc          ; work         ;
+;       |feedback_step_gen_v1:u_fb_step_gen|      ; 63 (63)             ; 85 (85)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |HINS_TOP_V1|HINS_fog_v1:u_hins_fog_v1|feedback_step_gen_v1:u_fb_step_gen                                                                                                                 ; feedback_step_gen_v1 ; work         ;
+;       |my_err_signal_gen_v1:u_err_gen|          ; 246 (246)           ; 175 (175)                 ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |HINS_TOP_V1|HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen                                                                                                                     ; my_err_signal_gen_v1 ; work         ;
+;       |my_modulation_gen_v1:u_mod_gen|          ; 43 (43)             ; 35 (35)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |HINS_TOP_V1|HINS_fog_v1:u_hins_fog_v1|my_modulation_gen_v1:u_mod_gen                                                                                                                     ; my_modulation_gen_v1 ; work         ;
+;       |phase_ramp_gen_v1:u_ramp_gen|            ; 112 (112)           ; 92 (92)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |HINS_TOP_V1|HINS_fog_v1:u_hins_fog_v1|phase_ramp_gen_v1:u_ramp_gen                                                                                                                       ; phase_ramp_gen_v1    ; work         ;
+;    |pll:pll_inst|                               ; 0 (0)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |HINS_TOP_V1|pll:pll_inst                                                                                                                                                                 ; pll                  ; work         ;
+;       |altpll:altpll_component|                 ; 0 (0)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |HINS_TOP_V1|pll:pll_inst|altpll:altpll_component                                                                                                                                         ; altpll               ; work         ;
+;          |pll_altpll:auto_generated|            ; 0 (0)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |HINS_TOP_V1|pll:pll_inst|altpll:altpll_component|pll_altpll:auto_generated                                                                                                               ; pll_altpll           ; work         ;
++-------------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
+
+
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis RAM Summary                                                                                                                                                                                                                                    ;
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+------+------+
+; Name                                                                                                                                                            ; Type ; Mode             ; Port A Depth ; Port A Width ; Port B Depth ; Port B Width ; Size ; MIF  ;
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+------+------+
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|altsyncram_iv61:fifo_ram|ALTSYNCRAM ; AUTO ; Simple Dual Port ; 256          ; 14           ; 256          ; 14           ; 3584 ; None ;
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+------+------+
 
 
 +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -306,134 +350,97 @@ Encoding Type:  One-Hot
 +----------------------+------------------+----------------------+----------------------+--------------------+----------------+--------------+--------------+----------------------+----------------------+---------------------+---------------------+------------+
 
 
-+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Registers Removed During Synthesis                                                                                                                                                                              ;
-+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------+
-; Register name                                                                                                                                                                              ; Reason for Removal ;
-+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------+
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|delayed_wrptr_g[0..8]                                          ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|rdptr_g[0..8]                                                  ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|wrptr_g[0..8]                                                  ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_1ol:ws_dgrp|dffpipe_id9:dffpipe17|dffe18a[0..8] ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_1ol:ws_dgrp|dffpipe_id9:dffpipe17|dffe19a[0..8] ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|dffpipe_3dc:wraclr|dffe12a[0]                                  ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|dffpipe_3dc:wraclr|dffe13a[0]                                  ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_0ol:rs_dgwp|dffpipe_hd9:dffpipe14|dffe15a[0..8] ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_0ol:rs_dgwp|dffpipe_hd9:dffpipe14|dffe16a[0..8] ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|dffpipe_3dc:rdaclr|dffe12a[0]                                  ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|dffpipe_3dc:rdaclr|dffe13a[0]                                  ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_pjc:wrptr_g1p|counter8a0                         ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_pjc:wrptr_g1p|counter8a1                         ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_pjc:wrptr_g1p|counter8a2                         ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_pjc:wrptr_g1p|counter8a3                         ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_pjc:wrptr_g1p|counter8a4                         ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_pjc:wrptr_g1p|counter8a5                         ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_pjc:wrptr_g1p|counter8a6                         ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_pjc:wrptr_g1p|counter8a7                         ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_pjc:wrptr_g1p|counter8a8                         ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_pjc:wrptr_g1p|parity9                            ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_pjc:wrptr_g1p|sub_parity10a[0..2]                ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_t57:rdptr_g1p|counter5a0                         ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_t57:rdptr_g1p|counter5a1                         ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_t57:rdptr_g1p|counter5a2                         ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_t57:rdptr_g1p|counter5a3                         ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_t57:rdptr_g1p|counter5a4                         ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_t57:rdptr_g1p|counter5a5                         ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_t57:rdptr_g1p|counter5a6                         ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_t57:rdptr_g1p|counter5a7                         ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_t57:rdptr_g1p|counter5a8                         ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_t57:rdptr_g1p|parity6                            ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_t57:rdptr_g1p|sub_parity7a[0..2]                 ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|cstate~4                                                                                                                          ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|cstate~5                                                                                                                          ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|cstate~6                                                                                                                          ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|cstate~7                                                                                                                          ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|my_modulation_gen_v1:u_mod_gen|o_stepTrig                                                                                                                        ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|my_modulation_gen_v1:u_mod_gen|o_status                                                                                                                          ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|sample_count[0..31]                                                                                                               ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|wait_counter[0..31]                                                                                                               ; Lost fanout        ;
-; r_locked_sync2                                                                                                                                                                             ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|my_modulation_gen_v1:u_mod_gen|cnt[3..31]                                                                                                                        ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|my_modulation_gen_v1:u_mod_gen|polarity_q                                                                                                                        ; Lost fanout        ;
-; r_locked_sync1                                                                                                                                                                             ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|my_modulation_gen_v1:u_mod_gen|cnt[0..2]                                                                                                                         ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|cstate.RST                                                                                                                        ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|cstate.WAIT_L_STATE                                                                                                               ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|cstate.WAIT_H_STATE                                                                                                               ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|cstate.WAIT_STABLE_L                                                                                                              ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|cstate.WAIT_STABLE_H                                                                                                              ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|cstate.ACQ_L                                                                                                                      ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|cstate.ACQ_H                                                                                                                      ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|cstate.ERR_GEN                                                                                                                    ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|cstate.ERR_GEN_DLY                                                                                                                ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|cstate.RATE_SYNC_GEN                                                                                                              ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|cstate.RAMP_SYNC_GEN                                                                                                              ; Lost fanout        ;
-; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|cstate.WAIT_NEXT                                                                                                                  ; Lost fanout        ;
-; Total Number of Removed Registers = 210                                                                                                                                                    ;                    ;
-+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------+
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Registers Protected by Synthesis                                                                                                                                                                                                                                                                        ;
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------+--------------------------------------------+
+; Register Name                                                                                                                                                                           ; Protected by Synthesis Attribute or Preserve Register Assignment ; Not to be Touched by Netlist Optimizations ;
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------+--------------------------------------------+
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_1ol:ws_dgrp|dffpipe_id9:dffpipe17|dffe19a[8] ; yes                                                              ; yes                                        ;
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_1ol:ws_dgrp|dffpipe_id9:dffpipe17|dffe19a[6] ; yes                                                              ; yes                                        ;
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_1ol:ws_dgrp|dffpipe_id9:dffpipe17|dffe19a[7] ; yes                                                              ; yes                                        ;
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_1ol:ws_dgrp|dffpipe_id9:dffpipe17|dffe19a[4] ; yes                                                              ; yes                                        ;
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_1ol:ws_dgrp|dffpipe_id9:dffpipe17|dffe19a[5] ; yes                                                              ; yes                                        ;
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_1ol:ws_dgrp|dffpipe_id9:dffpipe17|dffe19a[2] ; yes                                                              ; yes                                        ;
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_1ol:ws_dgrp|dffpipe_id9:dffpipe17|dffe19a[3] ; yes                                                              ; yes                                        ;
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_1ol:ws_dgrp|dffpipe_id9:dffpipe17|dffe19a[0] ; yes                                                              ; yes                                        ;
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_1ol:ws_dgrp|dffpipe_id9:dffpipe17|dffe19a[1] ; yes                                                              ; yes                                        ;
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_0ol:rs_dgwp|dffpipe_hd9:dffpipe14|dffe16a[8] ; yes                                                              ; yes                                        ;
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_0ol:rs_dgwp|dffpipe_hd9:dffpipe14|dffe16a[6] ; yes                                                              ; yes                                        ;
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_0ol:rs_dgwp|dffpipe_hd9:dffpipe14|dffe16a[7] ; yes                                                              ; yes                                        ;
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_0ol:rs_dgwp|dffpipe_hd9:dffpipe14|dffe16a[4] ; yes                                                              ; yes                                        ;
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_0ol:rs_dgwp|dffpipe_hd9:dffpipe14|dffe16a[5] ; yes                                                              ; yes                                        ;
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_0ol:rs_dgwp|dffpipe_hd9:dffpipe14|dffe16a[2] ; yes                                                              ; yes                                        ;
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_0ol:rs_dgwp|dffpipe_hd9:dffpipe14|dffe16a[3] ; yes                                                              ; yes                                        ;
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_0ol:rs_dgwp|dffpipe_hd9:dffpipe14|dffe16a[0] ; yes                                                              ; yes                                        ;
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_0ol:rs_dgwp|dffpipe_hd9:dffpipe14|dffe16a[1] ; yes                                                              ; yes                                        ;
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_1ol:ws_dgrp|dffpipe_id9:dffpipe17|dffe18a[8] ; yes                                                              ; yes                                        ;
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_1ol:ws_dgrp|dffpipe_id9:dffpipe17|dffe18a[6] ; yes                                                              ; yes                                        ;
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_1ol:ws_dgrp|dffpipe_id9:dffpipe17|dffe18a[7] ; yes                                                              ; yes                                        ;
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_1ol:ws_dgrp|dffpipe_id9:dffpipe17|dffe18a[4] ; yes                                                              ; yes                                        ;
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_1ol:ws_dgrp|dffpipe_id9:dffpipe17|dffe18a[5] ; yes                                                              ; yes                                        ;
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_1ol:ws_dgrp|dffpipe_id9:dffpipe17|dffe18a[2] ; yes                                                              ; yes                                        ;
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_1ol:ws_dgrp|dffpipe_id9:dffpipe17|dffe18a[3] ; yes                                                              ; yes                                        ;
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_1ol:ws_dgrp|dffpipe_id9:dffpipe17|dffe18a[0] ; yes                                                              ; yes                                        ;
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_1ol:ws_dgrp|dffpipe_id9:dffpipe17|dffe18a[1] ; yes                                                              ; yes                                        ;
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_0ol:rs_dgwp|dffpipe_hd9:dffpipe14|dffe15a[8] ; yes                                                              ; yes                                        ;
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_0ol:rs_dgwp|dffpipe_hd9:dffpipe14|dffe15a[6] ; yes                                                              ; yes                                        ;
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_0ol:rs_dgwp|dffpipe_hd9:dffpipe14|dffe15a[7] ; yes                                                              ; yes                                        ;
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_0ol:rs_dgwp|dffpipe_hd9:dffpipe14|dffe15a[4] ; yes                                                              ; yes                                        ;
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_0ol:rs_dgwp|dffpipe_hd9:dffpipe14|dffe15a[5] ; yes                                                              ; yes                                        ;
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_0ol:rs_dgwp|dffpipe_hd9:dffpipe14|dffe15a[2] ; yes                                                              ; yes                                        ;
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_0ol:rs_dgwp|dffpipe_hd9:dffpipe14|dffe15a[3] ; yes                                                              ; yes                                        ;
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_0ol:rs_dgwp|dffpipe_hd9:dffpipe14|dffe15a[0] ; yes                                                              ; yes                                        ;
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_0ol:rs_dgwp|dffpipe_hd9:dffpipe14|dffe15a[1] ; yes                                                              ; yes                                        ;
+; Total number of protected registers is 36                                                                                                                                               ;                                                                  ;                                            ;
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------+--------------------------------------------+
 
 
-+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Removed Registers Triggering Further Register Optimizations                                                                                                                                                                                                                                                                                         ;
-+-----------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Register name                                                                                                                                             ; Reason for Removal ; Registers Removed due to This Register                                                                                                                             ;
-+-----------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|wait_counter[31]                                                                                 ; Lost Fanouts       ; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|wait_counter[3],                                                                                          ;
-;                                                                                                                                                           ;                    ; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|wait_counter[2],                                                                                          ;
-;                                                                                                                                                           ;                    ; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|wait_counter[1],                                                                                          ;
-;                                                                                                                                                           ;                    ; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|wait_counter[0],                                                                                          ;
-;                                                                                                                                                           ;                    ; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|cstate.WAIT_L_STATE,                                                                                      ;
-;                                                                                                                                                           ;                    ; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|cstate.WAIT_H_STATE,                                                                                      ;
-;                                                                                                                                                           ;                    ; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|cstate.WAIT_STABLE_L,                                                                                     ;
-;                                                                                                                                                           ;                    ; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|cstate.WAIT_STABLE_H                                                                                      ;
-; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|cstate~4                                                                                         ; Lost Fanouts       ; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|sample_count[31],                                                                                         ;
-;                                                                                                                                                           ;                    ; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|sample_count[30],                                                                                         ;
-;                                                                                                                                                           ;                    ; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|cstate.RST,                                                                                               ;
-;                                                                                                                                                           ;                    ; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|cstate.ERR_GEN_DLY,                                                                                       ;
-;                                                                                                                                                           ;                    ; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|cstate.RAMP_SYNC_GEN                                                                                      ;
-; HINS_fog_v1:u_hins_fog_v1|my_modulation_gen_v1:u_mod_gen|o_stepTrig                                                                                       ; Lost Fanouts       ; HINS_fog_v1:u_hins_fog_v1|my_modulation_gen_v1:u_mod_gen|cnt[31],                                                                                                  ;
-;                                                                                                                                                           ;                    ; HINS_fog_v1:u_hins_fog_v1|my_modulation_gen_v1:u_mod_gen|cnt[30],                                                                                                  ;
-;                                                                                                                                                           ;                    ; HINS_fog_v1:u_hins_fog_v1|my_modulation_gen_v1:u_mod_gen|cnt[29],                                                                                                  ;
-;                                                                                                                                                           ;                    ; HINS_fog_v1:u_hins_fog_v1|my_modulation_gen_v1:u_mod_gen|cnt[28],                                                                                                  ;
-;                                                                                                                                                           ;                    ; HINS_fog_v1:u_hins_fog_v1|my_modulation_gen_v1:u_mod_gen|cnt[27]                                                                                                   ;
-; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|cstate~6                                                                                         ; Lost Fanouts       ; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|sample_count[29],                                                                                         ;
-;                                                                                                                                                           ;                    ; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|sample_count[28],                                                                                         ;
-;                                                                                                                                                           ;                    ; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|cstate.ACQ_L,                                                                                             ;
-;                                                                                                                                                           ;                    ; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|cstate.ACQ_H                                                                                              ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|delayed_wrptr_g[8]            ; Lost Fanouts       ; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|wrptr_g[8],                            ;
-;                                                                                                                                                           ;                    ; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|dffpipe_3dc:wraclr|dffe13a[0],         ;
-;                                                                                                                                                           ;                    ; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_pjc:wrptr_g1p|counter8a8 ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|delayed_wrptr_g[7]            ; Lost Fanouts       ; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|wrptr_g[7],                            ;
-;                                                                                                                                                           ;                    ; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_pjc:wrptr_g1p|counter8a7 ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|delayed_wrptr_g[6]            ; Lost Fanouts       ; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|wrptr_g[6],                            ;
-;                                                                                                                                                           ;                    ; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_pjc:wrptr_g1p|counter8a6 ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|delayed_wrptr_g[5]            ; Lost Fanouts       ; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|wrptr_g[5],                            ;
-;                                                                                                                                                           ;                    ; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_pjc:wrptr_g1p|counter8a5 ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|delayed_wrptr_g[4]            ; Lost Fanouts       ; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|wrptr_g[4],                            ;
-;                                                                                                                                                           ;                    ; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_pjc:wrptr_g1p|counter8a4 ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|delayed_wrptr_g[3]            ; Lost Fanouts       ; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|wrptr_g[3],                            ;
-;                                                                                                                                                           ;                    ; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_pjc:wrptr_g1p|counter8a3 ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|delayed_wrptr_g[2]            ; Lost Fanouts       ; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|wrptr_g[2],                            ;
-;                                                                                                                                                           ;                    ; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_pjc:wrptr_g1p|counter8a2 ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|delayed_wrptr_g[1]            ; Lost Fanouts       ; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|wrptr_g[1],                            ;
-;                                                                                                                                                           ;                    ; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_pjc:wrptr_g1p|counter8a1 ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|delayed_wrptr_g[0]            ; Lost Fanouts       ; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|wrptr_g[0],                            ;
-;                                                                                                                                                           ;                    ; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_pjc:wrptr_g1p|counter8a0 ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|rdptr_g[8]                    ; Lost Fanouts       ; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|dffpipe_3dc:rdaclr|dffe13a[0],         ;
-;                                                                                                                                                           ;                    ; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_t57:rdptr_g1p|counter5a8 ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|dffpipe_3dc:wraclr|dffe12a[0] ; Lost Fanouts       ; r_locked_sync2, r_locked_sync1                                                                                                                                     ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|rdptr_g[7]                    ; Lost Fanouts       ; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_t57:rdptr_g1p|counter5a7 ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|rdptr_g[6]                    ; Lost Fanouts       ; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_t57:rdptr_g1p|counter5a6 ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|rdptr_g[5]                    ; Lost Fanouts       ; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_t57:rdptr_g1p|counter5a5 ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|rdptr_g[4]                    ; Lost Fanouts       ; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_t57:rdptr_g1p|counter5a4 ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|rdptr_g[3]                    ; Lost Fanouts       ; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_t57:rdptr_g1p|counter5a3 ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|rdptr_g[2]                    ; Lost Fanouts       ; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_t57:rdptr_g1p|counter5a2 ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|rdptr_g[1]                    ; Lost Fanouts       ; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_t57:rdptr_g1p|counter5a1 ;
-; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|rdptr_g[0]                    ; Lost Fanouts       ; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_t57:rdptr_g1p|counter5a0 ;
-; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|cstate~5                                                                                         ; Lost Fanouts       ; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|cstate.RATE_SYNC_GEN                                                                                      ;
-; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|cstate~7                                                                                         ; Lost Fanouts       ; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|cstate.ERR_GEN                                                                                            ;
-; HINS_fog_v1:u_hins_fog_v1|my_modulation_gen_v1:u_mod_gen|o_status                                                                                         ; Lost Fanouts       ; HINS_fog_v1:u_hins_fog_v1|my_modulation_gen_v1:u_mod_gen|polarity_q                                                                                                ;
-+-----------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Registers Removed During Synthesis                                                                                                                                          ;
++---------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------+
+; Register name                                                                   ; Reason for Removal                                                                        ;
++---------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------+
+; HINS_fog_v1:u_hins_fog_v1|phase_ramp_gen_v1:u_ramp_gen|reg_gain_sel[4]          ; Stuck at GND due to stuck port data_in                                                    ;
+; HINS_fog_v1:u_hins_fog_v1|phase_ramp_gen_v1:u_ramp_gen|reg_fb_ON[1..31]         ; Stuck at GND due to stuck port data_in                                                    ;
+; HINS_fog_v1:u_hins_fog_v1|feedback_step_gen_v1:u_fb_step_gen|reg_gain_sel[3,4]  ; Stuck at GND due to stuck port data_in                                                    ;
+; HINS_fog_v1:u_hins_fog_v1|feedback_step_gen_v1:u_fb_step_gen|reg_gain_sel[2]    ; Stuck at VCC due to stuck port data_in                                                    ;
+; HINS_fog_v1:u_hins_fog_v1|feedback_step_gen_v1:u_fb_step_gen|reg_gain_sel[1]    ; Stuck at GND due to stuck port data_in                                                    ;
+; HINS_fog_v1:u_hins_fog_v1|feedback_step_gen_v1:u_fb_step_gen|reg_gain_sel[0]    ; Stuck at VCC due to stuck port data_in                                                    ;
+; HINS_fog_v1:u_hins_fog_v1|feedback_step_gen_v1:u_fb_step_gen|reg_fb_ON[1]       ; Stuck at GND due to stuck port data_in                                                    ;
+; HINS_fog_v1:u_hins_fog_v1|phase_ramp_gen_v1:u_ramp_gen|o_phaseRamp[16..31]      ; Lost fanout                                                                               ;
+; HINS_fog_v1:u_hins_fog_v1|phase_ramp_gen_v1:u_ramp_gen|reg_ramp[16..31]         ; Lost fanout                                                                               ;
+; HINS_fog_v1:u_hins_fog_v1|phase_ramp_gen_v1:u_ramp_gen|reg_fb_ON[0]             ; Merged with HINS_fog_v1:u_hins_fog_v1|feedback_step_gen_v1:u_fb_step_gen|reg_fb_ON[0]     ;
+; HINS_fog_v1:u_hins_fog_v1|phase_ramp_gen_v1:u_ramp_gen|reg_gain_sel[1,3]        ; Merged with HINS_fog_v1:u_hins_fog_v1|feedback_step_gen_v1:u_fb_step_gen|reg_fb_ON[0]     ;
+; HINS_fog_v1:u_hins_fog_v1|phase_ramp_gen_v1:u_ramp_gen|reg_gain_sel[2]          ; Merged with HINS_fog_v1:u_hins_fog_v1|phase_ramp_gen_v1:u_ramp_gen|reg_gain_sel[0]        ;
+; HINS_fog_v1:u_hins_fog_v1|feedback_step_gen_v1:u_fb_step_gen|reg_step[27..30]   ; Merged with HINS_fog_v1:u_hins_fog_v1|feedback_step_gen_v1:u_fb_step_gen|reg_step[31]     ;
+; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|low_avg[21..30]        ; Merged with HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|low_avg[31]          ;
+; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|high_avg[21..30]       ; Merged with HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|high_avg[31]         ;
+; HINS_fog_v1:u_hins_fog_v1|phase_ramp_gen_v1:u_ramp_gen|reg_step[27..30]         ; Merged with HINS_fog_v1:u_hins_fog_v1|phase_ramp_gen_v1:u_ramp_gen|reg_step[31]           ;
+; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|o_err[22..30]          ; Merged with HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|o_err[31]            ;
+; HINS_fog_v1:u_hins_fog_v1|feedback_step_gen_v1:u_fb_step_gen|reg_err[22..30]    ; Merged with HINS_fog_v1:u_hins_fog_v1|feedback_step_gen_v1:u_fb_step_gen|reg_err[31]      ;
+; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|cstate~4               ; Lost fanout                                                                               ;
+; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|cstate~5               ; Lost fanout                                                                               ;
+; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|cstate~6               ; Lost fanout                                                                               ;
+; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|cstate~7               ; Lost fanout                                                                               ;
+; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|o_step_sync            ; Merged with HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|cstate.ERR_GEN_DLY   ;
+; HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|o_step_sync_dly        ; Merged with HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|cstate.RATE_SYNC_GEN ;
+; HINS_fog_v1:u_hins_fog_v1|phase_ramp_gen_v1:u_ramp_gen|reg_ramp_pre_ext[31..63] ; Lost fanout                                                                               ;
+; Total Number of Removed Registers = 159                                         ;                                                                                           ;
++---------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------+
+
+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Removed Registers Triggering Further Register Optimizations                                                                                                                       ;
++------------------------------------------------------------------------+---------------------------+------------------------------------------------------------------------------+
+; Register name                                                          ; Reason for Removal        ; Registers Removed due to This Register                                       ;
++------------------------------------------------------------------------+---------------------------+------------------------------------------------------------------------------+
+; HINS_fog_v1:u_hins_fog_v1|phase_ramp_gen_v1:u_ramp_gen|reg_gain_sel[4] ; Stuck at GND              ; HINS_fog_v1:u_hins_fog_v1|phase_ramp_gen_v1:u_ramp_gen|reg_ramp[24],         ;
+;                                                                        ; due to stuck port data_in ; HINS_fog_v1:u_hins_fog_v1|phase_ramp_gen_v1:u_ramp_gen|reg_ramp_pre_ext[61], ;
+;                                                                        ;                           ; HINS_fog_v1:u_hins_fog_v1|phase_ramp_gen_v1:u_ramp_gen|reg_ramp_pre_ext[62], ;
+;                                                                        ;                           ; HINS_fog_v1:u_hins_fog_v1|phase_ramp_gen_v1:u_ramp_gen|reg_ramp_pre_ext[63]  ;
+; HINS_fog_v1:u_hins_fog_v1|phase_ramp_gen_v1:u_ramp_gen|reg_fb_ON[31]   ; Stuck at GND              ; HINS_fog_v1:u_hins_fog_v1|phase_ramp_gen_v1:u_ramp_gen|o_phaseRamp[30]       ;
+;                                                                        ; due to stuck port data_in ;                                                                              ;
++------------------------------------------------------------------------+---------------------------+------------------------------------------------------------------------------+
 
 
 +------------------------------------------------------+
@@ -441,14 +448,28 @@ Encoding Type:  One-Hot
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 0     ;
-; Number of registers using Synchronous Clear  ; 0     ;
-; Number of registers using Synchronous Load   ; 0     ;
-; Number of registers using Asynchronous Clear ; 0     ;
+; Total registers                              ; 482   ;
+; Number of registers using Synchronous Clear  ; 192   ;
+; Number of registers using Synchronous Load   ; 94    ;
+; Number of registers using Asynchronous Clear ; 480   ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 0     ;
+; Number of registers using Clock Enable       ; 229   ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
+
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Inverted Register Statistics                                                                                                                                                 ;
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
+; Inverted Register                                                                                                                                                  ; Fan out ;
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
+; HINS_fog_v1:u_hins_fog_v1|phase_ramp_gen_v1:u_ramp_gen|reg_gain_sel[0]                                                                                             ; 31      ;
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_t57:rdptr_g1p|counter5a0 ; 7       ;
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_pjc:wrptr_g1p|counter8a0 ; 8       ;
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_t57:rdptr_g1p|parity6    ; 4       ;
+; HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_pjc:wrptr_g1p|parity9    ; 6       ;
+; Total number of inverted registers = 5                                                                                                                             ;         ;
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
 
 
 +------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -456,10 +477,16 @@ Encoding Type:  One-Hot
 +--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------------------------------------------------------------------+
 ; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                                             ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------------------------------------------------------------------+
-; 4:1                ; 32 bits   ; 64 LEs        ; 32 LEs               ; 32 LEs                 ; Yes        ; |HINS_TOP_V1|HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|sample_count[11] ;
-; 6:1                ; 32 bits   ; 128 LEs       ; 32 LEs               ; 96 LEs                 ; Yes        ; |HINS_TOP_V1|HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|wait_counter[30] ;
-; 11:1               ; 3 bits    ; 21 LEs        ; 9 LEs                ; 12 LEs                 ; No         ; |HINS_TOP_V1|HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|Selector3        ;
-; 13:1               ; 2 bits    ; 16 LEs        ; 6 LEs                ; 10 LEs                 ; No         ; |HINS_TOP_V1|HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|Selector6        ;
+; 4:1                ; 64 bits   ; 128 LEs       ; 64 LEs               ; 64 LEs                 ; Yes        ; |HINS_TOP_V1|HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|adc_sum[6]       ;
+; 6:1                ; 32 bits   ; 128 LEs       ; 32 LEs               ; 96 LEs                 ; Yes        ; |HINS_TOP_V1|HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|wait_counter[17] ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; No         ; |HINS_TOP_V1|HINS_fog_v1:u_hins_fog_v1|phase_ramp_gen_v1:u_ramp_gen|reg_ramp           ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; No         ; |HINS_TOP_V1|HINS_fog_v1:u_hins_fog_v1|phase_ramp_gen_v1:u_ramp_gen|reg_ramp           ;
+; 5:1                ; 2 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |HINS_TOP_V1|HINS_fog_v1:u_hins_fog_v1|phase_ramp_gen_v1:u_ramp_gen|reg_ramp           ;
+; 5:1                ; 2 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |HINS_TOP_V1|HINS_fog_v1:u_hins_fog_v1|phase_ramp_gen_v1:u_ramp_gen|reg_ramp           ;
+; 6:1                ; 2 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; No         ; |HINS_TOP_V1|HINS_fog_v1:u_hins_fog_v1|phase_ramp_gen_v1:u_ramp_gen|reg_ramp           ;
+; 6:1                ; 2 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; No         ; |HINS_TOP_V1|HINS_fog_v1:u_hins_fog_v1|phase_ramp_gen_v1:u_ramp_gen|reg_ramp           ;
+; 11:1               ; 3 bits    ; 21 LEs        ; 9 LEs                ; 12 LEs                 ; No         ; |HINS_TOP_V1|HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|Selector0        ;
+; 13:1               ; 2 bits    ; 16 LEs        ; 6 LEs                ; 10 LEs                 ; No         ; |HINS_TOP_V1|HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|Selector5        ;
 ; 13:1               ; 2 bits    ; 16 LEs        ; 6 LEs                ; 10 LEs                 ; No         ; |HINS_TOP_V1|HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen|Selector2        ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------------------------------------------------------------------+
 
@@ -1005,6 +1032,16 @@ Note: In order to hide this table in the UI and the text report file, please set
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
++-----------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: HINS_fog_v1:u_hins_fog_v1|phase_ramp_gen_v1:u_ramp_gen ;
++----------------+-------+----------------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                       ;
++----------------+-------+----------------------------------------------------------------------------+
+; OUTPUT_BIT     ; 32    ; Signed Integer                                                             ;
++----------------+-------+----------------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
 +----------------------------------------------------------------------+
 ; altpll Parameter Settings by Entity Instance                         ;
 +-------------------------------+--------------------------------------+
@@ -1037,6 +1074,15 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------------------+--------------------------------------------------------------------------------------------------+
 
 
++------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "HINS_fog_v1:u_hins_fog_v1|phase_ramp_gen_v1:u_ramp_gen" ;
++-----------------+--------+----------+----------------------------------------------+
+; Port            ; Type   ; Severity ; Details                                      ;
++-----------------+--------+----------+----------------------------------------------+
+; o_phaseRamp_pre ; Output ; Info     ; Explicitly unconnected                       ;
++-----------------+--------+----------+----------------------------------------------+
+
+
 +--------------------------------------------------------------------------------------------------------------------------------------------+
 ; Port Connectivity Checks: "HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen"                                                       ;
 +-------------+--------+----------+----------------------------------------------------------------------------------------------------------+
@@ -1052,58 +1098,72 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-------------+--------+----------+----------------------------------------------------------------------------------------------------------+
 
 
-+------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Port Connectivity Checks: "HINS_fog_v1:u_hins_fog_v1"                                                                                                ;
-+-----------------------+--------+----------+----------------------------------------------------------------------------------------------------------+
-; Port                  ; Type   ; Severity ; Details                                                                                                  ;
-+-----------------------+--------+----------+----------------------------------------------------------------------------------------------------------+
-; var_freq_cnt[9..5]    ; Input  ; Info     ; Stuck at VCC                                                                                             ;
-; var_freq_cnt[31..10]  ; Input  ; Info     ; Stuck at GND                                                                                             ;
-; var_freq_cnt[2..0]    ; Input  ; Info     ; Stuck at GND                                                                                             ;
-; var_freq_cnt[4]       ; Input  ; Info     ; Stuck at GND                                                                                             ;
-; var_freq_cnt[3]       ; Input  ; Info     ; Stuck at VCC                                                                                             ;
-; var_amp_H[9..7]       ; Input  ; Info     ; Stuck at VCC                                                                                             ;
-; var_amp_H[31..13]     ; Input  ; Info     ; Stuck at GND                                                                                             ;
-; var_amp_H[11..10]     ; Input  ; Info     ; Stuck at GND                                                                                             ;
-; var_amp_H[6..4]       ; Input  ; Info     ; Stuck at GND                                                                                             ;
-; var_amp_H[2..0]       ; Input  ; Info     ; Stuck at GND                                                                                             ;
-; var_amp_H[12]         ; Input  ; Info     ; Stuck at VCC                                                                                             ;
-; var_amp_H[3]          ; Input  ; Info     ; Stuck at VCC                                                                                             ;
-; var_amp_L[9..7]       ; Input  ; Info     ; Stuck at VCC                                                                                             ;
-; var_amp_L[31..13]     ; Input  ; Info     ; Stuck at GND                                                                                             ;
-; var_amp_L[11..10]     ; Input  ; Info     ; Stuck at GND                                                                                             ;
-; var_amp_L[6..4]       ; Input  ; Info     ; Stuck at GND                                                                                             ;
-; var_amp_L[2..0]       ; Input  ; Info     ; Stuck at GND                                                                                             ;
-; var_amp_L[12]         ; Input  ; Info     ; Stuck at VCC                                                                                             ;
-; var_amp_L[3]          ; Input  ; Info     ; Stuck at VCC                                                                                             ;
-; var_polarity          ; Input  ; Info     ; Stuck at GND                                                                                             ;
-; var_wait_cnt[5..4]    ; Input  ; Info     ; Stuck at VCC                                                                                             ;
-; var_wait_cnt[31..6]   ; Input  ; Info     ; Stuck at GND                                                                                             ;
-; var_wait_cnt[3..2]    ; Input  ; Info     ; Stuck at GND                                                                                             ;
-; var_wait_cnt[1]       ; Input  ; Info     ; Stuck at VCC                                                                                             ;
-; var_wait_cnt[0]       ; Input  ; Info     ; Stuck at GND                                                                                             ;
-; var_err_offset        ; Input  ; Info     ; Stuck at GND                                                                                             ;
-; var_avg_sel[31..4]    ; Input  ; Info     ; Stuck at GND                                                                                             ;
-; var_avg_sel[3]        ; Input  ; Info     ; Stuck at VCC                                                                                             ;
-; var_avg_sel[2]        ; Input  ; Info     ; Stuck at GND                                                                                             ;
-; var_avg_sel[1]        ; Input  ; Info     ; Stuck at VCC                                                                                             ;
-; var_avg_sel[0]        ; Input  ; Info     ; Stuck at GND                                                                                             ;
-; var_gain_sel[31..3]   ; Input  ; Info     ; Stuck at GND                                                                                             ;
-; var_gain_sel[2]       ; Input  ; Info     ; Stuck at VCC                                                                                             ;
-; var_gain_sel[1]       ; Input  ; Info     ; Stuck at GND                                                                                             ;
-; var_gain_sel[0]       ; Input  ; Info     ; Stuck at VCC                                                                                             ;
-; var_fb_ON[31..1]      ; Input  ; Info     ; Stuck at GND                                                                                             ;
-; var_fb_ON[0]          ; Input  ; Info     ; Stuck at VCC                                                                                             ;
-; var_const_step[6..5]  ; Input  ; Info     ; Stuck at VCC                                                                                             ;
-; var_const_step[31..7] ; Input  ; Info     ; Stuck at GND                                                                                             ;
-; var_const_step[4..3]  ; Input  ; Info     ; Stuck at GND                                                                                             ;
-; var_const_step[1..0]  ; Input  ; Info     ; Stuck at GND                                                                                             ;
-; var_const_step[2]     ; Input  ; Info     ; Stuck at VCC                                                                                             ;
-; o_step                ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed.                      ;
-; o_DAC_data            ; Output ; Warning  ; Declared by entity but not connected by instance. Logic that only feeds a dangling port will be removed. ;
-; o_mod_status          ; Output ; Warning  ; Declared by entity but not connected by instance. Logic that only feeds a dangling port will be removed. ;
-; o_step_sync_out       ; Output ; Warning  ; Declared by entity but not connected by instance. Logic that only feeds a dangling port will be removed. ;
-+-----------------------+--------+----------+----------------------------------------------------------------------------------------------------------+
++----------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "HINS_fog_v1:u_hins_fog_v1|my_modulation_gen_v1:u_mod_gen"                                                                           ;
++-----------+--------+----------+--------------------------------------------------------------------------------------------------------------------------------+
+; Port      ; Type   ; Severity ; Details                                                                                                                        ;
++-----------+--------+----------+--------------------------------------------------------------------------------------------------------------------------------+
+; o_mod_out ; Output ; Warning  ; Output or bidir port (32 bits) is wider than the port expression (1 bits) it drives; bit(s) "o_mod_out[31..1]" have no fanouts ;
+; o_mod_out ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed.                                            ;
++-----------+--------+----------+--------------------------------------------------------------------------------------------------------------------------------+
+
+
++-----------------------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "HINS_fog_v1:u_hins_fog_v1"                                                                             ;
++-------------------------+--------+----------+-------------------------------------------------------------------------------------+
+; Port                    ; Type   ; Severity ; Details                                                                             ;
++-------------------------+--------+----------+-------------------------------------------------------------------------------------+
+; var_freq_cnt[9..5]      ; Input  ; Info     ; Stuck at VCC                                                                        ;
+; var_freq_cnt[31..10]    ; Input  ; Info     ; Stuck at GND                                                                        ;
+; var_freq_cnt[2..0]      ; Input  ; Info     ; Stuck at GND                                                                        ;
+; var_freq_cnt[4]         ; Input  ; Info     ; Stuck at GND                                                                        ;
+; var_freq_cnt[3]         ; Input  ; Info     ; Stuck at VCC                                                                        ;
+; var_amp_H[9..7]         ; Input  ; Info     ; Stuck at VCC                                                                        ;
+; var_amp_H[31..13]       ; Input  ; Info     ; Stuck at GND                                                                        ;
+; var_amp_H[11..10]       ; Input  ; Info     ; Stuck at GND                                                                        ;
+; var_amp_H[6..4]         ; Input  ; Info     ; Stuck at GND                                                                        ;
+; var_amp_H[2..0]         ; Input  ; Info     ; Stuck at GND                                                                        ;
+; var_amp_H[12]           ; Input  ; Info     ; Stuck at VCC                                                                        ;
+; var_amp_H[3]            ; Input  ; Info     ; Stuck at VCC                                                                        ;
+; var_amp_L[9..7]         ; Input  ; Info     ; Stuck at VCC                                                                        ;
+; var_amp_L[31..13]       ; Input  ; Info     ; Stuck at GND                                                                        ;
+; var_amp_L[11..10]       ; Input  ; Info     ; Stuck at GND                                                                        ;
+; var_amp_L[6..4]         ; Input  ; Info     ; Stuck at GND                                                                        ;
+; var_amp_L[2..0]         ; Input  ; Info     ; Stuck at GND                                                                        ;
+; var_amp_L[12]           ; Input  ; Info     ; Stuck at VCC                                                                        ;
+; var_amp_L[3]            ; Input  ; Info     ; Stuck at VCC                                                                        ;
+; var_polarity            ; Input  ; Info     ; Stuck at GND                                                                        ;
+; var_wait_cnt[5..4]      ; Input  ; Info     ; Stuck at VCC                                                                        ;
+; var_wait_cnt[31..6]     ; Input  ; Info     ; Stuck at GND                                                                        ;
+; var_wait_cnt[3..2]      ; Input  ; Info     ; Stuck at GND                                                                        ;
+; var_wait_cnt[1]         ; Input  ; Info     ; Stuck at VCC                                                                        ;
+; var_wait_cnt[0]         ; Input  ; Info     ; Stuck at GND                                                                        ;
+; var_err_offset          ; Input  ; Info     ; Stuck at GND                                                                        ;
+; var_avg_sel[31..4]      ; Input  ; Info     ; Stuck at GND                                                                        ;
+; var_avg_sel[3]          ; Input  ; Info     ; Stuck at VCC                                                                        ;
+; var_avg_sel[2]          ; Input  ; Info     ; Stuck at GND                                                                        ;
+; var_avg_sel[1]          ; Input  ; Info     ; Stuck at VCC                                                                        ;
+; var_avg_sel[0]          ; Input  ; Info     ; Stuck at GND                                                                        ;
+; var_gainSel_step[31..3] ; Input  ; Info     ; Stuck at GND                                                                        ;
+; var_gainSel_step[2]     ; Input  ; Info     ; Stuck at VCC                                                                        ;
+; var_gainSel_step[1]     ; Input  ; Info     ; Stuck at GND                                                                        ;
+; var_gainSel_step[0]     ; Input  ; Info     ; Stuck at VCC                                                                        ;
+; var_gainSel_ramp[31..4] ; Input  ; Info     ; Stuck at GND                                                                        ;
+; var_gainSel_ramp[3]     ; Input  ; Info     ; Stuck at VCC                                                                        ;
+; var_gainSel_ramp[2]     ; Input  ; Info     ; Stuck at GND                                                                        ;
+; var_gainSel_ramp[1]     ; Input  ; Info     ; Stuck at VCC                                                                        ;
+; var_gainSel_ramp[0]     ; Input  ; Info     ; Stuck at GND                                                                        ;
+; var_fb_ON[31..1]        ; Input  ; Info     ; Stuck at GND                                                                        ;
+; var_fb_ON[0]            ; Input  ; Info     ; Stuck at VCC                                                                        ;
+; var_const_step[6..5]    ; Input  ; Info     ; Stuck at VCC                                                                        ;
+; var_const_step[31..7]   ; Input  ; Info     ; Stuck at GND                                                                        ;
+; var_const_step[4..3]    ; Input  ; Info     ; Stuck at GND                                                                        ;
+; var_const_step[1..0]    ; Input  ; Info     ; Stuck at GND                                                                        ;
+; var_const_step[2]       ; Input  ; Info     ; Stuck at VCC                                                                        ;
+; o_err_DAC               ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
+; o_mod_out_DAC[31..16]   ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
+; o_step                  ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++-------------------------+--------+----------+-------------------------------------------------------------------------------------+
 
 
 +-----------------------------------------------------+
@@ -1112,14 +1172,31 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
 ; boundary_port         ; 98                          ;
+; cycloneiii_ff         ; 482                         ;
+;     CLR               ; 133                         ;
+;     CLR SCLR          ; 56                          ;
+;     CLR SCLR SLD      ; 39                          ;
+;     CLR SLD           ; 23                          ;
+;     ENA CLR           ; 100                         ;
+;     ENA CLR SCLR      ; 97                          ;
+;     ENA CLR SLD       ; 32                          ;
+;     plain             ; 2                           ;
 ; cycloneiii_io_obuf    ; 22                          ;
-; cycloneiii_lcell_comb ; 1                           ;
-;     normal            ; 1                           ;
+; cycloneiii_lcell_comb ; 516                         ;
+;     arith             ; 208                         ;
+;         2 data inputs ; 93                          ;
+;         3 data inputs ; 115                         ;
+;     normal            ; 308                         ;
 ;         0 data inputs ; 1                           ;
+;         1 data inputs ; 6                           ;
+;         2 data inputs ; 120                         ;
+;         3 data inputs ; 74                          ;
+;         4 data inputs ; 107                         ;
 ; cycloneiii_pll        ; 1                           ;
+; cycloneiii_ram_block  ; 14                          ;
 ;                       ;                             ;
-; Max LUT depth         ; 0.00                        ;
-; Average LUT depth     ; 0.00                        ;
+; Max LUT depth         ; 6.00                        ;
+; Average LUT depth     ; 2.94                        ;
 +-----------------------+-----------------------------+
 
 
@@ -1128,7 +1205,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:00     ;
+; Top            ; 00:00:01     ;
 +----------------+--------------+
 
 
@@ -1138,19 +1215,17 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
-    Info: Processing started: Wed Nov 26 19:21:43 2025
+    Info: Processing started: Wed Nov 26 21:46:27 2025
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off HINS_PRJ_V1 -c HINS_PRJ_V1
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
-Info (20030): Parallel compilation is enabled and will use 16 of the 16 processors detected
+Info (20030): Parallel compilation is enabled and will use 14 of the 14 processors detected
 Info (12021): Found 1 design units, including 1 entities, in source file /github/adamshiau_fpga/intel_ip/hins/top/hins_top_v1.sv
     Info (12023): Found entity 1: HINS_TOP_V1 File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 1
 Info (12021): Found 1 design units, including 1 entities, in source file fifo.v
     Info (12023): Found entity 1: fifo File: D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/fifo.v Line: 39
 Info (12021): Found 1 design units, including 1 entities, in source file pll.v
     Info (12023): Found entity 1: pll File: D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/pll.v Line: 39
-Warning (10236): Verilog HDL Implicit Net warning at HINS_TOP_V1.sv(120): created implicit net for "RST_SYNC_N" File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 120
 Info (12127): Elaborating entity "HINS_TOP_V1" for the top level hierarchy
-Warning (10034): Output port "DAC_DATA_OUT" at HINS_TOP_V1.sv(16) has no driver File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 16
 Warning (10034): Output port "SDRAM_ADDR" at HINS_TOP_V1.sv(42) has no driver File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 42
 Warning (10034): Output port "SDRAM_BA" at HINS_TOP_V1.sv(43) has no driver File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 43
 Warning (10034): Output port "SDRAM_DQM" at HINS_TOP_V1.sv(49) has no driver File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 49
@@ -1171,7 +1246,7 @@ Warning (10034): Output port "SDRAM_WE_N" at HINS_TOP_V1.sv(51) has no driver Fi
 Warning (10034): Output port "EPCS_ASDO" at HINS_TOP_V1.sv(59) has no driver File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 59
 Warning (10034): Output port "EPCS_DCLK" at HINS_TOP_V1.sv(61) has no driver File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 61
 Warning (10034): Output port "EPCS_NCSO" at HINS_TOP_V1.sv(63) has no driver File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 63
-Info (12128): Elaborating entity "pll" for hierarchy "pll:pll_inst" File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 102
+Info (12128): Elaborating entity "pll" for hierarchy "pll:pll_inst" File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 104
 Info (12128): Elaborating entity "altpll" for hierarchy "pll:pll_inst|altpll:altpll_component" File: D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/pll.v Line: 106
 Info (12130): Elaborated megafunction instantiation "pll:pll_inst|altpll:altpll_component" File: D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/pll.v Line: 106
 Info (12133): Instantiated megafunction "pll:pll_inst|altpll:altpll_component" with the following parameter: File: D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/pll.v Line: 106
@@ -1246,15 +1321,16 @@ Info (12021): Found 1 design units, including 1 entities, in source file db/pll_
     Info (12023): Found entity 1: pll_altpll File: D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/db/pll_altpll.v Line: 29
 Info (12128): Elaborating entity "pll_altpll" for hierarchy "pll:pll_inst|altpll:altpll_component|pll_altpll:auto_generated" File: d:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altpll.tdf Line: 897
 Warning (12125): Using design file /github/adamshiau_fpga/intel_ip/hins/hw_ip/fog/hins_fog_v1.sv, which is not specified as a design file for the current project, but contains definitions for 1 design units and 1 entities in project
-    Info (12023): Found entity 1: HINS_fog_v1 File: D:/github/adamShiau_FPGA/intel_IP/HINS/HW_IP/FOG/hins_fog_v1.sv Line: 6
-Info (12128): Elaborating entity "HINS_fog_v1" for hierarchy "HINS_fog_v1:u_hins_fog_v1" File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 151
+    Info (12023): Found entity 1: HINS_fog_v1 File: D:/github/adamShiau_FPGA/intel_IP/HINS/HW_IP/FOG/hins_fog_v1.sv Line: 7
+Warning (10236): Verilog HDL Implicit Net warning at hins_fog_v1.sv(60): created implicit net for "mod_out_data" File: D:/github/adamShiau_FPGA/intel_IP/HINS/HW_IP/FOG/hins_fog_v1.sv Line: 60
+Info (12128): Elaborating entity "HINS_fog_v1" for hierarchy "HINS_fog_v1:u_hins_fog_v1" File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 154
 Warning (12125): Using design file /github/adamshiau_fpga/intel_ip/hins/hw_ip/my_modulation_gen_v1.sv, which is not specified as a design file for the current project, but contains definitions for 1 design units and 1 entities in project
     Info (12023): Found entity 1: my_modulation_gen_v1 File: D:/github/adamShiau_FPGA/intel_IP/HINS/HW_IP/my_modulation_gen_v1.sv Line: 1
-Info (12128): Elaborating entity "my_modulation_gen_v1" for hierarchy "HINS_fog_v1:u_hins_fog_v1|my_modulation_gen_v1:u_mod_gen" File: D:/github/adamShiau_FPGA/intel_IP/HINS/HW_IP/FOG/hins_fog_v1.sv Line: 74
+Info (12128): Elaborating entity "my_modulation_gen_v1" for hierarchy "HINS_fog_v1:u_hins_fog_v1|my_modulation_gen_v1:u_mod_gen" File: D:/github/adamShiau_FPGA/intel_IP/HINS/HW_IP/FOG/hins_fog_v1.sv Line: 63
 Warning (12125): Using design file /github/adamshiau_fpga/intel_ip/hins/hw_ip/adc_sync_buffer.sv, which is not specified as a design file for the current project, but contains definitions for 1 design units and 1 entities in project
     Info (12023): Found entity 1: adc_sync_buffer File: D:/github/adamShiau_FPGA/intel_IP/HINS/HW_IP/adc_sync_buffer.sv Line: 7
 Warning (10236): Verilog HDL Implicit Net warning at adc_sync_buffer.sv(44): created implicit net for "wrreq_sig" File: D:/github/adamShiau_FPGA/intel_IP/HINS/HW_IP/adc_sync_buffer.sv Line: 44
-Info (12128): Elaborating entity "adc_sync_buffer" for hierarchy "HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo" File: D:/github/adamShiau_FPGA/intel_IP/HINS/HW_IP/FOG/hins_fog_v1.sv Line: 85
+Info (12128): Elaborating entity "adc_sync_buffer" for hierarchy "HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo" File: D:/github/adamShiau_FPGA/intel_IP/HINS/HW_IP/FOG/hins_fog_v1.sv Line: 74
 Info (12128): Elaborating entity "fifo" for hierarchy "HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst" File: D:/github/adamShiau_FPGA/intel_IP/HINS/HW_IP/adc_sync_buffer.sv Line: 66
 Info (12128): Elaborating entity "dcfifo" for hierarchy "HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component" File: D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/fifo.v Line: 88
 Info (12130): Elaborated megafunction instantiation "HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component" File: D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/fifo.v Line: 88
@@ -1304,31 +1380,21 @@ Info (12021): Found 1 design units, including 1 entities, in source file db/cmpr
 Info (12128): Elaborating entity "cmpr_f66" for hierarchy "HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|cmpr_f66:rdempty_eq_comp" File: D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/db/dcfifo_r1k1.tdf Line: 64
 Warning (12125): Using design file /github/adamshiau_fpga/intel_ip/hins/hw_ip/my_err_signal_gen_v1.sv, which is not specified as a design file for the current project, but contains definitions for 1 design units and 1 entities in project
     Info (12023): Found entity 1: my_err_signal_gen_v1 File: D:/github/adamShiau_FPGA/intel_IP/HINS/HW_IP/my_err_signal_gen_v1.sv Line: 3
-Info (12128): Elaborating entity "my_err_signal_gen_v1" for hierarchy "HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen" File: D:/github/adamShiau_FPGA/intel_IP/HINS/HW_IP/FOG/hins_fog_v1.sv Line: 116
+Info (12128): Elaborating entity "my_err_signal_gen_v1" for hierarchy "HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen" File: D:/github/adamShiau_FPGA/intel_IP/HINS/HW_IP/FOG/hins_fog_v1.sv Line: 105
 Warning (12125): Using design file /github/adamshiau_fpga/intel_ip/hins/hw_ip/feedback_step_gen_v1.sv, which is not specified as a design file for the current project, but contains definitions for 1 design units and 1 entities in project
     Info (12023): Found entity 1: feedback_step_gen_v1 File: D:/github/adamShiau_FPGA/intel_IP/HINS/HW_IP/feedback_step_gen_v1.sv Line: 6
-Info (12128): Elaborating entity "feedback_step_gen_v1" for hierarchy "HINS_fog_v1:u_hins_fog_v1|feedback_step_gen_v1:u_fb_step_gen" File: D:/github/adamShiau_FPGA/intel_IP/HINS/HW_IP/FOG/hins_fog_v1.sv Line: 140
+Info (12128): Elaborating entity "feedback_step_gen_v1" for hierarchy "HINS_fog_v1:u_hins_fog_v1|feedback_step_gen_v1:u_fb_step_gen" File: D:/github/adamShiau_FPGA/intel_IP/HINS/HW_IP/FOG/hins_fog_v1.sv Line: 126
 Warning (10036): Verilog HDL or VHDL warning at feedback_step_gen_v1.sv(33): object "reg_gain_sel2" assigned a value but never read File: D:/github/adamShiau_FPGA/intel_IP/HINS/HW_IP/feedback_step_gen_v1.sv Line: 33
 Warning (10036): Verilog HDL or VHDL warning at feedback_step_gen_v1.sv(35): object "reg_trig" assigned a value but never read File: D:/github/adamShiau_FPGA/intel_IP/HINS/HW_IP/feedback_step_gen_v1.sv Line: 35
 Warning (10036): Verilog HDL or VHDL warning at feedback_step_gen_v1.sv(36): object "r_status" assigned a value but never read File: D:/github/adamShiau_FPGA/intel_IP/HINS/HW_IP/feedback_step_gen_v1.sv Line: 36
 Warning (10230): Verilog HDL assignment warning at feedback_step_gen_v1.sv(100): truncated value with size 34 to match size of target (33) File: D:/github/adamShiau_FPGA/intel_IP/HINS/HW_IP/feedback_step_gen_v1.sv Line: 100
 Warning (10230): Verilog HDL assignment warning at feedback_step_gen_v1.sv(103): truncated value with size 33 to match size of target (32) File: D:/github/adamShiau_FPGA/intel_IP/HINS/HW_IP/feedback_step_gen_v1.sv Line: 103
-Warning (14284): Synthesized away the following node(s):
-    Warning (14285): Synthesized away the following RAM node(s):
-        Warning (14320): Synthesized away node "HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|altsyncram_iv61:fifo_ram|q_b[0]" File: D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/db/altsyncram_iv61.tdf Line: 41
-        Warning (14320): Synthesized away node "HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|altsyncram_iv61:fifo_ram|q_b[1]" File: D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/db/altsyncram_iv61.tdf Line: 73
-        Warning (14320): Synthesized away node "HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|altsyncram_iv61:fifo_ram|q_b[2]" File: D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/db/altsyncram_iv61.tdf Line: 105
-        Warning (14320): Synthesized away node "HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|altsyncram_iv61:fifo_ram|q_b[3]" File: D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/db/altsyncram_iv61.tdf Line: 137
-        Warning (14320): Synthesized away node "HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|altsyncram_iv61:fifo_ram|q_b[4]" File: D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/db/altsyncram_iv61.tdf Line: 169
-        Warning (14320): Synthesized away node "HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|altsyncram_iv61:fifo_ram|q_b[5]" File: D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/db/altsyncram_iv61.tdf Line: 201
-        Warning (14320): Synthesized away node "HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|altsyncram_iv61:fifo_ram|q_b[6]" File: D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/db/altsyncram_iv61.tdf Line: 233
-        Warning (14320): Synthesized away node "HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|altsyncram_iv61:fifo_ram|q_b[7]" File: D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/db/altsyncram_iv61.tdf Line: 265
-        Warning (14320): Synthesized away node "HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|altsyncram_iv61:fifo_ram|q_b[8]" File: D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/db/altsyncram_iv61.tdf Line: 297
-        Warning (14320): Synthesized away node "HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|altsyncram_iv61:fifo_ram|q_b[9]" File: D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/db/altsyncram_iv61.tdf Line: 329
-        Warning (14320): Synthesized away node "HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|altsyncram_iv61:fifo_ram|q_b[10]" File: D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/db/altsyncram_iv61.tdf Line: 361
-        Warning (14320): Synthesized away node "HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|altsyncram_iv61:fifo_ram|q_b[11]" File: D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/db/altsyncram_iv61.tdf Line: 393
-        Warning (14320): Synthesized away node "HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|altsyncram_iv61:fifo_ram|q_b[12]" File: D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/db/altsyncram_iv61.tdf Line: 425
-        Warning (14320): Synthesized away node "HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|altsyncram_iv61:fifo_ram|q_b[13]" File: D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/db/altsyncram_iv61.tdf Line: 457
+Warning (12125): Using design file /github/adamshiau_fpga/intel_ip/hins/hw_ip/phase_ramp_gen_v1.sv, which is not specified as a design file for the current project, but contains definitions for 1 design units and 1 entities in project
+    Info (12023): Found entity 1: phase_ramp_gen_v1 File: D:/github/adamShiau_FPGA/intel_IP/HINS/HW_IP/phase_ramp_gen_v1.sv Line: 7
+Info (12128): Elaborating entity "phase_ramp_gen_v1" for hierarchy "HINS_fog_v1:u_hins_fog_v1|phase_ramp_gen_v1:u_ramp_gen" File: D:/github/adamShiau_FPGA/intel_IP/HINS/HW_IP/FOG/hins_fog_v1.sv Line: 146
+Warning (10036): Verilog HDL or VHDL warning at phase_ramp_gen_v1.sv(44): object "reg_gain_sel2" assigned a value but never read File: D:/github/adamShiau_FPGA/intel_IP/HINS/HW_IP/phase_ramp_gen_v1.sv Line: 44
+Warning (10230): Verilog HDL assignment warning at phase_ramp_gen_v1.sv(108): truncated value with size 64 to match size of target (32) File: D:/github/adamShiau_FPGA/intel_IP/HINS/HW_IP/phase_ramp_gen_v1.sv Line: 108
+Warning (10762): Verilog HDL Case Statement warning at phase_ramp_gen_v1.sv(95): can't check case statement for completeness because the case expression has too many possible states File: D:/github/adamShiau_FPGA/intel_IP/HINS/HW_IP/phase_ramp_gen_v1.sv Line: 95
 Warning (12241): 2 hierarchies have connectivity warnings - see the Connectivity Checks report folder
 Warning (13039): The following bidirectional pins have no drivers
     Warning (13040): bidirectional pin "SDA_ADC" has no driver File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 33
@@ -1353,25 +1419,11 @@ Warning (13039): The following bidirectional pins have no drivers
     Warning (13040): bidirectional pin "SDRAM_DQ[15]" has no driver File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 48
     Warning (13040): bidirectional pin "SDA_IMU" has no driver File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 54
     Warning (13040): bidirectional pin "SCL_IMU" has no driver File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 55
+Info (13000): Registers with preset signals will power-up high File: D:/github/adamShiau_FPGA/intel_IP/HINS/HW_IP/phase_ramp_gen_v1.sv Line: 89
+Info (13003): DEV_CLRn pin will set, and not reset, register with preset signal due to NOT Gate Push-Back
 Warning (13024): Output pins are stuck at VCC or GND
     Warning (13410): Pin "FPGA_TX" is stuck at GND File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 8
     Warning (13410): Pin "DBG_TX" is stuck at GND File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 10
-    Warning (13410): Pin "DAC_DATA_OUT[0]" is stuck at GND File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 16
-    Warning (13410): Pin "DAC_DATA_OUT[1]" is stuck at GND File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 16
-    Warning (13410): Pin "DAC_DATA_OUT[2]" is stuck at GND File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 16
-    Warning (13410): Pin "DAC_DATA_OUT[3]" is stuck at GND File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 16
-    Warning (13410): Pin "DAC_DATA_OUT[4]" is stuck at GND File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 16
-    Warning (13410): Pin "DAC_DATA_OUT[5]" is stuck at GND File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 16
-    Warning (13410): Pin "DAC_DATA_OUT[6]" is stuck at GND File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 16
-    Warning (13410): Pin "DAC_DATA_OUT[7]" is stuck at GND File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 16
-    Warning (13410): Pin "DAC_DATA_OUT[8]" is stuck at GND File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 16
-    Warning (13410): Pin "DAC_DATA_OUT[9]" is stuck at GND File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 16
-    Warning (13410): Pin "DAC_DATA_OUT[10]" is stuck at GND File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 16
-    Warning (13410): Pin "DAC_DATA_OUT[11]" is stuck at GND File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 16
-    Warning (13410): Pin "DAC_DATA_OUT[12]" is stuck at GND File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 16
-    Warning (13410): Pin "DAC_DATA_OUT[13]" is stuck at GND File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 16
-    Warning (13410): Pin "DAC_DATA_OUT[14]" is stuck at GND File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 16
-    Warning (13410): Pin "DAC_DATA_OUT[15]" is stuck at GND File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 16
     Warning (13410): Pin "DAC_RST" is stuck at GND File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 18
     Warning (13410): Pin "DAC_MOSI" is stuck at GND File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 20
     Warning (13410): Pin "DAC_SCLK" is stuck at GND File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 21
@@ -1404,42 +1456,30 @@ Warning (13024): Output pins are stuck at VCC or GND
     Warning (13410): Pin "EPCS_ASDO" is stuck at GND File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 59
     Warning (13410): Pin "EPCS_DCLK" is stuck at GND File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 61
     Warning (13410): Pin "EPCS_NCSO" is stuck at GND File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 63
-Info (17049): 210 registers lost all their fanouts during netlist optimizations.
+Info (286030): Timing-Driven Synthesis is running
+Info (17049): 69 registers lost all their fanouts during netlist optimizations.
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 1 node(s), including 0 DDIO, 1 PLL, 0 transceiver and 0 LCELL
-Warning (15899): PLL "pll:pll_inst|altpll:altpll_component|pll_altpll:auto_generated|pll1" has parameters clk3_multiply_by and clk3_divide_by specified but port CLK[3] is not connected File: D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/db/pll_altpll.v Line: 45
-Warning (21074): Design contains 22 input pin(s) that do not drive logic
+Warning (21074): Design contains 8 input pin(s) that do not drive logic
     Warning (15610): No output dependent on input pin "FPGA_RX" File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 7
     Warning (15610): No output dependent on input pin "DBG_RX" File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 9
     Warning (15610): No output dependent on input pin "SYNC_IN" File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 13
     Warning (15610): No output dependent on input pin "DAC_MISO" File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 19
-    Warning (15610): No output dependent on input pin "ADC_DATA_IN[0]" File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 25
-    Warning (15610): No output dependent on input pin "ADC_DATA_IN[1]" File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 25
-    Warning (15610): No output dependent on input pin "ADC_DATA_IN[2]" File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 25
-    Warning (15610): No output dependent on input pin "ADC_DATA_IN[3]" File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 25
-    Warning (15610): No output dependent on input pin "ADC_DATA_IN[4]" File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 25
-    Warning (15610): No output dependent on input pin "ADC_DATA_IN[5]" File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 25
-    Warning (15610): No output dependent on input pin "ADC_DATA_IN[6]" File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 25
-    Warning (15610): No output dependent on input pin "ADC_DATA_IN[7]" File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 25
-    Warning (15610): No output dependent on input pin "ADC_DATA_IN[8]" File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 25
-    Warning (15610): No output dependent on input pin "ADC_DATA_IN[9]" File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 25
-    Warning (15610): No output dependent on input pin "ADC_DATA_IN[10]" File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 25
-    Warning (15610): No output dependent on input pin "ADC_DATA_IN[11]" File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 25
-    Warning (15610): No output dependent on input pin "ADC_DATA_IN[12]" File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 25
-    Warning (15610): No output dependent on input pin "ADC_DATA_IN[13]" File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 25
     Warning (15610): No output dependent on input pin "ADC_MISO" File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 27
     Warning (15610): No output dependent on input pin "DRDY_ADC" File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 35
     Warning (15610): No output dependent on input pin "DRDY_IMU" File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 56
     Warning (15610): No output dependent on input pin "EPCS_DATA0" File: D:/github/adamShiau_FPGA/intel_IP/HINS/TOP/HINS_TOP_V1.sv Line: 60
-Info (21057): Implemented 99 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 761 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 23 input pins
     Info (21059): Implemented 53 output pins
     Info (21060): Implemented 22 bidirectional pins
+    Info (21061): Implemented 648 logic cells
+    Info (21064): Implemented 14 RAM segments
     Info (21065): Implemented 1 PLLs
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 149 warnings
-    Info: Peak virtual memory: 4752 megabytes
-    Info: Processing ended: Wed Nov 26 19:21:49 2025
-    Info: Elapsed time: 00:00:06
-    Info: Total CPU time (on all processors): 00:00:14
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 105 warnings
+    Info: Peak virtual memory: 4856 megabytes
+    Info: Processing ended: Wed Nov 26 21:46:35 2025
+    Info: Elapsed time: 00:00:08
+    Info: Total CPU time (on all processors): 00:00:15
 
 

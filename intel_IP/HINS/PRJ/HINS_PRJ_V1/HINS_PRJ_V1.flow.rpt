@@ -1,5 +1,5 @@
 Flow report for HINS_PRJ_V1
-Wed Nov 26 19:21:49 2025
+Wed Nov 26 21:46:35 2025
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -40,20 +40,20 @@ refer to the applicable agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Flow Summary                                                                     ;
 +------------------------------------+---------------------------------------------+
-; Flow Status                        ; Successful - Wed Nov 26 19:21:49 2025       ;
+; Flow Status                        ; Successful - Wed Nov 26 21:46:35 2025       ;
 ; Quartus Prime Version              ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                      ; HINS_PRJ_V1                                 ;
 ; Top-level Entity Name              ; HINS_TOP_V1                                 ;
 ; Family                             ; Cyclone IV E                                ;
 ; Device                             ; EP4CE15F17I7                                ;
 ; Timing Models                      ; Final                                       ;
-; Total logic elements               ; 0                                           ;
-;     Total combinational functions  ; 0                                           ;
-;     Dedicated logic registers      ; 0                                           ;
-; Total registers                    ; 0                                           ;
+; Total logic elements               ; 643                                         ;
+;     Total combinational functions  ; 516                                         ;
+;     Dedicated logic registers      ; 482                                         ;
+; Total registers                    ; 482                                         ;
 ; Total pins                         ; 98                                          ;
 ; Total virtual pins                 ; 0                                           ;
-; Total memory bits                  ; 0                                           ;
+; Total memory bits                  ; 3,584                                       ;
 ; Embedded Multiplier 9-bit elements ; 0                                           ;
 ; Total PLLs                         ; 1                                           ;
 +------------------------------------+---------------------------------------------+
@@ -64,7 +64,7 @@ refer to the applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 11/26/2025 19:21:43 ;
+; Start date & time ; 11/26/2025 21:46:27 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; HINS_PRJ_V1         ;
 +-------------------+---------------------+
@@ -75,7 +75,7 @@ refer to the applicable agreement for further details.
 +-------------------------------------+----------------------------------------+---------------+-------------+------------+
 ; Assignment Name                     ; Value                                  ; Default Value ; Entity Name ; Section Id ;
 +-------------------------------------+----------------------------------------+---------------+-------------+------------+
-; COMPILER_SIGNATURE_ID               ; 192355418311013.176415610334288        ; --            ; --          ; --         ;
+; COMPILER_SIGNATURE_ID               ; 255757338223238.176416478717456        ; --            ; --          ; --         ;
 ; MISC_FILE                           ; ./fifo_inst.v                          ; --            ; --          ; --         ;
 ; MISC_FILE                           ; ./pll_inst.v                           ; --            ; --          ; --         ;
 ; MISC_FILE                           ; ./pll.ppf                              ; --            ; --          ; --         ;
@@ -95,8 +95,8 @@ refer to the applicable agreement for further details.
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis ; 00:00:06     ; 1.0                     ; 4740 MB             ; 00:00:14                           ;
-; Total                ; 00:00:06     ; --                      ; --                  ; 00:00:14                           ;
+; Analysis & Synthesis ; 00:00:08     ; 1.0                     ; 4856 MB             ; 00:00:14                           ;
+; Total                ; 00:00:08     ; --                      ; --                  ; 00:00:14                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
@@ -105,7 +105,7 @@ refer to the applicable agreement for further details.
 +----------------------+------------------+------------+------------+----------------+
 ; Module Name          ; Machine Hostname ; OS Name    ; OS Version ; Processor type ;
 +----------------------+------------------+------------+------------+----------------+
-; Analysis & Synthesis ; DESKTOP-7E38ICV  ; Windows 10 ; 10.0       ; x86_64         ;
+; Analysis & Synthesis ; LAPTOP-BCC7FD8D  ; Windows 10 ; 10.0       ; x86_64         ;
 +----------------------+------------------+------------+------------+----------------+
 
 
