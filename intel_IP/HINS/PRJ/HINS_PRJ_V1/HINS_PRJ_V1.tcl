@@ -35,9 +35,12 @@ project_new -overwrite -part $device_part $project_name
 set_global_assignment -name FAMILY $device_family
 set_global_assignment -name TOP_LEVEL_ENTITY $top_entity_name
 
+# 新增 SystemVerilog 語言標準設定 (重點修正)
+set_global_assignment -name VERILOG_INPUT_VERSION SYSTEMVERILOG_2005
+
 # 4. 新增頂層檔案
 puts "--> 正在新增頂層設計檔案: ${top_file_path}"
-set_global_assignment -name VERILOG_FILE $top_file_path
+set_global_assignment -name SYSTEMVERILOG_FILE $top_file_path
 
 # 5. 新增其他必要的 Verilog 檔案 (FOG 核心和 HW_IP 根目錄)
 puts "--> 正在新增 FOG 核心 IP 檔案..."

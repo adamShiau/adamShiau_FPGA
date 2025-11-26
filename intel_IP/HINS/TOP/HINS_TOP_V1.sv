@@ -81,7 +81,13 @@ wire pll_clk_adc_int;
 wire pll_clk_dac_int; 
 wire pll_clk_sdram_int;
 wire pll_clk_cpu_int;
+logic r_locked_sync1, r_locked_sync2;
+logic RST_EXT_N = 1'b1; // 假設外部 nCONFIG 處理後為高
 
+// ---- FOG Core 輸出訊號 (保持不變) ----
+wire signed [31:0] fog_err_out;
+wire signed [31:0] fog_mod_out;
+wire signed [31:0] fog_step_out;
 
 // -----------------------------------------------------------------------
 // PLL Block
@@ -98,8 +104,7 @@ wire pll_clk_cpu_int;
 // =========================================================================
 // 同步重置邏輯 (Reset Synchronization Logic)
 // =========================================================================
-logic r_locked_sync1, r_locked_sync2;
-logic RST_EXT_N = 1'b1; // 假設外部 nCONFIG 處理後為高
+
 
 always @(posedge pll_clk_cpu_int or negedge RST_EXT_N) begin 
     if (!RST_EXT_N) begin
@@ -120,25 +125,29 @@ assign RST_SYNC_N = r_locked_sync2; // 最終同步重置訊號
 
 HINS_fog_v1 u_hins_fog_v1 (
     // 時鐘與重置
-    .CLOCK_ADC      (pll_clk_adc_int), // 連接給 ADC FIFO 寫入時鐘
-    .CLOCK_CPU      (pll_clk_cpu_int), // 連接給 Mod/Demod 邏輯時鐘
-    .RST_SYNC_N     (RST_SYNC_N),      // 同步重置
+    .CLOCK_ADC      (pll_clk_adc_int), 
+    .CLOCK_CPU      (pll_clk_cpu_int), 
+    .RST_SYNC_N     (RST_SYNC_N),      
     
     // ADC 接口
-    .ADC            (ADC_DATA_IN),     // 頂層 Port [cite: 112]
+    .ADC            (ADC_DATA_IN),     
     
-    // 參數輸入 (暫時設定為常數，以便通過編譯)
-    .var_freq_cnt   (32'd1000),     // NIOS 參數：頻率計數 (假設值)
-    .var_amp_H      (32'd5000),     // NIOS 參數：正振幅
-    .var_amp_L      (32'd5000),     // NIOS 參數：負振幅
-    .var_polarity   (1'b0),       // NIOS 參數：極性控制
-    .var_wait_cnt   (32'd50),      // NIOS 參數：等待週期
-    .var_err_offset (32'd0),       // NIOS 參數：誤差偏移
-    .var_avg_sel    (32'd10),      // NIOS 參數：平均採樣選擇 (2^10 = 1024)
+    // 參數輸入 (使用常數賦值)
+    .var_freq_cnt   (32'd1000),     // 常數：調制頻率計數
+    .var_amp_H      (32'd5000),     // 常數：正振幅
+    .var_amp_L      (32'd5000),     // 常數：負振幅
+    .var_polarity   (1'b0),       // 常數：極性控制
+    .var_wait_cnt   (32'd50),      // 常數：等待週期
+    .var_err_offset (32'd0),       // 常數：誤差偏移
+    .var_avg_sel    (32'd10),      // 常數：平均採樣選擇 (2^10)
+    .var_gain_sel   (32'd5),       // 常數：步進增益 (右移 5 位)
+    .var_fb_ON      (32'd1),       // 常數：啟用回饋 (2'd1 = 積分模式)
+    .var_const_step (32'd100),      // 常數：常數步進值
     
     // 輸出訊號
-    .o_err_DAC      (),   
-    .o_mod_out_DAC  ()   
+    // .o_err_DAC      (fog_err_out),   
+    // .o_mod_out_DAC  (fog_mod_out),   
+    .o_step         (fog_step_out)   
 );
  
  

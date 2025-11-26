@@ -1,7 +1,6 @@
 // =========================================================================
 // 檔案: HINS_fog_v1.sv
-// 目的: 整合調制 (my_modulation_gen_v1)、ADC同步 (adc_sync_buffer) 
-//    和解調 (my_err_signal_gen_v1) 核心邏輯
+// 目的: 整合調制、ADC同步、解調核心和回饋步進產生器 (Feedback Step Generator)
 // =========================================================================
 
 module HINS_fog_v1 (
@@ -22,85 +21,73 @@ module HINS_fog_v1 (
     input logic [31:0] var_err_offset,
     input logic [31:0] var_avg_sel,   
 
-    // ============================ Output Signals (給 DAC 和後續 Feedback 邏輯) ============================
-    output logic signed [31:0] o_err_DAC,    // 解調錯誤訊號 (o_err)
-    output logic signed [31:0] o_mod_out_DAC // 調制方波輸出 (給 DAC 數據 Port)
+    // ======== 新增回饋控制參數 (來自 NIOS II) ========
+    input logic [31:0] var_gain_sel,            // 增益控制輸入 (i_gain_sel)
+    input logic [31:0] var_fb_ON,               // 回饋啟用控制 (i_fb_ON)
+    input logic signed [31:0] var_const_step,   // 常數步進值 (i_const_step)
+    
+    // ============================ 輸出 Port ============================
+    output logic [31:0] o_DAC_data,   // 給 DAC 的調制訊號輸出
+    output logic o_mod_status,        // 調制極性狀態 (給外部監控)
+    output logic o_step_sync_out,     // 步進同步訊號 (給外部監控)
+    
+    // ======== 新增回饋輸出 Port ========
+    output logic signed [31:0] o_step           // 最終回饋步進輸出
 );
 
-// =========================================================================
-// 內部訊號宣告 (Internal Signals)
-// =========================================================================
-
-// ---- 1. Modulator 輸出訊號 (my_modulation_gen_v1) ----
-wire [31:0] mod_out;      // 方波數據輸出
-wire mod_status;         // 方波極性狀態 (i_status for error gen)
-wire mod_step_trig;      // 極性切換觸發 (i_trig for error gen)
-
-// ---- 2. ADC 同步 FIFO 訊號 (adc_sync_buffer) ----
-wire [13:0] adc_synced_data; // 經過 FIFO 同步後，在 CLOCK_CPU 域的 ADC 數據
-
-// ---- 3. Error Generator 輸出訊號 (my_err_signal_gen_v1) ----
-wire o_step_sync;
-wire o_step_sync_dly;
-wire o_rate_sync;
-wire o_ramp_sync;
+// *************************************************************************
+// * Internal Signals Declaration *
+// *************************************************************************
 
 // -------------------------------------------------------------------------
-// 頂層訊號連接 (Top-Level Signal Assignments)
+// A. 模組間連接線
 // -------------------------------------------------------------------------
 
-// 將調制模組的輸出連接到 DAC Port (這是簡化，稍後會加入混頻)
-assign o_mod_out_DAC = mod_out;
+// 來自調制產生器 (my_modulation_gen_v1)
+wire signed [31:0] mod_out_data;   // 調制方波數據
+wire mod_status;                   // 調制極性狀態
+wire mod_step_trig;                // 週期切換觸發
 
-// =========================================================================
-// 模組例化區 (Module Instantiations)
-// =========================================================================
+// 來自 ADC 同步緩衝區 (adc_sync_buffer)
+wire [13:0] adc_synced_data;       // 14-bit 跨時鐘域後的 ADC 數據
+
+// 來自錯誤產生器 (my_err_signal_gen_v1)
+wire signed [31:0] o_err_DAC;       // 最終誤差輸出 (給 DAC/Feedback)
+wire o_step_sync;                   // 步進同步脈衝 (給 Feedback Generator)
+wire o_step_sync_dly;               // 延遲的步進同步脈衝
+wire o_rate_sync;                   // 速率同步脈衝
+wire o_ramp_sync;                   // 緩坡同步脈衝
 
 
 // -------------------------------------------------------------------------
-// A. ADC 數據時鐘域同步緩衝區 (CDC)
-// -------------------------------------------------------------------------
-adc_sync_buffer #(
-    .DATA_WIDTH (14)
-) u_adc_sync (
-    // 寫入端 (ADC 域)
-    .i_clk_wr   (CLOCK_ADC),    // ADC 採樣時鐘 (寫入時鐘)
-    .i_data_wr   (ADC),       // 外部 ADC 數據 Port
-    
-    // 讀取端 (CPU 域)
-    .i_clk_rd   (CLOCK_CPU),    // CPU/邏輯時鐘 (讀取時鐘)
-    .i_rst_n    (RST_SYNC_N),    // 系統同步重置
-    
-    .o_data_rd   (adc_synced_data)  // 輸出給解調模組
-);
-
-
-// -------------------------------------------------------------------------
-// B. 調制訊號產生器 (Modulation Generator)
+// B. 調制產生器 (Modulation Generator)
 // -------------------------------------------------------------------------
 my_modulation_gen_v1 u_mod_gen (
-    .i_clk         ( CLOCK_CPU ),      // 運行在 CPU 邏輯時鐘域
-    .i_rst_n       ( RST_SYNC_N ),     // 同步重置
-    
-    // 參數輸入 (來自頂層/NIOS)
-    .i_freq_cnt    ( var_freq_cnt ),   
-    .i_amp_H       ( var_amp_H ),      
-    .i_amp_L       ( var_amp_L ),      
-    
-    // 輸出
-    .o_mod_out     ( mod_out ),        // 方波數據
-    .o_status      ( mod_status ),     // 極性狀態 (給解調用)
-    .o_stepTrig    ( mod_step_trig )   // 切換觸發 (給解調用)
+    .i_clk         ( CLOCK_CPU ),
+    .i_rst_n       ( RST_SYNC_N ),
+    .i_freq_cnt    ( var_freq_cnt ),
+    .i_amp_H       ( var_amp_H ),
+    .i_amp_L       ( var_amp_L ),
+    .o_mod_out     ( mod_out_data ),
+    .o_status      ( mod_status ),
+    .o_stepTrig    ( mod_step_trig )
 );
 
+// -------------------------------------------------------------------------
+// B-2. ADC 跨時鐘域緩衝區 (ADC Synchronization Buffer)
+// -------------------------------------------------------------------------
+adc_sync_buffer #(.DATA_WIDTH(14)) u_adc_sync_fifo (
+    .i_clk_wr   ( CLOCK_ADC ),
+    .i_clk_rd   ( CLOCK_CPU ),
+    .i_rst_n    ( RST_SYNC_N ),
+    .i_data_wr  ( ADC ),              // 來自外部 ADC (CLOCK_ADC domain)
+    .o_data_rd  ( adc_synced_data )   // 給解調核心 (CLOCK_CPU domain)
+);
 
 // -------------------------------------------------------------------------
 // C. 錯誤訊號產生器 (解調核心)
 // -------------------------------------------------------------------------
-my_err_signal_gen_v1 #(
-    .ADC_BIT(14)  
-) u_err_gen
-    (
+my_err_signal_gen_v1 #(.ADC_BIT(14)) u_err_gen (
     .i_clk         ( CLOCK_CPU ),      // 運行在 CPU 邏輯時鐘域
     .i_rst_n       ( RST_SYNC_N ),     // 同步重置
     
@@ -121,23 +108,45 @@ my_err_signal_gen_v1 #(
     .o_err         ( o_err_DAC ),      // 最終誤差輸出 (給 DAC/Feedback)
     
     // 脈衝輸出 (給後續的 Feedback 模組用)
-    .o_step_sync   ( o_step_sync ),     
-    .o_step_sync_dly( o_step_sync_dly ),  
-    .o_rate_sync   ( o_rate_sync ),      
-    .o_ramp_sync   ( o_ramp_sync ),      
-    
-    // 忽略除錯輸出
-    .o_adc_sum     (), 
-    .o_low_avg     (),
-    .o_high_avg    (),
-    .o_cstate      (),
-    .o_nstate      ()
+    .o_step_sync   ( o_step_sync ),    // 步進同步脈衝
+    .o_step_sync_dly( o_step_sync_dly ),// 延遲步進同步脈衝
+    .o_rate_sync   ( o_rate_sync ),    
+    .o_ramp_sync   ( o_ramp_sync )     
+    // 省略了 Simulation 用的輸出 Port...
 );
 
-// =========================================================================
-// 待辦事項：
-// 1. 後續整合 feedback step gen, phase ramp gen, FIR filter。
-// 2. 整合 ADC 數據混頻邏輯 (step_out + mod_out)。
-// =========================================================================
+
+// -------------------------------------------------------------------------
+// D. 回饋步進產生器 (Feedback Step Generator)
+//    功能: 根據 o_err_DAC 計算出最終的 o_step
+// -------------------------------------------------------------------------
+feedback_step_gen_v1 u_fb_step_gen (
+    .i_clk         ( CLOCK_CPU ),      // 運行在 CPU 邏輯時鐘域
+    .i_rst_n       ( RST_SYNC_N ),     // 同步重置
+    
+    // 來自錯誤產生器 (my_err_signal_gen_v1) 的訊號
+    .i_trig        ( o_step_sync ),
+    .i_trig_dly    ( o_step_sync_dly ),
+    .i_err         ( o_err_DAC ),      // 來自解調後的誤差
+    
+    // 來自 NIOS II 的控制參數 (新加入的 port)
+    .i_gain_sel    ( var_gain_sel ),
+    .i_fb_ON       ( var_fb_ON ),
+    .i_const_step  ( var_const_step ),
+    
+    // 輸出
+    .o_step        ( o_step )          // 連接到 HINS_fog_v1 的輸出 port
+    // 省略了 Simulation 用的輸出 Port...
+);
+
+
+// *************************************************************************
+// * 頂層輸出連接 (External Output Assignment) *
+// *************************************************************************
+
+assign o_DAC_data      = mod_out_data;
+assign o_mod_status    = mod_status;
+assign o_step_sync_out = o_step_sync; // 將內部訊號連接到外部 Port
+// o_step 已經在 u_fb_step_gen 實例化中直接連接
 
 endmodule
