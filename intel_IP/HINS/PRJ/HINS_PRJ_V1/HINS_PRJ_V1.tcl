@@ -62,6 +62,12 @@ set_global_assignment -name SEARCH_PATH "${top_dir}"
 set_global_assignment -name SEARCH_PATH "${hw_ip_dir}"
 set_global_assignment -name SEARCH_PATH "${fog_ip_dir}"
 
-# 8. 儲存專案
+
+# 8. 執行腳位和時序約束 (關鍵步驟)
+puts "--> 正在載入腳位和時序約束檔案..."
+# <--- 確保 HINS_PINS_V1.tcl 位於相同目錄下 --->
+source ./HINS_PINS_V1.tcl  
+
+# 9. 儲存專案
 project_close
 puts "✅ 專案建立完成。請在 Quartus Prime 中開啟 ${project_name}.qpf。"

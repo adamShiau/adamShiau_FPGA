@@ -149,7 +149,7 @@ HINS_fog_v1 u_hins_fog_v1 (
     
     // 輸出訊號
     .o_err_DAC      (fog_err_out), 
-    .o_mod_out_DAC  (fog_mod_out), 
+    .o_phaseRamp  	(fog_mod_out), 
     .o_step         (fog_step_out)  
 );
  
