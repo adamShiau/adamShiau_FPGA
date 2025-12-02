@@ -18,7 +18,7 @@
 #
 # Quartus Prime
 # Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
-# Date created = 19:47:53  December 01, 2025
+# Date created = 16:51:10  December 02, 2025
 #
 # -------------------------------------------------------------------------- #
 #
@@ -40,15 +40,21 @@ set_global_assignment -name FAMILY "Cyclone IV E"
 set_global_assignment -name DEVICE EP4CE15F17I7
 set_global_assignment -name TOP_LEVEL_ENTITY HINS_TOP_V1
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 18.1.0
-set_global_assignment -name PROJECT_CREATION_TIME_DATE "19:47:53  DECEMBER 01, 2025"
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "16:51:10  DECEMBER 02, 2025"
 set_global_assignment -name LAST_QUARTUS_VERSION "18.1.0 Lite Edition"
 set_global_assignment -name VERILOG_INPUT_VERSION SYSTEMVERILOG_2005
 set_global_assignment -name SYSTEMVERILOG_FILE ../../TOP/HINS_TOP_V1.sv
+set_global_assignment -name QSYS_FILE ../../QSYS/CPU.qsys
 set_global_assignment -name QIP_FILE ./fifo.qip
 set_global_assignment -name QIP_FILE ./pll.qip
 set_global_assignment -name SEARCH_PATH ../../TOP
 set_global_assignment -name SEARCH_PATH ../../HW_IP
 set_global_assignment -name SEARCH_PATH ../../HW_IP/FOG
+set_global_assignment -name SEARCH_PATH ../../../2018.1
+set_global_assignment -name RESERVE_DATA0_AFTER_CONFIGURATION "USE AS REGULAR IO"
+set_global_assignment -name RESERVE_DATA1_AFTER_CONFIGURATION "USE AS REGULAR IO"
+set_global_assignment -name RESERVE_FLASH_NCE_AFTER_CONFIGURATION "USE AS REGULAR IO"
+set_global_assignment -name RESERVE_DCLK_AFTER_CONFIGURATION "USE AS REGULAR IO"
 set_location_assignment PIN_T14 -to ADC_CS
 set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_CS
 set_instance_assignment -name IO_STANDARD "1.8 V" -to ADC_DATA_IN[13]
