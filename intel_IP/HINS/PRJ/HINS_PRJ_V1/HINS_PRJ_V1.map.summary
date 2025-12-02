@@ -1,14 +1,14 @@
-Analysis & Synthesis Status : Successful - Tue Dec 02 16:52:31 2025
+Analysis & Synthesis Status : Successful - Tue Dec 02 19:02:41 2025
 Quartus Prime Version : 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 Revision Name : HINS_PRJ_V1
 Top-level Entity Name : HINS_TOP_V1
 Family : Cyclone IV E
-Total logic elements : 913
-    Total combinational functions : 753
-    Dedicated logic registers : 649
-Total registers : 649
+Total logic elements : 7,689
+    Total combinational functions : 4,865
+    Dedicated logic registers : 4,666
+Total registers : 4666
 Total pins : 98
 Total virtual pins : 0
-Total memory bits : 3,600
+Total memory bits : 23,040
 Embedded Multiplier 9-bit elements : 0
 Total PLLs : 1

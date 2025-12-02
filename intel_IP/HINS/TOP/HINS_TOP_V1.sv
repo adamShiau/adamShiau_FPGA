@@ -155,35 +155,35 @@ HINS_fog_v1 u_hins_fog_v1 (
 
 
 CPU u0 (
-        .clk_clk          (),          //      clk.clk
-        .dac_rst_export   (),          //  dac_rst.export
-        .epcs_dclk        (),          //     epcs.dclk
-        .epcs_sce         (),          //         .sce
-        .epcs_sdo         (),          //         .sdo
-        .epcs_data0       (),          //         .data0
-        .reset_reset_n    (),          //    reset.reset_n
-        .sdram_addr       (),          //    sdram.addr
-        .sdram_ba         (),          //         .ba
-        .sdram_cas_n      (),          //         .cas_n
-        .sdram_cke        (),          //         .cke
-        .sdram_cs_n       (),          //         .cs_n
-        .sdram_dq         (),          //         .dq
-        .sdram_dqm        (),          //         .dqm
-        .sdram_ras_n      (),          //         .ras_n
-        .sdram_we_n       (),          //         .we_n
-        .spi_adc_MISO     (),          //  spi_adc.MISO
-        .spi_adc_MOSI     (),          //         .MOSI
-        .spi_adc_SCLK     (),          //         .SCLK
-        .spi_adc_SS_n     (),          //         .SS_n
-        .spi_dac_MISO     (),          //  spi_dac.MISO
-        .spi_dac_MOSI     (),          //         .MOSI
-        .spi_dac_SCLK     (),          //         .SCLK
-        .spi_dac_SS_n     (),          //         .SS_n
-        .sync_in_export   (),          //  sync_in.export
-        .uart_rxd         (),          //     uart.rxd
-        .uart_txd         (),          //         .txd
-        .uart_dbg_rxd     (),          // uart_dbg.rxd
-        .uart_dbg_txd     (),          //         .txd
+        .clk_clk          (pll_clk_cpu_int),          //      clk.clk
+        .dac_rst_export   (DAC_RST),          //  dac_rst.export
+        .epcs_dclk        (EPCS_DCLK),          //     epcs.dclk
+        .epcs_sce         (EPCS_NCSO),          //         .sce
+        .epcs_sdo         (EPCS_ASDO),          //         .sdo
+        .epcs_data0       (EPCS_DATA0),          //         .data0
+        .reset_reset_n    (RST_SYNC_N),          //    reset.reset_n
+        .sdram_addr       (SDRAM_ADDR),          //    sdram.addr
+        .sdram_ba         (SDRAM_BA),          //         .ba
+        .sdram_cas_n      (SDRAM_CAS_N),          //         .cas_n
+        .sdram_cke        (SDRAM_CKE),          //         .cke
+        .sdram_cs_n       (SDRAM_CS_N),          //         .cs_n
+        .sdram_dq         (SDRAM_DQ),          //         .dq
+        .sdram_dqm        (SDRAM_DQM),          //         .dqm
+        .sdram_ras_n      (SDRAM_RAS_N),          //         .ras_n
+        .sdram_we_n       (SDRAM_WE_N),          //         .we_n
+        .spi_adc_MISO     (ADC_MISO),          //  spi_adc.MISO
+        .spi_adc_MOSI     (ADC_MOSI),          //         .MOSI
+        .spi_adc_SCLK     (ADC_SCLK),          //         .SCLK
+        .spi_adc_SS_n     (ADC_CS),          //         .SS_n
+        .spi_dac_MISO     (DAC_MISO),          //  spi_dac.MISO
+        .spi_dac_MOSI     (DAC_MOSI),          //         .MOSI
+        .spi_dac_SCLK     (DAC_SCLK),          //         .SCLK
+        .spi_dac_SS_n     (DAC_CS),          //         .SS_n
+        .sync_in_export   (SYNC_IN),          //  sync_in.export
+        .uart_rxd         (FPGA_RX),          //     uart.rxd
+        .uart_txd         (FPGA_TX),          //         .txd
+        .uart_dbg_rxd     (DBG_RX),          // uart_dbg.rxd
+        .uart_dbg_txd     (DBG_TX),          //         .txd
         .varset_1_i_var0  (),          // varset_1.i_var0
         .varset_1_i_var1  (),          //         .i_var1
         .varset_1_i_var2  (),          //         .i_var2
