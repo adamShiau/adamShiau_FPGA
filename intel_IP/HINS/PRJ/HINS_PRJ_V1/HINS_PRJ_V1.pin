@@ -276,7 +276,7 @@ VCCD_PLL4                    : N13       : power  :                   : 1.2V    
 DAC_DATA_OUT[3]              : N14       : output : 3.3-V LVCMOS      :         : 5         : Y              
 DAC_DATA_OUT[5]              : N15       : output : 3.3-V LVCMOS      :         : 5         : Y              
 DAC_DATA_OUT[4]              : N16       : output : 3.3-V LVCMOS      :         : 5         : Y              
-SYNC_IN                      : P1        : input  : 3.3-V LVCMOS      :         : 2         : Y              
+SYNC_IN                      : P1        : output : 3.3-V LVCMOS      :         : 2         : Y              
 DBG_TX                       : P2        : output : 3.3-V LVCMOS      :         : 2         : Y              
 ADC_DATA_IN[12]              : P3        : input  : 1.8 V             :         : 3         : Y              
 VCCIO3                       : P4        : power  :                   : 1.8V    : 3         :                

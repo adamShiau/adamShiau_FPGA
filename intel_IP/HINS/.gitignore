@@ -21,3 +21,4 @@ output_files/
 nios_bsp/
 nios_app/
 *.elf      # Executable and Linkable Format
+*.done

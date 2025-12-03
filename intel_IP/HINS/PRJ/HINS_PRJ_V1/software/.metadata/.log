@@ -381,3 +381,12 @@ Caused by: sun.security.provider.certpath.SunCertPathBuilderException: unable to
 
 !ENTRY com.altera.sbtgui.launch 1 0 2025-12-02 19:39:50.565
 !MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-1]' --device=1 --instance=0 --go --sidp=0x20022a0 --id=0x1000000 --timestamp=1764673317 /cygdrive/d/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0/HINS_CPU_V1_0.elf]
+
+!ENTRY org.eclipse.cdt.core 1 0 2025-12-03 15:09:11.223
+!MESSAGE Indexed 'HINS_CPU_V1_0' (11 sources, 61 headers) in 0.135 sec: 2,948 declarations; 9,105 references; 3 unresolved inclusions; 0 syntax errors; 6 unresolved names (0.05%)
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-03 19:18:12.955
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-1]' --device=1 --instance=0 --stop --sidp=0x20022a0 --id=0x1000000 --timestamp=1764760072]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-03 19:18:15.278
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-1]' --device=1 --instance=0 --go --sidp=0x20022a0 --id=0x1000000 --timestamp=1764760072 /cygdrive/d/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0/HINS_CPU_V1_0.elf]

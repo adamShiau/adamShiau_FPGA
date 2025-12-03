@@ -3,9 +3,28 @@
 #include <string.h>  // memcpy()
 #include "sys/alt_irq.h"
 #include "system.h"
+#include "altera_avalon_uart_regs.h"
+
+#include "HINS.h"
+
+#define COE_TIMER 0.0001
 
 int main(void)
 {
     printf("Hello World\n");
+    update_IRIS_config_to_HW_REG();
+    
+    printf("init_ADDA\n");
+    set_DAC_reset();
+	usleep(50);
+	clear_DAC_reset();
+	init_ADDA();
     return 0;
+}
+
+
+
+void update_IRIS_config_to_HW_REG()
+{
+	IOWR(VARSET_BASE, var_sync_count, SYNC_100HZ); // set sync data rate
 }

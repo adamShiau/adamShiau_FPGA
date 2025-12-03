@@ -1,270 +1,768 @@
-19:19:35 **** Clean-only build of configuration Nios II for project HINS_CPU_V1_0_bsp ****
-make clean 
-[BSP clean complete]
-19:19:39 **** Clean-only build of configuration Nios II for project HINS_CPU_V1_0 ****
+19:13:03 **** Clean-only build of configuration Nios II for project HINS_CPU_V1_0 ****
 make clean 
 [HINS_CPU_V1_0 clean complete]
-19:35:27 **** Build of configuration Nios II for project HINS_CPU_V1_0 ****
+19:13:07 **** Build of configuration Nios II for project HINS_CPU_V1_0 ****
 make all 
 Info: Building ../HINS_CPU_V1_0_bsp/
 D:/intelFPGA_lite/18.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../HINS_CPU_V1_0_bsp/
-Compiling alt_alarm_start.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_alarm_start.o HAL/src/alt_alarm_start.c
-Compiling alt_busy_sleep.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_busy_sleep.o HAL/src/alt_busy_sleep.c
-Compiling alt_close.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_close.o HAL/src/alt_close.c
-Compiling alt_dcache_flush.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_dcache_flush.o HAL/src/alt_dcache_flush.c
-Compiling alt_dcache_flush_all.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_dcache_flush_all.o HAL/src/alt_dcache_flush_all.c
-Compiling alt_dcache_flush_no_writeback.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_dcache_flush_no_writeback.o HAL/src/alt_dcache_flush_no_writeback.c
-Compiling alt_dev.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_dev.o HAL/src/alt_dev.c
-Compiling alt_dev_llist_insert.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_dev_llist_insert.o HAL/src/alt_dev_llist_insert.c
-Compiling alt_dma_rxchan_open.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_dma_rxchan_open.o HAL/src/alt_dma_rxchan_open.c
-Compiling alt_dma_txchan_open.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_dma_txchan_open.o HAL/src/alt_dma_txchan_open.c
-Compiling alt_do_ctors.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_do_ctors.o HAL/src/alt_do_ctors.c
-Compiling alt_do_dtors.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_do_dtors.o HAL/src/alt_do_dtors.c
-Compiling alt_ecc_fatal_entry.S...
-nios2-elf-gcc -MP -MMD -c   -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global    -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED  -Wa,-gdwarf2  -o obj/HAL/src/alt_ecc_fatal_entry.o HAL/src/alt_ecc_fatal_entry.S
-Compiling alt_ecc_fatal_exception.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_ecc_fatal_exception.o HAL/src/alt_ecc_fatal_exception.c
-Compiling alt_env_lock.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_env_lock.o HAL/src/alt_env_lock.c
-Compiling alt_environ.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_environ.o HAL/src/alt_environ.c
-Compiling alt_errno.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_errno.o HAL/src/alt_errno.c
-Compiling alt_exception_entry.S...
-nios2-elf-gcc -MP -MMD -c   -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global    -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED  -Wa,-gdwarf2  -o obj/HAL/src/alt_exception_entry.o HAL/src/alt_exception_entry.S
-Compiling alt_exception_muldiv.S...
-nios2-elf-gcc -MP -MMD -c   -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global    -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED  -Wa,-gdwarf2  -o obj/HAL/src/alt_exception_muldiv.o HAL/src/alt_exception_muldiv.S
-Compiling alt_exception_trap.S...
-nios2-elf-gcc -MP -MMD -c   -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global    -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED  -Wa,-gdwarf2  -o obj/HAL/src/alt_exception_trap.o HAL/src/alt_exception_trap.S
-Compiling alt_execve.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_execve.o HAL/src/alt_execve.c
-Compiling alt_exit.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_exit.o HAL/src/alt_exit.c
-Compiling alt_fcntl.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_fcntl.o HAL/src/alt_fcntl.c
-Compiling alt_fd_lock.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_fd_lock.o HAL/src/alt_fd_lock.c
-Compiling alt_fd_unlock.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_fd_unlock.o HAL/src/alt_fd_unlock.c
-Compiling alt_find_dev.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_find_dev.o HAL/src/alt_find_dev.c
-Compiling alt_find_file.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_find_file.o HAL/src/alt_find_file.c
-Compiling alt_flash_dev.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_flash_dev.o HAL/src/alt_flash_dev.c
-Compiling alt_fork.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_fork.o HAL/src/alt_fork.c
-Compiling alt_fs_reg.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_fs_reg.o HAL/src/alt_fs_reg.c
-Compiling alt_fstat.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_fstat.o HAL/src/alt_fstat.c
-Compiling alt_get_fd.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_get_fd.o HAL/src/alt_get_fd.c
-Compiling alt_getchar.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_getchar.o HAL/src/alt_getchar.c
-Compiling alt_getpid.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_getpid.o HAL/src/alt_getpid.c
-Compiling alt_gettod.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_gettod.o HAL/src/alt_gettod.c
-Compiling alt_gmon.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_gmon.o HAL/src/alt_gmon.c
-Compiling alt_icache_flush.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_icache_flush.o HAL/src/alt_icache_flush.c
-Compiling alt_icache_flush_all.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_icache_flush_all.o HAL/src/alt_icache_flush_all.c
-Compiling alt_iic.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_iic.o HAL/src/alt_iic.c
-Compiling alt_iic_isr_register.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_iic_isr_register.o HAL/src/alt_iic_isr_register.c
-Compiling alt_instruction_exception_entry.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_instruction_exception_entry.o HAL/src/alt_instruction_exception_entry.c
-Compiling alt_instruction_exception_register.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_instruction_exception_register.o HAL/src/alt_instruction_exception_register.c
-Compiling alt_io_redirect.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_io_redirect.o HAL/src/alt_io_redirect.c
-Compiling alt_ioctl.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_ioctl.o HAL/src/alt_ioctl.c
-Compiling alt_irq_entry.S...
-nios2-elf-gcc -MP -MMD -c   -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global    -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED  -Wa,-gdwarf2  -o obj/HAL/src/alt_irq_entry.o HAL/src/alt_irq_entry.S
-Compiling alt_irq_handler.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_irq_handler.o HAL/src/alt_irq_handler.c
-Compiling alt_irq_register.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_irq_register.o HAL/src/alt_irq_register.c
-Compiling alt_irq_vars.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_irq_vars.o HAL/src/alt_irq_vars.c
-Compiling alt_isatty.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_isatty.o HAL/src/alt_isatty.c
-Compiling alt_kill.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_kill.o HAL/src/alt_kill.c
-Compiling alt_link.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_link.o HAL/src/alt_link.c
-Compiling alt_load.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_load.o HAL/src/alt_load.c
-Compiling alt_log_macro.S...
-nios2-elf-gcc -MP -MMD -c   -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global    -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED  -Wa,-gdwarf2  -o obj/HAL/src/alt_log_macro.o HAL/src/alt_log_macro.S
-Compiling alt_log_printf.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_log_printf.o HAL/src/alt_log_printf.c
-Compiling alt_lseek.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_lseek.o HAL/src/alt_lseek.c
-Compiling alt_main.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_main.o HAL/src/alt_main.c
-Compiling alt_malloc_lock.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_malloc_lock.o HAL/src/alt_malloc_lock.c
-Compiling alt_mcount.S...
-nios2-elf-gcc -MP -MMD -c   -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global    -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED  -Wa,-gdwarf2  -o obj/HAL/src/alt_mcount.o HAL/src/alt_mcount.S
-Compiling alt_open.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_open.o HAL/src/alt_open.c
-Compiling alt_printf.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_printf.o HAL/src/alt_printf.c
-Compiling alt_putchar.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_putchar.o HAL/src/alt_putchar.c
-Compiling alt_putcharbuf.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_putcharbuf.o HAL/src/alt_putcharbuf.c
-Compiling alt_putstr.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_putstr.o HAL/src/alt_putstr.c
-Compiling alt_read.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_read.o HAL/src/alt_read.c
-Compiling alt_release_fd.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_release_fd.o HAL/src/alt_release_fd.c
-Compiling alt_remap_cached.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_remap_cached.o HAL/src/alt_remap_cached.c
-Compiling alt_remap_uncached.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_remap_uncached.o HAL/src/alt_remap_uncached.c
-Compiling alt_rename.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_rename.o HAL/src/alt_rename.c
-Compiling alt_sbrk.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_sbrk.o HAL/src/alt_sbrk.c
-Compiling alt_settod.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_settod.o HAL/src/alt_settod.c
-Compiling alt_software_exception.S...
-nios2-elf-gcc -MP -MMD -c   -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global    -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED  -Wa,-gdwarf2  -o obj/HAL/src/alt_software_exception.o HAL/src/alt_software_exception.S
-Compiling alt_stat.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_stat.o HAL/src/alt_stat.c
-Compiling alt_tick.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_tick.o HAL/src/alt_tick.c
-Compiling alt_times.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_times.o HAL/src/alt_times.c
-Compiling alt_uncached_free.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_uncached_free.o HAL/src/alt_uncached_free.c
-Compiling alt_uncached_malloc.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_uncached_malloc.o HAL/src/alt_uncached_malloc.c
-Compiling alt_unlink.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_unlink.o HAL/src/alt_unlink.c
-Compiling alt_usleep.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_usleep.o HAL/src/alt_usleep.c
-Compiling alt_wait.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_wait.o HAL/src/alt_wait.c
-Compiling alt_write.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_write.o HAL/src/alt_write.c
-Compiling altera_nios2_gen2_irq.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/altera_nios2_gen2_irq.o HAL/src/altera_nios2_gen2_irq.c
-Compiling crt0.S...
-nios2-elf-gcc -MP -MMD -c   -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global    -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED  -Wa,-gdwarf2  -o obj/HAL/src/crt0.o HAL/src/crt0.S
-Compiling alt_sys_init.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/alt_sys_init.o alt_sys_init.c
-Compiling altera_avalon_epcs_flash_controller.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/drivers/src/altera_avalon_epcs_flash_controller.o drivers/src/altera_avalon_epcs_flash_controller.c
-Compiling altera_avalon_jtag_uart_fd.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/drivers/src/altera_avalon_jtag_uart_fd.o drivers/src/altera_avalon_jtag_uart_fd.c
-Compiling altera_avalon_jtag_uart_init.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/drivers/src/altera_avalon_jtag_uart_init.o drivers/src/altera_avalon_jtag_uart_init.c
-Compiling altera_avalon_jtag_uart_ioctl.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/drivers/src/altera_avalon_jtag_uart_ioctl.o drivers/src/altera_avalon_jtag_uart_ioctl.c
-Compiling altera_avalon_jtag_uart_read.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/drivers/src/altera_avalon_jtag_uart_read.o drivers/src/altera_avalon_jtag_uart_read.c
-Compiling altera_avalon_jtag_uart_write.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/drivers/src/altera_avalon_jtag_uart_write.o drivers/src/altera_avalon_jtag_uart_write.c
-Compiling altera_avalon_spi.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/drivers/src/altera_avalon_spi.o drivers/src/altera_avalon_spi.c
-Compiling altera_avalon_sysid_qsys.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/drivers/src/altera_avalon_sysid_qsys.o drivers/src/altera_avalon_sysid_qsys.c
-Compiling altera_avalon_uart_fd.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/drivers/src/altera_avalon_uart_fd.o drivers/src/altera_avalon_uart_fd.c
-Compiling altera_avalon_uart_init.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/drivers/src/altera_avalon_uart_init.o drivers/src/altera_avalon_uart_init.c
-Compiling altera_avalon_uart_ioctl.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/drivers/src/altera_avalon_uart_ioctl.o drivers/src/altera_avalon_uart_ioctl.c
-Compiling altera_avalon_uart_read.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/drivers/src/altera_avalon_uart_read.o drivers/src/altera_avalon_uart_read.c
-Compiling altera_avalon_uart_write.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/drivers/src/altera_avalon_uart_write.o drivers/src/altera_avalon_uart_write.c
-Compiling epcs_commands.c...
-nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global   -o obj/drivers/src/epcs_commands.o drivers/src/epcs_commands.c
-Creating libhal_bsp.a...
-rm -f -f libhal_bsp.a
-nios2-elf-ar -src libhal_bsp.a obj/HAL/src/alt_alarm_start.o obj/HAL/src/alt_busy_sleep.o obj/HAL/src/alt_close.o obj/HAL/src/alt_dcache_flush.o obj/HAL/src/alt_dcache_flush_all.o obj/HAL/src/alt_dcache_flush_no_writeback.o obj/HAL/src/alt_dev.o obj/HAL/src/alt_dev_llist_insert.o obj/HAL/src/alt_dma_rxchan_open.o obj/HAL/src/alt_dma_txchan_open.o obj/HAL/src/alt_do_ctors.o obj/HAL/src/alt_do_dtors.o obj/HAL/src/alt_ecc_fatal_entry.o obj/HAL/src/alt_ecc_fatal_exception.o obj/HAL/src/alt_env_lock.o obj/HAL/src/alt_environ.o obj/HAL/src/alt_errno.o obj/HAL/src/alt_exception_entry.o obj/HAL/src/alt_exception_muldiv.o obj/HAL/src/alt_exception_trap.o obj/HAL/src/alt_execve.o obj/HAL/src/alt_exit.o obj/HAL/src/alt_fcntl.o obj/HAL/src/alt_fd_lock.o obj/HAL/src/alt_fd_unlock.o obj/HAL/src/alt_find_dev.o obj/HAL/src/alt_find_file.o obj/HAL/src/alt_flash_dev.o obj/HAL/src/alt_fork.o obj/HAL/src/alt_fs_reg.o obj/HAL/src/alt_fstat.o obj/HAL/src/alt_get_fd.o obj/HAL/src/alt_getchar.o obj/HAL/src/alt_getpid.o obj/HAL/src/alt_gettod.o obj/HAL/src/alt_gmon.o obj/HAL/src/alt_icache_flush.o obj/HAL/src/alt_icache_flush_all.o obj/HAL/src/alt_iic.o obj/HAL/src/alt_iic_isr_register.o obj/HAL/src/alt_instruction_exception_entry.o obj/HAL/src/alt_instruction_exception_register.o obj/HAL/src/alt_io_redirect.o obj/HAL/src/alt_ioctl.o obj/HAL/src/alt_irq_entry.o obj/HAL/src/alt_irq_handler.o obj/HAL/src/alt_irq_register.o obj/HAL/src/alt_irq_vars.o obj/HAL/src/alt_isatty.o obj/HAL/src/alt_kill.o obj/HAL/src/alt_link.o obj/HAL/src/alt_load.o obj/HAL/src/alt_log_macro.o obj/HAL/src/alt_log_printf.o obj/HAL/src/alt_lseek.o obj/HAL/src/alt_main.o obj/HAL/src/alt_malloc_lock.o obj/HAL/src/alt_mcount.o obj/HAL/src/alt_open.o obj/HAL/src/alt_printf.o obj/HAL/src/alt_putchar.o obj/HAL/src/alt_putcharbuf.o obj/HAL/src/alt_putstr.o obj/HAL/src/alt_read.o obj/HAL/src/alt_release_fd.o obj/HAL/src/alt_remap_cached.o obj/HAL/src/alt_remap_uncached.o obj/HAL/src/alt_rename.o obj/HAL/src/alt_sbrk.o obj/HAL/src/alt_settod.o obj/HAL/src/alt_software_exception.o obj/HAL/src/alt_stat.o obj/HAL/src/alt_tick.o obj/HAL/src/alt_times.o obj/HAL/src/alt_uncached_free.o obj/HAL/src/alt_uncached_malloc.o obj/HAL/src/alt_unlink.o obj/HAL/src/alt_usleep.o obj/HAL/src/alt_wait.o obj/HAL/src/alt_write.o obj/HAL/src/altera_nios2_gen2_irq.o obj/HAL/src/crt0.o obj/alt_sys_init.o obj/drivers/src/altera_avalon_epcs_flash_controller.o obj/drivers/src/altera_avalon_jtag_uart_fd.o obj/drivers/src/altera_avalon_jtag_uart_init.o obj/drivers/src/altera_avalon_jtag_uart_ioctl.o obj/drivers/src/altera_avalon_jtag_uart_read.o obj/drivers/src/altera_avalon_jtag_uart_write.o obj/drivers/src/altera_avalon_spi.o obj/drivers/src/altera_avalon_sysid_qsys.o obj/drivers/src/altera_avalon_uart_fd.o obj/drivers/src/altera_avalon_uart_init.o obj/drivers/src/altera_avalon_uart_ioctl.o obj/drivers/src/altera_avalon_uart_read.o obj/drivers/src/altera_avalon_uart_write.o obj/drivers/src/epcs_commands.o
 [BSP build complete]
 Info: Compiling D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c to obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.o
-nios2-elf-gcc -xc -MP -MMD -c -ID:\github\adamShiau_FPGA\intel_IP\IRIS\NIOS\IRIS1_CPU_V01_5\include -I../HINS_CPU_V1_0_bsp//HAL/inc -I../HINS_CPU_V1_0_bsp/ -I../HINS_CPU_V1_0_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.o D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c
+nios2-elf-gcc -xc -MP -MMD -c -ID:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include -I../HINS_CPU_V1_0_bsp//HAL/inc -I../HINS_CPU_V1_0_bsp/ -I../HINS_CPU_V1_0_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.o D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c
+In file included from D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/HINS.h:18:0,
+                 from D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:8:
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:24:0: warning: "DEBUG_PRINT" redefined
+     #define DEBUG_PRINT(...) uart_printf_dbg(__VA_ARGS__)
+ ^
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:13:0: note: this is the location of the previous definition
+  #define DEBUG_PRINT
+ ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c: In function 'main':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:15:5: warning: implicit declaration of function 'update_IRIS_config_to_HW_REG' [-Wimplicit-function-declaration]
+     update_IRIS_config_to_HW_REG();
+     ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c: At top level:
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:27:6: warning: conflicting types for 'update_IRIS_config_to_HW_REG'
+ void update_IRIS_config_to_HW_REG()
+      ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:15:5: note: previous implicit declaration of 'update_IRIS_config_to_HW_REG' was here
+     update_IRIS_config_to_HW_REG();
+     ^
+Info: Compiling D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_fog.c to obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_fog.o
+nios2-elf-gcc -xc -MP -MMD -c -ID:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include -I../HINS_CPU_V1_0_bsp//HAL/inc -I../HINS_CPU_V1_0_bsp/ -I../HINS_CPU_V1_0_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_fog.o D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_fog.c
+In file included from D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/acq_fog.h:8:0,
+                 from D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_fog.c:2:
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:24:0: warning: "DEBUG_PRINT" redefined
+     #define DEBUG_PRINT(...) uart_printf_dbg(__VA_ARGS__)
+ ^
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:13:0: note: this is the location of the previous definition
+  #define DEBUG_PRINT
+ ^
+Info: Compiling D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.c to obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.o
+nios2-elf-gcc -xc -MP -MMD -c -ID:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include -I../HINS_CPU_V1_0_bsp//HAL/inc -I../HINS_CPU_V1_0_bsp/ -I../HINS_CPU_V1_0_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.o D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.c
+In file included from D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/acq_imu.h:8:0,
+                 from D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.c:2:
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:24:0: warning: "DEBUG_PRINT" redefined
+     #define DEBUG_PRINT(...) uart_printf_dbg(__VA_ARGS__)
+ ^
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:13:0: note: this is the location of the previous definition
+  #define DEBUG_PRINT
+ ^
+Info: Compiling D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_rst.c to obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_rst.o
+nios2-elf-gcc -xc -MP -MMD -c -ID:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include -I../HINS_CPU_V1_0_bsp//HAL/inc -I../HINS_CPU_V1_0_bsp/ -I../HINS_CPU_V1_0_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_rst.o D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_rst.c
+In file included from D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/acq_rst.h:8:0,
+                 from D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_rst.c:2:
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:24:0: warning: "DEBUG_PRINT" redefined
+     #define DEBUG_PRINT(...) uart_printf_dbg(__VA_ARGS__)
+ ^
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:13:0: note: this is the location of the previous definition
+  #define DEBUG_PRINT
+ ^
+Info: Compiling D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/adda_config.c to obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/adda_config.o
+nios2-elf-gcc -xc -MP -MMD -c -ID:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include -I../HINS_CPU_V1_0_bsp//HAL/inc -I../HINS_CPU_V1_0_bsp/ -I../HINS_CPU_V1_0_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/adda_config.o D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/adda_config.c
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/adda_config.c: In function 'init_ADDA':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/adda_config.c:8:65: warning: implicit declaration of function 'usleep' [-Wimplicit-function-declaration]
+     IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_ADC_BASE, SEL_CS_ADC); usleep (10); 
+                                                                 ^
+Info: Compiling D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c to obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.o
+nios2-elf-gcc -xc -MP -MMD -c -ID:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include -I../HINS_CPU_V1_0_bsp//HAL/inc -I../HINS_CPU_V1_0_bsp/ -I../HINS_CPU_V1_0_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.o D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c
+In file included from D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/ads122c04_se.h:9:0,
+                 from D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:1:
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:24:0: warning: "DEBUG_PRINT" redefined
+     #define DEBUG_PRINT(...) uart_printf_dbg(__VA_ARGS__)
+ ^
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:13:0: note: this is the location of the previous definition
+  #define DEBUG_PRINT
+ ^
+In file included from ../HINS_CPU_V1_0_bsp//drivers/inc/altera_avalon_pio_regs.h:34:0,
+                 from D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/ads122c04_se.h:5,
+                 from D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:1:
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c: In function 'read_ADS122C04_TEMP':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:20:27: error: 'var_i2c_ads122c04_temp_rdata_1' undeclared (first use in this function)
+ #define O_VAR_I2C_RDATA_1 var_i2c_ads122c04_temp_rdata_1
+                           ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:128:16: note: in expansion of macro 'IORD'
+  ain0 = (float)IORD(VARSET_BASE, O_VAR_I2C_RDATA_1)*2.048/8388608.0;
+                ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:128:34: note: in expansion of macro 'O_VAR_I2C_RDATA_1'
+  ain0 = (float)IORD(VARSET_BASE, O_VAR_I2C_RDATA_1)*2.048/8388608.0;
+                                  ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:20:27: note: each undeclared identifier is reported only once for each function it appears in
+ #define O_VAR_I2C_RDATA_1 var_i2c_ads122c04_temp_rdata_1
+                           ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:128:16: note: in expansion of macro 'IORD'
+  ain0 = (float)IORD(VARSET_BASE, O_VAR_I2C_RDATA_1)*2.048/8388608.0;
+                ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:128:34: note: in expansion of macro 'O_VAR_I2C_RDATA_1'
+  ain0 = (float)IORD(VARSET_BASE, O_VAR_I2C_RDATA_1)*2.048/8388608.0;
+                                  ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:21:27: error: 'var_i2c_ads122c04_temp_rdata_2' undeclared (first use in this function)
+ #define O_VAR_I2C_RDATA_2 var_i2c_ads122c04_temp_rdata_2
+                           ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:129:16: note: in expansion of macro 'IORD'
+  ain1 = (float)IORD(VARSET_BASE, O_VAR_I2C_RDATA_2)*2.048/8388608.0;
+                ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:129:34: note: in expansion of macro 'O_VAR_I2C_RDATA_2'
+  ain1 = (float)IORD(VARSET_BASE, O_VAR_I2C_RDATA_2)*2.048/8388608.0;
+                                  ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:22:27: error: 'var_i2c_ads122c04_temp_rdata_3' undeclared (first use in this function)
+ #define O_VAR_I2C_RDATA_3 var_i2c_ads122c04_temp_rdata_3
+                           ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:130:16: note: in expansion of macro 'IORD'
+  ain2 = (float)IORD(VARSET_BASE, O_VAR_I2C_RDATA_3)*2.048/8388608.0;
+                ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:130:34: note: in expansion of macro 'O_VAR_I2C_RDATA_3'
+  ain2 = (float)IORD(VARSET_BASE, O_VAR_I2C_RDATA_3)*2.048/8388608.0;
+                                  ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:23:27: error: 'var_i2c_ads122c04_temp_rdata_4' undeclared (first use in this function)
+ #define O_VAR_I2C_RDATA_4 var_i2c_ads122c04_temp_rdata_4
+                           ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:131:16: note: in expansion of macro 'IORD'
+  ain3 = (float)IORD(VARSET_BASE, O_VAR_I2C_RDATA_4)*2.048/8388608.0;
+                ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:131:34: note: in expansion of macro 'O_VAR_I2C_RDATA_4'
+  ain3 = (float)IORD(VARSET_BASE, O_VAR_I2C_RDATA_4)*2.048/8388608.0;
+                                  ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c: In function 'I2C_op_mode_sel_ADS122C04_TEMP':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:17:25: error: 'var_i2c_ads122c04_temp_ctrl' undeclared (first use in this function)
+ #define O_VAR_I2C_CTRL  var_i2c_ads122c04_temp_ctrl
+                         ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:154:15: note: in expansion of macro 'IORD'
+  alt_32 old = IORD(VARSET_BASE, O_VAR_I2C_CTRL);
+               ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:154:33: note: in expansion of macro 'O_VAR_I2C_CTRL'
+  alt_32 old = IORD(VARSET_BASE, O_VAR_I2C_CTRL);
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c: In function 'I2C_clock_rate_sel_ADS122C04_TEMP':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:17:25: error: 'var_i2c_ads122c04_temp_ctrl' undeclared (first use in this function)
+ #define O_VAR_I2C_CTRL  var_i2c_ads122c04_temp_ctrl
+                         ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:161:15: note: in expansion of macro 'IORD'
+  alt_32 old = IORD(VARSET_BASE, O_VAR_I2C_CTRL);
+               ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:161:33: note: in expansion of macro 'O_VAR_I2C_CTRL'
+  alt_32 old = IORD(VARSET_BASE, O_VAR_I2C_CTRL);
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c: In function 'I2C_write_ADS122C04_TEMP_register':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:18:25: error: 'var_i2c_ads122c04_temp_reg_addr' undeclared (first use in this function)
+ #define O_VAR_REG_ADDR  var_i2c_ads122c04_temp_reg_addr
+                         ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:173:2: note: in expansion of macro 'IOWR'
+  IOWR(VARSET_BASE, O_VAR_REG_ADDR, reg_addr);
+  ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:173:20: note: in expansion of macro 'O_VAR_REG_ADDR'
+  IOWR(VARSET_BASE, O_VAR_REG_ADDR, reg_addr);
+                    ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:16:23: error: 'var_i2c_ads122c04_temp_w_data' undeclared (first use in this function)
+ #define O_VAR_W_DATA  var_i2c_ads122c04_temp_w_data
+                       ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:176:2: note: in expansion of macro 'IOWR'
+  IOWR(VARSET_BASE, O_VAR_W_DATA, data);
+  ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:176:20: note: in expansion of macro 'O_VAR_W_DATA'
+  IOWR(VARSET_BASE, O_VAR_W_DATA, data);
+                    ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c: In function 'I2C_read_ADS122C04_TEMP_register':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:18:25: error: 'var_i2c_ads122c04_temp_reg_addr' undeclared (first use in this function)
+ #define O_VAR_REG_ADDR  var_i2c_ads122c04_temp_reg_addr
+                         ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:192:2: note: in expansion of macro 'IOWR'
+  IOWR(VARSET_BASE, O_VAR_REG_ADDR, reg_addr);
+  ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:192:20: note: in expansion of macro 'O_VAR_REG_ADDR'
+  IOWR(VARSET_BASE, O_VAR_REG_ADDR, reg_addr);
+                    ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:20:27: error: 'var_i2c_ads122c04_temp_rdata_1' undeclared (first use in this function)
+ #define O_VAR_I2C_RDATA_1 var_i2c_ads122c04_temp_rdata_1
+                           ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:199:7: note: in expansion of macro 'IORD'
+  rt = IORD(VARSET_BASE, O_VAR_I2C_RDATA_1);
+       ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:199:25: note: in expansion of macro 'O_VAR_I2C_RDATA_1'
+  rt = IORD(VARSET_BASE, O_VAR_I2C_RDATA_1);
+                         ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c: In function 'I2C_set_device_addr_ADS122C04_TEMP':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:15:25: error: 'var_i2c_ads122c04_temp_dev_addr' undeclared (first use in this function)
+ #define O_VAR_DEV_ADDR  var_i2c_ads122c04_temp_dev_addr
+                         ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:208:2: note: in expansion of macro 'IOWR'
+  IOWR(VARSET_BASE, O_VAR_DEV_ADDR, dev);
+  ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:208:20: note: in expansion of macro 'O_VAR_DEV_ADDR'
+  IOWR(VARSET_BASE, O_VAR_DEV_ADDR, dev);
+                    ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c: In function 'I2C_sm_set_enable_ADS122C04_TEMP':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:17:25: error: 'var_i2c_ads122c04_temp_ctrl' undeclared (first use in this function)
+ #define O_VAR_I2C_CTRL  var_i2c_ads122c04_temp_ctrl
+                         ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:236:2: note: in expansion of macro 'IOWR'
+  IOWR(VARSET_BASE, O_VAR_I2C_CTRL,  set_bit_safe_ADS122C04_TEMP(O_VAR_I2C_CTRL, ctrl_en_pos));
+  ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:236:20: note: in expansion of macro 'O_VAR_I2C_CTRL'
+  IOWR(VARSET_BASE, O_VAR_I2C_CTRL,  set_bit_safe_ADS122C04_TEMP(O_VAR_I2C_CTRL, ctrl_en_pos));
+                    ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c: In function 'I2C_sm_set_disable_ADS122C04_TEMP':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:17:25: error: 'var_i2c_ads122c04_temp_ctrl' undeclared (first use in this function)
+ #define O_VAR_I2C_CTRL  var_i2c_ads122c04_temp_ctrl
+                         ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:241:2: note: in expansion of macro 'IOWR'
+  IOWR(VARSET_BASE, O_VAR_I2C_CTRL, clear_bit_safe_ADS122C04_TEMP(O_VAR_I2C_CTRL, ctrl_en_pos) );
+  ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:241:20: note: in expansion of macro 'O_VAR_I2C_CTRL'
+  IOWR(VARSET_BASE, O_VAR_I2C_CTRL, clear_bit_safe_ADS122C04_TEMP(O_VAR_I2C_CTRL, ctrl_en_pos) );
+                    ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c: In function 'I2C_sm_read_finish_ADS122C04_TEMP':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:19:26: error: 'var_i2c_ads122c04_temp_status' undeclared (first use in this function)
+ #define O_VAR_I2C_STATUS var_i2c_ads122c04_temp_status
+                          ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:260:20: note: in expansion of macro 'IORD'
+  finish = (alt_u8)(IORD(VARSET_BASE, O_VAR_I2C_STATUS)>>status_finish_pos) & 0x01;
+                    ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:260:38: note: in expansion of macro 'O_VAR_I2C_STATUS'
+  finish = (alt_u8)(IORD(VARSET_BASE, O_VAR_I2C_STATUS)>>status_finish_pos) & 0x01;
+                                      ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c: At top level:
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.c:88:16: warning: 'dly_cnt' defined but not used [-Wunused-variable]
+ static alt_u32 dly_cnt = 0, number = 5000;
+                ^
+make: *** [obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.o] Error 1
+19:13:09 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0_bsp ****
+make all 
+[BSP build complete]
+19:13:41 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0 ****
+make all 
+Info: Building ../HINS_CPU_V1_0_bsp/
+D:/intelFPGA_lite/18.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../HINS_CPU_V1_0_bsp/
+[BSP build complete]
+Info: Compiling D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c to obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.o
+nios2-elf-gcc -xc -MP -MMD -c -ID:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include -I../HINS_CPU_V1_0_bsp//HAL/inc -I../HINS_CPU_V1_0_bsp/ -I../HINS_CPU_V1_0_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.o D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c
+In file included from D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1:0:
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:24:0: warning: "DEBUG_PRINT" redefined
+     #define DEBUG_PRINT(...) uart_printf_dbg(__VA_ARGS__)
+ ^
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:13:0: note: this is the location of the previous definition
+  #define DEBUG_PRINT
+ ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c: In function 'moving_average_init':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:9:27: warning: implicit declaration of function 'malloc' [-Wimplicit-function-declaration]
+     ma->buffer = (float *)malloc(window * sizeof(float));
+                           ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:9:27: warning: incompatible implicit declaration of built-in function 'malloc'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:9:27: note: include '<stdlib.h>' or provide a declaration of 'malloc'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:12:9: warning: implicit declaration of function 'exit' [-Wimplicit-function-declaration]
+         exit(1);
+         ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:12:9: warning: incompatible implicit declaration of built-in function 'exit'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:12:9: note: include '<stdlib.h>' or provide a declaration of 'exit'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c: In function 'moving_average_free':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:42:5: warning: implicit declaration of function 'free' [-Wimplicit-function-declaration]
+     free(ma->buffer);
+     ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:42:5: warning: incompatible implicit declaration of built-in function 'free'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:42:5: note: include '<stdlib.h>' or provide a declaration of 'free'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c: In function 'uart_printf':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:74:5: warning: implicit declaration of function 'vsnprintf' [-Wimplicit-function-declaration]
+     vsnprintf(buffer, 256, format, args);  
+     ^
+In file included from ../HINS_CPU_V1_0_bsp//drivers/inc/altera_avalon_uart_regs.h:34:0,
+                 from D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:6,
+                 from D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1:
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c: In function 'Set_Dac_Gain_x':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:289:49: error: 'SEL_CS_DAC_1CH' undeclared (first use in this function)
+  IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_DAC_BASE, SEL_CS_DAC_1CH); usleep (10); 
+                                                 ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:75:66: note: in definition of macro 'IOWR'
+   __builtin_stwio (__IO_CALC_ADDRESS_NATIVE ((BASE), (REGNUM)), (DATA))
+                                                                  ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:289:2: note: in expansion of macro 'IOWR_ALTERA_AVALON_SPI_SLAVE_SEL'
+  IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_DAC_BASE, SEL_CS_DAC_1CH); usleep (10); 
+  ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:289:49: note: each undeclared identifier is reported only once for each function it appears in
+  IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_DAC_BASE, SEL_CS_DAC_1CH); usleep (10); 
+                                                 ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:75:66: note: in definition of macro 'IOWR'
+   __builtin_stwio (__IO_CALC_ADDRESS_NATIVE ((BASE), (REGNUM)), (DATA))
+                                                                  ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:289:2: note: in expansion of macro 'IOWR_ALTERA_AVALON_SPI_SLAVE_SEL'
+  IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_DAC_BASE, SEL_CS_DAC_1CH); usleep (10); 
+  ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:289:66: warning: implicit declaration of function 'usleep' [-Wimplicit-function-declaration]
+  IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_DAC_BASE, SEL_CS_DAC_1CH); usleep (10); 
+                                                                  ^
+In file included from ../HINS_CPU_V1_0_bsp//drivers/inc/altera_avalon_uart_regs.h:34:0,
+                 from D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:6,
+                 from D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1:
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:290:47: error: 'DAC1_GAIN_LSB_ADDR' undeclared (first use in this function)
+  IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC1_GAIN_LSB_ADDR<<8) | (gain&0xFF)); usleep (10);
+                                               ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:75:66: note: in definition of macro 'IOWR'
+   __builtin_stwio (__IO_CALC_ADDRESS_NATIVE ((BASE), (REGNUM)), (DATA))
+                                                                  ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:290:2: note: in expansion of macro 'IOWR_ALTERA_AVALON_SPI_TXDATA'
+  IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC1_GAIN_LSB_ADDR<<8) | (gain&0xFF)); usleep (10);
+  ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:291:47: error: 'DAC1_GAIN_MSB_ADDR' undeclared (first use in this function)
+  IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC1_GAIN_MSB_ADDR<<8) | (gain>>8)); usleep (10);
+                                               ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:75:66: note: in definition of macro 'IOWR'
+   __builtin_stwio (__IO_CALC_ADDRESS_NATIVE ((BASE), (REGNUM)), (DATA))
+                                                                  ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:291:2: note: in expansion of macro 'IOWR_ALTERA_AVALON_SPI_TXDATA'
+  IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC1_GAIN_MSB_ADDR<<8) | (gain>>8)); usleep (10);
+  ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c: In function 'Set_Dac_Gain_y':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:297:49: error: 'SEL_CS_DAC_2CH' undeclared (first use in this function)
+  IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_DAC_BASE, SEL_CS_DAC_2CH); usleep (10); 
+                                                 ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:75:66: note: in definition of macro 'IOWR'
+   __builtin_stwio (__IO_CALC_ADDRESS_NATIVE ((BASE), (REGNUM)), (DATA))
+                                                                  ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:297:2: note: in expansion of macro 'IOWR_ALTERA_AVALON_SPI_SLAVE_SEL'
+  IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_DAC_BASE, SEL_CS_DAC_2CH); usleep (10); 
+  ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:298:47: error: 'DAC1_GAIN_LSB_ADDR' undeclared (first use in this function)
+  IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC1_GAIN_LSB_ADDR<<8) | (gain&0xFF)); usleep (10);
+                                               ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:75:66: note: in definition of macro 'IOWR'
+   __builtin_stwio (__IO_CALC_ADDRESS_NATIVE ((BASE), (REGNUM)), (DATA))
+                                                                  ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:298:2: note: in expansion of macro 'IOWR_ALTERA_AVALON_SPI_TXDATA'
+  IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC1_GAIN_LSB_ADDR<<8) | (gain&0xFF)); usleep (10);
+  ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:299:47: error: 'DAC1_GAIN_MSB_ADDR' undeclared (first use in this function)
+  IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC1_GAIN_MSB_ADDR<<8) | (gain>>8)); usleep (10);
+                                               ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:75:66: note: in definition of macro 'IOWR'
+   __builtin_stwio (__IO_CALC_ADDRESS_NATIVE ((BASE), (REGNUM)), (DATA))
+                                                                  ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:299:2: note: in expansion of macro 'IOWR_ALTERA_AVALON_SPI_TXDATA'
+  IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC1_GAIN_MSB_ADDR<<8) | (gain>>8)); usleep (10);
+  ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c: In function 'Set_Dac_Gain_z':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:305:49: error: 'SEL_CS_DAC_2CH' undeclared (first use in this function)
+  IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_DAC_BASE, SEL_CS_DAC_2CH); usleep (10); 
+                                                 ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:75:66: note: in definition of macro 'IOWR'
+   __builtin_stwio (__IO_CALC_ADDRESS_NATIVE ((BASE), (REGNUM)), (DATA))
+                                                                  ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:305:2: note: in expansion of macro 'IOWR_ALTERA_AVALON_SPI_SLAVE_SEL'
+  IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_DAC_BASE, SEL_CS_DAC_2CH); usleep (10); 
+  ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c: In function 'fog_parameter':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:343:8: warning: implicit declaration of function 'PARAMETER_Write_s' [-Wimplicit-function-declaration]
+        PARAMETER_Write_s(base, CMD_MOD_FREQ - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+        ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:349:8: warning: implicit declaration of function 'PARAMETER_Read' [-Wimplicit-function-declaration]
+        PARAMETER_Read(base, CMD_MOD_FREQ - CONTAINER_TO_CMD_OFFSET, data.bin_val);
+        ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1142:19: warning: unused variable 'nack' [-Wunused-variable]
+          uint8_t  nack = (uint8_t)(rx->value & 1); // TODO: ?ã•Ë¶ÅÊîØ?è¥ NACKÔºöÊü•Âø´Â?? (seq,ch) ??? ?õ¥?é•??çÈ?Å‰?ä‰???ÖÔ?õÊ≠§??ïÁï•
+                   ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1149:19: warning: unused variable 'nack' [-Wunused-variable]
+          uint8_t  nack = (uint8_t)(rx->value & 1); // TODO: ?ã•Ë¶ÅÊîØ?è¥ NACKÔºöÊü•Âø´Â?? (seq,ch) ??? ?õ¥?é•??çÈ?Å‰?ä‰???ÖÔ?õÊ≠§??ïÁï•
+                   ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1156:19: warning: unused variable 'nack' [-Wunused-variable]
+          uint8_t  nack = (uint8_t)(rx->value & 1); // TODO: ?ã•Ë¶ÅÊîØ?è¥ NACKÔºöÊü•Âø´Â?? (seq,ch) ??? ?õ¥?é•??çÈ?Å‰?ä‰???ÖÔ?õÊ≠§??ïÁï•
+                   ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1163:19: warning: unused variable 'nack' [-Wunused-variable]
+          uint8_t  nack = (uint8_t)(rx->value & 1); // TODO: ?ã•Ë¶ÅÊîØ?è¥ NACKÔºöÊü•Âø´Â?? (seq,ch) ??? ?õ¥?é•??çÈ?Å‰?ä‰???ÖÔ?õÊ≠§??ïÁï•
+                   ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1196:7: warning: implicit declaration of function 'PARAMETER_Write_f' [-Wimplicit-function-declaration]
+       PARAMETER_Write_f(MEM_BASE_SN, 0, SN1);
+       ^
+In file included from ../HINS_CPU_V1_0_bsp//drivers/inc/altera_avalon_uart_regs.h:34:0,
+                 from D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:6,
+                 from D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1:
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c: In function 'set_MUX_RS422':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1216:30: error: 'MUX_IN_BASE' undeclared (first use in this function)
+  IOWR_ALTERA_AVALON_PIO_DATA(MUX_IN_BASE, 0x00);
+                              ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:70:23: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                       ^
+../HINS_CPU_V1_0_bsp//drivers/inc/altera_avalon_pio_regs.h:38:55: note: in expansion of macro 'IOWR'
+ #define IOWR_ALTERA_AVALON_PIO_DATA(base, data)       IOWR(base, 0, data)
+                                                       ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1216:2: note: in expansion of macro 'IOWR_ALTERA_AVALON_PIO_DATA'
+  IOWR_ALTERA_AVALON_PIO_DATA(MUX_IN_BASE, 0x00);
+  ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c: In function 'set_MUX_RS232':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1221:30: error: 'MUX_IN_BASE' undeclared (first use in this function)
+  IOWR_ALTERA_AVALON_PIO_DATA(MUX_IN_BASE, 0x02);
+                              ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:70:23: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                       ^
+../HINS_CPU_V1_0_bsp//drivers/inc/altera_avalon_pio_regs.h:38:55: note: in expansion of macro 'IOWR'
+ #define IOWR_ALTERA_AVALON_PIO_DATA(base, data)       IOWR(base, 0, data)
+                                                       ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1221:2: note: in expansion of macro 'IOWR_ALTERA_AVALON_PIO_DATA'
+  IOWR_ALTERA_AVALON_PIO_DATA(MUX_IN_BASE, 0x02);
+  ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c: In function 'set_MUX_CAN':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1226:30: error: 'MUX_IN_BASE' undeclared (first use in this function)
+  IOWR_ALTERA_AVALON_PIO_DATA(MUX_IN_BASE, 0x01);
+                              ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:70:23: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                       ^
+../HINS_CPU_V1_0_bsp//drivers/inc/altera_avalon_pio_regs.h:38:55: note: in expansion of macro 'IOWR'
+ #define IOWR_ALTERA_AVALON_PIO_DATA(base, data)       IOWR(base, 0, data)
+                                                       ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1226:2: note: in expansion of macro 'IOWR_ALTERA_AVALON_PIO_DATA'
+  IOWR_ALTERA_AVALON_PIO_DATA(MUX_IN_BASE, 0x01);
+  ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c: In function 'dump_fog_param':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1305:19: warning: implicit declaration of function 'snprintf' [-Wimplicit-function-declaration]
+         offset += snprintf(buffer + offset, sizeof(buffer) - offset, "{");
+                   ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1305:19: warning: incompatible implicit declaration of built-in function 'snprintf'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1305:19: note: include '<stdio.h>' or provide a declaration of 'snprintf'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1309:23: warning: incompatible implicit declaration of built-in function 'snprintf'
+             offset += snprintf(buffer + offset, sizeof(buffer) - offset,
+                       ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1309:23: note: include '<stdio.h>' or provide a declaration of 'snprintf'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1315:19: warning: incompatible implicit declaration of built-in function 'snprintf'
+         offset += snprintf(buffer + offset, sizeof(buffer) - offset, "}\n");
+                   ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1315:19: note: include '<stdio.h>' or provide a declaration of 'snprintf'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c: In function 'dump_fog_param_framed':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1344:16: warning: incompatible implicit declaration of built-in function 'snprintf'
+         off += snprintf(json + off, sizeof(json) - off, "{");
+                ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1344:16: note: include '<stdio.h>' or provide a declaration of 'snprintf'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1348:20: warning: incompatible implicit declaration of built-in function 'snprintf'
+             off += snprintf(json + off, sizeof(json) - off,
+                    ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1348:20: note: include '<stdio.h>' or provide a declaration of 'snprintf'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1356:16: warning: incompatible implicit declaration of built-in function 'snprintf'
+         off += snprintf(json + off, sizeof(json) - off, "}");
+                ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1356:16: note: include '<stdio.h>' or provide a declaration of 'snprintf'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c: In function 'send_framed_payload':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1379:16: warning: incompatible implicit declaration of built-in function 'snprintf'
+     int hlen = snprintf(header, sizeof(header), "@%lu,%u,%lu,",
+                ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1379:16: note: include '<stdio.h>' or provide a declaration of 'snprintf'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c: In function 'dump_misalignment_param':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1404:15: warning: incompatible implicit declaration of built-in function 'snprintf'
+     offset += snprintf(buffer + offset, sizeof(buffer) - offset, "{");
+               ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1404:15: note: include '<stdio.h>' or provide a declaration of 'snprintf'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c: In function 'dump_misalignment_param_framed':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1424:16: warning: incompatible implicit declaration of built-in function 'snprintf'
+         off += snprintf(json + off, sizeof(json) - off, "{");
+                ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1424:16: note: include '<stdio.h>' or provide a declaration of 'snprintf'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1428:20: warning: incompatible implicit declaration of built-in function 'snprintf'
+             off += snprintf(json + off, sizeof(json) - off,
+                    ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1428:20: note: include '<stdio.h>' or provide a declaration of 'snprintf'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1436:16: warning: incompatible implicit declaration of built-in function 'snprintf'
+         off += snprintf(json + off, sizeof(json) - off, "}");
+                ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1436:16: note: include '<stdio.h>' or provide a declaration of 'snprintf'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c: In function 'dump_cfg_param_framed':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1455:16: warning: incompatible implicit declaration of built-in function 'snprintf'
+         off += snprintf(json + off, sizeof(json) - off, "{");
+                ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1455:16: note: include '<stdio.h>' or provide a declaration of 'snprintf'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1459:20: warning: incompatible implicit declaration of built-in function 'snprintf'
+             off += snprintf(json + off, sizeof(json) - off,
+                    ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1459:20: note: include '<stdio.h>' or provide a declaration of 'snprintf'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1467:16: warning: incompatible implicit declaration of built-in function 'snprintf'
+         off += snprintf(json + off, sizeof(json) - off, "}");
+                ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1467:16: note: include '<stdio.h>' or provide a declaration of 'snprintf'
+In file included from ../HINS_CPU_V1_0_bsp//drivers/inc/altera_avalon_uart_regs.h:34:0,
+                 from D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:6,
+                 from D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1:
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c: In function 'update_datarate_to_HW_REG':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1838:38: error: 'SYNC_100HZ' undeclared (first use in this function)
+    IOWR(VARSET_BASE, var_sync_count, SYNC_100HZ); 
+                                      ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:75:66: note: in definition of macro 'IOWR'
+   __builtin_stwio (__IO_CALC_ADDRESS_NATIVE ((BASE), (REGNUM)), (DATA))
+                                                                  ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1842:38: error: 'SYNC_50HZ' undeclared (first use in this function)
+    IOWR(VARSET_BASE, var_sync_count, SYNC_50HZ); 
+                                      ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:75:66: note: in definition of macro 'IOWR'
+   __builtin_stwio (__IO_CALC_ADDRESS_NATIVE ((BASE), (REGNUM)), (DATA))
+                                                                  ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.c:1846:38: error: 'SYNC_15HZ' undeclared (first use in this function)
+    IOWR(VARSET_BASE, var_sync_count, SYNC_15HZ); 
+                                      ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:75:66: note: in definition of macro 'IOWR'
+   __builtin_stwio (__IO_CALC_ADDRESS_NATIVE ((BASE), (REGNUM)), (DATA))
+                                                                  ^
+make: *** [obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.o] Error 1
+19:13:42 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0_bsp ****
+make all 
+[BSP build complete]
+19:14:20 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0 ****
+make all 
+Info: Building ../HINS_CPU_V1_0_bsp/
+D:/intelFPGA_lite/18.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../HINS_CPU_V1_0_bsp/
+[BSP build complete]
+Info: Compiling D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c to obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.o
+nios2-elf-gcc -xc -MP -MMD -c -ID:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include -I../HINS_CPU_V1_0_bsp//HAL/inc -I../HINS_CPU_V1_0_bsp/ -I../HINS_CPU_V1_0_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.o D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c
+In file included from D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/eeprom_v2.h:10:0,
+                 from D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c:1:
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:24:0: warning: "DEBUG_PRINT" redefined
+     #define DEBUG_PRINT(...) uart_printf_dbg(__VA_ARGS__)
+ ^
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:13:0: note: this is the location of the previous definition
+  #define DEBUG_PRINT
+ ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c: In function 'EEPROM_Write_4B':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c:138:2: warning: implicit declaration of function 'usleep' [-Wimplicit-function-declaration]
+  usleep(1320);
+  ^
+In file included from D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/eeprom_v2.h:8:0,
+                 from D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c:1:
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c: In function 'EEPROM_Read_4B':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c:19:27: error: 'var_i2c_EEPROM_rdata_1' undeclared (first use in this function)
+ #define O_VAR_I2C_RDATA_1 var_i2c_EEPROM_rdata_1
+                           ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c:181:11: note: in expansion of macro 'IORD'
+  buf[3] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_1);
+           ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c:181:29: note: in expansion of macro 'O_VAR_I2C_RDATA_1'
+  buf[3] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_1);
+                             ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c:19:27: note: each undeclared identifier is reported only once for each function it appears in
+ #define O_VAR_I2C_RDATA_1 var_i2c_EEPROM_rdata_1
+                           ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c:181:11: note: in expansion of macro 'IORD'
+  buf[3] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_1);
+           ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c:181:29: note: in expansion of macro 'O_VAR_I2C_RDATA_1'
+  buf[3] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_1);
+                             ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c:20:27: error: 'var_i2c_EEPROM_rdata_2' undeclared (first use in this function)
+ #define O_VAR_I2C_RDATA_2 var_i2c_EEPROM_rdata_2
+                           ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c:182:11: note: in expansion of macro 'IORD'
+  buf[2] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_2);
+           ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c:182:29: note: in expansion of macro 'O_VAR_I2C_RDATA_2'
+  buf[2] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_2);
+                             ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c:21:27: error: 'var_i2c_EEPROM_rdata_3' undeclared (first use in this function)
+ #define O_VAR_I2C_RDATA_3 var_i2c_EEPROM_rdata_3
+                           ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c:183:11: note: in expansion of macro 'IORD'
+  buf[1] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_3);
+           ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c:183:29: note: in expansion of macro 'O_VAR_I2C_RDATA_3'
+  buf[1] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_3);
+                             ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c:22:27: error: 'var_i2c_EEPROM_rdata_4' undeclared (first use in this function)
+ #define O_VAR_I2C_RDATA_4 var_i2c_EEPROM_rdata_4
+                           ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c:184:11: note: in expansion of macro 'IORD'
+  buf[0] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_4);
+           ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c:184:29: note: in expansion of macro 'O_VAR_I2C_RDATA_4'
+  buf[0] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_4);
+                             ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c:154:9: warning: unused variable 'i' [-Wunused-variable]
+  alt_u8 i=0;
+         ^
+In file included from D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/eeprom_v2.h:8:0,
+                 from D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c:1:
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c: In function 'EEPROM_Read_4B_R':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c:19:27: error: 'var_i2c_EEPROM_rdata_1' undeclared (first use in this function)
+ #define O_VAR_I2C_RDATA_1 var_i2c_EEPROM_rdata_1
+                           ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c:218:11: note: in expansion of macro 'IORD'
+  buf[0] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_1);
+           ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c:218:29: note: in expansion of macro 'O_VAR_I2C_RDATA_1'
+  buf[0] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_1);
+                             ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c:20:27: error: 'var_i2c_EEPROM_rdata_2' undeclared (first use in this function)
+ #define O_VAR_I2C_RDATA_2 var_i2c_EEPROM_rdata_2
+                           ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c:219:11: note: in expansion of macro 'IORD'
+  buf[1] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_2);
+           ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c:219:29: note: in expansion of macro 'O_VAR_I2C_RDATA_2'
+  buf[1] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_2);
+                             ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c:21:27: error: 'var_i2c_EEPROM_rdata_3' undeclared (first use in this function)
+ #define O_VAR_I2C_RDATA_3 var_i2c_EEPROM_rdata_3
+                           ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c:220:11: note: in expansion of macro 'IORD'
+  buf[2] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_3);
+           ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c:220:29: note: in expansion of macro 'O_VAR_I2C_RDATA_3'
+  buf[2] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_3);
+                             ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c:22:27: error: 'var_i2c_EEPROM_rdata_4' undeclared (first use in this function)
+ #define O_VAR_I2C_RDATA_4 var_i2c_EEPROM_rdata_4
+                           ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c:221:11: note: in expansion of macro 'IORD'
+  buf[3] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_4);
+           ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c:221:29: note: in expansion of macro 'O_VAR_I2C_RDATA_4'
+  buf[3] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_4);
+                             ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c:192:9: warning: unused variable 'i' [-Wunused-variable]
+  alt_u8 i=0;
+         ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c: In function 'I2C_sm_start':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c:434:9: warning: unused variable 'dly' [-Wunused-variable]
+  alt_u8 dly = 50;
+         ^
+In file included from D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/eeprom_v2.h:8:0,
+                 from D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c:1:
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c: In function 'I2C_sm_read_finish':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c:18:26: error: 'var_i2c_EEPROM_status' undeclared (first use in this function)
+ #define O_VAR_I2C_STATUS var_i2c_EEPROM_status
+                          ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c:511:20: note: in expansion of macro 'IORD'
+  finish = (alt_u8)(IORD(VARSET_BASE, O_VAR_I2C_STATUS)>>status_finish_pos) & 0x01;
+                    ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.c:511:38: note: in expansion of macro 'O_VAR_I2C_STATUS'
+  finish = (alt_u8)(IORD(VARSET_BASE, O_VAR_I2C_STATUS)>>status_finish_pos) & 0x01;
+                                      ^
+make: *** [obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.o] Error 1
+19:14:22 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0_bsp ****
+make all 
+[BSP build complete]
+19:14:52 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0 ****
+make all 
+Info: Building ../HINS_CPU_V1_0_bsp/
+D:/intelFPGA_lite/18.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../HINS_CPU_V1_0_bsp/
+[BSP build complete]
 Info: Linking HINS_CPU_V1_0.elf
-nios2-elf-g++  -T'../HINS_CPU_V1_0_bsp//linker.x' -msys-crt0='../HINS_CPU_V1_0_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../HINS_CPU_V1_0_bsp/   -Wl,-Map=HINS_CPU_V1_0.map   -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o HINS_CPU_V1_0.elf obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.o -lm -msys-lib=m
-nios2-elf-insert HINS_CPU_V1_0.elf --thread_model hal --cpu_name nios2 --qsys true --simulation_enabled false --id 16777216 --sidp 0x20022a0 --timestamp 1764673317 --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name CPU --quartus_project_dir "D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1" --jdi D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0_bsp/../../HINS_PRJ_V1.jdi --sopcinfo D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0_bsp/../../CPU.sopcinfo
-Info: (HINS_CPU_V1_0.elf) 36 KBytes program size (code + initialized data).
-Info:                     16347 KBytes free for stack + heap.
+nios2-elf-g++  -T'../HINS_CPU_V1_0_bsp//linker.x' -msys-crt0='../HINS_CPU_V1_0_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../HINS_CPU_V1_0_bsp/   -Wl,-Map=HINS_CPU_V1_0.map   -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o HINS_CPU_V1_0.elf obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_fog.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_rst.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/adda_config.o -lm -msys-lib=m
+obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_fog.o: In function `acq_fog':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_fog.c:22: undefined reference to `uart_printf_dbg'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_fog.c:24: undefined reference to `uart_printf_dbg'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_fog.c:28: undefined reference to `uart_printf_dbg'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_fog.c:32: undefined reference to `uart_printf_dbg'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_fog.c:41: undefined reference to `SF_temp_compensation_1st_order_fog'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_fog.c:42: undefined reference to `BIAS_temp_compensation_1st_order_fog_3T'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_fog.c:45: undefined reference to `misalignment_calibration'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_fog.c:56: undefined reference to `SF_temp_compensation_1st_order_fog'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_fog.c:57: undefined reference to `BIAS_temp_compensation_1st_order_fog_3T'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_fog.c:60: undefined reference to `misalignment_calibration'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_fog.c:69: undefined reference to `SF_temp_compensation_1st_order_fog'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_fog.c:70: undefined reference to `BIAS_temp_compensation_1st_order_fog_3T'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_fog.c:73: undefined reference to `misalignment_calibration'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_fog.c:89: undefined reference to `crc_32'
+obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.o: In function `acq_imu':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.c:21: undefined reference to `uart_printf_dbg'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.c:23: undefined reference to `uart_printf_dbg'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.c:27: undefined reference to `uart_printf_dbg'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.c:31: undefined reference to `uart_printf_dbg'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.c:34: undefined reference to `uart_printf_dbg'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.c:44: undefined reference to `SerialWrite'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.c:45: undefined reference to `SerialWrite'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.c:46: undefined reference to `SerialWrite'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.c:47: undefined reference to `SerialWrite'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.c:51: undefined reference to `SerialWrite'
+obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.o:D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.c:52: more undefined references to `SerialWrite' follow
+collect2.exe: error: ld returned 1 exit status
+make: *** [HINS_CPU_V1_0.elf] Error 1
+19:14:54 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0_bsp ****
+make all 
+[BSP build complete]
+19:15:12 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0 ****
+make all 
+Info: Building ../HINS_CPU_V1_0_bsp/
+D:/intelFPGA_lite/18.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../HINS_CPU_V1_0_bsp/
+[BSP build complete]
+Info: Linking HINS_CPU_V1_0.elf
+nios2-elf-g++  -T'../HINS_CPU_V1_0_bsp//linker.x' -msys-crt0='../HINS_CPU_V1_0_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../HINS_CPU_V1_0_bsp/   -Wl,-Map=HINS_CPU_V1_0.map   -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o HINS_CPU_V1_0.elf obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/adda_config.o -lm -msys-lib=m
+nios2-elf-insert HINS_CPU_V1_0.elf --thread_model hal --cpu_name nios2 --qsys true --simulation_enabled false --id 16777216 --sidp 0x20022a0 --timestamp 1764760072 --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name CPU --quartus_project_dir "D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1" --jdi D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0_bsp/../../HINS_PRJ_V1.jdi --sopcinfo D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0_bsp/../../CPU.sopcinfo
+Info: (HINS_CPU_V1_0.elf) 37 KBytes program size (code + initialized data).
+Info:                     16346 KBytes free for stack + heap.
 Info: Creating HINS_CPU_V1_0.objdump
 nios2-elf-objdump --disassemble --syms --all-header --source HINS_CPU_V1_0.elf >HINS_CPU_V1_0.objdump
 [HINS_CPU_V1_0 build complete]
-19:35:35 **** Build of configuration Nios II for project HINS_CPU_V1_0_bsp ****
+19:15:13 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0_bsp ****
 make all 
 [BSP build complete]
-19:36:10 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0 ****
-make all 
-Info: Building ../HINS_CPU_V1_0_bsp/
-D:/intelFPGA_lite/18.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../HINS_CPU_V1_0_bsp/
-[BSP build complete]
-[HINS_CPU_V1_0 build complete]
-19:36:11 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0_bsp ****
-make all 
-[BSP build complete]
-19:36:15 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0 ****
-make all 
-Info: Building ../HINS_CPU_V1_0_bsp/
-D:/intelFPGA_lite/18.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../HINS_CPU_V1_0_bsp/
-[BSP build complete]
-[HINS_CPU_V1_0 build complete]
-19:36:16 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0_bsp ****
-make all 
-[BSP build complete]
-19:37:07 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0 ****
-make all 
-Info: Building ../HINS_CPU_V1_0_bsp/
-D:/intelFPGA_lite/18.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../HINS_CPU_V1_0_bsp/
-[BSP build complete]
-[HINS_CPU_V1_0 build complete]
-19:37:07 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0_bsp ****
-make all 
-[BSP build complete]
-19:38:48 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0 ****
-make all 
-Info: Building ../HINS_CPU_V1_0_bsp/
-D:/intelFPGA_lite/18.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../HINS_CPU_V1_0_bsp/
-[BSP build complete]
-[HINS_CPU_V1_0 build complete]
-19:38:49 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0_bsp ****
-make all 
-[BSP build complete]
-19:38:52 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0 ****
-make all 
-Info: Building ../HINS_CPU_V1_0_bsp/
-D:/intelFPGA_lite/18.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../HINS_CPU_V1_0_bsp/
-[BSP build complete]
-[HINS_CPU_V1_0 build complete]
-19:38:53 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0_bsp ****
-make all 
-[BSP build complete]
-19:39:45 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0 ****
+19:18:10 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0 ****
 make all 
 Info: Building ../HINS_CPU_V1_0_bsp/
 D:/intelFPGA_lite/18.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../HINS_CPU_V1_0_bsp/
