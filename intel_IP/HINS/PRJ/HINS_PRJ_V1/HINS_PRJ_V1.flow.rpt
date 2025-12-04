@@ -1,5 +1,5 @@
 Flow report for HINS_PRJ_V1
-Wed Dec 03 19:08:56 2025
+Thu Dec 04 18:58:20 2025
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -40,20 +40,20 @@ refer to the applicable agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Flow Summary                                                                     ;
 +------------------------------------+---------------------------------------------+
-; Flow Status                        ; Successful - Wed Dec 03 19:08:51 2025       ;
+; Flow Status                        ; Successful - Thu Dec 04 18:58:16 2025       ;
 ; Quartus Prime Version              ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                      ; HINS_PRJ_V1                                 ;
 ; Top-level Entity Name              ; HINS_TOP_V1                                 ;
 ; Family                             ; Cyclone IV E                                ;
 ; Device                             ; EP4CE15F17I7                                ;
 ; Timing Models                      ; Final                                       ;
-; Total logic elements               ; 6,509 / 15,408 ( 42 % )                     ;
-;     Total combinational functions  ; 5,015 / 15,408 ( 33 % )                     ;
-;     Dedicated logic registers      ; 4,689 / 15,408 ( 30 % )                     ;
-; Total registers                    ; 4757                                        ;
+; Total logic elements               ; 7,163 / 15,408 ( 46 % )                     ;
+;     Total combinational functions  ; 5,420 / 15,408 ( 35 % )                     ;
+;     Dedicated logic registers      ; 5,243 / 15,408 ( 34 % )                     ;
+; Total registers                    ; 5311                                        ;
 ; Total pins                         ; 98 / 166 ( 59 % )                           ;
 ; Total virtual pins                 ; 0                                           ;
-; Total memory bits                  ; 23,040 / 516,096 ( 4 % )                    ;
+; Total memory bits                  ; 32,256 / 516,096 ( 6 % )                    ;
 ; Embedded Multiplier 9-bit elements ; 0 / 112 ( 0 % )                             ;
 ; Total PLLs                         ; 1 / 4 ( 25 % )                              ;
 +------------------------------------+---------------------------------------------+
@@ -64,31 +64,61 @@ refer to the applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 12/03/2025 19:07:41 ;
+; Start date & time ; 12/04/2025 18:57:06 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; HINS_PRJ_V1         ;
 +-------------------+---------------------+
 
 
-+-------------------------------------------------------------------------------------------------------------------------+
-; Flow Non-Default Global Settings                                                                                        ;
-+-------------------------------------+----------------------------------------+---------------+-------------+------------+
-; Assignment Name                     ; Value                                  ; Default Value ; Entity Name ; Section Id ;
-+-------------------------------------+----------------------------------------+---------------+-------------+------------+
-; COMPILER_SIGNATURE_ID               ; 192355418311013.176476006134688        ; --            ; --          ; --         ;
-; MISC_FILE                           ; ./fifo_inst.v                          ; --            ; --          ; --         ;
-; MISC_FILE                           ; ./pll_inst.v                           ; --            ; --          ; --         ;
-; MISC_FILE                           ; ./pll.ppf                              ; --            ; --          ; --         ;
-; PARTITION_COLOR                     ; -- (Not supported for targeted family) ; --            ; HINS_TOP_V1 ; Top        ;
-; PARTITION_FITTER_PRESERVATION_LEVEL ; -- (Not supported for targeted family) ; --            ; HINS_TOP_V1 ; Top        ;
-; PARTITION_NETLIST_TYPE              ; -- (Not supported for targeted family) ; --            ; HINS_TOP_V1 ; Top        ;
-; SEARCH_PATH                         ; ../../TOP                              ; --            ; --          ; --         ;
-; SEARCH_PATH                         ; ../../HW_IP                            ; --            ; --          ; --         ;
-; SEARCH_PATH                         ; ../../HW_IP/FOG                        ; --            ; --          ; --         ;
-; SEARCH_PATH                         ; ../../../2018.1                        ; --            ; --          ; --         ;
-; TOP_LEVEL_ENTITY                    ; HINS_TOP_V1                            ; HINS_PRJ_V1   ; --          ; --         ;
-; VERILOG_INPUT_VERSION               ; SystemVerilog_2005                     ; Verilog_2001  ; --          ; --         ;
-+-------------------------------------+----------------------------------------+---------------+-------------+------------+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Flow Non-Default Global Settings                                                                                                                                                        ;
++-------------------------------------+--------------------------------------------------------------------------------------------------+---------------+-------------+------------------+
+; Assignment Name                     ; Value                                                                                            ; Default Value ; Entity Name ; Section Id       ;
++-------------------------------------+--------------------------------------------------------------------------------------------------+---------------+-------------+------------------+
+; COMPILER_SIGNATURE_ID               ; 192355418311013.176484582611204                                                                  ; --            ; --          ; --               ;
+; ENABLE_SIGNALTAP                    ; On                                                                                               ; --            ; --          ; --               ;
+; MISC_FILE                           ; ./fifo_inst.v                                                                                    ; --            ; --          ; --               ;
+; MISC_FILE                           ; ./pll_inst.v                                                                                     ; --            ; --          ; --               ;
+; MISC_FILE                           ; ./pll.ppf                                                                                        ; --            ; --          ; --               ;
+; PARTITION_COLOR                     ; -- (Not supported for targeted family)                                                           ; --            ; HINS_TOP_V1 ; Top              ;
+; PARTITION_FITTER_PRESERVATION_LEVEL ; -- (Not supported for targeted family)                                                           ; --            ; HINS_TOP_V1 ; Top              ;
+; PARTITION_NETLIST_TYPE              ; -- (Not supported for targeted family)                                                           ; --            ; HINS_TOP_V1 ; Top              ;
+; SEARCH_PATH                         ; ../../TOP                                                                                        ; --            ; --          ; --               ;
+; SEARCH_PATH                         ; ../../HW_IP                                                                                      ; --            ; --          ; --               ;
+; SEARCH_PATH                         ; ../../HW_IP/FOG                                                                                  ; --            ; --          ; --               ;
+; SEARCH_PATH                         ; ../../../2018.1                                                                                  ; --            ; --          ; --               ;
+; SLD_FILE                            ; db/ADC_auto_stripped.stp                                                                         ; --            ; --          ; --               ;
+; SLD_NODE_CREATOR_ID                 ; 110                                                                                              ; --            ; --          ; auto_signaltap_0 ;
+; SLD_NODE_ENTITY_NAME                ; sld_signaltap                                                                                    ; --            ; --          ; auto_signaltap_0 ;
+; SLD_NODE_PARAMETER_ASSIGNMENT       ; SLD_RAM_BLOCK_TYPE=AUTO                                                                          ; --            ; --          ; auto_signaltap_0 ;
+; SLD_NODE_PARAMETER_ASSIGNMENT       ; SLD_DATA_BITS=18                                                                                 ; --            ; --          ; auto_signaltap_0 ;
+; SLD_NODE_PARAMETER_ASSIGNMENT       ; SLD_TRIGGER_BITS=18                                                                              ; --            ; --          ; auto_signaltap_0 ;
+; SLD_NODE_PARAMETER_ASSIGNMENT       ; SLD_STORAGE_QUALIFIER_BITS=18                                                                    ; --            ; --          ; auto_signaltap_0 ;
+; SLD_NODE_PARAMETER_ASSIGNMENT       ; SLD_NODE_INFO=805334528                                                                          ; --            ; --          ; auto_signaltap_0 ;
+; SLD_NODE_PARAMETER_ASSIGNMENT       ; SLD_POWER_UP_TRIGGER=0                                                                           ; --            ; --          ; auto_signaltap_0 ;
+; SLD_NODE_PARAMETER_ASSIGNMENT       ; SLD_INVERSION_MASK=00000000000000000000000000000000000000000000000000000000000000000000000000000 ; --            ; --          ; auto_signaltap_0 ;
+; SLD_NODE_PARAMETER_ASSIGNMENT       ; SLD_INVERSION_MASK_LENGTH=77                                                                     ; --            ; --          ; auto_signaltap_0 ;
+; SLD_NODE_PARAMETER_ASSIGNMENT       ; SLD_STORAGE_QUALIFIER_INVERSION_MASK_LENGTH=0                                                    ; --            ; --          ; auto_signaltap_0 ;
+; SLD_NODE_PARAMETER_ASSIGNMENT       ; SLD_SEGMENT_SIZE=512                                                                             ; --            ; --          ; auto_signaltap_0 ;
+; SLD_NODE_PARAMETER_ASSIGNMENT       ; SLD_ATTRIBUTE_MEM_MODE=OFF                                                                       ; --            ; --          ; auto_signaltap_0 ;
+; SLD_NODE_PARAMETER_ASSIGNMENT       ; SLD_STATE_FLOW_USE_GENERATED=0                                                                   ; --            ; --          ; auto_signaltap_0 ;
+; SLD_NODE_PARAMETER_ASSIGNMENT       ; SLD_STATE_BITS=11                                                                                ; --            ; --          ; auto_signaltap_0 ;
+; SLD_NODE_PARAMETER_ASSIGNMENT       ; SLD_BUFFER_FULL_STOP=1                                                                           ; --            ; --          ; auto_signaltap_0 ;
+; SLD_NODE_PARAMETER_ASSIGNMENT       ; SLD_CURRENT_RESOURCE_WIDTH=1                                                                     ; --            ; --          ; auto_signaltap_0 ;
+; SLD_NODE_PARAMETER_ASSIGNMENT       ; SLD_INCREMENTAL_ROUTING=1                                                                        ; --            ; --          ; auto_signaltap_0 ;
+; SLD_NODE_PARAMETER_ASSIGNMENT       ; SLD_TRIGGER_LEVEL=1                                                                              ; --            ; --          ; auto_signaltap_0 ;
+; SLD_NODE_PARAMETER_ASSIGNMENT       ; SLD_SAMPLE_DEPTH=512                                                                             ; --            ; --          ; auto_signaltap_0 ;
+; SLD_NODE_PARAMETER_ASSIGNMENT       ; SLD_TRIGGER_IN_ENABLED=0                                                                         ; --            ; --          ; auto_signaltap_0 ;
+; SLD_NODE_PARAMETER_ASSIGNMENT       ; SLD_TRIGGER_PIPELINE=0                                                                           ; --            ; --          ; auto_signaltap_0 ;
+; SLD_NODE_PARAMETER_ASSIGNMENT       ; SLD_RAM_PIPELINE=0                                                                               ; --            ; --          ; auto_signaltap_0 ;
+; SLD_NODE_PARAMETER_ASSIGNMENT       ; SLD_COUNTER_PIPELINE=0                                                                           ; --            ; --          ; auto_signaltap_0 ;
+; SLD_NODE_PARAMETER_ASSIGNMENT       ; SLD_ADVANCED_TRIGGER_ENTITY=basic,1,                                                             ; --            ; --          ; auto_signaltap_0 ;
+; SLD_NODE_PARAMETER_ASSIGNMENT       ; SLD_TRIGGER_LEVEL_PIPELINE=1                                                                     ; --            ; --          ; auto_signaltap_0 ;
+; SLD_NODE_PARAMETER_ASSIGNMENT       ; SLD_ENABLE_ADVANCED_TRIGGER=0                                                                    ; --            ; --          ; auto_signaltap_0 ;
+; TOP_LEVEL_ENTITY                    ; HINS_TOP_V1                                                                                      ; HINS_PRJ_V1   ; --          ; --               ;
+; USE_SIGNALTAP_FILE                  ; ../../STP/ADC.stp                                                                                ; --            ; --          ; --               ;
+; VERILOG_INPUT_VERSION               ; SystemVerilog_2005                                                                               ; Verilog_2001  ; --          ; --               ;
++-------------------------------------+--------------------------------------------------------------------------------------------------+---------------+-------------+------------------+
 
 
 +--------------------------------------------------------------------------------------------------------------------------+
@@ -96,11 +126,11 @@ refer to the applicable agreement for further details.
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis ; 00:00:52     ; 1.0                     ; 5054 MB             ; 00:01:12                           ;
-; Fitter               ; 00:00:12     ; 1.3                     ; 6601 MB             ; 00:00:20                           ;
-; Assembler            ; 00:00:01     ; 1.0                     ; 4700 MB             ; 00:00:01                           ;
-; Timing Analyzer      ; 00:00:04     ; 1.6                     ; 4990 MB             ; 00:00:04                           ;
-; Total                ; 00:01:09     ; --                      ; --                  ; 00:01:37                           ;
+; Analysis & Synthesis ; 00:00:51     ; 1.0                     ; 5066 MB             ; 00:01:08                           ;
+; Fitter               ; 00:00:14     ; 1.3                     ; 6609 MB             ; 00:00:26                           ;
+; Assembler            ; 00:00:01     ; 1.0                     ; 4703 MB             ; 00:00:01                           ;
+; Timing Analyzer      ; 00:00:03     ; 1.8                     ; 4998 MB             ; 00:00:04                           ;
+; Total                ; 00:01:09     ; --                      ; --                  ; 00:01:39                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 

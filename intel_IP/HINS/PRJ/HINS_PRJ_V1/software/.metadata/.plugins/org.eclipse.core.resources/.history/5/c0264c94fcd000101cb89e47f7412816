@@ -8,7 +8,7 @@ void init_ADDA(void)
     IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_ADC_BASE, SEL_CS_ADC); usleep (10); 
 	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_ADC_BASE, ADC_RESET); usleep (10);
 	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_ADC_BASE, ADC_FMT); usleep (10);
-//	set_ADC_all_one();
+	set_ADC_all_one();
 	IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_ADC_BASE, 0); usleep (10); // release ADC CS
 
 	//select DAC_2CH of HINS -> Reset -> change format to 2's complement
