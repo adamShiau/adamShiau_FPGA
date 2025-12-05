@@ -15,11 +15,11 @@
 #define O_VAR_W_DATA		var_i2c_EEPROM_w_data
 #define O_VAR_I2C_CTRL		var_i2c_EEPROM_ctrl
 #define O_VAR_REG_ADDR		var_i2c_EEPROM_reg_addr
-#define O_VAR_I2C_STATUS	var_i2c_EEPROM_status
-#define O_VAR_I2C_RDATA_1	var_i2c_EEPROM_rdata_1
-#define O_VAR_I2C_RDATA_2	var_i2c_EEPROM_rdata_2
-#define O_VAR_I2C_RDATA_3	var_i2c_EEPROM_rdata_3
-#define O_VAR_I2C_RDATA_4	var_i2c_EEPROM_rdata_4
+#define O_VAR_I2C_STATUS	i_var_i2c_EEPROM_status
+#define O_VAR_I2C_RDATA_1	i_var_i2c_EEPROM_rdata_1
+#define O_VAR_I2C_RDATA_2	i_var_i2c_EEPROM_rdata_2
+#define O_VAR_I2C_RDATA_3	i_var_i2c_EEPROM_rdata_3
+#define O_VAR_I2C_RDATA_4	i_var_i2c_EEPROM_rdata_4
 
 #define I2C_READ			0x1
 #define I2C_WRITE			0x0

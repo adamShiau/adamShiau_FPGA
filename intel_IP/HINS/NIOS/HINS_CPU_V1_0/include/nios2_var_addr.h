@@ -36,16 +36,17 @@
 #define i_var_i2c_EEPROM_rdata_1	    60 + 6
 #define i_var_i2c_EEPROM_rdata_2	    60 + 7
 #define i_var_i2c_EEPROM_rdata_3	    60 + 8
-#define i_var_i2c_IMU_status	        60 + 9
-#define i_var_i2c_IMU_rdata_1	        60 + 10
-#define i_var_i2c_IMU_rdata_2	        60 + 11
-#define i_var_i2c_IMU_rdata_3           60 + 12
-#define i_var_i2c_IMU_rdata_4           60 + 13
-#define i_var_i2c_IMU_rdata_5           60 + 14
-#define i_var_i2c_IMU_rdata_6           60 + 15
-#define i_var_i2c_IMU_rdata_7           60 + 16
-#define i_var_err                       60 + 17
-#define i_var_step                      60 + 18
-#define i_var_timer                     60 + 19
+#define i_var_i2c_EEPROM_rdata_4	    60 + 9
+#define i_var_i2c_IMU_status	        60 + 10
+#define i_var_i2c_IMU_rdata_1	        60 + 11
+#define i_var_i2c_IMU_rdata_2	        60 + 12
+#define i_var_i2c_IMU_rdata_3           60 + 13
+#define i_var_i2c_IMU_rdata_4           60 + 14
+#define i_var_i2c_IMU_rdata_5           60 + 15
+#define i_var_i2c_IMU_rdata_6           60 + 16
+#define i_var_i2c_IMU_rdata_7           60 + 17
+#define i_var_err                       60 + 18
+#define i_var_step                      60 + 19
+#define i_var_timer                     60 + 20
 
 

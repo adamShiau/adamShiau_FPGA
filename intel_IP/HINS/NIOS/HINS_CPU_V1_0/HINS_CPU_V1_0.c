@@ -9,6 +9,7 @@
 
 #define COE_TIMER 0.0001
 
+int i=0;
 int main(void)
 {
     printf("Hello World\n");
@@ -19,6 +20,14 @@ int main(void)
 	usleep(50);
 	clear_DAC_reset();
 	init_ADDA();
+    while(1)
+    {
+        printf("i= %d\n", i);
+        uart_printf_dbg("i= %d\n", i);
+        uart_printf("i= %d\n", i);
+        i++;
+        usleep(250000);
+    }
     return 0;
 }
 

@@ -1,9 +1,9 @@
-18:32:54 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0 ****
+20:29:14 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0 ****
 make all 
 Info: Building ../HINS_CPU_V1_0_bsp/
 D:/intelFPGA_lite/18.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../HINS_CPU_V1_0_bsp/
 [BSP build complete]
 [HINS_CPU_V1_0 build complete]
 
-18:32:55 Build Finished (took 594ms)
+20:29:15 Build Finished (took 1s.167ms)
 

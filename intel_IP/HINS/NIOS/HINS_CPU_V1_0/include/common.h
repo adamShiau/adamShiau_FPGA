@@ -10,6 +10,8 @@
 #include <stdint.h>
 #include <stddef.h> 
 
+
+
  #define DEBUG_PRINT
 //  #define INFO
 // #define UART_DEBUG
@@ -233,9 +235,9 @@ void send_framed_payload(uint32_t seq, uint8_t ch, const char* payload, size_t p
 
 void update_datarate_to_HW_REG(alt_32 dr);
 
-void set_MUX_RS422(void);
-void set_MUX_RS232(void);
-void set_MUX_CAN(void);
+// void set_MUX_RS422(void);
+// void set_MUX_RS232(void);
+// void set_MUX_CAN(void);
 
 
 float SF_temp_compensation_1st_order_fog(my_sensor_t, fog_parameter_t, CH_t);

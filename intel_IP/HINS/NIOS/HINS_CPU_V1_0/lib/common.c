@@ -1,6 +1,7 @@
 #include "common.h"
 #include <stdarg.h>
 #include <string.h>
+#include "HINS.h"
 
 alt_u32 crc_table[256];
 
@@ -286,23 +287,23 @@ void Set_Dac_Gain_x(alt_32 gain)
 	// UART_PRINT("Set_Dac_Gain_x: %d\n", gain);
 	// DEBUG_PRINT("Set_Dac_Gain_x: %d\n", gain);
 	// IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_DAC_BASE, SEL_CS_DAC_2CH); usleep (10); 
-	IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_DAC_BASE, SEL_CS_DAC_1CH); usleep (10); 
-	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC1_GAIN_LSB_ADDR<<8) | (gain&0xFF)); usleep (10);
-	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC1_GAIN_MSB_ADDR<<8) | (gain>>8)); usleep (10);
+	IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_DAC_BASE, SEL_CS_DAC); usleep (10); 
+	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC2_GAIN_LSB_ADDR<<8) | (gain&0xFF)); usleep (10);
+	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC2_GAIN_LSB_ADDR<<8) | (gain>>8)); usleep (10);
 }
 void Set_Dac_Gain_y(alt_32 gain)
 {
 	// UART_PRINT("Set_Dac_Gain_y: %d\n", gain);
 	// DEBUG_PRINT("Set_Dac_Gain_y: %d\n", gain);
-	IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_DAC_BASE, SEL_CS_DAC_2CH); usleep (10); 
-	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC1_GAIN_LSB_ADDR<<8) | (gain&0xFF)); usleep (10);
-	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC1_GAIN_MSB_ADDR<<8) | (gain>>8)); usleep (10);
+	IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_DAC_BASE, SEL_CS_DAC); usleep (10); 
+	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC2_GAIN_LSB_ADDR<<8) | (gain&0xFF)); usleep (10);
+	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC2_GAIN_LSB_ADDR<<8) | (gain>>8)); usleep (10);
 }
 void Set_Dac_Gain_z(alt_32 gain)
 {
 	// UART_PRINT("Set_Dac_Gain_z: %d\n", gain);
 	// DEBUG_PRINT("Set_Dac_Gain_z: %d\n", gain);
-	IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_DAC_BASE, SEL_CS_DAC_2CH); usleep (10); 
+	IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_DAC_BASE, SEL_CS_DAC); usleep (10); 
 	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC2_GAIN_LSB_ADDR<<8) | (gain&0xFF)); usleep (10);
 	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC2_GAIN_MSB_ADDR<<8) | (gain>>8)); usleep (10);
 }
@@ -1211,20 +1212,20 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 
 }
 
-void set_MUX_RS422()
-{
-	IOWR_ALTERA_AVALON_PIO_DATA(MUX_IN_BASE, 0x00);
-}
+// void set_MUX_RS422()
+// {
+// 	IOWR_ALTERA_AVALON_PIO_DATA(MUX_IN_BASE, 0x00);
+// }
 
-void set_MUX_RS232()
-{
-	IOWR_ALTERA_AVALON_PIO_DATA(MUX_IN_BASE, 0x02);
-}
+// void set_MUX_RS232()
+// {
+// 	IOWR_ALTERA_AVALON_PIO_DATA(MUX_IN_BASE, 0x02);
+// }
 
-void set_MUX_CAN()
-{
-	IOWR_ALTERA_AVALON_PIO_DATA(MUX_IN_BASE, 0x01);
-}
+// void set_MUX_CAN()
+// {
+// 	IOWR_ALTERA_AVALON_PIO_DATA(MUX_IN_BASE, 0x01);
+// }
   
 
 void update_fog_parameters_to_HW_REG(alt_u8 base, fog_parameter_t* fog_params) 

@@ -147,16 +147,16 @@ ELF := HINS_CPU_V1_0.elf
 C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\HINS_CPU_V1_0.c
 C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\lib\adda_config.c
 C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\lib\uart_dual.c
+C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\lib\common.c
+C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\lib\acq_fog.c
+C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\lib\acq_imu.c
+C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\lib\acq_rst.c
+C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\lib\eeprom_v2.c
+C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\lib\memory_manage.c
+C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\lib\output_mode.c
+C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\lib\ads122c04_se.c
 CXX_SRCS :=
 ASM_SRCS :=
-#C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\lib\acq_fog.c
-#C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\lib\acq_imu.c
-#C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\lib\acq_rst.c
-#C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\lib\eeprom_v2.c
-#C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\lib\memory_manage.c
-#C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\lib\output_mode.c
-#C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\lib\common.c
-#C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\lib\ads122c04_se.c
 
 
 # Path to root of object file tree.

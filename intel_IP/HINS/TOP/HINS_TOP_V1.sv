@@ -110,7 +110,7 @@ wire [31:0] i_var_i2c_ads122c04_status;
 
 /*** I2C EEPROM ***/
 wire [31:0] var_i2c_EEPROM_dev_addr, var_i2c_EEPROM_reg_addr, var_i2c_EEPROM_w_data, var_i2c_EEPROM_ctrl;
-wire [31:0] i_var_i2c_EEPROM_rdata_1, i_var_i2c_EEPROM_rdata_2, i_var_i2c_EEPROM_rdata_3;
+wire [31:0] i_var_i2c_EEPROM_rdata_1, i_var_i2c_EEPROM_rdata_2, i_var_i2c_EEPROM_rdata_3, i_var_i2c_EEPROM_rdata_4;
 wire [31:0] i_var_i2c_EEPROM_status;
 
 /*** I2C MEMS IMU ***/
@@ -315,19 +315,19 @@ CPU u0 (
         .varset_1_i_var5  (i_var_i2c_EEPROM_status),   //         .i_var5
         .varset_1_i_var6  (i_var_i2c_EEPROM_rdata_1),  //         .i_var6
         .varset_1_i_var7  (i_var_i2c_EEPROM_rdata_2),  //         .i_var7
-        .varset_1_i_var8  (i_var_i2c_EEPROM_rdata_3),  //         .i_var8
-        .varset_1_i_var9  (i_var_i2c_IMU_status),      //         .i_var9
-        .varset_1_i_var10 (i_var_i2c_IMU_rdata_1),     //         .i_var10
-        .varset_1_i_var11 (i_var_i2c_IMU_rdata_2),     //         .i_var11
-        .varset_1_i_var12 (i_var_i2c_IMU_rdata_3),     //         .i_var12
-        .varset_1_i_var13 (i_var_i2c_IMU_rdata_4),     //         .i_var13
-        .varset_1_i_var14 (i_var_i2c_IMU_rdata_5),     //         .i_var14
-        .varset_1_i_var15 (i_var_i2c_IMU_rdata_6),     //         .i_var15
-        .varset_1_i_var16 (i_var_i2c_IMU_rdata_7),     //         .i_var16
-        .varset_1_i_var17 (i_var_err),                 //         .i_var17
-        .varset_1_i_var18 (i_var_step),                //         .i_var18
-        .varset_1_i_var19 (i_var_timer),               //         .i_var19
-        .varset_1_i_var20 (),                          //         .i_var20
+        .varset_1_i_var8  (i_var_i2c_EEPROM_rdata_3),  //         .i_var8 
+        .varset_1_i_var9  (i_var_i2c_EEPROM_rdata_4),      //         .i_var9
+        .varset_1_i_var10 (i_var_i2c_IMU_status),     //         .i_var10
+        .varset_1_i_var11 (i_var_i2c_IMU_rdata_1),     //         .i_var11
+        .varset_1_i_var12 (i_var_i2c_IMU_rdata_2),     //         .i_var12
+        .varset_1_i_var13 (i_var_i2c_IMU_rdata_3),     //         .i_var13
+        .varset_1_i_var14 (i_var_i2c_IMU_rdata_4),     //         .i_var14
+        .varset_1_i_var15 (i_var_i2c_IMU_rdata_5),     //         .i_var15
+        .varset_1_i_var16 (i_var_i2c_IMU_rdata_6),     //         .i_var16
+        .varset_1_i_var17 (i_var_i2c_IMU_rdata_7),     //         .i_var17
+        .varset_1_i_var18 (i_var_err),                 //         .i_var18
+        .varset_1_i_var19 (i_var_step),                //         .i_var19
+        .varset_1_i_var20 (i_var_timer),               //         .i_var20
         .varset_1_i_var21 (),                          //         .i_var21
         .varset_1_i_var22 (),                          //         .i_var22
         .varset_1_i_var23 (),                          //         .i_var23

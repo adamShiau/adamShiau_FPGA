@@ -31,7 +31,7 @@
 //#include "eeprom.h"
 #include "eeprom_v2.h"
 
-// #include "ads122c04_se.h"
+#include "ads122c04_se.h"
 
 
 
