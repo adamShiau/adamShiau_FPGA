@@ -4,36 +4,136 @@
 #include "sys/alt_irq.h"
 #include "system.h"
 #include "altera_avalon_uart_regs.h"
-
 #include "HINS.h"
 
 #define COE_TIMER 0.0001
 
-int i=0;
+void TRIGGER_IRQ_init(void);
+void IRQ_TRIGGER_ISR(void *context);
+void update_HINS_config_to_HW_REG(void);
+void update_sensor_data(my_sensor_t *data); 
+
+
+const alt_u8 cmd_header[2] = {0xAB, 0xBA};
+const alt_u8 cmd_trailer[2] = {0x55, 0x56};
+static alt_u16 try_cnt;
+
+volatile alt_u8 trigger_sig = 0;
+
+my_float_t my_f;
+
+// Definition and initialization of my_cmd, structure type is defined in common.h
+cmd_ctrl_t my_cmd = {
+	.condition = RX_CONDITION_INIT,
+	.SN = {0},
+    .complete = 0,
+    .mux = MUX_ESCAPE,
+    .select_fn = SEL_IDLE,
+    .ch = 0,
+    .cmd = 0,
+	.run = 0,
+    .value = 0,
+	.sync_mode = 0
+};
+
+// Definition and initialization of auto_rst, structure type is defined in common.h
+auto_rst_t auto_rst = {
+	.status = 0,
+	.fn_mode = MODE_RST
+};
+
+// Definition of a function pointer for output processing.  
+// Initialized to NULL to prevent undefined behavior.  
+// The assigned function will be implemented in output_fn.c.  
+fn_ptr output_fn = acq_rst;
+
+// Definition and initialization of sensor, structure type is defined in common.h
+my_sensor_t sensor_data = {
+    .fog = {
+        .fogx = { .err = { .int_val = 0 }, .step = { .int_val = 0 }},
+        .fogy = { .err = { .int_val = 0 }, .step = { .int_val = 0 }},
+        .fogz = { .err = { .int_val = 0 }, .step = { .int_val = 0 }}
+    },
+	.time = {.time.float_val = 0},
+	.temp = {
+		.tempx.float_val = 0,
+		.tempy.float_val = 0,
+		.tempz.float_val = 0
+	},
+	.adxl357 = {
+		.ax.float_val = 0,
+		.ay.float_val = 0,
+		.az.float_val = 0,
+		.temp.float_val = 0
+	}
+};
+
+int cnt=0;
+
 int main(void)
 {
-    printf("Hello World\n");
-    update_IRIS_config_to_HW_REG();
-    
-    printf("init_ADDA\n");
+
+    fog_parameter_t fog_params;	 //parameter container
+
+    DEBUG_PRINT("Running IRIS CPU!\n");
+	printf("Running IRIS CPU!\n");
+    update_HINS_config_to_HW_REG();
+
+    DEBUG_PRINT("TRIGGER_IRQ_init\n");
+	crc32_init_table();
+	TRIGGER_IRQ_init();
+
+    DEBUG_PRINT("uartInit\n");
+	uartInit(); //interrupt method of uart defined in uart.c not main()
+
+    DEBUG_PRINT("init_ADDA\n");
     set_DAC_reset();
 	usleep(50);
 	clear_DAC_reset();
 	init_ADDA();
-    while(1)
-    {
-        printf("i= %d\n", i);
-        uart_printf_dbg("i= %d\n", i);
-        uart_printf("i= %d\n", i);
-        i++;
-        usleep(250000);
-    }
+
+    DEBUG_PRINT("init_EEPROM\n");
+	init_EEPROM();
+
+    
+     while(1)
+     {
+
+        get_uart_cmd(readDataDynamic(&try_cnt), &my_cmd);
+		get_uart_cmd(readDataDynamic_dbg(&try_cnt), &my_cmd);
+
+        if (trigger_sig == 1) {
+            DEBUG_PRINT("cnt=%d\n",cnt++);
+            trigger_sig = 0;
+        }
+
+     }
+
     return 0;
 }
 
 
 
-void update_IRIS_config_to_HW_REG()
+void update_HINS_config_to_HW_REG()
 {
-	IOWR(VARSET_BASE, var_sync_count, SYNC_100HZ); // set sync data rate
+	IOWR(VARSET_BASE, var_sync_count, SYNC_50HZ); // set sync data rate
+}
+
+void TRIGGER_IRQ_init()
+{
+	IOWR_ALTERA_AVALON_PIO_EDGE_CAP(SYNC_IN_BASE, 1); //clear edge capture register
+	IOWR_ALTERA_AVALON_PIO_IRQ_MASK(SYNC_IN_BASE, 1); //enable irq mask
+	alt_ic_isr_register(
+	SYNC_IN_IRQ_INTERRUPT_CONTROLLER_ID,
+	SYNC_IN_IRQ,
+	IRQ_TRIGGER_ISR,
+	0x0,
+	0x0);
+}
+
+void IRQ_TRIGGER_ISR(void *context)
+{
+	(void) context;
+	IOWR_ALTERA_AVALON_PIO_EDGE_CAP(SYNC_IN_BASE, 1); //clear edge capture register
+	trigger_sig = 1;
 }

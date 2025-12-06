@@ -17,6 +17,7 @@ set top_dir "../../TOP"
 
 # 硬體 IP 目錄 (HINS/HW_IP)
 set hw_ip_dir "../../HW_IP" 
+set hw_ip_memory_dir "../../HW_IP/MEMORY" 
 
 # FOG IP 子目錄 (HINS/HW_IP/FOG)
 set fog_ip_dir  "../../HW_IP/FOG" 
@@ -24,6 +25,10 @@ set fog_ip_dir  "../../HW_IP/FOG"
 # QSYS 檔案目錄 (HINS/QSYS)
 set qsys_dir "../../QSYS" 
 set qsys_file_path "${qsys_dir}/CPU.qsys"
+
+# SDC 檔案目錄 (HINS/SDC)
+set sdc_dir "../../SDC" 
+set sdc_file_path "${sdc_dir}/HINS_TIMING_V1.sdc"
 
 # 頂層檔案的完整相對路徑
 set top_file_path "${top_dir}/${top_file_name}" 
@@ -71,7 +76,9 @@ puts "--> Setting up search paths for code and IP Catalog..."
 # 原始程式碼搜尋路徑
 set_global_assignment -name SEARCH_PATH "${top_dir}" 
 set_global_assignment -name SEARCH_PATH "${hw_ip_dir}"
-set_global_assignment -name SEARCH_PATH "${fog_ip_dir}"
+set_global_assignment -name SEARCH_PATH "${fog_ip_dir}" 
+set_global_assignment -name SEARCH_PATH "${hw_ip_memory_dir}"
+
 
 # >>> 新增要求 2: 設定 IP Catalog 搜尋路徑 (已修正) <<<
 set ip_search_path "../../../2018.1"
@@ -92,6 +99,10 @@ set_global_assignment -name RESERVE_FLASH_NCE_AFTER_CONFIGURATION "USE AS REGULA
 
 # 4. DCLK: 設為普通 I/O
 set_global_assignment -name RESERVE_DCLK_AFTER_CONFIGURATION "USE AS REGULAR IO"
+
+# >>> 新增要求 4: 設定 SDC 時序約束檔案路徑 <<<
+puts "--> Adding SDC timing constraint file: ${sdc_file_path}"
+set_global_assignment -name SDC_FILE $sdc_file_path
 
 
 # 8. 執行腳位和時序約束 (關鍵步驟)

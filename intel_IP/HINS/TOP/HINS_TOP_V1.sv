@@ -214,15 +214,36 @@ HINS_fog_v1 u_hins_fog_v1 (
     .o_step         (fog_step_out)  
 );
 
+// =========================================================================
+// EEPROM
+// =========================================================================
+ i2c_controller_eeprom
+ inst_i2c_eeprom (
+ 	.i_clk(pll_clk_cpu_int),
+ 	.i_rst_n(RST_SYNC_N),
+ 	.i2c_scl(SCL_EEPROM),
+ 	.i2c_sda(SDA_EEPROM),
+ 	.i_dev_addr(var_i2c_EEPROM_dev_addr),
+ 	.i_reg_addr(var_i2c_EEPROM_reg_addr),
+ 	.i_w_data(var_i2c_EEPROM_w_data),  
+ 	.i_ctrl(var_i2c_EEPROM_ctrl),
+ 	.i_drdy(),
+
+ 	.o_status(i_var_i2c_EEPROM_status),
+ 	.o_rd_data(i_var_i2c_EEPROM_rdata_1),
+ 	.o_rd_data_2(i_var_i2c_EEPROM_rdata_2),
+ 	.o_rd_data_3(i_var_i2c_EEPROM_rdata_3),
+ 	.o_rd_data_4(i_var_i2c_EEPROM_rdata_4)
+ );
 
 CPU u0 (
         .clk_clk          (pll_clk_cpu_int),          //      clk.clk
+        .reset_reset_n    (RST_SYNC_N),                //    reset.reset_n
         .dac_rst_export   (var_dac_rst),               //  dac_rst.export
         .epcs_dclk        (EPCS_DCLK),                 //     epcs.dclk
         .epcs_sce         (EPCS_NCSO),                 //         .sce
         .epcs_sdo         (EPCS_ASDO),                 //         .sdo
         .epcs_data0       (EPCS_DATA0),                //         .data0
-        .reset_reset_n    (RST_SYNC_N),                //    reset.reset_n
         .sdram_addr       (SDRAM_ADDR),                //    sdram.addr
         .sdram_ba         (SDRAM_BA),                  //         .ba
         .sdram_cas_n      (SDRAM_CAS_N),               //         .cas_n
