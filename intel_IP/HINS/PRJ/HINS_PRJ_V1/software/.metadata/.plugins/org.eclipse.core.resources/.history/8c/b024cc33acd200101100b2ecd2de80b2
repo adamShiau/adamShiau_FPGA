@@ -84,22 +84,17 @@ int main(void)
     DEBUG_PRINT("TRIGGER_IRQ_init\n");
 	crc32_init_table();
 	TRIGGER_IRQ_init();
-	printf("uartInit\n");
     DEBUG_PRINT("uartInit\n");
 	uartInit(); //interrupt method of uart defined in uart.c not main()
-	printf("init_ADDA\n");
-	DEBUG_PRINT("init_ADDA\n");
+    DEBUG_PRINT("init_ADDA\n");
     set_DAC_reset();
 	usleep(50);
 	clear_DAC_reset();
 	init_ADDA();
-	printf("init_EEPROM\n");
     DEBUG_PRINT("init_EEPROM\n");
 	init_EEPROM();
-	printf("init_ADS122C04_TEMP\n");
     DEBUG_PRINT("init_ADS122C04_TEMP\n");
 	init_ADS122C04_TEMP();
-	printf("init all done\n");
     
     while(1)
     {
@@ -125,21 +120,21 @@ void update_sensor_data(my_sensor_t *data) {
     /***---timer--- */
     data->time.time.float_val = (float)IORD(VARSET_BASE, i_var_timer) * COE_TIMER;
     /***---fog z axis--- */
-     data->fog.fogz.err.int_val = IORD(VARSET_BASE, i_var_err);
-     data->fog.fogz.step.int_val = IORD(VARSET_BASE, i_var_step);
+    // data->fog.fogz.err.int_val = IORD(VARSET_BASE, i_var_err);
+    // data->fog.fogz.step.int_val = IORD(VARSET_BASE, i_var_step);
     /***---adc ads122c04--- */
-     data->ads122c04.ain0.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_1);
-     data->ads122c04.ain1.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_2);
-     data->ads122c04.ain2.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_3);
-     data->ads122c04.ain3.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_4);
+    // data->ads122c04.ain0.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_1);
+    // data->ads122c04.ain1.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_2);
+    // data->ads122c04.ain2.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_3);
+    // data->ads122c04.ain3.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_4);
     /***---imu asm330lhhx--- */
-     data->asm330lhhx.wx.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_1);
-     data->asm330lhhx.wy.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_2);
-     data->asm330lhhx.wz.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_3);
-     data->asm330lhhx.ax.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_4);
-     data->asm330lhhx.ay.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_5);
-     data->asm330lhhx.az.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_6);
-     data->asm330lhhx.temp.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_7);
+    // data->asm330lhhx.wx.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_1);
+    // data->asm330lhhx.wy.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_2);
+    // data->asm330lhhx.wz.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_3);
+    // data->asm330lhhx.ax.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_4);
+    // data->asm330lhhx.ay.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_5);
+    // data->asm330lhhx.az.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_6);
+    // data->asm330lhhx.temp.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_7);
 
     
     DEBUG_PRINT("time: %f\n", data->time.time.float_val);

@@ -18,6 +18,7 @@ set top_dir "../../TOP"
 # 硬體 IP 目錄 (HINS/HW_IP)
 set hw_ip_dir "../../HW_IP" 
 set hw_ip_memory_dir "../../HW_IP/MEMORY" 
+set hw_ip_adc "../../HW_IP/ADC" 
 
 # FOG IP 子目錄 (HINS/HW_IP/FOG)
 set fog_ip_dir  "../../HW_IP/FOG" 
@@ -78,6 +79,8 @@ set_global_assignment -name SEARCH_PATH "${top_dir}"
 set_global_assignment -name SEARCH_PATH "${hw_ip_dir}"
 set_global_assignment -name SEARCH_PATH "${fog_ip_dir}" 
 set_global_assignment -name SEARCH_PATH "${hw_ip_memory_dir}"
+set_global_assignment -name SEARCH_PATH "${hw_ip_adc}"
+
 
 
 # >>> 新增要求 2: 設定 IP Catalog 搜尋路徑 (已修正) <<<

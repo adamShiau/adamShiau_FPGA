@@ -1,5 +1,5 @@
 Flow report for HINS_PRJ_V1
-Sat Dec 06 14:59:24 2025
+Sat Dec 06 21:25:09 2025
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -40,17 +40,17 @@ refer to the applicable agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Flow Summary                                                                     ;
 +------------------------------------+---------------------------------------------+
-; Flow Status                        ; Successful - Sat Dec 06 14:59:20 2025       ;
+; Flow Status                        ; Successful - Sat Dec 06 21:25:05 2025       ;
 ; Quartus Prime Version              ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                      ; HINS_PRJ_V1                                 ;
 ; Top-level Entity Name              ; HINS_TOP_V1                                 ;
 ; Family                             ; Cyclone IV E                                ;
 ; Device                             ; EP4CE15F17I7                                ;
 ; Timing Models                      ; Final                                       ;
-; Total logic elements               ; 6,776 / 15,408 ( 44 % )                     ;
-;     Total combinational functions  ; 5,245 / 15,408 ( 34 % )                     ;
-;     Dedicated logic registers      ; 4,871 / 15,408 ( 32 % )                     ;
-; Total registers                    ; 4939                                        ;
+; Total logic elements               ; 7,285 / 15,408 ( 47 % )                     ;
+;     Total combinational functions  ; 5,691 / 15,408 ( 37 % )                     ;
+;     Dedicated logic registers      ; 5,152 / 15,408 ( 33 % )                     ;
+; Total registers                    ; 5220                                        ;
 ; Total pins                         ; 98 / 166 ( 59 % )                           ;
 ; Total virtual pins                 ; 0                                           ;
 ; Total memory bits                  ; 23,040 / 516,096 ( 4 % )                    ;
@@ -64,7 +64,7 @@ refer to the applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 12/06/2025 14:58:00 ;
+; Start date & time ; 12/06/2025 21:23:36 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; HINS_PRJ_V1         ;
 +-------------------+---------------------+
@@ -75,7 +75,7 @@ refer to the applicable agreement for further details.
 +-------------------------------------+----------------------------------------+---------------+-------------+------------+
 ; Assignment Name                     ; Value                                  ; Default Value ; Entity Name ; Section Id ;
 +-------------------------------------+----------------------------------------+---------------+-------------+------------+
-; COMPILER_SIGNATURE_ID               ; 963351282519.176500428033984           ; --            ; --          ; --         ;
+; COMPILER_SIGNATURE_ID               ; 963351282519.176502741607856           ; --            ; --          ; --         ;
 ; MAX_CORE_JUNCTION_TEMP              ; 100                                    ; --            ; --          ; --         ;
 ; MIN_CORE_JUNCTION_TEMP              ; -40                                    ; --            ; --          ; --         ;
 ; MISC_FILE                           ; ./fifo_inst.v                          ; --            ; --          ; --         ;
@@ -86,10 +86,11 @@ refer to the applicable agreement for further details.
 ; PARTITION_NETLIST_TYPE              ; -- (Not supported for targeted family) ; --            ; HINS_TOP_V1 ; Top        ;
 ; POWER_BOARD_THERMAL_MODEL           ; None (CONSERVATIVE)                    ; --            ; --          ; --         ;
 ; POWER_PRESET_COOLING_SOLUTION       ; 23 MM HEAT SINK WITH 200 LFPM AIRFLOW  ; --            ; --          ; --         ;
-; SEARCH_PATH                         ; ../../TOP                              ; --            ; --          ; --         ;
-; SEARCH_PATH                         ; ../../HW_IP                            ; --            ; --          ; --         ;
-; SEARCH_PATH                         ; ../../HW_IP/FOG                        ; --            ; --          ; --         ;
-; SEARCH_PATH                         ; ../../HW_IP/MEMORY                     ; --            ; --          ; --         ;
+; SEARCH_PATH                         ; ../../hw_ip/adc                        ; --            ; --          ; --         ;
+; SEARCH_PATH                         ; ../../top                              ; --            ; --          ; --         ;
+; SEARCH_PATH                         ; ../../hw_ip                            ; --            ; --          ; --         ;
+; SEARCH_PATH                         ; ../../hw_ip/fog                        ; --            ; --          ; --         ;
+; SEARCH_PATH                         ; ../../hw_ip/memory                     ; --            ; --          ; --         ;
 ; SEARCH_PATH                         ; ../../../2018.1                        ; --            ; --          ; --         ;
 ; TOP_LEVEL_ENTITY                    ; HINS_TOP_V1                            ; HINS_PRJ_V1   ; --          ; --         ;
 ; VERILOG_INPUT_VERSION               ; SystemVerilog_2005                     ; Verilog_2001  ; --          ; --         ;
@@ -101,11 +102,11 @@ refer to the applicable agreement for further details.
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis ; 00:00:56     ; 1.0                     ; 5053 MB             ; 00:01:27                           ;
-; Fitter               ; 00:00:20     ; 1.4                     ; 6446 MB             ; 00:00:54                           ;
-; Assembler            ; 00:00:01     ; 1.0                     ; 4705 MB             ; 00:00:01                           ;
-; Timing Analyzer      ; 00:00:03     ; 1.8                     ; 4983 MB             ; 00:00:04                           ;
-; Total                ; 00:01:20     ; --                      ; --                  ; 00:02:26                           ;
+; Analysis & Synthesis ; 00:00:59     ; 1.0                     ; 5033 MB             ; 00:01:36                           ;
+; Fitter               ; 00:00:24     ; 1.4                     ; 6460 MB             ; 00:00:56                           ;
+; Assembler            ; 00:00:02     ; 1.0                     ; 4706 MB             ; 00:00:01                           ;
+; Timing Analyzer      ; 00:00:04     ; 1.7                     ; 4988 MB             ; 00:00:04                           ;
+; Total                ; 00:01:29     ; --                      ; --                  ; 00:02:37                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 

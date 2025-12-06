@@ -1297,3 +1297,125 @@ Caused by: sun.security.provider.certpath.SunCertPathBuilderException: unable to
 
 !ENTRY com.altera.sbtgui.launch 1 0 2025-12-06 16:12:32.453
 !MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-1]' --device=1 --instance=0 --go --sidp=0x20022a0 --id=0x1000000 --timestamp=1765004292 /cygdrive/d/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0/HINS_CPU_V1_0.elf]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-06 17:26:49.979
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-1]' --device=1 --instance=0 --stop --sidp=0x20022a0 --id=0x1000000 --timestamp=1765004292]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-06 17:26:52.563
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-1]' --device=1 --instance=0 --go --sidp=0x20022a0 --id=0x1000000 --timestamp=1765004292 /cygdrive/d/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0/HINS_CPU_V1_0.elf]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-06 17:28:37.415
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-1]' --device=1 --instance=0 --stop --sidp=0x20022a0 --id=0x1000000 --timestamp=1765004292]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-06 17:28:39.984
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-1]' --device=1 --instance=0 --go --sidp=0x20022a0 --id=0x1000000 --timestamp=1765004292 /cygdrive/d/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0/HINS_CPU_V1_0.elf]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-06 17:31:05.030
+!MESSAGE Terminated Launch with connection: 10USB-Blaster on localhost [USB-1]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-06 17:31:07.289
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-1]' --device=1 --instance=0 --stop --sidp=0x20022a0 --id=0x1000000 --timestamp=1765004292]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-06 17:31:09.815
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-1]' --device=1 --instance=0 --go --sidp=0x20022a0 --id=0x1000000 --timestamp=1765004292 /cygdrive/d/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0/HINS_CPU_V1_0.elf]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-06 17:38:57.190
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-1]' --device=1 --instance=0 --stop --sidp=0x20022a0 --id=0x1000000 --timestamp=1765013725]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-06 17:38:59.692
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-1]' --device=1 --instance=0 --go --sidp=0x20022a0 --id=0x1000000 --timestamp=1765013725 /cygdrive/d/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0/HINS_CPU_V1_0.elf]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-06 21:58:43.698
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-1]' --device=1 --instance=0 --stop --sidp=0x20022a0 --id=0x1000000 --timestamp=1765027430]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-06 21:58:46.269
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-1]' --device=1 --instance=0 --go --sidp=0x20022a0 --id=0x1000000 --timestamp=1765027430 /cygdrive/d/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0/HINS_CPU_V1_0.elf]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-06 22:00:25.824
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-1]' --device=1 --instance=0 --stop --sidp=0x20022a0 --id=0x1000000 --timestamp=1765027430]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-06 22:00:28.372
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-1]' --device=1 --instance=0 --go --sidp=0x20022a0 --id=0x1000000 --timestamp=1765027430 /cygdrive/d/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0/HINS_CPU_V1_0.elf]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-06 22:03:10.581
+!MESSAGE Terminated Launch with connection: 10USB-Blaster on localhost [USB-1]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-06 22:03:12.861
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-1]' --device=1 --instance=0 --stop --sidp=0x20022a0 --id=0x1000000 --timestamp=1765027430]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-06 22:03:15.456
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-1]' --device=1 --instance=0 --go --sidp=0x20022a0 --id=0x1000000 --timestamp=1765027430 /cygdrive/d/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0/HINS_CPU_V1_0.elf]
+!SESSION 2025-12-06 22:05:18.451 -----------------------------------------------
+eclipse.buildId=4.5.2.M20160212-1500
+java.version=1.8.0_05
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=zh_TW
+Framework arguments:  -product org.eclipse.epp.package.cpp.product -pluginCustomization D:/intelfpga_lite/18.1/nios2eds/bin/eclipse_nios2/plugin_customization.ini
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.cpp.product -pluginCustomization D:/intelfpga_lite/18.1/nios2eds/bin/eclipse_nios2/plugin_customization.ini
+
+!ENTRY org.eclipse.core.resources 2 10035 2025-12-06 22:05:21.989
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+
+!ENTRY org.eclipse.epp.logging.aeri.ide 2 16 2025-12-06 22:05:35.533
+!MESSAGE Server ‘org.eclipse.epp.logging.aeri.ide.server’ failed with exception: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target. ; version: 1.100.0.v20160217-0435
+!STACK 0
+javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+	at sun.security.ssl.Alerts.getSSLException(Unknown Source)
+	at sun.security.ssl.SSLSocketImpl.fatal(Unknown Source)
+	at sun.security.ssl.Handshaker.fatalSE(Unknown Source)
+	at sun.security.ssl.Handshaker.fatalSE(Unknown Source)
+	at sun.security.ssl.ClientHandshaker.serverCertificate(Unknown Source)
+	at sun.security.ssl.ClientHandshaker.processMessage(Unknown Source)
+	at sun.security.ssl.Handshaker.processLoop(Unknown Source)
+	at sun.security.ssl.Handshaker.process_record(Unknown Source)
+	at sun.security.ssl.SSLSocketImpl.readRecord(Unknown Source)
+	at sun.security.ssl.SSLSocketImpl.performInitialHandshake(Unknown Source)
+	at sun.security.ssl.SSLSocketImpl.startHandshake(Unknown Source)
+	at sun.security.ssl.SSLSocketImpl.startHandshake(Unknown Source)
+	at org.apache.http.conn.ssl.SSLConnectionSocketFactory.createLayeredSocket(SSLConnectionSocketFactory.java:290)
+	at org.apache.http.conn.ssl.SSLConnectionSocketFactory.connectSocket(SSLConnectionSocketFactory.java:259)
+	at org.apache.http.impl.conn.HttpClientConnectionOperator.connect(HttpClientConnectionOperator.java:125)
+	at org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:319)
+	at org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:363)
+	at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:219)
+	at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:195)
+	at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:86)
+	at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:108)
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:184)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:82)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:57)
+	at org.apache.http.client.fluent.Executor.execute(Executor.java:206)
+	at org.eclipse.epp.internal.logging.aeri.ide.server.mars.IO.request(IO.java:205)
+	at org.eclipse.epp.internal.logging.aeri.ide.server.mars.IO.refreshConfiguration(IO.java:68)
+	at org.eclipse.epp.internal.logging.aeri.ide.server.mars.ServerConnection.startUp(ServerConnection.java:101)
+	at com.google.common.util.concurrent.AbstractIdleService$2$1.run(AbstractIdleService.java:54)
+	at com.google.common.util.concurrent.Callables$3.run(Callables.java:93)
+	at java.lang.Thread.run(Unknown Source)
+Caused by: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+	at sun.security.validator.PKIXValidator.doBuild(Unknown Source)
+	at sun.security.validator.PKIXValidator.engineValidate(Unknown Source)
+	at sun.security.validator.Validator.validate(Unknown Source)
+	at sun.security.ssl.X509TrustManagerImpl.validate(Unknown Source)
+	at sun.security.ssl.X509TrustManagerImpl.checkTrusted(Unknown Source)
+	at sun.security.ssl.X509TrustManagerImpl.checkServerTrusted(Unknown Source)
+	... 27 more
+Caused by: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+	at sun.security.provider.certpath.SunCertPathBuilder.build(Unknown Source)
+	at sun.security.provider.certpath.SunCertPathBuilder.engineBuild(Unknown Source)
+	at java.security.cert.CertPathBuilder.build(Unknown Source)
+	... 33 more
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-06 22:05:50.781
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-1]' --device=1 --instance=0 --stop --sidp=0x20022a0 --id=0x1000000 --timestamp=1765027430]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-06 22:05:53.253
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-1]' --device=1 --instance=0 --go --sidp=0x20022a0 --id=0x1000000 --timestamp=1765027430 /cygdrive/d/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0/HINS_CPU_V1_0.elf]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-06 22:06:25.713
+!MESSAGE Terminated Launch with connection: 10USB-Blaster on localhost [USB-1]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-06 22:06:28.084
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-1]' --device=1 --instance=0 --stop --sidp=0x20022a0 --id=0x1000000 --timestamp=1765027430]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-06 22:06:30.579
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-1]' --device=1 --instance=0 --go --sidp=0x20022a0 --id=0x1000000 --timestamp=1765027430 /cygdrive/d/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0/HINS_CPU_V1_0.elf]

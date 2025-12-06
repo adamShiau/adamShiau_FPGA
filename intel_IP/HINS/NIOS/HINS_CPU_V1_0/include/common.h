@@ -162,12 +162,31 @@ typedef struct {
   my_float_t temp;
 } accl_t;
 
+typedef struct {
+  my_float_t wx;  
+  my_float_t wy; 
+  my_float_t wz; 
+  my_float_t ax;  
+  my_float_t ay; 
+  my_float_t az; 
+  my_float_t temp;
+} asm330lhhx_t;
+
+typedef struct {
+  my_float_t ain0;  
+  my_float_t ain1;  
+  my_float_t ain2;  
+  my_float_t ain3;  
+} ads122c04_t;
+
 typedef struct 
 {
   my_time_t time;
   fog_t fog;
   temp_t temp;
+  ads122c04_t ads122c04;
   accl_t adxl357;
+  asm330lhhx_t asm330lhhx;
 }my_sensor_t;
 
 typedef struct {

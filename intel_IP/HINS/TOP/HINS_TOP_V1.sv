@@ -183,6 +183,20 @@ my_sync_gen sync_gen_inst
 );
 
 // =========================================================================
+// timer setup
+// =========================================================================
+
+my_timer
+#(.COUNTER_NUM(10000))
+timer_inst
+(
+    .i_clk(pll_clk_cpu_int),
+    .i_rst_n(RST_SYNC_N),
+    .i_timer_rst(var_timer_rst),
+    .o_timer(i_var_timer)
+);
+
+// =========================================================================
 // FOG 核心模組例化 (HINS_fog_v1)
 // =========================================================================
 
@@ -235,6 +249,36 @@ HINS_fog_v1 u_hins_fog_v1 (
  	.o_rd_data_3(i_var_i2c_EEPROM_rdata_3),
  	.o_rd_data_4(i_var_i2c_EEPROM_rdata_4)
  );
+
+// =========================================================================
+// ADC ADS122C04
+// =========================================================================
+
+i2c_controller_ADS122C04
+inst_i2c_ADS122C04 (
+	.i_clk(pll_clk_cpu_int),
+	.i_rst_n(RST_SYNC_N),
+	.i2c_scl(SCL_ADC),
+	.i2c_sda(SDA_ADC),
+	.i2c_clk_out(),
+	.i_dev_addr(var_i2c_ads122c04_dev_addr),
+	.i_reg_addr(var_i2c_ads122c04_reg_addr),
+	.i_w_data(var_i2c_ads122c04_w_data),  
+	.i_ctrl(var_i2c_ads122c04_ctrl),
+	.i_drdy(DRDY_ADC),
+
+	.o_status(i_var_i2c_ads122c04_status),
+	.o_AIN0(i_var_i2c_ads122c04_rdata_1),
+	.o_AIN1(i_var_i2c_ads122c04_rdata_2),
+	.o_AIN2(i_var_i2c_ads122c04_rdata_3),
+	.o_AIN3(i_var_i2c_ads122c04_rdata_4),
+	.o_w_enable(),
+	.o_cnt()
+);
+
+// =========================================================================
+// NIOS2 CPU
+// =========================================================================
 
 CPU u0 (
         .clk_clk          (pll_clk_cpu_int),          //      clk.clk
