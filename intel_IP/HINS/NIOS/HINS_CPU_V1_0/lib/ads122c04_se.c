@@ -200,6 +200,7 @@ alt_u8 I2C_read_ADS122C04_TEMP_register(alt_u8 reg_addr, alt_u8 print)
 	rt = IORD(VARSET_BASE, O_VAR_I2C_RDATA_1);
 	// Print the register address and its read value if 'print' is enabled
 	if(print) 	INFO_PRINT("reg:%x, value:%x\n", reg_addr, rt);
+	if(print) 	printf("reg:%x, value:%x\n", reg_addr, rt);
 
 	return rt;
 }

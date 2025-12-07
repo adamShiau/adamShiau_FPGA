@@ -19,6 +19,7 @@ set top_dir "../../TOP"
 set hw_ip_dir "../../HW_IP" 
 set hw_ip_memory_dir "../../HW_IP/MEMORY" 
 set hw_ip_adc "../../HW_IP/ADC" 
+set hw_ip_imu "../../HW_IP/IMU" 
 
 # FOG IP 子目錄 (HINS/HW_IP/FOG)
 set fog_ip_dir  "../../HW_IP/FOG" 
@@ -80,6 +81,7 @@ set_global_assignment -name SEARCH_PATH "${hw_ip_dir}"
 set_global_assignment -name SEARCH_PATH "${fog_ip_dir}" 
 set_global_assignment -name SEARCH_PATH "${hw_ip_memory_dir}"
 set_global_assignment -name SEARCH_PATH "${hw_ip_adc}"
+set_global_assignment -name SEARCH_PATH "${hw_ip_imu}"
 
 
 

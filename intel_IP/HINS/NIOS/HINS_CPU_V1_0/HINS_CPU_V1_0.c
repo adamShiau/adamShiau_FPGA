@@ -99,6 +99,9 @@ int main(void)
 	printf("init_ADS122C04_TEMP\n");
     DEBUG_PRINT("init_ADS122C04_TEMP\n");
 	init_ADS122C04_TEMP();
+    printf("init_ASM330LHHX\n");
+    DEBUG_PRINT("init_ASM330LHHX\n");
+    init_ASM330LHHX();
 	printf("init all done\n");
     
     while(1)

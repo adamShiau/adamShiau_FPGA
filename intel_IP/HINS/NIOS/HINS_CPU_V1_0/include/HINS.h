@@ -32,6 +32,7 @@
 #include "eeprom_v2.h"
 
 #include "ads122c04_se.h"
+#include "asm330lhhx.h"
 
 
 

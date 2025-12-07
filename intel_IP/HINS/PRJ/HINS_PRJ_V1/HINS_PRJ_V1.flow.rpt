@@ -1,5 +1,5 @@
 Flow report for HINS_PRJ_V1
-Sat Dec 06 21:25:09 2025
+Sun Dec 07 22:33:07 2025
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -40,17 +40,17 @@ refer to the applicable agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Flow Summary                                                                     ;
 +------------------------------------+---------------------------------------------+
-; Flow Status                        ; Successful - Sat Dec 06 21:25:05 2025       ;
+; Flow Status                        ; Successful - Sun Dec 07 22:33:02 2025       ;
 ; Quartus Prime Version              ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                      ; HINS_PRJ_V1                                 ;
 ; Top-level Entity Name              ; HINS_TOP_V1                                 ;
 ; Family                             ; Cyclone IV E                                ;
 ; Device                             ; EP4CE15F17I7                                ;
 ; Timing Models                      ; Final                                       ;
-; Total logic elements               ; 7,285 / 15,408 ( 47 % )                     ;
-;     Total combinational functions  ; 5,691 / 15,408 ( 37 % )                     ;
-;     Dedicated logic registers      ; 5,152 / 15,408 ( 33 % )                     ;
-; Total registers                    ; 5220                                        ;
+; Total logic elements               ; 7,724 / 15,408 ( 50 % )                     ;
+;     Total combinational functions  ; 6,140 / 15,408 ( 40 % )                     ;
+;     Dedicated logic registers      ; 5,446 / 15,408 ( 35 % )                     ;
+; Total registers                    ; 5514                                        ;
 ; Total pins                         ; 98 / 166 ( 59 % )                           ;
 ; Total virtual pins                 ; 0                                           ;
 ; Total memory bits                  ; 23,040 / 516,096 ( 4 % )                    ;
@@ -64,7 +64,7 @@ refer to the applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 12/06/2025 21:23:36 ;
+; Start date & time ; 12/07/2025 22:30:47 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; HINS_PRJ_V1         ;
 +-------------------+---------------------+
@@ -75,7 +75,7 @@ refer to the applicable agreement for further details.
 +-------------------------------------+----------------------------------------+---------------+-------------+------------+
 ; Assignment Name                     ; Value                                  ; Default Value ; Entity Name ; Section Id ;
 +-------------------------------------+----------------------------------------+---------------+-------------+------------+
-; COMPILER_SIGNATURE_ID               ; 963351282519.176502741607856           ; --            ; --          ; --         ;
+; COMPILER_SIGNATURE_ID               ; 963351282519.176511784746072           ; --            ; --          ; --         ;
 ; MAX_CORE_JUNCTION_TEMP              ; 100                                    ; --            ; --          ; --         ;
 ; MIN_CORE_JUNCTION_TEMP              ; -40                                    ; --            ; --          ; --         ;
 ; MISC_FILE                           ; ./fifo_inst.v                          ; --            ; --          ; --         ;
@@ -86,6 +86,7 @@ refer to the applicable agreement for further details.
 ; PARTITION_NETLIST_TYPE              ; -- (Not supported for targeted family) ; --            ; HINS_TOP_V1 ; Top        ;
 ; POWER_BOARD_THERMAL_MODEL           ; None (CONSERVATIVE)                    ; --            ; --          ; --         ;
 ; POWER_PRESET_COOLING_SOLUTION       ; 23 MM HEAT SINK WITH 200 LFPM AIRFLOW  ; --            ; --          ; --         ;
+; SEARCH_PATH                         ; ../../hw_ip/imu                        ; --            ; --          ; --         ;
 ; SEARCH_PATH                         ; ../../hw_ip/adc                        ; --            ; --          ; --         ;
 ; SEARCH_PATH                         ; ../../top                              ; --            ; --          ; --         ;
 ; SEARCH_PATH                         ; ../../hw_ip                            ; --            ; --          ; --         ;
@@ -102,11 +103,11 @@ refer to the applicable agreement for further details.
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis ; 00:00:59     ; 1.0                     ; 5033 MB             ; 00:01:36                           ;
-; Fitter               ; 00:00:24     ; 1.4                     ; 6460 MB             ; 00:00:56                           ;
-; Assembler            ; 00:00:02     ; 1.0                     ; 4706 MB             ; 00:00:01                           ;
-; Timing Analyzer      ; 00:00:04     ; 1.7                     ; 4988 MB             ; 00:00:04                           ;
-; Total                ; 00:01:29     ; --                      ; --                  ; 00:02:37                           ;
+; Analysis & Synthesis ; 00:01:45     ; 1.0                     ; 5080 MB             ; 00:02:00                           ;
+; Fitter               ; 00:00:26     ; 1.4                     ; 6459 MB             ; 00:01:01                           ;
+; Assembler            ; 00:00:01     ; 1.0                     ; 4707 MB             ; 00:00:01                           ;
+; Timing Analyzer      ; 00:00:04     ; 1.8                     ; 4996 MB             ; 00:00:05                           ;
+; Total                ; 00:02:16     ; --                      ; --                  ; 00:03:07                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 

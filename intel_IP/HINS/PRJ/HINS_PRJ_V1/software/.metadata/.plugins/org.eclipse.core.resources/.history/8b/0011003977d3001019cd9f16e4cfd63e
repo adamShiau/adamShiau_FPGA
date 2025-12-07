@@ -155,7 +155,6 @@ C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\lib\eeprom_v
 C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\lib\memory_manage.c
 C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\lib\output_mode.c
 C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\lib\ads122c04_se.c
-C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\lib\asm330lhhx.c
 CXX_SRCS :=
 ASM_SRCS :=
 

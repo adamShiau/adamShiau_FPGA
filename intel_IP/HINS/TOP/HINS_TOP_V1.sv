@@ -277,6 +277,36 @@ inst_i2c_ADS122C04 (
 );
 
 // =========================================================================
+// IMU ASM330LHHX
+// =========================================================================
+
+
+i2c_controller_ASM330LHHX
+inst_i2c_ASM330LHHX (
+	.i_clk(pll_clk_cpu_int),
+	.i_rst_n(RST_SYNC_N),
+	.i2c_scl(SCL_IMU),
+	.i2c_sda(SDA_IMU),
+	.i2c_clk_out(),
+	.i_dev_addr(var_i2c_IMU_dev_addr),
+	.i_reg_addr(var_i2c_IMU_reg_addr),
+	.i_w_data(var_i2c_IMU_w_data),  
+	.i_ctrl(var_i2c_IMU_ctrl),
+	.i_drdy(DRDY_IMU),
+
+	.o_status(i_var_i2c_IMU_status),
+	.o_GYROX(i_var_i2c_IMU_rdata_1),
+	.o_GYROY(i_var_i2c_IMU_rdata_2),
+	.o_GYROZ(i_var_i2c_IMU_rdata_3),
+	.o_ACCX(i_var_i2c_IMU_rdata_4),
+	.o_ACCY(i_var_i2c_IMU_rdata_5),
+	.o_ACCZ(i_var_i2c_IMU_rdata_6),
+	.o_TEMP(i_var_i2c_IMU_rdata_7),
+	.o_w_enable(),
+	.o_cnt()
+);
+
+// =========================================================================
 // NIOS2 CPU
 // =========================================================================
 

@@ -19,7 +19,8 @@ obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V
  D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/output_mode.h \
  D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/uart_dual.h \
  D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/eeprom_v2.h \
- D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/ads122c04_se.h
+ D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/ads122c04_se.h \
+ D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/asm330lhhx.h
 
 ../HINS_CPU_V1_0_bsp//HAL/inc/sys/alt_irq.h:
 
@@ -62,3 +63,5 @@ D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/uart_dual.h:
 D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/eeprom_v2.h:
 
 D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/ads122c04_se.h:
+
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/asm330lhhx.h:
