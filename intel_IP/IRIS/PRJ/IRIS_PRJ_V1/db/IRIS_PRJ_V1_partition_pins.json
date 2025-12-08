@@ -1,0 +1,649 @@
+{
+	"partitions" : [
+		{
+			"name" : "Top",
+			"pins" : [
+				{
+					"name" : "SDRAM_ADDR[0]",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_ADDR[1]",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_ADDR[2]",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_ADDR[3]",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_ADDR[4]",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_ADDR[5]",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_ADDR[6]",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_ADDR[7]",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_ADDR[8]",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_ADDR[9]",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_ADDR[10]",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_ADDR[11]",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_BA[0]",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_BA[1]",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_CAS_N",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_CS_N",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_DQM[0]",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_DQM[1]",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_RAS_N",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_WE_N",
+					"strict" : false
+				},
+				{
+					"name" : "MUX_IN2",
+					"strict" : false
+				},
+				{
+					"name" : "MUX_IN1",
+					"strict" : false
+				},
+				{
+					"name" : "FPGA_TX",
+					"strict" : false
+				},
+				{
+					"name" : "DBG_TX",
+					"strict" : false
+				},
+				{
+					"name" : "INT_SYNC",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_1_1[0]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_1_1[1]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_1_1[2]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_1_1[3]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_1_1[4]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_1_1[5]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_1_1[6]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_1_1[7]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_1_1[8]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_1_1[9]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_1_1[10]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_1_1[11]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_1_1[12]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_1_1[13]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_1_1[14]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_1_1[15]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_2_1[0]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_2_1[1]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_2_1[2]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_2_1[3]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_2_1[4]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_2_1[5]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_2_1[6]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_2_1[7]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_2_1[8]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_2_1[9]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_2_1[10]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_2_1[11]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_2_1[12]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_2_1[13]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_2_1[14]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_2_1[15]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_2_2[0]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_2_2[1]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_2_2[2]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_2_2[3]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_2_2[4]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_2_2[5]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_2_2[6]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_2_2[7]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_2_2[8]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_2_2[9]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_2_2[10]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_2_2[11]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_2_2[12]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_2_2[13]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_2_2[14]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_2_2[15]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_RST",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_CFG_MOSI",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_CFG_SCLK",
+					"strict" : false
+				},
+				{
+					"name" : "CS_DAC_1",
+					"strict" : false
+				},
+				{
+					"name" : "CS_DAC_2",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_CFG_MOSI",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_CFG_SCLK",
+					"strict" : false
+				},
+				{
+					"name" : "CS_ADC_1",
+					"strict" : false
+				},
+				{
+					"name" : "CS_ADC_2",
+					"strict" : false
+				},
+				{
+					"name" : "EPCS_ASDO",
+					"strict" : false
+				},
+				{
+					"name" : "EPCS_DCLK",
+					"strict" : false
+				},
+				{
+					"name" : "EPCS_NCSO",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_DQ[0]",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_DQ[1]",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_DQ[2]",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_DQ[3]",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_DQ[4]",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_DQ[5]",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_DQ[6]",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_DQ[7]",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_DQ[8]",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_DQ[9]",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_DQ[10]",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_DQ[11]",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_DQ[12]",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_DQ[13]",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_DQ[14]",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_DQ[15]",
+					"strict" : false
+				},
+				{
+					"name" : "SDA_357",
+					"strict" : false
+				},
+				{
+					"name" : "SCL_357",
+					"strict" : false
+				},
+				{
+					"name" : "SDA_ADC_TEMP",
+					"strict" : false
+				},
+				{
+					"name" : "SCL_ADC_TEMP",
+					"strict" : false
+				},
+				{
+					"name" : "SDA_EEPROM",
+					"strict" : false
+				},
+				{
+					"name" : "SCL_EEPROM",
+					"strict" : false
+				},
+				{
+					"name" : "DRDY_357",
+					"strict" : false
+				},
+				{
+					"name" : "DRDY_ADC_TEMP",
+					"strict" : false
+				},
+				{
+					"name" : "EPCS_DATA0",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_CFG_MISO",
+					"strict" : false
+				},
+				{
+					"name" : "DAC_CFG_MISO",
+					"strict" : false
+				},
+				{
+					"name" : "DBG_RX",
+					"strict" : false
+				},
+				{
+					"name" : "FPGA_RX",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_2_2[13]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_2_2[12]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_2_2[11]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_2_2[10]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_2_2[9]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_2_2[8]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_2_2[7]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_2_2[6]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_2_2[5]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_2_2[4]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_2_2[3]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_2_2[2]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_2_2[1]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_2_2[0]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_1_1[6]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_1_1[7]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_1_1[5]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_1_1[4]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_1_1[3]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_1_1[2]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_1_1[1]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_1_1[0]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_1_1[13]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_1_1[12]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_1_1[11]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_1_1[10]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_1_1[9]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_1_1[8]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_2_1[6]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_2_1[7]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_2_1[5]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_2_1[4]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_2_1[3]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_2_1[2]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_2_1[1]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_2_1[0]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_2_1[13]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_2_1[12]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_2_1[11]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_2_1[10]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_2_1[9]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_2_1[8]",
+					"strict" : false
+				},
+				{
+					"name" : "altera_reserved_tms",
+					"strict" : false
+				},
+				{
+					"name" : "altera_reserved_tck",
+					"strict" : false
+				},
+				{
+					"name" : "altera_reserved_tdi",
+					"strict" : false
+				},
+				{
+					"name" : "altera_reserved_tdo",
+					"strict" : false
+				}
+			]
+		}
+	]
+}

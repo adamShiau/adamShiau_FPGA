@@ -1,0 +1,16 @@
+Fitter Status : Successful - Mon Dec 08 16:02:06 2025
+Quartus Prime Version : 18.1.0 Build 625 09/12/2018 SJ Lite Edition
+Revision Name : IRIS_PRJ_V1
+Top-level Entity Name : IRIS1_TOP_V1
+Family : Cyclone IV E
+Device : EP4CE40F23I7
+Timing Models : Final
+Total logic elements : 28,155 / 39,600 ( 71 % )
+    Total combinational functions : 25,419 / 39,600 ( 64 % )
+    Dedicated logic registers : 13,745 / 39,600 ( 35 % )
+Total registers : 13813
+Total pins : 182 / 329 ( 55 % )
+Total virtual pins : 0
+Total memory bits : 68,608 / 1,161,216 ( 6 % )
+Embedded Multiplier 9-bit elements : 0 / 232 ( 0 % )
+Total PLLs : 1 / 4 ( 25 % )

@@ -226,12 +226,8 @@ void dump_misalignment_param_framed(fog_parameter_t* fog_inst, uint32_t seq);
 void dump_SN(fog_parameter_t* fog_inst);
 void dump_SN_framed(const fog_parameter_t* fog_inst, uint32_t seq);
 
-void dump_cfg_param_framed(fog_parameter_t* fog_inst, uint32_t seq);
-
 void send_json_uart(const char* buffer);
 void send_framed_payload(uint32_t seq, uint8_t ch, const char* payload, size_t payload_len);
-
-void update_datarate_to_HW_REG(alt_32 dr);
 
 void set_MUX_RS422(void);
 void set_MUX_RS232(void);

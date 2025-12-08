@@ -239,7 +239,7 @@ void get_uart_cmd(alt_u8* data, cmd_ctrl_t* rx)
 {
     if(data){
 		rx->condition = data[0];
-		if(rx->condition == RX_CONDITION_ABBA_5556) { // update normal parameter
+		if(rx->condition == RX_CONDITION_ABBA_5556) { 
 			rx->complete = 1;
 			rx->cmd = data[1];
 			rx->value = data[2]<<24 | data[3]<<16 | data[4]<<8 | data[5];
@@ -247,7 +247,7 @@ void get_uart_cmd(alt_u8* data, cmd_ctrl_t* rx)
 			// UART_PRINT("\nuart_cmd, uart_value, ch, condition: 0x%x, %ld, %d, %u\n", rx->cmd , rx->value, rx->ch, rx->condition);
 			DEBUG_PRINT("\nuart_cmd, uart_value, ch, condition: 0x%x, %ld, %d, %u\n", rx->cmd , rx->value, rx->ch, rx->condition);
 		}
-		else if(rx->condition == RX_CONDITION_CDDC_5758) { // update SN
+		else if(rx->condition == RX_CONDITION_CDDC_5758) {
 			rx->complete = 1;
 			rx->cmd = data[1];
 			for (int i = 0; i < 12; i++) {
@@ -257,7 +257,7 @@ void get_uart_cmd(alt_u8* data, cmd_ctrl_t* rx)
 			// UART_PRINT("\nuart_cmd, condition, SN: 0x%x, %u, %s\n", rx->cmd , rx->condition, rx->SN);
 			DEBUG_PRINT("\nuart_cmd, condition, SN: 0x%x, %u, %s\n", rx->cmd , rx->condition, rx->SN);
 		} 
-		else if(rx->condition == RX_CONDITION_EFFE_5354) { // read normal parameter
+		else if(rx->condition == RX_CONDITION_EFFE_5354) {
 			rx->complete = 1;
 			rx->cmd = data[1];
 			rx->value = data[2]<<24 | data[3]<<16 | data[4]<<8 | data[5];
@@ -331,11 +331,8 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 			else if(rx->ch == 4) {
 				base = MEM_BASE_MIS;
 			}
-			else if(rx->ch == 6) {
-				base = MEM_BASE_CFG;
-			}
 
-			if(rx->condition == RX_CONDITION_ABBA_5556 || rx->condition == RX_CONDITION_EFFE_5354) {
+			if(rx->condition == 1 || rx->condition == 3) {
 				switch(rx->cmd ){
 					case CMD_MOD_FREQ: {
 						UART_PRINT("CMD_MOD_FREQ:\n");	
@@ -1119,23 +1116,6 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 						}
 						break;
 					}
-					/***------------- configuration */
-					case CMD_CFG_DR: {
-						UART_PRINT("CMD_CFG_DR:\n");
-						if(rx->ch != 6) {UART_PRINT("Ch value must be 6:\n"); break;}
-						if(rx->condition == 1) {
-							update_datarate_to_HW_REG(rx->value);
-							PARAMETER_Write_s(base, CMD_CFG_DR - CFG_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
-						}
-						else if(rx->condition == 3) {
-							data_t data;
-							PARAMETER_Read(base, CMD_CFG_DR - CFG_CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
-						}
-						break;
-					}
-
 					case CMD_DUMP_FOG: {
 						DEBUG_PRINT("CMD_DUMP_FOG:\n");
 						uint32_t seq  = (rx->value >> 1);
@@ -1155,13 +1135,6 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 						uint32_t seq  = (rx->value >> 1);
    						uint8_t  nack = (uint8_t)(rx->value & 1); // TODO: 若要支援 NACK：查快取 (seq,ch) → 直接重送上一包；此處略
 						dump_SN_framed(fog_inst, seq);
-						break;
-					} 
-					case CMD_DUMP_CFG: {
-						DEBUG_PRINT("CMD_DUMP_CFG:\n");
-						uint32_t seq  = (rx->value >> 1);
-   						uint8_t  nack = (uint8_t)(rx->value & 1); // TODO: 若要支援 NACK：查快取 (seq,ch) → 直接重送上一包；此處略
-						dump_cfg_param_framed(fog_inst, seq);
 						break;
 					} 
 					case CMD_DATA_OUT_START: { // not use now
@@ -1185,7 +1158,7 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 				}
 		
 			}
-			else if(rx->condition == RX_CONDITION_CDDC_5758) {
+			else if(rx->condition == 2) {
 				switch(rx->cmd ){
 					case CMD_WRITE_SN: {
 						DEBUG_PRINT("CMD_WRITE_SN:\n");
@@ -1442,37 +1415,6 @@ void dump_misalignment_param_framed(fog_parameter_t* fog_inst, uint32_t seq)
 
     // ch = 4（你們約定 mis-alignment 為第 4 通道）
     send_framed_payload(seq, /*ch=*/4, json, (size_t)off);
-}
-
-void dump_cfg_param_framed(fog_parameter_t* fog_inst, uint32_t seq)
-{
-    if (!fog_inst) return;
-
-    char json[256];
-    int off = 0;
-
-    if (off < (int)sizeof(json))
-        off += snprintf(json + off, sizeof(json) - off, "{");
-
-    for (int i = 0; i < CFG_LEN; ++i) {
-        if (off < (int)sizeof(json)) {
-            off += snprintf(json + off, sizeof(json) - off,
-                            "\"%d\":%ld%s",
-                            i, (long)fog_inst->config[i].data.int_val,
-                            (i < CFG_LEN - 1) ? "," : "");
-        }
-    }
-
-    if (off < (int)sizeof(json))
-        off += snprintf(json + off, sizeof(json) - off, "}");
-
-    if (off <= 0 || off >= (int)sizeof(json)) {
-        // 可加錯誤處理或計數器
-        return;
-    }
-
-    // ch = 6（你們約定 config 為第 6 通道）
-    send_framed_payload(seq, /*ch=*/6, json, (size_t)off);
 }
 
 
@@ -1829,25 +1771,4 @@ uint16_t crc16_ccitt_buf(const uint8_t* data, size_t len) {
     uint16_t crc = 0xFFFF;
     for (size_t i = 0; i < len; ++i) crc = crc16_ccitt_update(crc, data[i]);
     return crc;
-}
-
-void update_datarate_to_HW_REG(alt_32 dr) {
-	switch (dr)
-	{
-		case 0x00: // 100Hz
-			IOWR(VARSET_BASE, var_sync_count, SYNC_100HZ); 
-			break;
-
-		case 0x01: // 50Hz
-			IOWR(VARSET_BASE, var_sync_count, SYNC_50HZ); 
-			break;
-
-		case 0x02: // 15Hz
-			IOWR(VARSET_BASE, var_sync_count, SYNC_15HZ); 
-			break;
-		
-		default:
-			break;
-	}	
-	
 }

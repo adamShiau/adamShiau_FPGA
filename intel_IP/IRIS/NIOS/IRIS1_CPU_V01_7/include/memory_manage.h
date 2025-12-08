@@ -5,10 +5,6 @@
 
 #define PAR_LEN 40 // 定義陣列大小
 #define MIS_LEN 30
-#define CFG_LEN 10
-
-#define CONTAINER_TO_CMD_OFFSET     8   
-
 
 typedef union{
     float	float_val;
@@ -34,7 +30,6 @@ typedef struct {    // for parameter container, container size defined by PAR_LE
     mem_unit_t paramY[PAR_LEN];    
     mem_unit_t paramZ[PAR_LEN];  
     mem_unit_t misalignment[MIS_LEN];  
-    mem_unit_t config[CFG_LEN];
 } fog_parameter_t;
 
 #define MEM_BASE_SN 0
@@ -42,9 +37,6 @@ typedef struct {    // for parameter container, container size defined by PAR_LE
 #define MEM_BASE_Y (MEM_BASE_X + PAR_LEN)
 #define MEM_BASE_Z (MEM_BASE_Y + PAR_LEN)
 #define MEM_BASE_MIS (MEM_BASE_Z + PAR_LEN)
-#define MEM_BASE_CFG (MEM_BASE_MIS + MIS_LEN)
-
-
 
 /*** float value define*/
 #define FLOAT_660 0x44250000
@@ -93,10 +85,8 @@ extern const mem_unit_t fog_parameter_init[PAR_LEN];
 #define CMD_TO_HW_REG_OFFSET_CH1    1
 #define CMD_TO_HW_REG_OFFSET_CH2    12
 #define CMD_TO_HW_REG_OFFSET_CH3    23
+
 #define MIS_CONTAINER_TO_CMD_OFFSET     48  
-#define CFG_CONTAINER_TO_CMD_OFFSET     72  
-
-
 
 /*** CMD 1 ~ 7 reserve for ooutput mode  ***/ 
 enum {
@@ -161,14 +151,11 @@ enum {
     CMD_MIS_G32,
     CMD_MIS_G33,
 
-    CMD_CFG_DR = 72,            //0x48
-    CMD_CFG_BR,
 
     CMD_DATA_OUT_START = 99,    //0x63
     CMD_HW_TIMER_RST = 100,     //0x64
     CMD_SYNC_CNT = 101,         //0x65
     CMD_DUMP_FOG = 102, //0x66
-    CMD_DUMP_CFG = 103, //0x67
     CMD_WRITE_SN = 110,  //0x6E
     CMD_DUMP_MIS = 129,  //0x81
     CMD_DUMP_SN = 130  //0x82

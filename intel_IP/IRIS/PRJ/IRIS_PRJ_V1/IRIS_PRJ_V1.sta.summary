@@ -1,0 +1,209 @@
+------------------------------------------------------------
+Timing Analyzer Summary
+------------------------------------------------------------
+
+Type  : Slow 1200mV 100C Model Setup 'CLOCK_DAC'
+Slack : -0.951
+TNS   : -11.128
+
+Type  : Slow 1200mV 100C Model Setup 'CPU_CLK'
+Slack : 0.994
+TNS   : 0.000
+
+Type  : Slow 1200mV 100C Model Setup 'CLOCK_ADC'
+Slack : 1.425
+TNS   : 0.000
+
+Type  : Slow 1200mV 100C Model Setup 'altera_reserved_tck'
+Slack : 46.031
+TNS   : 0.000
+
+Type  : Slow 1200mV 100C Model Hold 'CPU_CLK'
+Slack : 0.360
+TNS   : 0.000
+
+Type  : Slow 1200mV 100C Model Hold 'CLOCK_DAC'
+Slack : 0.414
+TNS   : 0.000
+
+Type  : Slow 1200mV 100C Model Hold 'altera_reserved_tck'
+Slack : 0.415
+TNS   : 0.000
+
+Type  : Slow 1200mV 100C Model Hold 'CLOCK_ADC'
+Slack : 0.461
+TNS   : 0.000
+
+Type  : Slow 1200mV 100C Model Recovery 'CPU_CLK'
+Slack : 5.541
+TNS   : 0.000
+
+Type  : Slow 1200mV 100C Model Recovery 'altera_reserved_tck'
+Slack : 48.186
+TNS   : 0.000
+
+Type  : Slow 1200mV 100C Model Removal 'altera_reserved_tck'
+Slack : 1.197
+TNS   : 0.000
+
+Type  : Slow 1200mV 100C Model Removal 'CPU_CLK'
+Slack : 2.768
+TNS   : 0.000
+
+Type  : Slow 1200mV 100C Model Minimum Pulse Width 'CLOCK_DAC'
+Slack : 4.706
+TNS   : 0.000
+
+Type  : Slow 1200mV 100C Model Minimum Pulse Width 'CPU_CLK'
+Slack : 4.708
+TNS   : 0.000
+
+Type  : Slow 1200mV 100C Model Minimum Pulse Width 'CLOCK_ADC'
+Slack : 4.713
+TNS   : 0.000
+
+Type  : Slow 1200mV 100C Model Minimum Pulse Width 'CLOCK_100M'
+Slack : 4.794
+TNS   : 0.000
+
+Type  : Slow 1200mV 100C Model Minimum Pulse Width 'altera_reserved_tck'
+Slack : 49.561
+TNS   : 0.000
+
+Type  : Slow 1200mV -40C Model Setup 'CLOCK_DAC'
+Slack : 0.474
+TNS   : 0.000
+
+Type  : Slow 1200mV -40C Model Setup 'CPU_CLK'
+Slack : 1.965
+TNS   : 0.000
+
+Type  : Slow 1200mV -40C Model Setup 'CLOCK_ADC'
+Slack : 2.548
+TNS   : 0.000
+
+Type  : Slow 1200mV -40C Model Setup 'altera_reserved_tck'
+Slack : 46.631
+TNS   : 0.000
+
+Type  : Slow 1200mV -40C Model Hold 'CLOCK_DAC'
+Slack : 0.342
+TNS   : 0.000
+
+Type  : Slow 1200mV -40C Model Hold 'CPU_CLK'
+Slack : 0.342
+TNS   : 0.000
+
+Type  : Slow 1200mV -40C Model Hold 'altera_reserved_tck'
+Slack : 0.343
+TNS   : 0.000
+
+Type  : Slow 1200mV -40C Model Hold 'CLOCK_ADC'
+Slack : 0.403
+TNS   : 0.000
+
+Type  : Slow 1200mV -40C Model Recovery 'CPU_CLK'
+Slack : 6.086
+TNS   : 0.000
+
+Type  : Slow 1200mV -40C Model Recovery 'altera_reserved_tck'
+Slack : 48.588
+TNS   : 0.000
+
+Type  : Slow 1200mV -40C Model Removal 'altera_reserved_tck'
+Slack : 1.061
+TNS   : 0.000
+
+Type  : Slow 1200mV -40C Model Removal 'CPU_CLK'
+Slack : 2.378
+TNS   : 0.000
+
+Type  : Slow 1200mV -40C Model Minimum Pulse Width 'CLOCK_DAC'
+Slack : 4.678
+TNS   : 0.000
+
+Type  : Slow 1200mV -40C Model Minimum Pulse Width 'CPU_CLK'
+Slack : 4.680
+TNS   : 0.000
+
+Type  : Slow 1200mV -40C Model Minimum Pulse Width 'CLOCK_ADC'
+Slack : 4.681
+TNS   : 0.000
+
+Type  : Slow 1200mV -40C Model Minimum Pulse Width 'CLOCK_100M'
+Slack : 4.785
+TNS   : 0.000
+
+Type  : Slow 1200mV -40C Model Minimum Pulse Width 'altera_reserved_tck'
+Slack : 49.457
+TNS   : 0.000
+
+Type  : Fast 1200mV -40C Model Setup 'CLOCK_DAC'
+Slack : 5.192
+TNS   : 0.000
+
+Type  : Fast 1200mV -40C Model Setup 'CPU_CLK'
+Slack : 5.594
+TNS   : 0.000
+
+Type  : Fast 1200mV -40C Model Setup 'CLOCK_ADC'
+Slack : 6.030
+TNS   : 0.000
+
+Type  : Fast 1200mV -40C Model Setup 'altera_reserved_tck'
+Slack : 48.510
+TNS   : 0.000
+
+Type  : Fast 1200mV -40C Model Hold 'CPU_CLK'
+Slack : 0.141
+TNS   : 0.000
+
+Type  : Fast 1200mV -40C Model Hold 'CLOCK_DAC'
+Slack : 0.177
+TNS   : 0.000
+
+Type  : Fast 1200mV -40C Model Hold 'altera_reserved_tck'
+Slack : 0.180
+TNS   : 0.000
+
+Type  : Fast 1200mV -40C Model Hold 'CLOCK_ADC'
+Slack : 0.194
+TNS   : 0.000
+
+Type  : Fast 1200mV -40C Model Recovery 'CPU_CLK'
+Slack : 7.814
+TNS   : 0.000
+
+Type  : Fast 1200mV -40C Model Recovery 'altera_reserved_tck'
+Slack : 49.491
+TNS   : 0.000
+
+Type  : Fast 1200mV -40C Model Removal 'altera_reserved_tck'
+Slack : 0.544
+TNS   : 0.000
+
+Type  : Fast 1200mV -40C Model Removal 'CPU_CLK'
+Slack : 1.353
+TNS   : 0.000
+
+Type  : Fast 1200mV -40C Model Minimum Pulse Width 'CLOCK_100M'
+Slack : 4.427
+TNS   : 0.000
+
+Type  : Fast 1200mV -40C Model Minimum Pulse Width 'CLOCK_DAC'
+Slack : 4.741
+TNS   : 0.000
+
+Type  : Fast 1200mV -40C Model Minimum Pulse Width 'CPU_CLK'
+Slack : 4.742
+TNS   : 0.000
+
+Type  : Fast 1200mV -40C Model Minimum Pulse Width 'CLOCK_ADC'
+Slack : 4.782
+TNS   : 0.000
+
+Type  : Fast 1200mV -40C Model Minimum Pulse Width 'altera_reserved_tck'
+Slack : 49.304
+TNS   : 0.000
+
+------------------------------------------------------------
