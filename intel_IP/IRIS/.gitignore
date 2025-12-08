@@ -1,0 +1,24 @@
+# Quartus Database & Temporary Files
+db/
+incremental_db/
+.qsys_edit/
+*.qws      # Quartus Workspace file
+*.bak      # Backup files
+*.merge_log
+
+# Quartus Output Files
+output_files/
+*.sof      # SRAM Object File (Programming file)
+*.pof      # Parallel Flash Loader Object File
+*.jic      # JTAG Indirect Configuration File
+*.map
+*.fit
+*.sta
+*.asm
+*.rpt      # Report files
+
+# NIOS II Software Build Files
+nios_bsp/
+nios_app/
+*.elf      # Executable and Linkable Format
+*.done
