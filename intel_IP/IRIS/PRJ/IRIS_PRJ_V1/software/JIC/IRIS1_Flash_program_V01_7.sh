@@ -2,7 +2,7 @@
 
 # Define variables
 VERSION="V01_7"
-SOF_FILE="../IRIS_PRJ_V1.sof"
+SOF_FILE="../../IRIS_PRJ_V1.sof"
 ELF_FILE="../IRIS1_CPU_${VERSION}/IRIS1_CPU_${VERSION}.elf"
 
 # Print the variable values

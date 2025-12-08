@@ -1,0 +1,175 @@
+#include <stdio.h>
+#include <stdlib.h>  // malloc(), free()
+#include <string.h>  // memcpy()
+#include "sys/alt_irq.h"
+#include "system.h"
+#include "altera_avalon_uart_regs.h"
+#include "HINS.h"
+
+#define COE_TIMER 0.0001
+
+void TRIGGER_IRQ_init(void);
+void IRQ_TRIGGER_ISR(void *context);
+void update_HINS_config_to_HW_REG(void);
+void update_sensor_data(my_sensor_t *data); 
+
+
+const alt_u8 cmd_header[2] = {0xAB, 0xBA};
+const alt_u8 cmd_trailer[2] = {0x55, 0x56};
+static alt_u16 try_cnt;
+
+volatile alt_u8 trigger_sig = 0;
+
+my_float_t my_f;
+
+// Definition and initialization of my_cmd, structure type is defined in common.h
+cmd_ctrl_t my_cmd = {
+	.condition = RX_CONDITION_INIT,
+	.SN = {0},
+    .complete = 0,
+    .mux = MUX_ESCAPE,
+    .select_fn = SEL_IDLE,
+    .ch = 0,
+    .cmd = 0,
+	.run = 0,
+    .value = 0,
+	.sync_mode = 0
+};
+
+// Definition and initialization of auto_rst, structure type is defined in common.h
+auto_rst_t auto_rst = {
+	.status = 0,
+	.fn_mode = MODE_RST
+};
+
+// Definition of a function pointer for output processing.  
+// Initialized to NULL to prevent undefined behavior.  
+// The assigned function will be implemented in output_fn.c.  
+fn_ptr output_fn = acq_rst;
+
+// Definition and initialization of sensor, structure type is defined in common.h
+my_sensor_t sensor_data = {
+    .fog = {
+        .fogz = { .err = { .int_val = 0 }, .step = { .int_val = 0 }}
+    },
+	.time = {.time.float_val = 0},
+	.ads122c04 = {
+        .ain0.float_val = 0,    //FOG Temp
+		.ain1.float_val = 0,    //VIN_MON
+		.ain2.float_val = 0,    //TACT_MON
+		.ain3.float_val = 0     //PUMP_PD0
+	},
+	.asm330lhhx = {
+        .wx.float_val = 0,
+		.wy.float_val = 0,
+		.wz.float_val = 0,
+		.ax.float_val = 0,
+		.ay.float_val = 0,
+		.az.float_val = 0,
+		.temp.float_val = 0
+	}
+};
+
+// int cnt=0;
+
+int main(void)
+{
+
+    fog_parameter_t fog_params;	 //parameter container
+
+    DEBUG_PRINT("Running IRIS CPU!\n");
+	printf("Running IRIS CPU!\n");
+    update_HINS_config_to_HW_REG();
+
+    DEBUG_PRINT("TRIGGER_IRQ_init\n");
+	crc32_init_table();
+	TRIGGER_IRQ_init();
+	printf("uartInit\n");
+    DEBUG_PRINT("uartInit\n");
+	uartInit(); //interrupt method of uart defined in uart.c not main()
+	printf("init_ADDA\n");
+	DEBUG_PRINT("init_ADDA\n");
+    set_DAC_reset();
+	usleep(50);
+	clear_DAC_reset();
+	init_ADDA();
+	printf("init_EEPROM\n");
+    DEBUG_PRINT("init_EEPROM\n");
+	init_EEPROM();
+	printf("init_ADS122C04_TEMP\n");
+    DEBUG_PRINT("init_ADS122C04_TEMP\n");
+	init_ADS122C04_TEMP();
+    printf("init_ASM330LHHX\n");
+    DEBUG_PRINT("init_ASM330LHHX\n");
+    init_ASM330LHHX();
+	printf("init all done\n");
+    
+    while(1)
+    {
+
+        get_uart_cmd(readDataDynamic(&try_cnt), &my_cmd);
+        get_uart_cmd(readDataDynamic_dbg(&try_cnt), &my_cmd);
+        cmd_mux(&my_cmd);
+        fog_parameter(&my_cmd, &fog_params);
+        output_mode_setting(&my_cmd, &output_fn, &auto_rst);
+        if (trigger_sig == 1) 
+        {
+            update_sensor_data(&sensor_data);
+            output_fn(&my_cmd, sensor_data, fog_params);
+            trigger_sig = 0;
+        }
+
+    }
+
+    return 0;
+}
+
+void update_sensor_data(my_sensor_t *data) {
+    /***---timer--- */
+    data->time.time.float_val = (float)IORD(VARSET_BASE, i_var_timer) * COE_TIMER;
+    /***---fog z axis--- */
+     data->fog.fogz.err.int_val = IORD(VARSET_BASE, i_var_err);
+     data->fog.fogz.step.int_val = IORD(VARSET_BASE, i_var_step);
+    /***---adc ads122c04--- */
+     data->ads122c04.ain0.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_1);
+     data->ads122c04.ain1.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_2);
+     data->ads122c04.ain2.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_3);
+     data->ads122c04.ain3.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_4);
+    /***---imu asm330lhhx--- */
+     data->asm330lhhx.wx.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_1);
+     data->asm330lhhx.wy.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_2);
+     data->asm330lhhx.wz.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_3);
+     data->asm330lhhx.ax.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_4);
+     data->asm330lhhx.ay.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_5);
+     data->asm330lhhx.az.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_6);
+     data->asm330lhhx.temp.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_7);
+
+    
+    DEBUG_PRINT("time: %f\n", data->time.time.float_val);
+}
+
+
+
+void update_HINS_config_to_HW_REG()
+{
+	IOWR(VARSET_BASE, var_sync_count, SYNC_100HZ); // set sync data rate
+}
+
+void TRIGGER_IRQ_init()
+{
+	IOWR_ALTERA_AVALON_PIO_EDGE_CAP(SYNC_IN_BASE, 1); //clear edge capture register
+	IOWR_ALTERA_AVALON_PIO_IRQ_MASK(SYNC_IN_BASE, 1); //enable irq mask
+	alt_ic_isr_register(
+	SYNC_IN_IRQ_INTERRUPT_CONTROLLER_ID,
+	SYNC_IN_IRQ,
+	IRQ_TRIGGER_ISR,
+	0x0,
+	0x0);
+}
+
+void IRQ_TRIGGER_ISR(void *context)
+{
+	(void) context;
+	IOWR_ALTERA_AVALON_PIO_EDGE_CAP(SYNC_IN_BASE, 1); //clear edge capture register
+	trigger_sig = 1;
+}

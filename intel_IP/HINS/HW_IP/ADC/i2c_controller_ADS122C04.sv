@@ -170,7 +170,7 @@ module i2c_controller_ADS122C04
 	end
 
 	always@(posedge i_clk) begin
-		CLK_COUNT <= CLK_COUNT + 1;//CLK_COUNT[6]:100000/2^(7+1)=390.625 kHz, CLK_COUNT[6]:781.25 KHz
+		CLK_COUNT <= CLK_COUNT + 1;//CLK_COUNT[7]:100000/2^(7+1)=390.625 kHz, CLK_COUNT[6]:781.25 KHz
 		i2c_clk <= CLK_COUNT[reg_clock_rate];
 		clk_2x  <= CLK_COUNT[reg_clock_rate-1];
 	end

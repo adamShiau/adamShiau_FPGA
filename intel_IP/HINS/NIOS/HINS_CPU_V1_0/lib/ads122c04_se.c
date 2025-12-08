@@ -96,7 +96,8 @@ void init_ADS122C04_TEMP()
 	/*** set adxl357 parameters ***/
 	// I2C_write_ADS122C04_TEMP_register(RST_ADDR, POR);
 	I2C_read_ADS122C04_TEMP_register(RREG_CONFIG_0, 1);
-	I2C_write_ADS122C04_TEMP_register(WREG_CONFIG_1, DR_20_40|MODE_NORMAL|CM_SINGLE_SHOT|VREF_INTERNAL|TS_DISABLE);
+	// I2C_write_ADS122C04_TEMP_register(WREG_CONFIG_1, DR_20_40|MODE_NORMAL|CM_SINGLE_SHOT|VREF_INTERNAL|TS_DISABLE);
+	I2C_write_ADS122C04_TEMP_register(WREG_CONFIG_1, DR_45_90|MODE_NORMAL|CM_SINGLE_SHOT|VREF_INTERNAL|TS_DISABLE);
 	I2C_read_ADS122C04_TEMP_register(RREG_CONFIG_1, 1);
 	I2C_read_ADS122C04_TEMP_register(RREG_CONFIG_2, 1);
 	I2C_read_ADS122C04_TEMP_register(RREG_CONFIG_3, 1);
@@ -199,7 +200,7 @@ alt_u8 I2C_read_ADS122C04_TEMP_register(alt_u8 reg_addr, alt_u8 print)
 	// Retrieve the data read from the specified register
 	rt = IORD(VARSET_BASE, O_VAR_I2C_RDATA_1);
 	// Print the register address and its read value if 'print' is enabled
-	if(print) 	INFO_PRINT("reg:%x, value:%x\n", reg_addr, rt);
+	if(print) 	DEBUG_PRINT("reg:%x, value:%x\n", reg_addr, rt);
 	if(print) 	printf("reg:%x, value:%x\n", reg_addr, rt);
 
 	return rt;

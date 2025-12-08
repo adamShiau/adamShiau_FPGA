@@ -145,7 +145,7 @@ void update_sensor_data(my_sensor_t *data) {
      data->asm330lhhx.temp.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_7);
 
     
-    DEBUG_PRINT("time: %f\n", data->time.time.float_val);
+//    DEBUG_PRINT("time: %f\n", data->time.time.float_val);
 }
 
 

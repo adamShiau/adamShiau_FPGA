@@ -57,11 +57,11 @@ void EEPROM_RW_TEST()
 	
 
 	tt.float_val = 1.23456;
-	DEBUG_PRINT("Write int value 123 to memory location 200. \n");
-	UART_PRINT("Write int value 123 to memory location 200. \n");
-	PARAMETER_Write_f(MEM_BASE_X, 200, 123);
-	PARAMETER_Read(MEM_BASE_X, 200 , data.bin_val);
-	DEBUG_PRINT("Read out int value: %d\n", data.int_val);
+	DEBUG_PRINT("Write int value 123 to memory location 100. \n");
+	UART_PRINT("Write int value 123 to memory location 100. \n");
+	PARAMETER_Write_f(0, 100, 123);
+	PARAMETER_Read(0, 100 , data.bin_val);
+	DEBUG_PRINT("\nRead out int value: %d\n", data.int_val);
 	DEBUG_PRINT("Raw bytes: %02X %02X %02X %02X\n",
            data.bin_val[0],
            data.bin_val[1],
@@ -75,10 +75,10 @@ void EEPROM_RW_TEST()
            data.bin_val[3]);
 
 
-	DEBUG_PRINT("Write int value -123 to memory location 201. \n");
-	DEBUG_PRINT("Write int value -123 to memory location 201. \n");
-	PARAMETER_Write_f(MEM_BASE_X, 201, -123);
-	PARAMETER_Read(MEM_BASE_X, 201 , data.bin_val);
+	DEBUG_PRINT("\nWrite int value -123 to memory location 101. \n");
+	UART_PRINT("\nWrite int value -123 to memory location 101. \n");
+	PARAMETER_Write_f(MEM_BASE_X, 101, -123);
+	PARAMETER_Read(MEM_BASE_X, 101 , data.bin_val);
 	UART_PRINT("Read int value: %d\n", data.int_val);
 	UART_PRINT("Raw bytes: %02X %02X %02X %02X\n",
            data.bin_val[0],
@@ -93,10 +93,10 @@ void EEPROM_RW_TEST()
            data.bin_val[3]);
 
 
-	UART_PRINT("Write float value 1.23456 to memory location 202. \n");
-	UART_PRINT("Write float value 1.23456 to memory location 202. \n");
-	PARAMETER_Write_f(MEM_BASE_X, 202, tt.int_val);
-	PARAMETER_Read(MEM_BASE_X, 202 , data.bin_val);
+	DEBUG_PRINT("\nWrite float value 1.23456 to memory location 102. \n");
+	UART_PRINT("\nWrite float value 1.23456 to memory location 102. \n");
+	PARAMETER_Write_f(MEM_BASE_X, 102, tt.int_val);
+	PARAMETER_Read(MEM_BASE_X, 102 , data.bin_val);
 	DEBUG_PRINT("Read float value: %f\n", data.float_val);
 	DEBUG_PRINT("Raw bytes: %02X %02X %02X %02X\n",
            data.bin_val[0],
@@ -110,7 +110,7 @@ void EEPROM_RW_TEST()
            data.bin_val[1],
            data.bin_val[2],
            data.bin_val[3]);
-	DEBUG_PRINT("End EEPROM R/W testing function\n");
+	UART_PRINT("End EEPROM R/W testing function\n");
 }
 
 void EEPROM_Write_4B(alt_u16 reg_addr, alt_32 data)
@@ -424,7 +424,7 @@ void PRINT_FOG_PARAMETER(fog_parameter_t* fog_params)
 void init_EEPROM(void)
 {
     I2C_clock_rate_sel(CLK_390K);
-	// EEPROM_RW_TEST();
+//	EEPROM_RW_TEST();
 }
 
 /***********mid level definition */
