@@ -1,5 +1,5 @@
 Flow report for HINS_PRJ_V1
-Tue Dec 09 16:57:24 2025
+Tue Dec 09 22:42:06 2025
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -40,15 +40,15 @@ refer to the applicable agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Flow Summary                                                                     ;
 +------------------------------------+---------------------------------------------+
-; Flow Status                        ; Successful - Tue Dec 09 16:57:20 2025       ;
+; Flow Status                        ; Successful - Tue Dec 09 22:42:01 2025       ;
 ; Quartus Prime Version              ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                      ; HINS_PRJ_V1                                 ;
 ; Top-level Entity Name              ; HINS_TOP_V1                                 ;
 ; Family                             ; Cyclone IV E                                ;
 ; Device                             ; EP4CE15F17I7                                ;
 ; Timing Models                      ; Final                                       ;
-; Total logic elements               ; 9,750 / 15,408 ( 63 % )                     ;
-;     Total combinational functions  ; 6,929 / 15,408 ( 45 % )                     ;
+; Total logic elements               ; 9,748 / 15,408 ( 63 % )                     ;
+;     Total combinational functions  ; 6,925 / 15,408 ( 45 % )                     ;
 ;     Dedicated logic registers      ; 7,266 / 15,408 ( 47 % )                     ;
 ; Total registers                    ; 7334                                        ;
 ; Total pins                         ; 98 / 166 ( 59 % )                           ;
@@ -64,7 +64,7 @@ refer to the applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 12/09/2025 16:55:47 ;
+; Start date & time ; 12/09/2025 22:39:58 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; HINS_PRJ_V1         ;
 +-------------------+---------------------+
@@ -75,7 +75,7 @@ refer to the applicable agreement for further details.
 +-------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------+-------------+------------------+
 ; Assignment Name                     ; Value                                                                                                                                                                                                                                                                                                                                                                                                                ; Default Value ; Entity Name ; Section Id       ;
 +-------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------+-------------+------------------+
-; COMPILER_SIGNATURE_ID               ; 192355418311013.176527054737220                                                                                                                                                                                                                                                                                                                                                                                      ; --            ; --          ; --               ;
+; COMPILER_SIGNATURE_ID               ; 963351282519.176529119827728                                                                                                                                                                                                                                                                                                                                                                                         ; --            ; --          ; --               ;
 ; ENABLE_SIGNALTAP                    ; On                                                                                                                                                                                                                                                                                                                                                                                                                   ; --            ; --          ; --               ;
 ; MISC_FILE                           ; ./fifo_inst.v                                                                                                                                                                                                                                                                                                                                                                                                        ; --            ; --          ; --               ;
 ; MISC_FILE                           ; ./pll_inst.v                                                                                                                                                                                                                                                                                                                                                                                                         ; --            ; --          ; --               ;
@@ -129,11 +129,11 @@ refer to the applicable agreement for further details.
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis ; 00:00:59     ; 1.0                     ; 5095 MB             ; 00:01:22                           ;
-; Fitter               ; 00:00:27     ; 1.5                     ; 6660 MB             ; 00:01:04                           ;
-; Assembler            ; 00:00:01     ; 1.0                     ; 4718 MB             ; 00:00:01                           ;
-; Timing Analyzer      ; 00:00:03     ; 1.9                     ; 5044 MB             ; 00:00:05                           ;
-; Total                ; 00:01:30     ; --                      ; --                  ; 00:02:32                           ;
+; Analysis & Synthesis ; 00:01:17     ; 1.0                     ; 5087 MB             ; 00:01:33                           ;
+; Fitter               ; 00:00:39     ; 1.4                     ; 6490 MB             ; 00:01:30                           ;
+; Assembler            ; 00:00:02     ; 1.0                     ; 4717 MB             ; 00:00:01                           ;
+; Timing Analyzer      ; 00:00:04     ; 1.8                     ; 5015 MB             ; 00:00:06                           ;
+; Total                ; 00:02:02     ; --                      ; --                  ; 00:03:10                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
@@ -142,10 +142,10 @@ refer to the applicable agreement for further details.
 +----------------------+------------------+------------+------------+----------------+
 ; Module Name          ; Machine Hostname ; OS Name    ; OS Version ; Processor type ;
 +----------------------+------------------+------------+------------+----------------+
-; Analysis & Synthesis ; DESKTOP-7E38ICV  ; Windows 10 ; 10.0       ; x86_64         ;
-; Fitter               ; DESKTOP-7E38ICV  ; Windows 10 ; 10.0       ; x86_64         ;
-; Assembler            ; DESKTOP-7E38ICV  ; Windows 10 ; 10.0       ; x86_64         ;
-; Timing Analyzer      ; DESKTOP-7E38ICV  ; Windows 10 ; 10.0       ; x86_64         ;
+; Analysis & Synthesis ; LAPTOP-BCC7FD8D  ; Windows 10 ; 10.0       ; x86_64         ;
+; Fitter               ; LAPTOP-BCC7FD8D  ; Windows 10 ; 10.0       ; x86_64         ;
+; Assembler            ; LAPTOP-BCC7FD8D  ; Windows 10 ; 10.0       ; x86_64         ;
+; Timing Analyzer      ; LAPTOP-BCC7FD8D  ; Windows 10 ; 10.0       ; x86_64         ;
 +----------------------+------------------+------------+------------+----------------+
 
 

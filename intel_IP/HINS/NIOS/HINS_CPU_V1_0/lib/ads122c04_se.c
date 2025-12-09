@@ -53,36 +53,48 @@
 #define RREG_CONFIG_2  0x28
 #define RREG_CONFIG_3  0x2C
 
-/***-------Configuraiton register 1 */
+/***-------Configuraiton register */
+// register 0 parameters
+/*** MUX  */
+#define MUX_AIN0_AVSS 	(8<<4)
+/*** GAIN  */
+#define GAIN_1		0
+#define GAIN_2		(1<<1)
+#define GAIN_4		(2<<1)
+#define GAIN_8		(3<<1)
+#define GAIN_16		(4<<1)
+#define GAIN_32		(5<<1)
+#define GAIN_64		(6<<1)
+#define GAIN_128	(7<<1)
+/*** PGA_BYPASS  */
+#define PGA_ENABLE	0
+#define PGA_DISABLE	1
+
+// register 1 parameters
 /*** Data Rate  */
-#define DR_20_40		0x00
-#define DR_45_90		0x20
-#define DR_90_180		0x40
-#define DR_175_350		0x60
-#define DR_330_660		0x80
-#define DR_600_1200		0xA0
-#define DR_1000_2000	0xC0
-
-/*** PGA */
-#define PGA_ENABLE	0x00
-#define PGA_DISABLE	0x01
-
+#define DR_20_40		0
+#define DR_45_90		(1<<5)
+#define DR_90_180		(2<<5)
+#define DR_175_350		(3<<5)
+#define DR_330_660		(4<<5)
+#define DR_600_1200		(5<<5)
+#define DR_1000_2000	(6<<5)
 /*** Operating mode  */
-#define MODE_NORMAL		0x00 
-#define MODE_TURBO		0x10 
-
+#define MODE_NORMAL		0
+#define MODE_TURBO		(1<<4) 
 /*** Conversion mode  */
-#define CM_SINGLE_SHOT		0x00 
-#define CM_CONTINUOUS		0x08 
-
+#define CM_SINGLE_SHOT		0
+#define CM_CONTINUOUS		(1<<3) 
 /*** Voltage reference selection  */
-#define VREF_INTERNAL		0x00
-#define VREF_EXTERNAL		0x02
-#define VREF_ANALOG_SUPPLY  0x04
-
+#define VREF_INTERNAL		0
+#define VREF_EXTERNAL		(1<<1) 
+#define VREF_ANALOG_SUPPLY  (2<<1) 
 /*** Temperature sensor mode  */
-#define TS_DISABLE		0x00
-#define TS_ENABLE		0x01
+#define TS_DISABLE		0
+#define TS_ENABLE		1
+
+// register 2 parameters
+
 /***-------End of configuraiton register 1 */
 
 
@@ -102,19 +114,23 @@ void init_ADS122C04_TEMP()
 {
 	/*** configure the ADXL355/357 ***/
 	I2C_clock_rate_sel_ADS122C04_TEMP(CLK_390K);
-	/*** RESET ***/
-	// I2C_write_ADS122C04_TEMP_cmd(RESET);
-	/*** set ADS122C04 parameters ***/
-	// I2C_write_ADS122C04_TEMP_register(RREG_CONFIG_0, PGA_DISABLE);
-	// I2C_read_ADS122C04_TEMP_register(RREG_CONFIG_0, 1);
 
-	// I2C_write_ADS122C04_TEMP_register(WREG_CONFIG_1, DR_20_40|MODE_NORMAL|CM_SINGLE_SHOT|VREF_INTERNAL|TS_DISABLE);
+	I2C_sm_set_finish_clear_pulse_ADS122C04_TEMP(); // let finish starts at zero
+
+	/*** RESET ***/
+	I2C_write_ADS122C04_TEMP_cmd(RESET);
+
+	/*** set ADS122C04 parameters ***/
+	I2C_write_ADS122C04_TEMP_register(WREG_CONFIG_0, MUX_AIN0_AVSS|GAIN_1|PGA_DISABLE);
+	I2C_read_ADS122C04_TEMP_register(RREG_CONFIG_0, 1);
+	
 	I2C_write_ADS122C04_TEMP_register(WREG_CONFIG_1, DR_1000_2000|MODE_NORMAL|CM_SINGLE_SHOT|VREF_INTERNAL|TS_DISABLE);
 	I2C_read_ADS122C04_TEMP_register(RREG_CONFIG_1, 1);
 
-	I2C_write_ADS122C04_TEMP_register(RREG_CONFIG_2, 0x20);
+	I2C_write_ADS122C04_TEMP_register(WREG_CONFIG_2, 0x00);
 	I2C_read_ADS122C04_TEMP_register(RREG_CONFIG_2, 1);
 
+	I2C_write_ADS122C04_TEMP_register(WREG_CONFIG_3, 0x00);
 	I2C_read_ADS122C04_TEMP_register(RREG_CONFIG_3, 1);
 
 	// setting mode 
@@ -183,7 +199,7 @@ void I2C_clock_rate_sel_ADS122C04_TEMP(alt_u8 rate)
 
 void I2C_write_ADS122C04_TEMP_cmd(alt_u8 reg_addr)
 {
-	printf("Start write cmd\n");
+	// printf("Start write cmd\n");
 	// setting mode to cpu write register
 	I2C_op_mode_sel_ADS122C04_TEMP(CPU_CMD);
 	// Set I2C device address
@@ -201,7 +217,7 @@ void I2C_write_ADS122C04_TEMP_cmd(alt_u8 reg_addr)
         return;
     }
 	I2C_sm_set_finish_clear_pulse_ADS122C04_TEMP();
-	printf("End write cmd\n");
+	// printf("End write cmd\n");
 }
 
 void I2C_write_ADS122C04_TEMP_register(alt_u8 reg_addr, alt_u8 data)
