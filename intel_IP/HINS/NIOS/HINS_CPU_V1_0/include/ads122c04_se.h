@@ -25,14 +25,15 @@ void I2C_sm_start_ADS122C04_TEMP();
 void I2C_op_mode_sel_ADS122C04_TEMP(alt_u8 mode);
 void I2C_clock_rate_sel_ADS122C04_TEMP(alt_u8 rate);
 void I2C_set_device_addr_ADS122C04_TEMP(alt_u8 dev);
+void I2C_write_ADS122C04_TEMP_cmd(alt_u8 reg_addr);
 void I2C_write_ADS122C04_TEMP_register(alt_u8 reg_addr, alt_u8 data);
 alt_u8 I2C_read_ADS122C04_TEMP_register(alt_u8 reg_addr, alt_u8 print);
 
 /*** low level declaration */
 void I2C_sm_set_enable_ADS122C04_TEMP(void);
 void I2C_sm_set_disable_ADS122C04_TEMP(void);
-// void I2C_set_write_mode_ADS122C04_TEMP(void);
-// void I2C_set_read_mode_ADS122C04_TEMP(void);
+void I2C_sm_set_finish_clear_pulse_ADS122C04_TEMP(void);
+
 alt_u8 I2C_sm_read_finish_ADS122C04_TEMP(void);
 alt_u32 set_bit_safe_ADS122C04_TEMP(alt_u32 old_addr,  alt_u8 pos);
 alt_u32 clear_bit_safe_ADS122C04_TEMP(alt_u32 old_addr,  alt_u8 pos);

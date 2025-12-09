@@ -2005,3 +2005,105 @@ Caused by: sun.security.provider.certpath.SunCertPathBuilderException: unable to
 
 !ENTRY com.altera.sbtgui.launch 1 0 2025-12-08 20:14:42.955
 !MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --go --sidp=0x20022a0 --id=0x1000000 --timestamp=1765195865 /cygdrive/d/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0/HINS_CPU_V1_0.elf]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-09 15:30:35.293
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --stop --sidp=0x20022a0 --id=0x1000000 --timestamp=1765265010]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-09 15:30:36.998
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --go --sidp=0x20022a0 --id=0x1000000 --timestamp=1765265010 /cygdrive/d/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0/HINS_CPU_V1_0.elf]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-09 15:32:59.629
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --stop --sidp=0x20022a0 --id=0x1000000 --timestamp=1765265010]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-09 15:33:01.270
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --go --sidp=0x20022a0 --id=0x1000000 --timestamp=1765265010 /cygdrive/d/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0/HINS_CPU_V1_0.elf]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-09 16:06:22.446
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --stop --sidp=0x20022a0 --id=0x1000000 --timestamp=1765267272]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-09 16:06:24.074
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --go --sidp=0x20022a0 --id=0x1000000 --timestamp=1765267272 /cygdrive/d/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0/HINS_CPU_V1_0.elf]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-09 16:11:02.678
+!MESSAGE Terminated Launch with connection: 10USB-Blaster on localhost [USB-0]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-09 16:11:03.886
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --stop --sidp=0x20022a0 --id=0x1000000 --timestamp=1765267272]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-09 16:11:05.509
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --go --sidp=0x20022a0 --id=0x1000000 --timestamp=1765267272 /cygdrive/d/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0/HINS_CPU_V1_0.elf]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-09 16:59:22.397
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --stop --sidp=0x20022a0 --id=0x1000000 --timestamp=1765270560]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-09 16:59:24.023
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --go --sidp=0x20022a0 --id=0x1000000 --timestamp=1765270560 /cygdrive/d/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0/HINS_CPU_V1_0.elf]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-09 17:01:52.281
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --stop --sidp=0x20022a0 --id=0x1000000 --timestamp=1765270560]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-09 17:01:54.323
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --go --sidp=0x20022a0 --id=0x1000000 --timestamp=1765270560 /cygdrive/d/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0/HINS_CPU_V1_0.elf]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-09 17:02:34.437
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --stop --sidp=0x20022a0 --id=0x1000000 --timestamp=1765270560]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-09 17:02:36.053
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --go --sidp=0x20022a0 --id=0x1000000 --timestamp=1765270560 /cygdrive/d/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0/HINS_CPU_V1_0.elf]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-09 17:11:48.520
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --stop --sidp=0x20022a0 --id=0x1000000 --timestamp=1765270560]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-09 17:11:50.145
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --go --sidp=0x20022a0 --id=0x1000000 --timestamp=1765270560 /cygdrive/d/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0/HINS_CPU_V1_0.elf]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-09 17:13:25.921
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --stop --sidp=0x20022a0 --id=0x1000000 --timestamp=1765270560]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-09 17:13:27.559
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --go --sidp=0x20022a0 --id=0x1000000 --timestamp=1765270560 /cygdrive/d/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0/HINS_CPU_V1_0.elf]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-09 17:22:58.441
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --stop --sidp=0x20022a0 --id=0x1000000 --timestamp=1765270560]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-09 17:23:00.060
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --go --sidp=0x20022a0 --id=0x1000000 --timestamp=1765270560 /cygdrive/d/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0/HINS_CPU_V1_0.elf]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-09 17:33:11.610
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --stop --sidp=0x20022a0 --id=0x1000000 --timestamp=1765270560]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-09 17:33:13.658
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --go --sidp=0x20022a0 --id=0x1000000 --timestamp=1765270560 /cygdrive/d/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0/HINS_CPU_V1_0.elf]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-09 17:34:34.195
+!MESSAGE Terminated Launch with connection: 10USB-Blaster on localhost [USB-0]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-09 17:34:35.849
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --stop --sidp=0x20022a0 --id=0x1000000 --timestamp=1765270560]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-09 17:34:37.902
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --go --sidp=0x20022a0 --id=0x1000000 --timestamp=1765270560 /cygdrive/d/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0/HINS_CPU_V1_0.elf]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-09 17:37:21.609
+!MESSAGE Terminated Launch with connection: 10USB-Blaster on localhost [USB-0]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-09 17:37:23.279
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --stop --sidp=0x20022a0 --id=0x1000000 --timestamp=1765270560]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-09 17:37:25.339
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --go --sidp=0x20022a0 --id=0x1000000 --timestamp=1765270560 /cygdrive/d/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0/HINS_CPU_V1_0.elf]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-09 17:38:27.435
+!MESSAGE Terminated Launch with connection: 10USB-Blaster on localhost [USB-0]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-09 17:38:29.086
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --stop --sidp=0x20022a0 --id=0x1000000 --timestamp=1765270560]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-09 17:38:31.140
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --go --sidp=0x20022a0 --id=0x1000000 --timestamp=1765270560 /cygdrive/d/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0/HINS_CPU_V1_0.elf]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-09 17:54:11.916
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --stop --sidp=0x20022a0 --id=0x1000000 --timestamp=1765270560]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2025-12-09 17:54:13.532
+!MESSAGE Executing: [D:/intelfpga_lite/18.1/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --go --sidp=0x20022a0 --id=0x1000000 --timestamp=1765270560 /cygdrive/d/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0/HINS_CPU_V1_0.elf]

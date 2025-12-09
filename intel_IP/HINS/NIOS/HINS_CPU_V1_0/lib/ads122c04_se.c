@@ -31,11 +31,15 @@
 // #define ctrl_rw_reg_pos		1
 #define ctrl_op_mode_pos 	1
 #define ctrl_clk_rate_pos	4
+#define ctrl_finish_clear_pos	7
 
 /**** STATUS ******/
 #define status_ready_pos	0
 #define status_finish_pos	1
 #define status_state_pos	9
+
+/**** RESET ******/
+#define RESET	0x06
 
 /*** WREG definition    ***/
 #define WREG_CONFIG_0  0x40
@@ -58,6 +62,10 @@
 #define DR_330_660		0x80
 #define DR_600_1200		0xA0
 #define DR_1000_2000	0xC0
+
+/*** PGA */
+#define PGA_ENABLE	0x00
+#define PGA_DISABLE	0x01
 
 /*** Operating mode  */
 #define MODE_NORMAL		0x00 
@@ -82,6 +90,7 @@
 #define CPU_WREG	0
 #define CPU_RREG	1
 #define HW		    2
+#define CPU_CMD		3
 
 #define True 1
 #define False 0
@@ -93,18 +102,25 @@ void init_ADS122C04_TEMP()
 {
 	/*** configure the ADXL355/357 ***/
 	I2C_clock_rate_sel_ADS122C04_TEMP(CLK_390K);
-	/*** set adxl357 parameters ***/
-	// I2C_write_ADS122C04_TEMP_register(RST_ADDR, POR);
-	I2C_read_ADS122C04_TEMP_register(RREG_CONFIG_0, 1);
+	/*** RESET ***/
+	// I2C_write_ADS122C04_TEMP_cmd(RESET);
+	/*** set ADS122C04 parameters ***/
+	// I2C_write_ADS122C04_TEMP_register(RREG_CONFIG_0, PGA_DISABLE);
+	// I2C_read_ADS122C04_TEMP_register(RREG_CONFIG_0, 1);
+
 	// I2C_write_ADS122C04_TEMP_register(WREG_CONFIG_1, DR_20_40|MODE_NORMAL|CM_SINGLE_SHOT|VREF_INTERNAL|TS_DISABLE);
-	I2C_write_ADS122C04_TEMP_register(WREG_CONFIG_1, DR_45_90|MODE_NORMAL|CM_SINGLE_SHOT|VREF_INTERNAL|TS_DISABLE);
+	I2C_write_ADS122C04_TEMP_register(WREG_CONFIG_1, DR_1000_2000|MODE_NORMAL|CM_SINGLE_SHOT|VREF_INTERNAL|TS_DISABLE);
 	I2C_read_ADS122C04_TEMP_register(RREG_CONFIG_1, 1);
+
+	I2C_write_ADS122C04_TEMP_register(RREG_CONFIG_2, 0x20);
 	I2C_read_ADS122C04_TEMP_register(RREG_CONFIG_2, 1);
+
 	I2C_read_ADS122C04_TEMP_register(RREG_CONFIG_3, 1);
+
 	// setting mode 
-	I2C_op_mode_sel_ADS122C04_TEMP(HW);
+	// I2C_op_mode_sel_ADS122C04_TEMP(HW);
 	// Set I2C device address
-	I2C_set_device_addr_ADS122C04_TEMP(I2C_DEV_ADDR);
+	// I2C_set_device_addr_ADS122C04_TEMP(I2C_DEV_ADDR);
 	// test_ADS122C04();
 }
 
@@ -144,7 +160,7 @@ void read_ADS122C04_TEMP()
 
 void I2C_sm_start_ADS122C04_TEMP()
 {
-	alt_u8 dly = 50;
+	alt_u8 dly = 25;
 
 	I2C_sm_set_enable_ADS122C04_TEMP();
 	while(dly--){}
@@ -165,8 +181,32 @@ void I2C_clock_rate_sel_ADS122C04_TEMP(alt_u8 rate)
 	IOWR(VARSET_BASE, O_VAR_I2C_CTRL, (old & 0xFFFFFF8F) | (rate<<ctrl_clk_rate_pos));
 }
 
+void I2C_write_ADS122C04_TEMP_cmd(alt_u8 reg_addr)
+{
+	printf("Start write cmd\n");
+	// setting mode to cpu write register
+	I2C_op_mode_sel_ADS122C04_TEMP(CPU_CMD);
+	// Set I2C device address
+	I2C_set_device_addr_ADS122C04_TEMP(I2C_DEV_ADDR);
+	// Set the target register address for read or write operations
+	IOWR(VARSET_BASE, O_VAR_REG_ADDR, reg_addr);
+
+	// start the I2C SM 
+	I2C_sm_start_ADS122C04_TEMP();
+	// Wait for the I2C SM to complete the operation
+	int timeout = 100000;
+	while( !I2C_sm_read_finish_ADS122C04_TEMP() && timeout-- > 0 );
+	if (timeout <= 0) {
+        printf("ADS122C04 write timeout!\n");
+        return;
+    }
+	I2C_sm_set_finish_clear_pulse_ADS122C04_TEMP();
+	printf("End write cmd\n");
+}
+
 void I2C_write_ADS122C04_TEMP_register(alt_u8 reg_addr, alt_u8 data)
 {
+	// printf("Start write reg\n");
 	// setting mode to cpu write register
 	I2C_op_mode_sel_ADS122C04_TEMP(CPU_WREG);
 	// Set I2C device address
@@ -179,7 +219,14 @@ void I2C_write_ADS122C04_TEMP_register(alt_u8 reg_addr, alt_u8 data)
 	// start the I2C SM 
 	I2C_sm_start_ADS122C04_TEMP();
 	// Wait for the I2C SM to complete the operation
-	while( !I2C_sm_read_finish_ADS122C04_TEMP()){}
+	int timeout = 100000;
+	while( !I2C_sm_read_finish_ADS122C04_TEMP() && timeout-- > 0 );
+	if (timeout <= 0) {
+        printf("ADS122C04 write timeout!\n");
+        return;
+    }
+	I2C_sm_set_finish_clear_pulse_ADS122C04_TEMP();
+	// printf("End write reg\n");
 }
 
 alt_u8 I2C_read_ADS122C04_TEMP_register(alt_u8 reg_addr, alt_u8 print)
@@ -199,9 +246,13 @@ alt_u8 I2C_read_ADS122C04_TEMP_register(alt_u8 reg_addr, alt_u8 print)
 	while( !I2C_sm_read_finish_ADS122C04_TEMP()){}
 	// Retrieve the data read from the specified register
 	rt = IORD(VARSET_BASE, O_VAR_I2C_RDATA_1);
+
+	I2C_sm_set_finish_clear_pulse_ADS122C04_TEMP();
+
 	// Print the register address and its read value if 'print' is enabled
 	if(print) 	DEBUG_PRINT("reg:%x, value:%x\n", reg_addr, rt);
 	if(print) 	printf("reg:%x, value:%x\n", reg_addr, rt);
+	
 
 	return rt;
 }
@@ -242,6 +293,13 @@ void I2C_set_device_addr_ADS122C04_TEMP(alt_u8 dev)
  void I2C_sm_set_disable_ADS122C04_TEMP()
 {
 	IOWR(VARSET_BASE, O_VAR_I2C_CTRL, clear_bit_safe_ADS122C04_TEMP(O_VAR_I2C_CTRL, ctrl_en_pos) );
+}
+
+void I2C_sm_set_finish_clear_pulse_ADS122C04_TEMP() 
+{
+	IOWR(VARSET_BASE, O_VAR_I2C_CTRL,  set_bit_safe(O_VAR_I2C_CTRL, ctrl_finish_clear_pos));
+	usleep(1);
+	IOWR(VARSET_BASE, O_VAR_I2C_CTRL,  clear_bit_safe(O_VAR_I2C_CTRL, ctrl_finish_clear_pos));
 }
 
 //  void I2C_set_read_mode_ADS122C04_TEMP()

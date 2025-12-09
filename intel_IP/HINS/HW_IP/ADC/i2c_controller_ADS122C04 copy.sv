@@ -1,4 +1,3 @@
-// 12-9-2025 建立
 module i2c_controller_ADS122C04
 (
 	input wire 			i_clk,
@@ -34,7 +33,6 @@ module i2c_controller_ADS122C04
 	localparam CPU_WREG	= 	3'd0;
 	localparam CPU_RREG = 	3'd1;
 	localparam HW 		= 	3'd2;
-	localparam CPU_CMD	= 	3'd3;
 
 	/*** WREG definition    ***/
 	localparam WREG_CONFIG_0 = 8'b0100_0000;
@@ -90,6 +88,7 @@ module i2c_controller_ADS122C04
 	reg clk_2x = 1;
 	reg	[8:0] CLK_COUNT = 0; 	//clock
 	reg write_done = 0; // write done flag
+	reg finish = 0; // finish flag
 	reg rw = 0;
 	reg r_drdy = 0;
 	reg [2:0] reg_clock_rate = 6;
@@ -103,32 +102,23 @@ module i2c_controller_ADS122C04
 	reg w_en2 = 0;
 	reg [31:0] drdy_timeout;
 
-	/******* finish strobe & reesponse ********/
-	reg finish = 0; // finish flag
-	reg wait_finish_flag = 0;
-	reg prev_clear;
-	wire clear_pulse;
-
 	// assign w_en1 = (sda_out==1)? 0:1 ;
 	assign w_en1 = ~sda_out;
 	assign write_enable = w_en1 | w_en2;
-
-
 
 	/******* control register********/
 	assign i_enable = i_ctrl[0];
 	assign op_mode = i_ctrl[3:1];
 	assign clk_rate = i_ctrl[6:4];
-	assign clear_pulse = (i_ctrl[7] == 1'b1) && (prev_clear == 1'b0); // up edge detect
 
 	/******* status register********/
 	assign o_status[0] = ((i_rst_n == 1) && (state == IDLE) && (write_done == 0)) ? 1 : 0; //ready
 	assign o_status[1] = finish; //finish 
 	assign o_status[9:2] = state;  
 	assign o_status[10]  = sm_enable;
-	assign o_status[12:11]  = CPU_SM;
-	assign o_status[15:13]  = HW_SM;
-	assign o_status[17:16]  = AIN_SM;
+	assign o_status[11]  = CPU_SM;
+	assign o_status[14:12]  = HW_SM;
+	assign o_status[16:15]  = AIN_SM;
 	assign o_cnt = drdy_timeout;
 
 
@@ -170,28 +160,6 @@ module i2c_controller_ADS122C04
 				READ_ACK_B, READ_ACK2_B, READ_ACK3_B: i2c_scl_enable <= 0;
 				IDLE, START, STOP, STOP2: i2c_scl_enable <= 1;
 				default: i2c_scl_enable <= 2;
-			endcase
-		end
-	end
-
-	/** Control logic for 'finish': set in STOP state, cleared on i_ctrl[7] rising edge **/
-	always @(posedge i2c_clk or negedge i_rst_n) begin
-		if (!i_rst_n) begin
-			finish <= 0;
-			prev_clear <= 0;
-		end 
-		else begin
-			prev_clear <= i_ctrl[7];
-
-			case(state)
-
-				STOP: begin
-					if(wait_finish_flag) finish <= 1;
-				end
-				default: begin
-					if (clear_pulse) finish <= 0;
-				end
-
 			endcase
 		end
 	end
@@ -240,10 +208,9 @@ always @(posedge i2c_clk or negedge i_rst_n) begin
 end
 
 // State machine states
-typedef enum logic [1:0] {
-	CPU_SM_W_REG = 2'd0,
-	CPU_SM_READ  = 2'd1,
-	CPU_SM_W_CMD = 2'd2
+typedef enum logic {
+	CPU_SM_W_REG = 1'b0,
+	CPU_SM_READ  = 1'b1
 } CPU_SM_t;
 
 typedef enum logic [2:0] {
@@ -281,7 +248,6 @@ end
 	always @(posedge i2c_clk or negedge i_rst_n) begin
 		if(!i_rst_n) begin
 			state <= IDLE;
-			wait_finish_flag <= 0;
 			write_done <= 1'b0;
 			rw <= 1'b0;
 			reg_rd_data <= 0;reg_rd_data_2 <= 0;reg_rd_data_3 <= 0;
@@ -289,7 +255,7 @@ end
 			o_AIN0 <= 0; o_AIN1 <= 0; o_AIN2 <= 0; o_AIN3 <= 0;
 			sm_enable <= 0; 
 			saved_data <= 0;
-			// finish <= 0;
+			finish <= 0;
 			/*** drdy_timeout init ***/
 			drdy_timeout <= 0;
 			/***  SM initialization  ***/
@@ -300,9 +266,8 @@ end
 		else begin
 			case(state)
 				IDLE: begin // 根據op_mode模式來啟動狀態機
-					wait_finish_flag <= 0;
 					case (op_mode)
-						CPU_WREG, CPU_RREG, CPU_CMD: if(i_enable) sm_enable <= 1; 
+						CPU_WREG, CPU_RREG: if(i_enable) sm_enable <= 1; 
 						HW: begin
 							if(HW_SM == HW_SM_WAIT_DRDY) begin
 								if(i_drdy_sync2 == 1'b0) begin 
@@ -331,7 +296,7 @@ end
 					counter <= 7; // Initialize counter to 7 in this state, as it will be used as an index in the next state.
 
 					case (op_mode)
-						CPU_WREG, CPU_CMD: begin
+						CPU_WREG: begin
 							saved_addr <= {i_dev_addr, 1'b0};
 						end
 						CPU_RREG: begin
@@ -366,7 +331,7 @@ end
 					counter <= 7; // Initialize counter to 7 in this state, as it will be used as an index in the next state.
 
 					case (op_mode)
-						CPU_WREG, CPU_CMD: begin
+						CPU_WREG: begin
 							saved_data <= i_reg_addr;
 							state <= REG_ADDR;
 						end
@@ -413,10 +378,6 @@ end
 				READ_ACK2_B: begin 
 
 					case (op_mode)
-						CPU_CMD: begin
-							wait_finish_flag <= 1;
-							state <= STOP;
-						end
 						CPU_WREG: begin
 							counter <= 7;
 							saved_data <= i_w_data;
@@ -444,7 +405,7 @@ end
 
 				STOP: begin
 					case (op_mode)
-						CPU_WREG, CPU_CMD: sm_enable <= 0;
+						CPU_WREG: sm_enable <= 0;
 						CPU_RREG: begin
 							if(CPU_SM == CPU_SM_W_REG) CPU_SM <= CPU_SM_READ;
 							else if(CPU_SM == CPU_SM_READ) begin
@@ -494,7 +455,7 @@ end
 
 				STOP2: begin
 					state <= IDLE;
-					// finish <= 0;
+					finish <= 0;
 				end
 
 
@@ -515,8 +476,7 @@ end
 				WRITE_ACK: begin//12
 					case (op_mode)
 						CPU_RREG: begin
-							// finish <= 1;
-							wait_finish_flag <= 1;
+							finish <= 1;
 							state <= STOP;
 						end
 						HW: begin
@@ -542,8 +502,7 @@ end
 					else counter <= counter - 1;
 				end
 				WRITE_ACK3: begin
-					// finish <= 1;
-					wait_finish_flag <= 1;
+					finish <= 1;
 					state <= STOP;
 				end
 
@@ -552,8 +511,7 @@ end
 				end
 
 				READ_ACK3_B: begin 
-					// finish <= 1;
-					wait_finish_flag <= 1;
+					finish <= 1;
 					state <= STOP;
 				end
 
