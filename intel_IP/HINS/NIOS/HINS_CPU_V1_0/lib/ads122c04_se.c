@@ -108,6 +108,7 @@
 #define False 0
 
 static alt_u32 dly_cnt = 0, number = 5000;
+static const DELAY_NUM = 100000;
 
 /***********high level definition */
 void init_ADS122C04_TEMP()
@@ -124,7 +125,7 @@ void init_ADS122C04_TEMP()
 	I2C_write_ADS122C04_TEMP_register(WREG_CONFIG_0, MUX_AIN0_AVSS|GAIN_1|PGA_DISABLE);
 	I2C_read_ADS122C04_TEMP_register(RREG_CONFIG_0, 1);
 	
-	I2C_write_ADS122C04_TEMP_register(WREG_CONFIG_1, DR_1000_2000|MODE_NORMAL|CM_SINGLE_SHOT|VREF_INTERNAL|TS_DISABLE);
+	I2C_write_ADS122C04_TEMP_register(WREG_CONFIG_1, DR_20_40|MODE_NORMAL|CM_SINGLE_SHOT|VREF_ANALOG_SUPPLY|TS_DISABLE);
 	I2C_read_ADS122C04_TEMP_register(RREG_CONFIG_1, 1);
 
 	I2C_write_ADS122C04_TEMP_register(WREG_CONFIG_2, 0x00);
@@ -132,6 +133,8 @@ void init_ADS122C04_TEMP()
 
 	I2C_write_ADS122C04_TEMP_register(WREG_CONFIG_3, 0x00);
 	I2C_read_ADS122C04_TEMP_register(RREG_CONFIG_3, 1);
+
+	test_ADS122C04();
 
 	// setting mode 
 	// I2C_op_mode_sel_ADS122C04_TEMP(HW);
@@ -144,10 +147,13 @@ void test_ADS122C04()
 {
 	DEBUG_PRINT("testing_ADS122C04\n");
 	while(number-- != 0 ) {
-		// dly_cnt = 0;
-		// while(dly_cnt++ < DLY_NUM_357) {} // delay control
+		while(dly_cnt++ < DELAY_NUM) {} // delay control
+		dly_cnt = 0;
+		// printf("pass\n");
 		read_ADS122C04_TEMP();
 	}
+
+	
 }
 
 void read_ADS122C04_TEMP()
@@ -159,16 +165,16 @@ void read_ADS122C04_TEMP()
 	// Set I2C device address
 	I2C_set_device_addr_ADS122C04_TEMP(I2C_DEV_ADDR);
 
-	ain0 = (float)IORD(VARSET_BASE, O_VAR_I2C_RDATA_1)*2.048/8388608.0;
-	ain1 = (float)IORD(VARSET_BASE, O_VAR_I2C_RDATA_2)*2.048/8388608.0;
-	ain2 = (float)IORD(VARSET_BASE, O_VAR_I2C_RDATA_3)*2.048/8388608.0;
-	ain3 = (float)IORD(VARSET_BASE, O_VAR_I2C_RDATA_4)*2.048/8388608.0;
+	ain0 = (float)IORD(VARSET_BASE, O_VAR_I2C_RDATA_1)*3.3/8388608.0;
+	ain1 = (float)IORD(VARSET_BASE, O_VAR_I2C_RDATA_2)*3.3/8388608.0;
+	ain2 = (float)IORD(VARSET_BASE, O_VAR_I2C_RDATA_3)*3.3/8388608.0;
+	ain3 = (float)IORD(VARSET_BASE, O_VAR_I2C_RDATA_4)*3.3/8388608.0;
 
 //	printf("%f, %f, %f\n", ax, ay, az);
 	// uart_printf("%f\n", ain0);
 	// uart_printf("%f, %f\n", ain0, ain1);
 	// uart_printf("%f, %f, %f\n", ain0, ain1, ain2);
-	DEBUG_PRINT("%f, %f, %f, %f\n", ain0, ain1, ain2, ain3);
+	printf("%f, %f, %f, %f\n", ain0, ain1, ain2, ain3);
 	// uart_printf("%f, %f, %f, %f\n", ain0, ain1, ain2, ain3);
 }
 

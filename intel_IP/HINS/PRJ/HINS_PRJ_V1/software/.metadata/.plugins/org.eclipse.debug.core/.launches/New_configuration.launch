@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="com.altera.sbtgui.launch.hardware.Nios2HardwareLaunchConfiguration">
-<stringAttribute key="byteStreamDeviceCableName" value="USB-Blaster on localhost [USB-0]"/>
+<stringAttribute key="byteStreamDeviceCableName" value="USB-Blaster on localhost [USB-1]"/>
 <stringAttribute key="byteStreamDeviceDeviceID" value="1"/>
 <stringAttribute key="byteStreamDeviceInstanceID" value="0"/>
 <booleanAttribute key="downloadProgram" value="true"/>
@@ -14,7 +14,7 @@
 <booleanAttribute key="org.eclipse.cdt.launch.ENABLE_VARIABLE_BOOKKEEPING" value="false"/>
 <stringAttribute key="org.eclipse.cdt.launch.PROGRAM_NAME" value="HINS_CPU_V1_0.elf"/>
 <stringAttribute key="org.eclipse.cdt.launch.PROJECT_ATTR" value="HINS_CPU_V1_0"/>
-<stringAttribute key="processorCableName" value="USB-Blaster on localhost [USB-0]"/>
+<stringAttribute key="processorCableName" value="USB-Blaster on localhost [USB-1]"/>
 <stringAttribute key="processorDeviceIndex" value="1"/>
 <stringAttribute key="processorInstanceId" value="0"/>
 <booleanAttribute key="runProgram" value="true"/>
