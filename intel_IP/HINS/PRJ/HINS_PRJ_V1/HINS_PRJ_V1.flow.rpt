@@ -1,5 +1,5 @@
 Flow report for HINS_PRJ_V1
-Wed Dec 10 14:17:34 2025
+Wed Dec 10 21:20:06 2025
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -40,17 +40,17 @@ refer to the applicable agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Flow Summary                                                                     ;
 +------------------------------------+---------------------------------------------+
-; Flow Status                        ; Successful - Wed Dec 10 14:17:28 2025       ;
+; Flow Status                        ; Successful - Wed Dec 10 21:20:02 2025       ;
 ; Quartus Prime Version              ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                      ; HINS_PRJ_V1                                 ;
 ; Top-level Entity Name              ; HINS_TOP_V1                                 ;
 ; Family                             ; Cyclone IV E                                ;
 ; Device                             ; EP4CE15F17I7                                ;
 ; Timing Models                      ; Final                                       ;
-; Total logic elements               ; 7,732 / 15,408 ( 50 % )                     ;
-;     Total combinational functions  ; 6,132 / 15,408 ( 40 % )                     ;
-;     Dedicated logic registers      ; 5,448 / 15,408 ( 35 % )                     ;
-; Total registers                    ; 5516                                        ;
+; Total logic elements               ; 7,751 / 15,408 ( 50 % )                     ;
+;     Total combinational functions  ; 6,162 / 15,408 ( 40 % )                     ;
+;     Dedicated logic registers      ; 5,461 / 15,408 ( 35 % )                     ;
+; Total registers                    ; 5529                                        ;
 ; Total pins                         ; 98 / 166 ( 59 % )                           ;
 ; Total virtual pins                 ; 0                                           ;
 ; Total memory bits                  ; 23,040 / 516,096 ( 4 % )                    ;
@@ -64,7 +64,7 @@ refer to the applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 12/10/2025 14:15:06 ;
+; Start date & time ; 12/10/2025 21:18:41 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; HINS_PRJ_V1         ;
 +-------------------+---------------------+
@@ -75,7 +75,7 @@ refer to the applicable agreement for further details.
 +-------------------------------------+----------------------------------------+---------------+-------------+------------+
 ; Assignment Name                     ; Value                                  ; Default Value ; Entity Name ; Section Id ;
 +-------------------------------------+----------------------------------------+---------------+-------------+------------+
-; COMPILER_SIGNATURE_ID               ; 192355418311013.176534730620348        ; --            ; --          ; --         ;
+; COMPILER_SIGNATURE_ID               ; 192355418311013.176537272133196        ; --            ; --          ; --         ;
 ; ENABLE_SIGNALTAP                    ; Off                                    ; --            ; --          ; --         ;
 ; MAX_CORE_JUNCTION_TEMP              ; 100                                    ; --            ; --          ; --         ;
 ; MIN_CORE_JUNCTION_TEMP              ; -40                                    ; --            ; --          ; --         ;
@@ -95,7 +95,7 @@ refer to the applicable agreement for further details.
 ; SEARCH_PATH                         ; ../../HW_IP/IMU                        ; --            ; --          ; --         ;
 ; SEARCH_PATH                         ; ../../../2018.1                        ; --            ; --          ; --         ;
 ; TOP_LEVEL_ENTITY                    ; HINS_TOP_V1                            ; HINS_PRJ_V1   ; --          ; --         ;
-; USE_SIGNALTAP_FILE                  ; ../../STP/ADS122C04.stp                ; --            ; --          ; --         ;
+; USE_SIGNALTAP_FILE                  ; ../../STP/ASM330LHHX.stp               ; --            ; --          ; --         ;
 ; VERILOG_INPUT_VERSION               ; SystemVerilog_2005                     ; Verilog_2001  ; --          ; --         ;
 +-------------------------------------+----------------------------------------+---------------+-------------+------------+
 
@@ -105,11 +105,11 @@ refer to the applicable agreement for further details.
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis ; 00:01:42     ; 1.0                     ; 5072 MB             ; 00:02:13                           ;
-; Fitter               ; 00:00:33     ; 1.5                     ; 6626 MB             ; 00:01:03                           ;
+; Analysis & Synthesis ; 00:00:55     ; 1.0                     ; 5075 MB             ; 00:01:13                           ;
+; Fitter               ; 00:00:21     ; 1.5                     ; 6635 MB             ; 00:00:54                           ;
 ; Assembler            ; 00:00:01     ; 1.0                     ; 4704 MB             ; 00:00:01                           ;
-; Timing Analyzer      ; 00:00:04     ; 1.7                     ; 5020 MB             ; 00:00:06                           ;
-; Total                ; 00:02:20     ; --                      ; --                  ; 00:03:23                           ;
+; Timing Analyzer      ; 00:00:03     ; 1.8                     ; 5016 MB             ; 00:00:04                           ;
+; Total                ; 00:01:20     ; --                      ; --                  ; 00:02:12                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 

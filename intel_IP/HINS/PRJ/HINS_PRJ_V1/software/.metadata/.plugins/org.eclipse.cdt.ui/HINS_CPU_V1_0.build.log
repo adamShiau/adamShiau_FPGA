@@ -1,9 +1,21 @@
-14:46:12 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0 ****
+21:25:08 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0 ****
 make all 
 Info: Building ../HINS_CPU_V1_0_bsp/
 D:/intelFPGA_lite/18.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../HINS_CPU_V1_0_bsp/
-[BSP build complete]
-[HINS_CPU_V1_0 build complete]
+Makefile not up to date.
+../../CPU.sopcinfo has been modified since the BSP was generated.
 
-14:46:13 Build Finished (took 1s.244ms)
+Generate the BSP to update the Makefile, and then build again.
+
+To generate from Eclipse:
+ 1. Right-click the BSP project.
+ 2. In the Nios II Menu, click Generate BSP.
+
+To generate from the command line:
+ nios2-bsp-generate-files --settings=<settings file> --bsp-dir=<target bsp files directory>
+
+make[1]: *** [public.mk] Error 1
+make: *** [../HINS_CPU_V1_0_bsp/-recurs-make-lib] Error 2
+
+21:25:09 Build Finished (took 1s.399ms)
 

@@ -16,9 +16,7 @@
 /*** high level declaration */
 void init_ADS122C04_TEMP(void);
 void read_ADS122C04_TEMP(void);
-
 void test_ADS122C04(void);
-
 
 /*** mid level declaration */
 void I2C_sm_start_ADS122C04_TEMP();

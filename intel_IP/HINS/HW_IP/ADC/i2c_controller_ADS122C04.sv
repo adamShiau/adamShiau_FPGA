@@ -1,4 +1,5 @@
 // 12-9-2025 建立
+// 使用 wait_finish_flag 與 clear pulse 方法讓 CPU 端清除 finish 訊號
 module i2c_controller_ADS122C04
 (
 	input wire 			i_clk,
