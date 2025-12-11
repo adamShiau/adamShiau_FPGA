@@ -3,10 +3,10 @@
 #------------------------------------------------------------------------------
 
 # List of include directories for -I compiler option (-I added when used).
+PROJECT_NAME = HINS_CPU_V1_0
 # Includes the BSP.
 ALT_INCLUDE_DIRS :=
 ALT_INCLUDE_DIRS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include
-
 
 # List of library directories for -L linker option (-L added when used).
 # Includes the BSP.
@@ -145,19 +145,20 @@ ELF := HINS_CPU_V1_0.elf
 
 # Paths to C, C++, and assembly source files.
 C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\HINS_CPU_V1_0.c
-C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\lib\adda_config.c
-C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\lib\uart_dual.c
-C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\lib\common.c
 C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\lib\acq_fog.c
 C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\lib\acq_imu.c
 C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\lib\acq_rst.c
+C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\lib\adda_config.c
+C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\lib\ads122c04_se.c
+C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\lib\asm330lhhx.c
+C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\lib\common.c
 C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\lib\eeprom_v2.c
 C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\lib\memory_manage.c
 C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\lib\output_mode.c
-C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\lib\ads122c04_se.c
-C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\lib\asm330lhhx.c
+C_SRCS += D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\lib\uart_dual.c
 CXX_SRCS :=
 ASM_SRCS :=
+
 
 
 # Path to root of object file tree.

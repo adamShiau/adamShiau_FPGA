@@ -90,9 +90,9 @@ typedef struct {    // for parameter container, container size defined by PAR_LE
 extern const mem_unit_t fog_parameter_init[PAR_LEN];
 
 #define CONTAINER_TO_CMD_OFFSET     8   
-#define CMD_TO_HW_REG_OFFSET_CH1    1
-#define CMD_TO_HW_REG_OFFSET_CH2    12
-#define CMD_TO_HW_REG_OFFSET_CH3    23
+#define CMD_TO_HW_REG_OFFSET_CH1    -8
+#define CMD_TO_HW_REG_OFFSET_CH2    (CMD_TO_HW_REG_OFFSET_CH1+11)
+#define CMD_TO_HW_REG_OFFSET_CH3    (CMD_TO_HW_REG_OFFSET_CH2+11)
 #define MIS_CONTAINER_TO_CMD_OFFSET     48  
 #define CFG_CONTAINER_TO_CMD_OFFSET     72  
 

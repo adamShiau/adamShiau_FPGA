@@ -59,8 +59,6 @@ wire [13:0] adc_synced_data;         // ADC 跨時鐘域同步後的數據 (o_da
 // ------------------------------------
 wire o_step_sync;                   // 步進同步脈衝 (o_step_sync)，連接至 Feedback Step Gen (i_trig)
 wire o_step_sync_dly;               // 延遲步進同步脈衝 (o_step_sync_dly)，連接至 Feedback Step Gen (i_trig_dly)
-// wire o_rate_sync;                 // (目前在 my_err_signal_gen_v1 中有 Port 但未連接/未使用)
-// wire o_ramp_sync;                 // (目前在 my_err_signal_gen_v1 中有 Port 但未連接/未使用)
 
 // ------------------------------------
 // D. Phase Ramp Generator (phase_ramp_gen_v1) 相關訊號

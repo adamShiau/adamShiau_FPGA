@@ -1,3 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">&#x0A;<refactoring comment="Delete resource &apos;HINS_CPU_V1_0_bsp/HINS_CPU_V1_0&apos;" deleteContents="false" description="Delete resource &apos;HINS_CPU_V1_0_bsp/HINS_CPU_V1_0&apos;" element1="/HINS_CPU_V1_0_bsp/HINS_CPU_V1_0" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1764675359990"/>&#x0A;<refactoring comment="Delete resource &apos;HINS_CPU_V1_0/HINS_CPU_V1_0&apos;" deleteContents="false" description="Delete resource &apos;HINS_CPU_V1_0/HINS_CPU_V1_0&apos;" element1="/HINS_CPU_V1_0/HINS_CPU_V1_0" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1764745308645"/>
-</session>

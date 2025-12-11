@@ -315,7 +315,8 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 	if(rx->mux == MUX_PARAMETER){
         // DEBUG_PRINT("fog_parameter\n");
         rx->mux = MUX_ESCAPE;
-		alt_u8 base = 0, cmd2hwreg=0;
+		alt_u8 base = 0;
+		alt_8 cmd2hwreg=0;
 
             if(rx->ch == 1) {
 				base = MEM_BASE_X;

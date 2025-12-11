@@ -226,12 +226,10 @@ void init_ASM330LHHX()
 
 	test_ASM330LHHX();
 
-
 	// setting mode 
-	// I2C_op_mode_sel_ASM330LHHX(HW);
+	I2C_op_mode_sel_ASM330LHHX(HW);
 	// Set I2C device address
-	// I2C_set_device_addr_ASM330LHHX(I2C_DEV_ADDR);
-	// test_ADS122C04();
+	I2C_set_device_addr_ASM330LHHX(I2C_DEV_ADDR);
 }
 
 void test_ASM330LHHX()
@@ -263,7 +261,8 @@ void read_ASM330LHHX()
 	az = (float)IORD(VARSET_BASE, O_VAR_I2C_RDATA_6) * SF_ACCL_16G;
 	temp = (float)IORD(VARSET_BASE, O_VAR_I2C_RDATA_7) * SF_TEMP + 25.0;
 
-	printf("%f, %f, %f, %f, %f, %f, %f\n", gx, gy, gz, ax, ay, az, temp);
+	// printf("%f, %f, %f, %f, %f, %f, %f\n", gx, gy, gz, ax, ay, az, temp);
+	DEBUG_PRINT("%f, %f, %f, %f, %f, %f, %f\n", gx, gy, gz, ax, ay, az, temp);
 }
 
 /***********mid level definition */

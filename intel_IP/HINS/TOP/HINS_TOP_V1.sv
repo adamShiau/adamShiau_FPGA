@@ -210,17 +210,17 @@ HINS_fog_v1 u_hins_fog_v1 (
     .ADC            (ADC_DATA_IN),     
     
     // 參數輸入 (使用常數賦值給所有 NIOS 參數 Port)
-    .var_freq_cnt   (32'd1000),     
-    .var_amp_H      (32'd5000),     
-    .var_amp_L      (32'd5000),     
-    .var_polarity   (1'b0),       
-    .var_wait_cnt   (32'd50),      
-    .var_err_offset (32'd0),       
-    .var_avg_sel    (32'd10),      
-    .var_gainSel_step (32'd5),      // Step Gen 增益常數
-    .var_gainSel_ramp (32'd10),     // Ramp Gen 增益常數
-    .var_fb_ON      (32'd1),       
-    .var_const_step (32'd100),      
+    .var_freq_cnt   (var_freq_cnt),     
+    .var_amp_H      (var_amp_H),     
+    .var_amp_L      (var_amp_L),     
+    .var_polarity   (var_polarity),       
+    .var_wait_cnt   (var_wait_cnt),      
+    .var_err_offset (var_err_offset),       
+    .var_avg_sel    (var_avg_sel),      
+    .var_gainSel_step (var_gainSel_step),      // Step Gen 增益常數
+    .var_gainSel_ramp (var_gainSel_ramp),     // Ramp Gen 增益常數
+    .var_fb_ON      (var_fb_ON),       
+    .var_const_step (var_const_step),      
     
     // 輸出訊號
     .o_err_DAC      (fog_err_out), 
