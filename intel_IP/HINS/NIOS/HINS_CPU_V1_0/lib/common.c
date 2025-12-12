@@ -233,7 +233,7 @@ void crc_32(const alt_u8* message, alt_u8 nBytes, alt_u8* crc)
 
 
 void print_crc(const char* label, alt_u8* crc) {
-	UART_PRINT("%s: %02X %02X %02X %02X\n", label, crc[0], crc[1], crc[2], crc[3]);
+	DEBUG_PRINT("%s: %02X %02X %02X %02X\n", label, crc[0], crc[1], crc[2], crc[3]);
 }
 
 void get_uart_cmd(alt_u8* data, cmd_ctrl_t* rx)
@@ -340,800 +340,800 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 			if(rx->condition == RX_CONDITION_ABBA_5556 || rx->condition == RX_CONDITION_EFFE_5354) {
 				switch(rx->cmd ){
 					case CMD_MOD_FREQ: {
-						UART_PRINT("CMD_MOD_FREQ:\n");	
+						DEBUG_PRINT("CMD_MOD_FREQ:\n");	
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_MOD_FREQ - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
 							IOWR(VARSET_BASE, CMD_MOD_FREQ + cmd2hwreg, rx->value);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_MOD_FREQ - CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}			
 						break;
 					}
 					case CMD_MOD_AMP_H: {
-						UART_PRINT("CMD_MOD_AMP_H:\n");					
+						DEBUG_PRINT("CMD_MOD_AMP_H:\n");					
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_MOD_AMP_H - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
 							IOWR(VARSET_BASE, CMD_MOD_AMP_H + cmd2hwreg, rx->value);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_MOD_AMP_H - CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_MOD_AMP_L: {
-						UART_PRINT("CMD_MOD_AMP_L:\n");					
+						DEBUG_PRINT("CMD_MOD_AMP_L:\n");					
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_MOD_AMP_L - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
 							IOWR(VARSET_BASE, CMD_MOD_AMP_L + cmd2hwreg, rx->value);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_MOD_AMP_L - CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_POLARITY: {
-						UART_PRINT("CMD_POLARITY:\n");					
+						DEBUG_PRINT("CMD_POLARITY:\n");					
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_POLARITY - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
 							IOWR(VARSET_BASE, CMD_POLARITY + cmd2hwreg, rx->value);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_POLARITY - CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_WAIT_CNT: {
-						UART_PRINT("CMD_WAIT_CNT:\n");					
+						DEBUG_PRINT("CMD_WAIT_CNT:\n");					
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_WAIT_CNT - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
 							IOWR(VARSET_BASE, CMD_WAIT_CNT + cmd2hwreg, rx->value);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_WAIT_CNT - CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					} 
 					case CMD_ERR_AVG: {
-						UART_PRINT("CMD_ERR_AVG:\n");					
+						DEBUG_PRINT("CMD_ERR_AVG:\n");					
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_ERR_AVG - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
 							IOWR(VARSET_BASE, CMD_ERR_AVG + cmd2hwreg, rx->value);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_ERR_AVG - CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					} 
 					case CMD_GAIN1: {
-						UART_PRINT("CMD_GAIN1:\n");					
+						DEBUG_PRINT("CMD_GAIN1:\n");					
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_GAIN1 - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
 							IOWR(VARSET_BASE, CMD_GAIN1 + cmd2hwreg, rx->value);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_GAIN1 - CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					} 
 					case CMD_CONST_STEP: {
-						UART_PRINT("CMD_CONST_STEP:\n");					
+						DEBUG_PRINT("CMD_CONST_STEP:\n");					
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_CONST_STEP - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
 							IOWR(VARSET_BASE, CMD_CONST_STEP + cmd2hwreg, rx->value);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_CONST_STEP - CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					} 
 					case CMD_FB_ON: {
-						UART_PRINT("CMD_FB_ON:\n");					
+						DEBUG_PRINT("CMD_FB_ON:\n");					
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_FB_ON - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
 							IOWR(VARSET_BASE, CMD_FB_ON + cmd2hwreg, rx->value);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_FB_ON - CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					} 
 					case CMD_GAIN2: {
-						UART_PRINT("CMD_GAIN2:\n");					
+						DEBUG_PRINT("CMD_GAIN2:\n");					
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_GAIN2 - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
 							IOWR(VARSET_BASE, CMD_GAIN2 + cmd2hwreg, rx->value);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_GAIN2 - CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					} 
 					case CMD_ERR_OFFSET: {
-						UART_PRINT("CMD_ERR_OFFSET:\n");					
+						DEBUG_PRINT("CMD_ERR_OFFSET:\n");					
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_ERR_OFFSET - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
 							IOWR(VARSET_BASE, CMD_ERR_OFFSET + cmd2hwreg, rx->value);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_ERR_OFFSET - CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					} 
 					case CMD_DAC_GAIN: {
-						UART_PRINT("CMD_DAC_GAIN:\n");
+						DEBUG_PRINT("CMD_DAC_GAIN:\n");
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_DAC_GAIN - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
 							if(base == MEM_BASE_X) Set_Dac_Gain_x(rx->value);
 							else if(base == MEM_BASE_Y) Set_Dac_Gain_y(rx->value);
 							else if(base == MEM_BASE_Z) Set_Dac_Gain_z(rx->value);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_DAC_GAIN - CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_CUT_OFF: {
-						UART_PRINT("CMD_CUT_OFF:\n");					
+						DEBUG_PRINT("CMD_CUT_OFF:\n");					
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_CUT_OFF - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
 							IOWR(VARSET_BASE, CMD_CUT_OFF + cmd2hwreg, rx->value);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_CUT_OFF - CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_SF_COMP_T1: {
-						UART_PRINT("CMD_SF_COMP_T1:\n");					
+						DEBUG_PRINT("CMD_SF_COMP_T1:\n");					
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_SF_COMP_T1 - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_SF_COMP_T1 - CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_SF_COMP_T2: {
-						UART_PRINT("CMD_SF_COMP_T2:\n");					
+						DEBUG_PRINT("CMD_SF_COMP_T2:\n");					
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_SF_COMP_T2 - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_SF_COMP_T2 - CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_SF_1_SLOPE: {
-						UART_PRINT("CMD_SF_1_SLOPE:\n");					
+						DEBUG_PRINT("CMD_SF_1_SLOPE:\n");					
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_SF_1_SLOPE - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_SF_1_SLOPE - CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_SF_1_OFFSET: {
-						UART_PRINT("CMD_SF_1_OFFSET:\n");					
+						DEBUG_PRINT("CMD_SF_1_OFFSET:\n");					
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_SF_1_OFFSET - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_SF_1_OFFSET - CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_SF_2_SLOPE: {
-						UART_PRINT("CMD_SF_2_SLOPE:\n");					
+						DEBUG_PRINT("CMD_SF_2_SLOPE:\n");					
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_SF_2_SLOPE - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_SF_2_SLOPE - CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_SF_2_OFFSET: {
-						UART_PRINT("CMD_SF_2_OFFSET:\n");					
+						DEBUG_PRINT("CMD_SF_2_OFFSET:\n");					
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_SF_2_OFFSET - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_SF_2_OFFSET - CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_SF_3_SLOPE: {
-						UART_PRINT("CMD_SF_3_SLOPE:\n");					
+						DEBUG_PRINT("CMD_SF_3_SLOPE:\n");					
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_SF_3_SLOPE - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_SF_3_SLOPE - CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_SF_3_OFFSET: {
-						UART_PRINT("CMD_SF_3_OFFSET:\n");					
+						DEBUG_PRINT("CMD_SF_3_OFFSET:\n");					
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_SF_3_OFFSET - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_SF_3_OFFSET - CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_BIAS_COMP_T1: {
-						UART_PRINT("CMD_BIAS_COMP_T1:\n");					
+						DEBUG_PRINT("CMD_BIAS_COMP_T1:\n");					
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_BIAS_COMP_T1 - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_BIAS_COMP_T1 - CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_BIAS_COMP_T2: {
-						UART_PRINT("CMD_BIAS_COMP_T2:\n");					
+						DEBUG_PRINT("CMD_BIAS_COMP_T2:\n");					
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_BIAS_COMP_T2 - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_BIAS_COMP_T2 - CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_BIAS_1_SLOPE: {
-						UART_PRINT("CMD_BIAS_1_SLOPE:\n");					
+						DEBUG_PRINT("CMD_BIAS_1_SLOPE:\n");					
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_BIAS_1_SLOPE - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_BIAS_1_SLOPE - CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_BIAS_1_OFFSET: {
-						UART_PRINT("CMD_BIAS_1_OFFSET:\n");					
+						DEBUG_PRINT("CMD_BIAS_1_OFFSET:\n");					
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_BIAS_1_OFFSET - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_BIAS_1_OFFSET - CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_BIAS_2_SLOPE: {
-						UART_PRINT("CMD_BIAS_2_SLOPE:\n");					
+						DEBUG_PRINT("CMD_BIAS_2_SLOPE:\n");					
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_BIAS_2_SLOPE - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_BIAS_2_SLOPE - CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_BIAS_2_OFFSET: {
-						UART_PRINT("CMD_BIAS_2_OFFSET:\n");					
+						DEBUG_PRINT("CMD_BIAS_2_OFFSET:\n");					
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_BIAS_2_OFFSET - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_BIAS_2_OFFSET - CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_BIAS_3_SLOPE: {
-						UART_PRINT("CMD_BIAS_3_SLOPE:\n");					
+						DEBUG_PRINT("CMD_BIAS_3_SLOPE:\n");					
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_BIAS_3_SLOPE - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_BIAS_3_SLOPE - CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_BIAS_3_OFFSET: {
-						UART_PRINT("CMD_BIAS_3_OFFSET:\n");					
+						DEBUG_PRINT("CMD_BIAS_3_OFFSET:\n");					
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_BIAS_3_OFFSET - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_BIAS_3_OFFSET - CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_SF_SLOPE_XLM: {
-						UART_PRINT("CMD_SF_SLOPE_XLM:\n");					
+						DEBUG_PRINT("CMD_SF_SLOPE_XLM:\n");					
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_SF_SLOPE_XLM - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_SF_SLOPE_XLM - CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_SF_OFFSET_XLM: {
-						UART_PRINT("CMD_SF_OFFSET_XLM:\n");					
+						DEBUG_PRINT("CMD_SF_OFFSET_XLM:\n");					
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_SF_OFFSET_XLM - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_SF_OFFSET_XLM - CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_BIAS_SLOPE_XLM: {
-						UART_PRINT("CMD_BIAS_SLOPE_XLM:\n");
+						DEBUG_PRINT("CMD_BIAS_SLOPE_XLM:\n");
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_BIAS_SLOPE_XLM - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_BIAS_SLOPE_XLM - CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_BIAS_OFFSET_XLM: {
-						UART_PRINT("CMD_BIAS_OFFSET_XLM:\n");
+						DEBUG_PRINT("CMD_BIAS_OFFSET_XLM:\n");
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_BIAS_OFFSET_XLM - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_BIAS_OFFSET_XLM - CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					/***------------- mis-alignment command, accl */
 					case CMD_MIS_AX: {
-						UART_PRINT("CMD_MIS_AX:\n");
-						if(rx->ch != 4) {UART_PRINT("Ch value must be 4:\n"); break;}
+						DEBUG_PRINT("CMD_MIS_AX:\n");
+						if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_MIS_AX - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_MIS_AX - MIS_CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_MIS_AY: {
-						UART_PRINT("CMD_MIS_AY:\n");
-						if(rx->ch != 4) {UART_PRINT("Ch value must be 4:\n"); break;}
+						DEBUG_PRINT("CMD_MIS_AY:\n");
+						if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_MIS_AY - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_MIS_AY - MIS_CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_MIS_AZ: {
-						UART_PRINT("CMD_MIS_AZ:\n");
-						if(rx->ch != 4) {UART_PRINT("Ch value must be 4:\n"); break;}
+						DEBUG_PRINT("CMD_MIS_AZ:\n");
+						if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_MIS_AZ - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_MIS_AZ - MIS_CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_MIS_A11: {
-						UART_PRINT("CMD_MIS_A11:\n");
-						if(rx->ch != 4) {UART_PRINT("Ch value must be 4:\n"); break;}
+						DEBUG_PRINT("CMD_MIS_A11:\n");
+						if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_MIS_A11 - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_MIS_A11 - MIS_CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_MIS_A12: {
-						UART_PRINT("CMD_MIS_A12:\n");
-						if(rx->ch != 4) {UART_PRINT("Ch value must be 4:\n"); break;}
+						DEBUG_PRINT("CMD_MIS_A12:\n");
+						if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_MIS_A12 - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}	
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_MIS_A12 - MIS_CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_MIS_A13: {
-						UART_PRINT("CMD_MIS_A13:\n");
-						if(rx->ch != 4) {UART_PRINT("Ch value must be 4:\n"); break;}
+						DEBUG_PRINT("CMD_MIS_A13:\n");
+						if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_MIS_A13 - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_MIS_A13 - MIS_CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_MIS_A21: {
-						UART_PRINT("CMD_MIS_A21:\n");
-						if(rx->ch != 4) {UART_PRINT("Ch value must be 4:\n"); break;}
+						DEBUG_PRINT("CMD_MIS_A21:\n");
+						if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_MIS_A21 - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_MIS_A21 - MIS_CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_MIS_A22: {
-						UART_PRINT("CMD_MIS_A22:\n");
-						if(rx->ch != 4) {UART_PRINT("Ch value must be 4:\n"); break;}
+						DEBUG_PRINT("CMD_MIS_A22:\n");
+						if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_MIS_A22 - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_MIS_A22 - MIS_CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_MIS_A23: {
-						UART_PRINT("CMD_MIS_A23:\n");
-						if(rx->ch != 4) {UART_PRINT("Ch value must be 4:\n"); break;}
+						DEBUG_PRINT("CMD_MIS_A23:\n");
+						if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_MIS_A23 - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_MIS_A23 - MIS_CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_MIS_A31: {
-						UART_PRINT("CMD_MIS_A31:\n");
-						if(rx->ch != 4) {UART_PRINT("Ch value must be 4:\n"); break;}
+						DEBUG_PRINT("CMD_MIS_A31:\n");
+						if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_MIS_A31 - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_MIS_A31 - MIS_CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_MIS_A32: {
-						UART_PRINT("CMD_MIS_A32:\n");
-						if(rx->ch != 4) {UART_PRINT("Ch value must be 4:\n"); break;}
+						DEBUG_PRINT("CMD_MIS_A32:\n");
+						if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_MIS_A32 - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_MIS_A32 - MIS_CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_MIS_A33: {
-						UART_PRINT("CMD_MIS_A33:\n");
-						if(rx->ch != 4) {UART_PRINT("Ch value must be 4:\n"); break;}
+						DEBUG_PRINT("CMD_MIS_A33:\n");
+						if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_MIS_A33 - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_MIS_A33 - MIS_CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					/***------------- mis-alignment command, gyro */
 					case CMD_MIS_GX: {
-						UART_PRINT("CMD_MIS_GX:\n");
-						if(rx->ch != 4) {UART_PRINT("Ch value must be 4:\n"); break;}
+						DEBUG_PRINT("CMD_MIS_GX:\n");
+						if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_MIS_GX - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_MIS_GX - MIS_CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_MIS_GY: {
-						UART_PRINT("CMD_MIS_GY:\n");
-						if(rx->ch != 4) {UART_PRINT("Ch value must be 4:\n"); break;}
+						DEBUG_PRINT("CMD_MIS_GY:\n");
+						if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_MIS_GY - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_MIS_GY - MIS_CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_MIS_GZ: {
-						UART_PRINT("CMD_MIS_GZ:\n");
-						if(rx->ch != 4) {UART_PRINT("Ch value must be 4:\n"); break;}
+						DEBUG_PRINT("CMD_MIS_GZ:\n");
+						if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_MIS_GZ - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_MIS_GZ - MIS_CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_MIS_G11: {
-						UART_PRINT("CMD_MIS_G11:\n");
-						if(rx->ch != 4) {UART_PRINT("Ch value must be 4:\n"); break;}
+						DEBUG_PRINT("CMD_MIS_G11:\n");
+						if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_MIS_G11 - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_MIS_G11 - MIS_CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_MIS_G12: {
-						UART_PRINT("CMD_MIS_G12:\n");
-						if(rx->ch != 4) {UART_PRINT("Ch value must be 4:\n"); break;}
+						DEBUG_PRINT("CMD_MIS_G12:\n");
+						if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_MIS_G12 - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_MIS_G12 - MIS_CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_MIS_G13: {
-						UART_PRINT("CMD_MIS_G13:\n");
-						if(rx->ch != 4) {UART_PRINT("Ch value must be 4:\n"); break;}
+						DEBUG_PRINT("CMD_MIS_G13:\n");
+						if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_MIS_G13 - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_MIS_G13 - MIS_CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_MIS_G21: {
-						UART_PRINT("CMD_MIS_G21:\n");
-						if(rx->ch != 4) {UART_PRINT("Ch value must be 4:\n"); break;}
+						DEBUG_PRINT("CMD_MIS_G21:\n");
+						if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_MIS_G21 - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_MIS_G21 - MIS_CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_MIS_G22: {
-						UART_PRINT("CMD_MIS_G22:\n");
-						if(rx->ch != 4) {UART_PRINT("Ch value must be 4:\n"); break;}
+						DEBUG_PRINT("CMD_MIS_G22:\n");
+						if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_MIS_G22 - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_MIS_G22 - MIS_CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_MIS_G23: {
-						UART_PRINT("CMD_MIS_G23:\n");
-						if(rx->ch != 4) {UART_PRINT("Ch value must be 4:\n"); break;}
+						DEBUG_PRINT("CMD_MIS_G23:\n");
+						if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_MIS_G23 - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_MIS_G23 - MIS_CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_MIS_G31: {
-						UART_PRINT("CMD_MIS_G31:\n");
-						if(rx->ch != 4) {UART_PRINT("Ch value must be 4:\n"); break;}
+						DEBUG_PRINT("CMD_MIS_G31:\n");
+						if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_MIS_G31 - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_MIS_G31 - MIS_CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_MIS_G32: {
-						UART_PRINT("CMD_MIS_G32:\n");
-						if(rx->ch != 4) {UART_PRINT("Ch value must be 4:\n"); break;}
+						DEBUG_PRINT("CMD_MIS_G32:\n");
+						if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_MIS_G32 - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_MIS_G32 - MIS_CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					case CMD_MIS_G33: {
-						UART_PRINT("CMD_MIS_G33:\n");
-						if(rx->ch != 4) {UART_PRINT("Ch value must be 4:\n"); break;}
+						DEBUG_PRINT("CMD_MIS_G33:\n");
+						if(rx->ch != 4) {DEBUG_PRINT("Ch value must be 4:\n"); break;}
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_MIS_G33 - MIS_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_MIS_G33 - MIS_CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
 					/***------------- configuration */
 					case CMD_CFG_DR: {
-						UART_PRINT("CMD_CFG_DR:\n");
-						if(rx->ch != 6) {UART_PRINT("Ch value must be 6:\n"); break;}
+						DEBUG_PRINT("CMD_CFG_DR:\n");
+						if(rx->ch != 6) {DEBUG_PRINT("Ch value must be 6:\n"); break;}
 						if(rx->condition == 1) {
 							update_datarate_to_HW_REG(rx->value);
 							PARAMETER_Write_s(base, CMD_CFG_DR - CFG_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
-							UART_PRINT("WRITE: %d\n", rx->value);	
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
 							PARAMETER_Read(base, CMD_CFG_DR - CFG_CONTAINER_TO_CMD_OFFSET, data.bin_val);
-							UART_PRINT("READ: %d\n", data.int_val);	
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;
 					}
@@ -1575,39 +1575,39 @@ float SF_temp_compensation_1st_order_adxl357(my_sensor_t sensor, fog_parameter_t
         case X_AXIS: // X-axis
             // Check if the parameter type is correct
             if (para.paramX[31].type != TYPE_FLOAT || para.paramX[32].type != TYPE_FLOAT) {
-                UART_PRINT("Error: Incorrect parameter type for X-axis compensation\n");
+                DEBUG_PRINT("Error: Incorrect parameter type for X-axis compensation\n");
                 return 0.0f; // Return a default value or handle the error appropriately
             }
             temp = sensor.adxl357.temp.float_val;
             slope = para.paramX[31].data.float_val;
             offset = para.paramX[32].data.float_val;
-			// UART_PRINT("SF_COMP_X AXIS: %f, %f, %f\n", temp, slope, offset);
+			// DEBUG_PRINT("SF_COMP_X AXIS: %f, %f, %f\n", temp, slope, offset);
             break;
         case Y_AXIS: // Y-axis
             // Check if the parameter type is correct
             if (para.paramY[31].type != TYPE_FLOAT || para.paramY[32].type != TYPE_FLOAT) {
-                // UART_PRINT("Error: Incorrect parameter type for Y-axis compensation\n");
+                // DEBUG_PRINT("Error: Incorrect parameter type for Y-axis compensation\n");
                 return 0.0f; // Return a default value or handle the error appropriately
             }
             temp = sensor.adxl357.temp.float_val;
             slope = para.paramY[31].data.float_val;
             offset = para.paramY[32].data.float_val;
-			// UART_PRINT("SF_COMP_Y AXIS: %f, %f, %f\n", temp, slope, offset);
+			// DEBUG_PRINT("SF_COMP_Y AXIS: %f, %f, %f\n", temp, slope, offset);
             break;
         case Z_AXIS: // Z-axis
             // Check if the parameter type is correct
             if (para.paramZ[31].type != TYPE_FLOAT || para.paramZ[32].type != TYPE_FLOAT) {
-                UART_PRINT("Error: Incorrect parameter type for Z-axis compensation\n");
+                DEBUG_PRINT("Error: Incorrect parameter type for Z-axis compensation\n");
                 return 0.0f; // Return a default value or handle the error appropriately
             }
             temp = sensor.adxl357.temp.float_val;
             slope = para.paramZ[31].data.float_val;
             offset = para.paramZ[32].data.float_val;
-			// UART_PRINT("SF_COMP_Z AXIS: %f, %f, %f\n", temp, slope, offset);
+			// DEBUG_PRINT("SF_COMP_Z AXIS: %f, %f, %f\n", temp, slope, offset);
             break;
         default:
             // Invalid axis selection, return 0 or other default value
-            UART_PRINT("Error: Invalid axis selection in SF_temp_compensation_1st_order\n");
+            DEBUG_PRINT("Error: Invalid axis selection in SF_temp_compensation_1st_order\n");
             return 0.0f;
     }
 
@@ -1807,7 +1807,7 @@ calibrated_data_t misalignment_calibration(float din_x, float din_y, float din_z
     result.x.float_val = c11 * din_x + c12 * din_y + c13 * din_z + cx;
     result.y.float_val = c21 * din_x + c22 * din_y + c23 * din_z + cy;
     result.z.float_val = c31 * din_x + c32 * din_y + c33 * din_z + cz;
-	// UART_PRINT("c: %f\n", step_cali.float_val);
+	// DEBUG_PRINT("c: %f\n", step_cali.float_val);
     return result;
 }
 

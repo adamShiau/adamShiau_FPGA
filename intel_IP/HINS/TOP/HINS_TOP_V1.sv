@@ -73,6 +73,7 @@ assign CLOCK_SDRAM = pll_clk_sdram_int;
 assign SYNC_IN = sync_out; // 測試用
 
 
+// assign DAC_DATA_OUT = fog_ramp_out[15:0]; 
 assign DAC_DATA_OUT = fog_ramp_out[15:0]; 
 
 assign DAC_RST = var_dac_rst[0];
@@ -200,6 +201,34 @@ timer_inst
 // FOG 核心模組例化 (HINS_fog_v1)
 // =========================================================================
 
+// HINS_fog_v1 u_hins_fog_v1 (
+//     // 時鐘與重置
+//     .CLOCK_ADC      (pll_clk_adc_int), 
+//     .CLOCK_CPU      (pll_clk_cpu_int), 
+//     .RST_SYNC_N     (RST_SYNC_N),      
+    
+//     // ADC 接口
+//     .ADC            (ADC_DATA_IN),     
+    
+//     // 參數輸入 (使用常數賦值給所有 NIOS 參數 Port)
+//     .var_freq_cnt   (var_freq_cnt),     
+//     .var_amp_H      (var_amp_H),     
+//     .var_amp_L      (var_amp_L),     
+//     .var_polarity   (var_polarity),       
+//     .var_wait_cnt   (var_wait_cnt),      
+//     .var_err_offset (var_err_offset),       
+//     .var_avg_sel    (var_avg_sel),      
+//     .var_gainSel_step (var_gainSel_step),      // Step Gen 增益常數
+//     .var_gainSel_ramp (var_gainSel_ramp),     // Ramp Gen 增益常數
+//     .var_fb_ON      (var_fb_ON),       
+//     .var_const_step (var_const_step),      
+    
+//     // 輸出訊號
+//     .o_err_DAC      (fog_err_out), 
+//     .o_phaseRamp  	(fog_ramp_out), 
+//     .o_step         (fog_step_out)  
+// );
+
 HINS_fog_v1 u_hins_fog_v1 (
     // 時鐘與重置
     .CLOCK_ADC      (pll_clk_adc_int), 
@@ -211,16 +240,16 @@ HINS_fog_v1 u_hins_fog_v1 (
     
     // 參數輸入 (使用常數賦值給所有 NIOS 參數 Port)
     .var_freq_cnt   (var_freq_cnt),     
-    .var_amp_H      (var_amp_H),     
-    .var_amp_L      (var_amp_L),     
-    .var_polarity   (var_polarity),       
-    .var_wait_cnt   (var_wait_cnt),      
-    .var_err_offset (var_err_offset),       
-    .var_avg_sel    (var_avg_sel),      
-    .var_gainSel_step (var_gainSel_step),      // Step Gen 增益常數
-    .var_gainSel_ramp (var_gainSel_ramp),     // Ramp Gen 增益常數
+    .var_amp_H      (32'd8192),     
+    .var_amp_L      (-32'd8192),     
+    .var_polarity   (1),       
+    .var_wait_cnt   (50),      
+    .var_err_offset (0),       
+    .var_avg_sel    (3),      
+    .var_gainSel_step (3),      // Step Gen 增益常數
+    .var_gainSel_ramp (3),     // Ramp Gen 增益常數
     .var_fb_ON      (var_fb_ON),       
-    .var_const_step (var_const_step),      
+    .var_const_step (16384),      
     
     // 輸出訊號
     .o_err_DAC      (fog_err_out), 

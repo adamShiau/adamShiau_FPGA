@@ -4,7 +4,7 @@ JedecChain;
 	DefaultMfr(6E);
 
 	P ActionCode(Cfg)
-		Device PartName(EP4CE15) Path("D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/") File("output_file_1212.jic") MfrSpec(OpMask(1) SEC_Device(EPCQ16A) Child_OpMask(1 1));
+		Device PartName(EP4CE15) Path("D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/") File("HINS_12-12.jic") MfrSpec(OpMask(1) SEC_Device(EPCQ16A) Child_OpMask(1 1));
 
 ChainEnd;
 

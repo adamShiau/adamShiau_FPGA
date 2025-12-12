@@ -224,7 +224,7 @@ void init_ASM330LHHX()
 	I2C_write_ASM330LHHX_register(INT2_CTRL, INT2_DRDY_TEMP, 1);
 	I2C_read_ASM330LHHX_register(INT2_CTRL, 1);
 
-	test_ASM330LHHX();
+	// test_ASM330LHHX();
 
 	// setting mode 
 	I2C_op_mode_sel_ASM330LHHX(HW);

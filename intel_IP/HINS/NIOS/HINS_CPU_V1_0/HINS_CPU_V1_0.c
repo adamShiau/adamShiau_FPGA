@@ -78,31 +78,31 @@ int main(void)
     fog_parameter_t fog_params;	 //parameter container
 
     DEBUG_PRINT("Running IRIS CPU!\n");
-	printf("Running IRIS CPU!\n");
+	// printf("Running IRIS CPU!\n");
     update_HINS_config_to_HW_REG();
 
     DEBUG_PRINT("TRIGGER_IRQ_init\n");
 	crc32_init_table();
 	TRIGGER_IRQ_init();
-	printf("uartInit\n");
+	// printf("uartInit\n");
     DEBUG_PRINT("uartInit\n");
 	uartInit(); //interrupt method of uart defined in uart.c not main()
-	printf("init_ADDA\n");
+	// printf("init_ADDA\n");
 	DEBUG_PRINT("init_ADDA\n");
     set_DAC_reset();
 	usleep(50);
 	clear_DAC_reset();
 	init_ADDA();
-	printf("init_EEPROM\n");
+	// printf("init_EEPROM\n");
     DEBUG_PRINT("init_EEPROM\n");
 	init_EEPROM();
-	printf("init_ADS122C04_TEMP\n");
+	// printf("init_ADS122C04_TEMP\n");
     DEBUG_PRINT("init_ADS122C04_TEMP\n");
 	init_ADS122C04_TEMP();
-    printf("init_ASM330LHHX\n");
+    // printf("init_ASM330LHHX\n");
     DEBUG_PRINT("init_ASM330LHHX\n");
     init_ASM330LHHX();
-	printf("init all done\n");
+	DEBUG_PRINT("init all done\n");
     
     while(1)
     {
