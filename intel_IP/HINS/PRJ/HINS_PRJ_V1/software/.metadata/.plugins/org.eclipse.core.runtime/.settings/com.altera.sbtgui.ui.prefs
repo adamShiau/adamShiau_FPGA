@@ -1,4 +1,4 @@
 eclipse.preferences.version=1
-newSoftwareExampleWizardPage.defaultLocation=D\:\\github\\adamShiau_FPGA\\intel_IP\\HINS\\PRJ\\HINS_PRJ_V1\\software\\TEST
+newSoftwareExampleWizardPage.defaultLocation=D\:\\github\\adamShiau_FPGA\\intel_IP\\HINS\\PRJ\\HINS_PRJ_V1\\software\\HINS_CPU_V1_0
 newSoftwareExampleWizardPage.sopcinfoFile=D\:\\github\\adamShiau_FPGA\\intel_IP\\HINS\\PRJ\\HINS_PRJ_V1\\CPU.sopcinfo
-newSoftwareExampleWizardPage2.newBspLocation=D\:\\github\\adamShiau_FPGA\\intel_IP\\HINS\\PRJ\\HINS_PRJ_V1\\software\\TEST_bsp
+newSoftwareExampleWizardPage2.newBspLocation=D\:\\github\\adamShiau_FPGA\\intel_IP\\HINS\\PRJ\\HINS_PRJ_V1\\software\\HINS_CPU_V1_0_bsp

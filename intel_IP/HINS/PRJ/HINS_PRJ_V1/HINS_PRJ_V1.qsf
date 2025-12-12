@@ -167,10 +167,10 @@ set_location_assignment PIN_N2 -to FPGA_RX
 set_location_assignment PIN_N1 -to FPGA_TX
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to FPGA_RX
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to FPGA_TX
-set_location_assignment PIN_H2 -to EPCS_ASDO
+set_location_assignment PIN_C1 -to EPCS_ASDO
 set_location_assignment PIN_H1 -to EPCS_DCLK
 set_location_assignment PIN_D2 -to EPCS_NCSO
-set_location_assignment PIN_C1 -to EPCS_DATA0
+set_location_assignment PIN_H2 -to EPCS_DATA0
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to EPCS_ASDO
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to EPCS_DATA0
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to EPCS_DCLK
