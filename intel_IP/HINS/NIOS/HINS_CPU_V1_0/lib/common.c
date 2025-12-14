@@ -289,7 +289,7 @@ void Set_Dac_Gain_x(alt_32 gain)
 	// IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_DAC_BASE, SEL_CS_DAC_2CH); usleep (10); 
 	IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_DAC_BASE, SEL_CS_DAC); usleep (10); 
 	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC2_GAIN_LSB_ADDR<<8) | (gain&0xFF)); usleep (10);
-	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC2_GAIN_LSB_ADDR<<8) | (gain>>8)); usleep (10);
+	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC2_GAIN_MSB_ADDR<<8) | (gain>>8)); usleep (10);
 }
 void Set_Dac_Gain_y(alt_32 gain)
 {
@@ -297,7 +297,7 @@ void Set_Dac_Gain_y(alt_32 gain)
 	// DEBUG_PRINT("Set_Dac_Gain_y: %d\n", gain);
 	IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_DAC_BASE, SEL_CS_DAC); usleep (10); 
 	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC2_GAIN_LSB_ADDR<<8) | (gain&0xFF)); usleep (10);
-	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC2_GAIN_LSB_ADDR<<8) | (gain>>8)); usleep (10);
+	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC2_GAIN_MSB_ADDR<<8) | (gain>>8)); usleep (10);
 }
 void Set_Dac_Gain_z(alt_32 gain)
 {
