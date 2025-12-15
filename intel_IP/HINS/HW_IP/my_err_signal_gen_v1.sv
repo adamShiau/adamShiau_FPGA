@@ -23,6 +23,7 @@ module my_err_signal_gen_v1 #(
     ,output logic signed [31:0] o_high_avg
     ,output logic [3:0] o_cstate
     ,output logic [3:0] o_nstate
+    ,output logic signed [31:0] o_reg_1
 );
 
     // State machine states
@@ -213,6 +214,7 @@ module my_err_signal_gen_v1 #(
                         sample_count <= sample_count + 1;
                     end else begin
                         high_avg <= (adc_sum >>> i_avg_sel) + i_err_offset;
+                        o_reg_1 <= i_err_offset;
                         adc_sum <= 0;
                         sample_count <= 0;
                     end

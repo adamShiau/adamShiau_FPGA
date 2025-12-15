@@ -6,11 +6,11 @@
 #define var_polarity		            3
 #define var_wait_cnt		            4
 #define var_avg_sel		                5
-#define var_err_offset		            6
-#define var_const_step		            7
+#define var_gainSel_step		        6
+#define var_const_step		            7 
 #define var_fb_ON		                8
-#define var_gainSel_step		        9
-#define var_gainSel_ramp	            10
+#define var_gainSel_ramp    	        9
+#define var_err_offset                  10
 #define var_sync_count		            11
 #define var_timer_rst                   12
 #define var_i2c_ads122c04_dev_addr      13
@@ -48,5 +48,7 @@
 #define i_var_err                       60 + 18
 #define i_var_step                      60 + 19
 #define i_var_timer                     60 + 20
+#define i_var_reg_1_err_signal_gen      60 + 21
+#define i_var_reg_1_Feedback_control    60 + 22
 
 

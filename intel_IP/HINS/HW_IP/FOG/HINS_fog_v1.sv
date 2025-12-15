@@ -21,13 +21,15 @@ module HINS_fog_v1 (
     // ============================ err_signal_gen Parameters ============================
     input logic var_polarity,         
     input logic [31:0] var_wait_cnt,  
-    input logic [31:0] var_err_offset,
+    input logic signed [31:0] var_err_offset,
     input logic [31:0] var_avg_sel,   
+    output logic signed [31:0] o_reg_1_err_signal_gen,
 
     // ============================ Feedback Control ============================
     input logic [31:0] var_const_step, // Constant step value
     input logic [31:0] var_fb_ON,      // Feedback enable
     input logic [31:0] var_gainSel_step,// Gain selection for step feedback
+    output logic signed [31:0] o_reg_1_Feedback_control,
 
     // ============================ Phase Ramp Control ============================
     input logic [31:0] var_gainSel_ramp, // Gain selection for ramp control
@@ -36,6 +38,7 @@ module HINS_fog_v1 (
     output logic signed [31:0] o_err_DAC,    
     output logic signed [31:0] o_step,        // 步進輸出 (給 CPU/Monitor)
     output logic signed [31:0] o_phaseRamp   // Phase ramp output
+
 );
 
 // *************************************************************************
@@ -112,6 +115,9 @@ my_err_signal_gen_v1 #(.ADC_BIT(14)) u_err_gen (
     
     // 輸出
     .o_err         ( o_err_DAC ),      // 最終誤差輸出 (給 DAC/Feedback)
+
+    // 測試 reg
+    .o_reg_1     ( o_reg_1_err_signal_gen ),
     
     // 脈衝輸出 (給後續的 Feedback 模組用)
     .o_step_sync   ( o_step_sync ),    // 步進同步脈衝
@@ -129,7 +135,9 @@ feedback_step_gen_v1 u_fb_step_gen (
     .i_rst_n       ( RST_SYNC_N ),     
     .i_trig        ( o_step_sync ),
     .i_trig_dly    ( o_step_sync_dly ),
-    .i_err         ( o_err_DAC ),          
+    .i_err         ( o_err_DAC ),       
+    // 測試 reg
+    .o_reg_1     ( o_reg_1_Feedback_control ),   
    
     .i_gain_sel    ( var_gainSel_step ),
     .i_fb_ON       ( var_fb_ON ),

@@ -78,6 +78,9 @@ assign DAC_DATA_OUT = fog_ramp_out[15:0];
 
 assign DAC_RST = var_dac_rst[0];
 
+assign i_var_err = fog_err_out;
+assign i_var_step = fog_step_out;
+
 // *************************************************************************
 // * Internal Signals *
 // *************************************************************************
@@ -119,6 +122,10 @@ wire [31:0] var_i2c_IMU_dev_addr, var_i2c_IMU_reg_addr, var_i2c_IMU_w_data, var_
 wire [31:0] i_var_i2c_IMU_rdata_1, i_var_i2c_IMU_rdata_2, i_var_i2c_IMU_rdata_3;
 wire [31:0] i_var_i2c_IMU_rdata_4, i_var_i2c_IMU_rdata_5, i_var_i2c_IMU_rdata_6, i_var_i2c_IMU_rdata_7;
 wire [31:0] i_var_i2c_IMU_status;
+
+/*** Test Var ***/
+wire [31:0] i_var_reg_1_err_signal_gen;
+wire [31:0] i_var_reg_1_Feedback_control;
 
 /*** Timer ***/
 wire [31:0] var_timer_rst, i_var_timer;
@@ -201,60 +208,33 @@ timer_inst
 // FOG 核心模組例化 (HINS_fog_v1)
 // =========================================================================
 
-// HINS_fog_v1 u_hins_fog_v1 (
-//     // 時鐘與重置
-//     .CLOCK_ADC      (pll_clk_adc_int), 
-//     .CLOCK_CPU      (pll_clk_cpu_int), 
-//     .RST_SYNC_N     (RST_SYNC_N),      
-    
-//     // ADC 接口
-//     .ADC            (ADC_DATA_IN),     
-    
-//     // 參數輸入 (使用常數賦值給所有 NIOS 參數 Port)
-//     .var_freq_cnt   (var_freq_cnt),     
-//     .var_amp_H      (var_amp_H),     
-//     .var_amp_L      (var_amp_L),     
-//     .var_polarity   (var_polarity),       
-//     .var_wait_cnt   (var_wait_cnt),      
-//     .var_err_offset (var_err_offset),       
-//     .var_avg_sel    (var_avg_sel),      
-//     .var_gainSel_step (var_gainSel_step),      // Step Gen 增益常數
-//     .var_gainSel_ramp (var_gainSel_ramp),     // Ramp Gen 增益常數
-//     .var_fb_ON      (var_fb_ON),       
-//     .var_const_step (var_const_step),      
-    
-//     // 輸出訊號
-//     .o_err_DAC      (fog_err_out), 
-//     .o_phaseRamp  	(fog_ramp_out), 
-//     .o_step         (fog_step_out)  
-// );
-
 HINS_fog_v1 u_hins_fog_v1 (
     // 時鐘與重置
     .CLOCK_ADC      (pll_clk_adc_int), 
     .CLOCK_CPU      (pll_clk_cpu_int), 
     .RST_SYNC_N     (RST_SYNC_N),      
-    
     // ADC 接口
     .ADC            (ADC_DATA_IN),     
-    
     // 參數輸入 (使用常數賦值給所有 NIOS 參數 Port)
     .var_freq_cnt   (var_freq_cnt),     
-    .var_amp_H      (32'd8192),     
-    .var_amp_L      (-32'd8192),     
-    .var_polarity   (1),       
-    .var_wait_cnt   (50),      
-    .var_err_offset (0),       
-    .var_avg_sel    (3),      
-    .var_gainSel_step (3),      // Step Gen 增益常數
-    .var_gainSel_ramp (3),     // Ramp Gen 增益常數
+    .var_amp_H      (var_amp_H),     
+    .var_amp_L      (var_amp_L),     
+    .var_polarity   (var_polarity),       
+    .var_wait_cnt   (var_wait_cnt),      
+    .var_err_offset (var_err_offset),       
+    .var_avg_sel    (var_avg_sel),      
+    .var_gainSel_step (var_gainSel_step),      // Step Gen 增益常數
+    .var_gainSel_ramp (var_gainSel_ramp),     // Ramp Gen 增益常數
     .var_fb_ON      (var_fb_ON),       
-    .var_const_step (16384),      
-    
+    .var_const_step (var_const_step),      
     // 輸出訊號
     .o_err_DAC      (fog_err_out), 
     .o_phaseRamp  	(fog_ramp_out), 
-    .o_step         (fog_step_out)  
+    .o_step         (fog_step_out), 
+
+    // 測試reg
+    .o_reg_1_err_signal_gen (i_var_reg_1_err_signal_gen),
+    .o_reg_1_Feedback_control(i_var_reg_1_Feedback_control)
 );
 
 // =========================================================================
@@ -376,11 +356,11 @@ CPU u0 (
         .varset_1_o_reg3  (var_polarity),              //         .o_reg3
         .varset_1_o_reg4  (var_wait_cnt),              //         .o_reg4
         .varset_1_o_reg5  (var_avg_sel),               //         .o_reg5
-        .varset_1_o_reg6  (var_err_offset),            //         .o_reg6
+        .varset_1_o_reg6  (var_gainSel_step),            //         .o_reg6
         .varset_1_o_reg7  (var_const_step),            //         .o_reg7
         .varset_1_o_reg8  (var_fb_ON),                 //         .o_reg8
-        .varset_1_o_reg9  (var_gainSel_step),          //         .o_reg9
-        .varset_1_o_reg10 (var_gainSel_ramp),          //         .o_reg10
+        .varset_1_o_reg9  (var_gainSel_ramp),          //         .o_reg9
+        .varset_1_o_reg10 (var_err_offset),          //         .o_reg10
         .varset_1_o_reg11 (var_sync_count),            //         .o_reg11
         .varset_1_o_reg12 (var_timer_rst),             //         .o_reg12
         .varset_1_o_reg13 (var_i2c_ads122c04_dev_addr),//         .o_reg13
@@ -452,8 +432,8 @@ CPU u0 (
         .varset_1_i_var18 (i_var_err),                 //         .i_var18
         .varset_1_i_var19 (i_var_step),                //         .i_var19
         .varset_1_i_var20 (i_var_timer),               //         .i_var20
-        .varset_1_i_var21 (),                          //         .i_var21
-        .varset_1_i_var22 (),                          //         .i_var22
+        .varset_1_i_var21 (i_var_reg_1_err_signal_gen),                          //         .i_var21
+        .varset_1_i_var22 (i_var_reg_1_Feedback_control),                          //         .i_var22
         .varset_1_i_var23 (),                          //         .i_var23
         .varset_1_i_var24 (),                          //         .i_var24
         .varset_1_i_var25 (),                          //         .i_var25

@@ -70,7 +70,6 @@ my_sensor_t sensor_data = {
 	}
 };
 
-// int cnt=0;
 
 int main(void)
 {
@@ -102,11 +101,33 @@ int main(void)
     // printf("init_ASM330LHHX\n");
     DEBUG_PRINT("init_ASM330LHHX\n");
     init_ASM330LHHX();
+    DEBUG_PRINT("initialize_fog_params_type\n");
+	initialize_fog_params_type(&fog_params);
+
+    LOAD_FOG_PARAMETER(&fog_params);
+	LOAD_FOG_MISALIGNMENT(&fog_params);
+	LOAD_FOG_SN(&fog_params);
+	PRINT_FOG_PARAMETER(&fog_params);
+	PRINT_FOG_MISALIGNMENT(&fog_params);
+	update_fog_parameters_to_HW_REG(MEM_BASE_Z, &fog_params); 
+	update_fog_parameters_to_HW_REG(MEM_BASE_X, &fog_params); 
+	update_fog_parameters_to_HW_REG(MEM_BASE_Y, &fog_params); 
+    
 	DEBUG_PRINT("init all done\n");
+
+    static alt_u32 dly_cnt = 0;
+    static const DELAY_NUM = 5000;
     
     while(1)
     {
-
+		if(dly_cnt++ > DELAY_NUM) {
+            dly_cnt = 0;
+            // DEBUG_PRINT("i_err_offset: %d\n", IORD(VARSET_BASE, i_var_reg_1_err_signal_gen));
+            // DEBUG_PRINT("gain1: %d\n", IORD(VARSET_BASE, i_var_reg_1_Feedback_control));
+            DEBUG_PRINT("i_err: %d, ", IORD(VARSET_BASE, i_var_err));
+            DEBUG_PRINT("step: %d\n", IORD(VARSET_BASE, i_var_step));
+        }
+	
         get_uart_cmd(readDataDynamic(&try_cnt), &my_cmd);
         get_uart_cmd(readDataDynamic_dbg(&try_cnt), &my_cmd);
         cmd_mux(&my_cmd);

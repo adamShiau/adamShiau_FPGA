@@ -9,11 +9,12 @@ module feedback_step_gen_v1 (
     input logic i_trig,       // 來自 my_err_signal_gen_v1 的 o_step_sync
     input logic i_trig_dly,   // 來自 my_err_signal_gen_v1 的 o_step_sync_dly
     input signed [31:0] i_err,          // 誤差輸入 (來自 o_err_DAC)
-    input [31:0] i_gain_sel,            // 增益控制輸入
-    input [31:0] i_fb_ON,               // 回饋啟用控制
+    input signed [31:0] i_gain_sel,            // 增益控制輸入
+    input signed [31:0] i_fb_ON,               // 回饋啟用控制
     input signed [31:0] i_const_step,   // 常數步進值
     
     output signed [31:0] o_step
+    , output logic signed [31:0] o_reg_1
     
     // For simulation only (使用 logic 代替 reg, 修正輸出連接)
     `ifdef SIMULATION
@@ -101,6 +102,7 @@ always_ff @(posedge i_clk or negedge i_rst_n) begin
                 end else if (i_trig_dly) begin
                     // 執行輸出與增益調整 (在 i_trig_dly 週期)
                     reg_step <= reg_step_pre >>> shift_amt;
+                    o_reg_1 <= shift_amt;
                 end
             end
             
