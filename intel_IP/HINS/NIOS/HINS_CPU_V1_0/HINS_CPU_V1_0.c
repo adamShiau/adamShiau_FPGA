@@ -12,6 +12,7 @@ void TRIGGER_IRQ_init(void);
 void IRQ_TRIGGER_ISR(void *context);
 void update_HINS_config_to_HW_REG(void);
 void update_sensor_data(my_sensor_t *data); 
+void monitor_reg(void);
 
 
 const alt_u8 cmd_header[2] = {0xAB, 0xBA};
@@ -78,7 +79,7 @@ int main(void)
 
     DEBUG_PRINT("Running IRIS CPU!\n");
 	// printf("Running IRIS CPU!\n");
-    update_HINS_config_to_HW_REG();
+    
 
     DEBUG_PRINT("TRIGGER_IRQ_init\n");
 	crc32_init_table();
@@ -102,32 +103,26 @@ int main(void)
     DEBUG_PRINT("init_ASM330LHHX\n");
     init_ASM330LHHX();
     DEBUG_PRINT("initialize_fog_params_type\n");
-	initialize_fog_params_type(&fog_params);
+	// initialize_fog_params_type(&fog_params);
 
-    LOAD_FOG_PARAMETER(&fog_params);
-	LOAD_FOG_MISALIGNMENT(&fog_params);
-	LOAD_FOG_SN(&fog_params);
-	PRINT_FOG_PARAMETER(&fog_params);
-	PRINT_FOG_MISALIGNMENT(&fog_params);
-	update_fog_parameters_to_HW_REG(MEM_BASE_Z, &fog_params); 
-	update_fog_parameters_to_HW_REG(MEM_BASE_X, &fog_params); 
-	update_fog_parameters_to_HW_REG(MEM_BASE_Y, &fog_params); 
+    // LOAD_FOG_PARAMETER(&fog_params);
+	// LOAD_FOG_MISALIGNMENT(&fog_params);
+	// LOAD_FOG_SN(&fog_params);
+	// PRINT_FOG_PARAMETER(&fog_params);
+	// PRINT_FOG_MISALIGNMENT(&fog_params);
+	// update_fog_parameters_to_HW_REG(MEM_BASE_Z, &fog_params); 
+	// update_fog_parameters_to_HW_REG(MEM_BASE_X, &fog_params); 
+	// update_fog_parameters_to_HW_REG(MEM_BASE_Y, &fog_params); 
+
+    update_HINS_config_to_HW_REG();
     
 	DEBUG_PRINT("init all done\n");
 
-    static alt_u32 dly_cnt = 0;
-    static const DELAY_NUM = 5000;
     
     while(1)
     {
-		if(dly_cnt++ > DELAY_NUM) {
-            dly_cnt = 0;
-            // DEBUG_PRINT("i_err_offset: %d\n", IORD(VARSET_BASE, i_var_reg_1_err_signal_gen));
-            // DEBUG_PRINT("gain1: %d\n", IORD(VARSET_BASE, i_var_reg_1_Feedback_control));
-            DEBUG_PRINT("i_err: %d, ", IORD(VARSET_BASE, i_var_err));
-            DEBUG_PRINT("step: %d\n", IORD(VARSET_BASE, i_var_step));
-        }
-	
+		
+        // monitor_reg();
         get_uart_cmd(readDataDynamic(&try_cnt), &my_cmd);
         get_uart_cmd(readDataDynamic_dbg(&try_cnt), &my_cmd);
         cmd_mux(&my_cmd);
@@ -145,6 +140,25 @@ int main(void)
     return 0;
 }
 
+void monitor_reg()
+{
+    static alt_u32 dly_cnt = 0;
+    static const DELAY_NUM = 5000;
+
+    if(dly_cnt++ > DELAY_NUM) {
+        dly_cnt = 0;
+        // DEBUG_PRINT("i_err_offset: %d\n", IORD(VARSET_BASE, i_var_reg_1_err_signal_gen));
+        // DEBUG_PRINT("gain1: %d\n", IORD(VARSET_BASE, i_var_reg_1_Feedback_control));
+        // DEBUG_PRINT("i_err: %d, ", IORD(VARSET_BASE, i_var_err));
+        // DEBUG_PRINT("step: %d\n", IORD(VARSET_BASE, i_var_step));
+        DEBUG_PRINT("time: %d\n", IORD(VARSET_BASE, i_var_timer));
+        // DEBUG_PRINT("AIN0: %d\n",(float)IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_1)*3.3/8388608.0);
+        // DEBUG_PRINT("AIN1: %d\n",(float)IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_2)*3.3/8388608.0);
+        // DEBUG_PRINT("AIN2: %d\n",(float)IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_3)*3.3/8388608.0);
+        // DEBUG_PRINT("AIN3: %d\n",(float)IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_4)*3.3/8388608.0);
+    }
+}
+
 void update_sensor_data(my_sensor_t *data) {
     /***---timer--- */
     data->time.time.float_val = (float)IORD(VARSET_BASE, i_var_timer) * COE_TIMER;
@@ -152,10 +166,14 @@ void update_sensor_data(my_sensor_t *data) {
      data->fog.fogz.err.int_val = IORD(VARSET_BASE, i_var_err);
      data->fog.fogz.step.int_val = IORD(VARSET_BASE, i_var_step);
     /***---adc ads122c04--- */
-     data->ads122c04.ain0.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_1);
-     data->ads122c04.ain1.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_2);
-     data->ads122c04.ain2.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_3);
-     data->ads122c04.ain3.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_4);
+    //  data->ads122c04.ain0.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_1);
+    //  data->ads122c04.ain1.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_2);
+    //  data->ads122c04.ain2.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_3);
+    //  data->ads122c04.ain3.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_4);
+     data->ads122c04.ain0.float_val = (float)IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_1)*3.3/8388608.0;
+     data->ads122c04.ain1.float_val = (float)IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_2)*3.3/8388608.0;
+     data->ads122c04.ain2.float_val = (float)IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_3)*3.3/8388608.0;
+     data->ads122c04.ain3.float_val = (float)IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_4)*3.3/8388608.0;
     /***---imu asm330lhhx--- */
      data->asm330lhhx.wx.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_1);
      data->asm330lhhx.wy.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_2);
@@ -165,8 +183,10 @@ void update_sensor_data(my_sensor_t *data) {
      data->asm330lhhx.az.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_6);
      data->asm330lhhx.temp.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_7);
 
-    
-//    DEBUG_PRINT("time: %f\n", data->time.time.float_val);
+    // DEBUG_PRINT("%f\n", (float)IORD(VARSET_BASE, i_var_timer) * COE_TIMER);
+    DEBUG_PRINT("%f,%f,%f,%f,%f\n", data->time.time.float_val, 
+        data->ads122c04.ain0.float_val, data->ads122c04.ain1.float_val, 
+        data->ads122c04.ain2.float_val, data->ads122c04.ain3.float_val);
 }
 
 
@@ -174,6 +194,9 @@ void update_sensor_data(my_sensor_t *data) {
 void update_HINS_config_to_HW_REG()
 {
 	IOWR(VARSET_BASE, var_sync_count, SYNC_100HZ); // set sync data rate
+    IOWR(VARSET_BASE, var_timer_rst, 1);
+    for(int i=0; i<100; i++) {} 
+    IOWR(VARSET_BASE, var_timer_rst, 0);
 }
 
 void TRIGGER_IRQ_init()

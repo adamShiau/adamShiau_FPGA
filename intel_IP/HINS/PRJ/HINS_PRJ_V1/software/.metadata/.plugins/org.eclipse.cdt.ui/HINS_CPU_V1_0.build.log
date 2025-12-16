@@ -1,4 +1,4 @@
-20:33:17 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0 ****
+21:23:28 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0 ****
 make all 
 Info: Building ../HINS_CPU_V1_0_bsp/
 D:/intelFPGA_lite/18.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../HINS_CPU_V1_0_bsp/
@@ -13,8 +13,8 @@ D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:26:0:
 D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:15:0: note: this is the location of the previous definition
   #define DEBUG_PRINT
  ^
-D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c: In function 'main':
-D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:119:18: warning: type defaults to 'int' in declaration of 'DELAY_NUM' [-Wimplicit-int]
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c: In function 'monitor_reg':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:146:18: warning: type defaults to 'int' in declaration of 'DELAY_NUM' [-Wimplicit-int]
      static const DELAY_NUM = 5000;
                   ^
 Info: Linking HINS_CPU_V1_0.elf
@@ -26,5 +26,5 @@ Info: Creating HINS_CPU_V1_0.objdump
 nios2-elf-objdump --disassemble --syms --all-header --source HINS_CPU_V1_0.elf >HINS_CPU_V1_0.objdump
 [HINS_CPU_V1_0 build complete]
 
-20:33:20 Build Finished (took 3s.314ms)
+21:23:30 Build Finished (took 2s.59ms)
 
