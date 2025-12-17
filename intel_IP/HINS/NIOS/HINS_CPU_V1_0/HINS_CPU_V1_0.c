@@ -23,6 +23,20 @@ volatile alt_u8 trigger_sig = 0;
 
 my_float_t my_f;
 
+
+static const float SF_ACCL_2G	= 0.061e-3F;
+static const float SF_ACCL_4G	=0.122e-3F;
+static const float SF_ACCL_8G	=0.244e-3F;
+static const float SF_ACCL_16G	=0.488e-3F;
+
+static const float SF_GYRO_125DPS	=4.37e-3F;
+static const float SF_GYRO_250DPS	=8.75e-3F;
+static const float SF_GYRO_500DPS	=17.5e-3F;
+static const float SF_GYRO_1000DPS	=35e-3F;
+static const float SF_GYRO_2000DPS	=70e-3F;
+static const float SF_GYRO_4000DPS	=140e-3F;
+static const float SF_TEMP =0.00390625F;
+
 // Definition and initialization of my_cmd, structure type is defined in common.h
 cmd_ctrl_t my_cmd = {
 	.condition = RX_CONDITION_INIT,
@@ -105,13 +119,13 @@ int main(void)
     DEBUG_PRINT("initialize_fog_params_type\n");
 	// initialize_fog_params_type(&fog_params);
 
-    // LOAD_FOG_PARAMETER(&fog_params);
-	// LOAD_FOG_MISALIGNMENT(&fog_params);
-	// LOAD_FOG_SN(&fog_params);
-	// PRINT_FOG_PARAMETER(&fog_params);
-	// PRINT_FOG_MISALIGNMENT(&fog_params);
+    LOAD_FOG_PARAMETER(&fog_params);
+	LOAD_FOG_MISALIGNMENT(&fog_params);
+	LOAD_FOG_SN(&fog_params);
+	PRINT_FOG_PARAMETER(&fog_params);
+	PRINT_FOG_MISALIGNMENT(&fog_params);
 	// update_fog_parameters_to_HW_REG(MEM_BASE_Z, &fog_params); 
-	// update_fog_parameters_to_HW_REG(MEM_BASE_X, &fog_params); 
+	update_fog_parameters_to_HW_REG(MEM_BASE_X, &fog_params); 
 	// update_fog_parameters_to_HW_REG(MEM_BASE_Y, &fog_params); 
 
     update_HINS_config_to_HW_REG();
@@ -170,23 +184,34 @@ void update_sensor_data(my_sensor_t *data) {
     //  data->ads122c04.ain1.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_2);
     //  data->ads122c04.ain2.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_3);
     //  data->ads122c04.ain3.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_4);
-     data->ads122c04.ain0.float_val = (float)IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_1)*3.3/8388608.0;
+     data->ads122c04.ain0.float_val = (float)IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_1)*3.3/8388608.0; // FOG_TEMP
      data->ads122c04.ain1.float_val = (float)IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_2)*3.3/8388608.0;
      data->ads122c04.ain2.float_val = (float)IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_3)*3.3/8388608.0;
      data->ads122c04.ain3.float_val = (float)IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_4)*3.3/8388608.0;
     /***---imu asm330lhhx--- */
-     data->asm330lhhx.wx.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_1);
-     data->asm330lhhx.wy.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_2);
-     data->asm330lhhx.wz.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_3);
-     data->asm330lhhx.ax.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_4);
-     data->asm330lhhx.ay.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_5);
-     data->asm330lhhx.az.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_6);
-     data->asm330lhhx.temp.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_7);
+    //  data->asm330lhhx.wx.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_1);
+    //  data->asm330lhhx.wy.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_2);
+    //  data->asm330lhhx.wz.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_3);
+    //  data->asm330lhhx.ax.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_4);
+    //  data->asm330lhhx.ay.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_5);
+    //  data->asm330lhhx.az.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_6);
+    //  data->asm330lhhx.temp.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_7);
+    data->asm330lhhx.wx.float_val = (float)IORD(VARSET_BASE, i_var_i2c_IMU_rdata_1) * SF_GYRO_1000DPS;
+    data->asm330lhhx.wy.float_val = (float)IORD(VARSET_BASE, i_var_i2c_IMU_rdata_2) * SF_GYRO_1000DPS;
+    data->asm330lhhx.wz.float_val = (float)IORD(VARSET_BASE, i_var_i2c_IMU_rdata_3) * SF_GYRO_1000DPS;
+    data->asm330lhhx.ax.float_val = (float)IORD(VARSET_BASE, i_var_i2c_IMU_rdata_4) * SF_ACCL_16G;
+    data->asm330lhhx.ay.float_val = (float)IORD(VARSET_BASE, i_var_i2c_IMU_rdata_5) * SF_ACCL_16G;
+    data->asm330lhhx.az.float_val = (float)IORD(VARSET_BASE, i_var_i2c_IMU_rdata_6) * SF_ACCL_16G;
+    data->asm330lhhx.temp.float_val = (float)IORD(VARSET_BASE, i_var_i2c_IMU_rdata_7) * SF_TEMP + 25.0;
 
     // DEBUG_PRINT("%f\n", (float)IORD(VARSET_BASE, i_var_timer) * COE_TIMER);
-    DEBUG_PRINT("%f,%f,%f,%f,%f\n", data->time.time.float_val, 
-        data->ads122c04.ain0.float_val, data->ads122c04.ain1.float_val, 
-        data->ads122c04.ain2.float_val, data->ads122c04.ain3.float_val);
+    // DEBUG_PRINT("%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f\n", 
+    //     data->time.time.float_val, 
+    //     data->ads122c04.ain0.float_val, data->ads122c04.ain1.float_val, 
+    //     data->ads122c04.ain2.float_val, data->ads122c04.ain3.float_val,
+    //     data->asm330lhhx.wx.float_val, data->asm330lhhx.wy.float_val, data->asm330lhhx.wz.float_val,
+    //     data->asm330lhhx.ax.float_val, data->asm330lhhx.ay.float_val, data->asm330lhhx.az.float_val,
+    //     data->asm330lhhx.temp.float_val );
 }
 
 

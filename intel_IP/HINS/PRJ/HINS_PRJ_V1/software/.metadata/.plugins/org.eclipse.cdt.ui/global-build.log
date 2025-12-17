@@ -6249,3 +6249,518 @@ nios2-elf-objdump --disassemble --syms --all-header --source HINS_CPU_V1_0.elf >
 21:23:30 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0_bsp ****
 make all 
 [BSP build complete]
+10:19:37 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0 ****
+make all 
+Info: Building ../HINS_CPU_V1_0_bsp/
+D:/intelFPGA_lite/18.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../HINS_CPU_V1_0_bsp/
+[BSP build complete]
+Info: Compiling D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c to obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.o
+nios2-elf-gcc -xc -MP -MMD -c -ID:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include -I../HINS_CPU_V1_0_bsp//HAL/inc -I../HINS_CPU_V1_0_bsp/ -I../HINS_CPU_V1_0_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.o D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c
+In file included from D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/HINS.h:18:0,
+                 from D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:7:
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:26:0: warning: "DEBUG_PRINT" redefined
+     #define DEBUG_PRINT(...) uart_printf_dbg(__VA_ARGS__)
+ ^
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:15:0: note: this is the location of the previous definition
+  #define DEBUG_PRINT
+ ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:27:14: warning: type defaults to 'int' in declaration of 'SF_ACCL_2G' [-Wimplicit-int]
+ static const SF_ACCL_2G = 0.061e-3;
+              ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:28:14: warning: type defaults to 'int' in declaration of 'SF_ACCL_4G' [-Wimplicit-int]
+ static const SF_ACCL_4G =0.122e-3;
+              ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:29:14: warning: type defaults to 'int' in declaration of 'SF_ACCL_8G' [-Wimplicit-int]
+ static const SF_ACCL_8G =0.244e-3;
+              ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:30:14: warning: type defaults to 'int' in declaration of 'SF_ACCL_16G' [-Wimplicit-int]
+ static const SF_ACCL_16G =0.488e-3;
+              ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:32:14: warning: type defaults to 'int' in declaration of 'SF_GYRO_125DPS' [-Wimplicit-int]
+ static const SF_GYRO_125DPS =4.37e-3;
+              ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:33:14: warning: type defaults to 'int' in declaration of 'SF_GYRO_250DPS' [-Wimplicit-int]
+ static const SF_GYRO_250DPS =8.75e-3;
+              ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:34:14: warning: type defaults to 'int' in declaration of 'SF_GYRO_500DPS' [-Wimplicit-int]
+ static const SF_GYRO_500DPS =17.5e-3;
+              ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:35:14: warning: type defaults to 'int' in declaration of 'SF_GYRO_1000DPS' [-Wimplicit-int]
+ static const SF_GYRO_1000DPS =35e-3;
+              ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:36:14: warning: type defaults to 'int' in declaration of 'SF_GYRO_2000DPS' [-Wimplicit-int]
+ static const SF_GYRO_2000DPS =70e-3;
+              ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:37:14: warning: type defaults to 'int' in declaration of 'SF_GYRO_4000DPS' [-Wimplicit-int]
+ static const SF_GYRO_4000DPS =140e-3;
+              ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:38:14: warning: type defaults to 'int' in declaration of 'SF_TEMP' [-Wimplicit-int]
+ static const SF_TEMP =0.00390625;
+              ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c: In function 'monitor_reg':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:160:18: warning: type defaults to 'int' in declaration of 'DELAY_NUM' [-Wimplicit-int]
+     static const DELAY_NUM = 5000;
+                  ^
+Info: Linking HINS_CPU_V1_0.elf
+nios2-elf-g++  -T'../HINS_CPU_V1_0_bsp//linker.x' -msys-crt0='../HINS_CPU_V1_0_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../HINS_CPU_V1_0_bsp/   -Wl,-Map=HINS_CPU_V1_0.map   -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o HINS_CPU_V1_0.elf obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_fog.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_rst.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/adda_config.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/memory_manage.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/output_mode.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/uart_dual.o -lm -msys-lib=m
+nios2-elf-insert HINS_CPU_V1_0.elf --thread_model hal --cpu_name nios2 --qsys true --simulation_enabled false --id 16777216 --sidp 0x20022a0 --timestamp 1765801493 --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name CPU --quartus_project_dir "D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1" --jdi D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0_bsp/../../HINS_PRJ_V1.jdi --sopcinfo D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0_bsp/../../CPU.sopcinfo
+Info: (HINS_CPU_V1_0.elf) 147 KBytes program size (code + initialized data).
+Info:                     16236 KBytes free for stack + heap.
+Info: Creating HINS_CPU_V1_0.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source HINS_CPU_V1_0.elf >HINS_CPU_V1_0.objdump
+[HINS_CPU_V1_0 build complete]
+10:19:47 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0_bsp ****
+make all 
+[BSP build complete]
+10:21:45 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0 ****
+make all 
+Info: Building ../HINS_CPU_V1_0_bsp/
+D:/intelFPGA_lite/18.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../HINS_CPU_V1_0_bsp/
+[BSP build complete]
+Info: Compiling D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.c to obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.o
+nios2-elf-gcc -xc -MP -MMD -c -ID:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include -I../HINS_CPU_V1_0_bsp//HAL/inc -I../HINS_CPU_V1_0_bsp/ -I../HINS_CPU_V1_0_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.o D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.c
+In file included from D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/asm330lhhx.h:9:0,
+                 from D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.c:1:
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:26:0: warning: "DEBUG_PRINT" redefined
+     #define DEBUG_PRINT(...) uart_printf_dbg(__VA_ARGS__)
+ ^
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:15:0: note: this is the location of the previous definition
+  #define DEBUG_PRINT
+ ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.c:189:14: warning: type defaults to 'int' in declaration of 'DELAY_NUM' [-Wimplicit-int]
+ static const DELAY_NUM = 100000;
+              ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.c: In function 'I2C_write_ASM330LHHX_register':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.c:310:9: warning: implicit declaration of function 'printf' [-Wimplicit-function-declaration]
+         printf("ASM330LHHX write timeout!\n");
+         ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.c:310:9: warning: incompatible implicit declaration of built-in function 'printf'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.c:310:9: note: include '<stdio.h>' or provide a declaration of 'printf'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.c:314:13: warning: incompatible implicit declaration of built-in function 'printf'
+  if(print)  printf("write reg:%x, value:%x\n", reg_addr, data);
+             ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.c:314:13: note: include '<stdio.h>' or provide a declaration of 'printf'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.c: In function 'I2C_read_ASM330LHHX_register':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.c:339:13: warning: incompatible implicit declaration of built-in function 'printf'
+  if(print)  printf("read reg:%x, value:%x\n", reg_addr, rt);
+             ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.c:339:13: note: include '<stdio.h>' or provide a declaration of 'printf'
+In file included from ../HINS_CPU_V1_0_bsp//drivers/inc/altera_avalon_pio_regs.h:34:0,
+                 from D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/asm330lhhx.h:5,
+                 from D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.c:1:
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.c: In function 'I2C_sm_set_finish_clear_pulse_ASM330LHHX':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.c:384:37: warning: implicit declaration of function 'set_bit_safe' [-Wimplicit-function-declaration]
+  IOWR(VARSET_BASE, O_VAR_I2C_CTRL,  set_bit_safe(O_VAR_I2C_CTRL, ctrl_finish_clear_pos));
+                                     ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:75:66: note: in definition of macro 'IOWR'
+   __builtin_stwio (__IO_CALC_ADDRESS_NATIVE ((BASE), (REGNUM)), (DATA))
+                                                                  ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.c:385:2: warning: implicit declaration of function 'usleep' [-Wimplicit-function-declaration]
+  usleep(1);
+  ^
+In file included from ../HINS_CPU_V1_0_bsp//drivers/inc/altera_avalon_pio_regs.h:34:0,
+                 from D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/asm330lhhx.h:5,
+                 from D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.c:1:
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.c:386:37: warning: implicit declaration of function 'clear_bit_safe' [-Wimplicit-function-declaration]
+  IOWR(VARSET_BASE, O_VAR_I2C_CTRL,  clear_bit_safe(O_VAR_I2C_CTRL, ctrl_finish_clear_pos));
+                                     ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:75:66: note: in definition of macro 'IOWR'
+   __builtin_stwio (__IO_CALC_ADDRESS_NATIVE ((BASE), (REGNUM)), (DATA))
+                                                                  ^
+Info: Linking HINS_CPU_V1_0.elf
+nios2-elf-g++  -T'../HINS_CPU_V1_0_bsp//linker.x' -msys-crt0='../HINS_CPU_V1_0_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../HINS_CPU_V1_0_bsp/   -Wl,-Map=HINS_CPU_V1_0.map   -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o HINS_CPU_V1_0.elf obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_fog.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_rst.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/adda_config.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/memory_manage.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/output_mode.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/uart_dual.o -lm -msys-lib=m
+nios2-elf-insert HINS_CPU_V1_0.elf --thread_model hal --cpu_name nios2 --qsys true --simulation_enabled false --id 16777216 --sidp 0x20022a0 --timestamp 1765801493 --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name CPU --quartus_project_dir "D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1" --jdi D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0_bsp/../../HINS_PRJ_V1.jdi --sopcinfo D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0_bsp/../../CPU.sopcinfo
+Info: (HINS_CPU_V1_0.elf) 147 KBytes program size (code + initialized data).
+Info:                     16236 KBytes free for stack + heap.
+Info: Creating HINS_CPU_V1_0.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source HINS_CPU_V1_0.elf >HINS_CPU_V1_0.objdump
+[HINS_CPU_V1_0 build complete]
+10:21:47 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0_bsp ****
+make all 
+[BSP build complete]
+10:26:54 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0 ****
+make all 
+Info: Building ../HINS_CPU_V1_0_bsp/
+D:/intelFPGA_lite/18.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../HINS_CPU_V1_0_bsp/
+[BSP build complete]
+Info: Compiling D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c to obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.o
+nios2-elf-gcc -xc -MP -MMD -c -ID:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include -I../HINS_CPU_V1_0_bsp//HAL/inc -I../HINS_CPU_V1_0_bsp/ -I../HINS_CPU_V1_0_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.o D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c
+In file included from D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/HINS.h:18:0,
+                 from D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:7:
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:26:0: warning: "DEBUG_PRINT" redefined
+     #define DEBUG_PRINT(...) uart_printf_dbg(__VA_ARGS__)
+ ^
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:15:0: note: this is the location of the previous definition
+  #define DEBUG_PRINT
+ ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c: In function 'monitor_reg':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:160:18: warning: type defaults to 'int' in declaration of 'DELAY_NUM' [-Wimplicit-int]
+     static const DELAY_NUM = 5000;
+                  ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c: In function 'update_sensor_data':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:199:87: error: 'SF_GYRO_1000DPS' undeclared (first use in this function)
+     data->asm330lhhx.wx.float_val = (float)IORD(VARSET_BASE, i_var_i2c_IMU_rdata_1) * SF_GYRO_1000DPS;
+                                                                                       ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:199:87: note: each undeclared identifier is reported only once for each function it appears in
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:202:87: error: 'SF_ACCL_16G' undeclared (first use in this function)
+     data->asm330lhhx.ax.float_val = (float)IORD(VARSET_BASE, i_var_i2c_IMU_rdata_4) * SF_ACCL_16G;
+                                                                                       ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:205:89: error: 'SF_TEMP' undeclared (first use in this function)
+     data->asm330lhhx.temp.float_val = (float)IORD(VARSET_BASE, i_var_i2c_IMU_rdata_7) * SF_TEMP + 25.0;
+                                                                                         ^
+make: *** [obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.o] Error 1
+10:26:57 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0_bsp ****
+make all 
+[BSP build complete]
+10:28:46 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0 ****
+make all 
+Info: Building ../HINS_CPU_V1_0_bsp/
+D:/intelFPGA_lite/18.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../HINS_CPU_V1_0_bsp/
+[BSP build complete]
+Info: Compiling D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c to obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.o
+nios2-elf-gcc -xc -MP -MMD -c -ID:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include -I../HINS_CPU_V1_0_bsp//HAL/inc -I../HINS_CPU_V1_0_bsp/ -I../HINS_CPU_V1_0_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.o D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c
+In file included from D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/HINS.h:18:0,
+                 from D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:7:
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:26:0: warning: "DEBUG_PRINT" redefined
+     #define DEBUG_PRINT(...) uart_printf_dbg(__VA_ARGS__)
+ ^
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:15:0: note: this is the location of the previous definition
+  #define DEBUG_PRINT
+ ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c: In function 'monitor_reg':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:160:18: warning: type defaults to 'int' in declaration of 'DELAY_NUM' [-Wimplicit-int]
+     static const DELAY_NUM = 5000;
+                  ^
+Info: Compiling D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.c to obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.o
+nios2-elf-gcc -xc -MP -MMD -c -ID:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include -I../HINS_CPU_V1_0_bsp//HAL/inc -I../HINS_CPU_V1_0_bsp/ -I../HINS_CPU_V1_0_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.o D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.c
+In file included from D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/asm330lhhx.h:9:0,
+                 from D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.c:1:
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:26:0: warning: "DEBUG_PRINT" redefined
+     #define DEBUG_PRINT(...) uart_printf_dbg(__VA_ARGS__)
+ ^
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:15:0: note: this is the location of the previous definition
+  #define DEBUG_PRINT
+ ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.c:189:14: warning: type defaults to 'int' in declaration of 'DELAY_NUM' [-Wimplicit-int]
+ static const DELAY_NUM = 100000;
+              ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.c: In function 'I2C_write_ASM330LHHX_register':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.c:310:9: warning: implicit declaration of function 'printf' [-Wimplicit-function-declaration]
+         printf("ASM330LHHX write timeout!\n");
+         ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.c:310:9: warning: incompatible implicit declaration of built-in function 'printf'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.c:310:9: note: include '<stdio.h>' or provide a declaration of 'printf'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.c:314:13: warning: incompatible implicit declaration of built-in function 'printf'
+  if(print)  printf("write reg:%x, value:%x\n", reg_addr, data);
+             ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.c:314:13: note: include '<stdio.h>' or provide a declaration of 'printf'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.c: In function 'I2C_read_ASM330LHHX_register':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.c:339:13: warning: incompatible implicit declaration of built-in function 'printf'
+  if(print)  printf("read reg:%x, value:%x\n", reg_addr, rt);
+             ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.c:339:13: note: include '<stdio.h>' or provide a declaration of 'printf'
+In file included from ../HINS_CPU_V1_0_bsp//drivers/inc/altera_avalon_pio_regs.h:34:0,
+                 from D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/asm330lhhx.h:5,
+                 from D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.c:1:
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.c: In function 'I2C_sm_set_finish_clear_pulse_ASM330LHHX':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.c:384:37: warning: implicit declaration of function 'set_bit_safe' [-Wimplicit-function-declaration]
+  IOWR(VARSET_BASE, O_VAR_I2C_CTRL,  set_bit_safe(O_VAR_I2C_CTRL, ctrl_finish_clear_pos));
+                                     ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:75:66: note: in definition of macro 'IOWR'
+   __builtin_stwio (__IO_CALC_ADDRESS_NATIVE ((BASE), (REGNUM)), (DATA))
+                                                                  ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.c:385:2: warning: implicit declaration of function 'usleep' [-Wimplicit-function-declaration]
+  usleep(1);
+  ^
+In file included from ../HINS_CPU_V1_0_bsp//drivers/inc/altera_avalon_pio_regs.h:34:0,
+                 from D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/asm330lhhx.h:5,
+                 from D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.c:1:
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.c:386:37: warning: implicit declaration of function 'clear_bit_safe' [-Wimplicit-function-declaration]
+  IOWR(VARSET_BASE, O_VAR_I2C_CTRL,  clear_bit_safe(O_VAR_I2C_CTRL, ctrl_finish_clear_pos));
+                                     ^
+../HINS_CPU_V1_0_bsp//HAL/inc/io.h:75:66: note: in definition of macro 'IOWR'
+   __builtin_stwio (__IO_CALC_ADDRESS_NATIVE ((BASE), (REGNUM)), (DATA))
+                                                                  ^
+Info: Linking HINS_CPU_V1_0.elf
+nios2-elf-g++  -T'../HINS_CPU_V1_0_bsp//linker.x' -msys-crt0='../HINS_CPU_V1_0_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../HINS_CPU_V1_0_bsp/   -Wl,-Map=HINS_CPU_V1_0.map   -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o HINS_CPU_V1_0.elf obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_fog.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_rst.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/adda_config.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/memory_manage.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/output_mode.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/uart_dual.o -lm -msys-lib=m
+nios2-elf-insert HINS_CPU_V1_0.elf --thread_model hal --cpu_name nios2 --qsys true --simulation_enabled false --id 16777216 --sidp 0x20022a0 --timestamp 1765801493 --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name CPU --quartus_project_dir "D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1" --jdi D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0_bsp/../../HINS_PRJ_V1.jdi --sopcinfo D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0_bsp/../../CPU.sopcinfo
+Info: (HINS_CPU_V1_0.elf) 147 KBytes program size (code + initialized data).
+Info:                     16236 KBytes free for stack + heap.
+Info: Creating HINS_CPU_V1_0.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source HINS_CPU_V1_0.elf >HINS_CPU_V1_0.objdump
+[HINS_CPU_V1_0 build complete]
+10:28:55 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0_bsp ****
+make all 
+[BSP build complete]
+11:01:04 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0 ****
+make all 
+Info: Building ../HINS_CPU_V1_0_bsp/
+D:/intelFPGA_lite/18.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../HINS_CPU_V1_0_bsp/
+[BSP build complete]
+Info: Compiling D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c to obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.o
+nios2-elf-gcc -xc -MP -MMD -c -ID:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include -I../HINS_CPU_V1_0_bsp//HAL/inc -I../HINS_CPU_V1_0_bsp/ -I../HINS_CPU_V1_0_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.o D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c
+In file included from D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/HINS.h:18:0,
+                 from D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:7:
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:26:0: warning: "DEBUG_PRINT" redefined
+     #define DEBUG_PRINT(...) uart_printf_dbg(__VA_ARGS__)
+ ^
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:15:0: note: this is the location of the previous definition
+  #define DEBUG_PRINT
+ ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c: In function 'monitor_reg':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:160:18: warning: type defaults to 'int' in declaration of 'DELAY_NUM' [-Wimplicit-int]
+     static const DELAY_NUM = 5000;
+                  ^
+Info: Compiling D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.c to obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.o
+nios2-elf-gcc -xc -MP -MMD -c -ID:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include -I../HINS_CPU_V1_0_bsp//HAL/inc -I../HINS_CPU_V1_0_bsp/ -I../HINS_CPU_V1_0_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.o D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.c
+In file included from D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/acq_imu.h:8:0,
+                 from D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.c:2:
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:26:0: warning: "DEBUG_PRINT" redefined
+     #define DEBUG_PRINT(...) uart_printf_dbg(__VA_ARGS__)
+ ^
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:15:0: note: this is the location of the previous definition
+  #define DEBUG_PRINT
+ ^
+Info: Linking HINS_CPU_V1_0.elf
+nios2-elf-g++  -T'../HINS_CPU_V1_0_bsp//linker.x' -msys-crt0='../HINS_CPU_V1_0_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../HINS_CPU_V1_0_bsp/   -Wl,-Map=HINS_CPU_V1_0.map   -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o HINS_CPU_V1_0.elf obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_fog.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_rst.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/adda_config.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/memory_manage.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/output_mode.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/uart_dual.o -lm -msys-lib=m
+nios2-elf-insert HINS_CPU_V1_0.elf --thread_model hal --cpu_name nios2 --qsys true --simulation_enabled false --id 16777216 --sidp 0x20022a0 --timestamp 1765801493 --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name CPU --quartus_project_dir "D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1" --jdi D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0_bsp/../../HINS_PRJ_V1.jdi --sopcinfo D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0_bsp/../../CPU.sopcinfo
+Info: (HINS_CPU_V1_0.elf) 146 KBytes program size (code + initialized data).
+Info:                     16237 KBytes free for stack + heap.
+Info: Creating HINS_CPU_V1_0.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source HINS_CPU_V1_0.elf >HINS_CPU_V1_0.objdump
+[HINS_CPU_V1_0 build complete]
+11:01:06 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0_bsp ****
+make all 
+[BSP build complete]
+11:03:37 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0 ****
+make all 
+Info: Building ../HINS_CPU_V1_0_bsp/
+D:/intelFPGA_lite/18.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../HINS_CPU_V1_0_bsp/
+[BSP build complete]
+Info: Compiling D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c to obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.o
+nios2-elf-gcc -xc -MP -MMD -c -ID:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include -I../HINS_CPU_V1_0_bsp//HAL/inc -I../HINS_CPU_V1_0_bsp/ -I../HINS_CPU_V1_0_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.o D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c
+In file included from D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/HINS.h:18:0,
+                 from D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:7:
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:26:0: warning: "DEBUG_PRINT" redefined
+     #define DEBUG_PRINT(...) uart_printf_dbg(__VA_ARGS__)
+ ^
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:15:0: note: this is the location of the previous definition
+  #define DEBUG_PRINT
+ ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c: In function 'monitor_reg':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:160:18: warning: type defaults to 'int' in declaration of 'DELAY_NUM' [-Wimplicit-int]
+     static const DELAY_NUM = 5000;
+                  ^
+Info: Linking HINS_CPU_V1_0.elf
+nios2-elf-g++  -T'../HINS_CPU_V1_0_bsp//linker.x' -msys-crt0='../HINS_CPU_V1_0_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../HINS_CPU_V1_0_bsp/   -Wl,-Map=HINS_CPU_V1_0.map   -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o HINS_CPU_V1_0.elf obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_fog.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_rst.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/adda_config.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/memory_manage.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/output_mode.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/uart_dual.o -lm -msys-lib=m
+nios2-elf-insert HINS_CPU_V1_0.elf --thread_model hal --cpu_name nios2 --qsys true --simulation_enabled false --id 16777216 --sidp 0x20022a0 --timestamp 1765801493 --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name CPU --quartus_project_dir "D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1" --jdi D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0_bsp/../../HINS_PRJ_V1.jdi --sopcinfo D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0_bsp/../../CPU.sopcinfo
+Info: (HINS_CPU_V1_0.elf) 147 KBytes program size (code + initialized data).
+Info:                     16236 KBytes free for stack + heap.
+Info: Creating HINS_CPU_V1_0.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source HINS_CPU_V1_0.elf >HINS_CPU_V1_0.objdump
+[HINS_CPU_V1_0 build complete]
+11:03:40 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0_bsp ****
+make all 
+[BSP build complete]
+11:04:28 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0 ****
+make all 
+Info: Building ../HINS_CPU_V1_0_bsp/
+D:/intelFPGA_lite/18.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../HINS_CPU_V1_0_bsp/
+[BSP build complete]
+Info: Compiling D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c to obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.o
+nios2-elf-gcc -xc -MP -MMD -c -ID:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include -I../HINS_CPU_V1_0_bsp//HAL/inc -I../HINS_CPU_V1_0_bsp/ -I../HINS_CPU_V1_0_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.o D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c
+In file included from D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/HINS.h:18:0,
+                 from D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:7:
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:26:0: warning: "DEBUG_PRINT" redefined
+     #define DEBUG_PRINT(...) uart_printf_dbg(__VA_ARGS__)
+ ^
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:15:0: note: this is the location of the previous definition
+  #define DEBUG_PRINT
+ ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c: In function 'monitor_reg':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:160:18: warning: type defaults to 'int' in declaration of 'DELAY_NUM' [-Wimplicit-int]
+     static const DELAY_NUM = 5000;
+                  ^
+Info: Linking HINS_CPU_V1_0.elf
+nios2-elf-g++  -T'../HINS_CPU_V1_0_bsp//linker.x' -msys-crt0='../HINS_CPU_V1_0_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../HINS_CPU_V1_0_bsp/   -Wl,-Map=HINS_CPU_V1_0.map   -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o HINS_CPU_V1_0.elf obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_fog.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_rst.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/adda_config.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/memory_manage.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/output_mode.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/uart_dual.o -lm -msys-lib=m
+nios2-elf-insert HINS_CPU_V1_0.elf --thread_model hal --cpu_name nios2 --qsys true --simulation_enabled false --id 16777216 --sidp 0x20022a0 --timestamp 1765801493 --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name CPU --quartus_project_dir "D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1" --jdi D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0_bsp/../../HINS_PRJ_V1.jdi --sopcinfo D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0_bsp/../../CPU.sopcinfo
+Info: (HINS_CPU_V1_0.elf) 147 KBytes program size (code + initialized data).
+Info:                     16236 KBytes free for stack + heap.
+Info: Creating HINS_CPU_V1_0.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source HINS_CPU_V1_0.elf >HINS_CPU_V1_0.objdump
+[HINS_CPU_V1_0 build complete]
+11:04:30 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0_bsp ****
+make all 
+[BSP build complete]
+11:05:55 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0 ****
+make all 
+Info: Building ../HINS_CPU_V1_0_bsp/
+D:/intelFPGA_lite/18.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../HINS_CPU_V1_0_bsp/
+[BSP build complete]
+Info: Compiling D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c to obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.o
+nios2-elf-gcc -xc -MP -MMD -c -ID:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include -I../HINS_CPU_V1_0_bsp//HAL/inc -I../HINS_CPU_V1_0_bsp/ -I../HINS_CPU_V1_0_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.o D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c
+In file included from D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/HINS.h:18:0,
+                 from D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:7:
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:26:0: warning: "DEBUG_PRINT" redefined
+     #define DEBUG_PRINT(...) uart_printf_dbg(__VA_ARGS__)
+ ^
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:15:0: note: this is the location of the previous definition
+  #define DEBUG_PRINT
+ ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c: In function 'monitor_reg':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:160:18: warning: type defaults to 'int' in declaration of 'DELAY_NUM' [-Wimplicit-int]
+     static const DELAY_NUM = 5000;
+                  ^
+Info: Linking HINS_CPU_V1_0.elf
+nios2-elf-g++  -T'../HINS_CPU_V1_0_bsp//linker.x' -msys-crt0='../HINS_CPU_V1_0_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../HINS_CPU_V1_0_bsp/   -Wl,-Map=HINS_CPU_V1_0.map   -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o HINS_CPU_V1_0.elf obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_fog.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_rst.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/adda_config.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/memory_manage.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/output_mode.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/uart_dual.o -lm -msys-lib=m
+nios2-elf-insert HINS_CPU_V1_0.elf --thread_model hal --cpu_name nios2 --qsys true --simulation_enabled false --id 16777216 --sidp 0x20022a0 --timestamp 1765801493 --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name CPU --quartus_project_dir "D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1" --jdi D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0_bsp/../../HINS_PRJ_V1.jdi --sopcinfo D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0_bsp/../../CPU.sopcinfo
+Info: (HINS_CPU_V1_0.elf) 147 KBytes program size (code + initialized data).
+Info:                     16236 KBytes free for stack + heap.
+Info: Creating HINS_CPU_V1_0.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source HINS_CPU_V1_0.elf >HINS_CPU_V1_0.objdump
+[HINS_CPU_V1_0 build complete]
+11:05:57 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0_bsp ****
+make all 
+[BSP build complete]
+11:07:06 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0 ****
+make all 
+Info: Building ../HINS_CPU_V1_0_bsp/
+D:/intelFPGA_lite/18.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../HINS_CPU_V1_0_bsp/
+[BSP build complete]
+Info: Compiling D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c to obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.o
+nios2-elf-gcc -xc -MP -MMD -c -ID:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include -I../HINS_CPU_V1_0_bsp//HAL/inc -I../HINS_CPU_V1_0_bsp/ -I../HINS_CPU_V1_0_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.o D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c
+In file included from D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/HINS.h:18:0,
+                 from D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:7:
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:26:0: warning: "DEBUG_PRINT" redefined
+     #define DEBUG_PRINT(...) uart_printf_dbg(__VA_ARGS__)
+ ^
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:15:0: note: this is the location of the previous definition
+  #define DEBUG_PRINT
+ ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c: In function 'monitor_reg':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:160:18: warning: type defaults to 'int' in declaration of 'DELAY_NUM' [-Wimplicit-int]
+     static const DELAY_NUM = 5000;
+                  ^
+Info: Linking HINS_CPU_V1_0.elf
+nios2-elf-g++  -T'../HINS_CPU_V1_0_bsp//linker.x' -msys-crt0='../HINS_CPU_V1_0_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../HINS_CPU_V1_0_bsp/   -Wl,-Map=HINS_CPU_V1_0.map   -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o HINS_CPU_V1_0.elf obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_fog.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_rst.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/adda_config.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/memory_manage.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/output_mode.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/uart_dual.o -lm -msys-lib=m
+nios2-elf-insert HINS_CPU_V1_0.elf --thread_model hal --cpu_name nios2 --qsys true --simulation_enabled false --id 16777216 --sidp 0x20022a0 --timestamp 1765801493 --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name CPU --quartus_project_dir "D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1" --jdi D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0_bsp/../../HINS_PRJ_V1.jdi --sopcinfo D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0_bsp/../../CPU.sopcinfo
+Info: (HINS_CPU_V1_0.elf) 147 KBytes program size (code + initialized data).
+Info:                     16236 KBytes free for stack + heap.
+Info: Creating HINS_CPU_V1_0.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source HINS_CPU_V1_0.elf >HINS_CPU_V1_0.objdump
+[HINS_CPU_V1_0 build complete]
+11:07:09 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0_bsp ****
+make all 
+[BSP build complete]
+11:08:46 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0 ****
+make all 
+Info: Building ../HINS_CPU_V1_0_bsp/
+D:/intelFPGA_lite/18.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../HINS_CPU_V1_0_bsp/
+[BSP build complete]
+Info: Compiling D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c to obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.o
+nios2-elf-gcc -xc -MP -MMD -c -ID:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include -I../HINS_CPU_V1_0_bsp//HAL/inc -I../HINS_CPU_V1_0_bsp/ -I../HINS_CPU_V1_0_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.o D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c
+In file included from D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/HINS.h:18:0,
+                 from D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:7:
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:26:0: warning: "DEBUG_PRINT" redefined
+     #define DEBUG_PRINT(...) uart_printf_dbg(__VA_ARGS__)
+ ^
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:15:0: note: this is the location of the previous definition
+  #define DEBUG_PRINT
+ ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c: In function 'monitor_reg':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:160:18: warning: type defaults to 'int' in declaration of 'DELAY_NUM' [-Wimplicit-int]
+     static const DELAY_NUM = 5000;
+                  ^
+Info: Linking HINS_CPU_V1_0.elf
+nios2-elf-g++  -T'../HINS_CPU_V1_0_bsp//linker.x' -msys-crt0='../HINS_CPU_V1_0_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../HINS_CPU_V1_0_bsp/   -Wl,-Map=HINS_CPU_V1_0.map   -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o HINS_CPU_V1_0.elf obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_fog.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_rst.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/adda_config.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/memory_manage.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/output_mode.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/uart_dual.o -lm -msys-lib=m
+nios2-elf-insert HINS_CPU_V1_0.elf --thread_model hal --cpu_name nios2 --qsys true --simulation_enabled false --id 16777216 --sidp 0x20022a0 --timestamp 1765801493 --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name CPU --quartus_project_dir "D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1" --jdi D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0_bsp/../../HINS_PRJ_V1.jdi --sopcinfo D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0_bsp/../../CPU.sopcinfo
+Info: (HINS_CPU_V1_0.elf) 147 KBytes program size (code + initialized data).
+Info:                     16236 KBytes free for stack + heap.
+Info: Creating HINS_CPU_V1_0.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source HINS_CPU_V1_0.elf >HINS_CPU_V1_0.objdump
+[HINS_CPU_V1_0 build complete]
+11:08:49 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0_bsp ****
+make all 
+[BSP build complete]
+11:09:57 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0 ****
+make all 
+Info: Building ../HINS_CPU_V1_0_bsp/
+D:/intelFPGA_lite/18.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../HINS_CPU_V1_0_bsp/
+[BSP build complete]
+Info: Compiling D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c to obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.o
+nios2-elf-gcc -xc -MP -MMD -c -ID:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include -I../HINS_CPU_V1_0_bsp//HAL/inc -I../HINS_CPU_V1_0_bsp/ -I../HINS_CPU_V1_0_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.o D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c
+In file included from D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/HINS.h:18:0,
+                 from D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:7:
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:26:0: warning: "DEBUG_PRINT" redefined
+     #define DEBUG_PRINT(...) uart_printf_dbg(__VA_ARGS__)
+ ^
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:15:0: note: this is the location of the previous definition
+  #define DEBUG_PRINT
+ ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c: In function 'monitor_reg':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.c:160:18: warning: type defaults to 'int' in declaration of 'DELAY_NUM' [-Wimplicit-int]
+     static const DELAY_NUM = 5000;
+                  ^
+Info: Linking HINS_CPU_V1_0.elf
+nios2-elf-g++  -T'../HINS_CPU_V1_0_bsp//linker.x' -msys-crt0='../HINS_CPU_V1_0_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../HINS_CPU_V1_0_bsp/   -Wl,-Map=HINS_CPU_V1_0.map   -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o HINS_CPU_V1_0.elf obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_fog.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_rst.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/adda_config.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/memory_manage.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/output_mode.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/uart_dual.o -lm -msys-lib=m
+nios2-elf-insert HINS_CPU_V1_0.elf --thread_model hal --cpu_name nios2 --qsys true --simulation_enabled false --id 16777216 --sidp 0x20022a0 --timestamp 1765801493 --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name CPU --quartus_project_dir "D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1" --jdi D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0_bsp/../../HINS_PRJ_V1.jdi --sopcinfo D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0_bsp/../../CPU.sopcinfo
+Info: (HINS_CPU_V1_0.elf) 146 KBytes program size (code + initialized data).
+Info:                     16237 KBytes free for stack + heap.
+Info: Creating HINS_CPU_V1_0.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source HINS_CPU_V1_0.elf >HINS_CPU_V1_0.objdump
+[HINS_CPU_V1_0 build complete]
+11:10:00 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0_bsp ****
+make all 
+[BSP build complete]
+11:23:08 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0 ****
+make all 
+Info: Building ../HINS_CPU_V1_0_bsp/
+D:/intelFPGA_lite/18.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../HINS_CPU_V1_0_bsp/
+[BSP build complete]
+Info: Compiling D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.c to obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.o
+nios2-elf-gcc -xc -MP -MMD -c -ID:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include -I../HINS_CPU_V1_0_bsp//HAL/inc -I../HINS_CPU_V1_0_bsp/ -I../HINS_CPU_V1_0_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.o D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.c
+In file included from D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/acq_imu.h:8:0,
+                 from D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.c:2:
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:26:0: warning: "DEBUG_PRINT" redefined
+     #define DEBUG_PRINT(...) uart_printf_dbg(__VA_ARGS__)
+ ^
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:15:0: note: this is the location of the previous definition
+  #define DEBUG_PRINT
+ ^
+Info: Linking HINS_CPU_V1_0.elf
+nios2-elf-g++  -T'../HINS_CPU_V1_0_bsp//linker.x' -msys-crt0='../HINS_CPU_V1_0_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../HINS_CPU_V1_0_bsp/   -Wl,-Map=HINS_CPU_V1_0.map   -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o HINS_CPU_V1_0.elf obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_fog.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_rst.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/adda_config.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/memory_manage.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/output_mode.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/uart_dual.o -lm -msys-lib=m
+nios2-elf-insert HINS_CPU_V1_0.elf --thread_model hal --cpu_name nios2 --qsys true --simulation_enabled false --id 16777216 --sidp 0x20022a0 --timestamp 1765801493 --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name CPU --quartus_project_dir "D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1" --jdi D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0_bsp/../../HINS_PRJ_V1.jdi --sopcinfo D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0_bsp/../../CPU.sopcinfo
+Info: (HINS_CPU_V1_0.elf) 147 KBytes program size (code + initialized data).
+Info:                     16236 KBytes free for stack + heap.
+Info: Creating HINS_CPU_V1_0.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source HINS_CPU_V1_0.elf >HINS_CPU_V1_0.objdump
+[HINS_CPU_V1_0 build complete]
+11:23:15 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0_bsp ****
+make all 
+[BSP build complete]
+11:25:28 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0 ****
+make all 
+Info: Building ../HINS_CPU_V1_0_bsp/
+D:/intelFPGA_lite/18.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../HINS_CPU_V1_0_bsp/
+[BSP build complete]
+Info: Compiling D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.c to obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.o
+nios2-elf-gcc -xc -MP -MMD -c -ID:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include -I../HINS_CPU_V1_0_bsp//HAL/inc -I../HINS_CPU_V1_0_bsp/ -I../HINS_CPU_V1_0_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.o D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.c
+In file included from D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/acq_imu.h:8:0,
+                 from D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.c:2:
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:26:0: warning: "DEBUG_PRINT" redefined
+     #define DEBUG_PRINT(...) uart_printf_dbg(__VA_ARGS__)
+ ^
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_0\include/common.h:15:0: note: this is the location of the previous definition
+  #define DEBUG_PRINT
+ ^
+Info: Linking HINS_CPU_V1_0.elf
+nios2-elf-g++  -T'../HINS_CPU_V1_0_bsp//linker.x' -msys-crt0='../HINS_CPU_V1_0_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../HINS_CPU_V1_0_bsp/   -Wl,-Map=HINS_CPU_V1_0.map   -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o HINS_CPU_V1_0.elf obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/HINS_CPU_V1_0.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_fog.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_imu.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/acq_rst.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/adda_config.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/ads122c04_se.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/asm330lhhx.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/common.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/eeprom_v2.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/memory_manage.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/output_mode.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib/uart_dual.o -lm -msys-lib=m
+nios2-elf-insert HINS_CPU_V1_0.elf --thread_model hal --cpu_name nios2 --qsys true --simulation_enabled false --id 16777216 --sidp 0x20022a0 --timestamp 1765801493 --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name CPU --quartus_project_dir "D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1" --jdi D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0_bsp/../../HINS_PRJ_V1.jdi --sopcinfo D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_0_bsp/../../CPU.sopcinfo
+Info: (HINS_CPU_V1_0.elf) 147 KBytes program size (code + initialized data).
+Info:                     16236 KBytes free for stack + heap.
+Info: Creating HINS_CPU_V1_0.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source HINS_CPU_V1_0.elf >HINS_CPU_V1_0.objdump
+[HINS_CPU_V1_0 build complete]
+11:25:30 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_0_bsp ****
+make all 
+[BSP build complete]
