@@ -244,7 +244,7 @@ void dump_fog_param_framed(fog_parameter_t* fog_inst, uint8_t ch, uint32_t seq);
 void dump_misalignment_param(fog_parameter_t* fog_inst);
 void dump_misalignment_param_framed(fog_parameter_t* fog_inst, uint32_t seq);
 
-void dump_SN(fog_parameter_t* fog_inst);
+// void dump_SN(fog_parameter_t* fog_inst);
 void dump_SN_framed(const fog_parameter_t* fog_inst, uint32_t seq);
 
 void dump_cfg_param_framed(fog_parameter_t* fog_inst, uint32_t seq);

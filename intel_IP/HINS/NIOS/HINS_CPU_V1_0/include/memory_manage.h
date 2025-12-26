@@ -171,7 +171,8 @@ enum {
     CMD_DUMP_CFG = 103, //0x67
     CMD_WRITE_SN = 110,  //0x6E
     CMD_DUMP_MIS = 129,  //0x81
-    CMD_DUMP_SN = 130  //0x82
+    CMD_DUMP_SN = 130,  //0x82
+    CMD_DUMP_VERSION = 131  //0x83
 
 
 };

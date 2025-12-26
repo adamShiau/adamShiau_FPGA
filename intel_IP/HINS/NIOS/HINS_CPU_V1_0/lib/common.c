@@ -1166,6 +1166,13 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 						dump_cfg_param_framed(fog_inst, seq);
 						break;
 					} 
+					case CMD_DUMP_VERSION: {
+						DEBUG_PRINT("CMD_DUMP_VERSION:\n");
+						uint32_t seq  = (rx->value >> 1);
+   						uint8_t  nack = (uint8_t)(rx->value & 1); // TODO: 若要支援 NACK：查快取 (seq,ch) → 直接重送上一包；此處略
+						// dump_SN_framed(fog_inst, seq);
+						break;
+					} 
 					case CMD_DATA_OUT_START: { // not use now
 						DEBUG_PRINT("CMD_DATA_OUT_START:\n");
 						// start_flag = rx->value;
@@ -1368,33 +1375,6 @@ void dump_fog_param_framed(fog_parameter_t* fog_inst, uint8_t ch, uint32_t seq)
     send_framed_payload(seq, ch, json, (size_t)off);
 }
 
-// 一次性送出：@seq,ch,len, + payload + *CRC + \r\n
-void send_framed_payload(uint32_t seq, uint8_t ch, const char* payload, size_t payload_len)
-{
-    // 計算 CRC
-    uint16_t crc = crc16_ccitt_buf((const uint8_t*)payload, payload_len);
-
-    // 組 header：@<seq>,<ch>,<len>,
-    // 以一次 write 避免被其他 printf 打斷
-    char header[64];
-    // 用 %lu 以相容 alt_u32/uint32_t；如需更嚴謹可改成 PRIu32
-    int hlen = snprintf(header, sizeof(header), "@%lu,%u,%lu,",
-                        (unsigned long)seq, (unsigned)ch, (unsigned long)payload_len);
-    if (hlen < 0) return;
-
-    uart_write_bytes((const uint8_t*)header, (size_t)hlen);
-	DEBUG_PRINT("%s", header);
-    // 寫 payload
-    uart_write_bytes((const uint8_t*)payload, payload_len);
-	DEBUG_PRINT("%s", payload);
-
-    // 寫 *CRC 與 CRLF（CRC 4 位大寫 16 進位）
-    char tail[8]; // "*FFFF\r\n" 最多 7 字元
-    int tlen = snprintf(tail, sizeof(tail), "*%04X\r\n", (unsigned)crc);
-    if (tlen > 0) uart_write_bytes((const uint8_t*)tail, (size_t)tlen);
-	DEBUG_PRINT("%s", tail);
-}
-
 void dump_misalignment_param(fog_parameter_t* fog_inst) {
     if (!fog_inst) return; // Ensure the pointer is valid and ch is within range
     
@@ -1478,16 +1458,16 @@ void dump_cfg_param_framed(fog_parameter_t* fog_inst, uint32_t seq)
 }
 
 
-void dump_SN(fog_parameter_t* fog_inst) {
-	SerialWrite(&fog_inst->sn[0], 4);
-	SerialWrite(&fog_inst->sn[4], 4);
-	SerialWrite(&fog_inst->sn[8], 4);
+// void dump_SN(fog_parameter_t* fog_inst) {
+// 	SerialWrite(&fog_inst->sn[0], 4);
+// 	SerialWrite(&fog_inst->sn[4], 4);
+// 	SerialWrite(&fog_inst->sn[8], 4);
 
-	// SerialWrite_dbg(&fog_inst->sn[0], 4);
-	// SerialWrite_dbg(&fog_inst->sn[4], 4);
-	// SerialWrite_dbg(&fog_inst->sn[8], 4);
+// 	// SerialWrite_dbg(&fog_inst->sn[0], 4);
+// 	// SerialWrite_dbg(&fog_inst->sn[4], 4);
+// 	// SerialWrite_dbg(&fog_inst->sn[8], 4);
 
-}
+// }
 
 void dump_SN_framed(const fog_parameter_t* fog_inst, uint32_t seq)
 {
@@ -1511,6 +1491,33 @@ void send_json_uart(const char* buffer) {
 		// checkByte_dbg((alt_u8)*buffer);
         buffer++;
     }
+}
+
+// 一次性送出：@seq,ch,len, + payload + *CRC + \r\n
+void send_framed_payload(uint32_t seq, uint8_t ch, const char* payload, size_t payload_len)
+{
+    // 計算 CRC
+    uint16_t crc = crc16_ccitt_buf((const uint8_t*)payload, payload_len);
+
+    // 組 header：@<seq>,<ch>,<len>,
+    // 以一次 write 避免被其他 printf 打斷
+    char header[64];
+    // 用 %lu 以相容 alt_u32/uint32_t；如需更嚴謹可改成 PRIu32
+    int hlen = snprintf(header, sizeof(header), "@%lu,%u,%lu,",
+                        (unsigned long)seq, (unsigned)ch, (unsigned long)payload_len);
+    if (hlen < 0) return;
+
+    uart_write_bytes((const uint8_t*)header, (size_t)hlen);
+	DEBUG_PRINT("%s", header);
+    // 寫 payload
+    uart_write_bytes((const uint8_t*)payload, payload_len);
+	DEBUG_PRINT("%s", payload);
+
+    // 寫 *CRC 與 CRLF（CRC 4 位大寫 16 進位）
+    char tail[8]; // "*FFFF\r\n" 最多 7 字元
+    int tlen = snprintf(tail, sizeof(tail), "*%04X\r\n", (unsigned)crc);
+    if (tlen > 0) uart_write_bytes((const uint8_t*)tail, (size_t)tlen);
+	DEBUG_PRINT("%s", tail);
 }
 
 float SF_temp_compensation_1st_order_fog(my_sensor_t sensor, fog_parameter_t para, CH_t ch) {
