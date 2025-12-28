@@ -55,16 +55,16 @@ void acq_imu (cmd_ctrl_t* rx, my_sensor_t data, fog_parameter_t fog_parameter)
         SerialWrite(data.time.time.bin_val, 4);
         SerialWrite((alt_u8*)TR_5556, 2);   
 
-        DEBUG_PRINT("%d,%f,%f,%f,%f,%f,%f,%f,%f\n", 
-        data.fog.fogz.step.int_val,
-        data.asm330lhhx.wy.float_val,
-        data.asm330lhhx.wx.float_val,
-        data.asm330lhhx.ax.float_val,
-        data.asm330lhhx.ay.float_val,
-        data.asm330lhhx.az.float_val,
-        data.ads122c04.ain0.float_val,
-        data.asm330lhhx.temp.float_val,
-        data.time.time.float_val);
+        // DEBUG_PRINT("%d,%f,%f,%f,%f,%f,%f,%f,%f\n", 
+        // data.fog.fogz.step.int_val,
+        // data.asm330lhhx.wy.float_val,
+        // data.asm330lhhx.wx.float_val,
+        // data.asm330lhhx.ax.float_val,
+        // data.asm330lhhx.ay.float_val,
+        // data.asm330lhhx.az.float_val,
+        // data.ads122c04.ain0.float_val,
+        // data.asm330lhhx.temp.float_val,
+        // data.time.time.float_val);
 
     }
 }

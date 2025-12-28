@@ -309,6 +309,7 @@ void PARAMETER_Write_s(alt_u8 base, alt_u8 number , alt_32 data, fog_parameter_t
 		else if(base == MEM_BASE_Y ) fog_params->paramY[number].data.int_val = data;
 		else if(base == MEM_BASE_Z ) fog_params->paramZ[number].data.int_val = data;
 		else if(base == MEM_BASE_MIS ) fog_params->misalignment[number].data.int_val = data;
+		else if(base == MEM_BASE_CFG ) fog_params->config[number].data.int_val = data;
 	}
 
 }

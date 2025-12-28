@@ -2,8 +2,8 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>hal</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>2025/12/15 下午 08:28:29</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1765801709810</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>Dec 28, 2025 5:08:44 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1766912924896</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>D:\github\adamShiau_FPGA\intel_IP\HINS\PRJ\HINS_PRJ_V1\software\HINS_CPU_V1_0_bsp</BspGeneratedLocation>
         <BspSettingsFile>settings.bsp</BspSettingsFile>
         <SopcDesignFile>..\..\CPU.sopcinfo</SopcDesignFile>

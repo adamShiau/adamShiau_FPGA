@@ -1126,7 +1126,7 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 						DEBUG_PRINT("CMD_CFG_DR:\n");
 						if(rx->ch != 6) {DEBUG_PRINT("Ch value must be 6:\n"); break;}
 						if(rx->condition == 1) {
-							update_datarate_to_HW_REG(rx->value);
+							// update_datarate_to_HW_REG(rx->value);
 							PARAMETER_Write_s(base, CMD_CFG_DR - CFG_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
 							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
@@ -1138,6 +1138,22 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 						break;
 					}
 
+					case CMD_CFG_BR: {
+						DEBUG_PRINT("CMD_CFG_BR:\n");
+						if(rx->ch != 6) {DEBUG_PRINT("Ch value must be 6:\n"); break;}
+						if(rx->condition == 1) {
+							PARAMETER_Write_s(base, CMD_CFG_BR - CFG_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
+						}
+						else if(rx->condition == 3) {
+							data_t data;
+							PARAMETER_Read(base, CMD_CFG_BR - CFG_CONTAINER_TO_CMD_OFFSET, data.bin_val);
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
+						}
+						break;
+					}
+
+					/***------------- dump */
 					case CMD_DUMP_FOG: {
 						DEBUG_PRINT("CMD_DUMP_FOG:\n");
 						uint32_t seq  = (rx->value >> 1);
@@ -1159,18 +1175,18 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 						dump_SN_framed(fog_inst, seq);
 						break;
 					} 
-					case CMD_DUMP_CFG: {
-						DEBUG_PRINT("CMD_DUMP_CFG:\n");
+					case CMD_DUMP_CONFIG: {
+						DEBUG_PRINT("CMD_DUMP_CONFIG:\n");
 						uint32_t seq  = (rx->value >> 1);
    						uint8_t  nack = (uint8_t)(rx->value & 1); // TODO: 若要支援 NACK：查快取 (seq,ch) → 直接重送上一包；此處略
-						dump_cfg_param_framed(fog_inst, seq);
+						dump_config_param_framed(fog_inst, seq);
 						break;
 					} 
 					case CMD_DUMP_VERSION: {
 						DEBUG_PRINT("CMD_DUMP_VERSION:\n");
 						uint32_t seq  = (rx->value >> 1);
    						uint8_t  nack = (uint8_t)(rx->value & 1); // TODO: 若要支援 NACK：查快取 (seq,ch) → 直接重送上一包；此處略
-						// dump_SN_framed(fog_inst, seq);
+						dump_version_framed(seq);
 						break;
 					} 
 					case CMD_DATA_OUT_START: { // not use now
@@ -1426,7 +1442,7 @@ void dump_misalignment_param_framed(fog_parameter_t* fog_inst, uint32_t seq)
     send_framed_payload(seq, /*ch=*/4, json, (size_t)off);
 }
 
-void dump_cfg_param_framed(fog_parameter_t* fog_inst, uint32_t seq)
+void dump_config_param_framed(fog_parameter_t* fog_inst, uint32_t seq)
 {
     if (!fog_inst) return;
 
@@ -1484,6 +1500,19 @@ void dump_SN_framed(const fog_parameter_t* fog_inst, uint32_t seq)
     // framing 發送（ch=5 約定為 SN）
     send_framed_payload(seq, /*ch=*/5, sn_cstr, sn_len);
 }
+
+void dump_version_framed(uint32_t seq)
+{
+    char ver[128];
+    int n = snprintf(ver, sizeof(ver), "%s,%s", FPGA_VERSION, CPU_VERSION);
+    if (n < 0) return;
+
+    size_t ver_len = (n < (int)sizeof(ver)) ? (size_t)n : (sizeof(ver) - 1);
+
+    // ch=7 約定為 VERSION
+    send_framed_payload(seq, /*ch=*/7, ver, ver_len);
+}
+
 
 void send_json_uart(const char* buffer) {
     while (*buffer) {

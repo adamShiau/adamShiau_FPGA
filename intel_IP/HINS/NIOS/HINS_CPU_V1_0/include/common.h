@@ -247,7 +247,9 @@ void dump_misalignment_param_framed(fog_parameter_t* fog_inst, uint32_t seq);
 // void dump_SN(fog_parameter_t* fog_inst);
 void dump_SN_framed(const fog_parameter_t* fog_inst, uint32_t seq);
 
-void dump_cfg_param_framed(fog_parameter_t* fog_inst, uint32_t seq);
+void dump_version_framed(uint32_t seq);
+
+void dump_config_param_framed(fog_parameter_t* fog_inst, uint32_t seq);
 
 void send_json_uart(const char* buffer);
 void send_framed_payload(uint32_t seq, uint8_t ch, const char* payload, size_t payload_len);

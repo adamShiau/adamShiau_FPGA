@@ -5,7 +5,7 @@
 
 #define PAR_LEN 40 // 定義陣列大小
 #define MIS_LEN 30
-#define CFG_LEN 10
+#define CFG_LEN 6
 
 #define CONTAINER_TO_CMD_OFFSET     8   
 
@@ -168,11 +168,11 @@ enum {
     CMD_HW_TIMER_RST = 100,     //0x64
     CMD_SYNC_CNT = 101,         //0x65
     CMD_DUMP_FOG = 102, //0x66
-    CMD_DUMP_CFG = 103, //0x67
     CMD_WRITE_SN = 110,  //0x6E
     CMD_DUMP_MIS = 129,  //0x81
     CMD_DUMP_SN = 130,  //0x82
-    CMD_DUMP_VERSION = 131  //0x83
+    CMD_DUMP_VERSION = 131,  //0x83
+    CMD_DUMP_CONFIG = 132, //0x84
 
 
 };
