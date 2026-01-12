@@ -523,6 +523,34 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 						}
 						break;
 					}
+					case CMD_OUT_TH: {
+						DEBUG_PRINT("CMD_OUT_TH:\n");					
+						if(rx->condition == 1) {
+							PARAMETER_Write_s(base, CMD_OUT_TH - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+							IOWR(VARSET_BASE, CMD_OUT_TH + cmd2hwreg, rx->value);
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
+						}
+						else if(rx->condition == 3) {
+							data_t data;
+							PARAMETER_Read(base, CMD_OUT_TH - CONTAINER_TO_CMD_OFFSET, data.bin_val);
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
+						}
+						break;
+					}
+					case CMD_OUT_TH_EN: {
+						DEBUG_PRINT("CMD_OUT_TH_EN:\n");					
+						if(rx->condition == 1) {
+							PARAMETER_Write_s(base, CMD_OUT_TH_EN - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+							IOWR(VARSET_BASE, CMD_OUT_TH_EN + cmd2hwreg, rx->value);
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
+						}
+						else if(rx->condition == 3) {
+							data_t data;
+							PARAMETER_Read(base, CMD_OUT_TH_EN - CONTAINER_TO_CMD_OFFSET, data.bin_val);
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
+						}
+						break;
+					}
 					case CMD_SF_COMP_T1: {
 						DEBUG_PRINT("CMD_SF_COMP_T1:\n");					
 						if(rx->condition == 1) {
