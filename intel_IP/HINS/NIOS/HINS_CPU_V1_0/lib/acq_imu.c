@@ -39,8 +39,8 @@ void acq_imu (cmd_ctrl_t* rx, my_sensor_t data, fog_parameter_t fog_parameter)
         // g_time[2] = get_timer_int();   
         
         SerialWrite((alt_u8*)HD_ABBA, 2);
-        // SerialWrite(data.fog.fogz.step.bin_val, 4); //對應到FOG Z軸
-        SerialWrite(data.asm330lhhx.wz.bin_val, 4); //對應到FOG Y軸
+        SerialWrite(data.fog.fogz.step.bin_val, 4); //對應到FOG Z軸
+        // SerialWrite(data.asm330lhhx.wz.bin_val, 4); //對應到MEMS Z軸
         SerialWrite(data.asm330lhhx.wy.bin_val, 4); //對應到FOG Y軸
         SerialWrite(data.asm330lhhx.wx.bin_val, 4); //對應到FOG X軸
         // SerialWrite(gx.bin_val, 4);

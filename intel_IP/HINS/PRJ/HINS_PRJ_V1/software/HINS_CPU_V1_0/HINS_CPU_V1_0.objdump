@@ -2167,12 +2167,12 @@ void acq_imu (cmd_ctrl_t* rx, my_sensor_t data, fog_parameter_t fog_parameter)
  1000d7c:	01400084 	movi	r5,2
  1000d80:	d1201004 	addi	r4,gp,-32704
  1000d84:	10029680 	call	1002968 <SerialWrite>
-        // SerialWrite(data.fog.fogz.step.bin_val, 4); //對應到FOG Z軸
-        SerialWrite(data.asm330lhhx.wz.bin_val, 4); //對應到FOG Y軸
- 1000d88:	e0801604 	addi	r2,fp,88
+        SerialWrite(data.fog.fogz.step.bin_val, 4); //對應到FOG Z軸
+ 1000d88:	e0800804 	addi	r2,fp,32
  1000d8c:	01400104 	movi	r5,4
  1000d90:	1009883a 	mov	r4,r2
  1000d94:	10029680 	call	1002968 <SerialWrite>
+        // SerialWrite(data.asm330lhhx.wz.bin_val, 4); //對應到MEMS Z軸
         SerialWrite(data.asm330lhhx.wy.bin_val, 4); //對應到FOG Y軸
  1000d98:	e0801504 	addi	r2,fp,84
  1000d9c:	01400104 	movi	r5,4
