@@ -40,7 +40,7 @@ void acq_imu (cmd_ctrl_t* rx, my_sensor_t data, fog_parameter_t fog_parameter)
         
         SerialWrite((alt_u8*)HD_ABBA, 2);
         SerialWrite(data.fog.fogz.step.bin_val, 4); //對應到FOG Z軸
-        // SerialWrite(data.asm330lhhx.wz.bin_val, 4); //對應到MEMS Z軸
+        SerialWrite(data.asm330lhhx.wz.bin_val, 4); //對應到MEMS Z軸
         SerialWrite(data.asm330lhhx.wy.bin_val, 4); //對應到FOG Y軸
         SerialWrite(data.asm330lhhx.wx.bin_val, 4); //對應到FOG X軸
         // SerialWrite(gx.bin_val, 4);
@@ -50,8 +50,9 @@ void acq_imu (cmd_ctrl_t* rx, my_sensor_t data, fog_parameter_t fog_parameter)
         SerialWrite(data.asm330lhhx.ay.bin_val, 4); //對應到ACCL Y軸
         SerialWrite(data.asm330lhhx.az.bin_val, 4); //對應到ACCL Z軸
         SerialWrite(data.ads122c04.ain0.bin_val, 4); //對應到TEMP Z軸
-        SerialWrite(data.ads122c04.ain0.bin_val, 4); //對應到TEMP Y軸
-        SerialWrite(data.ads122c04.ain0.bin_val, 4); //對應到TEMP X軸
+        SerialWrite(data.ads122c04.ain1.bin_val, 4); //對應到 Vin mon
+        SerialWrite(data.ads122c04.ain2.bin_val, 4); //對應到Tact mon
+        SerialWrite(data.ads122c04.ain3.bin_val, 4); //對應到Pump PD mon
         SerialWrite(data.asm330lhhx.temp.bin_val, 4);
         SerialWrite(data.time.time.bin_val, 4);
         SerialWrite((alt_u8*)TR_5556, 2);   

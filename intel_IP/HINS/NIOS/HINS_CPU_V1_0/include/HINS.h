@@ -4,8 +4,9 @@
 /******** NIOS II Variable IP address definition*******/
 #include "nios2_var_addr.h"
 
-#define FPGA_VERSION "HINS_TOP_V1"
-#define CPU_VERSION  "HINS_CPU_V1_0"
+#define TOP_VERSION  "HINS_TOP_V1"
+#define NIOS_VERSION "HINS_CPU_V1_0"
+#define JIC_VERSION  "HINS_2026-01-15"
 
 
 #define VARSET_BASE VARSET_1_BASE

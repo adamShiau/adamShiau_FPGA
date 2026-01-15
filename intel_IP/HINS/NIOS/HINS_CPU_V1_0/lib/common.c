@@ -1532,7 +1532,7 @@ void dump_SN_framed(const fog_parameter_t* fog_inst, uint32_t seq)
 void dump_version_framed(uint32_t seq)
 {
     char ver[128];
-    int n = snprintf(ver, sizeof(ver), "%s,%s", FPGA_VERSION, CPU_VERSION);
+    int n = snprintf(ver, sizeof(ver), "%s,%s,%s", TOP_VERSION, NIOS_VERSION, JIC_VERSION);
     if (n < 0) return;
 
     size_t ver_len = (n < (int)sizeof(ver)) ? (size_t)n : (sizeof(ver) - 1);
