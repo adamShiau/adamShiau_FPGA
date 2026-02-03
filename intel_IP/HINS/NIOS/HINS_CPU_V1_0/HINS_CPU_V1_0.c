@@ -13,6 +13,7 @@ void IRQ_TRIGGER_ISR(void *context);
 void update_HINS_config_to_HW_REG(void);
 void update_sensor_data(my_sensor_t *data); 
 void monitor_reg(void);
+void dbg_mems(my_sensor_t *data);
 
 
 const alt_u8 cmd_header[2] = {0xAB, 0xBA};
@@ -36,6 +37,7 @@ static const float SF_GYRO_1000DPS	=35e-3F;
 static const float SF_GYRO_2000DPS	=70e-3F;
 static const float SF_GYRO_4000DPS	=140e-3F;
 static const float SF_TEMP =0.00390625F;
+static const float COE_TEMP_AD590 = 0.00007165585;
 
 // Definition and initialization of my_cmd, structure type is defined in common.h
 cmd_ctrl_t my_cmd = {
@@ -147,6 +149,7 @@ int main(void)
         if (trigger_sig == 1) 
         {
             update_sensor_data(&sensor_data);
+            dbg_mems(&sensor_data);
             output_fn(&my_cmd, sensor_data, fog_params);
             trigger_sig = 0;
         }
@@ -175,6 +178,30 @@ void monitor_reg()
     }
 }
 
+void dbg_mems(my_sensor_t *data)
+{
+    static alt_u32 dly_cnt = 0;
+    static const DELAY_NUM = 100;
+
+    if(dly_cnt++ > DELAY_NUM) {
+        dly_cnt = 0;
+        float mems_wx = (float)data->asm330lhhx.wx.int_val * SF_GYRO_1000DPS;
+        float mems_wy = (float)data->asm330lhhx.wy.int_val * SF_GYRO_1000DPS;
+        float mems_wz = (float)data->asm330lhhx.wz.int_val * SF_GYRO_1000DPS;
+        float mems_ax = (float)data->asm330lhhx.ax.int_val * SF_ACCL_16G;
+        float mems_ay = (float)data->asm330lhhx.ay.int_val * SF_ACCL_16G;
+        float mems_az = (float)data->asm330lhhx.az.int_val * SF_ACCL_16G;
+        float mems_temp = (float)data->asm330lhhx.temp.int_val * SF_TEMP + 25.0;
+        float fog_temp = (float)data->ads122c04.ain0.int_val * COE_TEMP_AD590 - 273.15; 
+
+        DEBUG_PRINT("%f,%f,%f,%f,%f,%f,%f,%f\n", 
+            mems_wx, mems_wy, mems_wz,
+            mems_ax, mems_ay, mems_az,
+            mems_temp, fog_temp
+        );
+    }
+}
+
 void update_sensor_data(my_sensor_t *data) {
     /***---timer--- */
     // data->time.time.float_val = (float)IORD(VARSET_BASE, i_var_timer) * COE_TIMER;
@@ -199,13 +226,6 @@ void update_sensor_data(my_sensor_t *data) {
      data->asm330lhhx.ay.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_5);
      data->asm330lhhx.az.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_6);
      data->asm330lhhx.temp.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_7);
-    // data->asm330lhhx.wx.float_val = (float)IORD(VARSET_BASE, i_var_i2c_IMU_rdata_1) * SF_GYRO_1000DPS;
-    // data->asm330lhhx.wy.float_val = (float)IORD(VARSET_BASE, i_var_i2c_IMU_rdata_2) * SF_GYRO_1000DPS;
-    // data->asm330lhhx.wz.float_val = (float)IORD(VARSET_BASE, i_var_i2c_IMU_rdata_3) * SF_GYRO_1000DPS;
-    // data->asm330lhhx.ax.float_val = (float)IORD(VARSET_BASE, i_var_i2c_IMU_rdata_4) * SF_ACCL_16G;
-    // data->asm330lhhx.ay.float_val = (float)IORD(VARSET_BASE, i_var_i2c_IMU_rdata_5) * SF_ACCL_16G;
-    // data->asm330lhhx.az.float_val = (float)IORD(VARSET_BASE, i_var_i2c_IMU_rdata_6) * SF_ACCL_16G;
-    // data->asm330lhhx.temp.float_val = (float)IORD(VARSET_BASE, i_var_i2c_IMU_rdata_7) * SF_TEMP + 25.0;
 
     // DEBUG_PRINT("%f\n", (float)IORD(VARSET_BASE, i_var_timer) * COE_TIMER);
     // DEBUG_PRINT("%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f\n", 
@@ -215,6 +235,8 @@ void update_sensor_data(my_sensor_t *data) {
     //     data->asm330lhhx.wx.float_val, data->asm330lhhx.wy.float_val, data->asm330lhhx.wz.float_val,
     //     data->asm330lhhx.ax.float_val, data->asm330lhhx.ay.float_val, data->asm330lhhx.az.float_val,
     //     data->asm330lhhx.temp.float_val );
+
+    
 }
 
 
