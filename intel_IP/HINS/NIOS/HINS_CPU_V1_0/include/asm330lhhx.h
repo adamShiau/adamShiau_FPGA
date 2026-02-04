@@ -11,6 +11,7 @@
 
 /*** high level declaration */
 void init_ASM330LHHX(void);
+int I2C_write_verify_ASM330LHHX(alt_u8 reg_addr, alt_u8 data);
 void read_ASM330LHHX(void);
 void test_ASM330LHHX(void);
 

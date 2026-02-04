@@ -191,45 +191,58 @@ static const DELAY_NUM = 100000;
 /***********high level definition */
 void init_ASM330LHHX()
 {
-	/*** configure the ADXL355/357 ***/
-	I2C_clock_rate_sel_ASM330LHHX(CLK_390K);
-	/*** set ASM330LHHX parameters ***/
+    DEBUG_PRINT("\nStarting ASM330LHHX Secure Init...\n");
 
-	I2C_read_ASM330LHHX_register(WHO_AM_I, 1);
+    // 1. 物理層檢查：確保能通訊
+    alt_u8 who_am_i = I2C_read_ASM330LHHX_register(WHO_AM_I, 1);
+    if(who_am_i != 0x6B) {
+        DEBUG_PRINT("Critical Error: ASM330LHHX not found! (ID: 0x%02X)\n", who_am_i);
+        return;
+    }
 
-	I2C_write_ASM330LHHX_register(CTRL1_XL, ACCL_FS_16G|ACCL_ODR_416HZ|LPF2_XL_EN, 1);
-	I2C_read_ASM330LHHX_register(CTRL1_XL, 1);
+    // 2. 依序配置參數並校驗
+    I2C_write_verify_ASM330LHHX(CTRL1_XL, ACCL_FS_16G | ACCL_ODR_416HZ | LPF2_XL_EN);
+    I2C_write_verify_ASM330LHHX(CTRL2_G, GYRO_FS_1000DPS | GYRO_ODR_416HZ);
+    I2C_write_verify_ASM330LHHX(CTRL3_C, BDU | IF_INC);
+    I2C_write_verify_ASM330LHHX(CTRL4_C, INT2_ON_INT1 | LPF1_SEL_G);
+    I2C_write_verify_ASM330LHHX(CTRL6_C, LPF1_FTYPE_0);
+    I2C_write_verify_ASM330LHHX(CTRL8_XL, HPCF_XL_0);
+    I2C_write_verify_ASM330LHHX(COUNTER_BDR_REG1, DATAREADY_PULSED);
+    I2C_write_verify_ASM330LHHX(INT1_CTRL, INT1_DRDY_XL | INT1_DRDY_G);
+    I2C_write_verify_ASM330LHHX(INT2_CTRL, INT2_DRDY_TEMP);
 
-	I2C_write_ASM330LHHX_register(CTRL2_G, GYRO_FS_1000DPS|GYRO_ODR_416HZ, 1);
-	I2C_read_ASM330LHHX_register(CTRL2_G, 1);
+    // 3. 關鍵延遲：等待感測器內部數位濾波器穩定
+    // 根據 416Hz ODR，至少需要幾個週期，建議給 20ms
+    usleep(20000); 
 
-	I2C_write_ASM330LHHX_register(CTRL3_C, BDU|IF_INC, 1);
-	I2C_read_ASM330LHHX_register(CTRL3_C, 1);
+    // 4. 切換模式至硬體自動讀取
+    I2C_op_mode_sel_ASM330LHHX(HW);
+    I2C_set_device_addr_ASM330LHHX(I2C_DEV_ADDR);
+    
+    DEBUG_PRINT("ASM330LHHX Init Done and switched to HW mode.\n");
+}
 
-	I2C_write_ASM330LHHX_register(CTRL4_C, INT2_ON_INT1|LPF1_SEL_G, 1);
-	I2C_read_ASM330LHHX_register(CTRL4_C, 1);
+/**
+ * @brief 帶有校驗功能的暫存器寫入
+ * @return 0: 成功, -1: 失敗
+ */
+int I2C_write_verify_ASM330LHHX(alt_u8 reg_addr, alt_u8 data) {
+    int retry = 3;
+    alt_u8 read_val;
 
-	I2C_write_ASM330LHHX_register(CTRL6_C, LPF1_FTYPE_0, 1); // GYRO BW = 133 Hz @416Hz ODR
-	I2C_read_ASM330LHHX_register(CTRL6_C, 1);
-
-	I2C_write_ASM330LHHX_register(CTRL8_XL, HPCF_XL_0, 1); // ACCL BW = 104 Hz @416Hz ODR
-	I2C_read_ASM330LHHX_register(CTRL8_XL, 1);
-
-	I2C_write_ASM330LHHX_register(COUNTER_BDR_REG1, DATAREADY_PULSED, 1);
-	I2C_read_ASM330LHHX_register(COUNTER_BDR_REG1, 1);
-
-	I2C_write_ASM330LHHX_register(INT1_CTRL, INT1_DRDY_XL|INT1_DRDY_G, 1);
-	I2C_read_ASM330LHHX_register(INT1_CTRL, 1);
-
-	I2C_write_ASM330LHHX_register(INT2_CTRL, INT2_DRDY_TEMP, 1);
-	I2C_read_ASM330LHHX_register(INT2_CTRL, 1);
-
-	// test_ASM330LHHX();
-
-	// setting mode 
-	I2C_op_mode_sel_ASM330LHHX(HW);
-	// Set I2C device address
-	I2C_set_device_addr_ASM330LHHX(I2C_DEV_ADDR);
+    while(retry--) {
+        I2C_write_ASM330LHHX_register(reg_addr, data, 0); // 執行寫入
+        usleep(1000); // 給予硬體微小的處理時間
+        read_val = I2C_read_ASM330LHHX_register(reg_addr, 0); // 讀回比對
+        
+        if(read_val == data) {
+            return 0; // 校驗成功
+        }
+        DEBUG_PRINT("Retry writing reg: 0x%02X (Expected: 0x%02X, Got: 0x%02X)\n", reg_addr, data, read_val);
+    }
+    
+    printf("ERROR: ASM330LHHX reg 0x%02X verify failed!\n", reg_addr);
+    return -1;
 }
 
 void test_ASM330LHHX()
@@ -336,7 +349,7 @@ alt_u8 I2C_read_ASM330LHHX_register(alt_u8 reg_addr, alt_u8 print)
 
 	// Print the register address and its read value if 'print' is enabled
 	if(print) 	DEBUG_PRINT("reg:%x, value:%x\n", reg_addr, rt);
-	if(print) 	printf("read reg:%x, value:%x\n", reg_addr, rt);
+	// if(print) 	printf("read reg:%x, value:%x\n", reg_addr, rt);
 
 	return rt;
 }

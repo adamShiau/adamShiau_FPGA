@@ -115,8 +115,6 @@ int main(void)
 	// printf("init_ADS122C04_TEMP\n");
     DEBUG_PRINT("init_ADS122C04_TEMP\n");
 	init_ADS122C04_TEMP();
-    // printf("init_ASM330LHHX\n");
-    DEBUG_PRINT("init_ASM330LHHX\n");
     init_ASM330LHHX();
     DEBUG_PRINT("initialize_fog_params_type\n");
 	// initialize_fog_params_type(&fog_params);
@@ -149,7 +147,7 @@ int main(void)
         if (trigger_sig == 1) 
         {
             update_sensor_data(&sensor_data);
-            dbg_mems(&sensor_data);
+            // dbg_mems(&sensor_data);
             output_fn(&my_cmd, sensor_data, fog_params);
             trigger_sig = 0;
         }

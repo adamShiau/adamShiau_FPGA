@@ -461,7 +461,7 @@ end
 								HW_SM_READ_DATA: begin
 									HW_SM <= HW_SM_WAIT_DRDY;
 									sm_enable <= 0;
-									o_TEMP <= {16'b0, reg_rd_data_2, reg_rd_data};
+									o_TEMP  <= {{16{reg_rd_data_2[7]}}, reg_rd_data_2, reg_rd_data};
 									o_GYROX <= {{16{reg_rd_data_4[7]}}, reg_rd_data_4, reg_rd_data_3};
 									o_GYROY <= {{16{reg_rd_data_6[7]}}, reg_rd_data_6, reg_rd_data_5};
 									o_GYROZ <= {{16{reg_rd_data_8[7]}}, reg_rd_data_8, reg_rd_data_7};
