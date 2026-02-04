@@ -122,6 +122,7 @@ wire [31:0] var_i2c_IMU_dev_addr, var_i2c_IMU_reg_addr, var_i2c_IMU_w_data, var_
 wire [31:0] i_var_i2c_IMU_rdata_1, i_var_i2c_IMU_rdata_2, i_var_i2c_IMU_rdata_3;
 wire [31:0] i_var_i2c_IMU_rdata_4, i_var_i2c_IMU_rdata_5, i_var_i2c_IMU_rdata_6, i_var_i2c_IMU_rdata_7;
 wire [31:0] i_var_i2c_IMU_status;
+wire imu_latch_trigger;
 
 /*** Test Var ***/
 wire [31:0] i_var_reg_1_err_signal_gen;
@@ -290,10 +291,11 @@ inst_i2c_ADS122C04 (
 // =========================================================================
 
 
-i2c_controller_ASM330LHHX
+i2c_controller_ASM330LHHX_V2
 inst_i2c_ASM330LHHX (
 	.i_clk(pll_clk_cpu_int),
 	.i_rst_n(RST_SYNC_N),
+    .i_latch_trigger(imu_latch_trigger),
 	.i2c_scl(SCL_IMU),
 	.i2c_sda(SDA_IMU),
 	.i2c_clk_out(),
@@ -350,6 +352,7 @@ CPU u0 (
         .uart_dbg_rxd     (DBG_RX),                    // uart_dbg.rxd
         .uart_dbg_txd     (DBG_TX),                    //         .txd
 
+        .varset_1_o_latch_trigger (imu_latch_trigger),  //         .o_latch_trigger
         .varset_1_o_reg0  (var_freq_cnt),              // varset_1.o_reg0
         .varset_1_o_reg1  (var_amp_H),                 //         .o_reg1
         .varset_1_o_reg2  (var_amp_L),                 //         .o_reg2

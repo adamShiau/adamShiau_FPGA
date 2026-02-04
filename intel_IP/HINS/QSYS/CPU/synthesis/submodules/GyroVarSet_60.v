@@ -9,6 +9,7 @@ module GyroVarSet_60 (
     input          write_n,
     input  signed [31:0] writedata,  
     output reg signed [31:0] readdata, 
+    output reg o_latch_trigger,
 
     // var outputs:
     output reg signed [31:0] o_reg0, o_reg1, o_reg2, o_reg3, o_reg4, o_reg5, o_reg6, o_reg7, o_reg8, o_reg9,
@@ -27,6 +28,18 @@ module GyroVarSet_60 (
     input signed [31:0] i_var50, i_var51, i_var52, i_var53, i_var54, i_var55, i_var56, i_var57, i_var58, i_var59
 );
 
+always @(posedge clk or negedge rst_n) begin
+    if (!rst_n) begin
+        o_latch_trigger <= 1'b0;
+    end else begin
+        // 當 CPU 讀取地址 71 (即 IMU 第一筆數據) 時產生一個 clock 的脈衝
+        if (chipselect && write_n && (address == 7'd71)) begin
+            o_latch_trigger <= 1'b1;
+        end else begin
+            o_latch_trigger <= 1'b0;
+        end
+    end
+end
 
 // Initialize registers and handle Avalon bus operations
 always @(posedge clk or negedge rst_n) begin

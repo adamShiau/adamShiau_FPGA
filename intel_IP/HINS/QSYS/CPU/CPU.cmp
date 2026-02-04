@@ -1,154 +1,155 @@
 	component CPU is
 		port (
-			clk_clk          : in    std_logic                     := 'X';             -- clk
-			dac_rst_export   : out   std_logic;                                        -- export
-			epcs_dclk        : out   std_logic;                                        -- dclk
-			epcs_sce         : out   std_logic;                                        -- sce
-			epcs_sdo         : out   std_logic;                                        -- sdo
-			epcs_data0       : in    std_logic                     := 'X';             -- data0
-			reset_reset_n    : in    std_logic                     := 'X';             -- reset_n
-			sdram_addr       : out   std_logic_vector(11 downto 0);                    -- addr
-			sdram_ba         : out   std_logic_vector(1 downto 0);                     -- ba
-			sdram_cas_n      : out   std_logic;                                        -- cas_n
-			sdram_cke        : out   std_logic;                                        -- cke
-			sdram_cs_n       : out   std_logic;                                        -- cs_n
-			sdram_dq         : inout std_logic_vector(15 downto 0) := (others => 'X'); -- dq
-			sdram_dqm        : out   std_logic_vector(1 downto 0);                     -- dqm
-			sdram_ras_n      : out   std_logic;                                        -- ras_n
-			sdram_we_n       : out   std_logic;                                        -- we_n
-			spi_adc_MISO     : in    std_logic                     := 'X';             -- MISO
-			spi_adc_MOSI     : out   std_logic;                                        -- MOSI
-			spi_adc_SCLK     : out   std_logic;                                        -- SCLK
-			spi_adc_SS_n     : out   std_logic;                                        -- SS_n
-			spi_dac_MISO     : in    std_logic                     := 'X';             -- MISO
-			spi_dac_MOSI     : out   std_logic;                                        -- MOSI
-			spi_dac_SCLK     : out   std_logic;                                        -- SCLK
-			spi_dac_SS_n     : out   std_logic;                                        -- SS_n
-			sync_in_export   : in    std_logic                     := 'X';             -- export
-			uart_rxd         : in    std_logic                     := 'X';             -- rxd
-			uart_txd         : out   std_logic;                                        -- txd
-			uart_dbg_rxd     : in    std_logic                     := 'X';             -- rxd
-			uart_dbg_txd     : out   std_logic;                                        -- txd
-			varset_1_i_var0  : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var0
-			varset_1_i_var1  : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var1
-			varset_1_i_var2  : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var2
-			varset_1_i_var3  : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var3
-			varset_1_i_var4  : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var4
-			varset_1_i_var5  : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var5
-			varset_1_i_var6  : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var6
-			varset_1_i_var7  : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var7
-			varset_1_i_var8  : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var8
-			varset_1_i_var9  : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var9
-			varset_1_i_var10 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var10
-			varset_1_i_var11 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var11
-			varset_1_i_var12 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var12
-			varset_1_i_var13 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var13
-			varset_1_i_var14 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var14
-			varset_1_i_var15 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var15
-			varset_1_i_var16 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var16
-			varset_1_i_var17 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var17
-			varset_1_i_var18 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var18
-			varset_1_i_var19 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var19
-			varset_1_i_var20 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var20
-			varset_1_i_var21 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var21
-			varset_1_i_var22 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var22
-			varset_1_i_var23 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var23
-			varset_1_i_var24 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var24
-			varset_1_i_var25 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var25
-			varset_1_i_var26 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var26
-			varset_1_i_var27 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var27
-			varset_1_i_var28 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var28
-			varset_1_i_var29 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var29
-			varset_1_i_var30 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var30
-			varset_1_i_var31 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var31
-			varset_1_i_var32 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var32
-			varset_1_i_var33 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var33
-			varset_1_i_var34 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var34
-			varset_1_i_var35 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var35
-			varset_1_i_var36 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var36
-			varset_1_i_var37 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var37
-			varset_1_i_var38 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var38
-			varset_1_i_var39 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var39
-			varset_1_i_var40 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var40
-			varset_1_i_var41 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var41
-			varset_1_i_var42 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var42
-			varset_1_i_var43 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var43
-			varset_1_i_var44 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var44
-			varset_1_i_var45 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var45
-			varset_1_i_var46 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var46
-			varset_1_i_var47 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var47
-			varset_1_i_var48 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var48
-			varset_1_i_var49 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var49
-			varset_1_i_var50 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var50
-			varset_1_i_var51 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var51
-			varset_1_i_var52 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var52
-			varset_1_i_var53 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var53
-			varset_1_i_var54 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var54
-			varset_1_i_var55 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var55
-			varset_1_i_var56 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var56
-			varset_1_i_var57 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var57
-			varset_1_i_var58 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var58
-			varset_1_i_var59 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var59
-			varset_1_o_reg0  : out   std_logic_vector(31 downto 0);                    -- o_reg0
-			varset_1_o_reg1  : out   std_logic_vector(31 downto 0);                    -- o_reg1
-			varset_1_o_reg2  : out   std_logic_vector(31 downto 0);                    -- o_reg2
-			varset_1_o_reg3  : out   std_logic_vector(31 downto 0);                    -- o_reg3
-			varset_1_o_reg4  : out   std_logic_vector(31 downto 0);                    -- o_reg4
-			varset_1_o_reg5  : out   std_logic_vector(31 downto 0);                    -- o_reg5
-			varset_1_o_reg6  : out   std_logic_vector(31 downto 0);                    -- o_reg6
-			varset_1_o_reg7  : out   std_logic_vector(31 downto 0);                    -- o_reg7
-			varset_1_o_reg8  : out   std_logic_vector(31 downto 0);                    -- o_reg8
-			varset_1_o_reg9  : out   std_logic_vector(31 downto 0);                    -- o_reg9
-			varset_1_o_reg10 : out   std_logic_vector(31 downto 0);                    -- o_reg10
-			varset_1_o_reg11 : out   std_logic_vector(31 downto 0);                    -- o_reg11
-			varset_1_o_reg12 : out   std_logic_vector(31 downto 0);                    -- o_reg12
-			varset_1_o_reg13 : out   std_logic_vector(31 downto 0);                    -- o_reg13
-			varset_1_o_reg14 : out   std_logic_vector(31 downto 0);                    -- o_reg14
-			varset_1_o_reg15 : out   std_logic_vector(31 downto 0);                    -- o_reg15
-			varset_1_o_reg16 : out   std_logic_vector(31 downto 0);                    -- o_reg16
-			varset_1_o_reg17 : out   std_logic_vector(31 downto 0);                    -- o_reg17
-			varset_1_o_reg18 : out   std_logic_vector(31 downto 0);                    -- o_reg18
-			varset_1_o_reg19 : out   std_logic_vector(31 downto 0);                    -- o_reg19
-			varset_1_o_reg20 : out   std_logic_vector(31 downto 0);                    -- o_reg20
-			varset_1_o_reg21 : out   std_logic_vector(31 downto 0);                    -- o_reg21
-			varset_1_o_reg22 : out   std_logic_vector(31 downto 0);                    -- o_reg22
-			varset_1_o_reg23 : out   std_logic_vector(31 downto 0);                    -- o_reg23
-			varset_1_o_reg24 : out   std_logic_vector(31 downto 0);                    -- o_reg24
-			varset_1_o_reg25 : out   std_logic_vector(31 downto 0);                    -- o_reg25
-			varset_1_o_reg26 : out   std_logic_vector(31 downto 0);                    -- o_reg26
-			varset_1_o_reg27 : out   std_logic_vector(31 downto 0);                    -- o_reg27
-			varset_1_o_reg28 : out   std_logic_vector(31 downto 0);                    -- o_reg28
-			varset_1_o_reg29 : out   std_logic_vector(31 downto 0);                    -- o_reg29
-			varset_1_o_reg30 : out   std_logic_vector(31 downto 0);                    -- o_reg30
-			varset_1_o_reg31 : out   std_logic_vector(31 downto 0);                    -- o_reg31
-			varset_1_o_reg32 : out   std_logic_vector(31 downto 0);                    -- o_reg32
-			varset_1_o_reg33 : out   std_logic_vector(31 downto 0);                    -- o_reg33
-			varset_1_o_reg34 : out   std_logic_vector(31 downto 0);                    -- o_reg34
-			varset_1_o_reg35 : out   std_logic_vector(31 downto 0);                    -- o_reg35
-			varset_1_o_reg36 : out   std_logic_vector(31 downto 0);                    -- o_reg36
-			varset_1_o_reg37 : out   std_logic_vector(31 downto 0);                    -- o_reg37
-			varset_1_o_reg38 : out   std_logic_vector(31 downto 0);                    -- o_reg38
-			varset_1_o_reg39 : out   std_logic_vector(31 downto 0);                    -- o_reg39
-			varset_1_o_reg40 : out   std_logic_vector(31 downto 0);                    -- o_reg40
-			varset_1_o_reg41 : out   std_logic_vector(31 downto 0);                    -- o_reg41
-			varset_1_o_reg42 : out   std_logic_vector(31 downto 0);                    -- o_reg42
-			varset_1_o_reg43 : out   std_logic_vector(31 downto 0);                    -- o_reg43
-			varset_1_o_reg44 : out   std_logic_vector(31 downto 0);                    -- o_reg44
-			varset_1_o_reg45 : out   std_logic_vector(31 downto 0);                    -- o_reg45
-			varset_1_o_reg46 : out   std_logic_vector(31 downto 0);                    -- o_reg46
-			varset_1_o_reg47 : out   std_logic_vector(31 downto 0);                    -- o_reg47
-			varset_1_o_reg48 : out   std_logic_vector(31 downto 0);                    -- o_reg48
-			varset_1_o_reg49 : out   std_logic_vector(31 downto 0);                    -- o_reg49
-			varset_1_o_reg50 : out   std_logic_vector(31 downto 0);                    -- o_reg50
-			varset_1_o_reg51 : out   std_logic_vector(31 downto 0);                    -- o_reg51
-			varset_1_o_reg52 : out   std_logic_vector(31 downto 0);                    -- o_reg52
-			varset_1_o_reg53 : out   std_logic_vector(31 downto 0);                    -- o_reg53
-			varset_1_o_reg54 : out   std_logic_vector(31 downto 0);                    -- o_reg54
-			varset_1_o_reg55 : out   std_logic_vector(31 downto 0);                    -- o_reg55
-			varset_1_o_reg56 : out   std_logic_vector(31 downto 0);                    -- o_reg56
-			varset_1_o_reg57 : out   std_logic_vector(31 downto 0);                    -- o_reg57
-			varset_1_o_reg58 : out   std_logic_vector(31 downto 0);                    -- o_reg58
-			varset_1_o_reg59 : out   std_logic_vector(31 downto 0)                     -- o_reg59
+			clk_clk                  : in    std_logic                     := 'X';             -- clk
+			dac_rst_export           : out   std_logic;                                        -- export
+			epcs_dclk                : out   std_logic;                                        -- dclk
+			epcs_sce                 : out   std_logic;                                        -- sce
+			epcs_sdo                 : out   std_logic;                                        -- sdo
+			epcs_data0               : in    std_logic                     := 'X';             -- data0
+			reset_reset_n            : in    std_logic                     := 'X';             -- reset_n
+			sdram_addr               : out   std_logic_vector(11 downto 0);                    -- addr
+			sdram_ba                 : out   std_logic_vector(1 downto 0);                     -- ba
+			sdram_cas_n              : out   std_logic;                                        -- cas_n
+			sdram_cke                : out   std_logic;                                        -- cke
+			sdram_cs_n               : out   std_logic;                                        -- cs_n
+			sdram_dq                 : inout std_logic_vector(15 downto 0) := (others => 'X'); -- dq
+			sdram_dqm                : out   std_logic_vector(1 downto 0);                     -- dqm
+			sdram_ras_n              : out   std_logic;                                        -- ras_n
+			sdram_we_n               : out   std_logic;                                        -- we_n
+			spi_adc_MISO             : in    std_logic                     := 'X';             -- MISO
+			spi_adc_MOSI             : out   std_logic;                                        -- MOSI
+			spi_adc_SCLK             : out   std_logic;                                        -- SCLK
+			spi_adc_SS_n             : out   std_logic;                                        -- SS_n
+			spi_dac_MISO             : in    std_logic                     := 'X';             -- MISO
+			spi_dac_MOSI             : out   std_logic;                                        -- MOSI
+			spi_dac_SCLK             : out   std_logic;                                        -- SCLK
+			spi_dac_SS_n             : out   std_logic;                                        -- SS_n
+			sync_in_export           : in    std_logic                     := 'X';             -- export
+			uart_rxd                 : in    std_logic                     := 'X';             -- rxd
+			uart_txd                 : out   std_logic;                                        -- txd
+			uart_dbg_rxd             : in    std_logic                     := 'X';             -- rxd
+			uart_dbg_txd             : out   std_logic;                                        -- txd
+			varset_1_i_var0          : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var0
+			varset_1_i_var1          : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var1
+			varset_1_i_var2          : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var2
+			varset_1_i_var3          : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var3
+			varset_1_i_var4          : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var4
+			varset_1_i_var5          : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var5
+			varset_1_i_var6          : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var6
+			varset_1_i_var7          : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var7
+			varset_1_i_var8          : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var8
+			varset_1_i_var9          : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var9
+			varset_1_i_var10         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var10
+			varset_1_i_var11         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var11
+			varset_1_i_var12         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var12
+			varset_1_i_var13         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var13
+			varset_1_i_var14         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var14
+			varset_1_i_var15         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var15
+			varset_1_i_var16         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var16
+			varset_1_i_var17         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var17
+			varset_1_i_var18         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var18
+			varset_1_i_var19         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var19
+			varset_1_i_var20         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var20
+			varset_1_i_var21         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var21
+			varset_1_i_var22         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var22
+			varset_1_i_var23         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var23
+			varset_1_i_var24         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var24
+			varset_1_i_var25         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var25
+			varset_1_i_var26         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var26
+			varset_1_i_var27         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var27
+			varset_1_i_var28         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var28
+			varset_1_i_var29         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var29
+			varset_1_i_var30         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var30
+			varset_1_i_var31         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var31
+			varset_1_i_var32         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var32
+			varset_1_i_var33         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var33
+			varset_1_i_var34         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var34
+			varset_1_i_var35         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var35
+			varset_1_i_var36         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var36
+			varset_1_i_var37         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var37
+			varset_1_i_var38         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var38
+			varset_1_i_var39         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var39
+			varset_1_i_var40         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var40
+			varset_1_i_var41         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var41
+			varset_1_i_var42         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var42
+			varset_1_i_var43         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var43
+			varset_1_i_var44         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var44
+			varset_1_i_var45         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var45
+			varset_1_i_var46         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var46
+			varset_1_i_var47         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var47
+			varset_1_i_var48         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var48
+			varset_1_i_var49         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var49
+			varset_1_i_var50         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var50
+			varset_1_i_var51         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var51
+			varset_1_i_var52         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var52
+			varset_1_i_var53         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var53
+			varset_1_i_var54         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var54
+			varset_1_i_var55         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var55
+			varset_1_i_var56         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var56
+			varset_1_i_var57         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var57
+			varset_1_i_var58         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var58
+			varset_1_i_var59         : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var59
+			varset_1_o_reg0          : out   std_logic_vector(31 downto 0);                    -- o_reg0
+			varset_1_o_reg1          : out   std_logic_vector(31 downto 0);                    -- o_reg1
+			varset_1_o_reg2          : out   std_logic_vector(31 downto 0);                    -- o_reg2
+			varset_1_o_reg3          : out   std_logic_vector(31 downto 0);                    -- o_reg3
+			varset_1_o_reg4          : out   std_logic_vector(31 downto 0);                    -- o_reg4
+			varset_1_o_reg5          : out   std_logic_vector(31 downto 0);                    -- o_reg5
+			varset_1_o_reg6          : out   std_logic_vector(31 downto 0);                    -- o_reg6
+			varset_1_o_reg7          : out   std_logic_vector(31 downto 0);                    -- o_reg7
+			varset_1_o_reg8          : out   std_logic_vector(31 downto 0);                    -- o_reg8
+			varset_1_o_reg9          : out   std_logic_vector(31 downto 0);                    -- o_reg9
+			varset_1_o_reg10         : out   std_logic_vector(31 downto 0);                    -- o_reg10
+			varset_1_o_reg11         : out   std_logic_vector(31 downto 0);                    -- o_reg11
+			varset_1_o_reg12         : out   std_logic_vector(31 downto 0);                    -- o_reg12
+			varset_1_o_reg13         : out   std_logic_vector(31 downto 0);                    -- o_reg13
+			varset_1_o_reg14         : out   std_logic_vector(31 downto 0);                    -- o_reg14
+			varset_1_o_reg15         : out   std_logic_vector(31 downto 0);                    -- o_reg15
+			varset_1_o_reg16         : out   std_logic_vector(31 downto 0);                    -- o_reg16
+			varset_1_o_reg17         : out   std_logic_vector(31 downto 0);                    -- o_reg17
+			varset_1_o_reg18         : out   std_logic_vector(31 downto 0);                    -- o_reg18
+			varset_1_o_reg19         : out   std_logic_vector(31 downto 0);                    -- o_reg19
+			varset_1_o_reg20         : out   std_logic_vector(31 downto 0);                    -- o_reg20
+			varset_1_o_reg21         : out   std_logic_vector(31 downto 0);                    -- o_reg21
+			varset_1_o_reg22         : out   std_logic_vector(31 downto 0);                    -- o_reg22
+			varset_1_o_reg23         : out   std_logic_vector(31 downto 0);                    -- o_reg23
+			varset_1_o_reg24         : out   std_logic_vector(31 downto 0);                    -- o_reg24
+			varset_1_o_reg25         : out   std_logic_vector(31 downto 0);                    -- o_reg25
+			varset_1_o_reg26         : out   std_logic_vector(31 downto 0);                    -- o_reg26
+			varset_1_o_reg27         : out   std_logic_vector(31 downto 0);                    -- o_reg27
+			varset_1_o_reg28         : out   std_logic_vector(31 downto 0);                    -- o_reg28
+			varset_1_o_reg29         : out   std_logic_vector(31 downto 0);                    -- o_reg29
+			varset_1_o_reg30         : out   std_logic_vector(31 downto 0);                    -- o_reg30
+			varset_1_o_reg31         : out   std_logic_vector(31 downto 0);                    -- o_reg31
+			varset_1_o_reg32         : out   std_logic_vector(31 downto 0);                    -- o_reg32
+			varset_1_o_reg33         : out   std_logic_vector(31 downto 0);                    -- o_reg33
+			varset_1_o_reg34         : out   std_logic_vector(31 downto 0);                    -- o_reg34
+			varset_1_o_reg35         : out   std_logic_vector(31 downto 0);                    -- o_reg35
+			varset_1_o_reg36         : out   std_logic_vector(31 downto 0);                    -- o_reg36
+			varset_1_o_reg37         : out   std_logic_vector(31 downto 0);                    -- o_reg37
+			varset_1_o_reg38         : out   std_logic_vector(31 downto 0);                    -- o_reg38
+			varset_1_o_reg39         : out   std_logic_vector(31 downto 0);                    -- o_reg39
+			varset_1_o_reg40         : out   std_logic_vector(31 downto 0);                    -- o_reg40
+			varset_1_o_reg41         : out   std_logic_vector(31 downto 0);                    -- o_reg41
+			varset_1_o_reg42         : out   std_logic_vector(31 downto 0);                    -- o_reg42
+			varset_1_o_reg43         : out   std_logic_vector(31 downto 0);                    -- o_reg43
+			varset_1_o_reg44         : out   std_logic_vector(31 downto 0);                    -- o_reg44
+			varset_1_o_reg45         : out   std_logic_vector(31 downto 0);                    -- o_reg45
+			varset_1_o_reg46         : out   std_logic_vector(31 downto 0);                    -- o_reg46
+			varset_1_o_reg47         : out   std_logic_vector(31 downto 0);                    -- o_reg47
+			varset_1_o_reg48         : out   std_logic_vector(31 downto 0);                    -- o_reg48
+			varset_1_o_reg49         : out   std_logic_vector(31 downto 0);                    -- o_reg49
+			varset_1_o_reg50         : out   std_logic_vector(31 downto 0);                    -- o_reg50
+			varset_1_o_reg51         : out   std_logic_vector(31 downto 0);                    -- o_reg51
+			varset_1_o_reg52         : out   std_logic_vector(31 downto 0);                    -- o_reg52
+			varset_1_o_reg53         : out   std_logic_vector(31 downto 0);                    -- o_reg53
+			varset_1_o_reg54         : out   std_logic_vector(31 downto 0);                    -- o_reg54
+			varset_1_o_reg55         : out   std_logic_vector(31 downto 0);                    -- o_reg55
+			varset_1_o_reg56         : out   std_logic_vector(31 downto 0);                    -- o_reg56
+			varset_1_o_reg57         : out   std_logic_vector(31 downto 0);                    -- o_reg57
+			varset_1_o_reg58         : out   std_logic_vector(31 downto 0);                    -- o_reg58
+			varset_1_o_reg59         : out   std_logic_vector(31 downto 0);                    -- o_reg59
+			varset_1_o_latch_trigger : out   std_logic                                         -- o_latch_trigger
 		);
 	end component CPU;
 

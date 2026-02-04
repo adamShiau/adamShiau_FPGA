@@ -148,7 +148,8 @@ module CPU (
 	varset_1_o_reg56,
 	varset_1_o_reg57,
 	varset_1_o_reg58,
-	varset_1_o_reg59);	
+	varset_1_o_reg59,
+	varset_1_o_latch_trigger);	
 
 	input		clk_clk;
 	output		dac_rst_export;
@@ -299,4 +300,5 @@ module CPU (
 	output	[31:0]	varset_1_o_reg57;
 	output	[31:0]	varset_1_o_reg58;
 	output	[31:0]	varset_1_o_reg59;
+	output		varset_1_o_latch_trigger;
 endmodule

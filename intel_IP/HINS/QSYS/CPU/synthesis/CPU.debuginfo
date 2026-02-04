@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="CPU" kind="system" version="18.1" fabric="QSYS">
  <!-- Format version 18.1 625 (Future versions may contain additional information.) -->
- <!-- 2025.12.11.20:12:42 -->
+ <!-- 2026.02.04.14:13:47 -->
  <!-- A collection of modules and connections -->
  <parameter name="clockCrossingAdapter">
   <type>com.altera.sopcmodel.ensemble.EClockAdapter</type>
@@ -53,7 +53,7 @@
  </parameter>
  <parameter name="generationId">
   <type>int</type>
-  <value>1765455142</value>
+  <value>1770185601</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>true</visible>
@@ -924,7 +924,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="VarSet_1"
    kind="VarSet_60reg_2018p1"
-   version="1.0"
+   version="2.0"
    path="VarSet_1">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -2172,6 +2172,12 @@ parameters are a RESULT of the module parameters. -->
     <direction>Output</direction>
     <width>32</width>
     <role>o_reg59</role>
+   </port>
+   <port>
+    <name>o_latch_trigger</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>o_latch_trigger</role>
    </port>
   </interface>
  </module>
@@ -10832,7 +10838,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.TIMESTAMP</name>
-   <value>1765455142</value>
+   <value>1770185601</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
@@ -10852,7 +10858,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.dts.params.timestamp</name>
-   <value>1765455142</value>
+   <value>1770185601</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.vendor</name>
@@ -10868,7 +10874,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="timestamp">
    <type>int</type>
-   <value>1765455142</value>
+   <value>1770185601</value>
    <derived>true</derived>
    <enabled>false</enabled>
    <visible>false</visible>
@@ -22135,7 +22141,7 @@ parameters are a RESULT of the module parameters. -->
   <type>com.altera.entityinterfaces.IElementClass</type>
   <subtype>com.altera.entityinterfaces.IModule</subtype>
   <displayName>myIP_varSet_60</displayName>
-  <version>1.0</version>
+  <version>2.0</version>
  </plugin>
  <plugin>
   <instanceCount>1</instanceCount>
@@ -22346,5 +22352,5 @@ parameters are a RESULT of the module parameters. -->
   <version>18.1</version>
  </plugin>
  <reportVersion>18.1 625</reportVersion>
- <uniqueIdentifier>AEF23C6109650000019B0D53A7A9</uniqueIdentifier>
+ <uniqueIdentifier>AEF23C6109650000019C2748BA81</uniqueIdentifier>
 </EnsembleReport>

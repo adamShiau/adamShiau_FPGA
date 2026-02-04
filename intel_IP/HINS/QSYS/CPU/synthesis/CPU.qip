@@ -2,7 +2,7 @@ set_global_assignment -entity "CPU" -library "CPU" -name IP_TOOL_NAME "Qsys"
 set_global_assignment -entity "CPU" -library "CPU" -name IP_TOOL_VERSION "18.1"
 set_global_assignment -entity "CPU" -library "CPU" -name IP_TOOL_ENV "Qsys"
 set_global_assignment -library "CPU" -name SOPCINFO_FILE [file join $::quartus(qip_path) "../../CPU.sopcinfo"]
-set_global_assignment -entity "CPU" -library "CPU" -name SLD_INFO "QSYS_NAME CPU HAS_SOPCINFO 1 GENERATION_ID 1765455142"
+set_global_assignment -entity "CPU" -library "CPU" -name SLD_INFO "QSYS_NAME CPU HAS_SOPCINFO 1 GENERATION_ID 1770185601"
 set_global_assignment -library "CPU" -name MISC_FILE [file join $::quartus(qip_path) "../CPU.cmp"]
 set_global_assignment -library "CPU" -name SLD_FILE [file join $::quartus(qip_path) "CPU.regmap"]
 set_global_assignment -library "CPU" -name SLD_FILE [file join $::quartus(qip_path) "CPU.debuginfo"]
@@ -16,7 +16,7 @@ set_global_assignment -entity "CPU" -library "CPU" -name IP_COMPONENT_DISPLAY_NA
 set_global_assignment -entity "CPU" -library "CPU" -name IP_COMPONENT_REPORT_HIERARCHY "On"
 set_global_assignment -entity "CPU" -library "CPU" -name IP_COMPONENT_INTERNAL "Off"
 set_global_assignment -entity "CPU" -library "CPU" -name IP_COMPONENT_VERSION "MS4w"
-set_global_assignment -entity "CPU" -library "CPU" -name IP_COMPONENT_PARAMETER "QVVUT19HRU5FUkFUSU9OX0lE::MTc2NTQ1NTE0Mg==::QXV0byBHRU5FUkFUSU9OX0lE"
+set_global_assignment -entity "CPU" -library "CPU" -name IP_COMPONENT_PARAMETER "QVVUT19HRU5FUkFUSU9OX0lE::MTc3MDE4NTYwMQ==::QXV0byBHRU5FUkFUSU9OX0lE"
 set_global_assignment -entity "CPU" -library "CPU" -name IP_COMPONENT_PARAMETER "QVVUT19ERVZJQ0VfRkFNSUxZ::Q3ljbG9uZSBJViBF::QXV0byBERVZJQ0VfRkFNSUxZ"
 set_global_assignment -entity "CPU" -library "CPU" -name IP_COMPONENT_PARAMETER "QVVUT19ERVZJQ0U=::RVA0Q0UxNUYxN0k3::QXV0byBERVZJQ0U="
 set_global_assignment -entity "CPU" -library "CPU" -name IP_COMPONENT_PARAMETER "QVVUT19ERVZJQ0VfU1BFRURHUkFERQ==::Nw==::QXV0byBERVZJQ0VfU1BFRURHUkFERQ=="
@@ -1258,8 +1258,8 @@ set_global_assignment -entity "GyroVarSet_60" -library "CPU" -name IP_COMPONENT_
 set_global_assignment -entity "GyroVarSet_60" -library "CPU" -name IP_COMPONENT_DISPLAY_NAME "bXlJUF92YXJTZXRfNjA="
 set_global_assignment -entity "GyroVarSet_60" -library "CPU" -name IP_COMPONENT_REPORT_HIERARCHY "Off"
 set_global_assignment -entity "GyroVarSet_60" -library "CPU" -name IP_COMPONENT_INTERNAL "Off"
-set_global_assignment -entity "GyroVarSet_60" -library "CPU" -name IP_COMPONENT_AUTHOR "QWRhbVNoaWF1"
-set_global_assignment -entity "GyroVarSet_60" -library "CPU" -name IP_COMPONENT_VERSION "MS4w"
+set_global_assignment -entity "GyroVarSet_60" -library "CPU" -name IP_COMPONENT_AUTHOR "QWRhbVNoaWF1XzIwMjYtMDItMDQ="
+set_global_assignment -entity "GyroVarSet_60" -library "CPU" -name IP_COMPONENT_VERSION "Mi4w"
 set_global_assignment -entity "CPU_DAC_RST" -library "CPU" -name IP_COMPONENT_NAME "Q1BVX0RBQ19SU1Q="
 set_global_assignment -entity "CPU_DAC_RST" -library "CPU" -name IP_COMPONENT_DISPLAY_NAME "UElPIChQYXJhbGxlbCBJL08pIEludGVsIEZQR0EgSVA="
 set_global_assignment -entity "CPU_DAC_RST" -library "CPU" -name IP_COMPONENT_REPORT_HIERARCHY "Off"

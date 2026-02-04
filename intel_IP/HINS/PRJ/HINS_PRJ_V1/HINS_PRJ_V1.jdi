@@ -1,6 +1,6 @@
 <sld_project_info>
   <project>
-    <hash md5_digest_80b="857177bf260ce075aee7"/>
+    <hash md5_digest_80b="55b0dc3a887e3c4f5894"/>
   </project>
   <file_info>
     <file device="EP4CE15F17I7" path="HINS_PRJ_V1.sof" usercode="0xFFFFFFFF"/>
@@ -139,7 +139,7 @@
   <sld_infos>
     <sld_info hpath="CPU:u0" name="u0">
       <assignment_values>
-        <assignment_value text="QSYS_NAME CPU HAS_SOPCINFO 1 GENERATION_ID 1766763745"/>
+        <assignment_value text="QSYS_NAME CPU HAS_SOPCINFO 1 GENERATION_ID 1770189588"/>
       </assignment_values>
       <parameters/>
     </sld_info>

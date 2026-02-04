@@ -4,155 +4,156 @@
 
 `timescale 1 ps / 1 ps
 module CPU (
-		input  wire        clk_clk,          //      clk.clk
-		output wire        dac_rst_export,   //  dac_rst.export
-		output wire        epcs_dclk,        //     epcs.dclk
-		output wire        epcs_sce,         //         .sce
-		output wire        epcs_sdo,         //         .sdo
-		input  wire        epcs_data0,       //         .data0
-		input  wire        reset_reset_n,    //    reset.reset_n
-		output wire [11:0] sdram_addr,       //    sdram.addr
-		output wire [1:0]  sdram_ba,         //         .ba
-		output wire        sdram_cas_n,      //         .cas_n
-		output wire        sdram_cke,        //         .cke
-		output wire        sdram_cs_n,       //         .cs_n
-		inout  wire [15:0] sdram_dq,         //         .dq
-		output wire [1:0]  sdram_dqm,        //         .dqm
-		output wire        sdram_ras_n,      //         .ras_n
-		output wire        sdram_we_n,       //         .we_n
-		input  wire        spi_adc_MISO,     //  spi_adc.MISO
-		output wire        spi_adc_MOSI,     //         .MOSI
-		output wire        spi_adc_SCLK,     //         .SCLK
-		output wire        spi_adc_SS_n,     //         .SS_n
-		input  wire        spi_dac_MISO,     //  spi_dac.MISO
-		output wire        spi_dac_MOSI,     //         .MOSI
-		output wire        spi_dac_SCLK,     //         .SCLK
-		output wire        spi_dac_SS_n,     //         .SS_n
-		input  wire        sync_in_export,   //  sync_in.export
-		input  wire        uart_rxd,         //     uart.rxd
-		output wire        uart_txd,         //         .txd
-		input  wire        uart_dbg_rxd,     // uart_dbg.rxd
-		output wire        uart_dbg_txd,     //         .txd
-		input  wire [31:0] varset_1_i_var0,  // varset_1.i_var0
-		input  wire [31:0] varset_1_i_var1,  //         .i_var1
-		input  wire [31:0] varset_1_i_var2,  //         .i_var2
-		input  wire [31:0] varset_1_i_var3,  //         .i_var3
-		input  wire [31:0] varset_1_i_var4,  //         .i_var4
-		input  wire [31:0] varset_1_i_var5,  //         .i_var5
-		input  wire [31:0] varset_1_i_var6,  //         .i_var6
-		input  wire [31:0] varset_1_i_var7,  //         .i_var7
-		input  wire [31:0] varset_1_i_var8,  //         .i_var8
-		input  wire [31:0] varset_1_i_var9,  //         .i_var9
-		input  wire [31:0] varset_1_i_var10, //         .i_var10
-		input  wire [31:0] varset_1_i_var11, //         .i_var11
-		input  wire [31:0] varset_1_i_var12, //         .i_var12
-		input  wire [31:0] varset_1_i_var13, //         .i_var13
-		input  wire [31:0] varset_1_i_var14, //         .i_var14
-		input  wire [31:0] varset_1_i_var15, //         .i_var15
-		input  wire [31:0] varset_1_i_var16, //         .i_var16
-		input  wire [31:0] varset_1_i_var17, //         .i_var17
-		input  wire [31:0] varset_1_i_var18, //         .i_var18
-		input  wire [31:0] varset_1_i_var19, //         .i_var19
-		input  wire [31:0] varset_1_i_var20, //         .i_var20
-		input  wire [31:0] varset_1_i_var21, //         .i_var21
-		input  wire [31:0] varset_1_i_var22, //         .i_var22
-		input  wire [31:0] varset_1_i_var23, //         .i_var23
-		input  wire [31:0] varset_1_i_var24, //         .i_var24
-		input  wire [31:0] varset_1_i_var25, //         .i_var25
-		input  wire [31:0] varset_1_i_var26, //         .i_var26
-		input  wire [31:0] varset_1_i_var27, //         .i_var27
-		input  wire [31:0] varset_1_i_var28, //         .i_var28
-		input  wire [31:0] varset_1_i_var29, //         .i_var29
-		input  wire [31:0] varset_1_i_var30, //         .i_var30
-		input  wire [31:0] varset_1_i_var31, //         .i_var31
-		input  wire [31:0] varset_1_i_var32, //         .i_var32
-		input  wire [31:0] varset_1_i_var33, //         .i_var33
-		input  wire [31:0] varset_1_i_var34, //         .i_var34
-		input  wire [31:0] varset_1_i_var35, //         .i_var35
-		input  wire [31:0] varset_1_i_var36, //         .i_var36
-		input  wire [31:0] varset_1_i_var37, //         .i_var37
-		input  wire [31:0] varset_1_i_var38, //         .i_var38
-		input  wire [31:0] varset_1_i_var39, //         .i_var39
-		input  wire [31:0] varset_1_i_var40, //         .i_var40
-		input  wire [31:0] varset_1_i_var41, //         .i_var41
-		input  wire [31:0] varset_1_i_var42, //         .i_var42
-		input  wire [31:0] varset_1_i_var43, //         .i_var43
-		input  wire [31:0] varset_1_i_var44, //         .i_var44
-		input  wire [31:0] varset_1_i_var45, //         .i_var45
-		input  wire [31:0] varset_1_i_var46, //         .i_var46
-		input  wire [31:0] varset_1_i_var47, //         .i_var47
-		input  wire [31:0] varset_1_i_var48, //         .i_var48
-		input  wire [31:0] varset_1_i_var49, //         .i_var49
-		input  wire [31:0] varset_1_i_var50, //         .i_var50
-		input  wire [31:0] varset_1_i_var51, //         .i_var51
-		input  wire [31:0] varset_1_i_var52, //         .i_var52
-		input  wire [31:0] varset_1_i_var53, //         .i_var53
-		input  wire [31:0] varset_1_i_var54, //         .i_var54
-		input  wire [31:0] varset_1_i_var55, //         .i_var55
-		input  wire [31:0] varset_1_i_var56, //         .i_var56
-		input  wire [31:0] varset_1_i_var57, //         .i_var57
-		input  wire [31:0] varset_1_i_var58, //         .i_var58
-		input  wire [31:0] varset_1_i_var59, //         .i_var59
-		output wire [31:0] varset_1_o_reg0,  //         .o_reg0
-		output wire [31:0] varset_1_o_reg1,  //         .o_reg1
-		output wire [31:0] varset_1_o_reg2,  //         .o_reg2
-		output wire [31:0] varset_1_o_reg3,  //         .o_reg3
-		output wire [31:0] varset_1_o_reg4,  //         .o_reg4
-		output wire [31:0] varset_1_o_reg5,  //         .o_reg5
-		output wire [31:0] varset_1_o_reg6,  //         .o_reg6
-		output wire [31:0] varset_1_o_reg7,  //         .o_reg7
-		output wire [31:0] varset_1_o_reg8,  //         .o_reg8
-		output wire [31:0] varset_1_o_reg9,  //         .o_reg9
-		output wire [31:0] varset_1_o_reg10, //         .o_reg10
-		output wire [31:0] varset_1_o_reg11, //         .o_reg11
-		output wire [31:0] varset_1_o_reg12, //         .o_reg12
-		output wire [31:0] varset_1_o_reg13, //         .o_reg13
-		output wire [31:0] varset_1_o_reg14, //         .o_reg14
-		output wire [31:0] varset_1_o_reg15, //         .o_reg15
-		output wire [31:0] varset_1_o_reg16, //         .o_reg16
-		output wire [31:0] varset_1_o_reg17, //         .o_reg17
-		output wire [31:0] varset_1_o_reg18, //         .o_reg18
-		output wire [31:0] varset_1_o_reg19, //         .o_reg19
-		output wire [31:0] varset_1_o_reg20, //         .o_reg20
-		output wire [31:0] varset_1_o_reg21, //         .o_reg21
-		output wire [31:0] varset_1_o_reg22, //         .o_reg22
-		output wire [31:0] varset_1_o_reg23, //         .o_reg23
-		output wire [31:0] varset_1_o_reg24, //         .o_reg24
-		output wire [31:0] varset_1_o_reg25, //         .o_reg25
-		output wire [31:0] varset_1_o_reg26, //         .o_reg26
-		output wire [31:0] varset_1_o_reg27, //         .o_reg27
-		output wire [31:0] varset_1_o_reg28, //         .o_reg28
-		output wire [31:0] varset_1_o_reg29, //         .o_reg29
-		output wire [31:0] varset_1_o_reg30, //         .o_reg30
-		output wire [31:0] varset_1_o_reg31, //         .o_reg31
-		output wire [31:0] varset_1_o_reg32, //         .o_reg32
-		output wire [31:0] varset_1_o_reg33, //         .o_reg33
-		output wire [31:0] varset_1_o_reg34, //         .o_reg34
-		output wire [31:0] varset_1_o_reg35, //         .o_reg35
-		output wire [31:0] varset_1_o_reg36, //         .o_reg36
-		output wire [31:0] varset_1_o_reg37, //         .o_reg37
-		output wire [31:0] varset_1_o_reg38, //         .o_reg38
-		output wire [31:0] varset_1_o_reg39, //         .o_reg39
-		output wire [31:0] varset_1_o_reg40, //         .o_reg40
-		output wire [31:0] varset_1_o_reg41, //         .o_reg41
-		output wire [31:0] varset_1_o_reg42, //         .o_reg42
-		output wire [31:0] varset_1_o_reg43, //         .o_reg43
-		output wire [31:0] varset_1_o_reg44, //         .o_reg44
-		output wire [31:0] varset_1_o_reg45, //         .o_reg45
-		output wire [31:0] varset_1_o_reg46, //         .o_reg46
-		output wire [31:0] varset_1_o_reg47, //         .o_reg47
-		output wire [31:0] varset_1_o_reg48, //         .o_reg48
-		output wire [31:0] varset_1_o_reg49, //         .o_reg49
-		output wire [31:0] varset_1_o_reg50, //         .o_reg50
-		output wire [31:0] varset_1_o_reg51, //         .o_reg51
-		output wire [31:0] varset_1_o_reg52, //         .o_reg52
-		output wire [31:0] varset_1_o_reg53, //         .o_reg53
-		output wire [31:0] varset_1_o_reg54, //         .o_reg54
-		output wire [31:0] varset_1_o_reg55, //         .o_reg55
-		output wire [31:0] varset_1_o_reg56, //         .o_reg56
-		output wire [31:0] varset_1_o_reg57, //         .o_reg57
-		output wire [31:0] varset_1_o_reg58, //         .o_reg58
-		output wire [31:0] varset_1_o_reg59  //         .o_reg59
+		input  wire        clk_clk,                  //      clk.clk
+		output wire        dac_rst_export,           //  dac_rst.export
+		output wire        epcs_dclk,                //     epcs.dclk
+		output wire        epcs_sce,                 //         .sce
+		output wire        epcs_sdo,                 //         .sdo
+		input  wire        epcs_data0,               //         .data0
+		input  wire        reset_reset_n,            //    reset.reset_n
+		output wire [11:0] sdram_addr,               //    sdram.addr
+		output wire [1:0]  sdram_ba,                 //         .ba
+		output wire        sdram_cas_n,              //         .cas_n
+		output wire        sdram_cke,                //         .cke
+		output wire        sdram_cs_n,               //         .cs_n
+		inout  wire [15:0] sdram_dq,                 //         .dq
+		output wire [1:0]  sdram_dqm,                //         .dqm
+		output wire        sdram_ras_n,              //         .ras_n
+		output wire        sdram_we_n,               //         .we_n
+		input  wire        spi_adc_MISO,             //  spi_adc.MISO
+		output wire        spi_adc_MOSI,             //         .MOSI
+		output wire        spi_adc_SCLK,             //         .SCLK
+		output wire        spi_adc_SS_n,             //         .SS_n
+		input  wire        spi_dac_MISO,             //  spi_dac.MISO
+		output wire        spi_dac_MOSI,             //         .MOSI
+		output wire        spi_dac_SCLK,             //         .SCLK
+		output wire        spi_dac_SS_n,             //         .SS_n
+		input  wire        sync_in_export,           //  sync_in.export
+		input  wire        uart_rxd,                 //     uart.rxd
+		output wire        uart_txd,                 //         .txd
+		input  wire        uart_dbg_rxd,             // uart_dbg.rxd
+		output wire        uart_dbg_txd,             //         .txd
+		input  wire [31:0] varset_1_i_var0,          // varset_1.i_var0
+		input  wire [31:0] varset_1_i_var1,          //         .i_var1
+		input  wire [31:0] varset_1_i_var2,          //         .i_var2
+		input  wire [31:0] varset_1_i_var3,          //         .i_var3
+		input  wire [31:0] varset_1_i_var4,          //         .i_var4
+		input  wire [31:0] varset_1_i_var5,          //         .i_var5
+		input  wire [31:0] varset_1_i_var6,          //         .i_var6
+		input  wire [31:0] varset_1_i_var7,          //         .i_var7
+		input  wire [31:0] varset_1_i_var8,          //         .i_var8
+		input  wire [31:0] varset_1_i_var9,          //         .i_var9
+		input  wire [31:0] varset_1_i_var10,         //         .i_var10
+		input  wire [31:0] varset_1_i_var11,         //         .i_var11
+		input  wire [31:0] varset_1_i_var12,         //         .i_var12
+		input  wire [31:0] varset_1_i_var13,         //         .i_var13
+		input  wire [31:0] varset_1_i_var14,         //         .i_var14
+		input  wire [31:0] varset_1_i_var15,         //         .i_var15
+		input  wire [31:0] varset_1_i_var16,         //         .i_var16
+		input  wire [31:0] varset_1_i_var17,         //         .i_var17
+		input  wire [31:0] varset_1_i_var18,         //         .i_var18
+		input  wire [31:0] varset_1_i_var19,         //         .i_var19
+		input  wire [31:0] varset_1_i_var20,         //         .i_var20
+		input  wire [31:0] varset_1_i_var21,         //         .i_var21
+		input  wire [31:0] varset_1_i_var22,         //         .i_var22
+		input  wire [31:0] varset_1_i_var23,         //         .i_var23
+		input  wire [31:0] varset_1_i_var24,         //         .i_var24
+		input  wire [31:0] varset_1_i_var25,         //         .i_var25
+		input  wire [31:0] varset_1_i_var26,         //         .i_var26
+		input  wire [31:0] varset_1_i_var27,         //         .i_var27
+		input  wire [31:0] varset_1_i_var28,         //         .i_var28
+		input  wire [31:0] varset_1_i_var29,         //         .i_var29
+		input  wire [31:0] varset_1_i_var30,         //         .i_var30
+		input  wire [31:0] varset_1_i_var31,         //         .i_var31
+		input  wire [31:0] varset_1_i_var32,         //         .i_var32
+		input  wire [31:0] varset_1_i_var33,         //         .i_var33
+		input  wire [31:0] varset_1_i_var34,         //         .i_var34
+		input  wire [31:0] varset_1_i_var35,         //         .i_var35
+		input  wire [31:0] varset_1_i_var36,         //         .i_var36
+		input  wire [31:0] varset_1_i_var37,         //         .i_var37
+		input  wire [31:0] varset_1_i_var38,         //         .i_var38
+		input  wire [31:0] varset_1_i_var39,         //         .i_var39
+		input  wire [31:0] varset_1_i_var40,         //         .i_var40
+		input  wire [31:0] varset_1_i_var41,         //         .i_var41
+		input  wire [31:0] varset_1_i_var42,         //         .i_var42
+		input  wire [31:0] varset_1_i_var43,         //         .i_var43
+		input  wire [31:0] varset_1_i_var44,         //         .i_var44
+		input  wire [31:0] varset_1_i_var45,         //         .i_var45
+		input  wire [31:0] varset_1_i_var46,         //         .i_var46
+		input  wire [31:0] varset_1_i_var47,         //         .i_var47
+		input  wire [31:0] varset_1_i_var48,         //         .i_var48
+		input  wire [31:0] varset_1_i_var49,         //         .i_var49
+		input  wire [31:0] varset_1_i_var50,         //         .i_var50
+		input  wire [31:0] varset_1_i_var51,         //         .i_var51
+		input  wire [31:0] varset_1_i_var52,         //         .i_var52
+		input  wire [31:0] varset_1_i_var53,         //         .i_var53
+		input  wire [31:0] varset_1_i_var54,         //         .i_var54
+		input  wire [31:0] varset_1_i_var55,         //         .i_var55
+		input  wire [31:0] varset_1_i_var56,         //         .i_var56
+		input  wire [31:0] varset_1_i_var57,         //         .i_var57
+		input  wire [31:0] varset_1_i_var58,         //         .i_var58
+		input  wire [31:0] varset_1_i_var59,         //         .i_var59
+		output wire [31:0] varset_1_o_reg0,          //         .o_reg0
+		output wire [31:0] varset_1_o_reg1,          //         .o_reg1
+		output wire [31:0] varset_1_o_reg2,          //         .o_reg2
+		output wire [31:0] varset_1_o_reg3,          //         .o_reg3
+		output wire [31:0] varset_1_o_reg4,          //         .o_reg4
+		output wire [31:0] varset_1_o_reg5,          //         .o_reg5
+		output wire [31:0] varset_1_o_reg6,          //         .o_reg6
+		output wire [31:0] varset_1_o_reg7,          //         .o_reg7
+		output wire [31:0] varset_1_o_reg8,          //         .o_reg8
+		output wire [31:0] varset_1_o_reg9,          //         .o_reg9
+		output wire [31:0] varset_1_o_reg10,         //         .o_reg10
+		output wire [31:0] varset_1_o_reg11,         //         .o_reg11
+		output wire [31:0] varset_1_o_reg12,         //         .o_reg12
+		output wire [31:0] varset_1_o_reg13,         //         .o_reg13
+		output wire [31:0] varset_1_o_reg14,         //         .o_reg14
+		output wire [31:0] varset_1_o_reg15,         //         .o_reg15
+		output wire [31:0] varset_1_o_reg16,         //         .o_reg16
+		output wire [31:0] varset_1_o_reg17,         //         .o_reg17
+		output wire [31:0] varset_1_o_reg18,         //         .o_reg18
+		output wire [31:0] varset_1_o_reg19,         //         .o_reg19
+		output wire [31:0] varset_1_o_reg20,         //         .o_reg20
+		output wire [31:0] varset_1_o_reg21,         //         .o_reg21
+		output wire [31:0] varset_1_o_reg22,         //         .o_reg22
+		output wire [31:0] varset_1_o_reg23,         //         .o_reg23
+		output wire [31:0] varset_1_o_reg24,         //         .o_reg24
+		output wire [31:0] varset_1_o_reg25,         //         .o_reg25
+		output wire [31:0] varset_1_o_reg26,         //         .o_reg26
+		output wire [31:0] varset_1_o_reg27,         //         .o_reg27
+		output wire [31:0] varset_1_o_reg28,         //         .o_reg28
+		output wire [31:0] varset_1_o_reg29,         //         .o_reg29
+		output wire [31:0] varset_1_o_reg30,         //         .o_reg30
+		output wire [31:0] varset_1_o_reg31,         //         .o_reg31
+		output wire [31:0] varset_1_o_reg32,         //         .o_reg32
+		output wire [31:0] varset_1_o_reg33,         //         .o_reg33
+		output wire [31:0] varset_1_o_reg34,         //         .o_reg34
+		output wire [31:0] varset_1_o_reg35,         //         .o_reg35
+		output wire [31:0] varset_1_o_reg36,         //         .o_reg36
+		output wire [31:0] varset_1_o_reg37,         //         .o_reg37
+		output wire [31:0] varset_1_o_reg38,         //         .o_reg38
+		output wire [31:0] varset_1_o_reg39,         //         .o_reg39
+		output wire [31:0] varset_1_o_reg40,         //         .o_reg40
+		output wire [31:0] varset_1_o_reg41,         //         .o_reg41
+		output wire [31:0] varset_1_o_reg42,         //         .o_reg42
+		output wire [31:0] varset_1_o_reg43,         //         .o_reg43
+		output wire [31:0] varset_1_o_reg44,         //         .o_reg44
+		output wire [31:0] varset_1_o_reg45,         //         .o_reg45
+		output wire [31:0] varset_1_o_reg46,         //         .o_reg46
+		output wire [31:0] varset_1_o_reg47,         //         .o_reg47
+		output wire [31:0] varset_1_o_reg48,         //         .o_reg48
+		output wire [31:0] varset_1_o_reg49,         //         .o_reg49
+		output wire [31:0] varset_1_o_reg50,         //         .o_reg50
+		output wire [31:0] varset_1_o_reg51,         //         .o_reg51
+		output wire [31:0] varset_1_o_reg52,         //         .o_reg52
+		output wire [31:0] varset_1_o_reg53,         //         .o_reg53
+		output wire [31:0] varset_1_o_reg54,         //         .o_reg54
+		output wire [31:0] varset_1_o_reg55,         //         .o_reg55
+		output wire [31:0] varset_1_o_reg56,         //         .o_reg56
+		output wire [31:0] varset_1_o_reg57,         //         .o_reg57
+		output wire [31:0] varset_1_o_reg58,         //         .o_reg58
+		output wire [31:0] varset_1_o_reg59,         //         .o_reg59
+		output wire        varset_1_o_latch_trigger  //         .o_latch_trigger
 	);
 
 	wire  [31:0] nios2_data_master_readdata;                                // mm_interconnect_0:nios2_data_master_readdata -> nios2:d_readdata
@@ -266,133 +267,134 @@ module CPU (
 	);
 
 	GyroVarSet_60 varset_1 (
-		.clk        (clk_clk),                                            //        clock.clk
-		.rst_n      (~rst_controller_reset_out_reset),                    //      reset_n.reset_n
-		.address    (mm_interconnect_0_varset_1_avalon_slave_address),    // avalon_slave.address
-		.chipselect (mm_interconnect_0_varset_1_avalon_slave_chipselect), //             .chipselect
-		.write_n    (~mm_interconnect_0_varset_1_avalon_slave_write),     //             .write_n
-		.writedata  (mm_interconnect_0_varset_1_avalon_slave_writedata),  //             .writedata
-		.readdata   (mm_interconnect_0_varset_1_avalon_slave_readdata),   //             .readdata
-		.i_var0     (varset_1_i_var0),                                    //      conduit.i_var0
-		.i_var1     (varset_1_i_var1),                                    //             .i_var1
-		.i_var2     (varset_1_i_var2),                                    //             .i_var2
-		.i_var3     (varset_1_i_var3),                                    //             .i_var3
-		.i_var4     (varset_1_i_var4),                                    //             .i_var4
-		.i_var5     (varset_1_i_var5),                                    //             .i_var5
-		.i_var6     (varset_1_i_var6),                                    //             .i_var6
-		.i_var7     (varset_1_i_var7),                                    //             .i_var7
-		.i_var8     (varset_1_i_var8),                                    //             .i_var8
-		.i_var9     (varset_1_i_var9),                                    //             .i_var9
-		.i_var10    (varset_1_i_var10),                                   //             .i_var10
-		.i_var11    (varset_1_i_var11),                                   //             .i_var11
-		.i_var12    (varset_1_i_var12),                                   //             .i_var12
-		.i_var13    (varset_1_i_var13),                                   //             .i_var13
-		.i_var14    (varset_1_i_var14),                                   //             .i_var14
-		.i_var15    (varset_1_i_var15),                                   //             .i_var15
-		.i_var16    (varset_1_i_var16),                                   //             .i_var16
-		.i_var17    (varset_1_i_var17),                                   //             .i_var17
-		.i_var18    (varset_1_i_var18),                                   //             .i_var18
-		.i_var19    (varset_1_i_var19),                                   //             .i_var19
-		.i_var20    (varset_1_i_var20),                                   //             .i_var20
-		.i_var21    (varset_1_i_var21),                                   //             .i_var21
-		.i_var22    (varset_1_i_var22),                                   //             .i_var22
-		.i_var23    (varset_1_i_var23),                                   //             .i_var23
-		.i_var24    (varset_1_i_var24),                                   //             .i_var24
-		.i_var25    (varset_1_i_var25),                                   //             .i_var25
-		.i_var26    (varset_1_i_var26),                                   //             .i_var26
-		.i_var27    (varset_1_i_var27),                                   //             .i_var27
-		.i_var28    (varset_1_i_var28),                                   //             .i_var28
-		.i_var29    (varset_1_i_var29),                                   //             .i_var29
-		.i_var30    (varset_1_i_var30),                                   //             .i_var30
-		.i_var31    (varset_1_i_var31),                                   //             .i_var31
-		.i_var32    (varset_1_i_var32),                                   //             .i_var32
-		.i_var33    (varset_1_i_var33),                                   //             .i_var33
-		.i_var34    (varset_1_i_var34),                                   //             .i_var34
-		.i_var35    (varset_1_i_var35),                                   //             .i_var35
-		.i_var36    (varset_1_i_var36),                                   //             .i_var36
-		.i_var37    (varset_1_i_var37),                                   //             .i_var37
-		.i_var38    (varset_1_i_var38),                                   //             .i_var38
-		.i_var39    (varset_1_i_var39),                                   //             .i_var39
-		.i_var40    (varset_1_i_var40),                                   //             .i_var40
-		.i_var41    (varset_1_i_var41),                                   //             .i_var41
-		.i_var42    (varset_1_i_var42),                                   //             .i_var42
-		.i_var43    (varset_1_i_var43),                                   //             .i_var43
-		.i_var44    (varset_1_i_var44),                                   //             .i_var44
-		.i_var45    (varset_1_i_var45),                                   //             .i_var45
-		.i_var46    (varset_1_i_var46),                                   //             .i_var46
-		.i_var47    (varset_1_i_var47),                                   //             .i_var47
-		.i_var48    (varset_1_i_var48),                                   //             .i_var48
-		.i_var49    (varset_1_i_var49),                                   //             .i_var49
-		.i_var50    (varset_1_i_var50),                                   //             .i_var50
-		.i_var51    (varset_1_i_var51),                                   //             .i_var51
-		.i_var52    (varset_1_i_var52),                                   //             .i_var52
-		.i_var53    (varset_1_i_var53),                                   //             .i_var53
-		.i_var54    (varset_1_i_var54),                                   //             .i_var54
-		.i_var55    (varset_1_i_var55),                                   //             .i_var55
-		.i_var56    (varset_1_i_var56),                                   //             .i_var56
-		.i_var57    (varset_1_i_var57),                                   //             .i_var57
-		.i_var58    (varset_1_i_var58),                                   //             .i_var58
-		.i_var59    (varset_1_i_var59),                                   //             .i_var59
-		.o_reg0     (varset_1_o_reg0),                                    //             .o_reg0
-		.o_reg1     (varset_1_o_reg1),                                    //             .o_reg1
-		.o_reg2     (varset_1_o_reg2),                                    //             .o_reg2
-		.o_reg3     (varset_1_o_reg3),                                    //             .o_reg3
-		.o_reg4     (varset_1_o_reg4),                                    //             .o_reg4
-		.o_reg5     (varset_1_o_reg5),                                    //             .o_reg5
-		.o_reg6     (varset_1_o_reg6),                                    //             .o_reg6
-		.o_reg7     (varset_1_o_reg7),                                    //             .o_reg7
-		.o_reg8     (varset_1_o_reg8),                                    //             .o_reg8
-		.o_reg9     (varset_1_o_reg9),                                    //             .o_reg9
-		.o_reg10    (varset_1_o_reg10),                                   //             .o_reg10
-		.o_reg11    (varset_1_o_reg11),                                   //             .o_reg11
-		.o_reg12    (varset_1_o_reg12),                                   //             .o_reg12
-		.o_reg13    (varset_1_o_reg13),                                   //             .o_reg13
-		.o_reg14    (varset_1_o_reg14),                                   //             .o_reg14
-		.o_reg15    (varset_1_o_reg15),                                   //             .o_reg15
-		.o_reg16    (varset_1_o_reg16),                                   //             .o_reg16
-		.o_reg17    (varset_1_o_reg17),                                   //             .o_reg17
-		.o_reg18    (varset_1_o_reg18),                                   //             .o_reg18
-		.o_reg19    (varset_1_o_reg19),                                   //             .o_reg19
-		.o_reg20    (varset_1_o_reg20),                                   //             .o_reg20
-		.o_reg21    (varset_1_o_reg21),                                   //             .o_reg21
-		.o_reg22    (varset_1_o_reg22),                                   //             .o_reg22
-		.o_reg23    (varset_1_o_reg23),                                   //             .o_reg23
-		.o_reg24    (varset_1_o_reg24),                                   //             .o_reg24
-		.o_reg25    (varset_1_o_reg25),                                   //             .o_reg25
-		.o_reg26    (varset_1_o_reg26),                                   //             .o_reg26
-		.o_reg27    (varset_1_o_reg27),                                   //             .o_reg27
-		.o_reg28    (varset_1_o_reg28),                                   //             .o_reg28
-		.o_reg29    (varset_1_o_reg29),                                   //             .o_reg29
-		.o_reg30    (varset_1_o_reg30),                                   //             .o_reg30
-		.o_reg31    (varset_1_o_reg31),                                   //             .o_reg31
-		.o_reg32    (varset_1_o_reg32),                                   //             .o_reg32
-		.o_reg33    (varset_1_o_reg33),                                   //             .o_reg33
-		.o_reg34    (varset_1_o_reg34),                                   //             .o_reg34
-		.o_reg35    (varset_1_o_reg35),                                   //             .o_reg35
-		.o_reg36    (varset_1_o_reg36),                                   //             .o_reg36
-		.o_reg37    (varset_1_o_reg37),                                   //             .o_reg37
-		.o_reg38    (varset_1_o_reg38),                                   //             .o_reg38
-		.o_reg39    (varset_1_o_reg39),                                   //             .o_reg39
-		.o_reg40    (varset_1_o_reg40),                                   //             .o_reg40
-		.o_reg41    (varset_1_o_reg41),                                   //             .o_reg41
-		.o_reg42    (varset_1_o_reg42),                                   //             .o_reg42
-		.o_reg43    (varset_1_o_reg43),                                   //             .o_reg43
-		.o_reg44    (varset_1_o_reg44),                                   //             .o_reg44
-		.o_reg45    (varset_1_o_reg45),                                   //             .o_reg45
-		.o_reg46    (varset_1_o_reg46),                                   //             .o_reg46
-		.o_reg47    (varset_1_o_reg47),                                   //             .o_reg47
-		.o_reg48    (varset_1_o_reg48),                                   //             .o_reg48
-		.o_reg49    (varset_1_o_reg49),                                   //             .o_reg49
-		.o_reg50    (varset_1_o_reg50),                                   //             .o_reg50
-		.o_reg51    (varset_1_o_reg51),                                   //             .o_reg51
-		.o_reg52    (varset_1_o_reg52),                                   //             .o_reg52
-		.o_reg53    (varset_1_o_reg53),                                   //             .o_reg53
-		.o_reg54    (varset_1_o_reg54),                                   //             .o_reg54
-		.o_reg55    (varset_1_o_reg55),                                   //             .o_reg55
-		.o_reg56    (varset_1_o_reg56),                                   //             .o_reg56
-		.o_reg57    (varset_1_o_reg57),                                   //             .o_reg57
-		.o_reg58    (varset_1_o_reg58),                                   //             .o_reg58
-		.o_reg59    (varset_1_o_reg59)                                    //             .o_reg59
+		.clk             (clk_clk),                                            //        clock.clk
+		.rst_n           (~rst_controller_reset_out_reset),                    //      reset_n.reset_n
+		.address         (mm_interconnect_0_varset_1_avalon_slave_address),    // avalon_slave.address
+		.chipselect      (mm_interconnect_0_varset_1_avalon_slave_chipselect), //             .chipselect
+		.write_n         (~mm_interconnect_0_varset_1_avalon_slave_write),     //             .write_n
+		.writedata       (mm_interconnect_0_varset_1_avalon_slave_writedata),  //             .writedata
+		.readdata        (mm_interconnect_0_varset_1_avalon_slave_readdata),   //             .readdata
+		.i_var0          (varset_1_i_var0),                                    //      conduit.i_var0
+		.i_var1          (varset_1_i_var1),                                    //             .i_var1
+		.i_var2          (varset_1_i_var2),                                    //             .i_var2
+		.i_var3          (varset_1_i_var3),                                    //             .i_var3
+		.i_var4          (varset_1_i_var4),                                    //             .i_var4
+		.i_var5          (varset_1_i_var5),                                    //             .i_var5
+		.i_var6          (varset_1_i_var6),                                    //             .i_var6
+		.i_var7          (varset_1_i_var7),                                    //             .i_var7
+		.i_var8          (varset_1_i_var8),                                    //             .i_var8
+		.i_var9          (varset_1_i_var9),                                    //             .i_var9
+		.i_var10         (varset_1_i_var10),                                   //             .i_var10
+		.i_var11         (varset_1_i_var11),                                   //             .i_var11
+		.i_var12         (varset_1_i_var12),                                   //             .i_var12
+		.i_var13         (varset_1_i_var13),                                   //             .i_var13
+		.i_var14         (varset_1_i_var14),                                   //             .i_var14
+		.i_var15         (varset_1_i_var15),                                   //             .i_var15
+		.i_var16         (varset_1_i_var16),                                   //             .i_var16
+		.i_var17         (varset_1_i_var17),                                   //             .i_var17
+		.i_var18         (varset_1_i_var18),                                   //             .i_var18
+		.i_var19         (varset_1_i_var19),                                   //             .i_var19
+		.i_var20         (varset_1_i_var20),                                   //             .i_var20
+		.i_var21         (varset_1_i_var21),                                   //             .i_var21
+		.i_var22         (varset_1_i_var22),                                   //             .i_var22
+		.i_var23         (varset_1_i_var23),                                   //             .i_var23
+		.i_var24         (varset_1_i_var24),                                   //             .i_var24
+		.i_var25         (varset_1_i_var25),                                   //             .i_var25
+		.i_var26         (varset_1_i_var26),                                   //             .i_var26
+		.i_var27         (varset_1_i_var27),                                   //             .i_var27
+		.i_var28         (varset_1_i_var28),                                   //             .i_var28
+		.i_var29         (varset_1_i_var29),                                   //             .i_var29
+		.i_var30         (varset_1_i_var30),                                   //             .i_var30
+		.i_var31         (varset_1_i_var31),                                   //             .i_var31
+		.i_var32         (varset_1_i_var32),                                   //             .i_var32
+		.i_var33         (varset_1_i_var33),                                   //             .i_var33
+		.i_var34         (varset_1_i_var34),                                   //             .i_var34
+		.i_var35         (varset_1_i_var35),                                   //             .i_var35
+		.i_var36         (varset_1_i_var36),                                   //             .i_var36
+		.i_var37         (varset_1_i_var37),                                   //             .i_var37
+		.i_var38         (varset_1_i_var38),                                   //             .i_var38
+		.i_var39         (varset_1_i_var39),                                   //             .i_var39
+		.i_var40         (varset_1_i_var40),                                   //             .i_var40
+		.i_var41         (varset_1_i_var41),                                   //             .i_var41
+		.i_var42         (varset_1_i_var42),                                   //             .i_var42
+		.i_var43         (varset_1_i_var43),                                   //             .i_var43
+		.i_var44         (varset_1_i_var44),                                   //             .i_var44
+		.i_var45         (varset_1_i_var45),                                   //             .i_var45
+		.i_var46         (varset_1_i_var46),                                   //             .i_var46
+		.i_var47         (varset_1_i_var47),                                   //             .i_var47
+		.i_var48         (varset_1_i_var48),                                   //             .i_var48
+		.i_var49         (varset_1_i_var49),                                   //             .i_var49
+		.i_var50         (varset_1_i_var50),                                   //             .i_var50
+		.i_var51         (varset_1_i_var51),                                   //             .i_var51
+		.i_var52         (varset_1_i_var52),                                   //             .i_var52
+		.i_var53         (varset_1_i_var53),                                   //             .i_var53
+		.i_var54         (varset_1_i_var54),                                   //             .i_var54
+		.i_var55         (varset_1_i_var55),                                   //             .i_var55
+		.i_var56         (varset_1_i_var56),                                   //             .i_var56
+		.i_var57         (varset_1_i_var57),                                   //             .i_var57
+		.i_var58         (varset_1_i_var58),                                   //             .i_var58
+		.i_var59         (varset_1_i_var59),                                   //             .i_var59
+		.o_reg0          (varset_1_o_reg0),                                    //             .o_reg0
+		.o_reg1          (varset_1_o_reg1),                                    //             .o_reg1
+		.o_reg2          (varset_1_o_reg2),                                    //             .o_reg2
+		.o_reg3          (varset_1_o_reg3),                                    //             .o_reg3
+		.o_reg4          (varset_1_o_reg4),                                    //             .o_reg4
+		.o_reg5          (varset_1_o_reg5),                                    //             .o_reg5
+		.o_reg6          (varset_1_o_reg6),                                    //             .o_reg6
+		.o_reg7          (varset_1_o_reg7),                                    //             .o_reg7
+		.o_reg8          (varset_1_o_reg8),                                    //             .o_reg8
+		.o_reg9          (varset_1_o_reg9),                                    //             .o_reg9
+		.o_reg10         (varset_1_o_reg10),                                   //             .o_reg10
+		.o_reg11         (varset_1_o_reg11),                                   //             .o_reg11
+		.o_reg12         (varset_1_o_reg12),                                   //             .o_reg12
+		.o_reg13         (varset_1_o_reg13),                                   //             .o_reg13
+		.o_reg14         (varset_1_o_reg14),                                   //             .o_reg14
+		.o_reg15         (varset_1_o_reg15),                                   //             .o_reg15
+		.o_reg16         (varset_1_o_reg16),                                   //             .o_reg16
+		.o_reg17         (varset_1_o_reg17),                                   //             .o_reg17
+		.o_reg18         (varset_1_o_reg18),                                   //             .o_reg18
+		.o_reg19         (varset_1_o_reg19),                                   //             .o_reg19
+		.o_reg20         (varset_1_o_reg20),                                   //             .o_reg20
+		.o_reg21         (varset_1_o_reg21),                                   //             .o_reg21
+		.o_reg22         (varset_1_o_reg22),                                   //             .o_reg22
+		.o_reg23         (varset_1_o_reg23),                                   //             .o_reg23
+		.o_reg24         (varset_1_o_reg24),                                   //             .o_reg24
+		.o_reg25         (varset_1_o_reg25),                                   //             .o_reg25
+		.o_reg26         (varset_1_o_reg26),                                   //             .o_reg26
+		.o_reg27         (varset_1_o_reg27),                                   //             .o_reg27
+		.o_reg28         (varset_1_o_reg28),                                   //             .o_reg28
+		.o_reg29         (varset_1_o_reg29),                                   //             .o_reg29
+		.o_reg30         (varset_1_o_reg30),                                   //             .o_reg30
+		.o_reg31         (varset_1_o_reg31),                                   //             .o_reg31
+		.o_reg32         (varset_1_o_reg32),                                   //             .o_reg32
+		.o_reg33         (varset_1_o_reg33),                                   //             .o_reg33
+		.o_reg34         (varset_1_o_reg34),                                   //             .o_reg34
+		.o_reg35         (varset_1_o_reg35),                                   //             .o_reg35
+		.o_reg36         (varset_1_o_reg36),                                   //             .o_reg36
+		.o_reg37         (varset_1_o_reg37),                                   //             .o_reg37
+		.o_reg38         (varset_1_o_reg38),                                   //             .o_reg38
+		.o_reg39         (varset_1_o_reg39),                                   //             .o_reg39
+		.o_reg40         (varset_1_o_reg40),                                   //             .o_reg40
+		.o_reg41         (varset_1_o_reg41),                                   //             .o_reg41
+		.o_reg42         (varset_1_o_reg42),                                   //             .o_reg42
+		.o_reg43         (varset_1_o_reg43),                                   //             .o_reg43
+		.o_reg44         (varset_1_o_reg44),                                   //             .o_reg44
+		.o_reg45         (varset_1_o_reg45),                                   //             .o_reg45
+		.o_reg46         (varset_1_o_reg46),                                   //             .o_reg46
+		.o_reg47         (varset_1_o_reg47),                                   //             .o_reg47
+		.o_reg48         (varset_1_o_reg48),                                   //             .o_reg48
+		.o_reg49         (varset_1_o_reg49),                                   //             .o_reg49
+		.o_reg50         (varset_1_o_reg50),                                   //             .o_reg50
+		.o_reg51         (varset_1_o_reg51),                                   //             .o_reg51
+		.o_reg52         (varset_1_o_reg52),                                   //             .o_reg52
+		.o_reg53         (varset_1_o_reg53),                                   //             .o_reg53
+		.o_reg54         (varset_1_o_reg54),                                   //             .o_reg54
+		.o_reg55         (varset_1_o_reg55),                                   //             .o_reg55
+		.o_reg56         (varset_1_o_reg56),                                   //             .o_reg56
+		.o_reg57         (varset_1_o_reg57),                                   //             .o_reg57
+		.o_reg58         (varset_1_o_reg58),                                   //             .o_reg58
+		.o_reg59         (varset_1_o_reg59),                                   //             .o_reg59
+		.o_latch_trigger (varset_1_o_latch_trigger)                            //             .o_latch_trigger
 	);
 
 	CPU_epcs epcs (

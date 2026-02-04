@@ -17,6 +17,14 @@
          type = "String";
       }
    }
+   element CPU
+   {
+      datum _originalDeviceFamily
+      {
+         value = "Cyclone IV E";
+         type = "String";
+      }
+   }
    element DAC_RST
    {
       datum _sortIndex
@@ -415,7 +423,7 @@
   <parameter name="width" value="2" />
  </module>
  <module name="VarSet" kind="VarSet_50reg_2018p1" version="1.0" enabled="0" />
- <module name="VarSet_1" kind="VarSet_60reg_2018p1" version="1.0" enabled="1" />
+ <module name="VarSet_1" kind="VarSet_60reg_2018p1" version="2.0" enabled="1" />
  <module name="WDT" kind="altera_avalon_pio" version="18.1" enabled="0">
   <parameter name="bitClearingEdgeCapReg" value="false" />
   <parameter name="bitModifyingOutReg" value="false" />

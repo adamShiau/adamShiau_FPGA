@@ -241,7 +241,7 @@ int I2C_write_verify_ASM330LHHX(alt_u8 reg_addr, alt_u8 data) {
         DEBUG_PRINT("Retry writing reg: 0x%02X (Expected: 0x%02X, Got: 0x%02X)\n", reg_addr, data, read_val);
     }
     
-    printf("ERROR: ASM330LHHX reg 0x%02X verify failed!\n", reg_addr);
+    DEBUG_PRINT("ERROR: ASM330LHHX reg 0x%02X verify failed!\n", reg_addr);
     return -1;
 }
 
@@ -330,6 +330,7 @@ void I2C_write_ASM330LHHX_register(alt_u8 reg_addr, alt_u8 data, alt_u8 print)
 alt_u8 I2C_read_ASM330LHHX_register(alt_u8 reg_addr, alt_u8 print)
 {
 	alt_u8 rt;
+	int timeout = 1000000;
 
 	// setting mode to cpu read register
 	I2C_op_mode_sel_ASM330LHHX(CPU_RREG);
@@ -340,8 +341,16 @@ alt_u8 I2C_read_ASM330LHHX_register(alt_u8 reg_addr, alt_u8 print)
 
 	// start the I2C SM 
 	I2C_sm_start_ASM330LHHX();
+
 	// Wait for the I2C SM to complete the operation
-	while( !I2C_sm_read_finish_ASM330LHHX()){}
+	// while( !I2C_sm_read_finish_ASM330LHHX()){}
+	while( !I2C_sm_read_finish_ASM330LHHX() && timeout-- > 0 );
+	if(timeout <= 0) {
+        alt_u32 status = IORD(VARSET_BASE, O_VAR_I2C_STATUS);
+        DEBUG_PRINT("Read Error! Reg: 0x%02X, SM Status: 0x%08X\n", reg_addr, (unsigned int)status);
+        return 0;
+    }
+
 	// Retrieve the data read from the specified register
 	rt = IORD(VARSET_BASE, O_VAR_I2C_RDATA_1);
 

@@ -1,5 +1,6 @@
-// create data: 12-7-2025
-module i2c_controller_ASM330LHHX
+// 2-4-2026 建立
+// 新增 i_latch_trigger 來 latch data，需對應修改後的 VaeSet_60 ip
+module i2c_controller_ASM330LHHX_V2
 (
 	input wire 			i_clk,
 	input wire 			i_rst_n,
@@ -8,6 +9,8 @@ module i2c_controller_ASM330LHHX
 	input wire [7:0] 	i_reg_addr,
 	input wire [31:0]	i_ctrl,
 	input wire 			i_drdy,
+	input wire 			i_sync,
+	input wire i_latch_trigger,
 
 	output logic signed [32-1:0] 	o_GYROX,
 	output logic signed [32-1:0] 	o_GYROY,
@@ -19,6 +22,7 @@ module i2c_controller_ASM330LHHX
 
 
 	output wire [31:0] 	o_status,
+	output wire [31:0] 	o_cnt,
 	output wire 		o_w_enable,
 	output wire			i2c_clk_out,
 	inout				i2c_scl,
@@ -42,17 +46,27 @@ module i2c_controller_ASM330LHHX
 	localparam REG_OUTZ_L_A 		= 8'h2C;
 	localparam REG_OUTZ_H_A 		= 8'h2D;
 
-	/*** I2C Clock rate definition for 50MHz input clock ***/
+	/*** I2C Clock rate definition for 100MHz input clock ***/
 	localparam CLK_390K 	= 	7;
 	localparam CLK_781K 	= 	6;
 	localparam CLK_1562K 	= 	5;
 	localparam CLK_3125K 	= 	4;
 
 	/*** op mode definition ***/
-	localparam CPU_RREG 		= 	3'd0;
-	localparam CPU_WREG 		= 	3'd1;
-	localparam HW 				= 	3'd2;
+	localparam CPU_WREG	= 	3'd0;
+	localparam CPU_RREG = 	3'd1;
+	localparam HW 		= 	3'd2;
+	localparam CPU_CMD	= 	3'd3;
 
+	/*** REG definition    ***/
+	localparam OUT_TEMP_L  = 8'h20;
+
+
+	/*** Ain MUX Configuration    ***/
+	localparam MUX_AIN0 = 8'b1000_0001;
+	localparam MUX_AIN1 = 8'b1001_0001;
+	localparam MUX_AIN2 = 8'b1010_0001;
+	localparam MUX_AIN3 = 8'b1011_0001;
 
 	/*** state machine definition ***/
 	localparam IDLE 		= 	0;
@@ -97,11 +111,13 @@ module i2c_controller_ASM330LHHX
 	localparam STOP 		= 	39;
 	localparam STOP2 		= 	40;
 
-
 	logic signed [7:0] 	reg_rd_data,   reg_rd_data_2, reg_rd_data_3, reg_rd_data_4;
 	logic signed [7:0] 	reg_rd_data_5, reg_rd_data_6, reg_rd_data_7, reg_rd_data_8;
 	logic signed [7:0] 	reg_rd_data_9, reg_rd_data_10, reg_rd_data_11, reg_rd_data_12;
 	logic signed [7:0] 	reg_rd_data_13, reg_rd_data_14;
+	// 定義影子暫存器 (Live Data)
+	logic signed [31:0] live_gx, live_gy, live_gz, live_ax, live_ay, live_az, live_temp;
+	
 
 	reg [7:0] state;
 	reg [7:0] saved_addr;
@@ -114,8 +130,6 @@ module i2c_controller_ASM330LHHX
 	reg clk_2x = 1;
 	reg	[8:0] CLK_COUNT = 0; 	//clock
 	reg write_done = 0; // write done flag
-	reg finish = 0; // finish flag
-	// reg rw = 0;
 	reg r_drdy = 0;
 	reg [2:0] reg_clock_rate = 6;
 
@@ -126,23 +140,38 @@ module i2c_controller_ASM330LHHX
 
 	wire w_en1, write_enable;
 	reg w_en2 = 0;
+	reg [31:0] drdy_timeout;
+
+	
+	
+
+	/******* finish strobe & reesponse ********/
+	reg finish = 0; // finish flag
+	reg wait_finish_flag = 0;
+	reg prev_clear;
+	wire clear_pulse;
 
 	// assign w_en1 = (sda_out==1)? 0:1 ;
 	assign w_en1 = ~sda_out;
 	assign write_enable = w_en1 | w_en2;
 
+
+
 	/******* control register********/
 	assign i_enable = i_ctrl[0];
-	assign op_mode = i_ctrl[3:1]; //00: CPU 1 byte, 01: CPU 11 bytes, 10: FPGA 11 bytes, 11: reserved
+	assign op_mode = i_ctrl[3:1];
 	assign clk_rate = i_ctrl[6:4];
+	assign clear_pulse = (i_ctrl[7] == 1'b1) && (prev_clear == 1'b0); // up edge detect
 
 	/******* status register********/
 	assign o_status[0] = ((i_rst_n == 1) && (state == IDLE) && (write_done == 0)) ? 1 : 0; //ready
 	assign o_status[1] = finish; //finish 
 	assign o_status[9:2] = state;  
 	assign o_status[10]  = sm_enable;
-	assign o_status[13:11]  = HW_SM;
-	assign o_status[16:14]  = CPU_SM;
+	assign o_status[12:11]  = CPU_SM;
+	assign o_status[15:13]  = HW_SM;
+	// assign o_status[17:16]  = AIN_SM;
+	assign o_cnt = drdy_timeout;
 
 
 	assign i2c_clk_out = i2c_clk;
@@ -170,7 +199,7 @@ module i2c_controller_ASM330LHHX
 	end
 
 	always@(posedge i_clk) begin
-		CLK_COUNT <= CLK_COUNT + 1;//CLK_COUNT[6]:100000/2^(7+1)=390.625 kHz, CLK_COUNT[6]:781.25 KHz
+		CLK_COUNT <= CLK_COUNT + 1;//CLK_COUNT[7]:100000/2^(7+1)=390.625 kHz, CLK_COUNT[6]:781.25 KHz
 		i2c_clk <= CLK_COUNT[reg_clock_rate];
 		clk_2x  <= CLK_COUNT[reg_clock_rate-1];
 	end
@@ -179,11 +208,33 @@ module i2c_controller_ASM330LHHX
 		if(!i_rst_n) begin
 			i2c_scl_enable <= 1;
 		end else begin
-			case (state)
-				IDLE, START, STOP, STOP2: i2c_scl_enable <= 1;
+			case(state)
 				READ_ACK_B, READ_ACK2_B, READ_ACK3_B: i2c_scl_enable <= 0;
+				IDLE, START, STOP, STOP2: i2c_scl_enable <= 1;
 				default: i2c_scl_enable <= 2;
-			endcase 
+			endcase
+		end
+	end
+
+	/** Control logic for 'finish': set in STOP state, cleared on i_ctrl[7] rising edge **/
+	always @(posedge i2c_clk or negedge i_rst_n) begin
+		if (!i_rst_n) begin
+			finish <= 0;
+			prev_clear <= 0;
+		end 
+		else begin
+			prev_clear <= i_ctrl[7];
+
+			case(state)
+
+				STOP: begin
+					if(wait_finish_flag) finish <= 1;
+				end
+				default: begin
+					if (clear_pulse) finish <= 0;
+				end
+
+			endcase
 		end
 	end
 
@@ -194,9 +245,7 @@ module i2c_controller_ASM330LHHX
 		end 
 		else begin
 			case(state)
-				START: begin	
-					w_en2 <= 1;
-				end
+				START: w_en2 <= 1;	
 				ADDRESS: begin
 					if(saved_addr[counter]==0) w_en2 <= 1;
 					else w_en2 <= 0;
@@ -209,86 +258,157 @@ module i2c_controller_ASM330LHHX
 					if(saved_data[counter]==0) w_en2 <= 1;
 					else w_en2 <= 0;
 				end
-
 				WRITE_ACK ,  WRITE_ACK2,  WRITE_ACK3,  WRITE_ACK4, WRITE_ACK5,
 				WRITE_ACK6,  WRITE_ACK7,  WRITE_ACK8,  WRITE_ACK9, WRITE_ACK10,
 				WRITE_ACK11, WRITE_ACK12, WRITE_ACK13, WRITE_ACK14: begin
 					w_en2 <= 1;
 				end
-			
-				STOP: begin
-					w_en2 <= 1;
-				end
+				STOP: w_en2 <= 1;
 				default: w_en2 <= 0;
 			endcase
 		end
 	end
 
+// rising edge detection
+
+reg i_sync_d, r_sync;
+
+always @(posedge i2c_clk or negedge i_rst_n) begin
+	if (!i_rst_n) begin
+		i_sync_d <= 0;
+		r_sync   <= 0;
+	end else begin
+		i_sync_d <= i_sync;  // 記錄前一個時鐘的 i_sync
+		r_sync   <= i_sync & ~i_sync_d;  // 產生 1-clock 寬度脈衝
+	end
+end
+
 // State machine states
-typedef enum logic [2:0] {
-	HW_SM_W_REG_TEMP_L = 3'd0,
-	HW_SM_R_ALL = 3'd1
-} state_t;
+typedef enum logic [1:0] {
+	CPU_SM_W_REG = 2'd0,
+	CPU_SM_READ  = 2'd1
+} CPU_SM_t;
 
 typedef enum logic [2:0] {
-	CPU_SM_W_REG = 3'd0,
-	CPU_SM_R_REG = 3'd1
-} CPU_state_t;
+	HW_SM_WAIT_DRDY     = 3'd0,
+	HW_SM_W_REG   		= 3'd1,
+	HW_SM_READ_DATA	    = 3'd2
+} HW_SM_t;
 
-state_t HW_SM;
-CPU_state_t CPU_SM;
+CPU_SM_t CPU_SM;
+HW_SM_t  HW_SM;
+
+reg i_drdy_sync1, i_drdy_sync2;
+always @(posedge i2c_clk or negedge i_rst_n) begin
+    if (!i_rst_n) begin
+        i_drdy_sync1 <= 1'b1;
+        i_drdy_sync2 <= 1'b1;
+    end
+    else begin
+        i_drdy_sync1 <= i_drdy;
+        i_drdy_sync2 <= i_drdy_sync1;
+    end
+end
+
+// 修改 i2c_controller_ASM330LHHX_V2.sv 裡面的輸出區塊
+always @(posedge i_clk or negedge i_rst_n) begin
+    if (!i_rst_n) begin
+        o_GYROX <= 0; o_GYROY <= 0; o_GYROZ <= 0;
+        o_ACCX  <= 0; o_ACCY  <= 0; o_ACCZ  <= 0;
+        o_TEMP  <= 0;
+    end else begin
+        // --- 情況 1：HW 模式下的 Latch 鎖定 ---
+        if (op_mode == HW) begin
+            if (i_latch_trigger) begin
+                o_GYROX <= live_gx;
+                o_GYROY <= live_gy;
+                o_GYROZ <= live_gz;
+                o_ACCX  <= live_ax;
+                o_ACCY  <= live_ay;
+                o_ACCZ  <= live_az;
+                o_TEMP  <= live_temp;
+            end
+        end
+        // --- 情況 2：CPU 模式 (寫入校驗或手動讀取) ---
+        else begin
+            // 讓輸出埠直接等於 live 暫存器，不等待 latch 訊號
+            o_GYROX <= live_gx;
+            o_GYROY <= live_gy;
+            o_GYROZ <= live_gz;
+            o_ACCX  <= live_ax;
+            o_ACCY  <= live_ay;
+            o_ACCZ  <= live_az;
+            o_TEMP  <= live_temp;
+        end
+    end
+end
 
 /*** SM update**/
 	always @(posedge i2c_clk or negedge i_rst_n) begin
 		if(!i_rst_n) begin
 			state <= IDLE;
+			wait_finish_flag <= 0;
 			write_done <= 1'b0;
 			reg_rd_data <= 0;reg_rd_data_2 <= 0;reg_rd_data_3 <= 0;
 			reg_rd_data_4 <= 0;reg_rd_data_5 <= 0;reg_rd_data_6 <= 0;
 			reg_rd_data_7 <= 0;reg_rd_data_8 <= 0;reg_rd_data_9 <= 0;
 			reg_rd_data_10 <= 0;reg_rd_data_11 <= 0;reg_rd_data_12 <= 0;
 			reg_rd_data_13 <= 0;reg_rd_data_14 <= 0;
-			o_ACCX <= 0; o_ACCY <= 0; o_ACCZ <= 0; o_TEMP <= 0;
-			o_GYROX <= 0; o_GYROY <= 0; o_GYROZ <= 0;
+			// o_ACCX <= 0; o_ACCY <= 0; o_ACCZ <= 0; o_TEMP <= 0;
+			// o_GYROX <= 0; o_GYROY <= 0; o_GYROZ <= 0;
+			
+			// o_AIN0 <= 0; o_AIN1 <= 0; o_AIN2 <= 0; o_AIN3 <= 0;
 			sm_enable <= 0; 
 			saved_data <= 0;
-			finish <= 0;
+			// finish <= 0;
+			/*** drdy_timeout init ***/
+			drdy_timeout <= 0;
+			/***  SM initialization  ***/
 			CPU_SM <= CPU_SM_W_REG;
-			HW_SM <= HW_SM_W_REG_TEMP_L;
+			HW_SM <= HW_SM_WAIT_DRDY;
 		end		
 		else begin
-
 			case(state)
-				IDLE: begin
-					case(op_mode) 
-						CPU_WREG, CPU_RREG: begin // CPU 模式之下可直接啟動 SM
-							if(i_enable) sm_enable <= 1; 
+				IDLE: begin // 根據op_mode模式來啟動狀態機
+					wait_finish_flag <= 0;
+					case (op_mode)
+						CPU_WREG, CPU_RREG: if(i_enable) sm_enable <= 1; 
+						HW: begin
+							if(HW_SM == HW_SM_WAIT_DRDY) begin
+								if(i_drdy_sync2 == 1'b1) begin  // INT1 有訊號來
+									HW_SM <= HW_SM_W_REG;
+									sm_enable <= 1;
+									// drdy_timeout <= 32'd0;
+								end
+								else begin
+            						sm_enable <= 0;
+								end
+							end
+							else sm_enable <= 1;
 						end
-						HW: begin  // HW 模式之下當 drdy 來時才啟動 SM
-							if(i_drdy) sm_enable <= 1; 
-						end 
-						default: state <= IDLE;
 					endcase
 
-					if (sm_enable) begin
-						state <= START;
-					end
+					if (sm_enable) state <= START;
 					else state <= IDLE;
 				end
 
 				START: begin
 					counter <= 7; // Initialize counter to 7 in this state, as it will be used as an index in the next state.
-					case(op_mode) 
-						CPU_WREG: saved_addr <= {ASM330LHHX_DEV_ADDR, 1'b0};
+
+					case (op_mode)
+						CPU_WREG: begin
+							saved_addr <= {i_dev_addr, 1'b0};
+						end
 						CPU_RREG: begin
-							if(CPU_SM == CPU_SM_W_REG) saved_addr <= {ASM330LHHX_DEV_ADDR, 1'b0}; // CPU 讀取模式第一輪 : 寫入 reg 
-							else if(CPU_SM == CPU_SM_R_REG) saved_addr <= {ASM330LHHX_DEV_ADDR, 1'b1}; // CPU CPU 讀取模式第二輪 : 讀出 reg 
-						end 
+							if(CPU_SM == CPU_SM_W_REG) saved_addr <= {i_dev_addr, 1'b0};
+							else if(CPU_SM == CPU_SM_READ) saved_addr <= {i_dev_addr, 1'b1};
+						end
 						HW: begin
-							if(HW_SM == HW_SM_W_REG_TEMP_L) saved_addr <= {ASM330LHHX_DEV_ADDR, 1'b0}; // HW 讀取模式第一輪 : 寫入 reg
-							else if(HW_SM == HW_SM_R_ALL) saved_addr <= {ASM330LHHX_DEV_ADDR, 1'b1}; // HW 讀取模式第二輪 : 讀出 reg
+							if(HW_SM == HW_SM_W_REG) saved_addr <= {i_dev_addr, 1'b0};
+							else saved_addr <= {i_dev_addr, 1'b1};
 						end
 					endcase
+
 					state <= ADDRESS;
 				end
 
@@ -296,7 +416,7 @@ CPU_state_t CPU_SM;
 					if (counter == 0) begin 
 						state <= READ_ACK;
 					end else begin
-						 counter <= counter - 1;
+						counter <= counter - 1;
 					end
 				end
 
@@ -310,7 +430,7 @@ CPU_state_t CPU_SM;
 				READ_ACK_B: begin
 					counter <= 7; // Initialize counter to 7 in this state, as it will be used as an index in the next state.
 
-					case(op_mode) 
+					case (op_mode)
 						CPU_WREG: begin
 							saved_data <= i_reg_addr;
 							state <= REG_ADDR;
@@ -320,22 +440,24 @@ CPU_state_t CPU_SM;
 								saved_data <= i_reg_addr;
 								state <= REG_ADDR;
 							end
-							else if(CPU_SM == CPU_SM_R_REG) state <= READ_DATA;
+							else if(CPU_SM == CPU_SM_READ) state <= READ_DATA;
 						end
-						HW: begin
-							if(HW_SM == HW_SM_W_REG_TEMP_L) begin
-								saved_data <= REG_OUT_TEMP_L;
-								state <= REG_ADDR;
-							end
-							else if(HW_SM == HW_SM_R_ALL) state <= READ_DATA;
+						HW: begin 
+							case(HW_SM)
+								HW_SM_W_REG: begin 
+									saved_data <= OUT_TEMP_L;
+									state <= REG_ADDR;
+								end
+								HW_SM_READ_DATA: state <= READ_DATA;
+							endcase
 						end
 					endcase
 				end
 
 				REG_ADDR: begin 
-					if(counter == 0) begin
+					if (counter == 0) begin 
 						state <= READ_ACK2;
-					end else begin 
+					end else begin
 						counter <= counter - 1;
 					end
 				end
@@ -345,101 +467,113 @@ CPU_state_t CPU_SM;
 				end
 
 				READ_ACK2_B: begin 
-					if(op_mode == CPU_WREG) begin
-						counter <= 7;
-						saved_data = i_w_data;
-						state <= WRITE_DATA;
-					end
-					else state <= STOP;
+
+					case (op_mode)
+						
+						CPU_WREG: begin
+							counter <= 7;
+							saved_data <= i_w_data;
+							state <= WRITE_DATA;
+						end
+						CPU_RREG: state <= STOP;	
+						HW: state <= STOP;
+						default: begin
+							 state <= STOP;
+						end
+					endcase
 				end
 
 				STOP: begin
-					case(op_mode) 
-						CPU_WREG: begin
-							sm_enable <= 0;
-						end
+					case (op_mode)
+						CPU_WREG: sm_enable <= 0;
 						CPU_RREG: begin
-							if(CPU_SM == CPU_SM_W_REG) CPU_SM <= CPU_SM_R_REG;
-							else if(CPU_SM == CPU_SM_R_REG) begin
+							if(CPU_SM == CPU_SM_W_REG) CPU_SM <= CPU_SM_READ;
+							else if(CPU_SM == CPU_SM_READ) begin
 								CPU_SM <= CPU_SM_W_REG;
 								sm_enable <= 0;
-								o_GYROX <= {24'b0, reg_rd_data}; // 當模式為 CPU 讀取時，使用 o_GYROX 當作讀到的 reg 值
+								live_gx <= {24'b0, reg_rd_data}; // 當模式為 CPU 讀取時，使用 o_GYROX 當作讀到的 reg 值
 							end
 						end
 						HW: begin
-							if(HW_SM == HW_SM_W_REG_TEMP_L) HW_SM <= HW_SM_R_ALL;
-							else if(HW_SM == HW_SM_R_ALL) begin
-								HW_SM <= HW_SM_W_REG_TEMP_L;
-								sm_enable <= 0;
-								o_TEMP <= {16'b0, reg_rd_data_2, reg_rd_data};
-								o_GYROX <= {{16{reg_rd_data_4[7]}}, reg_rd_data_4, reg_rd_data_3};
-								o_GYROY <= {{16{reg_rd_data_6[7]}}, reg_rd_data_6, reg_rd_data_5};
-								o_GYROZ <= {{16{reg_rd_data_8[7]}}, reg_rd_data_8, reg_rd_data_7};
-								o_ACCX <= {{16{reg_rd_data_10[7]}}, reg_rd_data_10, reg_rd_data_9};
-								o_ACCY <= {{16{reg_rd_data_12[7]}}, reg_rd_data_12, reg_rd_data_11};
-								o_ACCZ <= {{16{reg_rd_data_14[7]}}, reg_rd_data_14, reg_rd_data_13};
-							end
+							case(HW_SM)
+								HW_SM_W_REG: HW_SM <= HW_SM_READ_DATA ;
+								HW_SM_READ_DATA: begin
+									HW_SM <= HW_SM_WAIT_DRDY;
+									sm_enable <= 0;
+
+									live_temp <= {{16{reg_rd_data_2[7]}}, reg_rd_data_2, reg_rd_data};
+									live_gx   <= {{16{reg_rd_data_4[7]}}, reg_rd_data_4, reg_rd_data_3};
+									live_gy   <= {{16{reg_rd_data_6[7]}}, reg_rd_data_6, reg_rd_data_5};
+									live_gz   <= {{16{reg_rd_data_8[7]}}, reg_rd_data_8, reg_rd_data_7};
+									live_ax   <= {{16{reg_rd_data_10[7]}}, reg_rd_data_10, reg_rd_data_9};
+									live_ay   <= {{16{reg_rd_data_12[7]}}, reg_rd_data_12, reg_rd_data_11};
+									live_az   <= {{16{reg_rd_data_14[7]}}, reg_rd_data_14, reg_rd_data_13};
+								end
+							endcase
 						end
+						default: state <= STOP;
 					endcase
-					state <= STOP2;	
-								
+
+					state <= STOP2;
+					
 				end
 
 				STOP2: begin
 					state <= IDLE;
-					finish <= 0;
+					// finish <= 0;
 				end
 
+
 				WRITE_DATA: begin 
-					if(counter == 0) begin
+					if (counter == 0) begin 
 						state <= READ_ACK3;
 					end else begin
 						counter <= counter - 1;
 					end
 				end
+
 				READ_ACK3: begin 
 					state <= READ_ACK3_B;
 				end
+
 				READ_ACK3_B: begin 
-					finish <= 1;
+					wait_finish_flag <= 1;
 					state <= STOP;
 				end
 
-				READ_DATA: begin
+				READ_DATA: begin				
 					reg_rd_data[counter] <= i2c_sda;
-
 					if (counter == 0) state <= WRITE_ACK;
-					else begin
-						counter <= counter - 1;
-					end
+					else counter <= counter - 1;
 				end
-				WRITE_ACK: begin//12
-					if(op_mode == CPU_RREG) begin
-						finish <= 1;
-						state <= STOP;
-					end
-					else begin
-						counter <= 7;
-						state <= READ_DATA2;
-					end
+				
+				WRITE_ACK: begin
+					case (op_mode)
+						CPU_RREG: begin
+							wait_finish_flag <= 1;
+							state <= STOP;
+						end
+						HW: begin
+							counter <= 7;
+							state <= READ_DATA2;
+						end
+					endcase
 				end
+
 				READ_DATA2: begin
 					reg_rd_data_2[counter] <= i2c_sda;
 					if (counter == 0) state <= WRITE_ACK2;
-					else begin
-						counter <= counter - 1;
-					end
+					else counter <= counter - 1;
 				end
 				WRITE_ACK2: begin
 					counter <= 7;
 					state <= READ_DATA3;
 				end
+
 				READ_DATA3: begin
 					reg_rd_data_3[counter] <= i2c_sda;
 					if (counter == 0) state <= WRITE_ACK3;
-					else begin
-						counter <= counter - 1;
-					end
+					else counter <= counter - 1;
 				end
 				WRITE_ACK3: begin
 					counter <= 7;
@@ -563,7 +697,7 @@ CPU_state_t CPU_SM;
 					end
 				end
 				WRITE_ACK14: begin
-					finish <= 1;
+					wait_finish_flag <= 1;
 					state <= STOP;
 				end
 
@@ -600,7 +734,6 @@ CPU_state_t CPU_SM;
 				WRITE_DATA: begin //write reg value
 					sda_out <= saved_data[counter];
 				end
-
 				WRITE_ACK, WRITE_ACK2, WRITE_ACK3, WRITE_ACK4, WRITE_ACK5, WRITE_ACK6, 
 				WRITE_ACK7, WRITE_ACK8, WRITE_ACK9, WRITE_ACK10, WRITE_ACK11, WRITE_ACK12, 
 				WRITE_ACK13, WRITE_ACK14: begin
@@ -612,7 +745,7 @@ CPU_state_t CPU_SM;
 				READ_DATA13, READ_DATA14: begin
 					sda_out <= 1;			
 				end
-				
+
 				STOP: begin
 					sda_out <= 0;
 				end

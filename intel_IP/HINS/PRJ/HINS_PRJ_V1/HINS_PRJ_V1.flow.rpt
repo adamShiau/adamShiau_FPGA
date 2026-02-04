@@ -1,5 +1,5 @@
 Flow report for HINS_PRJ_V1
-Fri Dec 26 23:44:51 2025
+Wed Feb 04 15:21:15 2026
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -40,17 +40,17 @@ refer to the applicable agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Flow Summary                                                                     ;
 +------------------------------------+---------------------------------------------+
-; Flow Status                        ; Successful - Fri Dec 26 23:44:44 2025       ;
+; Flow Status                        ; Successful - Wed Feb 04 15:21:11 2026       ;
 ; Quartus Prime Version              ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                      ; HINS_PRJ_V1                                 ;
 ; Top-level Entity Name              ; HINS_TOP_V1                                 ;
 ; Family                             ; Cyclone IV E                                ;
 ; Device                             ; EP4CE15F17I7                                ;
 ; Timing Models                      ; Final                                       ;
-; Total logic elements               ; 8,659 / 15,408 ( 56 % )                     ;
-;     Total combinational functions  ; 7,016 / 15,408 ( 46 % )                     ;
-;     Dedicated logic registers      ; 5,616 / 15,408 ( 36 % )                     ;
-; Total registers                    ; 5684                                        ;
+; Total logic elements               ; 8,784 / 15,408 ( 57 % )                     ;
+;     Total combinational functions  ; 7,031 / 15,408 ( 46 % )                     ;
+;     Dedicated logic registers      ; 5,729 / 15,408 ( 37 % )                     ;
+; Total registers                    ; 5797                                        ;
 ; Total pins                         ; 98 / 166 ( 59 % )                           ;
 ; Total virtual pins                 ; 0                                           ;
 ; Total memory bits                  ; 23,040 / 516,096 ( 4 % )                    ;
@@ -64,7 +64,7 @@ refer to the applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 12/26/2025 23:42:08 ;
+; Start date & time ; 02/04/2026 15:19:35 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; HINS_PRJ_V1         ;
 +-------------------+---------------------+
@@ -75,7 +75,7 @@ refer to the applicable agreement for further details.
 +-------------------------------------+----------------------------------------+---------------+-------------+------------+
 ; Assignment Name                     ; Value                                  ; Default Value ; Entity Name ; Section Id ;
 +-------------------------------------+----------------------------------------+---------------+-------------+------------+
-; COMPILER_SIGNATURE_ID               ; 963351282519.176676372847912           ; --            ; --          ; --         ;
+; COMPILER_SIGNATURE_ID               ; 192355418311013.177018957515304        ; --            ; --          ; --         ;
 ; ENABLE_SIGNALTAP                    ; Off                                    ; --            ; --          ; --         ;
 ; MAX_CORE_JUNCTION_TEMP              ; 100                                    ; --            ; --          ; --         ;
 ; MIN_CORE_JUNCTION_TEMP              ; -40                                    ; --            ; --          ; --         ;
@@ -109,11 +109,11 @@ refer to the applicable agreement for further details.
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis ; 00:01:41     ; 1.0                     ; 5071 MB             ; 00:02:05                           ;
-; Fitter               ; 00:00:45     ; 1.4                     ; 6460 MB             ; 00:01:33                           ;
-; Assembler            ; 00:00:02     ; 1.0                     ; 4708 MB             ; 00:00:02                           ;
-; Timing Analyzer      ; 00:00:06     ; 1.7                     ; 5000 MB             ; 00:00:07                           ;
-; Total                ; 00:02:34     ; --                      ; --                  ; 00:03:47                           ;
+; Analysis & Synthesis ; 00:01:05     ; 1.0                     ; 5069 MB             ; 00:01:14                           ;
+; Fitter               ; 00:00:27     ; 1.5                     ; 6638 MB             ; 00:01:09                           ;
+; Assembler            ; 00:00:01     ; 1.0                     ; 4709 MB             ; 00:00:01                           ;
+; Timing Analyzer      ; 00:00:03     ; 1.9                     ; 5025 MB             ; 00:00:05                           ;
+; Total                ; 00:01:36     ; --                      ; --                  ; 00:02:29                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
@@ -122,10 +122,10 @@ refer to the applicable agreement for further details.
 +----------------------+------------------+------------+------------+----------------+
 ; Module Name          ; Machine Hostname ; OS Name    ; OS Version ; Processor type ;
 +----------------------+------------------+------------+------------+----------------+
-; Analysis & Synthesis ; LAPTOP-BCC7FD8D  ; Windows 10 ; 10.0       ; x86_64         ;
-; Fitter               ; LAPTOP-BCC7FD8D  ; Windows 10 ; 10.0       ; x86_64         ;
-; Assembler            ; LAPTOP-BCC7FD8D  ; Windows 10 ; 10.0       ; x86_64         ;
-; Timing Analyzer      ; LAPTOP-BCC7FD8D  ; Windows 10 ; 10.0       ; x86_64         ;
+; Analysis & Synthesis ; Adam-ThinkPad    ; Windows 10 ; 10.0       ; x86_64         ;
+; Fitter               ; Adam-ThinkPad    ; Windows 10 ; 10.0       ; x86_64         ;
+; Assembler            ; Adam-ThinkPad    ; Windows 10 ; 10.0       ; x86_64         ;
+; Timing Analyzer      ; Adam-ThinkPad    ; Windows 10 ; 10.0       ; x86_64         ;
 +----------------------+------------------+------------+------------+----------------+
 
 
