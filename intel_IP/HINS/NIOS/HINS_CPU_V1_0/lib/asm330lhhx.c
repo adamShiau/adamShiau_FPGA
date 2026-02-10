@@ -5,9 +5,10 @@
 #define I2C_DEV_ADDR	0x6A
 
 /******** I2C lock rate definition*********/
-#define CLK_390K 	 7
-#define CLK_781K 	 6
-#define CLK_1562K 	 5
+#define CLK_195K 	 0
+#define CLK_390K 	 1
+#define CLK_781K 	 2
+#define CLK_1562K 	 3
 #define CLK_3125K 	 4
 
 
@@ -188,38 +189,138 @@
 static alt_u32 dly_cnt = 0, number = 5000;
 static const DELAY_NUM = 100000;
 
+/***********help fucntion definition */
+/******** I2C Clock Rate Lookup Table (Internal Use) *********/
+typedef struct {
+    alt_u8 reg_val;
+    const char* freq_str;
+} i2c_clk_map_t;
+
+static const i2c_clk_map_t i2c_clk_table[] = {
+    {CLK_195K,  "195 KHz"},
+    {CLK_390K,  "390 KHz"},
+    {CLK_781K,  "781 KHz"},
+    {CLK_1562K, "1.56 MHz"},
+    {CLK_3125K, "3.12 MHz"}
+};
+
+static const char* get_i2c_freq_name(alt_u8 rate) {
+    int i;
+    for (i = 0; i < sizeof(i2c_clk_table)/sizeof(i2c_clk_table[0]); i++) {
+        if (i2c_clk_table[i].reg_val == rate) {
+            return i2c_clk_table[i].freq_str;
+        }
+    }
+    return "Unknown Speed";
+}
+
 /***********high level definition */
+// void init_ASM330LHHX()
+// {
+//     DEBUG_PRINT("\nStarting ASM330LHHX Secure Init...\n");
+
+// 	I2C_clock_rate_sel_ASM330LHHX(CLK_195K);
+
+// 	I2C_sm_set_finish_clear_pulse_ASM330LHHX(); // let finish starts at zero
+
+//     // 1. 物理層檢查：確保能通訊
+//     alt_u8 who_am_i = I2C_read_ASM330LHHX_register(WHO_AM_I, 1);
+//     if(who_am_i != 0x6B) {
+//         DEBUG_PRINT("Critical Error: ASM330LHHX not found! (ID: 0x%02X)\n", who_am_i);
+//         return;
+//     }
+
+//     // 2. 依序配置參數並校驗
+//     I2C_write_verify_ASM330LHHX(CTRL1_XL, ACCL_FS_16G | ACCL_ODR_416HZ | LPF2_XL_EN);
+//     I2C_write_verify_ASM330LHHX(CTRL2_G, GYRO_FS_1000DPS | GYRO_ODR_416HZ);
+//     I2C_write_verify_ASM330LHHX(CTRL3_C, BDU | IF_INC);
+//     I2C_write_verify_ASM330LHHX(CTRL4_C, INT2_ON_INT1 | LPF1_SEL_G);
+//     I2C_write_verify_ASM330LHHX(CTRL6_C, LPF1_FTYPE_0);
+//     I2C_write_verify_ASM330LHHX(CTRL8_XL, HPCF_XL_0);
+//     I2C_write_verify_ASM330LHHX(COUNTER_BDR_REG1, DATAREADY_PULSED);
+//     I2C_write_verify_ASM330LHHX(INT1_CTRL, INT1_DRDY_XL | INT1_DRDY_G);
+//     I2C_write_verify_ASM330LHHX(INT2_CTRL, INT2_DRDY_TEMP);
+
+//     // 3. 關鍵延遲：等待感測器內部數位濾波器穩定
+//     // 根據 416Hz ODR，至少需要幾個週期，建議給 20ms
+//     usleep(20000); 
+
+//     // 4. 切換模式至硬體自動讀取
+//     I2C_op_mode_sel_ASM330LHHX(HW);
+//     I2C_set_device_addr_ASM330LHHX(I2C_DEV_ADDR);
+    
+//     DEBUG_PRINT("ASM330LHHX Init Done and switched to HW mode.\n");
+// }
+
 void init_ASM330LHHX()
 {
-    DEBUG_PRINT("\nStarting ASM330LHHX Secure Init...\n");
+    DEBUG_PRINT("\n==============================================\n");
+    DEBUG_PRINT("     ASM330LHHX Sensor Initialization         \n");
+    DEBUG_PRINT("==============================================\n");
 
-    // 1. 物理層檢查：確保能通訊
-    alt_u8 who_am_i = I2C_read_ASM330LHHX_register(WHO_AM_I, 1);
+    // 設定 I2C 頻率
+	alt_u8 I2C_CLK_rate = CLK_195K;
+
+    I2C_clock_rate_sel_ASM330LHHX(I2C_CLK_rate);
+
+	DEBUG_PRINT("[ INFO ] I2C Clock Rate set to: %s (Val: %d)\n", 
+                get_i2c_freq_name(I2C_CLK_rate), I2C_CLK_rate);
+
+    I2C_sm_set_finish_clear_pulse_ASM330LHHX(); 
+
+    // 1. 物理層檢查：確認 ID
+    alt_u8 who_am_i = I2C_read_ASM330LHHX_register(WHO_AM_I, 0);
     if(who_am_i != 0x6B) {
-        DEBUG_PRINT("Critical Error: ASM330LHHX not found! (ID: 0x%02X)\n", who_am_i);
+        DEBUG_PRINT("[CRITICAL] Device NOT Found! Expected 0x6B, Got: 0x%02X\n", who_am_i);
         return;
     }
+    DEBUG_PRINT("[  OK  ] Communication established. (ID: 0x6B)\n");
 
-    // 2. 依序配置參數並校驗
-    I2C_write_verify_ASM330LHHX(CTRL1_XL, ACCL_FS_16G | ACCL_ODR_416HZ | LPF2_XL_EN);
-    I2C_write_verify_ASM330LHHX(CTRL2_G, GYRO_FS_1000DPS | GYRO_ODR_416HZ);
-    I2C_write_verify_ASM330LHHX(CTRL3_C, BDU | IF_INC);
-    I2C_write_verify_ASM330LHHX(CTRL4_C, INT2_ON_INT1 | LPF1_SEL_G);
-    I2C_write_verify_ASM330LHHX(CTRL6_C, LPF1_FTYPE_0);
-    I2C_write_verify_ASM330LHHX(CTRL8_XL, HPCF_XL_0);
-    I2C_write_verify_ASM330LHHX(COUNTER_BDR_REG1, DATAREADY_PULSED);
-    I2C_write_verify_ASM330LHHX(INT1_CTRL, INT1_DRDY_XL | INT1_DRDY_G);
-    I2C_write_verify_ASM330LHHX(INT2_CTRL, INT2_DRDY_TEMP);
+    // 2. 定義配置清單 (方便後續維護)
+    struct {
+        alt_u8 addr;
+        alt_u8 val;
+        const char* label;
+    } configs[] = {
+        {CTRL1_XL, ACCL_FS_16G | ACCL_ODR_416HZ | LPF2_XL_EN, "Accel Config (16G, 416Hz)"},
+        {CTRL2_G,  GYRO_FS_1000DPS | GYRO_ODR_416HZ,          "Gyro Config (1000DPS, 416Hz)"},
+        {CTRL3_C,  BDU | IF_INC,                              "System (BDU, Auto-Inc)"},
+        {CTRL4_C,  INT2_ON_INT1 | LPF1_SEL_G,                 "Signal Routing (INT1/LPF)"},
+        {CTRL6_C,  LPF1_FTYPE_0,                              "Gyro LPF1 Bandwidth"},
+        {CTRL8_XL, HPCF_XL_0,                                 "Accel LPF2 Cutoff"},
+        {COUNTER_BDR_REG1, DATAREADY_PULSED,                  "DataReady Pulsed Mode"},
+        {INT1_CTRL, INT1_DRDY_XL | INT1_DRDY_G,               "Interrupt 1 Map (A+G)"},
+        {INT2_CTRL, INT2_DRDY_TEMP,                           "Interrupt 2 Map (Temp)"}
+    };
 
-    // 3. 關鍵延遲：等待感測器內部數位濾波器穩定
-    // 根據 416Hz ODR，至少需要幾個週期，建議給 20ms
-    usleep(20000); 
+    // 3. 執行配置並印出結果
+    int i;
+    int fail_count = 0;
+    int total_configs = sizeof(configs) / sizeof(configs[0]);
 
-    // 4. 切換模式至硬體自動讀取
-    I2C_op_mode_sel_ASM330LHHX(HW);
-    I2C_set_device_addr_ASM330LHHX(I2C_DEV_ADDR);
-    
-    DEBUG_PRINT("ASM330LHHX Init Done and switched to HW mode.\n");
+    for(i = 0; i < total_configs; i++) {
+        if(I2C_write_verify_ASM330LHHX(configs[i].addr, configs[i].val) == 0) {
+            DEBUG_PRINT("[  OK  ] %-25s | Reg: 0x%02X | Val: 0x%02X\n", 
+                        configs[i].label, configs[i].addr, configs[i].val);
+        } else {
+            DEBUG_PRINT("[FAILED] %-25s | Reg: 0x%02X | Expected: 0x%02X\n", 
+                        configs[i].label, configs[i].addr, configs[i].val);
+            fail_count++;
+        }
+    }
+
+    // 4. 最後確認與切換模式
+    if(fail_count == 0) {
+        usleep(20000); // 等待數位濾波器穩定
+        I2C_op_mode_sel_ASM330LHHX(HW); // 切換至硬體自動讀取模式
+        I2C_set_device_addr_ASM330LHHX(I2C_DEV_ADDR);
+        DEBUG_PRINT("----------------------------------------------\n");
+        DEBUG_PRINT("Status: ALL SUCCESS. Hardware mode active.\n");
+    } else {
+        DEBUG_PRINT("----------------------------------------------\n");
+        DEBUG_PRINT("Status: INIT FAILED with %d errors.\n", fail_count);
+    }
+    DEBUG_PRINT("==============================================\n\n");
 }
 
 /**

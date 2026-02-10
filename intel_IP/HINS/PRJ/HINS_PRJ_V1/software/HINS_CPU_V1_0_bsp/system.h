@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2' in SOPC Builder design 'CPU'
  * SOPC Builder design path: ../../CPU.sopcinfo
  *
- * Generated: Wed Feb 04 15:21:37 CST 2026
+ * Generated: Tue Feb 10 14:47:13 CST 2026
  */
 
 /*
@@ -405,7 +405,7 @@
 #define SYSID_IRQ_INTERRUPT_CONTROLLER_ID -1
 #define SYSID_NAME "/dev/sysid"
 #define SYSID_SPAN 8
-#define SYSID_TIMESTAMP 1770189588
+#define SYSID_TIMESTAMP 1770705758
 #define SYSID_TYPE "altera_avalon_sysid_qsys"
 
 
