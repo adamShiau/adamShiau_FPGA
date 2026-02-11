@@ -215,43 +215,6 @@ static const char* get_i2c_freq_name(alt_u8 rate) {
 }
 
 /***********high level definition */
-// void init_ASM330LHHX()
-// {
-//     DEBUG_PRINT("\nStarting ASM330LHHX Secure Init...\n");
-
-// 	I2C_clock_rate_sel_ASM330LHHX(CLK_195K);
-
-// 	I2C_sm_set_finish_clear_pulse_ASM330LHHX(); // let finish starts at zero
-
-//     // 1. 物理層檢查：確保能通訊
-//     alt_u8 who_am_i = I2C_read_ASM330LHHX_register(WHO_AM_I, 1);
-//     if(who_am_i != 0x6B) {
-//         DEBUG_PRINT("Critical Error: ASM330LHHX not found! (ID: 0x%02X)\n", who_am_i);
-//         return;
-//     }
-
-//     // 2. 依序配置參數並校驗
-//     I2C_write_verify_ASM330LHHX(CTRL1_XL, ACCL_FS_16G | ACCL_ODR_416HZ | LPF2_XL_EN);
-//     I2C_write_verify_ASM330LHHX(CTRL2_G, GYRO_FS_1000DPS | GYRO_ODR_416HZ);
-//     I2C_write_verify_ASM330LHHX(CTRL3_C, BDU | IF_INC);
-//     I2C_write_verify_ASM330LHHX(CTRL4_C, INT2_ON_INT1 | LPF1_SEL_G);
-//     I2C_write_verify_ASM330LHHX(CTRL6_C, LPF1_FTYPE_0);
-//     I2C_write_verify_ASM330LHHX(CTRL8_XL, HPCF_XL_0);
-//     I2C_write_verify_ASM330LHHX(COUNTER_BDR_REG1, DATAREADY_PULSED);
-//     I2C_write_verify_ASM330LHHX(INT1_CTRL, INT1_DRDY_XL | INT1_DRDY_G);
-//     I2C_write_verify_ASM330LHHX(INT2_CTRL, INT2_DRDY_TEMP);
-
-//     // 3. 關鍵延遲：等待感測器內部數位濾波器穩定
-//     // 根據 416Hz ODR，至少需要幾個週期，建議給 20ms
-//     usleep(20000); 
-
-//     // 4. 切換模式至硬體自動讀取
-//     I2C_op_mode_sel_ASM330LHHX(HW);
-//     I2C_set_device_addr_ASM330LHHX(I2C_DEV_ADDR);
-    
-//     DEBUG_PRINT("ASM330LHHX Init Done and switched to HW mode.\n");
-// }
-
 void init_ASM330LHHX()
 {
     DEBUG_PRINT("\n==============================================\n");
