@@ -15,6 +15,7 @@
 
 /*** high level declaration */
 void init_ADS122C04_TEMP(void);
+int I2C_write_verify_ADS122C04(alt_u8 w_addr, alt_u8 r_addr, alt_u8 data);
 void read_ADS122C04_TEMP(void);
 void test_ADS122C04(void);
 

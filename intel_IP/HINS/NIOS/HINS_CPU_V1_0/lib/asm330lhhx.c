@@ -5,11 +5,12 @@
 #define I2C_DEV_ADDR	0x6A
 
 /******** I2C lock rate definition*********/
-#define CLK_195K 	 0
-#define CLK_390K 	 1
-#define CLK_781K 	 2
-#define CLK_1562K 	 3
-#define CLK_3125K 	 4
+#define CLK_97K 	 0
+#define CLK_195K 	 1
+#define CLK_390K 	 2
+#define CLK_781K 	 3
+#define CLK_1562K 	 4
+#define CLK_3125K 	 5
 
 
 /******** VAR Register*********/
@@ -197,6 +198,7 @@ typedef struct {
 } i2c_clk_map_t;
 
 static const i2c_clk_map_t i2c_clk_table[] = {
+	{CLK_97K,   "97 KHz"},
     {CLK_195K,  "195 KHz"},
     {CLK_390K,  "390 KHz"},
     {CLK_781K,  "781 KHz"},
@@ -222,7 +224,7 @@ void init_ASM330LHHX()
     DEBUG_PRINT("==============================================\n");
 
     // 設定 I2C 頻率
-	alt_u8 I2C_CLK_rate = CLK_195K;
+	alt_u8 I2C_CLK_rate = CLK_97K;
 
     I2C_clock_rate_sel_ASM330LHHX(I2C_CLK_rate);
 

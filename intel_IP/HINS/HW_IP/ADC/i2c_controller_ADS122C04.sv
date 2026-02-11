@@ -26,6 +26,15 @@ module i2c_controller_ADS122C04
 );
 
 	/*** I2C Clock rate definition for 100MHz input clock ***/
+	localparam CPU_CLK_97K 		= 	0;
+	localparam CPU_CLK_195K 	= 	1;
+	localparam CPU_CLK_390K 	= 	2;
+	localparam CPU_CLK_781K 	= 	3;
+	localparam CPU_CLK_1562K 	= 	4;
+	localparam CPU_CLK_3125K 	= 	5;
+
+	localparam  CLK_97K 	= 	9;
+	localparam CLK_195K 	= 	8;
 	localparam CLK_390K 	= 	7;
 	localparam CLK_781K 	= 	6;
 	localparam CLK_1562K 	= 	5;
@@ -89,11 +98,12 @@ module i2c_controller_ADS122C04
 	reg i2c_scl_enable2 = 0;
 	reg i2c_clk = 1;
 	reg clk_2x = 1;
-	reg	[8:0] CLK_COUNT = 0; 	//clock
+	reg	[9:0] CLK_COUNT = 0; 	//clock
+	reg [3:0] reg_clock_rate = 6;
 	reg write_done = 0; // write done flag
 	reg rw = 0;
 	reg r_drdy = 0;
-	reg [2:0] reg_clock_rate = 6;
+	
 
 	wire i_enable, finish_ack;
 	wire [2:0] op_mode;
@@ -148,10 +158,12 @@ module i2c_controller_ADS122C04
 		else begin
 			reg_clock_rate <= clk_rate;
 			case(clk_rate)
-				CLK_390K : reg_clock_rate <= CLK_390K;
-				CLK_781K : reg_clock_rate <= CLK_781K;
-				CLK_1562K : reg_clock_rate <= CLK_1562K;
-				CLK_3125K: reg_clock_rate <= CLK_3125K;
+				CPU_CLK_97K   : reg_clock_rate <= CLK_97K;	
+				CPU_CLK_195K  : reg_clock_rate <= CLK_195K;
+				CPU_CLK_390K  : reg_clock_rate <= CLK_390K;
+				CPU_CLK_781K  : reg_clock_rate <= CLK_781K;
+				CPU_CLK_1562K : reg_clock_rate <= CLK_1562K;
+				CPU_CLK_3125K : reg_clock_rate <= CLK_3125K;
 				default  : reg_clock_rate <= CLK_390K;
 			endcase
 		end

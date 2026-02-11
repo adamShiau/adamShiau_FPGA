@@ -5,10 +5,12 @@
 #define I2C_DEV_ADDR	0x45 // 100_0101
 
 /******** I2C lock rate definition*********/
-#define CLK_390K 	 7
-#define CLK_781K 	 6
-#define CLK_1562K 	 5
-#define CLK_3125K 	 4
+#define CLK_97K 	 0
+#define CLK_195K 	 1
+#define CLK_390K 	 2
+#define CLK_781K 	 3
+#define CLK_1562K 	 4
+#define CLK_3125K 	 5
 
 
 /******** VAR Register*********/
@@ -110,37 +112,137 @@
 static alt_u32 dly_cnt = 0, number = 5000;
 static const DELAY_NUM = 100000;
 
+/***********help fucntion definition */
+/******** I2C Clock Rate Lookup Table (Internal Use) *********/
+typedef struct {
+    alt_u8 reg_val;
+    const char* freq_str;
+} i2c_clk_map_t;
+
+static const i2c_clk_map_t i2c_clk_table[] = {
+	{CLK_97K,   "97 KHz"},
+    {CLK_195K,  "195 KHz"},
+    {CLK_390K,  "390 KHz"},
+    {CLK_781K,  "781 KHz"},
+    {CLK_1562K, "1.56 MHz"},
+    {CLK_3125K, "3.12 MHz"}
+};
+
+static const char* get_i2c_freq_name(alt_u8 rate) {
+    int i;
+    for (i = 0; i < sizeof(i2c_clk_table)/sizeof(i2c_clk_table[0]); i++) {
+        if (i2c_clk_table[i].reg_val == rate) {
+            return i2c_clk_table[i].freq_str;
+        }
+    }
+    return "Unknown Speed";
+}
+
 /***********high level definition */
+// void init_ADS122C04_TEMP()
+// {
+// 	/*** configure the ADXL355/357 ***/
+// 	I2C_clock_rate_sel_ADS122C04_TEMP(CLK_390K);
+
+// 	I2C_sm_set_finish_clear_pulse_ADS122C04_TEMP(); // let finish starts at zero
+
+// 	/*** RESET ***/
+// 	I2C_write_ADS122C04_TEMP_cmd(RESET);
+
+// 	/*** set ADS122C04 parameters ***/
+// 	I2C_write_ADS122C04_TEMP_register(WREG_CONFIG_0, MUX_AIN0_AVSS|GAIN_1|PGA_DISABLE);
+// 	I2C_read_ADS122C04_TEMP_register(RREG_CONFIG_0, 1);
+	
+// 	I2C_write_ADS122C04_TEMP_register(WREG_CONFIG_1, DR_20_40|MODE_NORMAL|CM_SINGLE_SHOT|VREF_ANALOG_SUPPLY|TS_DISABLE);
+// 	I2C_read_ADS122C04_TEMP_register(RREG_CONFIG_1, 1);
+
+// 	I2C_write_ADS122C04_TEMP_register(WREG_CONFIG_2, 0x00);
+// 	I2C_read_ADS122C04_TEMP_register(RREG_CONFIG_2, 1);
+
+// 	I2C_write_ADS122C04_TEMP_register(WREG_CONFIG_3, 0x00);
+// 	I2C_read_ADS122C04_TEMP_register(RREG_CONFIG_3, 1);
+
+// 	// test_ADS122C04();
+
+// 	// setting mode 
+// 	I2C_op_mode_sel_ADS122C04_TEMP(HW);
+// 	// Set I2C device address
+// 	I2C_set_device_addr_ADS122C04_TEMP(I2C_DEV_ADDR);
+// 	// test_ADS122C04();
+// }
+
 void init_ADS122C04_TEMP()
 {
-	/*** configure the ADXL355/357 ***/
-	I2C_clock_rate_sel_ADS122C04_TEMP(CLK_390K);
+    DEBUG_PRINT("\n==============================================\n");
+    DEBUG_PRINT("     ADS122C04 Sensor Initialization          \n");
+    DEBUG_PRINT("==============================================\n");
 
-	I2C_sm_set_finish_clear_pulse_ADS122C04_TEMP(); // let finish starts at zero
-
-	/*** RESET ***/
-	I2C_write_ADS122C04_TEMP_cmd(RESET);
-
-	/*** set ADS122C04 parameters ***/
-	I2C_write_ADS122C04_TEMP_register(WREG_CONFIG_0, MUX_AIN0_AVSS|GAIN_1|PGA_DISABLE);
-	I2C_read_ADS122C04_TEMP_register(RREG_CONFIG_0, 1);
+    // 1. 設定頻率
+    alt_u8 I2C_CLK_rate = CLK_390K;
+    I2C_clock_rate_sel_ADS122C04_TEMP(I2C_CLK_rate);
 	
-	I2C_write_ADS122C04_TEMP_register(WREG_CONFIG_1, DR_20_40|MODE_NORMAL|CM_SINGLE_SHOT|VREF_ANALOG_SUPPLY|TS_DISABLE);
-	I2C_read_ADS122C04_TEMP_register(RREG_CONFIG_1, 1);
+    DEBUG_PRINT("[ INFO ] I2C Clock Rate set to: %s (Val: %d)\n", 
+                get_i2c_freq_name(I2C_CLK_rate), I2C_CLK_rate);
 
-	I2C_write_ADS122C04_TEMP_register(WREG_CONFIG_2, 0x00);
-	I2C_read_ADS122C04_TEMP_register(RREG_CONFIG_2, 1);
+    I2C_sm_set_finish_clear_pulse_ADS122C04_TEMP(); 
 
-	I2C_write_ADS122C04_TEMP_register(WREG_CONFIG_3, 0x00);
-	I2C_read_ADS122C04_TEMP_register(RREG_CONFIG_3, 1);
+    // 2. 執行重置
+    I2C_write_ADS122C04_TEMP_cmd(RESET);
+    usleep(1000); // 重置後等待穩定
+    DEBUG_PRINT("[  OK  ] Global Reset command sent.\n");
 
-	// test_ADS122C04();
+    // 3. 定義配置清單 (與 ASM330 風格一致)
+    struct {
+        alt_u8 write_addr;
+        alt_u8 read_addr;
+        alt_u8 val;
+        const char* label;
+    } configs[] = {
+        {WREG_CONFIG_0, RREG_CONFIG_0, MUX_AIN0_AVSS | GAIN_1 | PGA_DISABLE, "MUX/Gain Config: Gain 0, PGA disable"},
+        {WREG_CONFIG_1, RREG_CONFIG_1, DR_20_40 | MODE_NORMAL | CM_SINGLE_SHOT | VREF_ANALOG_SUPPLY | TS_DISABLE, "DataRate: 20Hz, REF: AVDD"},
+        {WREG_CONFIG_2, RREG_CONFIG_2, 0x00, "IDAC Config: OFF"},
+        {WREG_CONFIG_3, RREG_CONFIG_3, 0x00, "IDAC MUX Config: disable"}
+    };
 
-	// setting mode 
-	I2C_op_mode_sel_ADS122C04_TEMP(HW);
-	// Set I2C device address
-	I2C_set_device_addr_ADS122C04_TEMP(I2C_DEV_ADDR);
-	// test_ADS122C04();
+    // 4. 執行配置並自動校驗
+    int fail_count = 0;
+    int total_configs = sizeof(configs) / sizeof(configs[0]);
+
+    for(int i = 0; i < total_configs; i++) {
+        if(I2C_write_verify_ADS122C04(configs[i].write_addr, configs[i].read_addr, configs[i].val) == 0) {
+            DEBUG_PRINT("[  OK  ] %-25s | Val: 0x%02X\n", configs[i].label, configs[i].val);
+        } else {
+            DEBUG_PRINT("[FAILED] %-25s | Expected: 0x%02X\n", configs[i].label, configs[i].val);
+            fail_count++;
+        }
+    }
+
+    // 5. 模式切換
+    if(fail_count == 0) {
+        I2C_op_mode_sel_ADS122C04_TEMP(HW);
+        I2C_set_device_addr_ADS122C04_TEMP(I2C_DEV_ADDR);
+        DEBUG_PRINT("----------------------------------------------\n");
+        DEBUG_PRINT("Status: ALL SUCCESS. Hardware mode active.\n");
+    } else {
+        DEBUG_PRINT("----------------------------------------------\n");
+        DEBUG_PRINT("Status: INIT FAILED with %d errors.\n", fail_count);
+    }
+    DEBUG_PRINT("==============================================\n\n");
+}
+
+int I2C_write_verify_ADS122C04(alt_u8 w_addr, alt_u8 r_addr, alt_u8 data) {
+    int retry = 3;
+    alt_u8 read_val;
+
+    while(retry--) {
+        I2C_write_ADS122C04_TEMP_register(w_addr, data);
+        usleep(1000);
+        read_val = I2C_read_ADS122C04_TEMP_register(r_addr, 0);
+        
+        if(read_val == data) return 0;
+        DEBUG_PRINT("Retry writing reg 0x%02X (Expected: 0x%02X, Got: 0x%02X)\n", w_addr, data, read_val);
+    }
+    return -1;
 }
 
 void test_ADS122C04()

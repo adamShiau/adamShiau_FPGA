@@ -5,10 +5,12 @@
 #define I2C_DEV_ADDR	0x57
 
 /******** I2C lock rate definition*********/
-#define CLK_390K 	 7
-#define CLK_781K 	 6
-#define CLK_1562K 	 5
-#define CLK_3125K 	 4
+#define CLK_97K 	 0
+#define CLK_195K 	 1
+#define CLK_390K 	 2
+#define CLK_781K 	 3
+#define CLK_1562K 	 4
+#define CLK_3125K 	 5
 
 /******** VAR Register*********/
 #define	O_VAR_DEV_ADDR		var_i2c_EEPROM_dev_addr
@@ -48,6 +50,32 @@ typedef union
   alt_32 int_val;
   alt_u8 bin_val[4];
 }my_alt32_t;
+
+/***********help fucntion definition */
+/******** I2C Clock Rate Lookup Table (Internal Use) *********/
+typedef struct {
+    alt_u8 reg_val;
+    const char* freq_str;
+} i2c_clk_map_t;
+
+static const i2c_clk_map_t i2c_clk_table[] = {
+	{CLK_97K,   "97 KHz"},
+    {CLK_195K,  "195 KHz"},
+    {CLK_390K,  "390 KHz"},
+    {CLK_781K,  "781 KHz"},
+    {CLK_1562K, "1.56 MHz"},
+    {CLK_3125K, "3.12 MHz"}
+};
+
+static const char* get_i2c_freq_name(alt_u8 rate) {
+    int i;
+    for (i = 0; i < sizeof(i2c_clk_table)/sizeof(i2c_clk_table[0]); i++) {
+        if (i2c_clk_table[i].reg_val == rate) {
+            return i2c_clk_table[i].freq_str;
+        }
+    }
+    return "Unknown Speed";
+}
 
 void EEPROM_RW_TEST()
 {
@@ -424,8 +452,23 @@ void PRINT_FOG_PARAMETER(fog_parameter_t* fog_params)
 /*** Initialization method */
 void init_EEPROM(void)
 {
-    I2C_clock_rate_sel(CLK_390K);
+	DEBUG_PRINT("\n==============================================\n");
+    DEBUG_PRINT("     EEPROM Initialization         \n");
+    DEBUG_PRINT("==============================================\n");
+
+	// 設定 I2C 頻率
+	alt_u8 I2C_CLK_rate = CLK_390K;
+
+    I2C_clock_rate_sel(I2C_CLK_rate);
+
+	DEBUG_PRINT("[ INFO ] I2C Clock Rate set to: %s (Val: %d)\n", 
+                get_i2c_freq_name(I2C_CLK_rate), I2C_CLK_rate);
+
+    // I2C_sm_set_finish_clear_pulse(); 
+
 //	EEPROM_RW_TEST();
+
+	DEBUG_PRINT("==============================================\n\n");
 }
 
 /***********mid level definition */
