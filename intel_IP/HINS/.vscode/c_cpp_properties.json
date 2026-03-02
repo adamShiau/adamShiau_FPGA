@@ -4,8 +4,10 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/include",
-                "D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib"
+                // "D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/include",
+                // "D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_0/lib",
+                "D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_1/include",
+                "D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_1/lib"
             ],
             "defines": [
                 "_DEBUG",
