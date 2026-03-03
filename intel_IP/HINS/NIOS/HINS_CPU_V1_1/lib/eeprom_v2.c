@@ -45,18 +45,18 @@
 #define True 1
 #define False 0
 
-static void print_mem_unit(mem_unit_t unit) {
+static void print_mem_unit(alt_u8 idx, mem_unit_t unit) {
     if (unit.type == TYPE_FLOAT) {
         // 處理浮點數
-        DEBUG_PRINT("type: float, val: %f\n", unit.data.float_val);
+        DEBUG_PRINT("%d, type: float, val: %f\n", idx, unit.data.float_val);
     } 
     else if (unit.type == TYPE_INT) {
         // 處理整數
-        DEBUG_PRINT("type: int, val: %d\n", unit.data.int_val);
+        DEBUG_PRINT("%d, type: int, val: %d\n", idx, unit.data.int_val);
     } 
 	else if (unit.type == TYPE_NAN) {
         // 處理整數
-        DEBUG_PRINT("type: nan, val: %d\n", unit.data.int_val);
+        DEBUG_PRINT("%d, type: nan, val: %d\n", idx, unit.data.int_val);
     } 
     else {
         DEBUG_PRINT("Unknown type!\n");
@@ -307,22 +307,22 @@ void PARAMETER_Write_s(alt_u8 base, alt_u8 number , alt_32 data, fog_parameter_t
 	if(base == MEM_BASE_X) {
 		check = fog_params->paramX[number].data.int_val;
 		data_f = fog_params->paramX[number].data.float_val;
-		type = fog_params->paramX[number].type;
+		type = fog_parameter_init[number].type;
 	}
 	else if(base == MEM_BASE_Y ) {
 		check = fog_params->paramY[number].data.int_val;
 		data_f = fog_params->paramX[number].data.float_val;
-		type = fog_params->paramX[number].type;
+		type = fog_parameter_init[number].type;
 	}
 	else if(base == MEM_BASE_Z ) {
 		check = fog_params->paramZ[number].data.int_val;
 		data_f = fog_params->paramX[number].data.float_val;
-		type = fog_params->paramX[number].type;
+		type = fog_parameter_init[number].type;
 	}
 	else if(base == MEM_BASE_MIS ) {
 		check = fog_params->misalignment[number].data.int_val;
 		data_f = fog_params->misalignment[number].data.float_val;
-		type = fog_params->misalignment[number].type;
+		type = misalignment_init[number].type;
 		DEBUG_PRINT("base: %d\n", base);
 		DEBUG_PRINT("container idx: %d\n", number);
 		DEBUG_PRINT("type: %d\n", type);
@@ -330,7 +330,7 @@ void PARAMETER_Write_s(alt_u8 base, alt_u8 number , alt_32 data, fog_parameter_t
 	else if(base == MEM_BASE_CFG ) {
 		check = fog_params->config[number].data.int_val;
 		data_f = fog_params->config[number].data.float_val;
-		type = fog_params->config[number].type;
+		type = config_init[number].type;
 		DEBUG_PRINT("base: %d\n", base);
 		DEBUG_PRINT("container idx: %d\n", number);
 		DEBUG_PRINT("type: %d\n", type);
@@ -397,7 +397,7 @@ void LOAD_CONFIG(fog_parameter_t* fog_params)
 		PARAMETER_Read(MEM_BASE_CFG, i , fog_params->config[i].data.bin_val);
 		fog_params->config[i].type = config_init[i].type;
 		check_and_fix_nan(&fog_params->config[i]);
-		print_mem_unit(fog_params->config[i]);
+		print_mem_unit(i, fog_params->config[i]);
     }
 	DEBUG_PRINT("Loading EEPROM configuration Parameters done!\n");
 	UART_PRINT("Loading EEPROM configuration Parameters done!\n");
@@ -422,7 +422,7 @@ void LOAD_FOG_MISALIGNMENT(fog_parameter_t* fog_params)
 		PARAMETER_Read(MEM_BASE_MIS, i , fog_params->misalignment[i].data.bin_val);
 		fog_params->misalignment[i].type = misalignment_init[i].type;
 		check_and_fix_nan(&fog_params->misalignment[i]);
-		print_mem_unit(fog_params->misalignment[i]);
+		print_mem_unit(i, fog_params->misalignment[i]);
     }
 	DEBUG_PRINT("Loading EEPROM Mis-alignment Parameters done!\n");
 	UART_PRINT("Loading EEPROM Mis-alignment Parameters done!\n");
