@@ -45,6 +45,34 @@
 #define True 1
 #define False 0
 
+static void print_mem_unit(mem_unit_t unit) {
+    if (unit.type == TYPE_FLOAT) {
+        // 處理浮點數
+        DEBUG_PRINT("type: float, val: %f\n", unit.data.float_val);
+    } 
+    else if (unit.type == TYPE_INT) {
+        // 處理整數
+        DEBUG_PRINT("type: int, val: %d\n", unit.data.int_val);
+    } 
+	else if (unit.type == TYPE_NAN) {
+        // 處理整數
+        DEBUG_PRINT("type: nan, val: %d\n", unit.data.int_val);
+    } 
+    else {
+        DEBUG_PRINT("Unknown type!\n");
+    }
+}
+
+static void check_and_fix_nan(mem_unit_t *unit) {
+    if (unit->type == TYPE_FLOAT) {
+        // 如果位元值是全 1 (int 為 -1) 或 IEEE 754 定義的 NaN
+        if (unit->data.int_val == -1 || unit->data.float_val != unit->data.float_val) {
+            unit->data.float_val = 0.0f;
+			unit->type = TYPE_NAN;
+        }
+    }
+}
+
 typedef union
 {
   alt_32 int_val;
@@ -316,21 +344,16 @@ void PARAMETER_Write_s(alt_u8 base, alt_u8 number , alt_32 data, fog_parameter_t
 	if(data == check) DEBUG_PRINT("The data is the same\n");
 	else {
 		if(type == TYPE_INT) {
-			PRINT_1("Data changed: %d -> %d\n", check, data);
-			PRINT_1("update to eeprom!");
-			// UART_PRINT("Data changed: %d -> %d\n", check, data);
-			// UART_PRINT("update to eeprom!");
+			DEBUG_PRINT("Data changed: %d -> %d\n", check, data);
+			DEBUG_PRINT("update to eeprom!");
 			PARAMETER_Write_f(base, number, data);
 		}
 		else if(type == TYPE_FLOAT) {
-			PRINT_1("Data changed: %f -> %f\n", data_f, my_data.float_val);
-			PRINT_1("update to eeprom!");
-			// UART_PRINT("Data changed: %f -> %f\n", data_f, my_data.float_val);
-			// UART_PRINT("update to eeprom!");
+			DEBUG_PRINT("Data changed: %f -> %f\n", data_f, my_data.float_val);
+			DEBUG_PRINT("update to eeprom!");
 			PARAMETER_Write_f(base, number, data);
 		}
-		else PRINT_1("data type error!\n");
-		// PARAMETER_Write_f(base, number, data);
+		else DEBUG_PRINT("data type error!\n");
 
 		// update new value to container
 		if(base == MEM_BASE_X) fog_params->paramX[number].data.int_val = data;
@@ -368,12 +391,13 @@ void LOAD_FOG_SN(fog_parameter_t* fog_params)
 
 void LOAD_CONFIG(fog_parameter_t* fog_params)
 {
-	DEBUG_PRINT("Loading EEPROM configuration Parameters...\n");
+	DEBUG_PRINT("\nLoading EEPROM configuration Parameters...\n");
 	UART_PRINT("\nLoading EEPROM configuration Parameters...\n");
 	for (int i = 0; i < CFG_LEN; i++) {
 		PARAMETER_Read(MEM_BASE_CFG, i , fog_params->config[i].data.bin_val);
-		fog_params->config[i].type = TYPE_INT;
-		UART_PRINT("idx %d, %d, %f\n", i, fog_params->config[i].data.int_val, fog_params->config[i].data.float_val);
+		fog_params->config[i].type = config_init[i].type;
+		check_and_fix_nan(&fog_params->config[i]);
+		print_mem_unit(fog_params->config[i]);
     }
 	DEBUG_PRINT("Loading EEPROM configuration Parameters done!\n");
 	UART_PRINT("Loading EEPROM configuration Parameters done!\n");
@@ -392,12 +416,13 @@ void LOAD_FOG_MISALIGNMENT(fog_parameter_t* fog_params)
 {
 	// int dlt = 10000;
 	// while(dlt--) {};
-	DEBUG_PRINT("Loading EEPROM Mis-alignment Parameters...\n");
+	DEBUG_PRINT("\nLoading EEPROM Mis-alignment Parameters...\n");
 	UART_PRINT("\nLoading EEPROM Mis-alignment Parameters...\n");
 	for (int i = 0; i < MIS_LEN; i++) {
 		PARAMETER_Read(MEM_BASE_MIS, i , fog_params->misalignment[i].data.bin_val);
-		fog_params->misalignment[i].type = TYPE_FLOAT;
-		UART_PRINT("idx %d, %d, %f\n", i, fog_params->misalignment[i].data.int_val, fog_params->misalignment[i].data.float_val);
+		fog_params->misalignment[i].type = misalignment_init[i].type;
+		check_and_fix_nan(&fog_params->misalignment[i]);
+		print_mem_unit(fog_params->misalignment[i]);
     }
 	DEBUG_PRINT("Loading EEPROM Mis-alignment Parameters done!\n");
 	UART_PRINT("Loading EEPROM Mis-alignment Parameters done!\n");
@@ -426,6 +451,7 @@ void LOAD_FOG_PARAMETER(fog_parameter_t* fog_params)
 		fog_params->paramX[i].type = fog_parameter_init[i].type;
 		fog_params->paramY[i].type = fog_parameter_init[i].type;
 		fog_params->paramZ[i].type = fog_parameter_init[i].type;
+		
     }
 	DEBUG_PRINT("Loading EEPROM FOG Parameters done!\n");
 	UART_PRINT("Loading EEPROM FOG Parameters done!\n");

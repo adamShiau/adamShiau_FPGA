@@ -38,6 +38,50 @@ const mem_unit_t fog_parameter_init[PAR_LEN] = {
     { .data.int_val = INIT_BIAS_OFFSET_XLM, .type = TYPE_FLOAT } //34
 };
 
+const mem_unit_t misalignment_init[MIS_LEN] = {
+    { .data.float_val = 0.0,         .type = TYPE_FLOAT }, //0
+    { .data.float_val = 0.0,         .type = TYPE_FLOAT }, //1
+    { .data.float_val = 0.0,         .type = TYPE_FLOAT }, //2
+    { .data.float_val = 9.8,         .type = TYPE_FLOAT }, //3
+    { .data.float_val = 0.0,         .type = TYPE_FLOAT }, //4
+    { .data.float_val = 0.0,         .type = TYPE_FLOAT }, //5
+    { .data.float_val = 0.0,         .type = TYPE_FLOAT }, //6
+    { .data.float_val = 9.8,         .type = TYPE_FLOAT }, //7
+    { .data.float_val = 0.0,         .type = TYPE_FLOAT }, //8
+    { .data.float_val = 0.0,         .type = TYPE_FLOAT }, //9
+    { .data.float_val = 0.0,         .type = TYPE_FLOAT }, //10
+    { .data.float_val = 9.8,         .type = TYPE_FLOAT }, //11
+    { .data.float_val = 0.0,         .type = TYPE_FLOAT }, //12
+    { .data.float_val = 0.0,         .type = TYPE_FLOAT }, //13
+    { .data.float_val = 0.0,         .type = TYPE_FLOAT }, //14
+    { .data.float_val = 1.0,         .type = TYPE_FLOAT }, //15
+    { .data.float_val = 0.0,         .type = TYPE_FLOAT }, //16
+    { .data.float_val = 0.0,         .type = TYPE_FLOAT }, //17
+    { .data.float_val = 0.0,         .type = TYPE_FLOAT }, //18
+    { .data.float_val = 1.0,         .type = TYPE_FLOAT }, //19
+    { .data.float_val = 0.0,         .type = TYPE_FLOAT }, //20
+    { .data.float_val = 0.0,         .type = TYPE_FLOAT }, //21
+    { .data.float_val = 0.0,         .type = TYPE_FLOAT }, //22
+    { .data.float_val = 1.0,         .type = TYPE_FLOAT } //23
+};
+
+const mem_unit_t config_init[CFG_LEN] = {
+    { .data.int_val = 2,             .type = TYPE_INT }, //0
+    { .data.int_val = 2,             .type = TYPE_INT }, //1
+    { .data.float_val = 0.0,         .type = TYPE_FLOAT }, //2
+    { .data.float_val = 9.8,         .type = TYPE_FLOAT }, //3
+    { .data.float_val = 0.0,         .type = TYPE_FLOAT }, //4
+    { .data.float_val = 0.0,         .type = TYPE_FLOAT }, //5
+    { .data.float_val = 0.0,         .type = TYPE_FLOAT }, //6
+    { .data.float_val = 9.8,         .type = TYPE_FLOAT }, //7
+    { .data.float_val = 0.0,         .type = TYPE_FLOAT }, //8
+    { .data.float_val = 0.0,         .type = TYPE_FLOAT }, //9
+    { .data.float_val = 0.0,         .type = TYPE_FLOAT }, //10
+    { .data.int_val = 1,             .type = TYPE_INT }, //11
+    { .data.int_val = 0,             .type = TYPE_INT }, //12
+    { .data.int_val = 0,             .type = TYPE_INT } //13
+};
+
 
 void initialize_fog_params_all(fog_parameter_t *fog_params) {
     // 設定序號

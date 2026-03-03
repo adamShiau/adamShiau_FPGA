@@ -5,8 +5,8 @@
 #include "nios2_var_addr.h"
 
 #define TOP_VERSION  "HINS_TOP_V1"
-#define NIOS_VERSION "HINS_CPU_V1_0"
-#define JIC_VERSION  "HINS_2026-02-11"
+#define NIOS_VERSION "HINS_CPU_V1_1"
+#define JIC_VERSION  "HINS_2026-03-03"
 
 
 #define VARSET_BASE VARSET_1_BASE

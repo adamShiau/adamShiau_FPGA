@@ -1181,16 +1181,128 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 						break;
 					}
 
-					case CMD_CFG_RSC: {
-						DEBUG_PRINT("CMD_CFG_RSC:\n");
+					case CMD_CFG_RSC_11: {
+						DEBUG_PRINT("CMD_CFG_RSC_11:\n");
 						if(rx->ch != 6) {DEBUG_PRINT("Ch value must be 6:\n"); break;}
 						if(rx->condition == 1) {
-							PARAMETER_Write_s(base, CMD_CFG_RSC - CFG_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+							PARAMETER_Write_s(base, CMD_CFG_RSC_11 - CFG_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
 							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
 						else if(rx->condition == 3) {
 							data_t data;
-							PARAMETER_Read(base, CMD_CFG_RSC - CFG_CONTAINER_TO_CMD_OFFSET, data.bin_val);
+							PARAMETER_Read(base, CMD_CFG_RSC_11 - CFG_CONTAINER_TO_CMD_OFFSET, data.bin_val);
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
+						}
+						break;
+					}
+					case CMD_CFG_RSC_12: {
+						DEBUG_PRINT("CMD_CFG_RSC_12:\n");
+						if(rx->ch != 6) {DEBUG_PRINT("Ch value must be 6:\n"); break;}
+						if(rx->condition == 1) {
+							PARAMETER_Write_s(base, CMD_CFG_RSC_12 - CFG_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
+						}
+						else if(rx->condition == 3) {
+							data_t data;
+							PARAMETER_Read(base, CMD_CFG_RSC_12 - CFG_CONTAINER_TO_CMD_OFFSET, data.bin_val);
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
+						}
+						break;
+					}
+					case CMD_CFG_RSC_13: {
+						DEBUG_PRINT("CMD_CFG_RSC_13:\n");
+						if(rx->ch != 6) {DEBUG_PRINT("Ch value must be 6:\n"); break;}
+						if(rx->condition == 1) {
+							PARAMETER_Write_s(base, CMD_CFG_RSC_13 - CFG_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
+						}
+						else if(rx->condition == 3) {
+							data_t data;
+							PARAMETER_Read(base, CMD_CFG_RSC_13 - CFG_CONTAINER_TO_CMD_OFFSET, data.bin_val);
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
+						}
+						break;
+					}
+					case CMD_CFG_RSC_21: {
+						DEBUG_PRINT("CMD_CFG_RSC_21:\n");
+						if(rx->ch != 6) {DEBUG_PRINT("Ch value must be 6:\n"); break;}
+						if(rx->condition == 1) {
+							PARAMETER_Write_s(base, CMD_CFG_RSC_21 - CFG_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
+						}
+						else if(rx->condition == 3) {
+							data_t data;
+							PARAMETER_Read(base, CMD_CFG_RSC_21 - CFG_CONTAINER_TO_CMD_OFFSET, data.bin_val);
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
+						}
+						break;
+					}
+					case CMD_CFG_RSC_22: {
+						DEBUG_PRINT("CMD_CFG_RSC_22:\n");
+						if(rx->ch != 6) {DEBUG_PRINT("Ch value must be 6:\n"); break;}
+						if(rx->condition == 1) {
+							PARAMETER_Write_s(base, CMD_CFG_RSC_22 - CFG_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
+						}
+						else if(rx->condition == 3) {
+							data_t data;
+							PARAMETER_Read(base, CMD_CFG_RSC_22 - CFG_CONTAINER_TO_CMD_OFFSET, data.bin_val);
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
+						}
+						break;
+					}
+					case CMD_CFG_RSC_23: {
+						DEBUG_PRINT("CMD_CFG_RSC_23:\n");
+						if(rx->ch != 6) {DEBUG_PRINT("Ch value must be 6:\n"); break;}
+						if(rx->condition == 1) {
+							PARAMETER_Write_s(base, CMD_CFG_RSC_23 - CFG_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
+						}
+						else if(rx->condition == 3) {
+							data_t data;
+							PARAMETER_Read(base, CMD_CFG_RSC_23 - CFG_CONTAINER_TO_CMD_OFFSET, data.bin_val);
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
+						}
+						break;
+					}
+					case CMD_CFG_RSC_31: {
+						DEBUG_PRINT("CMD_CFG_RSC_31:\n");
+						if(rx->ch != 6) {DEBUG_PRINT("Ch value must be 6:\n"); break;}
+						if(rx->condition == 1) {
+							PARAMETER_Write_s(base, CMD_CFG_RSC_31 - CFG_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
+						}
+						else if(rx->condition == 3) {
+							data_t data;
+							PARAMETER_Read(base, CMD_CFG_RSC_31 - CFG_CONTAINER_TO_CMD_OFFSET, data.bin_val);
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
+						}
+						break;
+					}
+					case CMD_CFG_RSC_32: {
+						DEBUG_PRINT("CMD_CFG_RSC_32:\n");
+						if(rx->ch != 6) {DEBUG_PRINT("Ch value must be 6:\n"); break;}
+						if(rx->condition == 1) {
+							PARAMETER_Write_s(base, CMD_CFG_RSC_32 - CFG_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
+						}
+						else if(rx->condition == 3) {
+							data_t data;
+							PARAMETER_Read(base, CMD_CFG_RSC_32 - CFG_CONTAINER_TO_CMD_OFFSET, data.bin_val);
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
+						}
+						break;
+					}
+					case CMD_CFG_RSC_33: {
+						DEBUG_PRINT("CMD_CFG_RSC_33:\n");
+						if(rx->ch != 6) {DEBUG_PRINT("Ch value must be 6:\n"); break;}
+						if(rx->condition == 1) {
+							PARAMETER_Write_s(base, CMD_CFG_RSC_33 - CFG_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
+						}
+						else if(rx->condition == 3) {
+							data_t data;
+							PARAMETER_Read(base, CMD_CFG_RSC_33 - CFG_CONTAINER_TO_CMD_OFFSET, data.bin_val);
 							DEBUG_PRINT("READ: %d\n", data.int_val);	
 						}
 						break;

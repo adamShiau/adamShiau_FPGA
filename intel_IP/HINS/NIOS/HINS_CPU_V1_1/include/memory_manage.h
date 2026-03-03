@@ -5,7 +5,7 @@
 
 #define PAR_LEN 40 // 定義陣列大小
 #define MIS_LEN 30
-#define CFG_LEN 10
+#define CFG_LEN 20
 
 #define CONTAINER_TO_CMD_OFFSET     8   
 
@@ -18,7 +18,8 @@ typedef union{
 
 typedef enum {
     TYPE_INT,   // 0, 代表 data 為整數
-    TYPE_FLOAT  // 1, 代表 data 為浮點數
+    TYPE_FLOAT,  // 1, 代表 data 為浮點數
+    TYPE_NAN    //2, 代表此記憶體空間還沒寫入值
 } type_t;
 
 typedef struct
@@ -88,6 +89,8 @@ typedef struct {    // for parameter container, container size defined by PAR_LE
 
 
 extern const mem_unit_t fog_parameter_init[PAR_LEN];
+extern const mem_unit_t misalignment_init[MIS_LEN];
+extern const mem_unit_t config_init[CFG_LEN];
 
 #define CONTAINER_TO_CMD_OFFSET     8   
 #define CMD_TO_HW_REG_OFFSET_CH1    -8
@@ -165,10 +168,18 @@ enum {
 
     CMD_CFG_DR = 72,            //0x48
     CMD_CFG_BR,
-    CMD_CFG_RSC,
+    CMD_CFG_RSC_11,             //0x4A
+    CMD_CFG_RSC_12,
+    CMD_CFG_RSC_13,
+    CMD_CFG_RSC_21,
+    CMD_CFG_RSC_22,
+    CMD_CFG_RSC_23,
+    CMD_CFG_RSC_31,
+    CMD_CFG_RSC_32,
+    CMD_CFG_RSC_33,             //0x52
     CMD_CFG_LF,
     CMD_CFG_LPF_G,
-    CMD_CFG_LPF_A,
+    CMD_CFG_LPF_A,         
 
 
     CMD_DATA_OUT_START = 99,    //0x63

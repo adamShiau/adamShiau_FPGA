@@ -92,6 +92,7 @@ int main(void)
 {
 
     fog_parameter_t fog_params;	 //parameter container
+    memset(&fog_params, 0, sizeof(fog_parameter_t));
 
     DEBUG_PRINT("Running IRIS CPU!\n");
 	// printf("Running IRIS CPU!\n");
