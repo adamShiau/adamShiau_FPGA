@@ -1,6 +1,6 @@
-17:58:42 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_2_bsp ****
+22:36:05 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_2_bsp ****
 make all 
 [BSP build complete]
 
-17:58:42 Build Finished (took 407ms)
+22:36:06 Build Finished (took 410ms)
 

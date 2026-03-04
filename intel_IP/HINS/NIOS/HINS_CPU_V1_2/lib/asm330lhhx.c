@@ -389,7 +389,6 @@ void set_ASM330LHHX_Gyro_LPF1(alt_u8 ftype) {
     int timeout = 100000;
     alt_u8 current_sm;
     
-
     I2C_op_mode_sel_ASM330LHHX(CPU_WREG); // 讓 SM 回到 IDLE
 
     while(timeout-- > 0) {
@@ -404,33 +403,34 @@ void set_ASM330LHHX_Gyro_LPF1(alt_u8 ftype) {
 
     I2C_sm_set_finish_clear_pulse_ASM330LHHX(); 
 
+    DEBUG_PRINT("\n--- [START] Set Gyro LPF1 ---");
+
     // 1. 讀取當前 CTRL6_C 暫存器 (0x15) 
     DEBUG_PRINT("\nSet_ASM330LHHX_Gyro_LPF1\n");
-
     alt_u8 current_ctrl6 = I2C_read_ASM330LHHX_register(CTRL6_C, 0); 
-    // DEBUG_PRINT("Reg: 0x%02X | Val: 0x%02X\n", CTRL6_C, current_ctrl6);
-
-    // I2C_write_verify_ASM330LHHX(CTRL6_C, 0); 
-
-    // current_ctrl6 = I2C_read_ASM330LHHX_register(CTRL6_C, 0); 
-    // DEBUG_PRINT("Reg: 0x%02X | Val: 0x%02X\n", CTRL6_C, current_ctrl6);
-
-    // current_ctrl6 = I2C_read_ASM330LHHX_register(CTRL6_C, 0); // 因為第一次讀會讀到舊的，這裡重複讀取一次。
-    DEBUG_PRINT("Reg: 0x%02X | Val: 0x%02X\n", CTRL6_C, current_ctrl6);
-
     
     // 2. 修改低 3 位元 (FTYPE) 並保留其他位元，執行寫入校驗
     alt_u8 next_ctrl6 = (current_ctrl6 & 0xF8) | (ftype & 0x07); 
-    DEBUG_PRINT("Write Val: 0x%02X | ftype: 0x%02X\n", next_ctrl6, ftype);
+
+    DEBUG_PRINT("[CTRL6_C (0x15)] Old: 0x%02X -> New: 0x%02X (ftype index: %d)\n", 
+                current_ctrl6, next_ctrl6, ftype);
+
     I2C_write_verify_ASM330LHHX(CTRL6_C, next_ctrl6); 
 
     // 3. 確保 CTRL4_C (0x13) 中的 LPF1_SEL_G 已啟用
-    // alt_u8 current_ctrl4 = I2C_read_ASM330LHHX_register(CTRL4_C, 0);
-    // I2C_write_verify_ASM330LHHX(CTRL4_C, current_ctrl4 | LPF1_SEL_G);
+    alt_u8 current_ctrl4 = I2C_read_ASM330LHHX_register(CTRL4_C, 0);
 
-    // 4. 強制切回硬體自動讀取模式 [cite: 9, 85]
-    // I2C_op_mode_sel_ASM330LHHX(HW); 
-    // DEBUG_PRINT("[  OK  ] Gyro LPF1 updated & HW Mode restored.\n");
+    alt_u8 next_ctrl4 = current_ctrl4 | LPF1_SEL_G;
+
+    DEBUG_PRINT("[CTRL4_C (0x13)] Old: 0x%02X -> New: 0x%02X (Enable LPF1_SEL_G)\n", 
+                current_ctrl4, next_ctrl4);
+
+    I2C_write_verify_ASM330LHHX(CTRL4_C, next_ctrl4);
+
+    // 4. 強制切回硬體自動讀取模式 
+    I2C_op_mode_sel_ASM330LHHX(HW); 
+
+    DEBUG_PRINT("[  OK  ] Gyro LPF1 updated & HW Mode restored.\n");
 }
 
 /**
@@ -438,30 +438,52 @@ void set_ASM330LHHX_Gyro_LPF1(alt_u8 ftype) {
  */
 void set_ASM330LHHX_Accl_LPF2(alt_u8 cutoff_bw) {
 
+    int timeout = 100000;
+    alt_u8 current_sm;
+    
+    I2C_op_mode_sel_ASM330LHHX(CPU_WREG); // 讓 SM 回到 IDLE
+
+    while(timeout-- > 0) {
+        current_sm = get_ASM330LHHX_SM_status();
+        if(current_sm == 0) break; // 0 是 IDLE 
+    }
+    
+    if(timeout <= 0) {
+        DEBUG_PRINT("[ERROR] SM NOT IDLE! Current: %d\n", current_sm);
+        return; // 若狀態機卡住，不強行寫入
+    }
+
+    I2C_sm_set_finish_clear_pulse_ASM330LHHX(); 
+
+    DEBUG_PRINT("\n--- [START] Set Accl LPF2 ---");
+
     alt_u8 cutoff_val = (cutoff_bw << 5);
 
     // 1. 讀取當前 CTRL8_XL 暫存器 (0x17)
-    DEBUG_PRINT("\nset_ASM330LHHX_Accl_LPF2\n");
+    DEBUG_PRINT("\nSet_ASM330LHHX_Accl_LPF2\n");
 
     alt_u8 current_ctrl8 = I2C_read_ASM330LHHX_register(CTRL8_XL, 0); 
-    DEBUG_PRINT("Reg: 0x%02X | Val: 0x%02X\n", CTRL8_XL, current_ctrl8);
 
-    current_ctrl8 = I2C_read_ASM330LHHX_register(CTRL8_XL, 0); // 因為第一次讀會讀到舊的，這裡重複讀取一次。
-    DEBUG_PRINT("Reg: 0x%02X | Val: 0x%02X\n", CTRL8_XL, current_ctrl8);
-
-    
     // 2. 修改 bit[7:5] (HPCF_XL)，保留其他位元
     alt_u8 next_ctrl8 = (current_ctrl8 & 0x1F) | (cutoff_val & 0xE0);
-    DEBUG_PRINT("Write Val: 0x%02X | cutoff_val: 0x%02X\n", next_ctrl8, cutoff_val);
+
+    DEBUG_PRINT("[CTRL8_XL (0x17)] Old: 0x%02X -> New: 0x%02X (Cutoff shift-val: 0x%02X)\n", 
+                current_ctrl8, next_ctrl8, cutoff_val);
+
     I2C_write_verify_ASM330LHHX(CTRL8_XL, next_ctrl8);
 
     // 3. 確保 CTRL1_XL (0x10) 中的 LPF2_XL_EN 已啟用 
-    // alt_u8 current_ctrl1 = I2C_read_ASM330LHHX_register(CTRL1_XL, 0);
-    // I2C_write_verify_ASM330LHHX(CTRL1_XL, current_ctrl1 | LPF2_XL_EN);
+    alt_u8 current_ctrl1 = I2C_read_ASM330LHHX_register(CTRL1_XL, 0);
+    alt_u8 next_ctrl1 = current_ctrl1 | LPF2_XL_EN;
+
+    DEBUG_PRINT("[CTRL1_XL (0x10)] Old: 0x%02X -> New: 0x%02X (Enable LPF2_XL_EN)\n", 
+                current_ctrl1, next_ctrl1);
+
+    I2C_write_verify_ASM330LHHX(CTRL1_XL, next_ctrl1);
 
     // 4. 強制切回硬體自動讀取模式 [cite: 9, 85]
-    // I2C_op_mode_sel_ASM330LHHX(HW);
-    // DEBUG_PRINT("[  OK  ] Accl LPF2 updated & HW Mode restored.\n");
+    I2C_op_mode_sel_ASM330LHHX(HW);
+    DEBUG_PRINT("[  OK  ] Accl LPF2 updated & HW Mode restored.\n");
 }
 
 /***********mid level definition */
