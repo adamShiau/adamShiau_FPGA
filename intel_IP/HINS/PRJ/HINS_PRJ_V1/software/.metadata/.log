@@ -5630,3 +5630,9 @@ Caused by: sun.security.provider.certpath.SunCertPathBuilderException: unable to
 	at sun.security.provider.certpath.SunCertPathBuilder.engineBuild(Unknown Source)
 	at java.security.cert.CertPathBuilder.build(Unknown Source)
 	... 33 more
+
+!ENTRY org.eclipse.cdt.core 1 0 2026-03-04 11:55:09.195
+!MESSAGE Indexed 'HINS_CPU_V1_2_bsp' (88 sources, 69 headers) in 0.861 sec: 1,515 declarations; 3,909 references; 120 unresolved inclusions; 6 syntax errors; 213 unresolved names (3.8%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2026-03-04 11:55:11.019
+!MESSAGE Indexed 'HINS_CPU_V1_2' (0 sources, 0 headers) in 0 sec: 0 declarations; 0 references; 0 unresolved inclusions; 0 syntax errors; 0 unresolved names (0%)
