@@ -469,9 +469,9 @@ void I2C_set_device_addr_ASM330LHHX(alt_u8 dev)
 
 void I2C_sm_set_finish_clear_pulse_ASM330LHHX() 
 {
-	IOWR(VARSET_BASE, O_VAR_I2C_CTRL,  set_bit_safe(O_VAR_I2C_CTRL, ctrl_finish_clear_pos));
+	IOWR(VARSET_BASE, O_VAR_I2C_CTRL,  set_bit_safe_ASM330LHHX(O_VAR_I2C_CTRL, ctrl_finish_clear_pos));
 	usleep(1);
-	IOWR(VARSET_BASE, O_VAR_I2C_CTRL,  clear_bit_safe(O_VAR_I2C_CTRL, ctrl_finish_clear_pos));
+	IOWR(VARSET_BASE, O_VAR_I2C_CTRL,  clear_bit_safe_ASM330LHHX(O_VAR_I2C_CTRL, ctrl_finish_clear_pos));
 }
 
 

@@ -33,49 +33,49 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   9 .debug_aranges 00001310  00000000  00000000  00028028  2**3
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_info   00030dfa  00000000  00000000  00029338  2**0
+ 10 .debug_info   00030dd6  00000000  00000000  00029338  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_abbrev 0000c4dc  00000000  00000000  0005a132  2**0
+ 11 .debug_abbrev 0000c4c9  00000000  00000000  0005a10e  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_line   00010ae9  00000000  00000000  0006660e  2**0
+ 12 .debug_line   00010ae9  00000000  00000000  000665d7  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_frame  00004050  00000000  00000000  000770f8  2**2
+ 13 .debug_frame  00004050  00000000  00000000  000770c0  2**2
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_str    00005da2  00000000  00000000  0007b148  2**0
+ 14 .debug_str    00005da2  00000000  00000000  0007b110  2**0
                   CONTENTS, READONLY, DEBUGGING
- 15 .debug_loc    000200cb  00000000  00000000  00080eea  2**0
+ 15 .debug_loc    000200cb  00000000  00000000  00080eb2  2**0
                   CONTENTS, READONLY, DEBUGGING
- 16 .debug_alt_sim_info 00000040  00000000  00000000  000a0fb8  2**2
+ 16 .debug_alt_sim_info 00000040  00000000  00000000  000a0f80  2**2
                   CONTENTS, READONLY, DEBUGGING
- 17 .debug_ranges 000020d8  00000000  00000000  000a0ff8  2**3
+ 17 .debug_ranges 000020d8  00000000  00000000  000a0fc0  2**3
                   CONTENTS, READONLY, DEBUGGING
- 18 .thread_model 00000003  00000000  00000000  000a8692  2**0
+ 18 .thread_model 00000003  00000000  00000000  000a865a  2**0
                   CONTENTS, READONLY
- 19 .cpu          00000005  00000000  00000000  000a8695  2**0
+ 19 .cpu          00000005  00000000  00000000  000a865d  2**0
                   CONTENTS, READONLY
- 20 .qsys         00000001  00000000  00000000  000a869a  2**0
+ 20 .qsys         00000001  00000000  00000000  000a8662  2**0
                   CONTENTS, READONLY
- 21 .simulation_enabled 00000001  00000000  00000000  000a869b  2**0
+ 21 .simulation_enabled 00000001  00000000  00000000  000a8663  2**0
                   CONTENTS, READONLY
- 22 .sysid_hash   00000004  00000000  00000000  000a869c  2**0
+ 22 .sysid_hash   00000004  00000000  00000000  000a8664  2**0
                   CONTENTS, READONLY
- 23 .sysid_base   00000004  00000000  00000000  000a86a0  2**0
+ 23 .sysid_base   00000004  00000000  00000000  000a8668  2**0
                   CONTENTS, READONLY
- 24 .sysid_time   00000004  00000000  00000000  000a86a4  2**0
+ 24 .sysid_time   00000004  00000000  00000000  000a866c  2**0
                   CONTENTS, READONLY
- 25 .stderr_dev   00000009  00000000  00000000  000a86a8  2**0
+ 25 .stderr_dev   00000009  00000000  00000000  000a8670  2**0
                   CONTENTS, READONLY
- 26 .stdin_dev    00000009  00000000  00000000  000a86b1  2**0
+ 26 .stdin_dev    00000009  00000000  00000000  000a8679  2**0
                   CONTENTS, READONLY
- 27 .stdout_dev   00000009  00000000  00000000  000a86ba  2**0
+ 27 .stdout_dev   00000009  00000000  00000000  000a8682  2**0
                   CONTENTS, READONLY
- 28 .sopc_system_name 00000003  00000000  00000000  000a86c3  2**0
+ 28 .sopc_system_name 00000003  00000000  00000000  000a868b  2**0
                   CONTENTS, READONLY
- 29 .quartus_project_dir 00000036  00000000  00000000  000a86c6  2**0
+ 29 .quartus_project_dir 00000036  00000000  00000000  000a868e  2**0
                   CONTENTS, READONLY
- 30 .jdi          00004312  00000000  00000000  000a86fc  2**0
+ 30 .jdi          00004312  00000000  00000000  000a86c4  2**0
                   CONTENTS, READONLY
- 31 .sopcinfo     0006b2a7  00000000  00000000  000aca0e  2**0
+ 31 .sopcinfo     0006b2a7  00000000  00000000  000ac9d6  2**0
                   CONTENTS, READONLY
 SYMBOL TABLE:
 02001000 l    d  .entry	00000000 .entry
@@ -5024,10 +5024,10 @@ void I2C_sm_set_finish_clear_pulse_ASM330LHHX()
  1002d80:	dfc00115 	stw	ra,4(sp)
  1002d84:	df000015 	stw	fp,0(sp)
  1002d88:	d839883a 	mov	fp,sp
-	IOWR(VARSET_BASE, O_VAR_I2C_CTRL,  set_bit_safe(O_VAR_I2C_CTRL, ctrl_finish_clear_pos));
+	IOWR(VARSET_BASE, O_VAR_I2C_CTRL,  set_bit_safe_ASM330LHHX(O_VAR_I2C_CTRL, ctrl_finish_clear_pos));
  1002d8c:	014001c4 	movi	r5,7
  1002d90:	01000604 	movi	r4,24
- 1002d94:	100a86c0 	call	100a86c <set_bit_safe>
+ 1002d94:	1002c2c0 	call	1002c2c <set_bit_safe_ASM330LHHX>
  1002d98:	1007883a 	mov	r3,r2
  1002d9c:	00808034 	movhi	r2,512
  1002da0:	10881804 	addi	r2,r2,8288
@@ -5035,10 +5035,10 @@ void I2C_sm_set_finish_clear_pulse_ASM330LHHX()
 	usleep(1);
  1002da8:	01000044 	movi	r4,1
  1002dac:	101eae40 	call	101eae4 <usleep>
-	IOWR(VARSET_BASE, O_VAR_I2C_CTRL,  clear_bit_safe(O_VAR_I2C_CTRL, ctrl_finish_clear_pos));
+	IOWR(VARSET_BASE, O_VAR_I2C_CTRL,  clear_bit_safe_ASM330LHHX(O_VAR_I2C_CTRL, ctrl_finish_clear_pos));
  1002db0:	014001c4 	movi	r5,7
  1002db4:	01000604 	movi	r4,24
- 1002db8:	100a8d00 	call	100a8d0 <clear_bit_safe>
+ 1002db8:	1002c900 	call	1002c90 <clear_bit_safe_ASM330LHHX>
  1002dbc:	1007883a 	mov	r3,r2
  1002dc0:	00808034 	movhi	r2,512
  1002dc4:	10881804 	addi	r2,r2,8288
