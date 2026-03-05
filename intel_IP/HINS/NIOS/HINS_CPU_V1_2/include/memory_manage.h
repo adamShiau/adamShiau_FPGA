@@ -179,7 +179,8 @@ enum {
     CMD_CFG_RSC_33,             //0x52
     CMD_CFG_LF,
     CMD_CFG_LPF_G,
-    CMD_CFG_LPF_A,         
+    CMD_CFG_LPF_A,    
+    CMD_CFG_WZ_SRC,             //0x56     
 
 
     CMD_DATA_OUT_START = 99,    //0x63

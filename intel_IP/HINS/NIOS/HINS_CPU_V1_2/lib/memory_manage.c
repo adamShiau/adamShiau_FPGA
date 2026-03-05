@@ -66,20 +66,21 @@ const mem_unit_t misalignment_init[MIS_LEN] = {
 };
 
 const mem_unit_t config_init[CFG_LEN] = {
-    { .data.int_val = 2,             .type = TYPE_INT }, //0
-    { .data.int_val = 2,             .type = TYPE_INT }, //1
-    { .data.float_val = 0.0,         .type = TYPE_FLOAT }, //2
-    { .data.float_val = 9.8,         .type = TYPE_FLOAT }, //3
-    { .data.float_val = 0.0,         .type = TYPE_FLOAT }, //4
-    { .data.float_val = 0.0,         .type = TYPE_FLOAT }, //5
-    { .data.float_val = 0.0,         .type = TYPE_FLOAT }, //6
-    { .data.float_val = 9.8,         .type = TYPE_FLOAT }, //7
-    { .data.float_val = 0.0,         .type = TYPE_FLOAT }, //8
-    { .data.float_val = 0.0,         .type = TYPE_FLOAT }, //9
-    { .data.float_val = 0.0,         .type = TYPE_FLOAT }, //10
-    { .data.int_val = 1,             .type = TYPE_INT }, //11
-    { .data.int_val = 0,             .type = TYPE_INT }, //12
-    { .data.int_val = 0,             .type = TYPE_INT } //13
+    { .data.int_val = 2,             .type = TYPE_INT },    //0, CFG_DR
+    { .data.int_val = 2,             .type = TYPE_INT },    //1, CFG_BR
+    { .data.float_val = 0.0,         .type = TYPE_FLOAT },  //2, CFG_RSC_11
+    { .data.float_val = 9.8,         .type = TYPE_FLOAT },  //3
+    { .data.float_val = 0.0,         .type = TYPE_FLOAT },  //4
+    { .data.float_val = 0.0,         .type = TYPE_FLOAT },  //5
+    { .data.float_val = 0.0,         .type = TYPE_FLOAT },  //6
+    { .data.float_val = 9.8,         .type = TYPE_FLOAT },  //7
+    { .data.float_val = 0.0,         .type = TYPE_FLOAT },  //8
+    { .data.float_val = 0.0,         .type = TYPE_FLOAT },  //9
+    { .data.float_val = 0.0,         .type = TYPE_FLOAT },  //10, CFG_RSC_33
+    { .data.int_val = 1,             .type = TYPE_INT },    //11, CFG_LF
+    { .data.int_val = 0,             .type = TYPE_INT },    //12, CFG_LPF_G
+    { .data.int_val = 0,             .type = TYPE_INT },    //13, CFG_LPF_A
+    { .data.int_val = 0,             .type = TYPE_INT }     //14, CFG_WZ_SRC
 };
 
 
