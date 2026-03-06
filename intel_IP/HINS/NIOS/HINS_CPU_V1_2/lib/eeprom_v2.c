@@ -187,12 +187,12 @@ void EEPROM_Write_4B(alt_u16 reg_addr, alt_32 data)
 	int timeout = 100000;
 	while (!I2C_sm_read_finish() && timeout-- > 0);
 	if (timeout <= 0) {
-        PRINT_1("EEPROM write timeout!\n");
+        DEBUG_PRINT("EEPROM write timeout!\n");
         return;
     }
 	I2C_sm_set_finish_clear_pulse(); 
 	usleep(1320);
-	PRINT_1("EEPROM_Write_4B done\n");
+	DEBUG_PRINT("EEPROM_Write_4B done\n");
 }
 
 /*** force write eeprom on address 
@@ -200,8 +200,8 @@ void EEPROM_Write_4B(alt_u16 reg_addr, alt_32 data)
 */
 void PARAMETER_Write_f(alt_u8 base, alt_u8 number , alt_32 data)
 {
-	UART_PRINT("\nbase: %d, number: %d\n", base, number);
-	UART_PRINT("reg_addr: %d, data: %d\n", base + number, data);
+	DEBUG_PRINT("\nbase: %d, number: %d\n", base, number);
+	DEBUG_PRINT("reg_addr: %d, data: %d\n", base + number, data);
 	EEPROM_Write_4B( (alt_u16) (base + number), data);
 }
 

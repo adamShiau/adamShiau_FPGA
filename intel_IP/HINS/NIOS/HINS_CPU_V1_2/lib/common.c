@@ -344,6 +344,7 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 						DEBUG_PRINT("CMD_MOD_FREQ:\n");	
 						if(rx->condition == 1) {
 							PARAMETER_Write_s(base, CMD_MOD_FREQ - CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+							DEBUG_PRINT("PASS\n");	
 							IOWR(VARSET_BASE, CMD_MOD_FREQ + cmd2hwreg, rx->value);
 							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						}
