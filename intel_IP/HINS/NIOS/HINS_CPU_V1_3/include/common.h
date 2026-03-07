@@ -9,7 +9,7 @@
 #include "adda_config.h"
 #include <stdint.h>
 #include <stddef.h> 
-
+#include <stdbool.h>
 
 
  #define DEBUG_PRINT
@@ -237,6 +237,10 @@ void get_uart_cmd(alt_u8*, cmd_ctrl_t*);
 void cmd_mux(cmd_ctrl_t*);
 void fog_parameter(cmd_ctrl_t*, fog_parameter_t*);
 void update_fog_parameters_to_HW_REG(alt_u8, fog_parameter_t*);
+void update_config_to_HW_REG(fog_parameter_t*);
+bool apply_datarate_index(uint8_t dr_index);
+bool apply_ASM330LHHX_Gyro_LPF1_index(uint8_t index);
+bool apply_ASM330LHHX_Accl_LPF2_index(uint8_t index);
 
 void dump_fog_param(fog_parameter_t* fog_inst, alt_u8 ch);
 void dump_fog_param_framed(fog_parameter_t* fog_inst, uint8_t ch, uint32_t seq);

@@ -6,6 +6,12 @@
 
 alt_u32 crc_table[256];
 
+#define DR_10Hz_CNT   5000000UL
+#define DR_50Hz_CNT   1000000UL
+#define DR_100Hz_CNT  500000UL
+#define DR_200Hz_CNT  250000UL
+#define DR_400Hz_CNT  125000UL
+
 // Initialize the Moving Average filter
 void moving_average_init(MovingAverage_t *ma, alt_u32 window) {
     ma->buffer = (float *)malloc(window * sizeof(float));
@@ -1453,20 +1459,132 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 
 }
 
-// void set_MUX_RS422()
-// {
-// 	IOWR_ALTERA_AVALON_PIO_DATA(MUX_IN_BASE, 0x00);
-// }
+static bool map_datarate_index(uint8_t idx, uint32_t* out_cnt, float* out_hz)
+{
+    // 檢查指標是否為空
+    if (out_cnt == NULL || out_hz == NULL) {
+        return false;
+    }
 
-// void set_MUX_RS232()
-// {
-// 	IOWR_ALTERA_AVALON_PIO_DATA(MUX_IN_BASE, 0x02);
-// }
+    switch (idx) {
+        case 0:  *out_cnt = DR_10Hz_CNT;  *out_hz = 10.0f;  break;
+        case 1:  *out_cnt = DR_50Hz_CNT;  *out_hz = 50.0f;  break;
+        case 2:  *out_cnt = DR_100Hz_CNT; *out_hz = 100.0f; break;
+        case 3:  *out_cnt = DR_200Hz_CNT; *out_hz = 200.0f; break;
+        case 4:  *out_cnt = DR_400Hz_CNT; *out_hz = 400.0f; break;
+        default: return false; // 無效的 index
+    }
 
-// void set_MUX_CAN()
-// {
-// 	IOWR_ALTERA_AVALON_PIO_DATA(MUX_IN_BASE, 0x01);
-// }
+    return true;
+}
+
+static bool map_gyro_LPF_index(uint8_t idx, uint8_t* out_idx, float* out_bw)
+{
+    // 檢查指標是否為空
+    if (out_idx == NULL || out_bw == NULL) {
+        return false;
+    }
+
+    switch (idx) {
+		DEBUG_PRINT("map_gyro_LPF_index: %d\n", idx);
+        case 0:  *out_idx = 0;  *out_bw = 133.0f;  break;
+        case 1:  *out_idx = 1;  *out_bw = 128.0f;  break;
+        case 2:  *out_idx = 2;  *out_bw = 112.0f; break;
+        case 3:  *out_idx = 3;  *out_bw = 134.0f; break;
+        case 4:  *out_idx = 4;  *out_bw = 86.0f; break;
+		case 5:  *out_idx = 5;  *out_bw = 48.0f; break;
+		case 6:  *out_idx = 6;  *out_bw = 24.6f; break;
+		case 7:  *out_idx = 7;  *out_bw = 12.6f; break;
+        default: return false; // 無效的 index
+    }
+
+    return true;
+}
+
+static bool map_accl_LPF_index(uint8_t idx, uint8_t* out_idx, float* out_bw)
+{
+    // 檢查指標是否為空
+    if (out_idx == NULL || out_bw == NULL) {
+        return false;
+    }
+
+    switch (idx) {
+        case 0:  *out_idx = 0;  *out_bw = 104.0f;  break;
+        case 1:  *out_idx = 1;  *out_bw = 41.6f;  break;
+        case 2:  *out_idx = 2;  *out_bw = 20.8f; break;
+        case 3:  *out_idx = 3;  *out_bw = 9.24f; break;
+        case 4:  *out_idx = 4;  *out_bw = 4.2f; break;
+		case 5:  *out_idx = 5;  *out_bw = 2.1f; break;
+		case 6:  *out_idx = 6;  *out_bw = 1.0f; break;
+		case 7:  *out_idx = 7;  *out_bw = 0.5f; break;
+        default: return false; // 無效的 index
+    }
+
+    return true;
+}
+
+bool apply_datarate_index(uint8_t dr_index)
+{
+	uint32_t cnt = 0;
+	float hz = 0.0f;
+	if (!map_datarate_index(dr_index, &cnt, &hz)) {
+		return false;
+	}
+
+	DEBUG_PRINT("Applying datarate index %d (cnt=%d, hz=%f)\n", dr_index, cnt, hz);
+
+	IOWR(VARSET_BASE, var_sync_count, cnt);
+
+	return true;
+}
+
+bool apply_ASM330LHHX_Gyro_LPF1_index(uint8_t index)
+{
+	uint8_t out_idx = 0;
+	float bw = 0.0f;
+	// DEBUG_PRINT("Applying _Gyro_LPF1 index %d\n" , index);
+	if (!map_gyro_LPF_index(index, &out_idx, &bw)) {
+		return false;
+	}
+
+	DEBUG_PRINT("Applying _Gyro_LPF1 index %d (out_idx=%d, BW=%f)\n", index, out_idx, bw);
+
+	set_ASM330LHHX_Gyro_LPF1(out_idx);
+
+	return true;
+}
+
+bool apply_ASM330LHHX_Accl_LPF2_index(uint8_t index)
+{
+	uint8_t out_idx = 0;
+	float bw = 0.0f;
+	// DEBUG_PRINT("Applying _Accl_LPF2 index %d\n" , index);
+	if (!map_accl_LPF_index(index, &out_idx, &bw)) {
+		return false;
+	}
+
+	DEBUG_PRINT("Applying _Accl_LPF2 index %d (out_idx=%d, BW=%f)\n", index, out_idx, bw);
+
+	set_ASM330LHHX_Accl_LPF2(out_idx);
+
+	return true;
+}
+
+void update_config_to_HW_REG(fog_parameter_t* para)
+{
+	DEBUG_PRINT("\nupdating config parameters to FPGA....\n ");
+	
+	uint8_t dr_idx = para->config[0].data.int_val;
+	uint8_t g_lpf  = para->config[12].data.int_val;
+	uint8_t a_lpf  = para->config[13].data.int_val;
+
+	apply_datarate_index(dr_idx); // update data rate from config container
+	apply_ASM330LHHX_Gyro_LPF1_index(g_lpf); usleep (50000); // update ASM330LHH gyro LPF bw from config container
+	apply_ASM330LHHX_Accl_LPF2_index(a_lpf); // update ASM330LHH accl LPF bw from config container
+	
+	DEBUG_PRINT("update config paramemetr done.\n ");
+
+}
   
 
 void update_fog_parameters_to_HW_REG(alt_u8 base, fog_parameter_t* fog_params) 
@@ -1474,7 +1592,7 @@ void update_fog_parameters_to_HW_REG(alt_u8 base, fog_parameter_t* fog_params)
 	int rt_val, is_valid = 1, valid[10]={0};
 	if(base == MEM_BASE_Z) 
 	{
-		INFO_PRINT("updating fog paramemetr Z to FPGA....\n ");
+		DEBUG_PRINT("\nupdating FOG paramemetr Z to FPGA....\n ");
 		for(int container_idx=0; container_idx<10+1; container_idx++) { // container index, check excel table
 			// update the value from container to FPGA register 
 			IOWR(VARSET_BASE, container_idx + CONTAINER_TO_CMD_OFFSET + CMD_TO_HW_REG_OFFSET_CH3, fog_params->paramZ[container_idx].data.int_val);
@@ -1488,11 +1606,11 @@ void update_fog_parameters_to_HW_REG(alt_u8 base, fog_parameter_t* fog_params)
 		INFO_PRINT("is_valid = %d\n", is_valid);
 		// DEBUG_PRINT("DAC GAIN: %d\n", fog_params->paramZ[11].data.int_val);
 		Set_Dac_Gain_z(fog_params->paramZ[11].data.int_val);
-		INFO_PRINT("Done.\n ");
+		DEBUG_PRINT("update FOG paramemetr Z done.\n ");
 	}
 	else if(base == MEM_BASE_X) 
 	{
-		// DEBUG_PRINT("updating fog paramemetr X to FPGA....\n ");
+		DEBUG_PRINT("\nupdating fog paramemetr X to FPGA....\n ");
 		for(int container_idx=0; container_idx<10+1; container_idx++) { // container index, check excel table
 			// update the value from container to FPGA register 
 			IOWR(VARSET_BASE, container_idx + CONTAINER_TO_CMD_OFFSET + CMD_TO_HW_REG_OFFSET_CH1, fog_params->paramX[container_idx].data.int_val);
@@ -1506,11 +1624,11 @@ void update_fog_parameters_to_HW_REG(alt_u8 base, fog_parameter_t* fog_params)
 		INFO_PRINT("is_valid = %d\n", is_valid);
 		// DEBUG_PRINT("DAC GAIN: %d\n", fog_params->paramX[11].data.int_val);
 		Set_Dac_Gain_x(fog_params->paramX[11].data.int_val);
-		INFO_PRINT("Done.\n ");
+		DEBUG_PRINT("update FOG paramemetr X done.\n ");
 	}
 	else if(base == MEM_BASE_Y)
 	{
-		// DEBUG_PRINT("updating fog paramemetr Y to FPGA....\n ");
+		DEBUG_PRINT("\nupdating fog paramemetr Y to FPGA....\n ");
 		for(int container_idx=0; container_idx<10+1; container_idx++) { // container index, check excel table
 			// update the value from container to FPGA register 
 			IOWR(VARSET_BASE, container_idx + CONTAINER_TO_CMD_OFFSET + CMD_TO_HW_REG_OFFSET_CH2, fog_params->paramY[container_idx].data.int_val);
@@ -1524,7 +1642,7 @@ void update_fog_parameters_to_HW_REG(alt_u8 base, fog_parameter_t* fog_params)
 		INFO_PRINT("is_valid = %d\n", is_valid);
 		// DEBUG_PRINT("DAC GAIN: %d\n", fog_params->paramY[11].data.int_val);
 		Set_Dac_Gain_y(fog_params->paramY[11].data.int_val);
-		INFO_PRINT("Done.\n ");
+		DEBUG_PRINT("update FOG paramemetr Y done.\n ");
 	}
 }
 

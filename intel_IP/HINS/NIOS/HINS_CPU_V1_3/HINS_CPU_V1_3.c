@@ -131,7 +131,11 @@ int main(void)
 	update_fog_parameters_to_HW_REG(MEM_BASE_X, &fog_params); 
 	// update_fog_parameters_to_HW_REG(MEM_BASE_Y, &fog_params); 
 
-    update_HINS_config_to_HW_REG();
+    update_config_to_HW_REG(&fog_params); 
+
+    IOWR(VARSET_BASE, var_timer_rst, 1);
+    for(int i=0; i<100; i++) {} 
+    IOWR(VARSET_BASE, var_timer_rst, 0);
     
 	DEBUG_PRINT("init all done\n");
 
@@ -240,13 +244,13 @@ void update_sensor_data(my_sensor_t *data) {
 
 
 
-void update_HINS_config_to_HW_REG()
-{
-	IOWR(VARSET_BASE, var_sync_count, SYNC_100HZ); // set sync data rate
-    IOWR(VARSET_BASE, var_timer_rst, 1);
-    for(int i=0; i<100; i++) {} 
-    IOWR(VARSET_BASE, var_timer_rst, 0);
-}
+// void update_HINS_config_to_HW_REG()
+// {
+// 	// IOWR(VARSET_BASE, var_sync_count, SYNC_100HZ); // set sync data rate
+//     IOWR(VARSET_BASE, var_timer_rst, 1);
+//     for(int i=0; i<100; i++) {} 
+//     IOWR(VARSET_BASE, var_timer_rst, 0);
+// }
 
 void TRIGGER_IRQ_init()
 {
