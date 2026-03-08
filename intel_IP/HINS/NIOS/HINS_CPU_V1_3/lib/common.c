@@ -1164,6 +1164,8 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 							// update_datarate_to_HW_REG(rx->value);
 							PARAMETER_Write_s(base, CMD_CFG_DR - CFG_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
 							DEBUG_PRINT("WRITE: %d\n", rx->value);	
+
+							apply_datarate_index((uint8_t)rx->value);
 						}
 						else if(rx->condition == 3) {
 							data_t data;
@@ -1547,9 +1549,10 @@ bool apply_ASM330LHHX_Gyro_LPF1_index(uint8_t index)
 		return false;
 	}
 
-	DEBUG_PRINT("Applying _Gyro_LPF1 index %d (out_idx=%d, BW=%f)\n", index, out_idx, bw);
+	DEBUG_PRINT("\nApplying _Gyro_LPF1 index %d (out_idx=%d, BW=%f)\n", index, out_idx, bw);
 
 	set_ASM330LHHX_Gyro_LPF1(out_idx);
+	usleep (100000);
 
 	return true;
 }
@@ -1563,9 +1566,10 @@ bool apply_ASM330LHHX_Accl_LPF2_index(uint8_t index)
 		return false;
 	}
 
-	DEBUG_PRINT("Applying _Accl_LPF2 index %d (out_idx=%d, BW=%f)\n", index, out_idx, bw);
+	DEBUG_PRINT("\nApplying _Accl_LPF2 index %d (out_idx=%d, BW=%f)\n", index, out_idx, bw);
 
 	set_ASM330LHHX_Accl_LPF2(out_idx);
+	usleep (100000);
 
 	return true;
 }
@@ -1579,8 +1583,9 @@ void update_config_to_HW_REG(fog_parameter_t* para)
 	uint8_t a_lpf  = para->config[13].data.int_val;
 
 	apply_datarate_index(dr_idx); // update data rate from config container
-	apply_ASM330LHHX_Gyro_LPF1_index(g_lpf); usleep (50000); // update ASM330LHH gyro LPF bw from config container
+	
 	apply_ASM330LHHX_Accl_LPF2_index(a_lpf); // update ASM330LHH accl LPF bw from config container
+	apply_ASM330LHHX_Gyro_LPF1_index(g_lpf); // update ASM330LHH gyro LPF bw from config container
 	
 	DEBUG_PRINT("update config paramemetr done.\n ");
 

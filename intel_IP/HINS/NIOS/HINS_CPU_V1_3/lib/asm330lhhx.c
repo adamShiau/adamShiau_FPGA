@@ -391,17 +391,17 @@ void set_ASM330LHHX_Gyro_LPF1(alt_u8 ftype) {
     
     I2C_op_mode_sel_ASM330LHHX(CPU_WREG); // 讓 SM 回到 IDLE
 
+    I2C_sm_set_finish_clear_pulse_ASM330LHHX(); 
+
     while(timeout-- > 0) {
         current_sm = get_ASM330LHHX_SM_status();
         if(current_sm == 0) break; // 0 是 IDLE 
     }
     
     if(timeout <= 0) {
-        DEBUG_PRINT("[ERROR] SM NOT IDLE! Current: %d\n", current_sm);
+        DEBUG_PRINT("\n[ERROR] SM NOT IDLE! Current: %d\n", current_sm);
         return; // 若狀態機卡住，不強行寫入
     }
-
-    I2C_sm_set_finish_clear_pulse_ASM330LHHX(); 
 
     DEBUG_PRINT("\n--- [START] Set Gyro LPF1 ---");
 
@@ -443,17 +443,17 @@ void set_ASM330LHHX_Accl_LPF2(alt_u8 cutoff_bw) {
     
     I2C_op_mode_sel_ASM330LHHX(CPU_WREG); // 讓 SM 回到 IDLE
 
+    I2C_sm_set_finish_clear_pulse_ASM330LHHX(); 
+
     while(timeout-- > 0) {
         current_sm = get_ASM330LHHX_SM_status();
         if(current_sm == 0) break; // 0 是 IDLE 
     }
     
     if(timeout <= 0) {
-        DEBUG_PRINT("[ERROR] SM NOT IDLE! Current: %d\n", current_sm);
+        DEBUG_PRINT("\n[ERROR] SM NOT IDLE! Current: %d\n", current_sm);
         return; // 若狀態機卡住，不強行寫入
     }
-
-    I2C_sm_set_finish_clear_pulse_ASM330LHHX(); 
 
     DEBUG_PRINT("\n--- [START] Set Accl LPF2 ---");
 

@@ -1,8 +1,35 @@
-11:21:04 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_3 ****
+21:55:47 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_3 ****
 make all 
 Info: Building ../HINS_CPU_V1_3_bsp/
 D:/intelFPGA_lite/18.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../HINS_CPU_V1_3_bsp/
 [BSP build complete]
+Info: Compiling D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/asm330lhhx.c to obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/asm330lhhx.o
+nios2-elf-gcc -xc -MP -MMD -c -ID:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_3\include -I../HINS_CPU_V1_3_bsp//HAL/inc -I../HINS_CPU_V1_3_bsp/ -I../HINS_CPU_V1_3_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/asm330lhhx.o D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/asm330lhhx.c
+In file included from D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_3\include/asm330lhhx.h:15:0,
+                 from D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/asm330lhhx.c:1:
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_3\include/common.h:26:0: warning: "DEBUG_PRINT" redefined
+     #define DEBUG_PRINT(...) uart_printf_dbg(__VA_ARGS__)
+ ^
+D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_3\include/common.h:15:0: note: this is the location of the previous definition
+  #define DEBUG_PRINT
+ ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/asm330lhhx.c:191:14: warning: type defaults to 'int' in declaration of 'DELAY_NUM' [-Wimplicit-int]
+ static const DELAY_NUM = 100000;
+              ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/asm330lhhx.c: In function 'init_ASM330LHHX':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/asm330lhhx.c:279:9: warning: implicit declaration of function 'usleep' [-Wimplicit-function-declaration]
+         usleep(20000); // Á≠âÂ?ÖÊï∏‰ΩçÊøæÊ≥¢Âô®Á©©Â??
+         ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/asm330lhhx.c: In function 'I2C_write_ASM330LHHX_register':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/asm330lhhx.c:534:9: warning: implicit declaration of function 'printf' [-Wimplicit-function-declaration]
+         printf("ASM330LHHX write timeout!\n");
+         ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/asm330lhhx.c:534:9: warning: incompatible implicit declaration of built-in function 'printf'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/asm330lhhx.c:534:9: note: include '<stdio.h>' or provide a declaration of 'printf'
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/asm330lhhx.c:538:13: warning: incompatible implicit declaration of built-in function 'printf'
+  if(print)  printf("write reg:%x, value:%x\n", reg_addr, data);
+             ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/asm330lhhx.c:538:13: note: include '<stdio.h>' or provide a declaration of 'printf'
 Info: Compiling D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/common.c to obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/common.o
 nios2-elf-gcc -xc -MP -MMD -c -ID:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_3\include -I../HINS_CPU_V1_3_bsp//HAL/inc -I../HINS_CPU_V1_3_bsp/ -I../HINS_CPU_V1_3_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/common.o D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/common.c
 In file included from D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/common.c:1:0:
@@ -13,19 +40,19 @@ D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_3\include/common.h:15:0:
   #define DEBUG_PRINT
  ^
 D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/common.c: In function 'fog_parameter':
-D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/common.c:1383:19: warning: unused variable 'nack' [-Wunused-variable]
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/common.c:1385:19: warning: unused variable 'nack' [-Wunused-variable]
           uint8_t  nack = (uint8_t)(rx->value & 1); // TODO: ?ã•Ë¶ÅÊîØ?è¥ NACKÔºöÊü•Âø´Â?? (seq,ch) ??? ?õ¥?é•??çÈ?Å‰?ä‰???ÖÔ?õÊ≠§??ïÁï•
                    ^
-D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/common.c:1390:19: warning: unused variable 'nack' [-Wunused-variable]
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/common.c:1392:19: warning: unused variable 'nack' [-Wunused-variable]
           uint8_t  nack = (uint8_t)(rx->value & 1); // TODO: ?ã•Ë¶ÅÊîØ?è¥ NACKÔºöÊü•Âø´Â?? (seq,ch) ??? ?õ¥?é•??çÈ?Å‰?ä‰???ÖÔ?õÊ≠§??ïÁï•
                    ^
-D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/common.c:1397:19: warning: unused variable 'nack' [-Wunused-variable]
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/common.c:1399:19: warning: unused variable 'nack' [-Wunused-variable]
           uint8_t  nack = (uint8_t)(rx->value & 1); // TODO: ?ã•Ë¶ÅÊîØ?è¥ NACKÔºöÊü•Âø´Â?? (seq,ch) ??? ?õ¥?é•??çÈ?Å‰?ä‰???ÖÔ?õÊ≠§??ïÁï•
                    ^
-D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/common.c:1404:19: warning: unused variable 'nack' [-Wunused-variable]
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/common.c:1406:19: warning: unused variable 'nack' [-Wunused-variable]
           uint8_t  nack = (uint8_t)(rx->value & 1); // TODO: ?ã•Ë¶ÅÊîØ?è¥ NACKÔºöÊü•Âø´Â?? (seq,ch) ??? ?õ¥?é•??çÈ?Å‰?ä‰???ÖÔ?õÊ≠§??ïÁï•
                    ^
-D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/common.c:1411:19: warning: unused variable 'nack' [-Wunused-variable]
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/common.c:1413:19: warning: unused variable 'nack' [-Wunused-variable]
           uint8_t  nack = (uint8_t)(rx->value & 1); // TODO: ?ã•Ë¶ÅÊîØ?è¥ NACKÔºöÊü•Âø´Â?? (seq,ch) ??? ?õ¥?é•??çÈ?Å‰?ä‰???ÖÔ?õÊ≠§??ïÁï•
                    ^
 Info: Linking HINS_CPU_V1_3.elf
@@ -37,5 +64,5 @@ Info: Creating HINS_CPU_V1_3.objdump
 nios2-elf-objdump --disassemble --syms --all-header --source HINS_CPU_V1_3.elf >HINS_CPU_V1_3.objdump
 [HINS_CPU_V1_3 build complete]
 
-11:21:08 Build Finished (took 3s.547ms)
+21:55:51 Build Finished (took 3s.391ms)
 
