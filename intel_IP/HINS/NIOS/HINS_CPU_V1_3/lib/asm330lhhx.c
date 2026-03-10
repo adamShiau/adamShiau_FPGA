@@ -65,6 +65,10 @@
 /*** Enables pulsed data-ready mode  */
 #define DATAREADY_PULSED (1<<7)
 
+#define X_OFS_USR 0x73
+#define Y_OFS_USR 0x74
+#define Z_OFS_USR 0x75
+
 /*** Setup Register: INT1_CTRL  */
 #define INT1_CTRL 0x0D
 
@@ -240,6 +244,9 @@ void init_ASM330LHHX()
         return;
     }
     DEBUG_PRINT("[  OK  ] Communication established. (ID: 0x6B)\n");
+    // I2C_read_ASM330LHHX_register(X_OFS_USR, 1);
+    // I2C_read_ASM330LHHX_register(Y_OFS_USR, 1);
+    // I2C_read_ASM330LHHX_register(Z_OFS_USR, 1);
 
     // 2. 定義配置清單 (方便後續維護)
     struct {
@@ -255,7 +262,10 @@ void init_ASM330LHHX()
         {CTRL6_C,  LPF1_FTYPE_7,                              "[CTRL6_C] Gyro LPF1 Bandwidth: 133 Hz"},
         {COUNTER_BDR_REG1, DATAREADY_PULSED,                  "DataReady Pulsed Mode"},
         {INT1_CTRL, INT1_DRDY_XL | INT1_DRDY_G,               "Interrupt 1 Map (A+G)"},
-        {INT2_CTRL, INT2_DRDY_TEMP,                           "Interrupt 2 Map (Temp)"}
+        {INT2_CTRL, INT2_DRDY_TEMP,                           "Interrupt 2 Map (Temp)"},
+        {X_OFS_USR, 0x00,                                     "Accl X offset set to 0"},
+        {Y_OFS_USR, 0x00,                                     "Accl Y offset set to 0"},
+        {Z_OFS_USR, 0x00,                                     "Accl Z offset set to 0"}
     };
 
     // 3. 執行配置並印出結果
@@ -276,7 +286,7 @@ void init_ASM330LHHX()
 
     // 4. 最後確認與切換模式
     if(fail_count == 0) {
-        usleep(20000); // 等待數位濾波器穩定
+        usleep(2000); // 等待數位濾波器穩定
         I2C_op_mode_sel_ASM330LHHX(HW); // 切換至硬體自動讀取模式
         I2C_set_device_addr_ASM330LHHX(I2C_DEV_ADDR);
         DEBUG_PRINT("----------------------------------------------\n");
@@ -298,7 +308,7 @@ int I2C_write_verify_ASM330LHHX(alt_u8 reg_addr, alt_u8 data) {
 
     while(retry--) {
         I2C_write_ASM330LHHX_register(reg_addr, data, 0); // 執行寫入
-        usleep(1000); // 給予硬體微小的處理時間
+        usleep(100); // 給予硬體微小的處理時間
         read_val = I2C_read_ASM330LHHX_register(reg_addr, 0); // 讀回比對
         
         if(read_val == data) {
@@ -310,14 +320,6 @@ int I2C_write_verify_ASM330LHHX(alt_u8 reg_addr, alt_u8 data) {
     return -1;
 }
 
-// if(I2C_write_verify_ASM330LHHX(configs[i].addr, configs[i].val) == 0) {
-//             DEBUG_PRINT("[  OK  ] %-25s | Reg: 0x%02X | Val: 0x%02X\n", 
-//                         configs[i].label, configs[i].addr, configs[i].val);
-//         } else {
-//             DEBUG_PRINT("[FAILED] %-25s | Reg: 0x%02X | Expected: 0x%02X\n", 
-//                         configs[i].label, configs[i].addr, configs[i].val);
-//             fail_count++;
-//         }
 
 void test_ASM330LHHX()
 {

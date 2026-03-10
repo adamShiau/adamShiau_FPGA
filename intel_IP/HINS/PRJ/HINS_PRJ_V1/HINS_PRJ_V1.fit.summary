@@ -1,12 +1,12 @@
-Fitter Status : Successful - Fri Mar 06 15:08:52 2026
+Fitter Status : Successful - Tue Mar 10 11:11:59 2026
 Quartus Prime Version : 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 Revision Name : HINS_PRJ_V1
 Top-level Entity Name : HINS_TOP_V2
 Family : Cyclone IV E
 Device : EP4CE15F17I7
 Timing Models : Final
-Total logic elements : 8,816 / 15,408 ( 57 % )
-    Total combinational functions : 7,070 / 15,408 ( 46 % )
+Total logic elements : 8,808 / 15,408 ( 57 % )
+    Total combinational functions : 7,068 / 15,408 ( 46 % )
     Dedicated logic registers : 5,734 / 15,408 ( 37 % )
 Total registers : 5802
 Total pins : 98 / 166 ( 59 % )
