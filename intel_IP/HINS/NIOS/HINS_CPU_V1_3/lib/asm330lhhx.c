@@ -37,6 +37,7 @@
 #define ctrl_op_mode_pos 	1
 #define ctrl_clk_rate_pos	4
 #define ctrl_finish_clear_pos	7
+#define ctrl_sm_reset_pos 8
 
 /**** STATUS ******/
 #define status_ready_pos	0
@@ -235,7 +236,7 @@ void init_ASM330LHHX()
 	DEBUG_PRINT("[ INFO ] I2C Clock Rate set to: %s (Val: %d)\n", 
                 get_i2c_freq_name(I2C_CLK_rate), I2C_CLK_rate);
 
-    I2C_sm_set_finish_clear_pulse_ASM330LHHX(); 
+    I2C_sm_force_reset_ASM330LHHX();
 
     // 1. 物理層檢查：確認 ID
     alt_u8 who_am_i = I2C_read_ASM330LHHX_register(WHO_AM_I, 0);
@@ -244,9 +245,6 @@ void init_ASM330LHHX()
         return;
     }
     DEBUG_PRINT("[  OK  ] Communication established. (ID: 0x6B)\n");
-    // I2C_read_ASM330LHHX_register(X_OFS_USR, 1);
-    // I2C_read_ASM330LHHX_register(Y_OFS_USR, 1);
-    // I2C_read_ASM330LHHX_register(Z_OFS_USR, 1);
 
     // 2. 定義配置清單 (方便後續維護)
     struct {
@@ -296,6 +294,26 @@ void init_ASM330LHHX()
         DEBUG_PRINT("Status: INIT FAILED with %d errors.\n", fail_count);
     }
     DEBUG_PRINT("==============================================\n\n");
+}
+
+void I2C_sm_force_reset_ASM330LHHX() {
+    
+    // 拉高 SM_Reset 
+    alt_u32 ctrl = IORD(VARSET_BASE, O_VAR_I2C_CTRL);
+    IOWR(VARSET_BASE, O_VAR_I2C_CTRL, ctrl | (1 << ctrl_sm_reset_pos));
+
+    // 短暫延遲，確保硬體時鐘（i2c_clk）有抓到這個電位
+    usleep(10); 
+    
+    //  設定成 CPU_WREG 模式
+    I2C_op_mode_sel_ASM330LHHX(CPU_WREG);
+
+    // 拉低 SM_Reset 
+    ctrl = IORD(VARSET_BASE, O_VAR_I2C_CTRL);
+    IOWR(VARSET_BASE, O_VAR_I2C_CTRL, (ctrl & ~(1 << ctrl_sm_reset_pos)));
+    
+    // 強制清除 Finish 旗標
+    I2C_sm_set_finish_clear_pulse_ASM330LHHX();
 }
 
 /**
@@ -391,9 +409,11 @@ void set_ASM330LHHX_Gyro_LPF1(alt_u8 ftype) {
     int timeout = 100000;
     alt_u8 current_sm;
     
-    I2C_op_mode_sel_ASM330LHHX(CPU_WREG); // 讓 SM 回到 IDLE
+    // I2C_op_mode_sel_ASM330LHHX(CPU_WREG); // 讓 SM 回到 IDLE
 
-    I2C_sm_set_finish_clear_pulse_ASM330LHHX(); 
+    // I2C_sm_set_finish_clear_pulse_ASM330LHHX(); 
+
+    I2C_sm_force_reset_ASM330LHHX();
 
     while(timeout-- > 0) {
         current_sm = get_ASM330LHHX_SM_status();
@@ -443,9 +463,11 @@ void set_ASM330LHHX_Accl_LPF2(alt_u8 cutoff_bw) {
     int timeout = 100000;
     alt_u8 current_sm;
     
-    I2C_op_mode_sel_ASM330LHHX(CPU_WREG); // 讓 SM 回到 IDLE
+    // I2C_op_mode_sel_ASM330LHHX(CPU_WREG); // 讓 SM 回到 IDLE
 
-    I2C_sm_set_finish_clear_pulse_ASM330LHHX(); 
+    // I2C_sm_set_finish_clear_pulse_ASM330LHHX(); 
+
+    I2C_sm_force_reset_ASM330LHHX();
 
     while(timeout-- > 0) {
         current_sm = get_ASM330LHHX_SM_status();

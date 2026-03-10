@@ -291,7 +291,7 @@ inst_i2c_ADS122C04 (
 // =========================================================================
 
 
-i2c_controller_ASM330LHHX_V2
+i2c_controller_ASM330LHHX_V3
 inst_i2c_ASM330LHHX (
 	.i_clk(pll_clk_cpu_int),
 	.i_rst_n(RST_SYNC_N),
