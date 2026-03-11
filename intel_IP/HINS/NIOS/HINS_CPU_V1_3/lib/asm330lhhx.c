@@ -297,14 +297,13 @@ int I2C_write_verify_ASM330LHHX(alt_u8 reg_addr, alt_u8 data) {
     alt_u8 read_val;
 
     while(retry--) {
-        I2C_write_ASM330LHHX_register(reg_addr, data, 1); // 執行寫入
+        I2C_write_ASM330LHHX_register(reg_addr, data, 0); // 執行寫入
         usleep(1000); // 給予硬體微小的處理時間
-        read_val = I2C_read_ASM330LHHX_register(reg_addr, 1); // 讀回比對
+        read_val = I2C_read_ASM330LHHX_register(reg_addr, 0); // 讀回比對
         
-        // if(read_val == data) {
-        //     return 0; // 校驗成功
-        // }
-        return 0;
+        if(read_val == data) {
+            return 0; // 校驗成功
+        }
     }
     
     DEBUG_PRINT("ERROR: ASM330LHHX reg 0x%02X verify failed!\n", reg_addr);
@@ -532,11 +531,11 @@ void I2C_write_ASM330LHHX_register(alt_u8 reg_addr, alt_u8 data, alt_u8 print)
 	int timeout = 100000;
 	while( !I2C_sm_read_finish_ASM330LHHX() && timeout-- > 0 );
 	if (timeout <= 0) {
-        DEBUG_PRINT("ASM330LHHX write timeout!\n");
+        printf("ASM330LHHX write timeout!\n");
         return;
     }
 	I2C_sm_set_finish_clear_pulse_ASM330LHHX();
-	if(print) 	DEBUG_PRINT("write reg:%x, value:%x\n", reg_addr, data);
+	if(print) 	printf("write reg:%x, value:%x\n", reg_addr, data);
 }
 
 alt_u8 I2C_read_ASM330LHHX_register(alt_u8 reg_addr, alt_u8 print)
