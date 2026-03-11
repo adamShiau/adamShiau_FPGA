@@ -1,4 +1,4 @@
-21:55:47 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_3 ****
+19:19:18 **** Incremental Build of configuration Nios II for project HINS_CPU_V1_3 ****
 make all 
 Info: Building ../HINS_CPU_V1_3_bsp/
 D:/intelFPGA_lite/18.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../HINS_CPU_V1_3_bsp/
@@ -20,41 +20,10 @@ D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/asm330lhhx.c: In f
 D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/asm330lhhx.c:279:9: warning: implicit declaration of function 'usleep' [-Wimplicit-function-declaration]
          usleep(20000); // Á≠âÂ?ÖÊï∏‰ΩçÊøæÊ≥¢Âô®Á©©Â??
          ^
-D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/asm330lhhx.c: In function 'I2C_write_ASM330LHHX_register':
-D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/asm330lhhx.c:534:9: warning: implicit declaration of function 'printf' [-Wimplicit-function-declaration]
-         printf("ASM330LHHX write timeout!\n");
-         ^
-D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/asm330lhhx.c:534:9: warning: incompatible implicit declaration of built-in function 'printf'
-D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/asm330lhhx.c:534:9: note: include '<stdio.h>' or provide a declaration of 'printf'
-D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/asm330lhhx.c:538:13: warning: incompatible implicit declaration of built-in function 'printf'
-  if(print)  printf("write reg:%x, value:%x\n", reg_addr, data);
-             ^
-D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/asm330lhhx.c:538:13: note: include '<stdio.h>' or provide a declaration of 'printf'
-Info: Compiling D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/common.c to obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/common.o
-nios2-elf-gcc -xc -MP -MMD -c -ID:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_3\include -I../HINS_CPU_V1_3_bsp//HAL/inc -I../HINS_CPU_V1_3_bsp/ -I../HINS_CPU_V1_3_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/common.o D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/common.c
-In file included from D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/common.c:1:0:
-D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_3\include/common.h:26:0: warning: "DEBUG_PRINT" redefined
-     #define DEBUG_PRINT(...) uart_printf_dbg(__VA_ARGS__)
- ^
-D:\github\adamShiau_FPGA\intel_IP\HINS\NIOS\HINS_CPU_V1_3\include/common.h:15:0: note: this is the location of the previous definition
-  #define DEBUG_PRINT
- ^
-D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/common.c: In function 'fog_parameter':
-D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/common.c:1385:19: warning: unused variable 'nack' [-Wunused-variable]
-          uint8_t  nack = (uint8_t)(rx->value & 1); // TODO: ?ã•Ë¶ÅÊîØ?è¥ NACKÔºöÊü•Âø´Â?? (seq,ch) ??? ?õ¥?é•??çÈ?Å‰?ä‰???ÖÔ?õÊ≠§??ïÁï•
-                   ^
-D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/common.c:1392:19: warning: unused variable 'nack' [-Wunused-variable]
-          uint8_t  nack = (uint8_t)(rx->value & 1); // TODO: ?ã•Ë¶ÅÊîØ?è¥ NACKÔºöÊü•Âø´Â?? (seq,ch) ??? ?õ¥?é•??çÈ?Å‰?ä‰???ÖÔ?õÊ≠§??ïÁï•
-                   ^
-D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/common.c:1399:19: warning: unused variable 'nack' [-Wunused-variable]
-          uint8_t  nack = (uint8_t)(rx->value & 1); // TODO: ?ã•Ë¶ÅÊîØ?è¥ NACKÔºöÊü•Âø´Â?? (seq,ch) ??? ?õ¥?é•??çÈ?Å‰?ä‰???ÖÔ?õÊ≠§??ïÁï•
-                   ^
-D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/common.c:1406:19: warning: unused variable 'nack' [-Wunused-variable]
-          uint8_t  nack = (uint8_t)(rx->value & 1); // TODO: ?ã•Ë¶ÅÊîØ?è¥ NACKÔºöÊü•Âø´Â?? (seq,ch) ??? ?õ¥?é•??çÈ?Å‰?ä‰???ÖÔ?õÊ≠§??ïÁï•
-                   ^
-D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/common.c:1413:19: warning: unused variable 'nack' [-Wunused-variable]
-          uint8_t  nack = (uint8_t)(rx->value & 1); // TODO: ?ã•Ë¶ÅÊîØ?è¥ NACKÔºöÊü•Âø´Â?? (seq,ch) ??? ?õ¥?é•??çÈ?Å‰?ä‰???ÖÔ?õÊ≠§??ïÁï•
-                   ^
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/asm330lhhx.c: In function 'I2C_write_verify_ASM330LHHX':
+D:/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/asm330lhhx.c:297:12: warning: variable 'read_val' set but not used [-Wunused-but-set-variable]
+     alt_u8 read_val;
+            ^
 Info: Linking HINS_CPU_V1_3.elf
 nios2-elf-g++  -T'../HINS_CPU_V1_3_bsp//linker.x' -msys-crt0='../HINS_CPU_V1_3_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../HINS_CPU_V1_3_bsp/   -Wl,-Map=HINS_CPU_V1_3.map   -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o HINS_CPU_V1_3.elf obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/HINS_CPU_V1_3.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/acq_fog.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/acq_imu.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/acq_rst.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/adda_config.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/ads122c04_se.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/asm330lhhx.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/common.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/eeprom_v2.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/memory_manage.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/output_mode.o obj/default//D/github/adamShiau_FPGA/intel_IP/HINS/NIOS/HINS_CPU_V1_3/lib/uart_dual.o -lm -msys-lib=m
 nios2-elf-insert HINS_CPU_V1_3.elf --thread_model hal --cpu_name nios2 --qsys true --simulation_enabled false --id 16777216 --sidp 0x20022a0 --timestamp 1772780835 --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name CPU --quartus_project_dir "D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1" --jdi D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_3_bsp/../../HINS_PRJ_V1.jdi --sopcinfo D:/github/adamShiau_FPGA/intel_IP/HINS/PRJ/HINS_PRJ_V1/software/HINS_CPU_V1_3_bsp/../../CPU.sopcinfo
@@ -64,5 +33,5 @@ Info: Creating HINS_CPU_V1_3.objdump
 nios2-elf-objdump --disassemble --syms --all-header --source HINS_CPU_V1_3.elf >HINS_CPU_V1_3.objdump
 [HINS_CPU_V1_3 build complete]
 
-21:55:51 Build Finished (took 3s.391ms)
+19:19:20 Build Finished (took 2s.72ms)
 
