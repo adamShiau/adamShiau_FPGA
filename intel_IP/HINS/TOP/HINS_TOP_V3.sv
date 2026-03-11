@@ -1,4 +1,4 @@
-module HINS_TOP_V2(
+module HINS_TOP_V3(
 
 	//////////// TCXO EXT CLOCK //////////
 	input 	logic CLOCK_100M,

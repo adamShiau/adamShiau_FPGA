@@ -1486,9 +1486,8 @@ static bool map_gyro_LPF_index(uint8_t idx, uint8_t* out_idx, float* out_bw)
     if (out_idx == NULL || out_bw == NULL) {
         return false;
     }
-
+	DEBUG_PRINT("mapping_gyro_LPF_index: %d\n", idx);
     switch (idx) {
-		DEBUG_PRINT("map_gyro_LPF_index: %d\n", idx);
         case 0:  *out_idx = 0;  *out_bw = 133.0f;  break;
         case 1:  *out_idx = 1;  *out_bw = 128.0f;  break;
         case 2:  *out_idx = 2;  *out_bw = 112.0f; break;
@@ -1497,8 +1496,11 @@ static bool map_gyro_LPF_index(uint8_t idx, uint8_t* out_idx, float* out_bw)
 		case 5:  *out_idx = 5;  *out_bw = 48.0f; break;
 		case 6:  *out_idx = 6;  *out_bw = 24.6f; break;
 		case 7:  *out_idx = 7;  *out_bw = 12.6f; break;
-        default: return false; // 無效的 index
-    }
+        default: {
+			DEBUG_PRINT("[ERROR] Gyro_LPF1 index out of range\n");
+			return false; // 無效的 index
+		}
+	}
 
     return true;
 }
@@ -1509,7 +1511,7 @@ static bool map_accl_LPF_index(uint8_t idx, uint8_t* out_idx, float* out_bw)
     if (out_idx == NULL || out_bw == NULL) {
         return false;
     }
-
+	DEBUG_PRINT("mapping_accl_LPF_index: %d\n", idx);
     switch (idx) {
         case 0:  *out_idx = 0;  *out_bw = 104.0f;  break;
         case 1:  *out_idx = 1;  *out_bw = 41.6f;  break;
@@ -1519,7 +1521,10 @@ static bool map_accl_LPF_index(uint8_t idx, uint8_t* out_idx, float* out_bw)
 		case 5:  *out_idx = 5;  *out_bw = 2.1f; break;
 		case 6:  *out_idx = 6;  *out_bw = 1.0f; break;
 		case 7:  *out_idx = 7;  *out_bw = 0.5f; break;
-        default: return false; // 無效的 index
+        default: {
+			DEBUG_PRINT("[ERROR] Accl_LPF2 index out of range\n");
+			return false; // 無效的 index
+		}
     }
 
     return true;
@@ -1533,7 +1538,7 @@ bool apply_datarate_index(uint8_t dr_index)
 		return false;
 	}
 
-	DEBUG_PRINT("Applying datarate index %d (cnt=%d, hz=%f)\n", dr_index, cnt, hz);
+	DEBUG_PRINT("\n Applying datarate index %d (cnt=%d, hz=%f)\n", dr_index, cnt, hz);
 
 	IOWR(VARSET_BASE, var_sync_count, cnt);
 
@@ -1544,15 +1549,15 @@ bool apply_ASM330LHHX_Gyro_LPF1_index(uint8_t index)
 {
 	uint8_t out_idx = 0;
 	float bw = 0.0f;
-	// DEBUG_PRINT("Applying _Gyro_LPF1 index %d\n" , index);
+	DEBUG_PRINT("\n Applying _Gyro_LPF1 index\n" , index);
 	if (!map_gyro_LPF_index(index, &out_idx, &bw)) {
 		return false;
 	}
 
-	DEBUG_PRINT("\nApplying _Gyro_LPF1 index %d (out_idx=%d, BW=%f)\n", index, out_idx, bw);
+	DEBUG_PRINT("Gyro_LPF1 index %d (out_idx=%d, BW=%f)\n", index, out_idx, bw);
 
 	set_ASM330LHHX_Gyro_LPF1(out_idx);
-	usleep (100000);
+	usleep (10000);
 
 	return true;
 }
@@ -1561,15 +1566,15 @@ bool apply_ASM330LHHX_Accl_LPF2_index(uint8_t index)
 {
 	uint8_t out_idx = 0;
 	float bw = 0.0f;
-	// DEBUG_PRINT("Applying _Accl_LPF2 index %d\n" , index);
+	DEBUG_PRINT("\n Applying _Accl_LPF2 index\n" , index);
 	if (!map_accl_LPF_index(index, &out_idx, &bw)) {
 		return false;
 	}
 
-	DEBUG_PRINT("\nApplying _Accl_LPF2 index %d (out_idx=%d, BW=%f)\n", index, out_idx, bw);
+	DEBUG_PRINT("Accl_LPF2 index %d (out_idx=%d, BW=%f)\n", index, out_idx, bw);
 
 	set_ASM330LHHX_Accl_LPF2(out_idx);
-	usleep (100000);
+	usleep (10000);
 
 	return true;
 }
@@ -1587,7 +1592,7 @@ void update_config_to_HW_REG(fog_parameter_t* para)
 	apply_ASM330LHHX_Accl_LPF2_index(a_lpf); // update ASM330LHH accl LPF bw from config container
 	apply_ASM330LHHX_Gyro_LPF1_index(g_lpf); // update ASM330LHH gyro LPF bw from config container
 	
-	DEBUG_PRINT("update config paramemetr done.\n ");
+	DEBUG_PRINT("\nupdate config paramemetr done.\n ");
 
 }
   

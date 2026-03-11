@@ -5,6 +5,9 @@
  * version: v1.2
  * data: 2026/03/04
  * 新增 Gyro_LPF1 與 Accl_LPF2 setter 
+ * 
+ * data: 2026/03/10 
+ * 新增 SM 重置 IDLE 方法 I2C_sm_force_reset_ASM330LHHX()
  */
 
 #include "alt_types.h"
@@ -20,6 +23,7 @@ void init_ASM330LHHX(void);
 int I2C_write_verify_ASM330LHHX(alt_u8 reg_addr, alt_u8 data);
 void read_ASM330LHHX(void);
 void test_ASM330LHHX(void);
+void I2C_sm_force_reset_ASM330LHHX(void);
 
 /*** 新增 Setter 宣告 ***/
 void set_ASM330LHHX_Gyro_LPF1(alt_u8 ftype);
