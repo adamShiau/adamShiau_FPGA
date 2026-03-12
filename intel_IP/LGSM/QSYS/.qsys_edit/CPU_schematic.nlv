@@ -1,0 +1,35 @@
+# # File gsaved with Nlview version 6.3.8  2013-12-19 bk=1.2992 VDI=34 GEI=35
+# 
+preplace inst CPU.sdram -pg 1 -lvl 3 -y 230
+preplace inst CPU.nios2.cpu -pg 1
+preplace inst CPU.clk_CPU -pg 1 -lvl 1 -y 970
+preplace inst CPU.spi_ADDA -pg 1 -lvl 3 -y 830
+preplace inst CPU -pg 1 -lvl 1 -y 40 -regy -20
+preplace inst CPU.jtag_uart -pg 1 -lvl 3 -y 510
+preplace inst CPU.timer -pg 1 -lvl 3 -y 610
+preplace inst CPU.uart -pg 1 -lvl 3 -y 1070
+preplace inst CPU.VarSet -pg 1 -lvl 3 -y 330
+preplace inst CPU.sysid -pg 1 -lvl 3 -y 430
+preplace inst CPU.nios2.reset_bridge -pg 1
+preplace inst CPU.I2C_SDA -pg 1 -lvl 3 -y 130
+preplace inst CPU.I2C_SCL -pg 1 -lvl 3 -y 30
+preplace inst CPU.nios2.clock_bridge -pg 1
+preplace inst CPU.epcs -pg 1 -lvl 3 -y 710
+preplace inst CPU.trigger_in -pg 1 -lvl 3 -y 950
+preplace inst CPU.nios2 -pg 1 -lvl 2 -y 900
+preplace netloc EXPORT<net_container>CPU</net_container>(SLAVE)trigger_in.external_connection,(SLAVE)CPU.trigger_in) 1 0 3 NJ 1040 NJ 1040 NJ
+preplace netloc EXPORT<net_container>CPU</net_container>(SLAVE)clk_CPU.clk_in_reset,(SLAVE)CPU.reset) 1 0 1 NJ
+preplace netloc FAN_OUT<net_container>CPU</net_container>(SLAVE)sdram.clk,(MASTER)clk_CPU.clk,(SLAVE)uart.clk,(SLAVE)I2C_SCL.clk,(SLAVE)jtag_uart.clk,(SLAVE)I2C_SDA.clk,(SLAVE)spi_ADDA.clk,(SLAVE)trigger_in.clk,(SLAVE)timer.clk,(SLAVE)sysid.clk,(SLAVE)epcs.clk,(SLAVE)VarSet.clock,(SLAVE)nios2.clk) 1 1 2 290 1060 730
+preplace netloc EXPORT<net_container>CPU</net_container>(SLAVE)CPU.varset,(SLAVE)VarSet.conduit) 1 0 3 NJ 380 NJ 380 NJ
+preplace netloc INTERCONNECT<net_container>CPU</net_container>(SLAVE)sdram.reset,(SLAVE)timer.reset,(SLAVE)nios2.reset,(SLAVE)sysid.reset,(SLAVE)epcs.reset,(SLAVE)I2C_SCL.reset,(SLAVE)VarSet.reset_n,(SLAVE)I2C_SDA.reset,(SLAVE)trigger_in.reset,(MASTER)nios2.debug_reset_request,(SLAVE)uart.reset,(SLAVE)jtag_uart.reset,(SLAVE)spi_ADDA.reset,(MASTER)clk_CPU.clk_reset) 1 1 2 310 1120 710
+preplace netloc INTERCONNECT<net_container>CPU</net_container>(SLAVE)VarSet.avalon_slave,(SLAVE)epcs.epcs_control_port,(SLAVE)timer.s1,(SLAVE)sdram.s1,(SLAVE)jtag_uart.avalon_jtag_slave,(SLAVE)nios2.debug_mem_slave,(SLAVE)spi_ADDA.spi_control_port,(SLAVE)sysid.control_slave,(SLAVE)I2C_SCL.s1,(MASTER)nios2.instruction_master,(SLAVE)I2C_SDA.s1,(SLAVE)trigger_in.s1,(SLAVE)uart.s1,(MASTER)nios2.data_master) 1 1 2 330 1140 690
+preplace netloc EXPORT<net_container>CPU</net_container>(SLAVE)I2C_SDA.external_connection,(SLAVE)CPU.i2c_sda) 1 0 3 NJ 160 NJ 160 NJ
+preplace netloc EXPORT<net_container>CPU</net_container>(SLAVE)uart.external_connection,(SLAVE)CPU.uart) 1 0 3 NJ 1100 NJ 1100 NJ
+preplace netloc EXPORT<net_container>CPU</net_container>(SLAVE)clk_CPU.clk_in,(SLAVE)CPU.clk) 1 0 1 NJ
+preplace netloc EXPORT<net_container>CPU</net_container>(SLAVE)CPU.spi_adda,(SLAVE)spi_ADDA.external) 1 0 3 NJ 860 NJ 860 NJ
+preplace netloc EXPORT<net_container>CPU</net_container>(SLAVE)I2C_SCL.external_connection,(SLAVE)CPU.i2c_scl) 1 0 3 NJ 60 NJ 60 NJ
+preplace netloc EXPORT<net_container>CPU</net_container>(SLAVE)epcs.external,(SLAVE)CPU.epcs) 1 0 3 NJ 760 NJ 760 NJ
+preplace netloc FAN_OUT<net_container>CPU</net_container>(MASTER)nios2.irq,(SLAVE)spi_ADDA.irq,(SLAVE)uart.irq,(SLAVE)jtag_uart.irq,(SLAVE)trigger_in.irq,(SLAVE)epcs.irq,(SLAVE)timer.irq) 1 2 1 750
+preplace netloc EXPORT<net_container>CPU</net_container>(SLAVE)CPU.sdram,(SLAVE)sdram.wire) 1 0 3 NJ 300 NJ 300 NJ
+levelinfo -pg 1 0 80 960
+levelinfo -hier CPU 90 120 450 800 950
