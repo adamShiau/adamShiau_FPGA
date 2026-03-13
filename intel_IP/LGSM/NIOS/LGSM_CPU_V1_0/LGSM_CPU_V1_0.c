@@ -215,7 +215,7 @@ void update_sensor_data(my_sensor_t *data) {
     // DEBUG_PRINT("PD_temp: %f\n", PD_temp_f);
 
     /***---fog z axis--- */
-    data->fog.fogz.err.int_val = IORD(VARSET_BASE, i_var_err);
+    data->fog.fogz.err.int_val = IORD(VARSET_BASE, i_var_err); 
     data->fog.fogz.step.int_val = IORD(VARSET_BASE, i_var_step);
 }
 

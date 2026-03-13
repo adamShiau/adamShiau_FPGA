@@ -1,7 +1,7 @@
 BLOCK		START ADDRESS		END ADDRESS
 
-V1_0_hw.hex		0x00000000		0x0003450B
-V1_0_sw.hex		0x0003450C		0x000582CF
+V1_0_hw.hex		0x00000000		0x0003438A
+V1_0_sw.hex		0x0003438B		0x0005811E
 
 
 Configuration device: EP4CE15
@@ -11,6 +11,6 @@ Quad-Serial configuration device dummy clock cycle: 0
 
 Notes:
 
-- Data checksum for this conversion is 0x1BCA9E5D
+- Data checksum for this conversion is 0x1BC8F6B6
 
 - All the addresses in this file are byte addresses
