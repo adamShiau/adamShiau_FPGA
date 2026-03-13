@@ -10,27 +10,27 @@ set top_file_name "LGSM_TOP_V1.sv"
 set device_family "Cyclone IV E"
 set device_part "EP4CE15F17I7"
 
-# --- 關鍵路徑定義 (基準點: HINS/PRJ/HINS_PRJ_V1) ---
+# --- 關鍵路徑定義 (基準點: LGSM/PRJ/LGSM_PRJ_V1) ---
 
-# 頂層目錄 (HINS/TOP)
+# 頂層目錄 (LGSM/TOP)
 set top_dir "../../TOP" 
 
-# 硬體 IP 目錄 (HINS/HW_IP)
+# 硬體 IP 目錄 (LGSM/HW_IP)
 set hw_ip_dir "../../HW_IP" 
 set hw_ip_memory_dir "../../HW_IP/MEMORY" 
 set hw_ip_adc "../../HW_IP/ADC" 
 set hw_ip_imu "../../HW_IP/IMU" 
 
-# FOG IP 子目錄 (HINS/HW_IP/FOG)
+# FOG IP 子目錄 (LGSM/HW_IP/FOG)
 set fog_ip_dir  "../../HW_IP/FOG" 
 
-# QSYS 檔案目錄 (HINS/QSYS)
+# QSYS 檔案目錄 (LGSM/QSYS)
 set qsys_dir "../../QSYS" 
 set qsys_file_path "${qsys_dir}/CPU.qsys"
 
-# SDC 檔案目錄 (HINS/SDC)
+# SDC 檔案目錄 (LGSM/SDC)
 set sdc_dir "../../SDC" 
-set sdc_file_path "${sdc_dir}/HINS_TIMING_V1.sdc"
+set sdc_file_path "${sdc_dir}/LGSM_TIMING_V1.sdc"
 
 # 頂層檔案的完整相對路徑
 set top_file_path "${top_dir}/${top_file_name}" 

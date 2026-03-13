@@ -213,3 +213,7 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_DQM[0]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_RAS_N
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_WE_N
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SYNC_IN
+set_location_assignment PIN_K6 -to DBG_RX
+set_location_assignment PIN_L6 -to DBG_TX
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DBG_RX
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DBG_TX

@@ -1,6 +1,6 @@
 <sld_project_info>
   <project>
-    <hash md5_digest_80b="db966d9d1e1012f7d6e3"/>
+    <hash md5_digest_80b="84f713743d736062eba4"/>
   </project>
   <file_info>
     <file device="EP4CE15F17I7" path="LGSM_PRJ_V1.sof" usercode="0xFFFFFFFF"/>
@@ -139,7 +139,7 @@
   <sld_infos>
     <sld_info hpath="CPU:u0" name="u0">
       <assignment_values>
-        <assignment_value text="QSYS_NAME CPU HAS_SOPCINFO 1 GENERATION_ID 1773276942"/>
+        <assignment_value text="QSYS_NAME CPU HAS_SOPCINFO 1 GENERATION_ID 1773362338"/>
       </assignment_values>
       <parameters/>
     </sld_info>

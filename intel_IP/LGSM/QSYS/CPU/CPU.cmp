@@ -25,6 +25,8 @@
 			sync_in_export           : in    std_logic                     := 'X';             -- export
 			uart_rxd                 : in    std_logic                     := 'X';             -- rxd
 			uart_txd                 : out   std_logic;                                        -- txd
+			uart_dbg_rxd             : in    std_logic                     := 'X';             -- rxd
+			uart_dbg_txd             : out   std_logic;                                        -- txd
 			varset_1_i_var0          : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var0
 			varset_1_i_var1          : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var1
 			varset_1_i_var2          : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var2

@@ -1,6 +1,7 @@
 
 module CPU (
 	clk_clk,
+	dac_rst_export,
 	epcs_dclk,
 	epcs_sce,
 	epcs_sdo,
@@ -24,7 +25,6 @@ module CPU (
 	sync_in_export,
 	uart_rxd,
 	uart_txd,
-	dac_rst_export,
 	varset_1_i_var0,
 	varset_1_i_var1,
 	varset_1_i_var2,
@@ -145,9 +145,12 @@ module CPU (
 	varset_1_o_reg57,
 	varset_1_o_reg58,
 	varset_1_o_reg59,
-	varset_1_o_latch_trigger);	
+	varset_1_o_latch_trigger,
+	uart_dbg_rxd,
+	uart_dbg_txd);	
 
 	input		clk_clk;
+	output		dac_rst_export;
 	output		epcs_dclk;
 	output		epcs_sce;
 	output		epcs_sdo;
@@ -171,7 +174,6 @@ module CPU (
 	input		sync_in_export;
 	input		uart_rxd;
 	output		uart_txd;
-	output		dac_rst_export;
 	input	[31:0]	varset_1_i_var0;
 	input	[31:0]	varset_1_i_var1;
 	input	[31:0]	varset_1_i_var2;
@@ -293,4 +295,6 @@ module CPU (
 	output	[31:0]	varset_1_o_reg58;
 	output	[31:0]	varset_1_o_reg59;
 	output		varset_1_o_latch_trigger;
+	input		uart_dbg_rxd;
+	output		uart_dbg_txd;
 endmodule

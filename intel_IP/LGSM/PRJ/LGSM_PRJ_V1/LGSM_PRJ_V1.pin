@@ -217,7 +217,7 @@ MOSI                         : K2        : output : 3.3-V LVTTL       :         
 VCCIO2                       : K3        : power  :                   : 3.3V    : 2         :                
 GND                          : K4        : gnd    :                   :         :           :                
 P_K5                         : K5        : output : 3.3-V LVTTL       :         : 2         : Y              
-RESERVED_INPUT_WITH_WEAK_PULLUP : K6        :        :                   :         : 2         :                
+DBG_RX                       : K6        : input  : 3.3-V LVTTL       :         : 2         : Y              
 VCCINT                       : K7        : power  :                   : 1.2V    :           :                
 GND                          : K8        : gnd    :                   :         :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : K9        :        :                   :         : 4         :                
@@ -233,7 +233,7 @@ CS_DAC                       : L2        : output : 3.3-V LVTTL       :         
 RESERVED_INPUT_WITH_WEAK_PULLUP : L3        :        :                   :         : 2         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : L4        :        :                   :         : 2         :                
 VCCA1                        : L5        : power  :                   : 2.5V    :           :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : L6        :        :                   :         : 2         :                
+DBG_TX                       : L6        : output : 3.3-V LVTTL       :         : 2         : Y              
 RESERVED_INPUT_WITH_WEAK_PULLUP : L7        :        :                   :         : 3         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : L8        :        :                   :         : 3         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : L9        :        :                   :         : 4         :                
@@ -276,7 +276,7 @@ VCCD_PLL4                    : N13       : power  :                   : 1.2V    
 RESERVED_INPUT_WITH_WEAK_PULLUP : N14       :        :                   :         : 5         :                
 ADC_D1[11]                   : N15       : input  : 1.8 V             :         : 5         : Y              
 ADC_D1[10]                   : N16       : input  : 1.8 V             :         : 5         : Y              
-SYNC_IN                      : P1        : output : 3.3-V LVTTL       :         : 2         : Y              
+SYNC_IN                      : P1        : input  : 3.3-V LVTTL       :         : 2         : Y              
 RESERVED_INPUT_WITH_WEAK_PULLUP : P2        :        :                   :         : 2         :                
 DAC2[1]                      : P3        : output : 3.3-V LVTTL       :         : 3         : Y              
 VCCIO3                       : P4        : power  :                   : 3.3V    : 3         :                

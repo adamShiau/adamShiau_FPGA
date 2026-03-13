@@ -29,6 +29,8 @@ module CPU (
 		input  wire        sync_in_export,           //  sync_in.export
 		input  wire        uart_rxd,                 //     uart.rxd
 		output wire        uart_txd,                 //         .txd
+		input  wire        uart_dbg_rxd,             // uart_dbg.rxd
+		output wire        uart_dbg_txd,             //         .txd
 		input  wire [31:0] varset_1_i_var0,          // varset_1.i_var0
 		input  wire [31:0] varset_1_i_var1,          //         .i_var1
 		input  wire [31:0] varset_1_i_var2,          //         .i_var2
@@ -228,6 +230,13 @@ module CPU (
 	wire   [1:0] mm_interconnect_0_dac_rst_s1_address;                      // mm_interconnect_0:DAC_RST_s1_address -> DAC_RST:address
 	wire         mm_interconnect_0_dac_rst_s1_write;                        // mm_interconnect_0:DAC_RST_s1_write -> DAC_RST:write_n
 	wire  [31:0] mm_interconnect_0_dac_rst_s1_writedata;                    // mm_interconnect_0:DAC_RST_s1_writedata -> DAC_RST:writedata
+	wire         mm_interconnect_0_uart_dbg_s1_chipselect;                  // mm_interconnect_0:uart_dbg_s1_chipselect -> uart_dbg:chipselect
+	wire  [15:0] mm_interconnect_0_uart_dbg_s1_readdata;                    // uart_dbg:readdata -> mm_interconnect_0:uart_dbg_s1_readdata
+	wire   [2:0] mm_interconnect_0_uart_dbg_s1_address;                     // mm_interconnect_0:uart_dbg_s1_address -> uart_dbg:address
+	wire         mm_interconnect_0_uart_dbg_s1_read;                        // mm_interconnect_0:uart_dbg_s1_read -> uart_dbg:read_n
+	wire         mm_interconnect_0_uart_dbg_s1_begintransfer;               // mm_interconnect_0:uart_dbg_s1_begintransfer -> uart_dbg:begintransfer
+	wire         mm_interconnect_0_uart_dbg_s1_write;                       // mm_interconnect_0:uart_dbg_s1_write -> uart_dbg:write_n
+	wire  [15:0] mm_interconnect_0_uart_dbg_s1_writedata;                   // mm_interconnect_0:uart_dbg_s1_writedata -> uart_dbg:writedata
 	wire         mm_interconnect_0_spi_adda_spi_control_port_chipselect;    // mm_interconnect_0:spi_ADDA_spi_control_port_chipselect -> spi_ADDA:spi_select
 	wire  [15:0] mm_interconnect_0_spi_adda_spi_control_port_readdata;      // spi_ADDA:data_to_cpu -> mm_interconnect_0:spi_ADDA_spi_control_port_readdata
 	wire   [2:0] mm_interconnect_0_spi_adda_spi_control_port_address;       // mm_interconnect_0:spi_ADDA_spi_control_port_address -> spi_ADDA:mem_addr
@@ -239,8 +248,9 @@ module CPU (
 	wire         irq_mapper_receiver2_irq;                                  // epcs:irq -> irq_mapper:receiver2_irq
 	wire         irq_mapper_receiver3_irq;                                  // uart:irq -> irq_mapper:receiver3_irq
 	wire         irq_mapper_receiver4_irq;                                  // sync_in:irq -> irq_mapper:receiver4_irq
+	wire         irq_mapper_receiver5_irq;                                  // uart_dbg:irq -> irq_mapper:receiver5_irq
 	wire  [31:0] nios2_irq_irq;                                             // irq_mapper:sender_irq -> nios2:irq
-	wire         rst_controller_reset_out_reset;                            // rst_controller:reset_out -> [DAC_RST:reset_n, I2C_SCL:reset_n, I2C_SDA:reset_n, VarSet_1:rst_n, epcs:reset_n, jtag_uart:rst_n, mm_interconnect_0:jtag_uart_reset_reset_bridge_in_reset_reset, rst_translator:in_reset, sdram:reset_n, spi_ADDA:reset_n, sync_in:reset_n, sysid:reset_n, uart:reset_n]
+	wire         rst_controller_reset_out_reset;                            // rst_controller:reset_out -> [DAC_RST:reset_n, I2C_SCL:reset_n, I2C_SDA:reset_n, VarSet_1:rst_n, epcs:reset_n, jtag_uart:rst_n, mm_interconnect_0:jtag_uart_reset_reset_bridge_in_reset_reset, rst_translator:in_reset, sdram:reset_n, spi_ADDA:reset_n, sync_in:reset_n, sysid:reset_n, uart:reset_n, uart_dbg:reset_n]
 	wire         rst_controller_reset_out_reset_req;                        // rst_controller:reset_req -> [epcs:reset_req, rst_translator:reset_req_in]
 	wire         nios2_debug_reset_request_reset;                           // nios2:debug_reset_request -> rst_controller:reset_in1
 	wire         rst_controller_001_reset_out_reset;                        // rst_controller_001:reset_out -> [irq_mapper:reset, mm_interconnect_0:nios2_reset_reset_bridge_in_reset_reset, nios2:reset_n]
@@ -542,6 +552,21 @@ module CPU (
 		.irq           (irq_mapper_receiver3_irq)                 //                 irq.irq
 	);
 
+	CPU_uart_dbg uart_dbg (
+		.clk           (clk_clk),                                     //                 clk.clk
+		.reset_n       (~rst_controller_reset_out_reset),             //               reset.reset_n
+		.address       (mm_interconnect_0_uart_dbg_s1_address),       //                  s1.address
+		.begintransfer (mm_interconnect_0_uart_dbg_s1_begintransfer), //                    .begintransfer
+		.chipselect    (mm_interconnect_0_uart_dbg_s1_chipselect),    //                    .chipselect
+		.read_n        (~mm_interconnect_0_uart_dbg_s1_read),         //                    .read_n
+		.write_n       (~mm_interconnect_0_uart_dbg_s1_write),        //                    .write_n
+		.writedata     (mm_interconnect_0_uart_dbg_s1_writedata),     //                    .writedata
+		.readdata      (mm_interconnect_0_uart_dbg_s1_readdata),      //                    .readdata
+		.rxd           (uart_dbg_rxd),                                // external_connection.export
+		.txd           (uart_dbg_txd),                                //                    .export
+		.irq           (irq_mapper_receiver5_irq)                     //                 irq.irq
+	);
+
 	CPU_mm_interconnect_0 mm_interconnect_0 (
 		.clk_CPU_clk_clk                             (clk_clk),                                                   //                           clk_CPU_clk.clk
 		.jtag_uart_reset_reset_bridge_in_reset_reset (rst_controller_reset_out_reset),                            // jtag_uart_reset_reset_bridge_in_reset.reset
@@ -623,6 +648,13 @@ module CPU (
 		.uart_s1_writedata                           (mm_interconnect_0_uart_s1_writedata),                       //                                      .writedata
 		.uart_s1_begintransfer                       (mm_interconnect_0_uart_s1_begintransfer),                   //                                      .begintransfer
 		.uart_s1_chipselect                          (mm_interconnect_0_uart_s1_chipselect),                      //                                      .chipselect
+		.uart_dbg_s1_address                         (mm_interconnect_0_uart_dbg_s1_address),                     //                           uart_dbg_s1.address
+		.uart_dbg_s1_write                           (mm_interconnect_0_uart_dbg_s1_write),                       //                                      .write
+		.uart_dbg_s1_read                            (mm_interconnect_0_uart_dbg_s1_read),                        //                                      .read
+		.uart_dbg_s1_readdata                        (mm_interconnect_0_uart_dbg_s1_readdata),                    //                                      .readdata
+		.uart_dbg_s1_writedata                       (mm_interconnect_0_uart_dbg_s1_writedata),                   //                                      .writedata
+		.uart_dbg_s1_begintransfer                   (mm_interconnect_0_uart_dbg_s1_begintransfer),               //                                      .begintransfer
+		.uart_dbg_s1_chipselect                      (mm_interconnect_0_uart_dbg_s1_chipselect),                  //                                      .chipselect
 		.VarSet_1_avalon_slave_address               (mm_interconnect_0_varset_1_avalon_slave_address),           //                 VarSet_1_avalon_slave.address
 		.VarSet_1_avalon_slave_write                 (mm_interconnect_0_varset_1_avalon_slave_write),             //                                      .write
 		.VarSet_1_avalon_slave_readdata              (mm_interconnect_0_varset_1_avalon_slave_readdata),          //                                      .readdata
@@ -638,6 +670,7 @@ module CPU (
 		.receiver2_irq (irq_mapper_receiver2_irq),           // receiver2.irq
 		.receiver3_irq (irq_mapper_receiver3_irq),           // receiver3.irq
 		.receiver4_irq (irq_mapper_receiver4_irq),           // receiver4.irq
+		.receiver5_irq (irq_mapper_receiver5_irq),           // receiver5.irq
 		.sender_irq    (nios2_irq_irq)                       //    sender.irq
 	);
 

@@ -8,6 +8,70 @@
 					"strict" : false
 				},
 				{
+					"name" : "DAC1[0]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC1[1]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC1[2]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC1[3]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC1[4]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC1[5]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC1[6]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC1[7]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC1[8]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC1[9]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC1[10]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC1[11]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC1[12]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC1[13]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC1[14]",
+					"strict" : false
+				},
+				{
+					"name" : "DAC1[15]",
+					"strict" : false
+				},
+				{
 					"name" : "DAC_RST",
 					"strict" : false
 				},
@@ -192,7 +256,67 @@
 					"strict" : false
 				},
 				{
+					"name" : "SYNC_IN",
+					"strict" : false
+				},
+				{
 					"name" : "EPCS_DATA0",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_D1[13]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_D1[12]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_D1[11]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_D1[10]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_D1[9]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_D1[8]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_D1[7]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_D1[6]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_D1[5]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_D1[4]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_D1[3]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_D1[2]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_D1[1]",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_D1[0]",
 					"strict" : false
 				},
 				{

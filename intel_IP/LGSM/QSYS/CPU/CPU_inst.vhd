@@ -1,6 +1,7 @@
 	component CPU is
 		port (
 			clk_clk                  : in    std_logic                     := 'X';             -- clk
+			dac_rst_export           : out   std_logic;                                        -- export
 			epcs_dclk                : out   std_logic;                                        -- dclk
 			epcs_sce                 : out   std_logic;                                        -- sce
 			epcs_sdo                 : out   std_logic;                                        -- sdo
@@ -24,7 +25,6 @@
 			sync_in_export           : in    std_logic                     := 'X';             -- export
 			uart_rxd                 : in    std_logic                     := 'X';             -- rxd
 			uart_txd                 : out   std_logic;                                        -- txd
-			dac_rst_export           : out   std_logic;                                        -- export
 			varset_1_i_var0          : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var0
 			varset_1_i_var1          : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var1
 			varset_1_i_var2          : in    std_logic_vector(31 downto 0) := (others => 'X'); -- i_var2
@@ -145,13 +145,16 @@
 			varset_1_o_reg57         : out   std_logic_vector(31 downto 0);                    -- o_reg57
 			varset_1_o_reg58         : out   std_logic_vector(31 downto 0);                    -- o_reg58
 			varset_1_o_reg59         : out   std_logic_vector(31 downto 0);                    -- o_reg59
-			varset_1_o_latch_trigger : out   std_logic                                         -- o_latch_trigger
+			varset_1_o_latch_trigger : out   std_logic;                                        -- o_latch_trigger
+			uart_dbg_rxd             : in    std_logic                     := 'X';             -- rxd
+			uart_dbg_txd             : out   std_logic                                         -- txd
 		);
 	end component CPU;
 
 	u0 : component CPU
 		port map (
 			clk_clk                  => CONNECTED_TO_clk_clk,                  --      clk.clk
+			dac_rst_export           => CONNECTED_TO_dac_rst_export,           --  dac_rst.export
 			epcs_dclk                => CONNECTED_TO_epcs_dclk,                --     epcs.dclk
 			epcs_sce                 => CONNECTED_TO_epcs_sce,                 --         .sce
 			epcs_sdo                 => CONNECTED_TO_epcs_sdo,                 --         .sdo
@@ -175,7 +178,6 @@
 			sync_in_export           => CONNECTED_TO_sync_in_export,           --  sync_in.export
 			uart_rxd                 => CONNECTED_TO_uart_rxd,                 --     uart.rxd
 			uart_txd                 => CONNECTED_TO_uart_txd,                 --         .txd
-			dac_rst_export           => CONNECTED_TO_dac_rst_export,           --  dac_rst.export
 			varset_1_i_var0          => CONNECTED_TO_varset_1_i_var0,          -- varset_1.i_var0
 			varset_1_i_var1          => CONNECTED_TO_varset_1_i_var1,          --         .i_var1
 			varset_1_i_var2          => CONNECTED_TO_varset_1_i_var2,          --         .i_var2
@@ -296,6 +298,8 @@
 			varset_1_o_reg57         => CONNECTED_TO_varset_1_o_reg57,         --         .o_reg57
 			varset_1_o_reg58         => CONNECTED_TO_varset_1_o_reg58,         --         .o_reg58
 			varset_1_o_reg59         => CONNECTED_TO_varset_1_o_reg59,         --         .o_reg59
-			varset_1_o_latch_trigger => CONNECTED_TO_varset_1_o_latch_trigger  --         .o_latch_trigger
+			varset_1_o_latch_trigger => CONNECTED_TO_varset_1_o_latch_trigger, --         .o_latch_trigger
+			uart_dbg_rxd             => CONNECTED_TO_uart_dbg_rxd,             -- uart_dbg.rxd
+			uart_dbg_txd             => CONNECTED_TO_uart_dbg_txd              --         .txd
 		);
 

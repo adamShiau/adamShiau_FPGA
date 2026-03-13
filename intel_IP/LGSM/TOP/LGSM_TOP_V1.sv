@@ -6,10 +6,11 @@ module LGSM_TOP_V1(
 	//////////// UART //////////
 	input	logic FPGA_RX,
 	output	logic FPGA_TX,
+    input 	logic DBG_RX,
+	output 	logic DBG_TX,
 
 	//////////// EXT SYNC //////////
-	output	logic SYNC_IN, //先變成 output 做內部 SYNC probe (MCU 設定INPUT H'Z)，若要是外部 Trig 須改回 input
-						   // MCU 對應要記得改回 OUTPUT
+	input	logic SYNC_IN, 
 
 	//////////// DAC //////////
 	output	logic [15:0]	DAC1,
@@ -72,6 +73,13 @@ assign CS_DAC = SS[0];
 assign CS_ADC = SS[1];
 assign DAC_RST = var_dac_rst[0];
 
+// MIOC Modulation
+assign DAC1 = fog_ramp_out[15:0]; 
+
+// FOG data
+assign i_var_err = fog_err_out;
+assign i_var_step = fog_step_out;
+
 
 // *************************************************************************
 // * Internal Signals *
@@ -88,7 +96,8 @@ logic r_locked_sync1, r_locked_sync2;
 logic RST_EXT_N = 1'b1;
 
 // ---- Sync ---- //
-wire sync_out;
+// wire sync_out;
+wire r_sync_in;
 
 // ---- FOG Core 輸出訊號 ---- //
 wire signed [31:0] fog_err_out;
@@ -156,13 +165,22 @@ assign RST_SYNC_N = r_locked_sync2; // 最終同步重置訊號
 // SYNC setup
 // =========================================================================
 
-my_sync_gen sync_gen_inst
-(
-    .i_clk(pll_clk_cpu_int),
-    .i_rst_n(RST_SYNC_N),
- 	.i_sync_count(var_sync_count),
-    .o_sync_out(sync_out)
-);
+// my_sync_gen sync_gen_inst
+// (
+//     .i_clk(pll_clk_cpu_int),
+//     .i_rst_n(RST_SYNC_N),
+//  	.i_sync_count(var_sync_count),
+//     .o_sync_out(sync_out)
+// );
+
+always @(posedge pll_clk_cpu_int or negedge RST_EXT_N) begin 
+    if (!RST_EXT_N) begin
+        r_sync_in = 1'b0;
+    end else begin
+        // 使用 CPU 時鐘同步化 SYNC_IN 訊號
+        r_sync_in = SYNC_IN;
+    end
+end
 
 // =========================================================================
 // timer setup
@@ -239,9 +257,12 @@ HINS_fog_v1 u_hins_fog_v1 (
 		.spi_adda_MOSI 			  (MOSI),                       //         .MOSI
 		.spi_adda_SCLK 			  (SCLK),                       //         .SCLK
 		.spi_adda_SS_n 			  (SS),                         //         .SS_n
-        .sync_in_export           (sync_out),                   //  sync_in.export
+        // .sync_in_export           (sync_out),                   //  sync_in.export
+        .sync_in_export           (r_sync_in),                   //  sync_in.export
         .uart_rxd                 (FPGA_RX),                    //     uart.rxd
         .uart_txd                 (FPGA_TX),                    //          .txd
+		  .uart_dbg_rxd             (),             // uart_dbg.rxd
+        .uart_dbg_txd             (),             //         .txd
 
         .varset_1_o_latch_trigger (),                           //         .o_latch_trigger
         .varset_1_o_reg0  (var_freq_cnt),              // varset_1.o_reg0

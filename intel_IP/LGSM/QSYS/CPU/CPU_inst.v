@@ -1,5 +1,6 @@
 	CPU u0 (
 		.clk_clk                  (<connected-to-clk_clk>),                  //      clk.clk
+		.dac_rst_export           (<connected-to-dac_rst_export>),           //  dac_rst.export
 		.epcs_dclk                (<connected-to-epcs_dclk>),                //     epcs.dclk
 		.epcs_sce                 (<connected-to-epcs_sce>),                 //         .sce
 		.epcs_sdo                 (<connected-to-epcs_sdo>),                 //         .sdo
@@ -23,7 +24,6 @@
 		.sync_in_export           (<connected-to-sync_in_export>),           //  sync_in.export
 		.uart_rxd                 (<connected-to-uart_rxd>),                 //     uart.rxd
 		.uart_txd                 (<connected-to-uart_txd>),                 //         .txd
-		.dac_rst_export           (<connected-to-dac_rst_export>),           //  dac_rst.export
 		.varset_1_i_var0          (<connected-to-varset_1_i_var0>),          // varset_1.i_var0
 		.varset_1_i_var1          (<connected-to-varset_1_i_var1>),          //         .i_var1
 		.varset_1_i_var2          (<connected-to-varset_1_i_var2>),          //         .i_var2
@@ -144,6 +144,8 @@
 		.varset_1_o_reg57         (<connected-to-varset_1_o_reg57>),         //         .o_reg57
 		.varset_1_o_reg58         (<connected-to-varset_1_o_reg58>),         //         .o_reg58
 		.varset_1_o_reg59         (<connected-to-varset_1_o_reg59>),         //         .o_reg59
-		.varset_1_o_latch_trigger (<connected-to-varset_1_o_latch_trigger>)  //         .o_latch_trigger
+		.varset_1_o_latch_trigger (<connected-to-varset_1_o_latch_trigger>), //         .o_latch_trigger
+		.uart_dbg_rxd             (<connected-to-uart_dbg_rxd>),             // uart_dbg.rxd
+		.uart_dbg_txd             (<connected-to-uart_dbg_txd>)              //         .txd
 	);
 
