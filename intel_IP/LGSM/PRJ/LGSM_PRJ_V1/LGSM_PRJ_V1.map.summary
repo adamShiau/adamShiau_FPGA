@@ -1,12 +1,12 @@
-Analysis & Synthesis Status : Successful - Fri Mar 13 21:55:28 2026
+Analysis & Synthesis Status : Successful - Sat Mar 14 23:53:51 2026
 Quartus Prime Version : 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 Revision Name : LGSM_PRJ_V1
-Top-level Entity Name : LGSM_TOP_V1
+Top-level Entity Name : LGSM_TOP_V2
 Family : Cyclone IV E
-Total logic elements : 8,541
-    Total combinational functions : 5,754
-    Dedicated logic registers : 4,732
-Total registers : 4732
+Total logic elements : 8,859
+    Total combinational functions : 5,976
+    Dedicated logic registers : 4,925
+Total registers : 4925
 Total pins : 109
 Total virtual pins : 0
 Total memory bits : 23,040

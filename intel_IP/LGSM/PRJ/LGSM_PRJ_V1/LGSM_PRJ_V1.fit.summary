@@ -1,14 +1,14 @@
-Fitter Status : Successful - Fri Mar 13 21:55:59 2026
+Fitter Status : Successful - Sat Mar 14 23:54:16 2026
 Quartus Prime Version : 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 Revision Name : LGSM_PRJ_V1
-Top-level Entity Name : LGSM_TOP_V1
+Top-level Entity Name : LGSM_TOP_V2
 Family : Cyclone IV E
 Device : EP4CE15F17I7
 Timing Models : Final
-Total logic elements : 7,243 / 15,408 ( 47 % )
-    Total combinational functions : 5,763 / 15,408 ( 37 % )
-    Dedicated logic registers : 4,690 / 15,408 ( 30 % )
-Total registers : 4758
+Total logic elements : 7,516 / 15,408 ( 49 % )
+    Total combinational functions : 5,984 / 15,408 ( 39 % )
+    Dedicated logic registers : 4,883 / 15,408 ( 32 % )
+Total registers : 4951
 Total pins : 109 / 166 ( 66 % )
 Total virtual pins : 0
 Total memory bits : 23,040 / 516,096 ( 4 % )

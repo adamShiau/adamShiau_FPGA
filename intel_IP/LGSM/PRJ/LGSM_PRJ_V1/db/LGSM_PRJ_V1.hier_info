@@ -1,26 +1,26 @@
-|LGSM_TOP_V1
+|LGSM_TOP_V2
 CLOCK_50M => CLOCK_50M.IN1
 FPGA_RX => FPGA_RX.IN1
 FPGA_TX <= CPU:u0.uart_txd
 DBG_RX => ~NO_FANOUT~
 DBG_TX <= <GND>
 SYNC_IN => r_sync_in.DATAIN
-DAC1[0] <= HINS_fog_v1:u_hins_fog_v1.o_phaseRamp
-DAC1[1] <= HINS_fog_v1:u_hins_fog_v1.o_phaseRamp
-DAC1[2] <= HINS_fog_v1:u_hins_fog_v1.o_phaseRamp
-DAC1[3] <= HINS_fog_v1:u_hins_fog_v1.o_phaseRamp
-DAC1[4] <= HINS_fog_v1:u_hins_fog_v1.o_phaseRamp
-DAC1[5] <= HINS_fog_v1:u_hins_fog_v1.o_phaseRamp
-DAC1[6] <= HINS_fog_v1:u_hins_fog_v1.o_phaseRamp
-DAC1[7] <= HINS_fog_v1:u_hins_fog_v1.o_phaseRamp
-DAC1[8] <= HINS_fog_v1:u_hins_fog_v1.o_phaseRamp
-DAC1[9] <= HINS_fog_v1:u_hins_fog_v1.o_phaseRamp
-DAC1[10] <= HINS_fog_v1:u_hins_fog_v1.o_phaseRamp
-DAC1[11] <= HINS_fog_v1:u_hins_fog_v1.o_phaseRamp
-DAC1[12] <= HINS_fog_v1:u_hins_fog_v1.o_phaseRamp
-DAC1[13] <= HINS_fog_v1:u_hins_fog_v1.o_phaseRamp
-DAC1[14] <= HINS_fog_v1:u_hins_fog_v1.o_phaseRamp
-DAC1[15] <= HINS_fog_v1:u_hins_fog_v1.o_phaseRamp
+DAC1[0] <= HINS_fog_v2:u_hins_fog.o_phaseRamp
+DAC1[1] <= HINS_fog_v2:u_hins_fog.o_phaseRamp
+DAC1[2] <= HINS_fog_v2:u_hins_fog.o_phaseRamp
+DAC1[3] <= HINS_fog_v2:u_hins_fog.o_phaseRamp
+DAC1[4] <= HINS_fog_v2:u_hins_fog.o_phaseRamp
+DAC1[5] <= HINS_fog_v2:u_hins_fog.o_phaseRamp
+DAC1[6] <= HINS_fog_v2:u_hins_fog.o_phaseRamp
+DAC1[7] <= HINS_fog_v2:u_hins_fog.o_phaseRamp
+DAC1[8] <= HINS_fog_v2:u_hins_fog.o_phaseRamp
+DAC1[9] <= HINS_fog_v2:u_hins_fog.o_phaseRamp
+DAC1[10] <= HINS_fog_v2:u_hins_fog.o_phaseRamp
+DAC1[11] <= HINS_fog_v2:u_hins_fog.o_phaseRamp
+DAC1[12] <= HINS_fog_v2:u_hins_fog.o_phaseRamp
+DAC1[13] <= HINS_fog_v2:u_hins_fog.o_phaseRamp
+DAC1[14] <= HINS_fog_v2:u_hins_fog.o_phaseRamp
+DAC1[15] <= HINS_fog_v2:u_hins_fog.o_phaseRamp
 DAC2[0] <= <GND>
 DAC2[1] <= <GND>
 DAC2[2] <= <GND>
@@ -110,7 +110,7 @@ EPCS_DCLK <= CPU:u0.epcs_dclk
 EPCS_NCSO <= CPU:u0.epcs_sce
 
 
-|LGSM_TOP_V1|pll:pll_inst
+|LGSM_TOP_V2|pll:pll_inst
 inclk0 => sub_wire1[0].IN1
 c0 <= altpll:altpll_component.clk
 c1 <= altpll:altpll_component.clk
@@ -119,7 +119,7 @@ c3 <= altpll:altpll_component.clk
 locked <= altpll:altpll_component.locked
 
 
-|LGSM_TOP_V1|pll:pll_inst|altpll:altpll_component
+|LGSM_TOP_V2|pll:pll_inst|altpll:altpll_component
 inclk[0] => pll_altpll:auto_generated.inclk[0]
 inclk[1] => pll_altpll:auto_generated.inclk[1]
 fbin => ~NO_FANOUT~
@@ -179,7 +179,7 @@ fref <= <GND>
 icdrclk <= <GND>
 
 
-|LGSM_TOP_V1|pll:pll_inst|altpll:altpll_component|pll_altpll:auto_generated
+|LGSM_TOP_V2|pll:pll_inst|altpll:altpll_component|pll_altpll:auto_generated
 clk[0] <= pll1.CLK
 clk[1] <= pll1.CLK1
 clk[2] <= pll1.CLK2
@@ -190,7 +190,7 @@ inclk[1] => pll1.CLK1
 locked <= pll1.LOCKED
 
 
-|LGSM_TOP_V1|my_timer:timer_inst
+|LGSM_TOP_V2|my_timer:timer_inst
 i_clk => o_timer[0]~reg0.CLK
 i_clk => o_timer[1]~reg0.CLK
 i_clk => o_timer[2]~reg0.CLK
@@ -417,7 +417,7 @@ o_timer[30] <= o_timer[30]~reg0.DB_MAX_OUTPUT_PORT_TYPE
 o_timer[31] <= o_timer[31]~reg0.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|HINS_fog_v1:u_hins_fog_v1
+|LGSM_TOP_V2|HINS_fog_v2:u_hins_fog
 CLOCK_ADC => CLOCK_ADC.IN1
 CLOCK_CPU => CLOCK_CPU.IN5
 RST_SYNC_N => RST_SYNC_N.IN5
@@ -916,9 +916,10 @@ o_phaseRamp[28] <= phase_ramp_gen_v1:u_ramp_gen.o_phaseRamp
 o_phaseRamp[29] <= phase_ramp_gen_v1:u_ramp_gen.o_phaseRamp
 o_phaseRamp[30] <= phase_ramp_gen_v1:u_ramp_gen.o_phaseRamp
 o_phaseRamp[31] <= phase_ramp_gen_v1:u_ramp_gen.o_phaseRamp
+step_sync_out <= o_step_sync_dly.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|HINS_fog_v1:u_hins_fog_v1|my_modulation_gen_v1:u_mod_gen
+|LGSM_TOP_V2|HINS_fog_v2:u_hins_fog|my_modulation_gen_v1:u_mod_gen
 i_clk => o_status~reg0.CLK
 i_clk => o_stepTrig~reg0.CLK
 i_clk => o_mod_out[0]~reg0.CLK
@@ -1185,7 +1186,7 @@ o_status <= o_status~reg0.DB_MAX_OUTPUT_PORT_TYPE
 o_stepTrig <= o_stepTrig~reg0.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo
+|LGSM_TOP_V2|HINS_fog_v2:u_hins_fog|adc_sync_buffer:u_adc_sync_fifo
 i_clk_wr => i_clk_wr.IN1
 i_clk_rd => i_clk_rd.IN1
 i_rst_n => aclr_sig.IN1
@@ -1219,7 +1220,7 @@ o_data_rd[12] <= fifo:fifo_inst.q
 o_data_rd[13] <= fifo:fifo_inst.q
 
 
-|LGSM_TOP_V1|HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst
+|LGSM_TOP_V2|HINS_fog_v2:u_hins_fog|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst
 aclr => aclr.IN1
 data[0] => data[0].IN1
 data[1] => data[1].IN1
@@ -1257,7 +1258,7 @@ rdempty <= dcfifo:dcfifo_component.rdempty
 wrfull <= dcfifo:dcfifo_component.wrfull
 
 
-|LGSM_TOP_V1|HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component
+|LGSM_TOP_V2|HINS_fog_v2:u_hins_fog|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component
 data[0] => dcfifo_r1k1:auto_generated.data[0]
 data[1] => dcfifo_r1k1:auto_generated.data[1]
 data[2] => dcfifo_r1k1:auto_generated.data[2]
@@ -1315,7 +1316,7 @@ wrusedw[6] <= <GND>
 wrusedw[7] <= <GND>
 
 
-|LGSM_TOP_V1|HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated
+|LGSM_TOP_V2|HINS_fog_v2:u_hins_fog|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated
 aclr => _.IN0
 aclr => _.IN0
 data[0] => altsyncram_iv61:fifo_ram.data_a[0]
@@ -1387,7 +1388,7 @@ wrfull <= wrfull.DB_MAX_OUTPUT_PORT_TYPE
 wrreq => valid_wrreq.IN0
 
 
-|LGSM_TOP_V1|HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_t57:rdptr_g1p
+|LGSM_TOP_V2|HINS_fog_v2:u_hins_fog|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_t57:rdptr_g1p
 aclr => counter5a1.IN0
 aclr => counter5a0.IN0
 aclr => parity6.IN0
@@ -1430,7 +1431,7 @@ q[7] <= counter5a7.DB_MAX_OUTPUT_PORT_TYPE
 q[8] <= counter5a8.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_pjc:wrptr_g1p
+|LGSM_TOP_V2|HINS_fog_v2:u_hins_fog|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|a_graycounter_pjc:wrptr_g1p
 aclr => counter8a1.IN0
 aclr => counter8a0.IN0
 aclr => parity9.IN0
@@ -1473,7 +1474,7 @@ q[7] <= counter8a7.DB_MAX_OUTPUT_PORT_TYPE
 q[8] <= counter8a8.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|altsyncram_iv61:fifo_ram
+|LGSM_TOP_V2|HINS_fog_v2:u_hins_fog|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|altsyncram_iv61:fifo_ram
 aclr1 => ram_block11a0.CLR1
 aclr1 => ram_block11a1.CLR1
 aclr1 => ram_block11a2.CLR1
@@ -1826,7 +1827,7 @@ wren_a => ram_block11a13.PORTAWE
 wren_a => ram_block11a13.ENA0
 
 
-|LGSM_TOP_V1|HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|dffpipe_3dc:rdaclr
+|LGSM_TOP_V2|HINS_fog_v2:u_hins_fog|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|dffpipe_3dc:rdaclr
 clock => dffe12a[0].CLK
 clock => dffe13a[0].CLK
 clrn => dffe12a[0].ACLR
@@ -1835,7 +1836,7 @@ d[0] => dffe12a[0].IN0
 q[0] <= dffe13a[0].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_0ol:rs_dgwp
+|LGSM_TOP_V2|HINS_fog_v2:u_hins_fog|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_0ol:rs_dgwp
 clock => dffpipe_hd9:dffpipe14.clock
 clrn => dffpipe_hd9:dffpipe14.clrn
 d[0] => dffpipe_hd9:dffpipe14.d[0]
@@ -1858,7 +1859,7 @@ q[7] <= dffpipe_hd9:dffpipe14.q[7]
 q[8] <= dffpipe_hd9:dffpipe14.q[8]
 
 
-|LGSM_TOP_V1|HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_0ol:rs_dgwp|dffpipe_hd9:dffpipe14
+|LGSM_TOP_V2|HINS_fog_v2:u_hins_fog|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_0ol:rs_dgwp|dffpipe_hd9:dffpipe14
 clock => dffe15a[8].CLK
 clock => dffe15a[7].CLK
 clock => dffe15a[6].CLK
@@ -1915,7 +1916,7 @@ q[7] <= dffe16a[7].DB_MAX_OUTPUT_PORT_TYPE
 q[8] <= dffe16a[8].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|dffpipe_3dc:wraclr
+|LGSM_TOP_V2|HINS_fog_v2:u_hins_fog|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|dffpipe_3dc:wraclr
 clock => dffe12a[0].CLK
 clock => dffe13a[0].CLK
 clrn => dffe12a[0].ACLR
@@ -1924,7 +1925,7 @@ d[0] => dffe12a[0].IN0
 q[0] <= dffe13a[0].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_1ol:ws_dgrp
+|LGSM_TOP_V2|HINS_fog_v2:u_hins_fog|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_1ol:ws_dgrp
 clock => dffpipe_id9:dffpipe17.clock
 clrn => dffpipe_id9:dffpipe17.clrn
 d[0] => dffpipe_id9:dffpipe17.d[0]
@@ -1947,7 +1948,7 @@ q[7] <= dffpipe_id9:dffpipe17.q[7]
 q[8] <= dffpipe_id9:dffpipe17.q[8]
 
 
-|LGSM_TOP_V1|HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_1ol:ws_dgrp|dffpipe_id9:dffpipe17
+|LGSM_TOP_V2|HINS_fog_v2:u_hins_fog|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|alt_synch_pipe_1ol:ws_dgrp|dffpipe_id9:dffpipe17
 clock => dffe18a[8].CLK
 clock => dffe18a[7].CLK
 clock => dffe18a[6].CLK
@@ -2004,7 +2005,7 @@ q[7] <= dffe19a[7].DB_MAX_OUTPUT_PORT_TYPE
 q[8] <= dffe19a[8].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|cmpr_f66:rdempty_eq_comp
+|LGSM_TOP_V2|HINS_fog_v2:u_hins_fog|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|cmpr_f66:rdempty_eq_comp
 aeb <= aeb_result_wire[0].DB_MAX_OUTPUT_PORT_TYPE
 dataa[0] => data_wire[2].IN0
 dataa[1] => data_wire[2].IN0
@@ -2026,7 +2027,7 @@ datab[7] => data_wire[5].IN1
 datab[8] => data_wire[6].IN1
 
 
-|LGSM_TOP_V1|HINS_fog_v1:u_hins_fog_v1|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|cmpr_f66:wrfull_eq_comp
+|LGSM_TOP_V2|HINS_fog_v2:u_hins_fog|adc_sync_buffer:u_adc_sync_fifo|fifo:fifo_inst|dcfifo:dcfifo_component|dcfifo_r1k1:auto_generated|cmpr_f66:wrfull_eq_comp
 aeb <= aeb_result_wire[0].DB_MAX_OUTPUT_PORT_TYPE
 dataa[0] => data_wire[2].IN0
 dataa[1] => data_wire[2].IN0
@@ -2048,7 +2049,7 @@ datab[7] => data_wire[5].IN1
 datab[8] => data_wire[6].IN1
 
 
-|LGSM_TOP_V1|HINS_fog_v1:u_hins_fog_v1|my_err_signal_gen_v1:u_err_gen
+|LGSM_TOP_V2|HINS_fog_v2:u_hins_fog|my_err_signal_gen_v1:u_err_gen
 i_clk => o_reg_1[0]~reg0.CLK
 i_clk => o_reg_1[1]~reg0.CLK
 i_clk => o_reg_1[2]~reg0.CLK
@@ -2995,7 +2996,7 @@ o_reg_1[30] <= o_reg_1[30]~reg0.DB_MAX_OUTPUT_PORT_TYPE
 o_reg_1[31] <= o_reg_1[31]~reg0.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|HINS_fog_v1:u_hins_fog_v1|feedback_step_gen_v1:u_fb_step_gen
+|LGSM_TOP_V2|HINS_fog_v2:u_hins_fog|feedback_step_gen_v1:u_fb_step_gen
 i_clk => o_reg_1[0]~reg0.CLK
 i_clk => o_reg_1[1]~reg0.CLK
 i_clk => o_reg_1[2]~reg0.CLK
@@ -3655,7 +3656,7 @@ o_reg_1[30] <= o_reg_1[30]~reg0.DB_MAX_OUTPUT_PORT_TYPE
 o_reg_1[31] <= o_reg_1[31]~reg0.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|HINS_fog_v1:u_hins_fog_v1|phase_ramp_gen_v1:u_ramp_gen
+|LGSM_TOP_V2|HINS_fog_v2:u_hins_fog|phase_ramp_gen_v1:u_ramp_gen
 i_clk => o_phaseRamp[0]~reg0.CLK
 i_clk => o_phaseRamp[1]~reg0.CLK
 i_clk => o_phaseRamp[2]~reg0.CLK
@@ -4436,7 +4437,719 @@ o_phaseRamp[30] <= o_phaseRamp[30]~reg0.DB_MAX_OUTPUT_PORT_TYPE
 o_phaseRamp[31] <= o_phaseRamp[31]~reg0.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0
+|LGSM_TOP_V2|step_accumulator:u_step_acc
+i_clk => r_shadow_count[0].CLK
+i_clk => r_shadow_count[1].CLK
+i_clk => r_shadow_count[2].CLK
+i_clk => r_shadow_count[3].CLK
+i_clk => r_shadow_count[4].CLK
+i_clk => r_shadow_count[5].CLK
+i_clk => r_shadow_count[6].CLK
+i_clk => r_shadow_count[7].CLK
+i_clk => r_shadow_count[8].CLK
+i_clk => r_shadow_count[9].CLK
+i_clk => r_shadow_count[10].CLK
+i_clk => r_shadow_count[11].CLK
+i_clk => r_shadow_count[12].CLK
+i_clk => r_shadow_count[13].CLK
+i_clk => r_shadow_count[14].CLK
+i_clk => r_shadow_count[15].CLK
+i_clk => r_shadow_count[16].CLK
+i_clk => r_shadow_count[17].CLK
+i_clk => r_shadow_count[18].CLK
+i_clk => r_shadow_count[19].CLK
+i_clk => r_shadow_count[20].CLK
+i_clk => r_shadow_count[21].CLK
+i_clk => r_shadow_count[22].CLK
+i_clk => r_shadow_count[23].CLK
+i_clk => r_shadow_count[24].CLK
+i_clk => r_shadow_count[25].CLK
+i_clk => r_shadow_count[26].CLK
+i_clk => r_shadow_count[27].CLK
+i_clk => r_shadow_count[28].CLK
+i_clk => r_shadow_count[29].CLK
+i_clk => r_shadow_count[30].CLK
+i_clk => r_shadow_count[31].CLK
+i_clk => r_shadow_step[0].CLK
+i_clk => r_shadow_step[1].CLK
+i_clk => r_shadow_step[2].CLK
+i_clk => r_shadow_step[3].CLK
+i_clk => r_shadow_step[4].CLK
+i_clk => r_shadow_step[5].CLK
+i_clk => r_shadow_step[6].CLK
+i_clk => r_shadow_step[7].CLK
+i_clk => r_shadow_step[8].CLK
+i_clk => r_shadow_step[9].CLK
+i_clk => r_shadow_step[10].CLK
+i_clk => r_shadow_step[11].CLK
+i_clk => r_shadow_step[12].CLK
+i_clk => r_shadow_step[13].CLK
+i_clk => r_shadow_step[14].CLK
+i_clk => r_shadow_step[15].CLK
+i_clk => r_shadow_step[16].CLK
+i_clk => r_shadow_step[17].CLK
+i_clk => r_shadow_step[18].CLK
+i_clk => r_shadow_step[19].CLK
+i_clk => r_shadow_step[20].CLK
+i_clk => r_shadow_step[21].CLK
+i_clk => r_shadow_step[22].CLK
+i_clk => r_shadow_step[23].CLK
+i_clk => r_shadow_step[24].CLK
+i_clk => r_shadow_step[25].CLK
+i_clk => r_shadow_step[26].CLK
+i_clk => r_shadow_step[27].CLK
+i_clk => r_shadow_step[28].CLK
+i_clk => r_shadow_step[29].CLK
+i_clk => r_shadow_step[30].CLK
+i_clk => r_shadow_step[31].CLK
+i_clk => r_shadow_step[32].CLK
+i_clk => r_shadow_step[33].CLK
+i_clk => r_shadow_step[34].CLK
+i_clk => r_shadow_step[35].CLK
+i_clk => r_shadow_step[36].CLK
+i_clk => r_shadow_step[37].CLK
+i_clk => r_shadow_step[38].CLK
+i_clk => r_shadow_step[39].CLK
+i_clk => r_shadow_step[40].CLK
+i_clk => r_shadow_step[41].CLK
+i_clk => r_shadow_step[42].CLK
+i_clk => r_shadow_step[43].CLK
+i_clk => r_shadow_step[44].CLK
+i_clk => r_shadow_step[45].CLK
+i_clk => r_shadow_step[46].CLK
+i_clk => r_shadow_step[47].CLK
+i_clk => r_shadow_step[48].CLK
+i_clk => r_shadow_step[49].CLK
+i_clk => r_shadow_step[50].CLK
+i_clk => r_shadow_step[51].CLK
+i_clk => r_shadow_step[52].CLK
+i_clk => r_shadow_step[53].CLK
+i_clk => r_shadow_step[54].CLK
+i_clk => r_shadow_step[55].CLK
+i_clk => r_shadow_step[56].CLK
+i_clk => r_shadow_step[57].CLK
+i_clk => r_shadow_step[58].CLK
+i_clk => r_shadow_step[59].CLK
+i_clk => r_shadow_step[60].CLK
+i_clk => r_shadow_step[61].CLK
+i_clk => r_shadow_step[62].CLK
+i_clk => r_shadow_step[63].CLK
+i_clk => r_acc_count[0].CLK
+i_clk => r_acc_count[1].CLK
+i_clk => r_acc_count[2].CLK
+i_clk => r_acc_count[3].CLK
+i_clk => r_acc_count[4].CLK
+i_clk => r_acc_count[5].CLK
+i_clk => r_acc_count[6].CLK
+i_clk => r_acc_count[7].CLK
+i_clk => r_acc_count[8].CLK
+i_clk => r_acc_count[9].CLK
+i_clk => r_acc_count[10].CLK
+i_clk => r_acc_count[11].CLK
+i_clk => r_acc_count[12].CLK
+i_clk => r_acc_count[13].CLK
+i_clk => r_acc_count[14].CLK
+i_clk => r_acc_count[15].CLK
+i_clk => r_acc_count[16].CLK
+i_clk => r_acc_count[17].CLK
+i_clk => r_acc_count[18].CLK
+i_clk => r_acc_count[19].CLK
+i_clk => r_acc_count[20].CLK
+i_clk => r_acc_count[21].CLK
+i_clk => r_acc_count[22].CLK
+i_clk => r_acc_count[23].CLK
+i_clk => r_acc_count[24].CLK
+i_clk => r_acc_count[25].CLK
+i_clk => r_acc_count[26].CLK
+i_clk => r_acc_count[27].CLK
+i_clk => r_acc_count[28].CLK
+i_clk => r_acc_count[29].CLK
+i_clk => r_acc_count[30].CLK
+i_clk => r_acc_count[31].CLK
+i_clk => r_acc_step[0].CLK
+i_clk => r_acc_step[1].CLK
+i_clk => r_acc_step[2].CLK
+i_clk => r_acc_step[3].CLK
+i_clk => r_acc_step[4].CLK
+i_clk => r_acc_step[5].CLK
+i_clk => r_acc_step[6].CLK
+i_clk => r_acc_step[7].CLK
+i_clk => r_acc_step[8].CLK
+i_clk => r_acc_step[9].CLK
+i_clk => r_acc_step[10].CLK
+i_clk => r_acc_step[11].CLK
+i_clk => r_acc_step[12].CLK
+i_clk => r_acc_step[13].CLK
+i_clk => r_acc_step[14].CLK
+i_clk => r_acc_step[15].CLK
+i_clk => r_acc_step[16].CLK
+i_clk => r_acc_step[17].CLK
+i_clk => r_acc_step[18].CLK
+i_clk => r_acc_step[19].CLK
+i_clk => r_acc_step[20].CLK
+i_clk => r_acc_step[21].CLK
+i_clk => r_acc_step[22].CLK
+i_clk => r_acc_step[23].CLK
+i_clk => r_acc_step[24].CLK
+i_clk => r_acc_step[25].CLK
+i_clk => r_acc_step[26].CLK
+i_clk => r_acc_step[27].CLK
+i_clk => r_acc_step[28].CLK
+i_clk => r_acc_step[29].CLK
+i_clk => r_acc_step[30].CLK
+i_clk => r_acc_step[31].CLK
+i_clk => r_acc_step[32].CLK
+i_clk => r_acc_step[33].CLK
+i_clk => r_acc_step[34].CLK
+i_clk => r_acc_step[35].CLK
+i_clk => r_acc_step[36].CLK
+i_clk => r_acc_step[37].CLK
+i_clk => r_acc_step[38].CLK
+i_clk => r_acc_step[39].CLK
+i_clk => r_acc_step[40].CLK
+i_clk => r_acc_step[41].CLK
+i_clk => r_acc_step[42].CLK
+i_clk => r_acc_step[43].CLK
+i_clk => r_acc_step[44].CLK
+i_clk => r_acc_step[45].CLK
+i_clk => r_acc_step[46].CLK
+i_clk => r_acc_step[47].CLK
+i_clk => r_acc_step[48].CLK
+i_clk => r_acc_step[49].CLK
+i_clk => r_acc_step[50].CLK
+i_clk => r_acc_step[51].CLK
+i_clk => r_acc_step[52].CLK
+i_clk => r_acc_step[53].CLK
+i_clk => r_acc_step[54].CLK
+i_clk => r_acc_step[55].CLK
+i_clk => r_acc_step[56].CLK
+i_clk => r_acc_step[57].CLK
+i_clk => r_acc_step[58].CLK
+i_clk => r_acc_step[59].CLK
+i_clk => r_acc_step[60].CLK
+i_clk => r_acc_step[61].CLK
+i_clk => r_acc_step[62].CLK
+i_clk => r_acc_step[63].CLK
+i_clk => r_sync_out_d1.CLK
+i_rst_n => r_shadow_count[0].ACLR
+i_rst_n => r_shadow_count[1].ACLR
+i_rst_n => r_shadow_count[2].ACLR
+i_rst_n => r_shadow_count[3].ACLR
+i_rst_n => r_shadow_count[4].ACLR
+i_rst_n => r_shadow_count[5].ACLR
+i_rst_n => r_shadow_count[6].ACLR
+i_rst_n => r_shadow_count[7].ACLR
+i_rst_n => r_shadow_count[8].ACLR
+i_rst_n => r_shadow_count[9].ACLR
+i_rst_n => r_shadow_count[10].ACLR
+i_rst_n => r_shadow_count[11].ACLR
+i_rst_n => r_shadow_count[12].ACLR
+i_rst_n => r_shadow_count[13].ACLR
+i_rst_n => r_shadow_count[14].ACLR
+i_rst_n => r_shadow_count[15].ACLR
+i_rst_n => r_shadow_count[16].ACLR
+i_rst_n => r_shadow_count[17].ACLR
+i_rst_n => r_shadow_count[18].ACLR
+i_rst_n => r_shadow_count[19].ACLR
+i_rst_n => r_shadow_count[20].ACLR
+i_rst_n => r_shadow_count[21].ACLR
+i_rst_n => r_shadow_count[22].ACLR
+i_rst_n => r_shadow_count[23].ACLR
+i_rst_n => r_shadow_count[24].ACLR
+i_rst_n => r_shadow_count[25].ACLR
+i_rst_n => r_shadow_count[26].ACLR
+i_rst_n => r_shadow_count[27].ACLR
+i_rst_n => r_shadow_count[28].ACLR
+i_rst_n => r_shadow_count[29].ACLR
+i_rst_n => r_shadow_count[30].ACLR
+i_rst_n => r_shadow_count[31].ACLR
+i_rst_n => r_shadow_step[0].ACLR
+i_rst_n => r_shadow_step[1].ACLR
+i_rst_n => r_shadow_step[2].ACLR
+i_rst_n => r_shadow_step[3].ACLR
+i_rst_n => r_shadow_step[4].ACLR
+i_rst_n => r_shadow_step[5].ACLR
+i_rst_n => r_shadow_step[6].ACLR
+i_rst_n => r_shadow_step[7].ACLR
+i_rst_n => r_shadow_step[8].ACLR
+i_rst_n => r_shadow_step[9].ACLR
+i_rst_n => r_shadow_step[10].ACLR
+i_rst_n => r_shadow_step[11].ACLR
+i_rst_n => r_shadow_step[12].ACLR
+i_rst_n => r_shadow_step[13].ACLR
+i_rst_n => r_shadow_step[14].ACLR
+i_rst_n => r_shadow_step[15].ACLR
+i_rst_n => r_shadow_step[16].ACLR
+i_rst_n => r_shadow_step[17].ACLR
+i_rst_n => r_shadow_step[18].ACLR
+i_rst_n => r_shadow_step[19].ACLR
+i_rst_n => r_shadow_step[20].ACLR
+i_rst_n => r_shadow_step[21].ACLR
+i_rst_n => r_shadow_step[22].ACLR
+i_rst_n => r_shadow_step[23].ACLR
+i_rst_n => r_shadow_step[24].ACLR
+i_rst_n => r_shadow_step[25].ACLR
+i_rst_n => r_shadow_step[26].ACLR
+i_rst_n => r_shadow_step[27].ACLR
+i_rst_n => r_shadow_step[28].ACLR
+i_rst_n => r_shadow_step[29].ACLR
+i_rst_n => r_shadow_step[30].ACLR
+i_rst_n => r_shadow_step[31].ACLR
+i_rst_n => r_shadow_step[32].ACLR
+i_rst_n => r_shadow_step[33].ACLR
+i_rst_n => r_shadow_step[34].ACLR
+i_rst_n => r_shadow_step[35].ACLR
+i_rst_n => r_shadow_step[36].ACLR
+i_rst_n => r_shadow_step[37].ACLR
+i_rst_n => r_shadow_step[38].ACLR
+i_rst_n => r_shadow_step[39].ACLR
+i_rst_n => r_shadow_step[40].ACLR
+i_rst_n => r_shadow_step[41].ACLR
+i_rst_n => r_shadow_step[42].ACLR
+i_rst_n => r_shadow_step[43].ACLR
+i_rst_n => r_shadow_step[44].ACLR
+i_rst_n => r_shadow_step[45].ACLR
+i_rst_n => r_shadow_step[46].ACLR
+i_rst_n => r_shadow_step[47].ACLR
+i_rst_n => r_shadow_step[48].ACLR
+i_rst_n => r_shadow_step[49].ACLR
+i_rst_n => r_shadow_step[50].ACLR
+i_rst_n => r_shadow_step[51].ACLR
+i_rst_n => r_shadow_step[52].ACLR
+i_rst_n => r_shadow_step[53].ACLR
+i_rst_n => r_shadow_step[54].ACLR
+i_rst_n => r_shadow_step[55].ACLR
+i_rst_n => r_shadow_step[56].ACLR
+i_rst_n => r_shadow_step[57].ACLR
+i_rst_n => r_shadow_step[58].ACLR
+i_rst_n => r_shadow_step[59].ACLR
+i_rst_n => r_shadow_step[60].ACLR
+i_rst_n => r_shadow_step[61].ACLR
+i_rst_n => r_shadow_step[62].ACLR
+i_rst_n => r_shadow_step[63].ACLR
+i_rst_n => r_acc_count[0].ACLR
+i_rst_n => r_acc_count[1].ACLR
+i_rst_n => r_acc_count[2].ACLR
+i_rst_n => r_acc_count[3].ACLR
+i_rst_n => r_acc_count[4].ACLR
+i_rst_n => r_acc_count[5].ACLR
+i_rst_n => r_acc_count[6].ACLR
+i_rst_n => r_acc_count[7].ACLR
+i_rst_n => r_acc_count[8].ACLR
+i_rst_n => r_acc_count[9].ACLR
+i_rst_n => r_acc_count[10].ACLR
+i_rst_n => r_acc_count[11].ACLR
+i_rst_n => r_acc_count[12].ACLR
+i_rst_n => r_acc_count[13].ACLR
+i_rst_n => r_acc_count[14].ACLR
+i_rst_n => r_acc_count[15].ACLR
+i_rst_n => r_acc_count[16].ACLR
+i_rst_n => r_acc_count[17].ACLR
+i_rst_n => r_acc_count[18].ACLR
+i_rst_n => r_acc_count[19].ACLR
+i_rst_n => r_acc_count[20].ACLR
+i_rst_n => r_acc_count[21].ACLR
+i_rst_n => r_acc_count[22].ACLR
+i_rst_n => r_acc_count[23].ACLR
+i_rst_n => r_acc_count[24].ACLR
+i_rst_n => r_acc_count[25].ACLR
+i_rst_n => r_acc_count[26].ACLR
+i_rst_n => r_acc_count[27].ACLR
+i_rst_n => r_acc_count[28].ACLR
+i_rst_n => r_acc_count[29].ACLR
+i_rst_n => r_acc_count[30].ACLR
+i_rst_n => r_acc_count[31].ACLR
+i_rst_n => r_acc_step[0].ACLR
+i_rst_n => r_acc_step[1].ACLR
+i_rst_n => r_acc_step[2].ACLR
+i_rst_n => r_acc_step[3].ACLR
+i_rst_n => r_acc_step[4].ACLR
+i_rst_n => r_acc_step[5].ACLR
+i_rst_n => r_acc_step[6].ACLR
+i_rst_n => r_acc_step[7].ACLR
+i_rst_n => r_acc_step[8].ACLR
+i_rst_n => r_acc_step[9].ACLR
+i_rst_n => r_acc_step[10].ACLR
+i_rst_n => r_acc_step[11].ACLR
+i_rst_n => r_acc_step[12].ACLR
+i_rst_n => r_acc_step[13].ACLR
+i_rst_n => r_acc_step[14].ACLR
+i_rst_n => r_acc_step[15].ACLR
+i_rst_n => r_acc_step[16].ACLR
+i_rst_n => r_acc_step[17].ACLR
+i_rst_n => r_acc_step[18].ACLR
+i_rst_n => r_acc_step[19].ACLR
+i_rst_n => r_acc_step[20].ACLR
+i_rst_n => r_acc_step[21].ACLR
+i_rst_n => r_acc_step[22].ACLR
+i_rst_n => r_acc_step[23].ACLR
+i_rst_n => r_acc_step[24].ACLR
+i_rst_n => r_acc_step[25].ACLR
+i_rst_n => r_acc_step[26].ACLR
+i_rst_n => r_acc_step[27].ACLR
+i_rst_n => r_acc_step[28].ACLR
+i_rst_n => r_acc_step[29].ACLR
+i_rst_n => r_acc_step[30].ACLR
+i_rst_n => r_acc_step[31].ACLR
+i_rst_n => r_acc_step[32].ACLR
+i_rst_n => r_acc_step[33].ACLR
+i_rst_n => r_acc_step[34].ACLR
+i_rst_n => r_acc_step[35].ACLR
+i_rst_n => r_acc_step[36].ACLR
+i_rst_n => r_acc_step[37].ACLR
+i_rst_n => r_acc_step[38].ACLR
+i_rst_n => r_acc_step[39].ACLR
+i_rst_n => r_acc_step[40].ACLR
+i_rst_n => r_acc_step[41].ACLR
+i_rst_n => r_acc_step[42].ACLR
+i_rst_n => r_acc_step[43].ACLR
+i_rst_n => r_acc_step[44].ACLR
+i_rst_n => r_acc_step[45].ACLR
+i_rst_n => r_acc_step[46].ACLR
+i_rst_n => r_acc_step[47].ACLR
+i_rst_n => r_acc_step[48].ACLR
+i_rst_n => r_acc_step[49].ACLR
+i_rst_n => r_acc_step[50].ACLR
+i_rst_n => r_acc_step[51].ACLR
+i_rst_n => r_acc_step[52].ACLR
+i_rst_n => r_acc_step[53].ACLR
+i_rst_n => r_acc_step[54].ACLR
+i_rst_n => r_acc_step[55].ACLR
+i_rst_n => r_acc_step[56].ACLR
+i_rst_n => r_acc_step[57].ACLR
+i_rst_n => r_acc_step[58].ACLR
+i_rst_n => r_acc_step[59].ACLR
+i_rst_n => r_acc_step[60].ACLR
+i_rst_n => r_acc_step[61].ACLR
+i_rst_n => r_acc_step[62].ACLR
+i_rst_n => r_acc_step[63].ACLR
+i_rst_n => r_sync_out_d1.ACLR
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_step.OUTPUTSELECT
+i_step_sync => r_acc_count.OUTPUTSELECT
+i_step_sync => r_acc_count.OUTPUTSELECT
+i_step_sync => r_acc_count.OUTPUTSELECT
+i_step_sync => r_acc_count.OUTPUTSELECT
+i_step_sync => r_acc_count.OUTPUTSELECT
+i_step_sync => r_acc_count.OUTPUTSELECT
+i_step_sync => r_acc_count.OUTPUTSELECT
+i_step_sync => r_acc_count.OUTPUTSELECT
+i_step_sync => r_acc_count.OUTPUTSELECT
+i_step_sync => r_acc_count.OUTPUTSELECT
+i_step_sync => r_acc_count.OUTPUTSELECT
+i_step_sync => r_acc_count.OUTPUTSELECT
+i_step_sync => r_acc_count.OUTPUTSELECT
+i_step_sync => r_acc_count.OUTPUTSELECT
+i_step_sync => r_acc_count.OUTPUTSELECT
+i_step_sync => r_acc_count.OUTPUTSELECT
+i_step_sync => r_acc_count.OUTPUTSELECT
+i_step_sync => r_acc_count.OUTPUTSELECT
+i_step_sync => r_acc_count.OUTPUTSELECT
+i_step_sync => r_acc_count.OUTPUTSELECT
+i_step_sync => r_acc_count.OUTPUTSELECT
+i_step_sync => r_acc_count.OUTPUTSELECT
+i_step_sync => r_acc_count.OUTPUTSELECT
+i_step_sync => r_acc_count.OUTPUTSELECT
+i_step_sync => r_acc_count.OUTPUTSELECT
+i_step_sync => r_acc_count.OUTPUTSELECT
+i_step_sync => r_acc_count.OUTPUTSELECT
+i_step_sync => r_acc_count.OUTPUTSELECT
+i_step_sync => r_acc_count.OUTPUTSELECT
+i_step_sync => r_acc_count.OUTPUTSELECT
+i_step_sync => r_acc_count.OUTPUTSELECT
+i_step_sync => r_acc_count.OUTPUTSELECT
+i_step_sync => r_acc_count.DATAB
+i_step[0] => r_acc_step.DATAB
+i_step[0] => Add0.IN64
+i_step[1] => r_acc_step.DATAB
+i_step[1] => Add0.IN63
+i_step[2] => r_acc_step.DATAB
+i_step[2] => Add0.IN62
+i_step[3] => r_acc_step.DATAB
+i_step[3] => Add0.IN61
+i_step[4] => r_acc_step.DATAB
+i_step[4] => Add0.IN60
+i_step[5] => r_acc_step.DATAB
+i_step[5] => Add0.IN59
+i_step[6] => r_acc_step.DATAB
+i_step[6] => Add0.IN58
+i_step[7] => r_acc_step.DATAB
+i_step[7] => Add0.IN57
+i_step[8] => r_acc_step.DATAB
+i_step[8] => Add0.IN56
+i_step[9] => r_acc_step.DATAB
+i_step[9] => Add0.IN55
+i_step[10] => r_acc_step.DATAB
+i_step[10] => Add0.IN54
+i_step[11] => r_acc_step.DATAB
+i_step[11] => Add0.IN53
+i_step[12] => r_acc_step.DATAB
+i_step[12] => Add0.IN52
+i_step[13] => r_acc_step.DATAB
+i_step[13] => Add0.IN51
+i_step[14] => r_acc_step.DATAB
+i_step[14] => Add0.IN50
+i_step[15] => r_acc_step.DATAB
+i_step[15] => Add0.IN49
+i_step[16] => r_acc_step.DATAB
+i_step[16] => Add0.IN48
+i_step[17] => r_acc_step.DATAB
+i_step[17] => Add0.IN47
+i_step[18] => r_acc_step.DATAB
+i_step[18] => Add0.IN46
+i_step[19] => r_acc_step.DATAB
+i_step[19] => Add0.IN45
+i_step[20] => r_acc_step.DATAB
+i_step[20] => Add0.IN44
+i_step[21] => r_acc_step.DATAB
+i_step[21] => Add0.IN43
+i_step[22] => r_acc_step.DATAB
+i_step[22] => Add0.IN42
+i_step[23] => r_acc_step.DATAB
+i_step[23] => Add0.IN41
+i_step[24] => r_acc_step.DATAB
+i_step[24] => Add0.IN40
+i_step[25] => r_acc_step.DATAB
+i_step[25] => Add0.IN39
+i_step[26] => r_acc_step.DATAB
+i_step[26] => Add0.IN38
+i_step[27] => r_acc_step.DATAB
+i_step[27] => Add0.IN37
+i_step[28] => r_acc_step.DATAB
+i_step[28] => Add0.IN36
+i_step[29] => r_acc_step.DATAB
+i_step[29] => Add0.IN35
+i_step[30] => r_acc_step.DATAB
+i_step[30] => Add0.IN34
+i_step[31] => r_acc_step.DATAB
+i_step[31] => Add0.IN1
+i_step[31] => Add0.IN2
+i_step[31] => Add0.IN3
+i_step[31] => Add0.IN4
+i_step[31] => Add0.IN5
+i_step[31] => Add0.IN6
+i_step[31] => Add0.IN7
+i_step[31] => Add0.IN8
+i_step[31] => Add0.IN9
+i_step[31] => Add0.IN10
+i_step[31] => Add0.IN11
+i_step[31] => Add0.IN12
+i_step[31] => Add0.IN13
+i_step[31] => Add0.IN14
+i_step[31] => Add0.IN15
+i_step[31] => Add0.IN16
+i_step[31] => Add0.IN17
+i_step[31] => Add0.IN18
+i_step[31] => Add0.IN19
+i_step[31] => Add0.IN20
+i_step[31] => Add0.IN21
+i_step[31] => Add0.IN22
+i_step[31] => Add0.IN23
+i_step[31] => Add0.IN24
+i_step[31] => Add0.IN25
+i_step[31] => Add0.IN26
+i_step[31] => Add0.IN27
+i_step[31] => Add0.IN28
+i_step[31] => Add0.IN29
+i_step[31] => Add0.IN30
+i_step[31] => Add0.IN31
+i_step[31] => Add0.IN32
+i_step[31] => Add0.IN33
+i_sync_out => w_sync_edge.IN1
+i_sync_out => r_sync_out_d1.DATAIN
+o_acc_step_low[0] <= r_shadow_step[0].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_low[1] <= r_shadow_step[1].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_low[2] <= r_shadow_step[2].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_low[3] <= r_shadow_step[3].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_low[4] <= r_shadow_step[4].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_low[5] <= r_shadow_step[5].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_low[6] <= r_shadow_step[6].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_low[7] <= r_shadow_step[7].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_low[8] <= r_shadow_step[8].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_low[9] <= r_shadow_step[9].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_low[10] <= r_shadow_step[10].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_low[11] <= r_shadow_step[11].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_low[12] <= r_shadow_step[12].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_low[13] <= r_shadow_step[13].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_low[14] <= r_shadow_step[14].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_low[15] <= r_shadow_step[15].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_low[16] <= r_shadow_step[16].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_low[17] <= r_shadow_step[17].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_low[18] <= r_shadow_step[18].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_low[19] <= r_shadow_step[19].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_low[20] <= r_shadow_step[20].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_low[21] <= r_shadow_step[21].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_low[22] <= r_shadow_step[22].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_low[23] <= r_shadow_step[23].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_low[24] <= r_shadow_step[24].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_low[25] <= r_shadow_step[25].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_low[26] <= r_shadow_step[26].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_low[27] <= r_shadow_step[27].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_low[28] <= r_shadow_step[28].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_low[29] <= r_shadow_step[29].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_low[30] <= r_shadow_step[30].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_low[31] <= r_shadow_step[31].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_high[0] <= r_shadow_step[32].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_high[1] <= r_shadow_step[33].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_high[2] <= r_shadow_step[34].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_high[3] <= r_shadow_step[35].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_high[4] <= r_shadow_step[36].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_high[5] <= r_shadow_step[37].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_high[6] <= r_shadow_step[38].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_high[7] <= r_shadow_step[39].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_high[8] <= r_shadow_step[40].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_high[9] <= r_shadow_step[41].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_high[10] <= r_shadow_step[42].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_high[11] <= r_shadow_step[43].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_high[12] <= r_shadow_step[44].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_high[13] <= r_shadow_step[45].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_high[14] <= r_shadow_step[46].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_high[15] <= r_shadow_step[47].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_high[16] <= r_shadow_step[48].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_high[17] <= r_shadow_step[49].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_high[18] <= r_shadow_step[50].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_high[19] <= r_shadow_step[51].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_high[20] <= r_shadow_step[52].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_high[21] <= r_shadow_step[53].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_high[22] <= r_shadow_step[54].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_high[23] <= r_shadow_step[55].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_high[24] <= r_shadow_step[56].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_high[25] <= r_shadow_step[57].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_high[26] <= r_shadow_step[58].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_high[27] <= r_shadow_step[59].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_high[28] <= r_shadow_step[60].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_high[29] <= r_shadow_step[61].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_high[30] <= r_shadow_step[62].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_step_high[31] <= r_shadow_step[63].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_count[0] <= r_shadow_count[0].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_count[1] <= r_shadow_count[1].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_count[2] <= r_shadow_count[2].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_count[3] <= r_shadow_count[3].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_count[4] <= r_shadow_count[4].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_count[5] <= r_shadow_count[5].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_count[6] <= r_shadow_count[6].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_count[7] <= r_shadow_count[7].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_count[8] <= r_shadow_count[8].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_count[9] <= r_shadow_count[9].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_count[10] <= r_shadow_count[10].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_count[11] <= r_shadow_count[11].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_count[12] <= r_shadow_count[12].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_count[13] <= r_shadow_count[13].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_count[14] <= r_shadow_count[14].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_count[15] <= r_shadow_count[15].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_count[16] <= r_shadow_count[16].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_count[17] <= r_shadow_count[17].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_count[18] <= r_shadow_count[18].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_count[19] <= r_shadow_count[19].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_count[20] <= r_shadow_count[20].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_count[21] <= r_shadow_count[21].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_count[22] <= r_shadow_count[22].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_count[23] <= r_shadow_count[23].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_count[24] <= r_shadow_count[24].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_count[25] <= r_shadow_count[25].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_count[26] <= r_shadow_count[26].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_count[27] <= r_shadow_count[27].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_count[28] <= r_shadow_count[28].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_count[29] <= r_shadow_count[29].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_count[30] <= r_shadow_count[30].DB_MAX_OUTPUT_PORT_TYPE
+o_acc_count[31] <= r_shadow_count[31].DB_MAX_OUTPUT_PORT_TYPE
+
+
+|LGSM_TOP_V2|CPU:u0
 clk_clk => clk_clk.IN17
 dac_rst_export <= CPU_DAC_RST:dac_rst.out_port
 epcs_dclk <= CPU_epcs:epcs.dclk
@@ -8337,7 +9050,7 @@ varset_1_o_reg59[31] <= GyroVarSet_60:varset_1.o_reg59
 varset_1_o_latch_trigger <= GyroVarSet_60:varset_1.o_latch_trigger
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_DAC_RST:dac_rst
+|LGSM_TOP_V2|CPU:u0|CPU_DAC_RST:dac_rst
 address[0] => Equal0.IN31
 address[1] => Equal0.IN30
 chipselect => always0.IN0
@@ -8411,7 +9124,7 @@ readdata[30] <= <GND>
 readdata[31] <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_I2C_SCL:i2c_scl
+|LGSM_TOP_V2|CPU:u0|CPU_I2C_SCL:i2c_scl
 address[0] => Equal0.IN31
 address[1] => Equal0.IN30
 chipselect => always0.IN0
@@ -8485,7 +9198,7 @@ readdata[30] <= <GND>
 readdata[31] <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_I2C_SDA:i2c_sda
+|LGSM_TOP_V2|CPU:u0|CPU_I2C_SDA:i2c_sda
 address[0] => Equal0.IN31
 address[0] => Equal1.IN61
 address[1] => Equal0.IN30
@@ -8628,7 +9341,7 @@ readdata[30] <= readdata[30]~reg0.DB_MAX_OUTPUT_PORT_TYPE
 readdata[31] <= readdata[31]~reg0.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|GyroVarSet_60:varset_1
+|LGSM_TOP_V2|CPU:u0|GyroVarSet_60:varset_1
 address[0] => Decoder0.IN6
 address[0] => Mux0.IN14
 address[0] => Mux1.IN14
@@ -22474,7 +23187,7 @@ i_var59[30] => Mux1.IN134
 i_var59[31] => Mux0.IN134
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_epcs:epcs
+|LGSM_TOP_V2|CPU:u0|CPU_epcs:epcs
 address[0] => mem_addr[0].IN2
 address[1] => mem_addr[1].IN2
 address[2] => mem_addr[2].IN2
@@ -22564,7 +23277,7 @@ sce <= CPU_epcs_sub:the_CPU_epcs_sub.SS_n
 sdo <= CPU_epcs_sub:the_CPU_epcs_sub.MOSI
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_epcs:epcs|CPU_epcs_sub:the_CPU_epcs_sub
+|LGSM_TOP_V2|CPU:u0|CPU_epcs:epcs|CPU_epcs_sub:the_CPU_epcs_sub
 MISO => MISO_reg.DATAA
 clk => MISO_reg.CLK
 clk => SCLK_reg.CLK
@@ -22901,7 +23614,7 @@ irq <= irq_reg.DB_MAX_OUTPUT_PORT_TYPE
 readyfordata <= TRDY.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_epcs:epcs|altsyncram:the_boot_copier_rom
+|LGSM_TOP_V2|CPU:u0|CPU_epcs:epcs|altsyncram:the_boot_copier_rom
 wren_a => ~NO_FANOUT~
 rden_a => ~NO_FANOUT~
 wren_b => ~NO_FANOUT~
@@ -22998,7 +23711,7 @@ eccstatus[1] <= <GND>
 eccstatus[2] <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_epcs:epcs|altsyncram:the_boot_copier_rom|altsyncram_tu31:auto_generated
+|LGSM_TOP_V2|CPU:u0|CPU_epcs:epcs|altsyncram:the_boot_copier_rom|altsyncram_tu31:auto_generated
 address_a[0] => ram_block1a0.PORTAADDR
 address_a[0] => ram_block1a1.PORTAADDR
 address_a[0] => ram_block1a2.PORTAADDR
@@ -23353,7 +24066,7 @@ q_a[30] <= ram_block1a30.PORTADATAOUT
 q_a[31] <= ram_block1a31.PORTADATAOUT
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_jtag_uart:jtag_uart
+|LGSM_TOP_V2|CPU:u0|CPU_jtag_uart:jtag_uart
 av_address => ien_AF.OUTPUTSELECT
 av_address => ien_AE.OUTPUTSELECT
 av_address => ac.OUTPUTSELECT
@@ -23443,7 +24156,7 @@ dataavailable <= dataavailable~reg0.DB_MAX_OUTPUT_PORT_TYPE
 readyfordata <= readyfordata~reg0.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_jtag_uart:jtag_uart|CPU_jtag_uart_scfifo_w:the_CPU_jtag_uart_scfifo_w
+|LGSM_TOP_V2|CPU:u0|CPU_jtag_uart:jtag_uart|CPU_jtag_uart_scfifo_w:the_CPU_jtag_uart_scfifo_w
 clk => clk.IN1
 fifo_clear => fifo_clear.IN1
 fifo_wdata[0] => fifo_wdata[0].IN1
@@ -23474,7 +24187,7 @@ wfifo_used[4] <= scfifo:wfifo.usedw
 wfifo_used[5] <= scfifo:wfifo.usedw
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_jtag_uart:jtag_uart|CPU_jtag_uart_scfifo_w:the_CPU_jtag_uart_scfifo_w|scfifo:wfifo
+|LGSM_TOP_V2|CPU:u0|CPU_jtag_uart:jtag_uart|CPU_jtag_uart_scfifo_w:the_CPU_jtag_uart_scfifo_w|scfifo:wfifo
 data[0] => scfifo_jr21:auto_generated.data[0]
 data[1] => scfifo_jr21:auto_generated.data[1]
 data[2] => scfifo_jr21:auto_generated.data[2]
@@ -23510,7 +24223,7 @@ usedw[4] <= scfifo_jr21:auto_generated.usedw[4]
 usedw[5] <= scfifo_jr21:auto_generated.usedw[5]
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_jtag_uart:jtag_uart|CPU_jtag_uart_scfifo_w:the_CPU_jtag_uart_scfifo_w|scfifo:wfifo|scfifo_jr21:auto_generated
+|LGSM_TOP_V2|CPU:u0|CPU_jtag_uart:jtag_uart|CPU_jtag_uart_scfifo_w:the_CPU_jtag_uart_scfifo_w|scfifo:wfifo|scfifo_jr21:auto_generated
 aclr => a_dpfifo_l011:dpfifo.aclr
 clock => a_dpfifo_l011:dpfifo.clock
 data[0] => a_dpfifo_l011:dpfifo.data[0]
@@ -23541,7 +24254,7 @@ usedw[5] <= a_dpfifo_l011:dpfifo.usedw[5]
 wrreq => a_dpfifo_l011:dpfifo.wreq
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_jtag_uart:jtag_uart|CPU_jtag_uart_scfifo_w:the_CPU_jtag_uart_scfifo_w|scfifo:wfifo|scfifo_jr21:auto_generated|a_dpfifo_l011:dpfifo
+|LGSM_TOP_V2|CPU:u0|CPU_jtag_uart:jtag_uart|CPU_jtag_uart_scfifo_w:the_CPU_jtag_uart_scfifo_w|scfifo:wfifo|scfifo_jr21:auto_generated|a_dpfifo_l011:dpfifo
 aclr => a_fefifo_7cf:fifo_state.aclr
 aclr => cntr_1ob:rd_ptr_count.aclr
 aclr => cntr_1ob:wr_ptr.aclr
@@ -23587,7 +24300,7 @@ wreq => altsyncram_nio1:FIFOram.wren_a
 wreq => cntr_1ob:wr_ptr.cnt_en
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_jtag_uart:jtag_uart|CPU_jtag_uart_scfifo_w:the_CPU_jtag_uart_scfifo_w|scfifo:wfifo|scfifo_jr21:auto_generated|a_dpfifo_l011:dpfifo|a_fefifo_7cf:fifo_state
+|LGSM_TOP_V2|CPU:u0|CPU_jtag_uart:jtag_uart|CPU_jtag_uart_scfifo_w:the_CPU_jtag_uart_scfifo_w|scfifo:wfifo|scfifo_jr21:auto_generated|a_dpfifo_l011:dpfifo|a_fefifo_7cf:fifo_state
 aclr => b_full.IN0
 aclr => b_non_empty.IN0
 aclr => cntr_do7:count_usedw.aclr
@@ -23619,7 +24332,7 @@ wreq => _.IN0
 wreq => cntr_do7:count_usedw.updown
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_jtag_uart:jtag_uart|CPU_jtag_uart_scfifo_w:the_CPU_jtag_uart_scfifo_w|scfifo:wfifo|scfifo_jr21:auto_generated|a_dpfifo_l011:dpfifo|a_fefifo_7cf:fifo_state|cntr_do7:count_usedw
+|LGSM_TOP_V2|CPU:u0|CPU_jtag_uart:jtag_uart|CPU_jtag_uart_scfifo_w:the_CPU_jtag_uart_scfifo_w|scfifo:wfifo|scfifo_jr21:auto_generated|a_dpfifo_l011:dpfifo|a_fefifo_7cf:fifo_state|cntr_do7:count_usedw
 aclr => counter_reg_bit[5].IN0
 clock => counter_reg_bit[5].CLK
 clock => counter_reg_bit[4].CLK
@@ -23645,7 +24358,7 @@ updown => counter_comb_bita4.DATAB
 updown => counter_comb_bita5.DATAB
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_jtag_uart:jtag_uart|CPU_jtag_uart_scfifo_w:the_CPU_jtag_uart_scfifo_w|scfifo:wfifo|scfifo_jr21:auto_generated|a_dpfifo_l011:dpfifo|altsyncram_nio1:FIFOram
+|LGSM_TOP_V2|CPU:u0|CPU_jtag_uart:jtag_uart|CPU_jtag_uart_scfifo_w:the_CPU_jtag_uart_scfifo_w|scfifo:wfifo|scfifo_jr21:auto_generated|a_dpfifo_l011:dpfifo|altsyncram_nio1:FIFOram
 address_a[0] => ram_block1a0.PORTAADDR
 address_a[0] => ram_block1a1.PORTAADDR
 address_a[0] => ram_block1a2.PORTAADDR
@@ -23800,7 +24513,7 @@ wren_a => ram_block1a7.PORTAWE
 wren_a => ram_block1a7.ENA0
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_jtag_uart:jtag_uart|CPU_jtag_uart_scfifo_w:the_CPU_jtag_uart_scfifo_w|scfifo:wfifo|scfifo_jr21:auto_generated|a_dpfifo_l011:dpfifo|cntr_1ob:rd_ptr_count
+|LGSM_TOP_V2|CPU:u0|CPU_jtag_uart:jtag_uart|CPU_jtag_uart_scfifo_w:the_CPU_jtag_uart_scfifo_w|scfifo:wfifo|scfifo_jr21:auto_generated|a_dpfifo_l011:dpfifo|cntr_1ob:rd_ptr_count
 aclr => counter_reg_bit[5].IN0
 clock => counter_reg_bit[5].CLK
 clock => counter_reg_bit[4].CLK
@@ -23820,7 +24533,7 @@ sclr => _.IN0
 sclr => _.IN0
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_jtag_uart:jtag_uart|CPU_jtag_uart_scfifo_w:the_CPU_jtag_uart_scfifo_w|scfifo:wfifo|scfifo_jr21:auto_generated|a_dpfifo_l011:dpfifo|cntr_1ob:wr_ptr
+|LGSM_TOP_V2|CPU:u0|CPU_jtag_uart:jtag_uart|CPU_jtag_uart_scfifo_w:the_CPU_jtag_uart_scfifo_w|scfifo:wfifo|scfifo_jr21:auto_generated|a_dpfifo_l011:dpfifo|cntr_1ob:wr_ptr
 aclr => counter_reg_bit[5].IN0
 clock => counter_reg_bit[5].CLK
 clock => counter_reg_bit[4].CLK
@@ -23840,7 +24553,7 @@ sclr => _.IN0
 sclr => _.IN0
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_jtag_uart:jtag_uart|CPU_jtag_uart_scfifo_r:the_CPU_jtag_uart_scfifo_r
+|LGSM_TOP_V2|CPU:u0|CPU_jtag_uart:jtag_uart|CPU_jtag_uart_scfifo_r:the_CPU_jtag_uart_scfifo_r
 clk => clk.IN1
 fifo_clear => fifo_clear.IN1
 fifo_rd => fifo_rd.IN1
@@ -23872,7 +24585,7 @@ rfifo_used[4] <= scfifo:rfifo.usedw
 rfifo_used[5] <= scfifo:rfifo.usedw
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_jtag_uart:jtag_uart|CPU_jtag_uart_scfifo_r:the_CPU_jtag_uart_scfifo_r|scfifo:rfifo
+|LGSM_TOP_V2|CPU:u0|CPU_jtag_uart:jtag_uart|CPU_jtag_uart_scfifo_r:the_CPU_jtag_uart_scfifo_r|scfifo:rfifo
 data[0] => scfifo_jr21:auto_generated.data[0]
 data[1] => scfifo_jr21:auto_generated.data[1]
 data[2] => scfifo_jr21:auto_generated.data[2]
@@ -23908,7 +24621,7 @@ usedw[4] <= scfifo_jr21:auto_generated.usedw[4]
 usedw[5] <= scfifo_jr21:auto_generated.usedw[5]
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_jtag_uart:jtag_uart|CPU_jtag_uart_scfifo_r:the_CPU_jtag_uart_scfifo_r|scfifo:rfifo|scfifo_jr21:auto_generated
+|LGSM_TOP_V2|CPU:u0|CPU_jtag_uart:jtag_uart|CPU_jtag_uart_scfifo_r:the_CPU_jtag_uart_scfifo_r|scfifo:rfifo|scfifo_jr21:auto_generated
 aclr => a_dpfifo_l011:dpfifo.aclr
 clock => a_dpfifo_l011:dpfifo.clock
 data[0] => a_dpfifo_l011:dpfifo.data[0]
@@ -23939,7 +24652,7 @@ usedw[5] <= a_dpfifo_l011:dpfifo.usedw[5]
 wrreq => a_dpfifo_l011:dpfifo.wreq
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_jtag_uart:jtag_uart|CPU_jtag_uart_scfifo_r:the_CPU_jtag_uart_scfifo_r|scfifo:rfifo|scfifo_jr21:auto_generated|a_dpfifo_l011:dpfifo
+|LGSM_TOP_V2|CPU:u0|CPU_jtag_uart:jtag_uart|CPU_jtag_uart_scfifo_r:the_CPU_jtag_uart_scfifo_r|scfifo:rfifo|scfifo_jr21:auto_generated|a_dpfifo_l011:dpfifo
 aclr => a_fefifo_7cf:fifo_state.aclr
 aclr => cntr_1ob:rd_ptr_count.aclr
 aclr => cntr_1ob:wr_ptr.aclr
@@ -23985,7 +24698,7 @@ wreq => altsyncram_nio1:FIFOram.wren_a
 wreq => cntr_1ob:wr_ptr.cnt_en
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_jtag_uart:jtag_uart|CPU_jtag_uart_scfifo_r:the_CPU_jtag_uart_scfifo_r|scfifo:rfifo|scfifo_jr21:auto_generated|a_dpfifo_l011:dpfifo|a_fefifo_7cf:fifo_state
+|LGSM_TOP_V2|CPU:u0|CPU_jtag_uart:jtag_uart|CPU_jtag_uart_scfifo_r:the_CPU_jtag_uart_scfifo_r|scfifo:rfifo|scfifo_jr21:auto_generated|a_dpfifo_l011:dpfifo|a_fefifo_7cf:fifo_state
 aclr => b_full.IN0
 aclr => b_non_empty.IN0
 aclr => cntr_do7:count_usedw.aclr
@@ -24017,7 +24730,7 @@ wreq => _.IN0
 wreq => cntr_do7:count_usedw.updown
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_jtag_uart:jtag_uart|CPU_jtag_uart_scfifo_r:the_CPU_jtag_uart_scfifo_r|scfifo:rfifo|scfifo_jr21:auto_generated|a_dpfifo_l011:dpfifo|a_fefifo_7cf:fifo_state|cntr_do7:count_usedw
+|LGSM_TOP_V2|CPU:u0|CPU_jtag_uart:jtag_uart|CPU_jtag_uart_scfifo_r:the_CPU_jtag_uart_scfifo_r|scfifo:rfifo|scfifo_jr21:auto_generated|a_dpfifo_l011:dpfifo|a_fefifo_7cf:fifo_state|cntr_do7:count_usedw
 aclr => counter_reg_bit[5].IN0
 clock => counter_reg_bit[5].CLK
 clock => counter_reg_bit[4].CLK
@@ -24043,7 +24756,7 @@ updown => counter_comb_bita4.DATAB
 updown => counter_comb_bita5.DATAB
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_jtag_uart:jtag_uart|CPU_jtag_uart_scfifo_r:the_CPU_jtag_uart_scfifo_r|scfifo:rfifo|scfifo_jr21:auto_generated|a_dpfifo_l011:dpfifo|altsyncram_nio1:FIFOram
+|LGSM_TOP_V2|CPU:u0|CPU_jtag_uart:jtag_uart|CPU_jtag_uart_scfifo_r:the_CPU_jtag_uart_scfifo_r|scfifo:rfifo|scfifo_jr21:auto_generated|a_dpfifo_l011:dpfifo|altsyncram_nio1:FIFOram
 address_a[0] => ram_block1a0.PORTAADDR
 address_a[0] => ram_block1a1.PORTAADDR
 address_a[0] => ram_block1a2.PORTAADDR
@@ -24198,7 +24911,7 @@ wren_a => ram_block1a7.PORTAWE
 wren_a => ram_block1a7.ENA0
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_jtag_uart:jtag_uart|CPU_jtag_uart_scfifo_r:the_CPU_jtag_uart_scfifo_r|scfifo:rfifo|scfifo_jr21:auto_generated|a_dpfifo_l011:dpfifo|cntr_1ob:rd_ptr_count
+|LGSM_TOP_V2|CPU:u0|CPU_jtag_uart:jtag_uart|CPU_jtag_uart_scfifo_r:the_CPU_jtag_uart_scfifo_r|scfifo:rfifo|scfifo_jr21:auto_generated|a_dpfifo_l011:dpfifo|cntr_1ob:rd_ptr_count
 aclr => counter_reg_bit[5].IN0
 clock => counter_reg_bit[5].CLK
 clock => counter_reg_bit[4].CLK
@@ -24218,7 +24931,7 @@ sclr => _.IN0
 sclr => _.IN0
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_jtag_uart:jtag_uart|CPU_jtag_uart_scfifo_r:the_CPU_jtag_uart_scfifo_r|scfifo:rfifo|scfifo_jr21:auto_generated|a_dpfifo_l011:dpfifo|cntr_1ob:wr_ptr
+|LGSM_TOP_V2|CPU:u0|CPU_jtag_uart:jtag_uart|CPU_jtag_uart_scfifo_r:the_CPU_jtag_uart_scfifo_r|scfifo:rfifo|scfifo_jr21:auto_generated|a_dpfifo_l011:dpfifo|cntr_1ob:wr_ptr
 aclr => counter_reg_bit[5].IN0
 clock => counter_reg_bit[5].CLK
 clock => counter_reg_bit[4].CLK
@@ -24238,7 +24951,7 @@ sclr => _.IN0
 sclr => _.IN0
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_jtag_uart:jtag_uart|alt_jtag_atlantic:CPU_jtag_uart_alt_jtag_atlantic
+|LGSM_TOP_V2|CPU:u0|CPU_jtag_uart:jtag_uart|alt_jtag_atlantic:CPU_jtag_uart_alt_jtag_atlantic
 raw_tck => raw_tck.IN1
 tdi => tdi.IN1
 jtag_state_rti => ~NO_FANOUT~
@@ -24317,7 +25030,7 @@ t_dat[7] <= t_dat[7].DB_MAX_OUTPUT_PORT_TYPE
 t_pause <= t_pause~reg0.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_jtag_uart:jtag_uart|alt_jtag_atlantic:CPU_jtag_uart_alt_jtag_atlantic|sld_jtag_endpoint_adapter:inst
+|LGSM_TOP_V2|CPU:u0|CPU_jtag_uart:jtag_uart|alt_jtag_atlantic:CPU_jtag_uart_alt_jtag_atlantic|sld_jtag_endpoint_adapter:inst
 raw_tck => sld_jtag_endpoint_adapter_impl:sld_jtag_endpoint_adapter_impl_inst.raw_tck
 raw_tms => sld_jtag_endpoint_adapter_impl:sld_jtag_endpoint_adapter_impl_inst.raw_tms
 tdi => sld_jtag_endpoint_adapter_impl:sld_jtag_endpoint_adapter_impl_inst.tdi
@@ -24372,7 +25085,7 @@ adapted_tdo => sld_jtag_endpoint_adapter_impl:sld_jtag_endpoint_adapter_impl_ins
 adapted_ir_out[0] => sld_jtag_endpoint_adapter_impl:sld_jtag_endpoint_adapter_impl_inst.adapted_ir_out[0]
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_jtag_uart:jtag_uart|alt_jtag_atlantic:CPU_jtag_uart_alt_jtag_atlantic|sld_jtag_endpoint_adapter:inst|sld_jtag_endpoint_adapter_impl:sld_jtag_endpoint_adapter_impl_inst
+|LGSM_TOP_V2|CPU:u0|CPU_jtag_uart:jtag_uart|alt_jtag_atlantic:CPU_jtag_uart_alt_jtag_atlantic|sld_jtag_endpoint_adapter:inst|sld_jtag_endpoint_adapter_impl:sld_jtag_endpoint_adapter_impl_inst
 raw_tck => adapted_tck.DATAIN
 raw_tms => adapted_tms.DATAIN
 tdi => adapted_tdi.DATAIN
@@ -24427,7 +25140,7 @@ adapted_tdo => tdo.DATAIN
 adapted_ir_out[0] => ir_out[0].DATAIN
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_nios2:nios2
+|LGSM_TOP_V2|CPU:u0|CPU_nios2:nios2
 clk => clk.IN1
 reset_n => reset_n.IN1
 reset_req => reset_req.IN1
@@ -24706,7 +25419,7 @@ debug_mem_slave_writedata[31] => debug_mem_slave_writedata[31].IN1
 dummy_ci_port <= CPU_nios2_cpu:cpu.dummy_ci_port
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu
+|LGSM_TOP_V2|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu
 clk => clk.IN4
 d_readdata[0] => av_ld_byte0_data_nxt.DATAA
 d_readdata[1] => av_ld_byte0_data_nxt.DATAA
@@ -24985,7 +25698,7 @@ i_address[25] <= i_address[25].DB_MAX_OUTPUT_PORT_TYPE
 i_read <= i_read.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_test_bench:the_CPU_nios2_cpu_test_bench
+|LGSM_TOP_V2|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_test_bench:the_CPU_nios2_cpu_test_bench
 D_iw[0] => ~NO_FANOUT~
 D_iw[1] => ~NO_FANOUT~
 D_iw[2] => ~NO_FANOUT~
@@ -25333,7 +26046,7 @@ av_ld_data_aligned_filtered[31] <= av_ld_data_aligned_unfiltered[31].DB_MAX_OUTP
 test_has_ended <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_register_bank_a_module:CPU_nios2_cpu_register_bank_a
+|LGSM_TOP_V2|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_register_bank_a_module:CPU_nios2_cpu_register_bank_a
 clock => clock.IN1
 data[0] => ram_data[0].IN1
 data[1] => ram_data[1].IN1
@@ -25412,7 +26125,7 @@ q[30] <= altsyncram:the_altsyncram.q_b
 q[31] <= altsyncram:the_altsyncram.q_b
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_register_bank_a_module:CPU_nios2_cpu_register_bank_a|altsyncram:the_altsyncram
+|LGSM_TOP_V2|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_register_bank_a_module:CPU_nios2_cpu_register_bank_a|altsyncram:the_altsyncram
 wren_a => altsyncram_6mc1:auto_generated.wren_a
 rden_a => ~NO_FANOUT~
 wren_b => ~NO_FANOUT~
@@ -25572,7 +26285,7 @@ eccstatus[1] <= <GND>
 eccstatus[2] <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_register_bank_a_module:CPU_nios2_cpu_register_bank_a|altsyncram:the_altsyncram|altsyncram_6mc1:auto_generated
+|LGSM_TOP_V2|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_register_bank_a_module:CPU_nios2_cpu_register_bank_a|altsyncram:the_altsyncram|altsyncram_6mc1:auto_generated
 address_a[0] => ram_block1a0.PORTAADDR
 address_a[0] => ram_block1a1.PORTAADDR
 address_a[0] => ram_block1a2.PORTAADDR
@@ -26023,7 +26736,7 @@ wren_a => ram_block1a30.PORTAWE
 wren_a => ram_block1a31.PORTAWE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_register_bank_b_module:CPU_nios2_cpu_register_bank_b
+|LGSM_TOP_V2|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_register_bank_b_module:CPU_nios2_cpu_register_bank_b
 clock => clock.IN1
 data[0] => ram_data[0].IN1
 data[1] => ram_data[1].IN1
@@ -26102,7 +26815,7 @@ q[30] <= altsyncram:the_altsyncram.q_b
 q[31] <= altsyncram:the_altsyncram.q_b
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_register_bank_b_module:CPU_nios2_cpu_register_bank_b|altsyncram:the_altsyncram
+|LGSM_TOP_V2|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_register_bank_b_module:CPU_nios2_cpu_register_bank_b|altsyncram:the_altsyncram
 wren_a => altsyncram_6mc1:auto_generated.wren_a
 rden_a => ~NO_FANOUT~
 wren_b => ~NO_FANOUT~
@@ -26262,7 +26975,7 @@ eccstatus[1] <= <GND>
 eccstatus[2] <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_register_bank_b_module:CPU_nios2_cpu_register_bank_b|altsyncram:the_altsyncram|altsyncram_6mc1:auto_generated
+|LGSM_TOP_V2|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_register_bank_b_module:CPU_nios2_cpu_register_bank_b|altsyncram:the_altsyncram|altsyncram_6mc1:auto_generated
 address_a[0] => ram_block1a0.PORTAADDR
 address_a[0] => ram_block1a1.PORTAADDR
 address_a[0] => ram_block1a2.PORTAADDR
@@ -26713,7 +27426,7 @@ wren_a => ram_block1a30.PORTAWE
 wren_a => ram_block1a31.PORTAWE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci
+|LGSM_TOP_V2|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci
 D_valid => D_valid.IN1
 E_st_data[0] => E_st_data[0].IN1
 E_st_data[1] => E_st_data[1].IN1
@@ -26957,7 +27670,7 @@ resetrequest <= CPU_nios2_cpu_nios2_oci_debug:the_CPU_nios2_cpu_nios2_oci_debug.
 waitrequest <= CPU_nios2_cpu_nios2_ocimem:the_CPU_nios2_cpu_nios2_ocimem.waitrequest
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_nios2_oci_debug:the_CPU_nios2_cpu_nios2_oci_debug
+|LGSM_TOP_V2|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_nios2_oci_debug:the_CPU_nios2_cpu_nios2_oci_debug
 clk => clk.IN1
 dbrk_break => oci_hbreak_req.IN1
 debugreq => always0.IN0
@@ -27025,7 +27738,7 @@ resetlatch <= resetlatch~reg0.DB_MAX_OUTPUT_PORT_TYPE
 resetrequest <= resetrequest~reg0.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_nios2_oci_debug:the_CPU_nios2_cpu_nios2_oci_debug|altera_std_synchronizer:the_altera_std_synchronizer
+|LGSM_TOP_V2|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_nios2_oci_debug:the_CPU_nios2_cpu_nios2_oci_debug|altera_std_synchronizer:the_altera_std_synchronizer
 clk => dreg[0].CLK
 clk => din_s1.CLK
 reset_n => dreg[0].ACLR
@@ -27034,7 +27747,7 @@ din => din_s1.DATAIN
 dout <= dout.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_nios2_oci_break:the_CPU_nios2_cpu_nios2_oci_break
+|LGSM_TOP_V2|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_nios2_oci_break:the_CPU_nios2_cpu_nios2_oci_break
 clk => trigger_state.CLK
 clk => break_readreg[0]~reg0.CLK
 clk => break_readreg[1]~reg0.CLK
@@ -27382,7 +28095,7 @@ xbrk_ctrl3[6] <= <GND>
 xbrk_ctrl3[7] <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_nios2_oci_xbrk:the_CPU_nios2_cpu_nios2_oci_xbrk
+|LGSM_TOP_V2|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_nios2_oci_xbrk:the_CPU_nios2_cpu_nios2_oci_xbrk
 D_valid => ~NO_FANOUT~
 E_valid => xbrk_break~reg0.ENA
 F_pc[0] => ~NO_FANOUT~
@@ -27453,7 +28166,7 @@ xbrk_traceon <= <GND>
 xbrk_trigout <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_nios2_oci_dbrk:the_CPU_nios2_cpu_nios2_oci_dbrk
+|LGSM_TOP_V2|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_nios2_oci_dbrk:the_CPU_nios2_cpu_nios2_oci_dbrk
 E_st_data[0] => cpu_d_writedata[0].DATAIN
 E_st_data[1] => cpu_d_writedata[1].DATAIN
 E_st_data[2] => cpu_d_writedata[2].DATAIN
@@ -27666,7 +28379,7 @@ dbrk_traceon <= dbrk_traceon~reg0.DB_MAX_OUTPUT_PORT_TYPE
 dbrk_trigout <= dbrk_trigout~reg0.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_nios2_oci_itrace:the_CPU_nios2_cpu_nios2_oci_itrace
+|LGSM_TOP_V2|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_nios2_oci_itrace:the_CPU_nios2_cpu_nios2_oci_itrace
 clk => ~NO_FANOUT~
 dbrk_traceoff => ~NO_FANOUT~
 dbrk_traceon => ~NO_FANOUT~
@@ -27746,7 +28459,7 @@ trc_ctrl[15] <= <GND>
 trc_on <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_nios2_oci_dtrace:the_CPU_nios2_cpu_nios2_oci_dtrace
+|LGSM_TOP_V2|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_nios2_oci_dtrace:the_CPU_nios2_cpu_nios2_oci_dtrace
 clk => dtm[0]~reg0.CLK
 clk => dtm[1]~reg0.CLK
 clk => dtm[2]~reg0.CLK
@@ -28074,7 +28787,7 @@ dtm[34] <= dtm[34]~reg0.DB_MAX_OUTPUT_PORT_TYPE
 dtm[35] <= dtm[35]~reg0.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_nios2_oci_dtrace:the_CPU_nios2_cpu_nios2_oci_dtrace|CPU_nios2_cpu_nios2_oci_td_mode:CPU_nios2_cpu_nios2_oci_trc_ctrl_td_mode
+|LGSM_TOP_V2|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_nios2_oci_dtrace:the_CPU_nios2_cpu_nios2_oci_dtrace|CPU_nios2_cpu_nios2_oci_td_mode:CPU_nios2_cpu_nios2_oci_trc_ctrl_td_mode
 ctrl[0] => ~NO_FANOUT~
 ctrl[1] => ~NO_FANOUT~
 ctrl[2] => ~NO_FANOUT~
@@ -28094,7 +28807,7 @@ td_mode[2] <= ctrl[6].DB_MAX_OUTPUT_PORT_TYPE
 td_mode[3] <= ctrl[5].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_nios2_oci_fifo:the_CPU_nios2_cpu_nios2_oci_fifo
+|LGSM_TOP_V2|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_nios2_oci_fifo:the_CPU_nios2_cpu_nios2_oci_fifo
 atm[0] => ~NO_FANOUT~
 atm[1] => ~NO_FANOUT~
 atm[2] => ~NO_FANOUT~
@@ -28260,7 +28973,7 @@ tw[34] <= itm[34].DB_MAX_OUTPUT_PORT_TYPE
 tw[35] <= itm[35].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_nios2_oci_fifo:the_CPU_nios2_cpu_nios2_oci_fifo|CPU_nios2_cpu_nios2_oci_compute_input_tm_cnt:the_CPU_nios2_cpu_nios2_oci_compute_input_tm_cnt
+|LGSM_TOP_V2|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_nios2_oci_fifo:the_CPU_nios2_cpu_nios2_oci_fifo|CPU_nios2_cpu_nios2_oci_compute_input_tm_cnt:the_CPU_nios2_cpu_nios2_oci_compute_input_tm_cnt
 atm_valid => Decoder0.IN1
 dtm_valid => Decoder0.IN2
 itm_valid => Decoder0.IN0
@@ -28268,7 +28981,7 @@ compute_input_tm_cnt[0] <= WideOr1.DB_MAX_OUTPUT_PORT_TYPE
 compute_input_tm_cnt[1] <= WideOr0.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_nios2_oci_fifo:the_CPU_nios2_cpu_nios2_oci_fifo|CPU_nios2_cpu_nios2_oci_fifo_wrptr_inc:the_CPU_nios2_cpu_nios2_oci_fifo_wrptr_inc
+|LGSM_TOP_V2|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_nios2_oci_fifo:the_CPU_nios2_cpu_nios2_oci_fifo|CPU_nios2_cpu_nios2_oci_fifo_wrptr_inc:the_CPU_nios2_cpu_nios2_oci_fifo_wrptr_inc
 ge2_free => always0.IN1
 ge3_free => always0.IN1
 input_tm_cnt[0] => LessThan0.IN4
@@ -28283,7 +28996,7 @@ fifo_wrptr_inc[2] <= <GND>
 fifo_wrptr_inc[3] <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_nios2_oci_fifo:the_CPU_nios2_cpu_nios2_oci_fifo|CPU_nios2_cpu_nios2_oci_fifo_cnt_inc:the_CPU_nios2_cpu_nios2_oci_fifo_cnt_inc
+|LGSM_TOP_V2|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_nios2_oci_fifo:the_CPU_nios2_cpu_nios2_oci_fifo|CPU_nios2_cpu_nios2_oci_fifo_cnt_inc:the_CPU_nios2_cpu_nios2_oci_fifo_cnt_inc
 empty => fifo_cnt_inc.OUTPUTSELECT
 empty => fifo_cnt_inc.OUTPUTSELECT
 empty => fifo_cnt_inc.OUTPUTSELECT
@@ -28306,7 +29019,7 @@ fifo_cnt_inc[3] <= fifo_cnt_inc.DB_MAX_OUTPUT_PORT_TYPE
 fifo_cnt_inc[4] <= fifo_cnt_inc.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_nios2_oci_pib:the_CPU_nios2_cpu_nios2_oci_pib
+|LGSM_TOP_V2|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_nios2_oci_pib:the_CPU_nios2_cpu_nios2_oci_pib
 tr_data[0] <= <GND>
 tr_data[1] <= <GND>
 tr_data[2] <= <GND>
@@ -28345,7 +29058,7 @@ tr_data[34] <= <GND>
 tr_data[35] <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_nios2_oci_im:the_CPU_nios2_cpu_nios2_oci_im
+|LGSM_TOP_V2|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_nios2_oci_im:the_CPU_nios2_cpu_nios2_oci_im
 clk => trc_wrap~reg0.CLK
 clk => trc_im_addr[0]~reg0.CLK
 clk => trc_im_addr[1]~reg0.CLK
@@ -28463,7 +29176,7 @@ trc_wrap <= trc_wrap~reg0.DB_MAX_OUTPUT_PORT_TYPE
 xbrk_wrap_traceoff <= xbrk_wrap_traceoff.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_nios2_avalon_reg:the_CPU_nios2_cpu_nios2_avalon_reg
+|LGSM_TOP_V2|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_nios2_avalon_reg:the_CPU_nios2_cpu_nios2_avalon_reg
 address[0] => Equal0.IN8
 address[0] => Equal1.IN1
 address[1] => Equal0.IN7
@@ -28658,7 +29371,7 @@ ocireg_mrs <= writedata[0].DB_MAX_OUTPUT_PORT_TYPE
 take_action_ocireg <= take_action_ocireg.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_nios2_ocimem:the_CPU_nios2_cpu_nios2_ocimem
+|LGSM_TOP_V2|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_nios2_ocimem:the_CPU_nios2_cpu_nios2_ocimem
 address[0] => ociram_addr.DATAA
 address[1] => ociram_addr.DATAA
 address[2] => ociram_addr.DATAA
@@ -29012,7 +29725,7 @@ ociram_readdata[31] <= CPU_nios2_cpu_ociram_sp_ram_module:CPU_nios2_cpu_ociram_s
 waitrequest <= waitrequest~reg0.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_nios2_ocimem:the_CPU_nios2_cpu_nios2_ocimem|CPU_nios2_cpu_ociram_sp_ram_module:CPU_nios2_cpu_ociram_sp_ram
+|LGSM_TOP_V2|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_nios2_ocimem:the_CPU_nios2_cpu_nios2_ocimem|CPU_nios2_cpu_ociram_sp_ram_module:CPU_nios2_cpu_ociram_sp_ram
 address[0] => address[0].IN1
 address[1] => address[1].IN1
 address[2] => address[2].IN1
@@ -29094,7 +29807,7 @@ q[30] <= altsyncram:the_altsyncram.q_a
 q[31] <= altsyncram:the_altsyncram.q_a
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_nios2_ocimem:the_CPU_nios2_cpu_nios2_ocimem|CPU_nios2_cpu_ociram_sp_ram_module:CPU_nios2_cpu_ociram_sp_ram|altsyncram:the_altsyncram
+|LGSM_TOP_V2|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_nios2_ocimem:the_CPU_nios2_cpu_nios2_ocimem|CPU_nios2_cpu_ociram_sp_ram_module:CPU_nios2_cpu_ociram_sp_ram|altsyncram:the_altsyncram
 wren_a => altsyncram_ac71:auto_generated.wren_a
 rden_a => ~NO_FANOUT~
 wren_b => ~NO_FANOUT~
@@ -29194,7 +29907,7 @@ eccstatus[1] <= <GND>
 eccstatus[2] <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_nios2_ocimem:the_CPU_nios2_cpu_nios2_ocimem|CPU_nios2_cpu_ociram_sp_ram_module:CPU_nios2_cpu_ociram_sp_ram|altsyncram:the_altsyncram|altsyncram_ac71:auto_generated
+|LGSM_TOP_V2|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_nios2_ocimem:the_CPU_nios2_cpu_nios2_ocimem|CPU_nios2_cpu_ociram_sp_ram_module:CPU_nios2_cpu_ociram_sp_ram|altsyncram:the_altsyncram|altsyncram_ac71:auto_generated
 address_a[0] => ram_block1a0.PORTAADDR
 address_a[0] => ram_block1a1.PORTAADDR
 address_a[0] => ram_block1a2.PORTAADDR
@@ -29646,7 +30359,7 @@ wren_a => ram_block1a30.PORTAWE
 wren_a => ram_block1a31.PORTAWE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_debug_slave_wrapper:the_CPU_nios2_cpu_debug_slave_wrapper
+|LGSM_TOP_V2|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_debug_slave_wrapper:the_CPU_nios2_cpu_debug_slave_wrapper
 MonDReg[0] => MonDReg[0].IN1
 MonDReg[1] => MonDReg[1].IN1
 MonDReg[2] => MonDReg[2].IN1
@@ -29822,7 +30535,7 @@ take_no_action_break_c <= CPU_nios2_cpu_debug_slave_sysclk:the_CPU_nios2_cpu_deb
 take_no_action_ocimem_a <= CPU_nios2_cpu_debug_slave_sysclk:the_CPU_nios2_cpu_debug_slave_sysclk.take_no_action_ocimem_a
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_debug_slave_wrapper:the_CPU_nios2_cpu_debug_slave_wrapper|CPU_nios2_cpu_debug_slave_tck:the_CPU_nios2_cpu_debug_slave_tck
+|LGSM_TOP_V2|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_debug_slave_wrapper:the_CPU_nios2_cpu_debug_slave_wrapper|CPU_nios2_cpu_debug_slave_tck:the_CPU_nios2_cpu_debug_slave_tck
 MonDReg[0] => Mux36.IN0
 MonDReg[1] => Mux35.IN0
 MonDReg[2] => Mux34.IN0
@@ -30158,7 +30871,7 @@ st_ready_test_idle <= jtag_state_rti.DB_MAX_OUTPUT_PORT_TYPE
 tdo <= tdo.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_debug_slave_wrapper:the_CPU_nios2_cpu_debug_slave_wrapper|CPU_nios2_cpu_debug_slave_tck:the_CPU_nios2_cpu_debug_slave_tck|altera_std_synchronizer:the_altera_std_synchronizer1
+|LGSM_TOP_V2|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_debug_slave_wrapper:the_CPU_nios2_cpu_debug_slave_wrapper|CPU_nios2_cpu_debug_slave_tck:the_CPU_nios2_cpu_debug_slave_tck|altera_std_synchronizer:the_altera_std_synchronizer1
 clk => dreg[0].CLK
 clk => din_s1.CLK
 reset_n => dreg[0].ACLR
@@ -30167,7 +30880,7 @@ din => din_s1.DATAIN
 dout <= dout.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_debug_slave_wrapper:the_CPU_nios2_cpu_debug_slave_wrapper|CPU_nios2_cpu_debug_slave_tck:the_CPU_nios2_cpu_debug_slave_tck|altera_std_synchronizer:the_altera_std_synchronizer2
+|LGSM_TOP_V2|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_debug_slave_wrapper:the_CPU_nios2_cpu_debug_slave_wrapper|CPU_nios2_cpu_debug_slave_tck:the_CPU_nios2_cpu_debug_slave_tck|altera_std_synchronizer:the_altera_std_synchronizer2
 clk => dreg[0].CLK
 clk => din_s1.CLK
 reset_n => dreg[0].ACLR
@@ -30176,7 +30889,7 @@ din => din_s1.DATAIN
 dout <= dout.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_debug_slave_wrapper:the_CPU_nios2_cpu_debug_slave_wrapper|CPU_nios2_cpu_debug_slave_sysclk:the_CPU_nios2_cpu_debug_slave_sysclk
+|LGSM_TOP_V2|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_debug_slave_wrapper:the_CPU_nios2_cpu_debug_slave_wrapper|CPU_nios2_cpu_debug_slave_sysclk:the_CPU_nios2_cpu_debug_slave_sysclk
 clk => clk.IN2
 ir_in[0] => ir[0].DATAIN
 ir_in[1] => ir[1].DATAIN
@@ -30270,7 +30983,7 @@ take_no_action_break_c <= take_no_action_break_c.DB_MAX_OUTPUT_PORT_TYPE
 take_no_action_ocimem_a <= take_no_action_ocimem_a.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_debug_slave_wrapper:the_CPU_nios2_cpu_debug_slave_wrapper|CPU_nios2_cpu_debug_slave_sysclk:the_CPU_nios2_cpu_debug_slave_sysclk|altera_std_synchronizer:the_altera_std_synchronizer3
+|LGSM_TOP_V2|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_debug_slave_wrapper:the_CPU_nios2_cpu_debug_slave_wrapper|CPU_nios2_cpu_debug_slave_sysclk:the_CPU_nios2_cpu_debug_slave_sysclk|altera_std_synchronizer:the_altera_std_synchronizer3
 clk => dreg[0].CLK
 clk => din_s1.CLK
 reset_n => dreg[0].ACLR
@@ -30279,7 +30992,7 @@ din => din_s1.DATAIN
 dout <= dout.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_debug_slave_wrapper:the_CPU_nios2_cpu_debug_slave_wrapper|CPU_nios2_cpu_debug_slave_sysclk:the_CPU_nios2_cpu_debug_slave_sysclk|altera_std_synchronizer:the_altera_std_synchronizer4
+|LGSM_TOP_V2|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_debug_slave_wrapper:the_CPU_nios2_cpu_debug_slave_wrapper|CPU_nios2_cpu_debug_slave_sysclk:the_CPU_nios2_cpu_debug_slave_sysclk|altera_std_synchronizer:the_altera_std_synchronizer4
 clk => dreg[0].CLK
 clk => din_s1.CLK
 reset_n => dreg[0].ACLR
@@ -30288,7 +31001,7 @@ din => din_s1.DATAIN
 dout <= dout.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_debug_slave_wrapper:the_CPU_nios2_cpu_debug_slave_wrapper|sld_virtual_jtag_basic:CPU_nios2_cpu_debug_slave_phy
+|LGSM_TOP_V2|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_debug_slave_wrapper:the_CPU_nios2_cpu_debug_slave_wrapper|sld_virtual_jtag_basic:CPU_nios2_cpu_debug_slave_phy
 tck <= sld_virtual_jtag_impl:sld_virtual_jtag_impl_inst.usr_tck
 tdi <= sld_virtual_jtag_impl:sld_virtual_jtag_impl_inst.usr_tdi
 ir_in[0] <= sld_virtual_jtag_impl:sld_virtual_jtag_impl_inst.usr_ir_in
@@ -30323,7 +31036,7 @@ jtag_state_e2ir <= sld_virtual_jtag_impl:sld_virtual_jtag_impl_inst.usr_jtag_sta
 jtag_state_uir <= sld_virtual_jtag_impl:sld_virtual_jtag_impl_inst.usr_jtag_state_uir
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_debug_slave_wrapper:the_CPU_nios2_cpu_debug_slave_wrapper|sld_virtual_jtag_basic:CPU_nios2_cpu_debug_slave_phy|sld_virtual_jtag_impl:sld_virtual_jtag_impl_inst
+|LGSM_TOP_V2|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_debug_slave_wrapper:the_CPU_nios2_cpu_debug_slave_wrapper|sld_virtual_jtag_basic:CPU_nios2_cpu_debug_slave_phy|sld_virtual_jtag_impl:sld_virtual_jtag_impl_inst
 usr_tck <= sld_jtag_endpoint_adapter:jtag_signal_adapter.adapted_tck
 usr_tdi <= sld_jtag_endpoint_adapter:jtag_signal_adapter.adapted_tdi
 usr_ir_in[0] <= sld_jtag_endpoint_adapter:jtag_signal_adapter.adapted_ir_in
@@ -30385,7 +31098,7 @@ ir_out[0] <= sld_jtag_endpoint_adapter:jtag_signal_adapter.ir_out
 ir_out[1] <= sld_jtag_endpoint_adapter:jtag_signal_adapter.ir_out
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_debug_slave_wrapper:the_CPU_nios2_cpu_debug_slave_wrapper|sld_virtual_jtag_basic:CPU_nios2_cpu_debug_slave_phy|sld_virtual_jtag_impl:sld_virtual_jtag_impl_inst|sld_jtag_endpoint_adapter:jtag_signal_adapter
+|LGSM_TOP_V2|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_debug_slave_wrapper:the_CPU_nios2_cpu_debug_slave_wrapper|sld_virtual_jtag_basic:CPU_nios2_cpu_debug_slave_phy|sld_virtual_jtag_impl:sld_virtual_jtag_impl_inst|sld_jtag_endpoint_adapter:jtag_signal_adapter
 raw_tck => sld_jtag_endpoint_adapter_impl:sld_jtag_endpoint_adapter_impl_inst.raw_tck
 raw_tms => sld_jtag_endpoint_adapter_impl:sld_jtag_endpoint_adapter_impl_inst.raw_tms
 tdi => sld_jtag_endpoint_adapter_impl:sld_jtag_endpoint_adapter_impl_inst.tdi
@@ -30444,7 +31157,7 @@ adapted_ir_out[0] => sld_jtag_endpoint_adapter_impl:sld_jtag_endpoint_adapter_im
 adapted_ir_out[1] => sld_jtag_endpoint_adapter_impl:sld_jtag_endpoint_adapter_impl_inst.adapted_ir_out[1]
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_debug_slave_wrapper:the_CPU_nios2_cpu_debug_slave_wrapper|sld_virtual_jtag_basic:CPU_nios2_cpu_debug_slave_phy|sld_virtual_jtag_impl:sld_virtual_jtag_impl_inst|sld_jtag_endpoint_adapter:jtag_signal_adapter|sld_jtag_endpoint_adapter_impl:sld_jtag_endpoint_adapter_impl_inst
+|LGSM_TOP_V2|CPU:u0|CPU_nios2:nios2|CPU_nios2_cpu:cpu|CPU_nios2_cpu_nios2_oci:the_CPU_nios2_cpu_nios2_oci|CPU_nios2_cpu_debug_slave_wrapper:the_CPU_nios2_cpu_debug_slave_wrapper|sld_virtual_jtag_basic:CPU_nios2_cpu_debug_slave_phy|sld_virtual_jtag_impl:sld_virtual_jtag_impl_inst|sld_jtag_endpoint_adapter:jtag_signal_adapter|sld_jtag_endpoint_adapter_impl:sld_jtag_endpoint_adapter_impl_inst
 raw_tck => adapted_tck.DATAIN
 raw_tms => adapted_tms.DATAIN
 tdi => adapted_tdi.DATAIN
@@ -30503,7 +31216,7 @@ adapted_ir_out[0] => ir_out[0].DATAIN
 adapted_ir_out[1] => ir_out[1].DATAIN
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_sdram:sdram
+|LGSM_TOP_V2|CPU:u0|CPU_sdram:sdram
 az_addr[0] => az_addr[0].IN1
 az_addr[1] => az_addr[1].IN1
 az_addr[2] => az_addr[2].IN1
@@ -30607,7 +31320,7 @@ zs_ras_n <= zs_ras_n.DB_MAX_OUTPUT_PORT_TYPE
 zs_we_n <= zs_we_n.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_sdram:sdram|CPU_sdram_input_efifo_module:the_CPU_sdram_input_efifo_module
+|LGSM_TOP_V2|CPU:u0|CPU_sdram:sdram|CPU_sdram_input_efifo_module:the_CPU_sdram_input_efifo_module
 clk => entry_0[0].CLK
 clk => entry_0[1].CLK
 clk => entry_0[2].CLK
@@ -30841,7 +31554,7 @@ rd_data[40] <= rd_data.DB_MAX_OUTPUT_PORT_TYPE
 rd_data[41] <= rd_data.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_spi_ADDA:spi_adda
+|LGSM_TOP_V2|CPU:u0|CPU_spi_ADDA:spi_adda
 MISO => MISO_reg.DATAA
 clk => MISO_reg.CLK
 clk => SCLK_reg.CLK
@@ -31253,7 +31966,7 @@ irq <= irq_reg.DB_MAX_OUTPUT_PORT_TYPE
 readyfordata <= TRDY.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_sync_in:sync_in
+|LGSM_TOP_V2|CPU:u0|CPU_sync_in:sync_in
 address[0] => Equal0.IN31
 address[0] => Equal1.IN30
 address[0] => Equal2.IN61
@@ -31404,7 +32117,7 @@ readdata[30] <= readdata[30]~reg0.DB_MAX_OUTPUT_PORT_TYPE
 readdata[31] <= readdata[31]~reg0.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_sysid:sysid
+|LGSM_TOP_V2|CPU:u0|CPU_sysid:sysid
 address => readdata[30].DATAIN
 address => readdata[29].DATAIN
 address => readdata[27].DATAIN
@@ -31413,31 +32126,31 @@ address => readdata[23].DATAIN
 address => readdata[21].DATAIN
 address => readdata[20].DATAIN
 address => readdata[18].DATAIN
-address => readdata[12].DATAIN
+address => readdata[16].DATAIN
+address => readdata[15].DATAIN
 address => readdata[10].DATAIN
-address => readdata[9].DATAIN
-address => readdata[8].DATAIN
+address => readdata[6].DATAIN
 address => readdata[5].DATAIN
-address => readdata[1].DATAIN
+address => readdata[0].DATAIN
 clock => ~NO_FANOUT~
 reset_n => ~NO_FANOUT~
-readdata[0] <= <VCC>
-readdata[1] <= address.DB_MAX_OUTPUT_PORT_TYPE
+readdata[0] <= address.DB_MAX_OUTPUT_PORT_TYPE
+readdata[1] <= <GND>
 readdata[2] <= <GND>
 readdata[3] <= <GND>
 readdata[4] <= <GND>
 readdata[5] <= address.DB_MAX_OUTPUT_PORT_TYPE
-readdata[6] <= <GND>
+readdata[6] <= address.DB_MAX_OUTPUT_PORT_TYPE
 readdata[7] <= <GND>
-readdata[8] <= address.DB_MAX_OUTPUT_PORT_TYPE
-readdata[9] <= address.DB_MAX_OUTPUT_PORT_TYPE
+readdata[8] <= <GND>
+readdata[9] <= <GND>
 readdata[10] <= address.DB_MAX_OUTPUT_PORT_TYPE
 readdata[11] <= <GND>
-readdata[12] <= address.DB_MAX_OUTPUT_PORT_TYPE
+readdata[12] <= <GND>
 readdata[13] <= <GND>
 readdata[14] <= <GND>
-readdata[15] <= <GND>
-readdata[16] <= <GND>
+readdata[15] <= address.DB_MAX_OUTPUT_PORT_TYPE
+readdata[16] <= address.DB_MAX_OUTPUT_PORT_TYPE
 readdata[17] <= <GND>
 readdata[18] <= address.DB_MAX_OUTPUT_PORT_TYPE
 readdata[19] <= <GND>
@@ -31455,7 +32168,7 @@ readdata[30] <= address.DB_MAX_OUTPUT_PORT_TYPE
 readdata[31] <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_uart:uart
+|LGSM_TOP_V2|CPU:u0|CPU_uart:uart
 address[0] => address[0].IN1
 address[1] => address[1].IN1
 address[2] => address[2].IN1
@@ -31504,7 +32217,7 @@ readyfordata <= CPU_uart_regs:the_CPU_uart_regs.readyfordata
 txd <= CPU_uart_tx:the_CPU_uart_tx.txd
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_uart:uart|CPU_uart_tx:the_CPU_uart_tx
+|LGSM_TOP_V2|CPU:u0|CPU_uart:uart|CPU_uart_tx:the_CPU_uart_tx
 baud_divisor[0] => baud_rate_counter.DATAB
 baud_divisor[1] => baud_rate_counter.DATAB
 baud_divisor[2] => baud_rate_counter.DATAB
@@ -31637,7 +32350,7 @@ tx_shift_empty <= tx_shift_empty~reg0.DB_MAX_OUTPUT_PORT_TYPE
 txd <= txd~reg0.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_uart:uart|CPU_uart_rx:the_CPU_uart_rx
+|LGSM_TOP_V2|CPU:u0|CPU_uart:uart|CPU_uart_rx:the_CPU_uart_rx
 baud_divisor[0] => baud_divisor[0].IN1
 baud_divisor[1] => baud_divisor[1].IN1
 baud_divisor[2] => baud_divisor[2].IN1
@@ -31678,7 +32391,7 @@ rx_data[7] <= rx_data[7]~reg0.DB_MAX_OUTPUT_PORT_TYPE
 rx_overrun <= rx_overrun~reg0.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_uart:uart|CPU_uart_rx:the_CPU_uart_rx|CPU_uart_rx_stimulus_source:the_CPU_uart_rx_stimulus_source
+|LGSM_TOP_V2|CPU:u0|CPU_uart:uart|CPU_uart_rx:the_CPU_uart_rx|CPU_uart_rx_stimulus_source:the_CPU_uart_rx_stimulus_source
 baud_divisor[0] => ~NO_FANOUT~
 baud_divisor[1] => ~NO_FANOUT~
 baud_divisor[2] => ~NO_FANOUT~
@@ -31703,7 +32416,7 @@ rxd => source_rxd.DATAIN
 source_rxd <= rxd.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_uart:uart|CPU_uart_rx:the_CPU_uart_rx|altera_std_synchronizer:the_altera_std_synchronizer
+|LGSM_TOP_V2|CPU:u0|CPU_uart:uart|CPU_uart_rx:the_CPU_uart_rx|altera_std_synchronizer:the_altera_std_synchronizer
 clk => dreg[0].CLK
 clk => din_s1.CLK
 reset_n => dreg[0].ACLR
@@ -31712,7 +32425,7 @@ din => din_s1.DATAIN
 dout <= dout.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_uart:uart|CPU_uart_regs:the_CPU_uart_regs
+|LGSM_TOP_V2|CPU:u0|CPU_uart:uart|CPU_uart_regs:the_CPU_uart_regs
 address[0] => Equal0.IN2
 address[0] => Equal1.IN1
 address[0] => Equal2.IN2
@@ -31971,7 +32684,7 @@ tx_data[7] <= tx_data[7]~reg0.DB_MAX_OUTPUT_PORT_TYPE
 tx_wr_strobe <= tx_wr_strobe.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_uart_dbg:uart_dbg
+|LGSM_TOP_V2|CPU:u0|CPU_uart_dbg:uart_dbg
 address[0] => address[0].IN1
 address[1] => address[1].IN1
 address[2] => address[2].IN1
@@ -32020,7 +32733,7 @@ readyfordata <= CPU_uart_dbg_regs:the_CPU_uart_dbg_regs.readyfordata
 txd <= CPU_uart_dbg_tx:the_CPU_uart_dbg_tx.txd
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_uart_dbg:uart_dbg|CPU_uart_dbg_tx:the_CPU_uart_dbg_tx
+|LGSM_TOP_V2|CPU:u0|CPU_uart_dbg:uart_dbg|CPU_uart_dbg_tx:the_CPU_uart_dbg_tx
 baud_divisor[0] => baud_rate_counter.DATAB
 baud_divisor[1] => baud_rate_counter.DATAB
 baud_divisor[2] => baud_rate_counter.DATAB
@@ -32129,7 +32842,7 @@ tx_shift_empty <= tx_shift_empty~reg0.DB_MAX_OUTPUT_PORT_TYPE
 txd <= txd~reg0.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_uart_dbg:uart_dbg|CPU_uart_dbg_rx:the_CPU_uart_dbg_rx
+|LGSM_TOP_V2|CPU:u0|CPU_uart_dbg:uart_dbg|CPU_uart_dbg_rx:the_CPU_uart_dbg_rx
 baud_divisor[0] => baud_divisor[0].IN1
 baud_divisor[1] => baud_divisor[1].IN1
 baud_divisor[2] => baud_divisor[2].IN1
@@ -32164,7 +32877,7 @@ rx_data[7] <= rx_data[7]~reg0.DB_MAX_OUTPUT_PORT_TYPE
 rx_overrun <= rx_overrun~reg0.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_uart_dbg:uart_dbg|CPU_uart_dbg_rx:the_CPU_uart_dbg_rx|CPU_uart_dbg_rx_stimulus_source:the_CPU_uart_dbg_rx_stimulus_source
+|LGSM_TOP_V2|CPU:u0|CPU_uart_dbg:uart_dbg|CPU_uart_dbg_rx:the_CPU_uart_dbg_rx|CPU_uart_dbg_rx_stimulus_source:the_CPU_uart_dbg_rx_stimulus_source
 baud_divisor[0] => ~NO_FANOUT~
 baud_divisor[1] => ~NO_FANOUT~
 baud_divisor[2] => ~NO_FANOUT~
@@ -32183,7 +32896,7 @@ rxd => source_rxd.DATAIN
 source_rxd <= rxd.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_uart_dbg:uart_dbg|CPU_uart_dbg_rx:the_CPU_uart_dbg_rx|altera_std_synchronizer:the_altera_std_synchronizer
+|LGSM_TOP_V2|CPU:u0|CPU_uart_dbg:uart_dbg|CPU_uart_dbg_rx:the_CPU_uart_dbg_rx|altera_std_synchronizer:the_altera_std_synchronizer
 clk => dreg[0].CLK
 clk => din_s1.CLK
 reset_n => dreg[0].ACLR
@@ -32192,7 +32905,7 @@ din => din_s1.DATAIN
 dout <= dout.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_uart_dbg:uart_dbg|CPU_uart_dbg_regs:the_CPU_uart_dbg_regs
+|LGSM_TOP_V2|CPU:u0|CPU_uart_dbg:uart_dbg|CPU_uart_dbg_regs:the_CPU_uart_dbg_regs
 address[0] => Equal0.IN2
 address[0] => Equal1.IN2
 address[0] => Equal2.IN2
@@ -32400,7 +33113,7 @@ tx_data[7] <= tx_data[7]~reg0.DB_MAX_OUTPUT_PORT_TYPE
 tx_wr_strobe <= tx_wr_strobe.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0
 clk_CPU_clk_clk => clk_CPU_clk_clk.IN105
 jtag_uart_reset_reset_bridge_in_reset_reset => jtag_uart_reset_reset_bridge_in_reset_reset.IN88
 nios2_reset_reset_bridge_in_reset_reset => nios2_reset_reset_bridge_in_reset_reset.IN17
@@ -33346,7 +34059,7 @@ VarSet_1_avalon_slave_writedata[31] <= altera_merlin_slave_translator:varset_1_a
 VarSet_1_avalon_slave_chipselect <= altera_merlin_slave_translator:varset_1_avalon_slave_translator.av_chipselect
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_master_translator:nios2_data_master_translator
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_master_translator:nios2_data_master_translator
 clk => end_begintransfer.CLK
 clk => write_accepted.CLK
 clk => read_accepted.CLK
@@ -33579,7 +34292,7 @@ av_response[1] <= <GND>
 av_writeresponsevalid <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_master_translator:nios2_instruction_master_translator
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_master_translator:nios2_instruction_master_translator
 clk => read_accepted.CLK
 reset => read_accepted.ACLR
 uav_write <= <GND>
@@ -33804,7 +34517,7 @@ av_response[1] <= <GND>
 av_writeresponsevalid <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_translator:jtag_uart_avalon_jtag_slave_translator
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_translator:jtag_uart_avalon_jtag_slave_translator
 clk => in_transfer.CLK
 clk => end_beginbursttransfer.CLK
 clk => end_begintransfer.CLK
@@ -34088,7 +34801,7 @@ av_response[1] => ~NO_FANOUT~
 av_writeresponsevalid => uav_writeresponsevalid.DATAIN
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_translator:varset_1_avalon_slave_translator
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_translator:varset_1_avalon_slave_translator
 clk => in_transfer.CLK
 clk => end_beginbursttransfer.CLK
 clk => end_begintransfer.CLK
@@ -34392,7 +35105,7 @@ av_response[1] => ~NO_FANOUT~
 av_writeresponsevalid => uav_writeresponsevalid.DATAIN
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_translator:sysid_control_slave_translator
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_translator:sysid_control_slave_translator
 clk => in_transfer.CLK
 clk => end_beginbursttransfer.CLK
 clk => end_begintransfer.CLK
@@ -34690,7 +35403,7 @@ av_response[1] => ~NO_FANOUT~
 av_writeresponsevalid => uav_writeresponsevalid.DATAIN
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_translator:nios2_debug_mem_slave_translator
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_translator:nios2_debug_mem_slave_translator
 clk => in_transfer.CLK
 clk => end_beginbursttransfer.CLK
 clk => end_begintransfer.CLK
@@ -34994,7 +35707,7 @@ av_response[1] => ~NO_FANOUT~
 av_writeresponsevalid => uav_writeresponsevalid.DATAIN
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_translator:epcs_epcs_control_port_translator
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_translator:epcs_epcs_control_port_translator
 clk => in_transfer.CLK
 clk => end_beginbursttransfer.CLK
 clk => end_begintransfer.CLK
@@ -35299,7 +36012,7 @@ av_response[1] => ~NO_FANOUT~
 av_writeresponsevalid => uav_writeresponsevalid.DATAIN
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_translator:sdram_s1_translator
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_translator:sdram_s1_translator
 clk => in_transfer.CLK
 clk => end_beginbursttransfer.CLK
 clk => end_begintransfer.CLK
@@ -35474,7 +36187,7 @@ av_response[1] => ~NO_FANOUT~
 av_writeresponsevalid => uav_writeresponsevalid.DATAIN
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_translator:uart_s1_translator
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_translator:uart_s1_translator
 clk => in_transfer.CLK
 clk => end_beginbursttransfer.CLK
 clk => end_begintransfer.CLK
@@ -35697,7 +36410,7 @@ av_response[1] => ~NO_FANOUT~
 av_writeresponsevalid => uav_writeresponsevalid.DATAIN
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_translator:i2c_scl_s1_translator
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_translator:i2c_scl_s1_translator
 clk => in_transfer.CLK
 clk => end_beginbursttransfer.CLK
 clk => end_begintransfer.CLK
@@ -35984,7 +36697,7 @@ av_response[1] => ~NO_FANOUT~
 av_writeresponsevalid => uav_writeresponsevalid.DATAIN
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_translator:i2c_sda_s1_translator
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_translator:i2c_sda_s1_translator
 clk => in_transfer.CLK
 clk => end_beginbursttransfer.CLK
 clk => end_begintransfer.CLK
@@ -36271,7 +36984,7 @@ av_response[1] => ~NO_FANOUT~
 av_writeresponsevalid => uav_writeresponsevalid.DATAIN
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_translator:sync_in_s1_translator
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_translator:sync_in_s1_translator
 clk => in_transfer.CLK
 clk => end_beginbursttransfer.CLK
 clk => end_begintransfer.CLK
@@ -36558,7 +37271,7 @@ av_response[1] => ~NO_FANOUT~
 av_writeresponsevalid => uav_writeresponsevalid.DATAIN
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_translator:dac_rst_s1_translator
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_translator:dac_rst_s1_translator
 clk => in_transfer.CLK
 clk => end_beginbursttransfer.CLK
 clk => end_begintransfer.CLK
@@ -36845,7 +37558,7 @@ av_response[1] => ~NO_FANOUT~
 av_writeresponsevalid => uav_writeresponsevalid.DATAIN
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_translator:uart_dbg_s1_translator
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_translator:uart_dbg_s1_translator
 clk => in_transfer.CLK
 clk => end_beginbursttransfer.CLK
 clk => end_begintransfer.CLK
@@ -37068,7 +37781,7 @@ av_response[1] => ~NO_FANOUT~
 av_writeresponsevalid => uav_writeresponsevalid.DATAIN
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_translator:spi_adda_spi_control_port_translator
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_translator:spi_adda_spi_control_port_translator
 clk => in_transfer.CLK
 clk => end_beginbursttransfer.CLK
 clk => end_begintransfer.CLK
@@ -37291,7 +38004,7 @@ av_response[1] => ~NO_FANOUT~
 av_writeresponsevalid => uav_writeresponsevalid.DATAIN
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_master_agent:nios2_data_master_agent
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_master_agent:nios2_data_master_agent
 clk => hold_waitrequest.CLK
 reset => hold_waitrequest.PRESET
 av_address[0] => ~NO_FANOUT~
@@ -37634,7 +38347,7 @@ rp_endofpacket => ~NO_FANOUT~
 rp_ready <= <VCC>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_master_agent:nios2_instruction_master_agent
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_master_agent:nios2_instruction_master_agent
 clk => hold_waitrequest.CLK
 reset => hold_waitrequest.PRESET
 av_address[0] => ~NO_FANOUT~
@@ -37977,7 +38690,7 @@ rp_endofpacket => ~NO_FANOUT~
 rp_ready <= <VCC>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:jtag_uart_avalon_jtag_slave_agent
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:jtag_uart_avalon_jtag_slave_agent
 clk => clk.IN1
 reset => reset.IN1
 m0_address[0] <= <GND>
@@ -38661,7 +39374,7 @@ rp_startofpacket <= altera_merlin_burst_uncompressor:uncompressor.source_startof
 rp_endofpacket <= altera_merlin_burst_uncompressor:uncompressor.source_endofpacket
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:jtag_uart_avalon_jtag_slave_agent|altera_merlin_burst_uncompressor:uncompressor
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:jtag_uart_avalon_jtag_slave_agent|altera_merlin_burst_uncompressor:uncompressor
 clk => burst_uncompress_address_offset[0].CLK
 clk => burst_uncompress_address_offset[1].CLK
 clk => burst_uncompress_address_offset[2].CLK
@@ -38977,7 +39690,7 @@ source_burstsize[1] <= sink_burstsize[1].DB_MAX_OUTPUT_PORT_TYPE
 source_burstsize[2] <= sink_burstsize[2].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_avalon_sc_fifo:jtag_uart_avalon_jtag_slave_agent_rsp_fifo
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_avalon_sc_fifo:jtag_uart_avalon_jtag_slave_agent_rsp_fifo
 clk => csr_readdata[0]~reg0.CLK
 clk => csr_readdata[1]~reg0.CLK
 clk => csr_readdata[2]~reg0.CLK
@@ -39802,7 +40515,7 @@ almost_full_data <= <GND>
 almost_empty_data <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:varset_1_avalon_slave_agent
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:varset_1_avalon_slave_agent
 clk => clk.IN1
 reset => reset.IN1
 m0_address[0] <= <GND>
@@ -40486,7 +41199,7 @@ rp_startofpacket <= altera_merlin_burst_uncompressor:uncompressor.source_startof
 rp_endofpacket <= altera_merlin_burst_uncompressor:uncompressor.source_endofpacket
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:varset_1_avalon_slave_agent|altera_merlin_burst_uncompressor:uncompressor
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:varset_1_avalon_slave_agent|altera_merlin_burst_uncompressor:uncompressor
 clk => burst_uncompress_address_offset[0].CLK
 clk => burst_uncompress_address_offset[1].CLK
 clk => burst_uncompress_address_offset[2].CLK
@@ -40802,7 +41515,7 @@ source_burstsize[1] <= sink_burstsize[1].DB_MAX_OUTPUT_PORT_TYPE
 source_burstsize[2] <= sink_burstsize[2].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_avalon_sc_fifo:varset_1_avalon_slave_agent_rsp_fifo
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_avalon_sc_fifo:varset_1_avalon_slave_agent_rsp_fifo
 clk => csr_readdata[0]~reg0.CLK
 clk => csr_readdata[1]~reg0.CLK
 clk => csr_readdata[2]~reg0.CLK
@@ -41627,7 +42340,7 @@ almost_full_data <= <GND>
 almost_empty_data <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:sysid_control_slave_agent
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:sysid_control_slave_agent
 clk => clk.IN1
 reset => reset.IN1
 m0_address[0] <= <GND>
@@ -42311,7 +43024,7 @@ rp_startofpacket <= altera_merlin_burst_uncompressor:uncompressor.source_startof
 rp_endofpacket <= altera_merlin_burst_uncompressor:uncompressor.source_endofpacket
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:sysid_control_slave_agent|altera_merlin_burst_uncompressor:uncompressor
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:sysid_control_slave_agent|altera_merlin_burst_uncompressor:uncompressor
 clk => burst_uncompress_address_offset[0].CLK
 clk => burst_uncompress_address_offset[1].CLK
 clk => burst_uncompress_address_offset[2].CLK
@@ -42627,7 +43340,7 @@ source_burstsize[1] <= sink_burstsize[1].DB_MAX_OUTPUT_PORT_TYPE
 source_burstsize[2] <= sink_burstsize[2].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_avalon_sc_fifo:sysid_control_slave_agent_rsp_fifo
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_avalon_sc_fifo:sysid_control_slave_agent_rsp_fifo
 clk => csr_readdata[0]~reg0.CLK
 clk => csr_readdata[1]~reg0.CLK
 clk => csr_readdata[2]~reg0.CLK
@@ -43452,7 +44165,7 @@ almost_full_data <= <GND>
 almost_empty_data <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:nios2_debug_mem_slave_agent
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:nios2_debug_mem_slave_agent
 clk => clk.IN1
 reset => reset.IN1
 m0_address[0] <= <GND>
@@ -44136,7 +44849,7 @@ rp_startofpacket <= altera_merlin_burst_uncompressor:uncompressor.source_startof
 rp_endofpacket <= altera_merlin_burst_uncompressor:uncompressor.source_endofpacket
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:nios2_debug_mem_slave_agent|altera_merlin_burst_uncompressor:uncompressor
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:nios2_debug_mem_slave_agent|altera_merlin_burst_uncompressor:uncompressor
 clk => burst_uncompress_address_offset[0].CLK
 clk => burst_uncompress_address_offset[1].CLK
 clk => burst_uncompress_address_offset[2].CLK
@@ -44452,7 +45165,7 @@ source_burstsize[1] <= sink_burstsize[1].DB_MAX_OUTPUT_PORT_TYPE
 source_burstsize[2] <= sink_burstsize[2].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_avalon_sc_fifo:nios2_debug_mem_slave_agent_rsp_fifo
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_avalon_sc_fifo:nios2_debug_mem_slave_agent_rsp_fifo
 clk => csr_readdata[0]~reg0.CLK
 clk => csr_readdata[1]~reg0.CLK
 clk => csr_readdata[2]~reg0.CLK
@@ -45277,7 +45990,7 @@ almost_full_data <= <GND>
 almost_empty_data <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:epcs_epcs_control_port_agent
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:epcs_epcs_control_port_agent
 clk => clk.IN1
 reset => reset.IN1
 m0_address[0] <= <GND>
@@ -45961,7 +46674,7 @@ rp_startofpacket <= altera_merlin_burst_uncompressor:uncompressor.source_startof
 rp_endofpacket <= altera_merlin_burst_uncompressor:uncompressor.source_endofpacket
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:epcs_epcs_control_port_agent|altera_merlin_burst_uncompressor:uncompressor
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:epcs_epcs_control_port_agent|altera_merlin_burst_uncompressor:uncompressor
 clk => burst_uncompress_address_offset[0].CLK
 clk => burst_uncompress_address_offset[1].CLK
 clk => burst_uncompress_address_offset[2].CLK
@@ -46277,7 +46990,7 @@ source_burstsize[1] <= sink_burstsize[1].DB_MAX_OUTPUT_PORT_TYPE
 source_burstsize[2] <= sink_burstsize[2].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_avalon_sc_fifo:epcs_epcs_control_port_agent_rsp_fifo
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_avalon_sc_fifo:epcs_epcs_control_port_agent_rsp_fifo
 clk => csr_readdata[0]~reg0.CLK
 clk => csr_readdata[1]~reg0.CLK
 clk => csr_readdata[2]~reg0.CLK
@@ -47102,7 +47815,7 @@ almost_full_data <= <GND>
 almost_empty_data <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:sdram_s1_agent
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:sdram_s1_agent
 clk => clk.IN1
 reset => reset.IN1
 m0_address[0] <= <GND>
@@ -47647,7 +48360,7 @@ rp_startofpacket <= altera_merlin_burst_uncompressor:uncompressor.source_startof
 rp_endofpacket <= altera_merlin_burst_uncompressor:uncompressor.source_endofpacket
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:sdram_s1_agent|altera_merlin_burst_uncompressor:uncompressor
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:sdram_s1_agent|altera_merlin_burst_uncompressor:uncompressor
 clk => burst_uncompress_address_offset[0].CLK
 clk => burst_uncompress_address_offset[1].CLK
 clk => burst_uncompress_address_offset[2].CLK
@@ -47963,7 +48676,7 @@ source_burstsize[1] <= sink_burstsize[1].DB_MAX_OUTPUT_PORT_TYPE
 source_burstsize[2] <= sink_burstsize[2].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_avalon_sc_fifo:sdram_s1_agent_rsp_fifo
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_avalon_sc_fifo:sdram_s1_agent_rsp_fifo
 clk => csr_readdata[0]~reg0.CLK
 clk => csr_readdata[1]~reg0.CLK
 clk => csr_readdata[2]~reg0.CLK
@@ -50294,7 +51007,7 @@ almost_full_data <= <GND>
 almost_empty_data <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_avalon_sc_fifo:sdram_s1_agent_rdata_fifo
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_avalon_sc_fifo:sdram_s1_agent_rdata_fifo
 clk => mem.we_a.CLK
 clk => mem.waddr_a[2].CLK
 clk => mem.waddr_a[1].CLK
@@ -50628,7 +51341,7 @@ almost_full_data <= <GND>
 almost_empty_data <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:uart_s1_agent
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:uart_s1_agent
 clk => clk.IN1
 reset => reset.IN1
 m0_address[0] <= <GND>
@@ -51312,7 +52025,7 @@ rp_startofpacket <= altera_merlin_burst_uncompressor:uncompressor.source_startof
 rp_endofpacket <= altera_merlin_burst_uncompressor:uncompressor.source_endofpacket
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:uart_s1_agent|altera_merlin_burst_uncompressor:uncompressor
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:uart_s1_agent|altera_merlin_burst_uncompressor:uncompressor
 clk => burst_uncompress_address_offset[0].CLK
 clk => burst_uncompress_address_offset[1].CLK
 clk => burst_uncompress_address_offset[2].CLK
@@ -51628,7 +52341,7 @@ source_burstsize[1] <= sink_burstsize[1].DB_MAX_OUTPUT_PORT_TYPE
 source_burstsize[2] <= sink_burstsize[2].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_avalon_sc_fifo:uart_s1_agent_rsp_fifo
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_avalon_sc_fifo:uart_s1_agent_rsp_fifo
 clk => csr_readdata[0]~reg0.CLK
 clk => csr_readdata[1]~reg0.CLK
 clk => csr_readdata[2]~reg0.CLK
@@ -52453,7 +53166,7 @@ almost_full_data <= <GND>
 almost_empty_data <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:i2c_scl_s1_agent
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:i2c_scl_s1_agent
 clk => clk.IN1
 reset => reset.IN1
 m0_address[0] <= <GND>
@@ -53137,7 +53850,7 @@ rp_startofpacket <= altera_merlin_burst_uncompressor:uncompressor.source_startof
 rp_endofpacket <= altera_merlin_burst_uncompressor:uncompressor.source_endofpacket
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:i2c_scl_s1_agent|altera_merlin_burst_uncompressor:uncompressor
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:i2c_scl_s1_agent|altera_merlin_burst_uncompressor:uncompressor
 clk => burst_uncompress_address_offset[0].CLK
 clk => burst_uncompress_address_offset[1].CLK
 clk => burst_uncompress_address_offset[2].CLK
@@ -53453,7 +54166,7 @@ source_burstsize[1] <= sink_burstsize[1].DB_MAX_OUTPUT_PORT_TYPE
 source_burstsize[2] <= sink_burstsize[2].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_avalon_sc_fifo:i2c_scl_s1_agent_rsp_fifo
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_avalon_sc_fifo:i2c_scl_s1_agent_rsp_fifo
 clk => csr_readdata[0]~reg0.CLK
 clk => csr_readdata[1]~reg0.CLK
 clk => csr_readdata[2]~reg0.CLK
@@ -54278,7 +54991,7 @@ almost_full_data <= <GND>
 almost_empty_data <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:i2c_sda_s1_agent
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:i2c_sda_s1_agent
 clk => clk.IN1
 reset => reset.IN1
 m0_address[0] <= <GND>
@@ -54962,7 +55675,7 @@ rp_startofpacket <= altera_merlin_burst_uncompressor:uncompressor.source_startof
 rp_endofpacket <= altera_merlin_burst_uncompressor:uncompressor.source_endofpacket
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:i2c_sda_s1_agent|altera_merlin_burst_uncompressor:uncompressor
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:i2c_sda_s1_agent|altera_merlin_burst_uncompressor:uncompressor
 clk => burst_uncompress_address_offset[0].CLK
 clk => burst_uncompress_address_offset[1].CLK
 clk => burst_uncompress_address_offset[2].CLK
@@ -55278,7 +55991,7 @@ source_burstsize[1] <= sink_burstsize[1].DB_MAX_OUTPUT_PORT_TYPE
 source_burstsize[2] <= sink_burstsize[2].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_avalon_sc_fifo:i2c_sda_s1_agent_rsp_fifo
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_avalon_sc_fifo:i2c_sda_s1_agent_rsp_fifo
 clk => csr_readdata[0]~reg0.CLK
 clk => csr_readdata[1]~reg0.CLK
 clk => csr_readdata[2]~reg0.CLK
@@ -56103,7 +56816,7 @@ almost_full_data <= <GND>
 almost_empty_data <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:sync_in_s1_agent
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:sync_in_s1_agent
 clk => clk.IN1
 reset => reset.IN1
 m0_address[0] <= <GND>
@@ -56787,7 +57500,7 @@ rp_startofpacket <= altera_merlin_burst_uncompressor:uncompressor.source_startof
 rp_endofpacket <= altera_merlin_burst_uncompressor:uncompressor.source_endofpacket
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:sync_in_s1_agent|altera_merlin_burst_uncompressor:uncompressor
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:sync_in_s1_agent|altera_merlin_burst_uncompressor:uncompressor
 clk => burst_uncompress_address_offset[0].CLK
 clk => burst_uncompress_address_offset[1].CLK
 clk => burst_uncompress_address_offset[2].CLK
@@ -57103,7 +57816,7 @@ source_burstsize[1] <= sink_burstsize[1].DB_MAX_OUTPUT_PORT_TYPE
 source_burstsize[2] <= sink_burstsize[2].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_avalon_sc_fifo:sync_in_s1_agent_rsp_fifo
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_avalon_sc_fifo:sync_in_s1_agent_rsp_fifo
 clk => csr_readdata[0]~reg0.CLK
 clk => csr_readdata[1]~reg0.CLK
 clk => csr_readdata[2]~reg0.CLK
@@ -57928,7 +58641,7 @@ almost_full_data <= <GND>
 almost_empty_data <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:dac_rst_s1_agent
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:dac_rst_s1_agent
 clk => clk.IN1
 reset => reset.IN1
 m0_address[0] <= <GND>
@@ -58612,7 +59325,7 @@ rp_startofpacket <= altera_merlin_burst_uncompressor:uncompressor.source_startof
 rp_endofpacket <= altera_merlin_burst_uncompressor:uncompressor.source_endofpacket
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:dac_rst_s1_agent|altera_merlin_burst_uncompressor:uncompressor
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:dac_rst_s1_agent|altera_merlin_burst_uncompressor:uncompressor
 clk => burst_uncompress_address_offset[0].CLK
 clk => burst_uncompress_address_offset[1].CLK
 clk => burst_uncompress_address_offset[2].CLK
@@ -58928,7 +59641,7 @@ source_burstsize[1] <= sink_burstsize[1].DB_MAX_OUTPUT_PORT_TYPE
 source_burstsize[2] <= sink_burstsize[2].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_avalon_sc_fifo:dac_rst_s1_agent_rsp_fifo
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_avalon_sc_fifo:dac_rst_s1_agent_rsp_fifo
 clk => csr_readdata[0]~reg0.CLK
 clk => csr_readdata[1]~reg0.CLK
 clk => csr_readdata[2]~reg0.CLK
@@ -59753,7 +60466,7 @@ almost_full_data <= <GND>
 almost_empty_data <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:uart_dbg_s1_agent
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:uart_dbg_s1_agent
 clk => clk.IN1
 reset => reset.IN1
 m0_address[0] <= <GND>
@@ -60437,7 +61150,7 @@ rp_startofpacket <= altera_merlin_burst_uncompressor:uncompressor.source_startof
 rp_endofpacket <= altera_merlin_burst_uncompressor:uncompressor.source_endofpacket
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:uart_dbg_s1_agent|altera_merlin_burst_uncompressor:uncompressor
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:uart_dbg_s1_agent|altera_merlin_burst_uncompressor:uncompressor
 clk => burst_uncompress_address_offset[0].CLK
 clk => burst_uncompress_address_offset[1].CLK
 clk => burst_uncompress_address_offset[2].CLK
@@ -60753,7 +61466,7 @@ source_burstsize[1] <= sink_burstsize[1].DB_MAX_OUTPUT_PORT_TYPE
 source_burstsize[2] <= sink_burstsize[2].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_avalon_sc_fifo:uart_dbg_s1_agent_rsp_fifo
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_avalon_sc_fifo:uart_dbg_s1_agent_rsp_fifo
 clk => csr_readdata[0]~reg0.CLK
 clk => csr_readdata[1]~reg0.CLK
 clk => csr_readdata[2]~reg0.CLK
@@ -61578,7 +62291,7 @@ almost_full_data <= <GND>
 almost_empty_data <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:spi_adda_spi_control_port_agent
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:spi_adda_spi_control_port_agent
 clk => clk.IN1
 reset => reset.IN1
 m0_address[0] <= <GND>
@@ -62262,7 +62975,7 @@ rp_startofpacket <= altera_merlin_burst_uncompressor:uncompressor.source_startof
 rp_endofpacket <= altera_merlin_burst_uncompressor:uncompressor.source_endofpacket
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:spi_adda_spi_control_port_agent|altera_merlin_burst_uncompressor:uncompressor
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:spi_adda_spi_control_port_agent|altera_merlin_burst_uncompressor:uncompressor
 clk => burst_uncompress_address_offset[0].CLK
 clk => burst_uncompress_address_offset[1].CLK
 clk => burst_uncompress_address_offset[2].CLK
@@ -62578,7 +63291,7 @@ source_burstsize[1] <= sink_burstsize[1].DB_MAX_OUTPUT_PORT_TYPE
 source_burstsize[2] <= sink_burstsize[2].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_avalon_sc_fifo:spi_adda_spi_control_port_agent_rsp_fifo
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_avalon_sc_fifo:spi_adda_spi_control_port_agent_rsp_fifo
 clk => csr_readdata[0]~reg0.CLK
 clk => csr_readdata[1]~reg0.CLK
 clk => csr_readdata[2]~reg0.CLK
@@ -63403,7 +64116,7 @@ almost_full_data <= <GND>
 almost_empty_data <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router:router
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router:router
 clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 sink_valid => src_valid.DATAIN
@@ -63884,7 +64597,7 @@ src_endofpacket <= sink_endofpacket.DB_MAX_OUTPUT_PORT_TYPE
 src_ready => sink_ready.DATAIN
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router:router|CPU_mm_interconnect_0_router_default_decode:the_default_decode
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router:router|CPU_mm_interconnect_0_router_default_decode:the_default_decode
 default_destination_id[0] <= <VCC>
 default_destination_id[1] <= <VCC>
 default_destination_id[2] <= <VCC>
@@ -63930,7 +64643,7 @@ default_src_channel[11] <= <GND>
 default_src_channel[12] <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_001:router_001
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_001:router_001
 clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 sink_valid => src_valid.DATAIN
@@ -64196,7 +64909,7 @@ src_endofpacket <= sink_endofpacket.DB_MAX_OUTPUT_PORT_TYPE
 src_ready => sink_ready.DATAIN
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_001:router_001|CPU_mm_interconnect_0_router_001_default_decode:the_default_decode
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_001:router_001|CPU_mm_interconnect_0_router_001_default_decode:the_default_decode
 default_destination_id[0] <= <VCC>
 default_destination_id[1] <= <VCC>
 default_destination_id[2] <= <VCC>
@@ -64242,7 +64955,7 @@ default_src_channel[11] <= <GND>
 default_src_channel[12] <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_002:router_002
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_002:router_002
 clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 sink_valid => src_valid.DATAIN
@@ -64480,7 +65193,7 @@ src_endofpacket <= sink_endofpacket.DB_MAX_OUTPUT_PORT_TYPE
 src_ready => sink_ready.DATAIN
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_002:router_002|CPU_mm_interconnect_0_router_002_default_decode:the_default_decode
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_002:router_002|CPU_mm_interconnect_0_router_002_default_decode:the_default_decode
 default_destination_id[0] <= <GND>
 default_destination_id[1] <= <GND>
 default_destination_id[2] <= <GND>
@@ -64526,7 +65239,7 @@ default_src_channel[11] <= <GND>
 default_src_channel[12] <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_002:router_003
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_002:router_003
 clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 sink_valid => src_valid.DATAIN
@@ -64764,7 +65477,7 @@ src_endofpacket <= sink_endofpacket.DB_MAX_OUTPUT_PORT_TYPE
 src_ready => sink_ready.DATAIN
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_002:router_003|CPU_mm_interconnect_0_router_002_default_decode:the_default_decode
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_002:router_003|CPU_mm_interconnect_0_router_002_default_decode:the_default_decode
 default_destination_id[0] <= <GND>
 default_destination_id[1] <= <GND>
 default_destination_id[2] <= <GND>
@@ -64810,7 +65523,7 @@ default_src_channel[11] <= <GND>
 default_src_channel[12] <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_002:router_004
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_002:router_004
 clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 sink_valid => src_valid.DATAIN
@@ -65048,7 +65761,7 @@ src_endofpacket <= sink_endofpacket.DB_MAX_OUTPUT_PORT_TYPE
 src_ready => sink_ready.DATAIN
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_002:router_004|CPU_mm_interconnect_0_router_002_default_decode:the_default_decode
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_002:router_004|CPU_mm_interconnect_0_router_002_default_decode:the_default_decode
 default_destination_id[0] <= <GND>
 default_destination_id[1] <= <GND>
 default_destination_id[2] <= <GND>
@@ -65094,296 +65807,7 @@ default_src_channel[11] <= <GND>
 default_src_channel[12] <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_005:router_005
-clk => ~NO_FANOUT~
-reset => ~NO_FANOUT~
-sink_valid => src_valid.DATAIN
-sink_data[0] => src_data[0].DATAIN
-sink_data[1] => src_data[1].DATAIN
-sink_data[2] => src_data[2].DATAIN
-sink_data[3] => src_data[3].DATAIN
-sink_data[4] => src_data[4].DATAIN
-sink_data[5] => src_data[5].DATAIN
-sink_data[6] => src_data[6].DATAIN
-sink_data[7] => src_data[7].DATAIN
-sink_data[8] => src_data[8].DATAIN
-sink_data[9] => src_data[9].DATAIN
-sink_data[10] => src_data[10].DATAIN
-sink_data[11] => src_data[11].DATAIN
-sink_data[12] => src_data[12].DATAIN
-sink_data[13] => src_data[13].DATAIN
-sink_data[14] => src_data[14].DATAIN
-sink_data[15] => src_data[15].DATAIN
-sink_data[16] => src_data[16].DATAIN
-sink_data[17] => src_data[17].DATAIN
-sink_data[18] => src_data[18].DATAIN
-sink_data[19] => src_data[19].DATAIN
-sink_data[20] => src_data[20].DATAIN
-sink_data[21] => src_data[21].DATAIN
-sink_data[22] => src_data[22].DATAIN
-sink_data[23] => src_data[23].DATAIN
-sink_data[24] => src_data[24].DATAIN
-sink_data[25] => src_data[25].DATAIN
-sink_data[26] => src_data[26].DATAIN
-sink_data[27] => src_data[27].DATAIN
-sink_data[28] => src_data[28].DATAIN
-sink_data[29] => src_data[29].DATAIN
-sink_data[30] => src_data[30].DATAIN
-sink_data[31] => src_data[31].DATAIN
-sink_data[32] => src_data[32].DATAIN
-sink_data[33] => src_data[33].DATAIN
-sink_data[34] => src_data[34].DATAIN
-sink_data[35] => src_data[35].DATAIN
-sink_data[36] => src_data[36].DATAIN
-sink_data[37] => src_data[37].DATAIN
-sink_data[38] => src_data[38].DATAIN
-sink_data[39] => src_data[39].DATAIN
-sink_data[40] => src_data[40].DATAIN
-sink_data[41] => src_data[41].DATAIN
-sink_data[42] => src_data[42].DATAIN
-sink_data[43] => src_data[43].DATAIN
-sink_data[44] => src_data[44].DATAIN
-sink_data[45] => src_data[45].DATAIN
-sink_data[46] => src_data[46].DATAIN
-sink_data[47] => src_data[47].DATAIN
-sink_data[48] => src_data[48].DATAIN
-sink_data[49] => src_data[49].DATAIN
-sink_data[50] => src_data[50].DATAIN
-sink_data[51] => src_data[51].DATAIN
-sink_data[52] => src_data[52].DATAIN
-sink_data[53] => src_data[53].DATAIN
-sink_data[54] => src_data[54].DATAIN
-sink_data[55] => src_data[55].DATAIN
-sink_data[56] => src_data[56].DATAIN
-sink_data[57] => src_data[57].DATAIN
-sink_data[58] => src_data[58].DATAIN
-sink_data[59] => src_data[59].DATAIN
-sink_data[60] => src_data[60].DATAIN
-sink_data[61] => src_data[61].DATAIN
-sink_data[62] => src_data[62].DATAIN
-sink_data[63] => src_data[63].DATAIN
-sink_data[64] => src_data[64].DATAIN
-sink_data[65] => always0.IN1
-sink_data[65] => src_data[65].DATAIN
-sink_data[66] => src_data[66].DATAIN
-sink_data[67] => src_data[67].DATAIN
-sink_data[68] => src_data[68].DATAIN
-sink_data[69] => src_data[69].DATAIN
-sink_data[70] => src_data[70].DATAIN
-sink_data[71] => src_data[71].DATAIN
-sink_data[72] => src_data[72].DATAIN
-sink_data[73] => src_data[73].DATAIN
-sink_data[74] => src_data[74].DATAIN
-sink_data[75] => src_data[75].DATAIN
-sink_data[76] => src_data[76].DATAIN
-sink_data[77] => src_data[77].DATAIN
-sink_data[78] => src_data[78].DATAIN
-sink_data[79] => src_data[79].DATAIN
-sink_data[80] => src_data[80].DATAIN
-sink_data[81] => src_data[81].DATAIN
-sink_data[82] => src_data[82].DATAIN
-sink_data[83] => src_data[83].DATAIN
-sink_data[84] => src_data[84].DATAIN
-sink_data[85] => src_data[85].DATAIN
-sink_data[86] => src_data[86].DATAIN
-sink_data[87] => src_data[87].DATAIN
-sink_data[87] => Equal0.IN31
-sink_data[87] => Equal1.IN0
-sink_data[88] => src_data[88].DATAIN
-sink_data[88] => Equal0.IN30
-sink_data[88] => Equal1.IN31
-sink_data[89] => src_data[89].DATAIN
-sink_data[89] => Equal0.IN29
-sink_data[89] => Equal1.IN30
-sink_data[90] => src_data[90].DATAIN
-sink_data[90] => Equal0.IN28
-sink_data[90] => Equal1.IN29
-sink_data[91] => src_data[91].DATAIN
-sink_data[92] => src_data[92].DATAIN
-sink_data[93] => src_data[93].DATAIN
-sink_data[94] => src_data[94].DATAIN
-sink_data[95] => src_data[95].DATAIN
-sink_data[96] => src_data[96].DATAIN
-sink_data[97] => src_data[97].DATAIN
-sink_data[98] => src_data[98].DATAIN
-sink_data[99] => src_data[99].DATAIN
-sink_data[100] => src_data[100].DATAIN
-sink_data[101] => src_data[101].DATAIN
-sink_data[102] => src_data[102].DATAIN
-sink_data[103] => src_data[103].DATAIN
-sink_startofpacket => src_startofpacket.DATAIN
-sink_endofpacket => src_endofpacket.DATAIN
-sink_ready <= src_ready.DB_MAX_OUTPUT_PORT_TYPE
-src_valid <= sink_valid.DB_MAX_OUTPUT_PORT_TYPE
-src_data[0] <= sink_data[0].DB_MAX_OUTPUT_PORT_TYPE
-src_data[1] <= sink_data[1].DB_MAX_OUTPUT_PORT_TYPE
-src_data[2] <= sink_data[2].DB_MAX_OUTPUT_PORT_TYPE
-src_data[3] <= sink_data[3].DB_MAX_OUTPUT_PORT_TYPE
-src_data[4] <= sink_data[4].DB_MAX_OUTPUT_PORT_TYPE
-src_data[5] <= sink_data[5].DB_MAX_OUTPUT_PORT_TYPE
-src_data[6] <= sink_data[6].DB_MAX_OUTPUT_PORT_TYPE
-src_data[7] <= sink_data[7].DB_MAX_OUTPUT_PORT_TYPE
-src_data[8] <= sink_data[8].DB_MAX_OUTPUT_PORT_TYPE
-src_data[9] <= sink_data[9].DB_MAX_OUTPUT_PORT_TYPE
-src_data[10] <= sink_data[10].DB_MAX_OUTPUT_PORT_TYPE
-src_data[11] <= sink_data[11].DB_MAX_OUTPUT_PORT_TYPE
-src_data[12] <= sink_data[12].DB_MAX_OUTPUT_PORT_TYPE
-src_data[13] <= sink_data[13].DB_MAX_OUTPUT_PORT_TYPE
-src_data[14] <= sink_data[14].DB_MAX_OUTPUT_PORT_TYPE
-src_data[15] <= sink_data[15].DB_MAX_OUTPUT_PORT_TYPE
-src_data[16] <= sink_data[16].DB_MAX_OUTPUT_PORT_TYPE
-src_data[17] <= sink_data[17].DB_MAX_OUTPUT_PORT_TYPE
-src_data[18] <= sink_data[18].DB_MAX_OUTPUT_PORT_TYPE
-src_data[19] <= sink_data[19].DB_MAX_OUTPUT_PORT_TYPE
-src_data[20] <= sink_data[20].DB_MAX_OUTPUT_PORT_TYPE
-src_data[21] <= sink_data[21].DB_MAX_OUTPUT_PORT_TYPE
-src_data[22] <= sink_data[22].DB_MAX_OUTPUT_PORT_TYPE
-src_data[23] <= sink_data[23].DB_MAX_OUTPUT_PORT_TYPE
-src_data[24] <= sink_data[24].DB_MAX_OUTPUT_PORT_TYPE
-src_data[25] <= sink_data[25].DB_MAX_OUTPUT_PORT_TYPE
-src_data[26] <= sink_data[26].DB_MAX_OUTPUT_PORT_TYPE
-src_data[27] <= sink_data[27].DB_MAX_OUTPUT_PORT_TYPE
-src_data[28] <= sink_data[28].DB_MAX_OUTPUT_PORT_TYPE
-src_data[29] <= sink_data[29].DB_MAX_OUTPUT_PORT_TYPE
-src_data[30] <= sink_data[30].DB_MAX_OUTPUT_PORT_TYPE
-src_data[31] <= sink_data[31].DB_MAX_OUTPUT_PORT_TYPE
-src_data[32] <= sink_data[32].DB_MAX_OUTPUT_PORT_TYPE
-src_data[33] <= sink_data[33].DB_MAX_OUTPUT_PORT_TYPE
-src_data[34] <= sink_data[34].DB_MAX_OUTPUT_PORT_TYPE
-src_data[35] <= sink_data[35].DB_MAX_OUTPUT_PORT_TYPE
-src_data[36] <= sink_data[36].DB_MAX_OUTPUT_PORT_TYPE
-src_data[37] <= sink_data[37].DB_MAX_OUTPUT_PORT_TYPE
-src_data[38] <= sink_data[38].DB_MAX_OUTPUT_PORT_TYPE
-src_data[39] <= sink_data[39].DB_MAX_OUTPUT_PORT_TYPE
-src_data[40] <= sink_data[40].DB_MAX_OUTPUT_PORT_TYPE
-src_data[41] <= sink_data[41].DB_MAX_OUTPUT_PORT_TYPE
-src_data[42] <= sink_data[42].DB_MAX_OUTPUT_PORT_TYPE
-src_data[43] <= sink_data[43].DB_MAX_OUTPUT_PORT_TYPE
-src_data[44] <= sink_data[44].DB_MAX_OUTPUT_PORT_TYPE
-src_data[45] <= sink_data[45].DB_MAX_OUTPUT_PORT_TYPE
-src_data[46] <= sink_data[46].DB_MAX_OUTPUT_PORT_TYPE
-src_data[47] <= sink_data[47].DB_MAX_OUTPUT_PORT_TYPE
-src_data[48] <= sink_data[48].DB_MAX_OUTPUT_PORT_TYPE
-src_data[49] <= sink_data[49].DB_MAX_OUTPUT_PORT_TYPE
-src_data[50] <= sink_data[50].DB_MAX_OUTPUT_PORT_TYPE
-src_data[51] <= sink_data[51].DB_MAX_OUTPUT_PORT_TYPE
-src_data[52] <= sink_data[52].DB_MAX_OUTPUT_PORT_TYPE
-src_data[53] <= sink_data[53].DB_MAX_OUTPUT_PORT_TYPE
-src_data[54] <= sink_data[54].DB_MAX_OUTPUT_PORT_TYPE
-src_data[55] <= sink_data[55].DB_MAX_OUTPUT_PORT_TYPE
-src_data[56] <= sink_data[56].DB_MAX_OUTPUT_PORT_TYPE
-src_data[57] <= sink_data[57].DB_MAX_OUTPUT_PORT_TYPE
-src_data[58] <= sink_data[58].DB_MAX_OUTPUT_PORT_TYPE
-src_data[59] <= sink_data[59].DB_MAX_OUTPUT_PORT_TYPE
-src_data[60] <= sink_data[60].DB_MAX_OUTPUT_PORT_TYPE
-src_data[61] <= sink_data[61].DB_MAX_OUTPUT_PORT_TYPE
-src_data[62] <= sink_data[62].DB_MAX_OUTPUT_PORT_TYPE
-src_data[63] <= sink_data[63].DB_MAX_OUTPUT_PORT_TYPE
-src_data[64] <= sink_data[64].DB_MAX_OUTPUT_PORT_TYPE
-src_data[65] <= sink_data[65].DB_MAX_OUTPUT_PORT_TYPE
-src_data[66] <= sink_data[66].DB_MAX_OUTPUT_PORT_TYPE
-src_data[67] <= sink_data[67].DB_MAX_OUTPUT_PORT_TYPE
-src_data[68] <= sink_data[68].DB_MAX_OUTPUT_PORT_TYPE
-src_data[69] <= sink_data[69].DB_MAX_OUTPUT_PORT_TYPE
-src_data[70] <= sink_data[70].DB_MAX_OUTPUT_PORT_TYPE
-src_data[71] <= sink_data[71].DB_MAX_OUTPUT_PORT_TYPE
-src_data[72] <= sink_data[72].DB_MAX_OUTPUT_PORT_TYPE
-src_data[73] <= sink_data[73].DB_MAX_OUTPUT_PORT_TYPE
-src_data[74] <= sink_data[74].DB_MAX_OUTPUT_PORT_TYPE
-src_data[75] <= sink_data[75].DB_MAX_OUTPUT_PORT_TYPE
-src_data[76] <= sink_data[76].DB_MAX_OUTPUT_PORT_TYPE
-src_data[77] <= sink_data[77].DB_MAX_OUTPUT_PORT_TYPE
-src_data[78] <= sink_data[78].DB_MAX_OUTPUT_PORT_TYPE
-src_data[79] <= sink_data[79].DB_MAX_OUTPUT_PORT_TYPE
-src_data[80] <= sink_data[80].DB_MAX_OUTPUT_PORT_TYPE
-src_data[81] <= sink_data[81].DB_MAX_OUTPUT_PORT_TYPE
-src_data[82] <= sink_data[82].DB_MAX_OUTPUT_PORT_TYPE
-src_data[83] <= sink_data[83].DB_MAX_OUTPUT_PORT_TYPE
-src_data[84] <= sink_data[84].DB_MAX_OUTPUT_PORT_TYPE
-src_data[85] <= sink_data[85].DB_MAX_OUTPUT_PORT_TYPE
-src_data[86] <= sink_data[86].DB_MAX_OUTPUT_PORT_TYPE
-src_data[87] <= sink_data[87].DB_MAX_OUTPUT_PORT_TYPE
-src_data[88] <= sink_data[88].DB_MAX_OUTPUT_PORT_TYPE
-src_data[89] <= sink_data[89].DB_MAX_OUTPUT_PORT_TYPE
-src_data[90] <= sink_data[90].DB_MAX_OUTPUT_PORT_TYPE
-src_data[91] <= sink_data[91].DB_MAX_OUTPUT_PORT_TYPE
-src_data[92] <= sink_data[92].DB_MAX_OUTPUT_PORT_TYPE
-src_data[93] <= sink_data[93].DB_MAX_OUTPUT_PORT_TYPE
-src_data[94] <= sink_data[94].DB_MAX_OUTPUT_PORT_TYPE
-src_data[95] <= sink_data[95].DB_MAX_OUTPUT_PORT_TYPE
-src_data[96] <= sink_data[96].DB_MAX_OUTPUT_PORT_TYPE
-src_data[97] <= sink_data[97].DB_MAX_OUTPUT_PORT_TYPE
-src_data[98] <= sink_data[98].DB_MAX_OUTPUT_PORT_TYPE
-src_data[99] <= sink_data[99].DB_MAX_OUTPUT_PORT_TYPE
-src_data[100] <= sink_data[100].DB_MAX_OUTPUT_PORT_TYPE
-src_data[101] <= sink_data[101].DB_MAX_OUTPUT_PORT_TYPE
-src_data[102] <= sink_data[102].DB_MAX_OUTPUT_PORT_TYPE
-src_data[103] <= sink_data[103].DB_MAX_OUTPUT_PORT_TYPE
-src_channel[0] <= src_channel.DB_MAX_OUTPUT_PORT_TYPE
-src_channel[1] <= src_channel.DB_MAX_OUTPUT_PORT_TYPE
-src_channel[2] <= src_channel.DB_MAX_OUTPUT_PORT_TYPE
-src_channel[3] <= src_channel.DB_MAX_OUTPUT_PORT_TYPE
-src_channel[4] <= src_channel.DB_MAX_OUTPUT_PORT_TYPE
-src_channel[5] <= src_channel.DB_MAX_OUTPUT_PORT_TYPE
-src_channel[6] <= src_channel.DB_MAX_OUTPUT_PORT_TYPE
-src_channel[7] <= src_channel.DB_MAX_OUTPUT_PORT_TYPE
-src_channel[8] <= src_channel.DB_MAX_OUTPUT_PORT_TYPE
-src_channel[9] <= src_channel.DB_MAX_OUTPUT_PORT_TYPE
-src_channel[10] <= src_channel.DB_MAX_OUTPUT_PORT_TYPE
-src_channel[11] <= src_channel.DB_MAX_OUTPUT_PORT_TYPE
-src_channel[12] <= src_channel.DB_MAX_OUTPUT_PORT_TYPE
-src_startofpacket <= sink_startofpacket.DB_MAX_OUTPUT_PORT_TYPE
-src_endofpacket <= sink_endofpacket.DB_MAX_OUTPUT_PORT_TYPE
-src_ready => sink_ready.DATAIN
-
-
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_005:router_005|CPU_mm_interconnect_0_router_005_default_decode:the_default_decode
-default_destination_id[0] <= <GND>
-default_destination_id[1] <= <GND>
-default_destination_id[2] <= <GND>
-default_destination_id[3] <= <GND>
-default_wr_channel[0] <= <GND>
-default_wr_channel[1] <= <GND>
-default_wr_channel[2] <= <GND>
-default_wr_channel[3] <= <GND>
-default_wr_channel[4] <= <GND>
-default_wr_channel[5] <= <GND>
-default_wr_channel[6] <= <GND>
-default_wr_channel[7] <= <GND>
-default_wr_channel[8] <= <GND>
-default_wr_channel[9] <= <GND>
-default_wr_channel[10] <= <GND>
-default_wr_channel[11] <= <GND>
-default_wr_channel[12] <= <GND>
-default_rd_channel[0] <= <GND>
-default_rd_channel[1] <= <GND>
-default_rd_channel[2] <= <GND>
-default_rd_channel[3] <= <GND>
-default_rd_channel[4] <= <GND>
-default_rd_channel[5] <= <GND>
-default_rd_channel[6] <= <GND>
-default_rd_channel[7] <= <GND>
-default_rd_channel[8] <= <GND>
-default_rd_channel[9] <= <GND>
-default_rd_channel[10] <= <GND>
-default_rd_channel[11] <= <GND>
-default_rd_channel[12] <= <GND>
-default_src_channel[0] <= <VCC>
-default_src_channel[1] <= <GND>
-default_src_channel[2] <= <GND>
-default_src_channel[3] <= <GND>
-default_src_channel[4] <= <GND>
-default_src_channel[5] <= <GND>
-default_src_channel[6] <= <GND>
-default_src_channel[7] <= <GND>
-default_src_channel[8] <= <GND>
-default_src_channel[9] <= <GND>
-default_src_channel[10] <= <GND>
-default_src_channel[11] <= <GND>
-default_src_channel[12] <= <GND>
-
-
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_005:router_006
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_005:router_005
 clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 sink_valid => src_valid.DATAIN
@@ -65626,7 +66050,7 @@ src_endofpacket <= sink_endofpacket.DB_MAX_OUTPUT_PORT_TYPE
 src_ready => sink_ready.DATAIN
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_005:router_006|CPU_mm_interconnect_0_router_005_default_decode:the_default_decode
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_005:router_005|CPU_mm_interconnect_0_router_005_default_decode:the_default_decode
 default_destination_id[0] <= <GND>
 default_destination_id[1] <= <GND>
 default_destination_id[2] <= <GND>
@@ -65672,7 +66096,296 @@ default_src_channel[11] <= <GND>
 default_src_channel[12] <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_007:router_007
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_005:router_006
+clk => ~NO_FANOUT~
+reset => ~NO_FANOUT~
+sink_valid => src_valid.DATAIN
+sink_data[0] => src_data[0].DATAIN
+sink_data[1] => src_data[1].DATAIN
+sink_data[2] => src_data[2].DATAIN
+sink_data[3] => src_data[3].DATAIN
+sink_data[4] => src_data[4].DATAIN
+sink_data[5] => src_data[5].DATAIN
+sink_data[6] => src_data[6].DATAIN
+sink_data[7] => src_data[7].DATAIN
+sink_data[8] => src_data[8].DATAIN
+sink_data[9] => src_data[9].DATAIN
+sink_data[10] => src_data[10].DATAIN
+sink_data[11] => src_data[11].DATAIN
+sink_data[12] => src_data[12].DATAIN
+sink_data[13] => src_data[13].DATAIN
+sink_data[14] => src_data[14].DATAIN
+sink_data[15] => src_data[15].DATAIN
+sink_data[16] => src_data[16].DATAIN
+sink_data[17] => src_data[17].DATAIN
+sink_data[18] => src_data[18].DATAIN
+sink_data[19] => src_data[19].DATAIN
+sink_data[20] => src_data[20].DATAIN
+sink_data[21] => src_data[21].DATAIN
+sink_data[22] => src_data[22].DATAIN
+sink_data[23] => src_data[23].DATAIN
+sink_data[24] => src_data[24].DATAIN
+sink_data[25] => src_data[25].DATAIN
+sink_data[26] => src_data[26].DATAIN
+sink_data[27] => src_data[27].DATAIN
+sink_data[28] => src_data[28].DATAIN
+sink_data[29] => src_data[29].DATAIN
+sink_data[30] => src_data[30].DATAIN
+sink_data[31] => src_data[31].DATAIN
+sink_data[32] => src_data[32].DATAIN
+sink_data[33] => src_data[33].DATAIN
+sink_data[34] => src_data[34].DATAIN
+sink_data[35] => src_data[35].DATAIN
+sink_data[36] => src_data[36].DATAIN
+sink_data[37] => src_data[37].DATAIN
+sink_data[38] => src_data[38].DATAIN
+sink_data[39] => src_data[39].DATAIN
+sink_data[40] => src_data[40].DATAIN
+sink_data[41] => src_data[41].DATAIN
+sink_data[42] => src_data[42].DATAIN
+sink_data[43] => src_data[43].DATAIN
+sink_data[44] => src_data[44].DATAIN
+sink_data[45] => src_data[45].DATAIN
+sink_data[46] => src_data[46].DATAIN
+sink_data[47] => src_data[47].DATAIN
+sink_data[48] => src_data[48].DATAIN
+sink_data[49] => src_data[49].DATAIN
+sink_data[50] => src_data[50].DATAIN
+sink_data[51] => src_data[51].DATAIN
+sink_data[52] => src_data[52].DATAIN
+sink_data[53] => src_data[53].DATAIN
+sink_data[54] => src_data[54].DATAIN
+sink_data[55] => src_data[55].DATAIN
+sink_data[56] => src_data[56].DATAIN
+sink_data[57] => src_data[57].DATAIN
+sink_data[58] => src_data[58].DATAIN
+sink_data[59] => src_data[59].DATAIN
+sink_data[60] => src_data[60].DATAIN
+sink_data[61] => src_data[61].DATAIN
+sink_data[62] => src_data[62].DATAIN
+sink_data[63] => src_data[63].DATAIN
+sink_data[64] => src_data[64].DATAIN
+sink_data[65] => always0.IN1
+sink_data[65] => src_data[65].DATAIN
+sink_data[66] => src_data[66].DATAIN
+sink_data[67] => src_data[67].DATAIN
+sink_data[68] => src_data[68].DATAIN
+sink_data[69] => src_data[69].DATAIN
+sink_data[70] => src_data[70].DATAIN
+sink_data[71] => src_data[71].DATAIN
+sink_data[72] => src_data[72].DATAIN
+sink_data[73] => src_data[73].DATAIN
+sink_data[74] => src_data[74].DATAIN
+sink_data[75] => src_data[75].DATAIN
+sink_data[76] => src_data[76].DATAIN
+sink_data[77] => src_data[77].DATAIN
+sink_data[78] => src_data[78].DATAIN
+sink_data[79] => src_data[79].DATAIN
+sink_data[80] => src_data[80].DATAIN
+sink_data[81] => src_data[81].DATAIN
+sink_data[82] => src_data[82].DATAIN
+sink_data[83] => src_data[83].DATAIN
+sink_data[84] => src_data[84].DATAIN
+sink_data[85] => src_data[85].DATAIN
+sink_data[86] => src_data[86].DATAIN
+sink_data[87] => src_data[87].DATAIN
+sink_data[87] => Equal0.IN31
+sink_data[87] => Equal1.IN0
+sink_data[88] => src_data[88].DATAIN
+sink_data[88] => Equal0.IN30
+sink_data[88] => Equal1.IN31
+sink_data[89] => src_data[89].DATAIN
+sink_data[89] => Equal0.IN29
+sink_data[89] => Equal1.IN30
+sink_data[90] => src_data[90].DATAIN
+sink_data[90] => Equal0.IN28
+sink_data[90] => Equal1.IN29
+sink_data[91] => src_data[91].DATAIN
+sink_data[92] => src_data[92].DATAIN
+sink_data[93] => src_data[93].DATAIN
+sink_data[94] => src_data[94].DATAIN
+sink_data[95] => src_data[95].DATAIN
+sink_data[96] => src_data[96].DATAIN
+sink_data[97] => src_data[97].DATAIN
+sink_data[98] => src_data[98].DATAIN
+sink_data[99] => src_data[99].DATAIN
+sink_data[100] => src_data[100].DATAIN
+sink_data[101] => src_data[101].DATAIN
+sink_data[102] => src_data[102].DATAIN
+sink_data[103] => src_data[103].DATAIN
+sink_startofpacket => src_startofpacket.DATAIN
+sink_endofpacket => src_endofpacket.DATAIN
+sink_ready <= src_ready.DB_MAX_OUTPUT_PORT_TYPE
+src_valid <= sink_valid.DB_MAX_OUTPUT_PORT_TYPE
+src_data[0] <= sink_data[0].DB_MAX_OUTPUT_PORT_TYPE
+src_data[1] <= sink_data[1].DB_MAX_OUTPUT_PORT_TYPE
+src_data[2] <= sink_data[2].DB_MAX_OUTPUT_PORT_TYPE
+src_data[3] <= sink_data[3].DB_MAX_OUTPUT_PORT_TYPE
+src_data[4] <= sink_data[4].DB_MAX_OUTPUT_PORT_TYPE
+src_data[5] <= sink_data[5].DB_MAX_OUTPUT_PORT_TYPE
+src_data[6] <= sink_data[6].DB_MAX_OUTPUT_PORT_TYPE
+src_data[7] <= sink_data[7].DB_MAX_OUTPUT_PORT_TYPE
+src_data[8] <= sink_data[8].DB_MAX_OUTPUT_PORT_TYPE
+src_data[9] <= sink_data[9].DB_MAX_OUTPUT_PORT_TYPE
+src_data[10] <= sink_data[10].DB_MAX_OUTPUT_PORT_TYPE
+src_data[11] <= sink_data[11].DB_MAX_OUTPUT_PORT_TYPE
+src_data[12] <= sink_data[12].DB_MAX_OUTPUT_PORT_TYPE
+src_data[13] <= sink_data[13].DB_MAX_OUTPUT_PORT_TYPE
+src_data[14] <= sink_data[14].DB_MAX_OUTPUT_PORT_TYPE
+src_data[15] <= sink_data[15].DB_MAX_OUTPUT_PORT_TYPE
+src_data[16] <= sink_data[16].DB_MAX_OUTPUT_PORT_TYPE
+src_data[17] <= sink_data[17].DB_MAX_OUTPUT_PORT_TYPE
+src_data[18] <= sink_data[18].DB_MAX_OUTPUT_PORT_TYPE
+src_data[19] <= sink_data[19].DB_MAX_OUTPUT_PORT_TYPE
+src_data[20] <= sink_data[20].DB_MAX_OUTPUT_PORT_TYPE
+src_data[21] <= sink_data[21].DB_MAX_OUTPUT_PORT_TYPE
+src_data[22] <= sink_data[22].DB_MAX_OUTPUT_PORT_TYPE
+src_data[23] <= sink_data[23].DB_MAX_OUTPUT_PORT_TYPE
+src_data[24] <= sink_data[24].DB_MAX_OUTPUT_PORT_TYPE
+src_data[25] <= sink_data[25].DB_MAX_OUTPUT_PORT_TYPE
+src_data[26] <= sink_data[26].DB_MAX_OUTPUT_PORT_TYPE
+src_data[27] <= sink_data[27].DB_MAX_OUTPUT_PORT_TYPE
+src_data[28] <= sink_data[28].DB_MAX_OUTPUT_PORT_TYPE
+src_data[29] <= sink_data[29].DB_MAX_OUTPUT_PORT_TYPE
+src_data[30] <= sink_data[30].DB_MAX_OUTPUT_PORT_TYPE
+src_data[31] <= sink_data[31].DB_MAX_OUTPUT_PORT_TYPE
+src_data[32] <= sink_data[32].DB_MAX_OUTPUT_PORT_TYPE
+src_data[33] <= sink_data[33].DB_MAX_OUTPUT_PORT_TYPE
+src_data[34] <= sink_data[34].DB_MAX_OUTPUT_PORT_TYPE
+src_data[35] <= sink_data[35].DB_MAX_OUTPUT_PORT_TYPE
+src_data[36] <= sink_data[36].DB_MAX_OUTPUT_PORT_TYPE
+src_data[37] <= sink_data[37].DB_MAX_OUTPUT_PORT_TYPE
+src_data[38] <= sink_data[38].DB_MAX_OUTPUT_PORT_TYPE
+src_data[39] <= sink_data[39].DB_MAX_OUTPUT_PORT_TYPE
+src_data[40] <= sink_data[40].DB_MAX_OUTPUT_PORT_TYPE
+src_data[41] <= sink_data[41].DB_MAX_OUTPUT_PORT_TYPE
+src_data[42] <= sink_data[42].DB_MAX_OUTPUT_PORT_TYPE
+src_data[43] <= sink_data[43].DB_MAX_OUTPUT_PORT_TYPE
+src_data[44] <= sink_data[44].DB_MAX_OUTPUT_PORT_TYPE
+src_data[45] <= sink_data[45].DB_MAX_OUTPUT_PORT_TYPE
+src_data[46] <= sink_data[46].DB_MAX_OUTPUT_PORT_TYPE
+src_data[47] <= sink_data[47].DB_MAX_OUTPUT_PORT_TYPE
+src_data[48] <= sink_data[48].DB_MAX_OUTPUT_PORT_TYPE
+src_data[49] <= sink_data[49].DB_MAX_OUTPUT_PORT_TYPE
+src_data[50] <= sink_data[50].DB_MAX_OUTPUT_PORT_TYPE
+src_data[51] <= sink_data[51].DB_MAX_OUTPUT_PORT_TYPE
+src_data[52] <= sink_data[52].DB_MAX_OUTPUT_PORT_TYPE
+src_data[53] <= sink_data[53].DB_MAX_OUTPUT_PORT_TYPE
+src_data[54] <= sink_data[54].DB_MAX_OUTPUT_PORT_TYPE
+src_data[55] <= sink_data[55].DB_MAX_OUTPUT_PORT_TYPE
+src_data[56] <= sink_data[56].DB_MAX_OUTPUT_PORT_TYPE
+src_data[57] <= sink_data[57].DB_MAX_OUTPUT_PORT_TYPE
+src_data[58] <= sink_data[58].DB_MAX_OUTPUT_PORT_TYPE
+src_data[59] <= sink_data[59].DB_MAX_OUTPUT_PORT_TYPE
+src_data[60] <= sink_data[60].DB_MAX_OUTPUT_PORT_TYPE
+src_data[61] <= sink_data[61].DB_MAX_OUTPUT_PORT_TYPE
+src_data[62] <= sink_data[62].DB_MAX_OUTPUT_PORT_TYPE
+src_data[63] <= sink_data[63].DB_MAX_OUTPUT_PORT_TYPE
+src_data[64] <= sink_data[64].DB_MAX_OUTPUT_PORT_TYPE
+src_data[65] <= sink_data[65].DB_MAX_OUTPUT_PORT_TYPE
+src_data[66] <= sink_data[66].DB_MAX_OUTPUT_PORT_TYPE
+src_data[67] <= sink_data[67].DB_MAX_OUTPUT_PORT_TYPE
+src_data[68] <= sink_data[68].DB_MAX_OUTPUT_PORT_TYPE
+src_data[69] <= sink_data[69].DB_MAX_OUTPUT_PORT_TYPE
+src_data[70] <= sink_data[70].DB_MAX_OUTPUT_PORT_TYPE
+src_data[71] <= sink_data[71].DB_MAX_OUTPUT_PORT_TYPE
+src_data[72] <= sink_data[72].DB_MAX_OUTPUT_PORT_TYPE
+src_data[73] <= sink_data[73].DB_MAX_OUTPUT_PORT_TYPE
+src_data[74] <= sink_data[74].DB_MAX_OUTPUT_PORT_TYPE
+src_data[75] <= sink_data[75].DB_MAX_OUTPUT_PORT_TYPE
+src_data[76] <= sink_data[76].DB_MAX_OUTPUT_PORT_TYPE
+src_data[77] <= sink_data[77].DB_MAX_OUTPUT_PORT_TYPE
+src_data[78] <= sink_data[78].DB_MAX_OUTPUT_PORT_TYPE
+src_data[79] <= sink_data[79].DB_MAX_OUTPUT_PORT_TYPE
+src_data[80] <= sink_data[80].DB_MAX_OUTPUT_PORT_TYPE
+src_data[81] <= sink_data[81].DB_MAX_OUTPUT_PORT_TYPE
+src_data[82] <= sink_data[82].DB_MAX_OUTPUT_PORT_TYPE
+src_data[83] <= sink_data[83].DB_MAX_OUTPUT_PORT_TYPE
+src_data[84] <= sink_data[84].DB_MAX_OUTPUT_PORT_TYPE
+src_data[85] <= sink_data[85].DB_MAX_OUTPUT_PORT_TYPE
+src_data[86] <= sink_data[86].DB_MAX_OUTPUT_PORT_TYPE
+src_data[87] <= sink_data[87].DB_MAX_OUTPUT_PORT_TYPE
+src_data[88] <= sink_data[88].DB_MAX_OUTPUT_PORT_TYPE
+src_data[89] <= sink_data[89].DB_MAX_OUTPUT_PORT_TYPE
+src_data[90] <= sink_data[90].DB_MAX_OUTPUT_PORT_TYPE
+src_data[91] <= sink_data[91].DB_MAX_OUTPUT_PORT_TYPE
+src_data[92] <= sink_data[92].DB_MAX_OUTPUT_PORT_TYPE
+src_data[93] <= sink_data[93].DB_MAX_OUTPUT_PORT_TYPE
+src_data[94] <= sink_data[94].DB_MAX_OUTPUT_PORT_TYPE
+src_data[95] <= sink_data[95].DB_MAX_OUTPUT_PORT_TYPE
+src_data[96] <= sink_data[96].DB_MAX_OUTPUT_PORT_TYPE
+src_data[97] <= sink_data[97].DB_MAX_OUTPUT_PORT_TYPE
+src_data[98] <= sink_data[98].DB_MAX_OUTPUT_PORT_TYPE
+src_data[99] <= sink_data[99].DB_MAX_OUTPUT_PORT_TYPE
+src_data[100] <= sink_data[100].DB_MAX_OUTPUT_PORT_TYPE
+src_data[101] <= sink_data[101].DB_MAX_OUTPUT_PORT_TYPE
+src_data[102] <= sink_data[102].DB_MAX_OUTPUT_PORT_TYPE
+src_data[103] <= sink_data[103].DB_MAX_OUTPUT_PORT_TYPE
+src_channel[0] <= src_channel.DB_MAX_OUTPUT_PORT_TYPE
+src_channel[1] <= src_channel.DB_MAX_OUTPUT_PORT_TYPE
+src_channel[2] <= src_channel.DB_MAX_OUTPUT_PORT_TYPE
+src_channel[3] <= src_channel.DB_MAX_OUTPUT_PORT_TYPE
+src_channel[4] <= src_channel.DB_MAX_OUTPUT_PORT_TYPE
+src_channel[5] <= src_channel.DB_MAX_OUTPUT_PORT_TYPE
+src_channel[6] <= src_channel.DB_MAX_OUTPUT_PORT_TYPE
+src_channel[7] <= src_channel.DB_MAX_OUTPUT_PORT_TYPE
+src_channel[8] <= src_channel.DB_MAX_OUTPUT_PORT_TYPE
+src_channel[9] <= src_channel.DB_MAX_OUTPUT_PORT_TYPE
+src_channel[10] <= src_channel.DB_MAX_OUTPUT_PORT_TYPE
+src_channel[11] <= src_channel.DB_MAX_OUTPUT_PORT_TYPE
+src_channel[12] <= src_channel.DB_MAX_OUTPUT_PORT_TYPE
+src_startofpacket <= sink_startofpacket.DB_MAX_OUTPUT_PORT_TYPE
+src_endofpacket <= sink_endofpacket.DB_MAX_OUTPUT_PORT_TYPE
+src_ready => sink_ready.DATAIN
+
+
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_005:router_006|CPU_mm_interconnect_0_router_005_default_decode:the_default_decode
+default_destination_id[0] <= <GND>
+default_destination_id[1] <= <GND>
+default_destination_id[2] <= <GND>
+default_destination_id[3] <= <GND>
+default_wr_channel[0] <= <GND>
+default_wr_channel[1] <= <GND>
+default_wr_channel[2] <= <GND>
+default_wr_channel[3] <= <GND>
+default_wr_channel[4] <= <GND>
+default_wr_channel[5] <= <GND>
+default_wr_channel[6] <= <GND>
+default_wr_channel[7] <= <GND>
+default_wr_channel[8] <= <GND>
+default_wr_channel[9] <= <GND>
+default_wr_channel[10] <= <GND>
+default_wr_channel[11] <= <GND>
+default_wr_channel[12] <= <GND>
+default_rd_channel[0] <= <GND>
+default_rd_channel[1] <= <GND>
+default_rd_channel[2] <= <GND>
+default_rd_channel[3] <= <GND>
+default_rd_channel[4] <= <GND>
+default_rd_channel[5] <= <GND>
+default_rd_channel[6] <= <GND>
+default_rd_channel[7] <= <GND>
+default_rd_channel[8] <= <GND>
+default_rd_channel[9] <= <GND>
+default_rd_channel[10] <= <GND>
+default_rd_channel[11] <= <GND>
+default_rd_channel[12] <= <GND>
+default_src_channel[0] <= <VCC>
+default_src_channel[1] <= <GND>
+default_src_channel[2] <= <GND>
+default_src_channel[3] <= <GND>
+default_src_channel[4] <= <GND>
+default_src_channel[5] <= <GND>
+default_src_channel[6] <= <GND>
+default_src_channel[7] <= <GND>
+default_src_channel[8] <= <GND>
+default_src_channel[9] <= <GND>
+default_src_channel[10] <= <GND>
+default_src_channel[11] <= <GND>
+default_src_channel[12] <= <GND>
+
+
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_007:router_007
 clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 sink_valid => src_valid.DATAIN
@@ -65879,7 +66592,7 @@ src_endofpacket <= sink_endofpacket.DB_MAX_OUTPUT_PORT_TYPE
 src_ready => sink_ready.DATAIN
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_007:router_007|CPU_mm_interconnect_0_router_007_default_decode:the_default_decode
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_007:router_007|CPU_mm_interconnect_0_router_007_default_decode:the_default_decode
 default_destination_id[0] <= <GND>
 default_destination_id[1] <= <GND>
 default_destination_id[2] <= <GND>
@@ -65925,7 +66638,7 @@ default_src_channel[11] <= <GND>
 default_src_channel[12] <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_002:router_008
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_002:router_008
 clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 sink_valid => src_valid.DATAIN
@@ -66163,7 +66876,7 @@ src_endofpacket <= sink_endofpacket.DB_MAX_OUTPUT_PORT_TYPE
 src_ready => sink_ready.DATAIN
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_002:router_008|CPU_mm_interconnect_0_router_002_default_decode:the_default_decode
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_002:router_008|CPU_mm_interconnect_0_router_002_default_decode:the_default_decode
 default_destination_id[0] <= <GND>
 default_destination_id[1] <= <GND>
 default_destination_id[2] <= <GND>
@@ -66209,7 +66922,7 @@ default_src_channel[11] <= <GND>
 default_src_channel[12] <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_002:router_009
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_002:router_009
 clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 sink_valid => src_valid.DATAIN
@@ -66447,7 +67160,7 @@ src_endofpacket <= sink_endofpacket.DB_MAX_OUTPUT_PORT_TYPE
 src_ready => sink_ready.DATAIN
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_002:router_009|CPU_mm_interconnect_0_router_002_default_decode:the_default_decode
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_002:router_009|CPU_mm_interconnect_0_router_002_default_decode:the_default_decode
 default_destination_id[0] <= <GND>
 default_destination_id[1] <= <GND>
 default_destination_id[2] <= <GND>
@@ -66493,7 +67206,7 @@ default_src_channel[11] <= <GND>
 default_src_channel[12] <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_002:router_010
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_002:router_010
 clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 sink_valid => src_valid.DATAIN
@@ -66731,7 +67444,7 @@ src_endofpacket <= sink_endofpacket.DB_MAX_OUTPUT_PORT_TYPE
 src_ready => sink_ready.DATAIN
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_002:router_010|CPU_mm_interconnect_0_router_002_default_decode:the_default_decode
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_002:router_010|CPU_mm_interconnect_0_router_002_default_decode:the_default_decode
 default_destination_id[0] <= <GND>
 default_destination_id[1] <= <GND>
 default_destination_id[2] <= <GND>
@@ -66777,7 +67490,7 @@ default_src_channel[11] <= <GND>
 default_src_channel[12] <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_002:router_011
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_002:router_011
 clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 sink_valid => src_valid.DATAIN
@@ -67015,7 +67728,7 @@ src_endofpacket <= sink_endofpacket.DB_MAX_OUTPUT_PORT_TYPE
 src_ready => sink_ready.DATAIN
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_002:router_011|CPU_mm_interconnect_0_router_002_default_decode:the_default_decode
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_002:router_011|CPU_mm_interconnect_0_router_002_default_decode:the_default_decode
 default_destination_id[0] <= <GND>
 default_destination_id[1] <= <GND>
 default_destination_id[2] <= <GND>
@@ -67061,7 +67774,7 @@ default_src_channel[11] <= <GND>
 default_src_channel[12] <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_002:router_012
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_002:router_012
 clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 sink_valid => src_valid.DATAIN
@@ -67299,7 +68012,7 @@ src_endofpacket <= sink_endofpacket.DB_MAX_OUTPUT_PORT_TYPE
 src_ready => sink_ready.DATAIN
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_002:router_012|CPU_mm_interconnect_0_router_002_default_decode:the_default_decode
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_002:router_012|CPU_mm_interconnect_0_router_002_default_decode:the_default_decode
 default_destination_id[0] <= <GND>
 default_destination_id[1] <= <GND>
 default_destination_id[2] <= <GND>
@@ -67345,7 +68058,7 @@ default_src_channel[11] <= <GND>
 default_src_channel[12] <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_002:router_013
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_002:router_013
 clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 sink_valid => src_valid.DATAIN
@@ -67583,7 +68296,7 @@ src_endofpacket <= sink_endofpacket.DB_MAX_OUTPUT_PORT_TYPE
 src_ready => sink_ready.DATAIN
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_002:router_013|CPU_mm_interconnect_0_router_002_default_decode:the_default_decode
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_002:router_013|CPU_mm_interconnect_0_router_002_default_decode:the_default_decode
 default_destination_id[0] <= <GND>
 default_destination_id[1] <= <GND>
 default_destination_id[2] <= <GND>
@@ -67629,7 +68342,7 @@ default_src_channel[11] <= <GND>
 default_src_channel[12] <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_002:router_014
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_002:router_014
 clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 sink_valid => src_valid.DATAIN
@@ -67867,7 +68580,7 @@ src_endofpacket <= sink_endofpacket.DB_MAX_OUTPUT_PORT_TYPE
 src_ready => sink_ready.DATAIN
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_002:router_014|CPU_mm_interconnect_0_router_002_default_decode:the_default_decode
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_router_002:router_014|CPU_mm_interconnect_0_router_002_default_decode:the_default_decode
 default_destination_id[0] <= <GND>
 default_destination_id[1] <= <GND>
 default_destination_id[2] <= <GND>
@@ -67913,7 +68626,7 @@ default_src_channel[11] <= <GND>
 default_src_channel[12] <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_burst_adapter:sdram_s1_burst_adapter
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_burst_adapter:sdram_s1_burst_adapter
 clk => clk.IN1
 reset => reset.IN1
 sink0_valid => sink0_valid.IN1
@@ -68124,7 +68837,7 @@ source0_endofpacket <= altera_merlin_burst_adapter_uncompressed_only:altera_merl
 source0_ready => source0_ready.IN1
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_burst_adapter:sdram_s1_burst_adapter|altera_merlin_burst_adapter_uncompressed_only:altera_merlin_burst_adapter_uncompressed_only.burst_adapter
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_burst_adapter:sdram_s1_burst_adapter|altera_merlin_burst_adapter_uncompressed_only:altera_merlin_burst_adapter_uncompressed_only.burst_adapter
 clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 sink0_valid => source0_valid.DATAIN
@@ -68335,7 +69048,7 @@ source0_endofpacket <= sink0_endofpacket.DB_MAX_OUTPUT_PORT_TYPE
 source0_ready => sink0_ready.DATAIN
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_demux:cmd_demux
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_demux:cmd_demux
 sink_valid[0] => src0_valid.IN0
 sink_valid[0] => src1_valid.IN0
 sink_valid[0] => src2_valid.IN0
@@ -71331,7 +72044,7 @@ clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_demux_001:cmd_demux_001
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_demux_001:cmd_demux_001
 sink_valid[0] => src0_valid.IN0
 sink_valid[0] => src1_valid.IN0
 sink_valid[0] => src2_valid.IN0
@@ -72057,7 +72770,7 @@ clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_mux:cmd_mux
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_mux:cmd_mux
 sink0_valid => src_valid.DATAIN
 sink0_data[0] => src_data[0].DATAIN
 sink0_data[1] => src_data[1].DATAIN
@@ -72304,7 +73017,7 @@ clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_mux:cmd_mux_001
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_mux:cmd_mux_001
 sink0_valid => src_valid.DATAIN
 sink0_data[0] => src_data[0].DATAIN
 sink0_data[1] => src_data[1].DATAIN
@@ -72551,7 +73264,7 @@ clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_mux:cmd_mux_002
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_mux:cmd_mux_002
 sink0_valid => src_valid.DATAIN
 sink0_data[0] => src_data[0].DATAIN
 sink0_data[1] => src_data[1].DATAIN
@@ -72798,7 +73511,7 @@ clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_mux_003:cmd_mux_003
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_mux_003:cmd_mux_003
 sink0_valid => request.IN1
 sink0_valid => src_valid.IN1
 sink0_data[0] => src_payload.IN1
@@ -73172,7 +73885,7 @@ clk => clk.IN1
 reset => reset.IN1
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_mux_003:cmd_mux_003|altera_merlin_arbitrator:arb
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_mux_003:cmd_mux_003|altera_merlin_arbitrator:arb
 clk => top_priority_reg[0].CLK
 clk => top_priority_reg[1].CLK
 reset => top_priority_reg[0].PRESET
@@ -73194,7 +73907,7 @@ increment_top_priority => top_priority_reg.OUTPUTSELECT
 save_top_priority => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_mux_003:cmd_mux_003|altera_merlin_arbitrator:arb|altera_merlin_arb_adder:adder
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_mux_003:cmd_mux_003|altera_merlin_arbitrator:arb|altera_merlin_arb_adder:adder
 a[0] => sum.IN0
 a[0] => full_adder.cout[0].IN0
 a[1] => cout.IN0
@@ -73215,7 +73928,7 @@ sum[2] <= sum.DB_MAX_OUTPUT_PORT_TYPE
 sum[3] <= sum.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_mux_003:cmd_mux_004
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_mux_003:cmd_mux_004
 sink0_valid => request.IN1
 sink0_valid => src_valid.IN1
 sink0_data[0] => src_payload.IN1
@@ -73589,7 +74302,7 @@ clk => clk.IN1
 reset => reset.IN1
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_mux_003:cmd_mux_004|altera_merlin_arbitrator:arb
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_mux_003:cmd_mux_004|altera_merlin_arbitrator:arb
 clk => top_priority_reg[0].CLK
 clk => top_priority_reg[1].CLK
 reset => top_priority_reg[0].PRESET
@@ -73611,7 +74324,7 @@ increment_top_priority => top_priority_reg.OUTPUTSELECT
 save_top_priority => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_mux_003:cmd_mux_004|altera_merlin_arbitrator:arb|altera_merlin_arb_adder:adder
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_mux_003:cmd_mux_004|altera_merlin_arbitrator:arb|altera_merlin_arb_adder:adder
 a[0] => sum.IN0
 a[0] => full_adder.cout[0].IN0
 a[1] => cout.IN0
@@ -73632,7 +74345,7 @@ sum[2] <= sum.DB_MAX_OUTPUT_PORT_TYPE
 sum[3] <= sum.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_mux_003:cmd_mux_005
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_mux_003:cmd_mux_005
 sink0_valid => request.IN1
 sink0_valid => src_valid.IN1
 sink0_data[0] => src_payload.IN1
@@ -74006,7 +74719,7 @@ clk => clk.IN1
 reset => reset.IN1
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_mux_003:cmd_mux_005|altera_merlin_arbitrator:arb
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_mux_003:cmd_mux_005|altera_merlin_arbitrator:arb
 clk => top_priority_reg[0].CLK
 clk => top_priority_reg[1].CLK
 reset => top_priority_reg[0].PRESET
@@ -74028,7 +74741,7 @@ increment_top_priority => top_priority_reg.OUTPUTSELECT
 save_top_priority => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_mux_003:cmd_mux_005|altera_merlin_arbitrator:arb|altera_merlin_arb_adder:adder
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_mux_003:cmd_mux_005|altera_merlin_arbitrator:arb|altera_merlin_arb_adder:adder
 a[0] => sum.IN0
 a[0] => full_adder.cout[0].IN0
 a[1] => cout.IN0
@@ -74049,7 +74762,7 @@ sum[2] <= sum.DB_MAX_OUTPUT_PORT_TYPE
 sum[3] <= sum.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_mux:cmd_mux_006
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_mux:cmd_mux_006
 sink0_valid => src_valid.DATAIN
 sink0_data[0] => src_data[0].DATAIN
 sink0_data[1] => src_data[1].DATAIN
@@ -74296,7 +75009,7 @@ clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_mux:cmd_mux_007
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_mux:cmd_mux_007
 sink0_valid => src_valid.DATAIN
 sink0_data[0] => src_data[0].DATAIN
 sink0_data[1] => src_data[1].DATAIN
@@ -74543,7 +75256,7 @@ clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_mux:cmd_mux_008
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_mux:cmd_mux_008
 sink0_valid => src_valid.DATAIN
 sink0_data[0] => src_data[0].DATAIN
 sink0_data[1] => src_data[1].DATAIN
@@ -74790,7 +75503,7 @@ clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_mux:cmd_mux_009
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_mux:cmd_mux_009
 sink0_valid => src_valid.DATAIN
 sink0_data[0] => src_data[0].DATAIN
 sink0_data[1] => src_data[1].DATAIN
@@ -75037,7 +75750,7 @@ clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_mux:cmd_mux_010
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_mux:cmd_mux_010
 sink0_valid => src_valid.DATAIN
 sink0_data[0] => src_data[0].DATAIN
 sink0_data[1] => src_data[1].DATAIN
@@ -75284,7 +75997,7 @@ clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_mux:cmd_mux_011
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_mux:cmd_mux_011
 sink0_valid => src_valid.DATAIN
 sink0_data[0] => src_data[0].DATAIN
 sink0_data[1] => src_data[1].DATAIN
@@ -75531,7 +76244,7 @@ clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_mux:cmd_mux_012
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_cmd_mux:cmd_mux_012
 sink0_valid => src_valid.DATAIN
 sink0_data[0] => src_data[0].DATAIN
 sink0_data[1] => src_data[1].DATAIN
@@ -75778,7 +76491,7 @@ clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_rsp_demux:rsp_demux
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_rsp_demux:rsp_demux
 sink_valid[0] => src0_valid.IN0
 sink_data[0] => src0_data[0].DATAIN
 sink_data[1] => src0_data[1].DATAIN
@@ -76026,7 +76739,7 @@ clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_rsp_demux:rsp_demux_001
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_rsp_demux:rsp_demux_001
 sink_valid[0] => src0_valid.IN0
 sink_data[0] => src0_data[0].DATAIN
 sink_data[1] => src0_data[1].DATAIN
@@ -76274,7 +76987,7 @@ clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_rsp_demux:rsp_demux_002
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_rsp_demux:rsp_demux_002
 sink_valid[0] => src0_valid.IN0
 sink_data[0] => src0_data[0].DATAIN
 sink_data[1] => src0_data[1].DATAIN
@@ -76522,7 +77235,7 @@ clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_rsp_demux_003:rsp_demux_003
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_rsp_demux_003:rsp_demux_003
 sink_valid[0] => src0_valid.IN0
 sink_valid[0] => src1_valid.IN0
 sink_data[0] => src1_data[0].DATAIN
@@ -77010,7 +77723,7 @@ clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_rsp_demux_003:rsp_demux_004
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_rsp_demux_003:rsp_demux_004
 sink_valid[0] => src0_valid.IN0
 sink_valid[0] => src1_valid.IN0
 sink_data[0] => src1_data[0].DATAIN
@@ -77498,7 +78211,7 @@ clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_rsp_demux_003:rsp_demux_005
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_rsp_demux_003:rsp_demux_005
 sink_valid[0] => src0_valid.IN0
 sink_valid[0] => src1_valid.IN0
 sink_data[0] => src1_data[0].DATAIN
@@ -77986,7 +78699,7 @@ clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_rsp_demux:rsp_demux_006
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_rsp_demux:rsp_demux_006
 sink_valid[0] => src0_valid.IN0
 sink_data[0] => src0_data[0].DATAIN
 sink_data[1] => src0_data[1].DATAIN
@@ -78234,7 +78947,7 @@ clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_rsp_demux:rsp_demux_007
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_rsp_demux:rsp_demux_007
 sink_valid[0] => src0_valid.IN0
 sink_data[0] => src0_data[0].DATAIN
 sink_data[1] => src0_data[1].DATAIN
@@ -78482,7 +79195,7 @@ clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_rsp_demux:rsp_demux_008
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_rsp_demux:rsp_demux_008
 sink_valid[0] => src0_valid.IN0
 sink_data[0] => src0_data[0].DATAIN
 sink_data[1] => src0_data[1].DATAIN
@@ -78730,7 +79443,7 @@ clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_rsp_demux:rsp_demux_009
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_rsp_demux:rsp_demux_009
 sink_valid[0] => src0_valid.IN0
 sink_data[0] => src0_data[0].DATAIN
 sink_data[1] => src0_data[1].DATAIN
@@ -78978,7 +79691,7 @@ clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_rsp_demux:rsp_demux_010
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_rsp_demux:rsp_demux_010
 sink_valid[0] => src0_valid.IN0
 sink_data[0] => src0_data[0].DATAIN
 sink_data[1] => src0_data[1].DATAIN
@@ -79226,7 +79939,7 @@ clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_rsp_demux:rsp_demux_011
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_rsp_demux:rsp_demux_011
 sink_valid[0] => src0_valid.IN0
 sink_data[0] => src0_data[0].DATAIN
 sink_data[1] => src0_data[1].DATAIN
@@ -79474,7 +80187,7 @@ clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_rsp_demux:rsp_demux_012
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_rsp_demux:rsp_demux_012
 sink_valid[0] => src0_valid.IN0
 sink_data[0] => src0_data[0].DATAIN
 sink_data[1] => src0_data[1].DATAIN
@@ -79722,7 +80435,7 @@ clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_rsp_mux:rsp_mux
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_rsp_mux:rsp_mux
 sink0_valid => request[0].IN1
 sink0_data[0] => src_payload.IN1
 sink0_data[1] => src_payload.IN1
@@ -81447,7 +82160,7 @@ clk => clk.IN1
 reset => reset.IN1
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_rsp_mux:rsp_mux|altera_merlin_arbitrator:arb
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_rsp_mux:rsp_mux|altera_merlin_arbitrator:arb
 clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 request[0] => grant[0].DATAIN
@@ -81506,7 +82219,7 @@ increment_top_priority => ~NO_FANOUT~
 save_top_priority => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_rsp_mux:rsp_mux|altera_merlin_arbitrator:arb|altera_merlin_arb_adder:adder
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_rsp_mux:rsp_mux|altera_merlin_arbitrator:arb|altera_merlin_arb_adder:adder
 a[0] => Add0.IN26
 a[1] => Add0.IN25
 a[2] => Add0.IN24
@@ -81587,7 +82300,7 @@ sum[24] <= Add0.DB_MAX_OUTPUT_PORT_TYPE
 sum[25] <= Add0.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_rsp_mux_001:rsp_mux_001
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_rsp_mux_001:rsp_mux_001
 sink0_valid => request[0].IN1
 sink0_data[0] => src_payload.IN1
 sink0_data[1] => src_payload.IN1
@@ -82082,7 +82795,7 @@ clk => clk.IN1
 reset => reset.IN1
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_rsp_mux_001:rsp_mux_001|altera_merlin_arbitrator:arb
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_rsp_mux_001:rsp_mux_001|altera_merlin_arbitrator:arb
 clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 request[0] => grant[0].DATAIN
@@ -82101,7 +82814,7 @@ increment_top_priority => ~NO_FANOUT~
 save_top_priority => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_rsp_mux_001:rsp_mux_001|altera_merlin_arbitrator:arb|altera_merlin_arb_adder:adder
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_rsp_mux_001:rsp_mux_001|altera_merlin_arbitrator:arb|altera_merlin_arb_adder:adder
 a[0] => sum.IN0
 a[0] => full_adder.cout[0].IN0
 a[1] => cout.IN0
@@ -82132,7 +82845,7 @@ sum[4] <= sum.DB_MAX_OUTPUT_PORT_TYPE
 sum[5] <= sum.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_width_adapter:sdram_s1_rsp_width_adapter
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_width_adapter:sdram_s1_rsp_width_adapter
 clk => clk.IN1
 reset => reset.IN1
 in_ready <= in_ready.DB_MAX_OUTPUT_PORT_TYPE
@@ -82377,7 +83090,7 @@ in_command_size_data[1] => ~NO_FANOUT~
 in_command_size_data[2] => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_width_adapter:sdram_s1_rsp_width_adapter|altera_merlin_burst_uncompressor:uncompressor
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_width_adapter:sdram_s1_rsp_width_adapter|altera_merlin_burst_uncompressor:uncompressor
 clk => burst_uncompress_address_offset[0].CLK
 clk => burst_uncompress_address_offset[1].CLK
 clk => burst_uncompress_address_offset[2].CLK
@@ -82693,7 +83406,7 @@ source_burstsize[1] <= sink_burstsize[1].DB_MAX_OUTPUT_PORT_TYPE
 source_burstsize[2] <= sink_burstsize[2].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_width_adapter:sdram_s1_cmd_width_adapter
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|altera_merlin_width_adapter:sdram_s1_cmd_width_adapter
 clk => byteen_reg[0].CLK
 clk => byteen_reg[1].CLK
 clk => byteen_reg[2].CLK
@@ -83139,7 +83852,7 @@ in_command_size_data[1] => ~NO_FANOUT~
 in_command_size_data[2] => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter
 in_clk_0_clk => in_clk_0_clk.IN1
 in_rst_0_reset => _.IN1
 in_0_data[0] => in_0_data[0].IN1
@@ -83217,7 +83930,7 @@ out_0_ready => out_0_ready.IN1
 out_0_error[0] <= CPU_mm_interconnect_0_avalon_st_adapter_error_adapter_0:error_adapter_0.out_error
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter|CPU_mm_interconnect_0_avalon_st_adapter_error_adapter_0:error_adapter_0
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter|CPU_mm_interconnect_0_avalon_st_adapter_error_adapter_0:error_adapter_0
 in_ready <= out_ready.DB_MAX_OUTPUT_PORT_TYPE
 in_valid => out_valid.DATAIN
 in_data[0] => out_data[0].DATAIN
@@ -83295,7 +84008,7 @@ clk => ~NO_FANOUT~
 reset_n => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_001
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_001
 in_clk_0_clk => in_clk_0_clk.IN1
 in_rst_0_reset => _.IN1
 in_0_data[0] => in_0_data[0].IN1
@@ -83373,7 +84086,7 @@ out_0_ready => out_0_ready.IN1
 out_0_error[0] <= CPU_mm_interconnect_0_avalon_st_adapter_error_adapter_0:error_adapter_0.out_error
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_001|CPU_mm_interconnect_0_avalon_st_adapter_error_adapter_0:error_adapter_0
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_001|CPU_mm_interconnect_0_avalon_st_adapter_error_adapter_0:error_adapter_0
 in_ready <= out_ready.DB_MAX_OUTPUT_PORT_TYPE
 in_valid => out_valid.DATAIN
 in_data[0] => out_data[0].DATAIN
@@ -83451,7 +84164,7 @@ clk => ~NO_FANOUT~
 reset_n => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_002
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_002
 in_clk_0_clk => in_clk_0_clk.IN1
 in_rst_0_reset => _.IN1
 in_0_data[0] => in_0_data[0].IN1
@@ -83529,7 +84242,7 @@ out_0_ready => out_0_ready.IN1
 out_0_error[0] <= CPU_mm_interconnect_0_avalon_st_adapter_error_adapter_0:error_adapter_0.out_error
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_002|CPU_mm_interconnect_0_avalon_st_adapter_error_adapter_0:error_adapter_0
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_002|CPU_mm_interconnect_0_avalon_st_adapter_error_adapter_0:error_adapter_0
 in_ready <= out_ready.DB_MAX_OUTPUT_PORT_TYPE
 in_valid => out_valid.DATAIN
 in_data[0] => out_data[0].DATAIN
@@ -83607,7 +84320,7 @@ clk => ~NO_FANOUT~
 reset_n => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_003
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_003
 in_clk_0_clk => in_clk_0_clk.IN1
 in_rst_0_reset => _.IN1
 in_0_data[0] => in_0_data[0].IN1
@@ -83685,7 +84398,7 @@ out_0_ready => out_0_ready.IN1
 out_0_error[0] <= CPU_mm_interconnect_0_avalon_st_adapter_error_adapter_0:error_adapter_0.out_error
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_003|CPU_mm_interconnect_0_avalon_st_adapter_error_adapter_0:error_adapter_0
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_003|CPU_mm_interconnect_0_avalon_st_adapter_error_adapter_0:error_adapter_0
 in_ready <= out_ready.DB_MAX_OUTPUT_PORT_TYPE
 in_valid => out_valid.DATAIN
 in_data[0] => out_data[0].DATAIN
@@ -83763,7 +84476,7 @@ clk => ~NO_FANOUT~
 reset_n => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_004
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_004
 in_clk_0_clk => in_clk_0_clk.IN1
 in_rst_0_reset => _.IN1
 in_0_data[0] => in_0_data[0].IN1
@@ -83841,7 +84554,7 @@ out_0_ready => out_0_ready.IN1
 out_0_error[0] <= CPU_mm_interconnect_0_avalon_st_adapter_error_adapter_0:error_adapter_0.out_error
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_004|CPU_mm_interconnect_0_avalon_st_adapter_error_adapter_0:error_adapter_0
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_004|CPU_mm_interconnect_0_avalon_st_adapter_error_adapter_0:error_adapter_0
 in_ready <= out_ready.DB_MAX_OUTPUT_PORT_TYPE
 in_valid => out_valid.DATAIN
 in_data[0] => out_data[0].DATAIN
@@ -83919,7 +84632,7 @@ clk => ~NO_FANOUT~
 reset_n => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter_005:avalon_st_adapter_005
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter_005:avalon_st_adapter_005
 in_clk_0_clk => in_clk_0_clk.IN1
 in_rst_0_reset => _.IN1
 in_0_data[0] => in_0_data[0].IN1
@@ -83965,7 +84678,7 @@ out_0_ready => out_0_ready.IN1
 out_0_error[0] <= CPU_mm_interconnect_0_avalon_st_adapter_005_error_adapter_0:error_adapter_0.out_error
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter_005:avalon_st_adapter_005|CPU_mm_interconnect_0_avalon_st_adapter_005_error_adapter_0:error_adapter_0
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter_005:avalon_st_adapter_005|CPU_mm_interconnect_0_avalon_st_adapter_005_error_adapter_0:error_adapter_0
 in_ready <= out_ready.DB_MAX_OUTPUT_PORT_TYPE
 in_valid => out_valid.DATAIN
 in_data[0] => out_data[0].DATAIN
@@ -84011,7 +84724,7 @@ clk => ~NO_FANOUT~
 reset_n => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_006
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_006
 in_clk_0_clk => in_clk_0_clk.IN1
 in_rst_0_reset => _.IN1
 in_0_data[0] => in_0_data[0].IN1
@@ -84089,7 +84802,7 @@ out_0_ready => out_0_ready.IN1
 out_0_error[0] <= CPU_mm_interconnect_0_avalon_st_adapter_error_adapter_0:error_adapter_0.out_error
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_006|CPU_mm_interconnect_0_avalon_st_adapter_error_adapter_0:error_adapter_0
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_006|CPU_mm_interconnect_0_avalon_st_adapter_error_adapter_0:error_adapter_0
 in_ready <= out_ready.DB_MAX_OUTPUT_PORT_TYPE
 in_valid => out_valid.DATAIN
 in_data[0] => out_data[0].DATAIN
@@ -84167,7 +84880,7 @@ clk => ~NO_FANOUT~
 reset_n => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_007
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_007
 in_clk_0_clk => in_clk_0_clk.IN1
 in_rst_0_reset => _.IN1
 in_0_data[0] => in_0_data[0].IN1
@@ -84245,7 +84958,7 @@ out_0_ready => out_0_ready.IN1
 out_0_error[0] <= CPU_mm_interconnect_0_avalon_st_adapter_error_adapter_0:error_adapter_0.out_error
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_007|CPU_mm_interconnect_0_avalon_st_adapter_error_adapter_0:error_adapter_0
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_007|CPU_mm_interconnect_0_avalon_st_adapter_error_adapter_0:error_adapter_0
 in_ready <= out_ready.DB_MAX_OUTPUT_PORT_TYPE
 in_valid => out_valid.DATAIN
 in_data[0] => out_data[0].DATAIN
@@ -84323,7 +85036,7 @@ clk => ~NO_FANOUT~
 reset_n => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_008
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_008
 in_clk_0_clk => in_clk_0_clk.IN1
 in_rst_0_reset => _.IN1
 in_0_data[0] => in_0_data[0].IN1
@@ -84401,7 +85114,7 @@ out_0_ready => out_0_ready.IN1
 out_0_error[0] <= CPU_mm_interconnect_0_avalon_st_adapter_error_adapter_0:error_adapter_0.out_error
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_008|CPU_mm_interconnect_0_avalon_st_adapter_error_adapter_0:error_adapter_0
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_008|CPU_mm_interconnect_0_avalon_st_adapter_error_adapter_0:error_adapter_0
 in_ready <= out_ready.DB_MAX_OUTPUT_PORT_TYPE
 in_valid => out_valid.DATAIN
 in_data[0] => out_data[0].DATAIN
@@ -84479,7 +85192,7 @@ clk => ~NO_FANOUT~
 reset_n => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_009
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_009
 in_clk_0_clk => in_clk_0_clk.IN1
 in_rst_0_reset => _.IN1
 in_0_data[0] => in_0_data[0].IN1
@@ -84557,7 +85270,7 @@ out_0_ready => out_0_ready.IN1
 out_0_error[0] <= CPU_mm_interconnect_0_avalon_st_adapter_error_adapter_0:error_adapter_0.out_error
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_009|CPU_mm_interconnect_0_avalon_st_adapter_error_adapter_0:error_adapter_0
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_009|CPU_mm_interconnect_0_avalon_st_adapter_error_adapter_0:error_adapter_0
 in_ready <= out_ready.DB_MAX_OUTPUT_PORT_TYPE
 in_valid => out_valid.DATAIN
 in_data[0] => out_data[0].DATAIN
@@ -84635,7 +85348,7 @@ clk => ~NO_FANOUT~
 reset_n => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_010
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_010
 in_clk_0_clk => in_clk_0_clk.IN1
 in_rst_0_reset => _.IN1
 in_0_data[0] => in_0_data[0].IN1
@@ -84713,7 +85426,7 @@ out_0_ready => out_0_ready.IN1
 out_0_error[0] <= CPU_mm_interconnect_0_avalon_st_adapter_error_adapter_0:error_adapter_0.out_error
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_010|CPU_mm_interconnect_0_avalon_st_adapter_error_adapter_0:error_adapter_0
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_010|CPU_mm_interconnect_0_avalon_st_adapter_error_adapter_0:error_adapter_0
 in_ready <= out_ready.DB_MAX_OUTPUT_PORT_TYPE
 in_valid => out_valid.DATAIN
 in_data[0] => out_data[0].DATAIN
@@ -84791,7 +85504,7 @@ clk => ~NO_FANOUT~
 reset_n => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_011
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_011
 in_clk_0_clk => in_clk_0_clk.IN1
 in_rst_0_reset => _.IN1
 in_0_data[0] => in_0_data[0].IN1
@@ -84869,7 +85582,7 @@ out_0_ready => out_0_ready.IN1
 out_0_error[0] <= CPU_mm_interconnect_0_avalon_st_adapter_error_adapter_0:error_adapter_0.out_error
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_011|CPU_mm_interconnect_0_avalon_st_adapter_error_adapter_0:error_adapter_0
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_011|CPU_mm_interconnect_0_avalon_st_adapter_error_adapter_0:error_adapter_0
 in_ready <= out_ready.DB_MAX_OUTPUT_PORT_TYPE
 in_valid => out_valid.DATAIN
 in_data[0] => out_data[0].DATAIN
@@ -84947,7 +85660,7 @@ clk => ~NO_FANOUT~
 reset_n => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_012
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_012
 in_clk_0_clk => in_clk_0_clk.IN1
 in_rst_0_reset => _.IN1
 in_0_data[0] => in_0_data[0].IN1
@@ -85025,7 +85738,7 @@ out_0_ready => out_0_ready.IN1
 out_0_error[0] <= CPU_mm_interconnect_0_avalon_st_adapter_error_adapter_0:error_adapter_0.out_error
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_012|CPU_mm_interconnect_0_avalon_st_adapter_error_adapter_0:error_adapter_0
+|LGSM_TOP_V2|CPU:u0|CPU_mm_interconnect_0:mm_interconnect_0|CPU_mm_interconnect_0_avalon_st_adapter:avalon_st_adapter_012|CPU_mm_interconnect_0_avalon_st_adapter_error_adapter_0:error_adapter_0
 in_ready <= out_ready.DB_MAX_OUTPUT_PORT_TYPE
 in_valid => out_valid.DATAIN
 in_data[0] => out_data[0].DATAIN
@@ -85103,7 +85816,7 @@ clk => ~NO_FANOUT~
 reset_n => ~NO_FANOUT~
 
 
-|LGSM_TOP_V1|CPU:u0|CPU_irq_mapper:irq_mapper
+|LGSM_TOP_V2|CPU:u0|CPU_irq_mapper:irq_mapper
 clk => ~NO_FANOUT~
 reset => ~NO_FANOUT~
 receiver0_irq => sender_irq[1].DATAIN
@@ -85146,7 +85859,7 @@ sender_irq[30] <= <GND>
 sender_irq[31] <= <GND>
 
 
-|LGSM_TOP_V1|CPU:u0|altera_reset_controller:rst_controller
+|LGSM_TOP_V2|CPU:u0|altera_reset_controller:rst_controller
 reset_in0 => merged_reset.IN0
 reset_in1 => merged_reset.IN1
 reset_in2 => merged_reset.IN1
@@ -85184,7 +85897,7 @@ reset_out <= r_sync_rst.DB_MAX_OUTPUT_PORT_TYPE
 reset_req <= r_early_rst.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|altera_reset_controller:rst_controller|altera_reset_synchronizer:alt_rst_sync_uq1
+|LGSM_TOP_V2|CPU:u0|altera_reset_controller:rst_controller|altera_reset_synchronizer:alt_rst_sync_uq1
 reset_in => altera_reset_synchronizer_int_chain_out.PRESET
 reset_in => altera_reset_synchronizer_int_chain[0].PRESET
 reset_in => altera_reset_synchronizer_int_chain[1].PRESET
@@ -85194,7 +85907,7 @@ clk => altera_reset_synchronizer_int_chain[1].CLK
 reset_out <= altera_reset_synchronizer_int_chain_out.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|altera_reset_controller:rst_controller|altera_reset_synchronizer:alt_rst_req_sync_uq1
+|LGSM_TOP_V2|CPU:u0|altera_reset_controller:rst_controller|altera_reset_synchronizer:alt_rst_req_sync_uq1
 reset_in => altera_reset_synchronizer_int_chain[1].DATAIN
 clk => altera_reset_synchronizer_int_chain_out.CLK
 clk => altera_reset_synchronizer_int_chain[0].CLK
@@ -85202,7 +85915,7 @@ clk => altera_reset_synchronizer_int_chain[1].CLK
 reset_out <= altera_reset_synchronizer_int_chain_out.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|altera_reset_controller:rst_controller_001
+|LGSM_TOP_V2|CPU:u0|altera_reset_controller:rst_controller_001
 reset_in0 => merged_reset.IN0
 reset_in1 => merged_reset.IN1
 reset_in2 => merged_reset.IN1
@@ -85240,7 +85953,7 @@ reset_out <= r_sync_rst.DB_MAX_OUTPUT_PORT_TYPE
 reset_req <= r_early_rst.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|altera_reset_controller:rst_controller_001|altera_reset_synchronizer:alt_rst_sync_uq1
+|LGSM_TOP_V2|CPU:u0|altera_reset_controller:rst_controller_001|altera_reset_synchronizer:alt_rst_sync_uq1
 reset_in => altera_reset_synchronizer_int_chain_out.PRESET
 reset_in => altera_reset_synchronizer_int_chain[0].PRESET
 reset_in => altera_reset_synchronizer_int_chain[1].PRESET
@@ -85250,7 +85963,7 @@ clk => altera_reset_synchronizer_int_chain[1].CLK
 reset_out <= altera_reset_synchronizer_int_chain_out.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|LGSM_TOP_V1|CPU:u0|altera_reset_controller:rst_controller_001|altera_reset_synchronizer:alt_rst_req_sync_uq1
+|LGSM_TOP_V2|CPU:u0|altera_reset_controller:rst_controller_001|altera_reset_synchronizer:alt_rst_req_sync_uq1
 reset_in => altera_reset_synchronizer_int_chain[1].DATAIN
 clk => altera_reset_synchronizer_int_chain_out.CLK
 clk => altera_reset_synchronizer_int_chain[0].CLK
