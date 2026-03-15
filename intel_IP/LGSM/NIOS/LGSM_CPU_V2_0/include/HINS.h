@@ -36,6 +36,7 @@
 
 #include "ads122c04_se.h"
 #include "asm330lhhx.h"
+#include "Tsensor_DS1775.h"
 
 
 

@@ -20,6 +20,8 @@ obj/default//D/github/adamShiau_FPGA/intel_IP/LGSM/NIOS/LGSM_CPU_V2_0/lib/common
  D:\github\adamShiau_FPGA\intel_IP\LGSM\NIOS\LGSM_CPU_V2_0\include/eeprom_v2.h \
  D:\github\adamShiau_FPGA\intel_IP\LGSM\NIOS\LGSM_CPU_V2_0\include/ads122c04_se.h \
  D:\github\adamShiau_FPGA\intel_IP\LGSM\NIOS\LGSM_CPU_V2_0\include/asm330lhhx.h \
+ D:\github\adamShiau_FPGA\intel_IP\LGSM\NIOS\LGSM_CPU_V2_0\include/Tsensor_DS1775.h \
+ D:\github\adamShiau_FPGA\intel_IP\LGSM\NIOS\LGSM_CPU_V2_0\include/myiic.h \
  D:\github\adamShiau_FPGA\intel_IP\LGSM\NIOS\LGSM_CPU_V2_0\include/asm330lhhx.h
 
 D:\github\adamShiau_FPGA\intel_IP\LGSM\NIOS\LGSM_CPU_V2_0\include/common.h:
@@ -63,5 +65,9 @@ D:\github\adamShiau_FPGA\intel_IP\LGSM\NIOS\LGSM_CPU_V2_0\include/eeprom_v2.h:
 D:\github\adamShiau_FPGA\intel_IP\LGSM\NIOS\LGSM_CPU_V2_0\include/ads122c04_se.h:
 
 D:\github\adamShiau_FPGA\intel_IP\LGSM\NIOS\LGSM_CPU_V2_0\include/asm330lhhx.h:
+
+D:\github\adamShiau_FPGA\intel_IP\LGSM\NIOS\LGSM_CPU_V2_0\include/Tsensor_DS1775.h:
+
+D:\github\adamShiau_FPGA\intel_IP\LGSM\NIOS\LGSM_CPU_V2_0\include/myiic.h:
 
 D:\github\adamShiau_FPGA\intel_IP\LGSM\NIOS\LGSM_CPU_V2_0\include/asm330lhhx.h:

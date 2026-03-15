@@ -14,7 +14,7 @@ void update_HINS_config_to_HW_REG(void);
 void update_sensor_data(my_sensor_t *data); 
 void monitor_reg(void);
 void dbg_mems(my_sensor_t *data);
-static float convert_PDtemp2f(alt_16 PD_temp);
+// static float convert_PDtemp2f(alt_16 PD_temp);
 
 
 const alt_u8 cmd_header[2] = {0xAB, 0xBA};
@@ -119,6 +119,8 @@ int main(void)
     DEBUG_PRINT("init_ADS122C04_TEMP\n");
 	init_ADS122C04_TEMP();
     init_ASM330LHHX();
+    DEBUG_PRINT("init_DS1775\n");
+    ds1775_init(DS1775_RES_12BIT); // 設定為最高精度 0.0625°C
     DEBUG_PRINT("initialize_fog_params_type\n");
 	// initialize_fog_params_type(&fog_params);
 
@@ -250,13 +252,13 @@ void IRQ_TRIGGER_ISR(void *context)
 	trigger_sig = 1;
 }
 
-static float convert_PDtemp2f(alt_16 PD_temp)
-{
-	alt_u8 Hbyte = PD_temp>>8;
-	alt_u8 Lbyte = PD_temp;
+// static float convert_PDtemp2f(alt_16 PD_temp)
+// {
+// 	alt_u8 Hbyte = PD_temp>>8;
+// 	alt_u8 Lbyte = PD_temp;
 
-	if(Hbyte>>7) {
-		return (float)Hbyte - 256.0 + (float)(Lbyte>>7)*0.5;
-	}
-	else return (float)Hbyte + (float)(Lbyte>>7)*0.5;
-}
+// 	if(Hbyte>>7) {
+// 		return (float)Hbyte - 256.0 + (float)(Lbyte>>7)*0.5;
+// 	}
+// 	else return (float)Hbyte + (float)(Lbyte>>7)*0.5;
+// }
