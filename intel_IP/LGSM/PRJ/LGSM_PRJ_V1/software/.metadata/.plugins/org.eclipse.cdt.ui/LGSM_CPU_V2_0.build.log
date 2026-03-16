@@ -1,9 +1,9 @@
-11:42:57 **** Incremental Build of configuration Nios II for project LGSM_CPU_V2_0 ****
+13:53:07 **** Incremental Build of configuration Nios II for project LGSM_CPU_V2_0 ****
 make all 
 Info: Building ../LGSM_CPU_V2_0_bsp/
 D:/intelFPGA_lite/18.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../LGSM_CPU_V2_0_bsp/
 [BSP build complete]
 [LGSM_CPU_V2_0 build complete]
 
-11:42:59 Build Finished (took 2s.319ms)
+13:53:09 Build Finished (took 1s.818ms)
 

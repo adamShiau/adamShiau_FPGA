@@ -12,7 +12,7 @@
 #include <stdbool.h>
 
 
-//  #define DEBUG_PRINT
+ #define DEBUG_PRINT
 
 #ifdef DEBUG_PRINT
     #define DEBUG_PRINT(...) printf(__VA_ARGS__)
