@@ -253,11 +253,11 @@ void init_ASM330LHHX()
         const char* label;
     } configs[] = {
         {CTRL1_XL, ACCL_FS_16G | ACCL_ODR_416HZ | LPF2_XL_EN, "[CTRL1_XL] Accl Config: 16G, 416Hz, LPF2 ON"},
-		{CTRL8_XL, HPCF_XL_4,                                 "[CTRL8_XL] Accl LPF2 Cutoff: ODR/4"},
+		{CTRL8_XL, HPCF_XL_2,                                 "[CTRL8_XL] Accl LPF2 Cutoff: ODR/20"},
         {CTRL2_G,  GYRO_FS_1000DPS | GYRO_ODR_416HZ,          "[CTRL2_G] Gyro Config: 1000DPS, 416Hz"},
         {CTRL3_C,  BDU | IF_INC,                              "[CTRL3_C] System (BDU, Auto-Inc)"},
         {CTRL4_C,  INT2_ON_INT1 | LPF1_SEL_G,                 "[CTRL4_C] Routing INT2 on INT1. Gyro LPF1 ON)"},
-        {CTRL6_C,  LPF1_FTYPE_7,                              "[CTRL6_C] Gyro LPF1 Bandwidth: 133 Hz"},
+        {CTRL6_C,  LPF1_FTYPE_6,                              "[CTRL6_C] Gyro LPF1 Bandwidth: 24.6 Hz"},
         {COUNTER_BDR_REG1, DATAREADY_PULSED,                  "DataReady Pulsed Mode"},
         {INT1_CTRL, INT1_DRDY_XL | INT1_DRDY_G,               "Interrupt 1 Map (A+G)"},
         {INT2_CTRL, INT2_DRDY_TEMP,                           "Interrupt 2 Map (Temp)"},
