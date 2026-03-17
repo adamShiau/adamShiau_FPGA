@@ -80,6 +80,9 @@ assign DAC_RST = var_dac_rst[0];
 
 assign i_var_err = fog_err_out;
 assign i_var_step = fog_step_out;
+assign i_var_accu_step_H = fog_accu_step_H;
+assign i_var_accu_step_L = fog_accu_step_L;
+assign i_var_accu_step_cnt = fog_accu_step_cnt;
 
 // *************************************************************************
 // * Internal Signals *
@@ -102,6 +105,10 @@ wire sync_out;
 wire signed [31:0] fog_err_out;
 wire signed [31:0] fog_step_out;
 wire signed [31:0] fog_ramp_out;
+wire signed [31:0] fog_accu_step_L;
+wire signed [31:0] fog_accu_step_H;
+wire signed [31:0] fog_accu_step_cnt;
+wire o_step_sync;
 
 // ---- Nios2 連接訊號 ---- //
 /***  DAC Reset 訊號 ***/
@@ -147,6 +154,9 @@ logic signed [31:0] i_var_step;
 
 /*** Phase Ramp Gen parameter ***/
 wire [31:0] var_gainSel_ramp;
+
+/*** Step accumulator var ***/
+logic signed [31:0] i_var_accu_step_L, i_var_accu_step_H, i_var_accu_step_cnt;
 
 // -----------------------------------------------------------------------
 // PLL Block
@@ -209,7 +219,7 @@ timer_inst
 // FOG 核心模組例化 (HINS_fog_v1)
 // =========================================================================
 
-HINS_fog_v1 u_hins_fog_v1 (
+HINS_fog_v2 u_hins_fog (
     // 時鐘與重置
     .CLOCK_ADC      (pll_clk_adc_int), 
     .CLOCK_CPU      (pll_clk_cpu_int), 
@@ -232,11 +242,27 @@ HINS_fog_v1 u_hins_fog_v1 (
     .o_err_DAC      (fog_err_out), 
     .o_phaseRamp  	(fog_ramp_out), 
     .o_step         (fog_step_out), 
+    .step_sync_out  (o_step_sync),
 
     // 測試reg
     .o_reg_1_err_signal_gen (i_var_reg_1_err_signal_gen),
     .o_reg_1_Feedback_control(i_var_reg_1_Feedback_control)
 );
+
+// =========================================================================
+// FOG Step 累加器
+// =========================================================================
+step_accumulator u_step_acc (
+    .i_clk           (pll_clk_cpu_int),
+    .i_rst_n         (RST_SYNC_N),
+    .i_step_sync     (o_step_sync),    // 您需要從 HINS_fog_v1 拉出此訊號
+    .i_step          (fog_step_out),     // 已定義在 top 
+    .i_sync_out      (sync_out),       // 外部同步訊號輸入
+    .o_acc_step_low  (fog_accu_step_L),
+    .o_acc_step_high (fog_accu_step_H),
+    .o_acc_count     (fog_accu_step_cnt)
+);
+
 
 // =========================================================================
 // EEPROM
@@ -435,9 +461,9 @@ CPU u0 (
         .varset_1_i_var18 (i_var_err),                 //         .i_var18
         .varset_1_i_var19 (i_var_step),                //         .i_var19
         .varset_1_i_var20 (i_var_timer),               //         .i_var20
-        .varset_1_i_var21 (i_var_reg_1_err_signal_gen),                          //         .i_var21
-        .varset_1_i_var22 (i_var_reg_1_Feedback_control),                          //         .i_var22
-        .varset_1_i_var23 (),                          //         .i_var23
+        .varset_1_i_var21 (i_var_accu_step_L),                          //         .i_var21
+        .varset_1_i_var22 (i_var_accu_step_H),                          //         .i_var22
+        .varset_1_i_var23 (i_var_accu_step_cnt),                          //         .i_var23
         .varset_1_i_var24 (),                          //         .i_var24
         .varset_1_i_var25 (),                          //         .i_var25
         .varset_1_i_var26 (),                          //         .i_var26

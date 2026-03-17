@@ -136,7 +136,10 @@ typedef enum {
 /*** sensor data structure delaration */
 typedef struct {
   my_float_t err; 
-  my_float_t step;     
+  my_float_t step;   
+  my_float_t step_L;
+  my_float_t step_H;
+  my_float_t step_cnt;      
 } fog_component_t;
 
 typedef struct {

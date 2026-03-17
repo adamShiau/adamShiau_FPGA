@@ -49,7 +49,10 @@
 #define i_var_err                       60 + 18
 #define i_var_step                      60 + 19
 #define i_var_timer                     60 + 20
-#define i_var_reg_1_err_signal_gen      60 + 21
-#define i_var_reg_1_Feedback_control    60 + 22
+#define i_var_accu_step_L               60 + 21
+#define i_var_accu_step_H               60 + 22
+#define i_var_accu_step_cnt             60 + 23
+// #define i_var_reg_1_err_signal_gen      60 + 21
+// #define i_var_reg_1_Feedback_control    60 + 22
 
 

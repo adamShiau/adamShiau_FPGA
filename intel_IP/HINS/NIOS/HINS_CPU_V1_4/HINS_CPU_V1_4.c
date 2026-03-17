@@ -212,6 +212,9 @@ void update_sensor_data(my_sensor_t *data) {
     /***---fog z axis--- */
      data->fog.fogz.err.int_val = IORD(VARSET_BASE, i_var_err);
      data->fog.fogz.step.int_val = IORD(VARSET_BASE, i_var_step);
+     data->fog.fogz.step_H.int_val = IORD(VARSET_BASE, i_var_accu_step_H);
+    data->fog.fogz.step_L.int_val = IORD(VARSET_BASE, i_var_accu_step_L);
+    data->fog.fogz.step_cnt.int_val = IORD(VARSET_BASE, i_var_accu_step_cnt);
     /***---adc ads122c04--- */
      data->ads122c04.ain0.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_1);
      data->ads122c04.ain1.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_2);
