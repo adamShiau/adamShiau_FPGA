@@ -2,12 +2,19 @@
 #define __AASM330LHHX_H
 
 /***
- * version: v1.2
+ * version: v1.3
  * data: 2026/03/04
  * 新增 Gyro_LPF1 與 Accl_LPF2 setter 
  * 
  * data: 2026/03/10 
  * 新增 SM 重置 IDLE 方法 I2C_sm_force_reset_ASM330LHHX()
+ * 
+ * data: 2026/03/17 
+ * 配合 Verilog V4 進版優化：
+ * 1. 修改 LOG 排版。
+ * 2. Setter 採用「模式切換優先」策略，解決 HW 模式與 CPU 模式切換時的競爭風險。
+ * 3. 優化等待與校驗機制，提升動態修改暫存器時的穩定性。
+ * 
  */
 
 #include "alt_types.h"

@@ -237,6 +237,7 @@ void init_ASM330LHHX()
                 get_i2c_freq_name(I2C_CLK_rate), I2C_CLK_rate);
 
     I2C_sm_force_reset_ASM330LHHX();
+    usleep(5000); // 給 5ms 讓從機穩定
 
     // 1. 物理層檢查：確認 ID
     alt_u8 who_am_i = I2C_read_ASM330LHHX_register(WHO_AM_I, 0);
@@ -296,45 +297,38 @@ void init_ASM330LHHX()
     DEBUG_PRINT("==============================================\n\n");
 }
 
-void I2C_sm_force_reset_ASM330LHHX() {
-    
-    // 拉高 SM_Reset 
-    alt_u32 ctrl = IORD(VARSET_BASE, O_VAR_I2C_CTRL);
-    IOWR(VARSET_BASE, O_VAR_I2C_CTRL, ctrl | (1 << ctrl_sm_reset_pos));
-
-    // 短暫延遲，確保硬體時鐘（i2c_clk）有抓到這個電位
-    usleep(10); 
-    
-    //  設定成 CPU_WREG 模式
-    I2C_op_mode_sel_ASM330LHHX(CPU_WREG);
-
-    // 拉低 SM_Reset 
-    ctrl = IORD(VARSET_BASE, O_VAR_I2C_CTRL);
-    IOWR(VARSET_BASE, O_VAR_I2C_CTRL, (ctrl & ~(1 << ctrl_sm_reset_pos)));
-    
-    // 強制清除 Finish 旗標
-    I2C_sm_set_finish_clear_pulse_ASM330LHHX();
-}
-
 /**
- * @brief 帶有校驗功能的暫存器寫入
+ * @brief 帶有詳細偵錯訊息的暫存器寫入校驗
  * @return 0: 成功, -1: 失敗
  */
 int I2C_write_verify_ASM330LHHX(alt_u8 reg_addr, alt_u8 data) {
     int retry = 3;
     alt_u8 read_val;
+    int has_error = 0; // 紀錄通訊過程中是否曾發生錯誤
 
     while(retry--) {
         I2C_write_ASM330LHHX_register(reg_addr, data, 0); // 執行寫入
-        usleep(100); // 給予硬體微小的處理時間
+        usleep(250); // 給予硬體處理與 I2C 匯流排穩定時間
         read_val = I2C_read_ASM330LHHX_register(reg_addr, 0); // 讀回比對
         
         if(read_val == data) {
-            return 0; // 校驗成功
+            // 如果曾經報錯，成功後補一個換行讓版面整潔
+            if (has_error) DEBUG_PRINT("\n"); 
+            return 0; 
         }
+
+        has_error = 1;
+        DEBUG_PRINT("\n    [INFO] Mismatch @ Reg 0x%02X (Retry %d)", reg_addr, 3-retry);
+        DEBUG_PRINT("\n    [INFO] Expected: 0x%02X, Actual: 0x%02X", data, read_val);
+        DEBUG_PRINT("\n    [INFO] Triggering Bus Recovery Sequence...\n");
+
+        I2C_sm_force_reset_ASM330LHHX(); 
+        usleep(1000);
     }
     
-    DEBUG_PRINT("ERROR: ASM330LHHX reg 0x%02X verify failed!\n", reg_addr);
+    // 最終失敗：印出最關鍵的錯誤訊息
+    DEBUG_PRINT("\n[FAILED] !!! Reg 0x%02X Verify Final Failure !!!\n", reg_addr);
+    
     return -1;
 }
 
@@ -400,121 +394,124 @@ void print_ASM330LHHX_SM_status()
     DEBUG_PRINT("SM: %d\n", current_sm);
 }
 
+/**
+ * @brief 強制重置 I2C 狀態機並執行 Bus Recovery
+ * 配合 Verilog V4：執行 9 個時鐘脈衝並發送 STOP Condition
+ */
+void I2C_sm_force_reset_ASM330LHHX() {
+    // 拉高 SM_Reset 
+    alt_u32 ctrl = IORD(VARSET_BASE, O_VAR_I2C_CTRL);
+    IOWR(VARSET_BASE, O_VAR_I2C_CTRL, ctrl | (1 << ctrl_sm_reset_pos));
+
+    // 短暫延遲，確保硬體時鐘（i2c_clk）有抓到這個電位
+    usleep(10); 
+    
+    //  設定成 CPU_WREG 模式
+    I2C_op_mode_sel_ASM330LHHX(CPU_WREG);
+
+    // 拉低 SM_Reset 
+    ctrl = IORD(VARSET_BASE, O_VAR_I2C_CTRL);
+    IOWR(VARSET_BASE, O_VAR_I2C_CTRL, (ctrl & ~(1 << ctrl_sm_reset_pos)));
+    
+    // 強制清除 Finish 旗標
+    I2C_sm_set_finish_clear_pulse_ASM330LHHX();
+}
+
 
 /**
  * @brief 動態設定陀螺儀 LPF1 頻寬 (FTYPE)
  */
 void set_ASM330LHHX_Gyro_LPF1(alt_u8 ftype) {
 
-    int timeout = 100000;
-    alt_u8 current_sm;
-    
-    // I2C_op_mode_sel_ASM330LHHX(CPU_WREG); // 讓 SM 回到 IDLE
+    int timeout = 10000;
 
-    // I2C_sm_set_finish_clear_pulse_ASM330LHHX(); 
+    // 防呆：若目前參數已正確，直接 return 以免中斷數據流
+    static alt_u8 last_ftype = 0xFF;
+    if (ftype == last_ftype) return;
 
+    DEBUG_PRINT("\n[SETTER] ASM330LHHX Gyro LPF1: Index %d\n", ftype);
+
+    // 1. 先強制切換模式到 CPU_WREG，關閉 HW 模式
+    // I2C_op_mode_sel_ASM330LHHX(CPU_WREG);
+
+    // 2. 執行物理重置
     I2C_sm_force_reset_ASM330LHHX();
 
-    while(timeout-- > 0) {
-        current_sm = get_ASM330LHHX_SM_status();
-        if(current_sm == 0) break; // 0 是 IDLE 
-    }
-    
+    // 3. 等待 SM 回到 IDLE (0)
+    while(get_ASM330LHHX_SM_status() != 0 && timeout-- > 0);
+
     if(timeout <= 0) {
-        DEBUG_PRINT("\n[ERROR] SM NOT IDLE! Current: %d\n", current_sm);
-        return; // 若狀態機卡住，不強行寫入
+        DEBUG_PRINT("\n    [ERROR] SM NOT IDLE before write! State: %d\n", get_ASM330LHHX_SM_status());
+        return;
     }
 
-    DEBUG_PRINT("\n--- [START] Set Gyro LPF1 ---");
-
-    // 1. 讀取當前 CTRL6_C 暫存器 (0x15) 
-    DEBUG_PRINT("\nSet_ASM330LHHX_Gyro_LPF1\n");
+    // 4. 修改 CTRL6_C (0x15) 並驗證
     alt_u8 current_ctrl6 = I2C_read_ASM330LHHX_register(CTRL6_C, 0); 
-    
-    // 2. 修改低 3 位元 (FTYPE) 並保留其他位元，執行寫入校驗
-    alt_u8 next_ctrl6 = (current_ctrl6 & 0xF8) | (ftype & 0x07); 
+    alt_u8 next_ctrl6 = (current_ctrl6 & 0xF8) | (ftype & 0x07);
 
-    DEBUG_PRINT("[CTRL6_C (0x15)] Old: 0x%02X -> New: 0x%02X (ftype index: %d)\n", 
-                current_ctrl6, next_ctrl6, ftype);
+    if (I2C_write_verify_ASM330LHHX(CTRL6_C, next_ctrl6) == 0) {
+        last_ftype = ftype;
+    }
 
-    I2C_write_verify_ASM330LHHX(CTRL6_C, next_ctrl6); 
+    // 5. 確保 LPF1_SEL_G 已啟用
+    alt_u8 c4 = I2C_read_ASM330LHHX_register(CTRL4_C, 0);
+    I2C_write_verify_ASM330LHHX(CTRL4_C, c4 | LPF1_SEL_G);
 
-    // 3. 確保 CTRL4_C (0x13) 中的 LPF1_SEL_G 已啟用
-    alt_u8 current_ctrl4 = I2C_read_ASM330LHHX_register(CTRL4_C, 0);
-
-    alt_u8 next_ctrl4 = current_ctrl4 | LPF1_SEL_G;
-
-    DEBUG_PRINT("[CTRL4_C (0x13)] Old: 0x%02X -> New: 0x%02X (Enable LPF1_SEL_G)\n", 
-                current_ctrl4, next_ctrl4);
-
-    I2C_write_verify_ASM330LHHX(CTRL4_C, next_ctrl4);
-
-    // 4. 強制切回硬體自動讀取模式 
+    // 6. 恢復硬體自動讀取模式
     I2C_op_mode_sel_ASM330LHHX(HW); 
 
-    DEBUG_PRINT("[  OK  ] Gyro LPF1 updated & HW Mode restored.\n");
+    usleep(100000);
+
+    DEBUG_PRINT("\n--- [DONE] ASM330LHHX Gyro LPF1 HW Mode Active ---\n");
 }
 
 /**
  * @brief 動態設定加速度計 LPF2 頻寬 (HPCF_XL)
  */
 void set_ASM330LHHX_Accl_LPF2(alt_u8 cutoff_bw) {
+    int timeout = 10000;
+    static alt_u8 last_cutoff = 0xFF;
 
-    int timeout = 100000;
-    alt_u8 current_sm;
-    
-    // I2C_op_mode_sel_ASM330LHHX(CPU_WREG); // 讓 SM 回到 IDLE
+    if (cutoff_bw == last_cutoff) return;
 
-    // I2C_sm_set_finish_clear_pulse_ASM330LHHX(); 
+    DEBUG_PRINT("\n[SETTER] ASM330LHHX Accl LPF2: Index %d\n", cutoff_bw);
 
+    // 1. 強制進入 CPU 模式，避免 HW 模式競爭
+    // I2C_op_mode_sel_ASM330LHHX(CPU_WREG);
+
+    // 2. 執行 9-pulse Recovery 並等待 IDLE
     I2C_sm_force_reset_ASM330LHHX();
+    while(get_ASM330LHHX_SM_status() != 0 && timeout-- > 0);
 
-    while(timeout-- > 0) {
-        current_sm = get_ASM330LHHX_SM_status();
-        if(current_sm == 0) break; // 0 是 IDLE 
-    }
-    
     if(timeout <= 0) {
-        DEBUG_PRINT("\n[ERROR] SM NOT IDLE! Current: %d\n", current_sm);
-        return; // 若狀態機卡住，不強行寫入
+        DEBUG_PRINT("\n    [ERROR] SM NOT IDLE before write! State: %d\n", get_ASM330LHHX_SM_status());
+        return;
     }
 
-    DEBUG_PRINT("\n--- [START] Set Accl LPF2 ---");
+    // 3. 修改 CTRL8_XL (0x17) 
+    alt_u8 cur8 = I2C_read_ASM330LHHX_register(CTRL8_XL, 0); 
+    alt_u8 next8 = (cur8 & 0x1F) | ((cutoff_bw << 5) & 0xE0);
+    
+    if (I2C_write_verify_ASM330LHHX(CTRL8_XL, next8) == 0) {
+        last_cutoff = cutoff_bw;
+    }
 
-    alt_u8 cutoff_val = (cutoff_bw << 5);
+    // 4. 確保 CTRL1_XL (0x10) 已開啟 LPF2_XL_EN (bit 1) 
+    alt_u8 cur1 = I2C_read_ASM330LHHX_register(CTRL1_XL, 0);
+    I2C_write_verify_ASM330LHHX(CTRL1_XL, cur1 | LPF2_XL_EN);
 
-    // 1. 讀取當前 CTRL8_XL 暫存器 (0x17)
-    DEBUG_PRINT("\nSet_ASM330LHHX_Accl_LPF2\n");
-
-    alt_u8 current_ctrl8 = I2C_read_ASM330LHHX_register(CTRL8_XL, 0); 
-
-    // 2. 修改 bit[7:5] (HPCF_XL)，保留其他位元
-    alt_u8 next_ctrl8 = (current_ctrl8 & 0x1F) | (cutoff_val & 0xE0);
-
-    DEBUG_PRINT("[CTRL8_XL (0x17)] Old: 0x%02X -> New: 0x%02X (Cutoff shift-val: 0x%02X)\n", 
-                current_ctrl8, next_ctrl8, cutoff_val);
-
-    I2C_write_verify_ASM330LHHX(CTRL8_XL, next_ctrl8);
-
-    // 3. 確保 CTRL1_XL (0x10) 中的 LPF2_XL_EN 已啟用 
-    alt_u8 current_ctrl1 = I2C_read_ASM330LHHX_register(CTRL1_XL, 0);
-    alt_u8 next_ctrl1 = current_ctrl1 | LPF2_XL_EN;
-
-    DEBUG_PRINT("[CTRL1_XL (0x10)] Old: 0x%02X -> New: 0x%02X (Enable LPF2_XL_EN)\n", 
-                current_ctrl1, next_ctrl1);
-
-    I2C_write_verify_ASM330LHHX(CTRL1_XL, next_ctrl1);
-
-    // 4. 強制切回硬體自動讀取模式 [cite: 9, 85]
+    // 5. 回到 HW 模式 
     I2C_op_mode_sel_ASM330LHHX(HW);
-    DEBUG_PRINT("[  OK  ] Accl LPF2 updated & HW Mode restored.\n");
-}
+
+    usleep(100000);
+    
+    DEBUG_PRINT("\n--- [DONE] ASM330LHHX Accl LPF2 HW Mode Active ---\n");}
 
 /***********mid level definition */
 
 void I2C_sm_start_ASM330LHHX()
 {
-	alt_u8 dly = 50;
+	alt_u8 dly = 100;
 
 	I2C_sm_set_enable_ASM330LHHX();
 	while(dly--){}
@@ -537,8 +534,6 @@ void I2C_clock_rate_sel_ASM330LHHX(alt_u8 rate)
 
 void I2C_write_ASM330LHHX_register(alt_u8 reg_addr, alt_u8 data, alt_u8 print)
 {
-    // DEBUG_PRINT("I2C_write_ASM330LHHX_register\n");
-    // print_ASM330LHHX_SM_status();
 
 	// setting mode to cpu write register
 	I2C_op_mode_sel_ASM330LHHX(CPU_WREG);
@@ -551,24 +546,22 @@ void I2C_write_ASM330LHHX_register(alt_u8 reg_addr, alt_u8 data, alt_u8 print)
 	IOWR(VARSET_BASE, O_VAR_W_DATA, data);
 	// start the I2C SM 
 	I2C_sm_start_ASM330LHHX();
+
 	// Wait for the I2C SM to complete the operation
-	int timeout = 100000;
+	int timeout = 50000;
 	while( !I2C_sm_read_finish_ASM330LHHX() && timeout-- > 0 );
 	if (timeout <= 0) {
-        printf("ASM330LHHX write timeout!\n");
+        DEBUG_PRINT("[ ERROR ] Write Timeout! Reg: 0x%02X\n", reg_addr);
         return;
     }
 	I2C_sm_set_finish_clear_pulse_ASM330LHHX();
-	if(print) 	printf("write reg:%x, value:%x\n", reg_addr, data);
+	if(print) printf("write reg:0x%x, value:0x%x\n", reg_addr, data);
 }
 
 alt_u8 I2C_read_ASM330LHHX_register(alt_u8 reg_addr, alt_u8 print)
 {
 	alt_u8 rt;
-	int timeout = 1000000;
-
-    // DEBUG_PRINT("I2C_read_ASM330LHHX_register\n");
-    // print_ASM330LHHX_SM_status();
+	int timeout = 50000;
 
 	// setting mode to cpu read register
 	I2C_op_mode_sel_ASM330LHHX(CPU_RREG);
@@ -585,7 +578,7 @@ alt_u8 I2C_read_ASM330LHHX_register(alt_u8 reg_addr, alt_u8 print)
 	while( !I2C_sm_read_finish_ASM330LHHX() && timeout-- > 0 );
 	if(timeout <= 0) {
         alt_u32 status = IORD(VARSET_BASE, O_VAR_I2C_STATUS);
-        DEBUG_PRINT("Read Error! Reg: 0x%02X, SM Status: 0x%08X\n", reg_addr, (unsigned int)status);
+        DEBUG_PRINT("[ ERROR ] Read Timeout! Reg: 0x%02X, SM Status: 0x%08X\n", reg_addr, (unsigned int)status);
         return 0;
     }
 
@@ -595,8 +588,7 @@ alt_u8 I2C_read_ASM330LHHX_register(alt_u8 reg_addr, alt_u8 print)
 	I2C_sm_set_finish_clear_pulse_ASM330LHHX();
 
 	// Print the register address and its read value if 'print' is enabled
-	if(print) 	DEBUG_PRINT("reg:%x, value:%x\n", reg_addr, rt);
-	// if(print) 	printf("read reg:%x, value:%x\n", reg_addr, rt);
+	if(print) DEBUG_PRINT("reg:0x%x, value:0x%x\n", reg_addr, rt);
 
 	return rt;
 }
