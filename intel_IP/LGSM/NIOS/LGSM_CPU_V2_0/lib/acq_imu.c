@@ -35,23 +35,52 @@ void acq_imu (cmd_ctrl_t* rx, my_sensor_t data, fog_parameter_t fog_parameter)
     }
     if(rx->run == 1) { 
 
+        // 定義完整封包：
+        // HD_ABBA(2) + step_H(4) + step_L(4) + step_cnt(4) + PD_temp(2) + Checksum(2) = 18 bytes
+        // uint8_t packet[18];
+        uint8_t packet[18];
+        uint8_t ptr = 0;
 
-        uint8_t pd_temp[2];
-        pd_temp[0] = (uint8_t)(data.PD_temp>>8);
-        pd_temp[1] = (uint8_t)(data.PD_temp);
+        // 1. 填入 Header (0xAB, 0xBA)
+        packet[ptr++] = HD_ABBA[0];
+        packet[ptr++] = HD_ABBA[1];
+
+        // 2. 填入 FOG Z軸相關數據
+        memcpy(&packet[ptr], data.fog.fogz.step_H.bin_val, 4); ptr += 4;
+        memcpy(&packet[ptr], data.fog.fogz.step_L.bin_val, 4); ptr += 4;
+        memcpy(&packet[ptr], data.fog.fogz.step_cnt.bin_val, 4); ptr += 4;
+
+        // 3. 填入 PD_temp
+        packet[ptr++] = (uint8_t)(data.PD_temp >> 8);
+        packet[ptr++] = (uint8_t)(data.PD_temp);
+
+        // 4. 計算 Checksum (針對前 16 bytes 資料內容)
+        uint16_t cksum = fletcher16(packet, ptr);
+
+        // 5. 將 Checksum 也填入 packet 結尾
+        packet[ptr++] = (uint8_t)(cksum >> 8); // Checksum High Byte
+        packet[ptr++] = (uint8_t)(cksum);      // Checksum Low Byte
+
+        // 6. 最終一次性發送整包 18 bytes
+        SerialWrite(packet, ptr);
+
+
+        // uint8_t pd_temp[2];
+        // pd_temp[0] = (uint8_t)(data.PD_temp>>8);
+        // pd_temp[1] = (uint8_t)(data.PD_temp);
 
         // DEBUG_PRINT("%x, %x, %x, %x\n", data.time.time.bin_val[0],data.time.time.bin_val[1],data.time.time.bin_val[2],data.time.time.bin_val[3]);
         // DEBUG_PRINT("%x, %x\n", pd_temp[0],pd_temp[1]);
         // DEBUG_PRINT("%d\n", data.fog.fogz.err.int_val);
 
-        SerialWrite((alt_u8*)HD_ABBA, 2);
+        // SerialWrite((alt_u8*)HD_ABBA, 2);
         // SerialWrite(data.time.time.bin_val, 4);
         // SerialWrite(data.fog.fogz.err.bin_val, 4);
         // SerialWrite(data.fog.fogz.step.bin_val, 4); //對應到FOG Z軸
-        SerialWrite(data.fog.fogz.step_H.bin_val, 4); 
-        SerialWrite(data.fog.fogz.step_L.bin_val, 4); 
-        SerialWrite(data.fog.fogz.step_cnt.bin_val, 4); 
-        SerialWrite(pd_temp, 2);
+        // SerialWrite(data.fog.fogz.step_H.bin_val, 4); 
+        // SerialWrite(data.fog.fogz.step_L.bin_val, 4); 
+        // SerialWrite(data.fog.fogz.step_cnt.bin_val, 4); 
+        // SerialWrite(pd_temp, 2);
         // SerialWrite(data.asm330lhhx.wz.bin_val, 4); //對應到MEMS Z軸
         // SerialWrite(data.asm330lhhx.wy.bin_val, 4); //對應到FOG Y軸
         // SerialWrite(data.asm330lhhx.wx.bin_val, 4); //對應到FOG X軸

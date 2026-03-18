@@ -53,9 +53,10 @@ cmd_ctrl_t my_cmd = {
 	.sync_mode = 0
 };
 
-// Definition and initialization of auto_rst, structure type is defined in common.h
-auto_rst_t auto_rst = {
+// Definition and initialization of sys_ctrl, structure type is defined in common.h
+sys_ctrl_t sys_ctrl = {
 	.status = 0,
+    .auto_run = DISABLE,
 	.fn_mode = MODE_RST
 };
 
@@ -148,7 +149,7 @@ int main(void)
         get_uart_cmd(readDataDynamic_dbg(&try_cnt), &my_cmd);
         cmd_mux(&my_cmd);
         fog_parameter(&my_cmd, &fog_params);
-        output_mode_setting(&my_cmd, &output_fn, &auto_rst);
+        output_mode_setting(&my_cmd, &output_fn, &sys_ctrl);
         if (trigger_sig == 1) 
         {
             update_sensor_data(&sensor_data);

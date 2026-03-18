@@ -3,7 +3,7 @@
 #include "acq_rst.h"
 #include "acq_imu.h"
 
-void output_mode_setting(cmd_ctrl_t* rx, fn_ptr *output_fn, auto_rst_t* auto_rst)
+void output_mode_setting(cmd_ctrl_t* rx, fn_ptr *output_fn, sys_ctrl_t* sys_ctrl)
 {
 	if(rx->mux == MUX_OUTPUT)
 	{
@@ -15,7 +15,7 @@ void output_mode_setting(cmd_ctrl_t* rx, fn_ptr *output_fn, auto_rst_t* auto_rst
 			case MODE_RST: {
 				*output_fn = acq_rst;
 				rx->select_fn = SEL_RST;
-				auto_rst->fn_mode = MODE_RST;
+				sys_ctrl->fn_mode = MODE_RST;
 				rx->sync_mode = rx->value;
 				break;
 			}
@@ -23,7 +23,7 @@ void output_mode_setting(cmd_ctrl_t* rx, fn_ptr *output_fn, auto_rst_t* auto_rst
 				*output_fn = acq_fog;
 				DEBUG_PRINT("output_fn select to acq_fog\n");
 				rx->select_fn = SEL_FOG;
-				auto_rst->fn_mode = MODE_FOG;
+				sys_ctrl->fn_mode = MODE_FOG;
 				rx->sync_mode = rx->value;
 				break;
 			} 
@@ -31,7 +31,7 @@ void output_mode_setting(cmd_ctrl_t* rx, fn_ptr *output_fn, auto_rst_t* auto_rst
 				*output_fn = acq_imu;
 				DEBUG_PRINT("output_fn select to acq_imu\n");
 				rx->select_fn = SEL_IMU;
-				auto_rst->fn_mode = MODE_IMU;
+				sys_ctrl->fn_mode = MODE_IMU;
 				rx->sync_mode = rx->value;
 				break;
 			}

@@ -202,11 +202,22 @@ typedef struct {
 
 // typedef struct cmd_ctrl_t cmd_ctrl_t;
 
-/*** auto reset structure delaration */
+typedef enum {
+  DISABLE = 0,
+  ENABLE  = 1
+} auto_run_mode_t;
+
+/*** system control structure delaration */
 typedef struct {
   alt_u8 status;
+  auto_run_mode_t auto_run;
   alt_u8 fn_mode;
-} auto_rst_t;
+} sys_ctrl_t;
+
+// typedef struct {
+//   alt_u8 status;
+//   alt_u8 fn_mode;
+// } auto_rst_t;
 
 
 void moving_average_init(MovingAverage_t *, alt_u32); 

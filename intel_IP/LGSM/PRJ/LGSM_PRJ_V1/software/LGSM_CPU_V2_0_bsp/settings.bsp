@@ -2,8 +2,8 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>hal</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>2026/3/16 下午 01:43:55</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1773639835032</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>2026/3/18 下午 03:41:08</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1773819668610</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>D:\github\adamShiau_FPGA\intel_IP\LGSM\PRJ\LGSM_PRJ_V1\software\LGSM_CPU_V2_0_bsp</BspGeneratedLocation>
         <BspSettingsFile>settings.bsp</BspSettingsFile>
         <SopcDesignFile>..\..\CPU.sopcinfo</SopcDesignFile>

@@ -1,6 +1,6 @@
-13:53:01 **** Incremental Build of configuration Nios II for project LGSM_CPU_V2_0_bsp ****
+15:57:47 **** Incremental Build of configuration Nios II for project LGSM_CPU_V2_0_bsp ****
 make all 
 [BSP build complete]
 
-13:53:01 Build Finished (took 410ms)
+15:57:48 Build Finished (took 291ms)
 

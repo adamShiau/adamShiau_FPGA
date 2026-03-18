@@ -190,6 +190,25 @@ int IEEE_754_F2INT(float in)
 	return temp.int_val;
 }
 
+/**
+ * @brief Fletcher-16 Checksum 
+ * @param data 指向資料緩衝區的指標
+ * @param len  資料長度
+ * @return uint16_t (MSB: sum1, LSB: sum2)
+ */
+uint16_t fletcher16(const uint8_t* data, size_t len)
+{
+    uint8_t sum1 = 0;
+    uint8_t sum2 = 0;
+
+    for (size_t i = 0; i < len; ++i) {
+        sum1 = (uint8_t)(sum1 + data[i]);
+        sum2 = (uint8_t)(sum2 + sum1);
+    }
+
+    return (uint16_t)((uint16_t)sum1 << 8) | sum2; 
+}
+
 
 void crc32_init_table() {
 	for (int i = 0; i < 256; ++i) {

@@ -12,7 +12,7 @@
 #include <stdbool.h>
 
 
- #define DEBUG_PRINT
+//  #define DEBUG_PRINT
 
 #ifdef DEBUG_PRINT
     #define DEBUG_PRINT(...) printf(__VA_ARGS__)
@@ -268,6 +268,9 @@ float SF_temp_compensation_1st_order_adxl357(my_sensor_t, fog_parameter_t, CH_t)
 
 float BIAS_temp_compensation_1st_order_fog_3T(my_sensor_t, fog_parameter_t, CH_t);
 float BIAS_temp_compensation_1st_order_adxl357(my_sensor_t, fog_parameter_t, CH_t);
+
+// ---- Fletcher16 Checksum API ----
+uint16_t fletcher16(const uint8_t* data, size_t len);
 
 // misalignment calibration
 calibrated_data_t misalignment_calibration(float , float , float , fog_parameter_t , CH_t );
