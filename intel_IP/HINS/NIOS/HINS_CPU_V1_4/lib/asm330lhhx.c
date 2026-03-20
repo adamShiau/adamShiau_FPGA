@@ -446,16 +446,17 @@ void set_ASM330LHHX_Gyro_LPF1(alt_u8 ftype) {
     }
 
     // 4. 修改 CTRL6_C (0x15) 並驗證
-    alt_u8 current_ctrl6 = I2C_read_ASM330LHHX_register(CTRL6_C, 0); 
-    alt_u8 next_ctrl6 = (current_ctrl6 & 0xF8) | (ftype & 0x07);
+    // alt_u8 current_ctrl6 = I2C_read_ASM330LHHX_register(CTRL6_C, 0); 
+    // alt_u8 next_ctrl6 = (current_ctrl6 & 0xF8) | (ftype & 0x07);
+    alt_u8 next_ctrl6 = ftype & 0x07;
 
     if (I2C_write_verify_ASM330LHHX(CTRL6_C, next_ctrl6) == 0) {
         last_ftype = ftype;
     }
 
     // 5. 確保 LPF1_SEL_G 已啟用
-    alt_u8 c4 = I2C_read_ASM330LHHX_register(CTRL4_C, 0);
-    I2C_write_verify_ASM330LHHX(CTRL4_C, c4 | LPF1_SEL_G);
+    // alt_u8 c4 = I2C_read_ASM330LHHX_register(CTRL4_C, 0);
+    // I2C_write_verify_ASM330LHHX(CTRL4_C, c4 | LPF1_SEL_G);
 
     // 6. 恢復硬體自動讀取模式
     I2C_op_mode_sel_ASM330LHHX(HW); 
@@ -489,16 +490,17 @@ void set_ASM330LHHX_Accl_LPF2(alt_u8 cutoff_bw) {
     }
 
     // 3. 修改 CTRL8_XL (0x17) 
-    alt_u8 cur8 = I2C_read_ASM330LHHX_register(CTRL8_XL, 0); 
-    alt_u8 next8 = (cur8 & 0x1F) | ((cutoff_bw << 5) & 0xE0);
+    // alt_u8 cur8 = I2C_read_ASM330LHHX_register(CTRL8_XL, 0); 
+    // alt_u8 next8 = (cur8 & 0x1F) | ((cutoff_bw << 5) & 0xE0);
+    alt_u8 next8 = (cutoff_bw << 5);
     
     if (I2C_write_verify_ASM330LHHX(CTRL8_XL, next8) == 0) {
         last_cutoff = cutoff_bw;
     }
 
     // 4. 確保 CTRL1_XL (0x10) 已開啟 LPF2_XL_EN (bit 1) 
-    alt_u8 cur1 = I2C_read_ASM330LHHX_register(CTRL1_XL, 0);
-    I2C_write_verify_ASM330LHHX(CTRL1_XL, cur1 | LPF2_XL_EN);
+    // alt_u8 cur1 = I2C_read_ASM330LHHX_register(CTRL1_XL, 0);
+    // I2C_write_verify_ASM330LHHX(CTRL1_XL, cur1 | LPF2_XL_EN);
 
     // 5. 回到 HW 模式 
     I2C_op_mode_sel_ASM330LHHX(HW);
