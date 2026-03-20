@@ -3,7 +3,7 @@
 #include "acq_rst.h"
 #include "acq_imu.h"
 
-void output_mode_setting(cmd_ctrl_t* rx, fn_ptr *output_fn, sys_ctrl_t* sys_ctrl)
+void output_mode_setting(cmd_ctrl_t* rx, fn_ptr *output_fn)
 {
 	if(rx->mux == MUX_OUTPUT)
 	{
@@ -15,7 +15,6 @@ void output_mode_setting(cmd_ctrl_t* rx, fn_ptr *output_fn, sys_ctrl_t* sys_ctrl
 			case MODE_RST: {
 				*output_fn = acq_rst;
 				rx->select_fn = SEL_RST;
-				sys_ctrl->fn_mode = MODE_RST;
 				rx->sync_mode = rx->value;
 				break;
 			}
@@ -23,7 +22,6 @@ void output_mode_setting(cmd_ctrl_t* rx, fn_ptr *output_fn, sys_ctrl_t* sys_ctrl
 				*output_fn = acq_fog;
 				DEBUG_PRINT("output_fn select to acq_fog\n");
 				rx->select_fn = SEL_FOG;
-				sys_ctrl->fn_mode = MODE_FOG;
 				rx->sync_mode = rx->value;
 				break;
 			} 
@@ -31,7 +29,6 @@ void output_mode_setting(cmd_ctrl_t* rx, fn_ptr *output_fn, sys_ctrl_t* sys_ctrl
 				*output_fn = acq_imu;
 				DEBUG_PRINT("output_fn select to acq_imu\n");
 				rx->select_fn = SEL_IMU;
-				sys_ctrl->fn_mode = MODE_IMU;
 				rx->sync_mode = rx->value;
 				break;
 			}
@@ -45,45 +42,4 @@ void output_mode_setting(cmd_ctrl_t* rx, fn_ptr *output_fn, sys_ctrl_t* sys_ctrl
 		*output_fn = acq_rst;
 		DEBUG_PRINT("just start, enter acq_rst ");
 	}
-
-//   if(fog_op_status==1) // for auto reset
-//   {
-    // fog_op_status=0;
-    // Serial.println("AUTO RST select function");
-	// 	switch(rst_fn_flag) {
-	// 		case MODE_RST: {
-	// 			output_fn = fn_rst;
-	// 			break;
-	// 		}
-	// 		case MODE_FOG: {
-	// 			output_fn = acq_fog;
-    //     Serial.println("MODE_FOG");
-	// 			break;
-	// 		}
-	// 		case MODE_IMU: {
-	// 			output_fn = acq_imu; 
-	// 			break;
-	// 		}
-	// 		case MODE_FOG_HP_TEST: {
-	// 			output_fn = acq_HP_test; 
-	// 			break;
-	// 		}
-	// 		case MODE_NMEA: {
-	// 			output_fn = acq_nmea;
-	// 			break;
-    //         }
-    //   case MODE_ATT_NMEA: {
-	// 			output_fn = acq_att_nmea;
-	// 			break;
-    //         }
-    //   case MODE_FOG_PARAMETER: {
-    //       output_fn = acq_fog_parameter;
-    //       break;
-    //   }
-    //   default: break;
-    //   }
-    //   eeprom.Parameter_Write(EEPROM_ADDR_SELECT_FN, select_fn);
-    //   eeprom.Parameter_Write(EEPROM_ADDR_OUTPUT_FN, rst_fn_flag);
-    //   eeprom.Parameter_Write(EEPROM_ADDR_REG_VALUE, uart_value);
-	// }
 }

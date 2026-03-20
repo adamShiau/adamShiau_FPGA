@@ -198,28 +198,6 @@ typedef struct {
   my_float_t z;
 } calibrated_data_t;
 
-
-
-// typedef struct cmd_ctrl_t cmd_ctrl_t;
-
-typedef enum {
-  DISABLE = 0,
-  ENABLE  = 1
-} auto_run_mode_t;
-
-/*** system control structure delaration */
-typedef struct {
-  alt_u8 status;
-  auto_run_mode_t auto_run;
-  alt_u8 fn_mode;
-} sys_ctrl_t;
-
-// typedef struct {
-//   alt_u8 status;
-//   alt_u8 fn_mode;
-// } auto_rst_t;
-
-
 void moving_average_init(MovingAverage_t *, alt_u32); 
 float moving_average_update(MovingAverage_t *, float);
 void moving_average_free(MovingAverage_t *);

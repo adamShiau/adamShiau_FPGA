@@ -1405,6 +1405,20 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 						}
 						break;
 					}
+					case CMD_CFG_FN_MODE: {
+						DEBUG_PRINT("CMD_CFG_FN_MODE:\n");
+						if(rx->ch != 6) {DEBUG_PRINT("Ch value must be 6:\n"); break;}
+						if(rx->condition == 1) {
+							PARAMETER_Write_s(base, CMD_CFG_FN_MODE - CFG_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
+							DEBUG_PRINT("WRITE: %d\n", rx->value);	
+						}
+						else if(rx->condition == 3) {
+							data_t data;
+							PARAMETER_Read(base, CMD_CFG_FN_MODE - CFG_CONTAINER_TO_CMD_OFFSET, data.bin_val);
+							DEBUG_PRINT("READ: %d\n", data.int_val);	
+						}
+						break;
+					}
 
 					/***------------- dump */
 					case CMD_DUMP_FOG: {
