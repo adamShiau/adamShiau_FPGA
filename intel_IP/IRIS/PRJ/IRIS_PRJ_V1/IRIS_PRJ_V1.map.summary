@@ -1,0 +1,14 @@
+Analysis & Synthesis Status : Successful - Thu Apr 23 18:04:54 2026
+Quartus Prime Version : 18.1.0 Build 625 09/12/2018 SJ Lite Edition
+Revision Name : IRIS_PRJ_V1
+Top-level Entity Name : IRIS_TOP_V1
+Family : Cyclone IV E
+Total logic elements : 14,296
+    Total combinational functions : 10,506
+    Dedicated logic registers : 7,363
+Total registers : 7363
+Total pins : 182
+Total virtual pins : 0
+Total memory bits : 30,208
+Embedded Multiplier 9-bit elements : 0
+Total PLLs : 1

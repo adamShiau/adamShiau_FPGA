@@ -1,0 +1,40 @@
+# # File gsaved with Nlview version 6.3.8  2013-12-19 bk=1.2992 VDI=34 GEI=35
+# 
+preplace inst CPU.sdram -pg 1 -lvl 3 -y 1330
+preplace inst CPU.nios2.cpu -pg 1
+preplace inst CPU.clk_CPU -pg 1 -lvl 1 -y 800
+preplace inst CPU.VarSet_1 -pg 1 -lvl 3 -y 1130
+preplace inst CPU.MUX_IN -pg 1 -lvl 3 -y 670
+preplace inst CPU -pg 1 -lvl 1 -y 40 -regy -20
+preplace inst CPU.jtag_uart -pg 1 -lvl 3 -y 390
+preplace inst CPU.WDT -pg 1 -lvl 3 -y 1230
+preplace inst CPU.uart -pg 1 -lvl 3 -y 890
+preplace inst CPU.sysid -pg 1 -lvl 3 -y 490
+preplace inst CPU.nios2.reset_bridge -pg 1
+preplace inst CPU.uart_dbg -pg 1 -lvl 3 -y 1010
+preplace inst CPU.nios2.clock_bridge -pg 1
+preplace inst CPU.epcs -pg 1 -lvl 3 -y 30
+preplace inst CPU.trigger_in -pg 1 -lvl 3 -y 770
+preplace inst CPU.spi_DAC -pg 1 -lvl 3 -y 270
+preplace inst CPU.spi_ADC -pg 1 -lvl 3 -y 150
+preplace inst CPU.nios2 -pg 1 -lvl 2 -y 760
+preplace inst CPU.DAC_RST -pg 1 -lvl 3 -y 570
+preplace netloc EXPORT<net_container>CPU</net_container>(SLAVE)MUX_IN.external_connection,(SLAVE)CPU.mux_in) 1 0 3 NJ 680 NJ 680 NJ
+preplace netloc EXPORT<net_container>CPU</net_container>(SLAVE)CPU.epcs,(SLAVE)epcs.external) 1 0 3 NJ 80 NJ 80 NJ
+preplace netloc EXPORT<net_container>CPU</net_container>(SLAVE)spi_DAC.external,(SLAVE)CPU.spi_dac) 1 0 3 NJ 300 NJ 300 NJ
+preplace netloc EXPORT<net_container>CPU</net_container>(SLAVE)CPU.varset_1,(SLAVE)VarSet_1.conduit) 1 0 3 NJ 1180 NJ 1180 NJ
+preplace netloc EXPORT<net_container>CPU</net_container>(SLAVE)DAC_RST.external_connection,(SLAVE)CPU.dac_rst) 1 0 3 NJ 600 NJ 600 NJ
+preplace netloc FAN_OUT<net_container>CPU</net_container>(SLAVE)jtag_uart.irq,(SLAVE)uart_dbg.irq,(SLAVE)uart.irq,(SLAVE)spi_DAC.irq,(SLAVE)trigger_in.irq,(MASTER)nios2.irq,(SLAVE)spi_ADC.irq,(SLAVE)epcs.irq) 1 2 1 770
+preplace netloc EXPORT<net_container>CPU</net_container>(SLAVE)CPU.spi_adc,(SLAVE)spi_ADC.external) 1 0 3 NJ 180 NJ 180 NJ
+preplace netloc EXPORT<net_container>CPU</net_container>(SLAVE)uart.external_connection,(SLAVE)CPU.uart) 1 0 3 NJ 920 NJ 920 NJ
+preplace netloc EXPORT<net_container>CPU</net_container>(SLAVE)CPU.reset,(SLAVE)clk_CPU.clk_in_reset) 1 0 1 NJ
+preplace netloc EXPORT<net_container>CPU</net_container>(SLAVE)clk_CPU.clk_in,(SLAVE)CPU.clk) 1 0 1 NJ
+preplace netloc INTERCONNECT<net_container>CPU</net_container>(MASTER)nios2.instruction_master,(SLAVE)trigger_in.s1,(SLAVE)MUX_IN.s1,(SLAVE)uart.s1,(SLAVE)WDT.s1,(SLAVE)spi_ADC.spi_control_port,(MASTER)nios2.data_master,(SLAVE)epcs.epcs_control_port,(SLAVE)sdram.s1,(SLAVE)sysid.control_slave,(SLAVE)nios2.debug_mem_slave,(SLAVE)VarSet_1.avalon_slave,(SLAVE)DAC_RST.s1,(SLAVE)jtag_uart.avalon_jtag_slave,(SLAVE)spi_DAC.spi_control_port,(SLAVE)uart_dbg.s1) 1 1 2 310 700 670
+preplace netloc EXPORT<net_container>CPU</net_container>(SLAVE)CPU.uart_dbg,(SLAVE)uart_dbg.external_connection) 1 0 3 NJ 1040 NJ 1040 NJ
+preplace netloc EXPORT<net_container>CPU</net_container>(SLAVE)CPU.trigger_in,(SLAVE)trigger_in.external_connection) 1 0 3 NJ 900 NJ 900 NJ
+preplace netloc FAN_OUT<net_container>CPU</net_container>(SLAVE)spi_ADC.clk,(SLAVE)jtag_uart.clk,(SLAVE)WDT.clk,(SLAVE)nios2.clk,(SLAVE)epcs.clk,(SLAVE)trigger_in.clk,(MASTER)clk_CPU.clk,(SLAVE)sdram.clk,(SLAVE)VarSet_1.clock,(SLAVE)spi_DAC.clk,(SLAVE)uart.clk,(SLAVE)uart_dbg.clk,(SLAVE)sysid.clk,(SLAVE)DAC_RST.clk,(SLAVE)MUX_IN.clk) 1 1 2 290 720 710
+preplace netloc EXPORT<net_container>CPU</net_container>(SLAVE)WDT.external_connection,(SLAVE)CPU.wdt) 1 0 3 NJ 1260 NJ 1260 NJ
+preplace netloc INTERCONNECT<net_container>CPU</net_container>(MASTER)clk_CPU.clk_reset,(SLAVE)trigger_in.reset,(SLAVE)WDT.reset,(SLAVE)sdram.reset,(SLAVE)jtag_uart.reset,(SLAVE)spi_ADC.reset,(SLAVE)epcs.reset,(SLAVE)DAC_RST.reset,(SLAVE)spi_DAC.reset,(SLAVE)nios2.reset,(SLAVE)uart_dbg.reset,(SLAVE)VarSet_1.reset_n,(SLAVE)MUX_IN.reset,(SLAVE)sysid.reset,(MASTER)nios2.debug_reset_request,(SLAVE)uart.reset) 1 1 2 290 1280 730
+preplace netloc EXPORT<net_container>CPU</net_container>(SLAVE)CPU.sdram,(SLAVE)sdram.wire) 1 0 3 NJ 1400 NJ 1400 NJ
+levelinfo -pg 1 0 80 960
+levelinfo -hier CPU 90 120 430 800 950
