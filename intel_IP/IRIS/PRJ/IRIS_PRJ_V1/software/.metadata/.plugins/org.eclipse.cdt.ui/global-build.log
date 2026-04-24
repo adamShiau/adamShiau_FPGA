@@ -276,3 +276,229 @@ make: *** [obj/default//D/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0
 18:36:15 **** Build of configuration Nios II for project IRIS_CPU_V1_0_bsp ****
 make all 
 [BSP build complete]
+10:46:22 **** Incremental Build of configuration Nios II for project IRIS_CPU_V1_0 ****
+make all 
+Info: Building ../IRIS_CPU_V1_0_bsp/
+D:/intelFPGA_lite/18.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../IRIS_CPU_V1_0_bsp/
+[BSP build complete]
+Info: Compiling D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c to obj/default//D/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.o
+nios2-elf-gcc -xc -MP -MMD -c -ID:\github\adamShiau_FPGA\intel_IP\IRIS\NIOS\IRIS_CPU_V1_0\include -I../IRIS_CPU_V1_0_bsp//HAL/inc -I../IRIS_CPU_V1_0_bsp/ -I../IRIS_CPU_V1_0_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o obj/default//D/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.o D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c
+In file included from D:\github\adamShiau_FPGA\intel_IP\IRIS\NIOS\IRIS_CPU_V1_0\include/IRIS.h:21:0,
+                 from D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:7:
+D:\github\adamShiau_FPGA\intel_IP\IRIS\NIOS\IRIS_CPU_V1_0\include/common.h:26:0: warning: "DEBUG_PRINT" redefined
+     #define DEBUG_PRINT(...) uart_printf_dbg(__VA_ARGS__)
+ ^
+D:\github\adamShiau_FPGA\intel_IP\IRIS\NIOS\IRIS_CPU_V1_0\include/common.h:15:0: note: this is the location of the previous definition
+  #define DEBUG_PRINT
+ ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:63:8: error: expected declaration specifiers or '...' before '&' token
+ memset(&sensor_data, 0, sizeof(sensor_data));
+        ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:63:22: error: expected declaration specifiers or '...' before numeric constant
+ memset(&sensor_data, 0, sizeof(sensor_data));
+                      ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:63:25: error: expected declaration specifiers or '...' before 'sizeof'
+ memset(&sensor_data, 0, sizeof(sensor_data));
+                         ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c: In function 'monitor_reg':
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:161:18: warning: type defaults to 'int' in declaration of 'DELAY_NUM' [-Wimplicit-int]
+     static const DELAY_NUM = 5000;
+                  ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c: In function 'dbg_mems':
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:180:18: warning: type defaults to 'int' in declaration of 'DELAY_NUM' [-Wimplicit-int]
+     static const DELAY_NUM = 100;
+                  ^
+In file included from ../IRIS_CPU_V1_0_bsp//drivers/inc/altera_avalon_uart_regs.h:34:0,
+                 from D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:6:
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c: In function 'update_sensor_data':
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:206:53: error: 'i_var_err' undeclared (first use in this function)
+      data->fog.fogz.err.int_val = IORD(VARSET_BASE, i_var_err);
+                                                     ^
+../IRIS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:206:35: note: in expansion of macro 'IORD'
+      data->fog.fogz.err.int_val = IORD(VARSET_BASE, i_var_err);
+                                   ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:206:53: note: each undeclared identifier is reported only once for each function it appears in
+      data->fog.fogz.err.int_val = IORD(VARSET_BASE, i_var_err);
+                                                     ^
+../IRIS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:206:35: note: in expansion of macro 'IORD'
+      data->fog.fogz.err.int_val = IORD(VARSET_BASE, i_var_err);
+                                   ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:207:54: error: 'i_var_step' undeclared (first use in this function)
+      data->fog.fogz.step.int_val = IORD(VARSET_BASE, i_var_step);
+                                                      ^
+../IRIS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:207:36: note: in expansion of macro 'IORD'
+      data->fog.fogz.step.int_val = IORD(VARSET_BASE, i_var_step);
+                                    ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:208:56: error: 'i_var_accu_step_H' undeclared (first use in this function)
+      data->fog.fogz.step_H.int_val = IORD(VARSET_BASE, i_var_accu_step_H);
+                                                        ^
+../IRIS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:208:38: note: in expansion of macro 'IORD'
+      data->fog.fogz.step_H.int_val = IORD(VARSET_BASE, i_var_accu_step_H);
+                                      ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:209:55: error: 'i_var_accu_step_L' undeclared (first use in this function)
+     data->fog.fogz.step_L.int_val = IORD(VARSET_BASE, i_var_accu_step_L);
+                                                       ^
+../IRIS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:209:37: note: in expansion of macro 'IORD'
+     data->fog.fogz.step_L.int_val = IORD(VARSET_BASE, i_var_accu_step_L);
+                                     ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:210:57: error: 'i_var_accu_step_cnt' undeclared (first use in this function)
+     data->fog.fogz.step_cnt.int_val = IORD(VARSET_BASE, i_var_accu_step_cnt);
+                                                         ^
+../IRIS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:210:39: note: in expansion of macro 'IORD'
+     data->fog.fogz.step_cnt.int_val = IORD(VARSET_BASE, i_var_accu_step_cnt);
+                                       ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:212:55: error: 'i_var_i2c_ads122c04_rdata_1' undeclared (first use in this function)
+      data->ads122c04.ain0.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_1);
+                                                       ^
+../IRIS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:212:37: note: in expansion of macro 'IORD'
+      data->ads122c04.ain0.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_1);
+                                     ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:213:55: error: 'i_var_i2c_ads122c04_rdata_2' undeclared (first use in this function)
+      data->ads122c04.ain1.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_2);
+                                                       ^
+../IRIS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:213:37: note: in expansion of macro 'IORD'
+      data->ads122c04.ain1.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_2);
+                                     ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:214:55: error: 'i_var_i2c_ads122c04_rdata_3' undeclared (first use in this function)
+      data->ads122c04.ain2.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_3);
+                                                       ^
+../IRIS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:214:37: note: in expansion of macro 'IORD'
+      data->ads122c04.ain2.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_3);
+                                     ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:215:55: error: 'i_var_i2c_ads122c04_rdata_4' undeclared (first use in this function)
+      data->ads122c04.ain3.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_4);
+                                                       ^
+../IRIS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:215:37: note: in expansion of macro 'IORD'
+      data->ads122c04.ain3.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_4);
+                                     ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:221:54: error: 'i_var_i2c_IMU_rdata_1' undeclared (first use in this function)
+      data->asm330lhhx.wx.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_1);
+                                                      ^
+../IRIS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:221:36: note: in expansion of macro 'IORD'
+      data->asm330lhhx.wx.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_1);
+                                    ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:222:54: error: 'i_var_i2c_IMU_rdata_2' undeclared (first use in this function)
+      data->asm330lhhx.wy.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_2);
+                                                      ^
+../IRIS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:222:36: note: in expansion of macro 'IORD'
+      data->asm330lhhx.wy.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_2);
+                                    ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:223:54: error: 'i_var_i2c_IMU_rdata_3' undeclared (first use in this function)
+      data->asm330lhhx.wz.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_3);
+                                                      ^
+../IRIS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:223:36: note: in expansion of macro 'IORD'
+      data->asm330lhhx.wz.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_3);
+                                    ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:224:54: error: 'i_var_i2c_IMU_rdata_4' undeclared (first use in this function)
+      data->asm330lhhx.ax.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_4);
+                                                      ^
+../IRIS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:224:36: note: in expansion of macro 'IORD'
+      data->asm330lhhx.ax.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_4);
+                                    ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:225:54: error: 'i_var_i2c_IMU_rdata_5' undeclared (first use in this function)
+      data->asm330lhhx.ay.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_5);
+                                                      ^
+../IRIS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:225:36: note: in expansion of macro 'IORD'
+      data->asm330lhhx.ay.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_5);
+                                    ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:226:54: error: 'i_var_i2c_IMU_rdata_6' undeclared (first use in this function)
+      data->asm330lhhx.az.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_6);
+                                                      ^
+../IRIS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:226:36: note: in expansion of macro 'IORD'
+      data->asm330lhhx.az.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_6);
+                                    ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:227:56: error: 'i_var_i2c_IMU_rdata_7' undeclared (first use in this function)
+      data->asm330lhhx.temp.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_7);
+                                                        ^
+../IRIS_CPU_V1_0_bsp//HAL/inc/io.h:70:33: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                                 ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:227:38: note: in expansion of macro 'IORD'
+      data->asm330lhhx.temp.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_7);
+                                      ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c: In function 'TRIGGER_IRQ_init':
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:253:34: error: 'SYNC_IN_BASE' undeclared (first use in this function)
+  IOWR_ALTERA_AVALON_PIO_EDGE_CAP(SYNC_IN_BASE, 1); //clear edge capture register
+                                  ^
+../IRIS_CPU_V1_0_bsp//HAL/inc/io.h:70:23: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                       ^
+../IRIS_CPU_V1_0_bsp//drivers/inc/altera_avalon_pio_regs.h:50:55: note: in expansion of macro 'IOWR'
+ #define IOWR_ALTERA_AVALON_PIO_EDGE_CAP(base, data)   IOWR(base, 3, data)
+                                                       ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:253:2: note: in expansion of macro 'IOWR_ALTERA_AVALON_PIO_EDGE_CAP'
+  IOWR_ALTERA_AVALON_PIO_EDGE_CAP(SYNC_IN_BASE, 1); //clear edge capture register
+  ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:256:2: error: 'SYNC_IN_IRQ_INTERRUPT_CONTROLLER_ID' undeclared (first use in this function)
+  SYNC_IN_IRQ_INTERRUPT_CONTROLLER_ID,
+  ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:257:2: error: 'SYNC_IN_IRQ' undeclared (first use in this function)
+  SYNC_IN_IRQ,
+  ^
+In file included from ../IRIS_CPU_V1_0_bsp//drivers/inc/altera_avalon_uart_regs.h:34:0,
+                 from D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:6:
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c: In function 'IRQ_TRIGGER_ISR':
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:266:34: error: 'SYNC_IN_BASE' undeclared (first use in this function)
+  IOWR_ALTERA_AVALON_PIO_EDGE_CAP(SYNC_IN_BASE, 1); //clear edge capture register
+                                  ^
+../IRIS_CPU_V1_0_bsp//HAL/inc/io.h:70:23: note: in definition of macro '__IO_CALC_ADDRESS_NATIVE'
+   ((void *)(((alt_u8*)BASE) + ((REGNUM) * (SYSTEM_BUS_WIDTH/8))))
+                       ^
+../IRIS_CPU_V1_0_bsp//drivers/inc/altera_avalon_pio_regs.h:50:55: note: in expansion of macro 'IOWR'
+ #define IOWR_ALTERA_AVALON_PIO_EDGE_CAP(base, data)   IOWR(base, 3, data)
+                                                       ^
+D:/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.c:266:2: note: in expansion of macro 'IOWR_ALTERA_AVALON_PIO_EDGE_CAP'
+  IOWR_ALTERA_AVALON_PIO_EDGE_CAP(SYNC_IN_BASE, 1); //clear edge capture register
+  ^
+make: *** [obj/default//D/github/adamShiau_FPGA/intel_IP/IRIS/NIOS/IRIS_CPU_V1_0/IRIS_CPU_V1_0.o] Error 1
+10:46:25 **** Incremental Build of configuration Nios II for project IRIS_CPU_V1_0_bsp ****
+make all 
+[BSP build complete]

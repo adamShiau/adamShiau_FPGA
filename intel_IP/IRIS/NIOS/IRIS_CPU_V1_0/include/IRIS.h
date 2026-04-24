@@ -24,22 +24,16 @@
 #include "output_fn.h"
 
 #include "output_mode.h"
-// uart
-#include "uart_dual.h"
-// adda
-#include "adda_config.h"
-//memory_manage
-#include "memory_manage.h"
-//eeprom
-//#include "eeprom.h"
-#include "eeprom_v2.h"
+#include "uart_dual.h" // uart
 
+#include "adda_config.h" // adda
+#include "memory_manage.h" //memory_manage
+#include "eeprom_v2.h" //eeprom
+#include "adxl357.h"
 #include "ads122c04_se.h"
 #include "asm330lhhx.h"
 
-
-
-#endif // __HINS_H
+#endif // __IRIS_H
 
 
 

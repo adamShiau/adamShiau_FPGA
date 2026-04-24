@@ -1630,6 +1630,8 @@ bool apply_ASM330LHHX_Accl_LPF2_index(uint8_t index)
 void update_config_to_HW_REG(fog_parameter_t* para)
 {
 	DEBUG_PRINT("\nupdating config parameters to FPGA....\n ");
+
+	set_MUX_RS422(); // set RS422 output mode
 	
 	uint8_t dr_idx = para->config[0].data.int_val;
 	uint8_t g_lpf  = para->config[12].data.int_val;
@@ -1637,11 +1639,10 @@ void update_config_to_HW_REG(fog_parameter_t* para)
 
 	apply_datarate_index(dr_idx); // update data rate from config container
 	
-	apply_ASM330LHHX_Gyro_LPF1_index(g_lpf); // update ASM330LHH gyro LPF bw from config container
-	apply_ASM330LHHX_Accl_LPF2_index(a_lpf); // update ASM330LHH accl LPF bw from config container
+	// apply_ASM330LHHX_Gyro_LPF1_index(g_lpf); // update ASM330LHH gyro LPF bw from config container
+	// apply_ASM330LHHX_Accl_LPF2_index(a_lpf); // update ASM330LHH accl LPF bw from config container
 	
 	DEBUG_PRINT("\nupdate config paramemetr done.\n ");
-
 }
   
 
@@ -2282,3 +2283,19 @@ void update_datarate_to_HW_REG(alt_32 dr) {
 	}	
 	
 }
+
+void set_MUX_RS422()
+{
+	IOWR_ALTERA_AVALON_PIO_DATA(MUX_IN_BASE, 0x00);
+}
+
+void set_MUX_RS232()
+{
+	IOWR_ALTERA_AVALON_PIO_DATA(MUX_IN_BASE, 0x02);
+}
+
+void set_MUX_CAN()
+{
+	IOWR_ALTERA_AVALON_PIO_DATA(MUX_IN_BASE, 0x01);
+}
+  

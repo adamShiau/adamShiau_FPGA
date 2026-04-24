@@ -8,10 +8,14 @@
 
 /*** version ***/
 /***
- * date: 12-03-2025
- * project: HINS_CPU_V1_0
+ * date: 07-01-2025
+ * project: IRIS_CPIU_V01
  * change:
  * Separate FPGA ADDA SPI configuration to ADC and DAC part
+ * assign CS_DAC_1 = DAC_CFG_SS[0];
+ * assign CS_DAC_2 = DAC_CFG_SS[1];
+ * assign CS_ADC_1 = ADC_CFG_SS[0];
+ * assign CS_ADC_2 = ADC_CFG_SS[1];
  *  */ 
 
 
@@ -21,7 +25,8 @@
  * The next seven bits are the address of the register (A6:A0). 
  * The final eight bits are the register data (D7:D0).  */
 
-#define SEL_CS_ADC		    1
+#define SEL_CS_ADC_1CH		1<<0
+#define SEL_CS_ADC_2CH		1<<1
 #define ADC_RESET			0x0080
 #define ADC_FMT				0x0401
 #define ADC_TEST			0x0455
@@ -59,8 +64,8 @@ accessed during the data transfer of the communications cycle.
 
  */
 
-#define SEL_CS_DAC		    1
-/***
+#define SEL_CS_DAC_1CH		1<<0
+#define SEL_CS_DAC_2CH		1<<1
 #define DAC1_GAIN_LSB_ADDR	0x0B
 #define DAC1_GAIN_MSB_ADDR	0x0C
 #define DAC1_GAIN_MSB_W_NR  0x0C01
@@ -71,9 +76,7 @@ accessed during the data transfer of the communications cycle.
 #define DAC1_GAIN_LSB_W_MAX 0x0BFF
 #define DAC1_GAIN_LSB_R 	0x8B00
 #define DAC1_GAIN_MSB_R 	0x8C00
-*/
 
-/*** HINS use DAC2 */
 #define DAC2_GAIN_LSB_ADDR	0x0F
 #define DAC2_GAIN_MSB_ADDR	0x10
 #define DAC2_GAIN_MSB_W_NR  0x1001

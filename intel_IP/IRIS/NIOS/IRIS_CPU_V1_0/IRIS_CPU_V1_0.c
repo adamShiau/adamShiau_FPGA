@@ -59,27 +59,26 @@ cmd_ctrl_t my_cmd = {
 fn_ptr output_fn = acq_rst;
 
 // Definition and initialization of sensor, structure type is defined in common.h
-my_sensor_t sensor_data = {
-    .fog = {
-        .fogz = { .err = { .int_val = 0 }, .step = { .int_val = 0 }}
-    },
-	.time = {.time.float_val = 0},
-	.ads122c04 = {
-        .ain0.float_val = 0,    //FOG Temp
-		.ain1.float_val = 0,    //VIN_MON
-		.ain2.float_val = 0,    //TACT_MON
-		.ain3.float_val = 0     //PUMP_PD0
-	},
-	.asm330lhhx = {
-        .wx.float_val = 0,
-		.wy.float_val = 0,
-		.wz.float_val = 0,
-		.ax.float_val = 0,
-		.ay.float_val = 0,
-		.az.float_val = 0,
-		.temp.float_val = 0
-	}
-};
+my_sensor_t sensor_data = {0};
+// memset(&sensor_data, 0, sizeof(sensor_data));
+// my_sensor_t sensor_data = {
+//     .fog = {
+//         .fogz = { .err = { .int_val = 0 }, .step = { .int_val = 0 }, .step_L = { .int_val = 0 }, .step_H = { .int_val = 0 }, .step_cnt = { .int_val = 0 }}
+//     },
+// 	.time = {.time.float_val = 0},
+// 	.ads122c04 = {
+//         .ain0.float_val = 0,    //FOG Temp
+// 		.ain1.float_val = 0,    //VIN_MON
+// 		.ain2.float_val = 0,    //TACT_MON
+// 		.ain3.float_val = 0     //PUMP_PD0
+// 	},
+// 	.adxl357 = {
+// 		.ax.float_val = 0,
+// 		.ay.float_val = 0,
+// 		.az.float_val = 0,
+// 		.temp.float_val = 0
+// 	}
+// };
 
 
 int main(void)
@@ -96,37 +95,37 @@ int main(void)
 	crc32_init_table();
 	TRIGGER_IRQ_init();
 	// printf("uartInit\n");
-    DEBUG_PRINT("uartInit\n");
+
+    DEBUG_PRINT("\n-----uartInit-----\n");
 	uartInit(); //interrupt method of uart defined in uart.c not main()
-	// printf("init_ADDA\n");
-	DEBUG_PRINT("init_ADDA\n");
+	DEBUG_PRINT("\n-----init_ADDA-----\n");
     set_DAC_reset();
 	usleep(50);
 	clear_DAC_reset();
 	init_ADDA();
-	// printf("init_EEPROM\n");
-    DEBUG_PRINT("init_EEPROM\n");
+    DEBUG_PRINT("\n-----init_EEPROM-----\n");
 	init_EEPROM();
-	// printf("init_ADS122C04_TEMP\n");
-    DEBUG_PRINT("init_ADS122C04_TEMP\n");
+    DEBUG_PRINT("\n-----init_ADXL357-----\n");
+	init_ADXL357();
+    DEBUG_PRINT("\n-----init_ADS122C04_TEMP-----\n");
 	init_ADS122C04_TEMP();
-    init_ASM330LHHX();
-    DEBUG_PRINT("initialize_fog_params_type\n");
-	// initialize_fog_params_type(&fog_params);
-
+    // DEBUG_PRINT("\n-----ASM330LHHX-----\n");
+    // init_ASM330LHHX();
+    DEBUG_PRINT("\n-----initialize_fog_params_from_memory-----\n");
     LOAD_FOG_PARAMETER(&fog_params);
 	LOAD_FOG_MISALIGNMENT(&fog_params);
     LOAD_CONFIG(&fog_params);
 	LOAD_FOG_SN(&fog_params);
-	// PRINT_FOG_PARAMETER(&fog_params);
-	// PRINT_FOG_MISALIGNMENT(&fog_params);
-    // PRINT_FOG_CONFIG(&fog_params);
-	// update_fog_parameters_to_HW_REG(MEM_BASE_Z, &fog_params); 
+    DEBUG_PRINT("\n-----updating fog_parameters to HW_REG-----\n");
+    DEBUG_PRINT("*----X-axis----*\n");
 	update_fog_parameters_to_HW_REG(MEM_BASE_X, &fog_params); 
-	// update_fog_parameters_to_HW_REG(MEM_BASE_Y, &fog_params); 
-
+    DEBUG_PRINT("*----Y-axis----*\n");
+	update_fog_parameters_to_HW_REG(MEM_BASE_Y, &fog_params); 
+    DEBUG_PRINT("*----Z-axis----*\n");
+	update_fog_parameters_to_HW_REG(MEM_BASE_Z, &fog_params); 
+    DEBUG_PRINT("\n-----updating config_parameters to HW_REG-----\n");
     update_config_to_HW_REG(&fog_params); 
-
+    DEBUG_PRINT("\n-----reseting timer-----\n");
     IOWR(VARSET_BASE, var_timer_rst, 1);
     for(int i=0; i<100; i++) {} 
     IOWR(VARSET_BASE, var_timer_rst, 0);

@@ -224,6 +224,9 @@ void print_crc(const char* label, alt_u8* crc);
 void Set_Dac_Gain_x(alt_32 gain);
 void Set_Dac_Gain_y(alt_32 gain);
 void Set_Dac_Gain_z(alt_32 gain);
+void set_MUX_RS422(void);
+void set_MUX_RS232(void);
+void set_MUX_CAN(void);
 
 void get_uart_cmd(alt_u8*, cmd_ctrl_t*);
 void cmd_mux(cmd_ctrl_t*);
