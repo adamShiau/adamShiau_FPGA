@@ -173,7 +173,7 @@ void monitor_reg()
         // DEBUG_PRINT("AIN3: %d\n",(float)IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_4)*3.3/8388608.0);
     }
 }
-
+/***
 void dbg_mems(my_sensor_t *data)
 {
     static alt_u32 dly_cnt = 0;
@@ -197,34 +197,35 @@ void dbg_mems(my_sensor_t *data)
         );
     }
 }
+ */
 
 void update_sensor_data(my_sensor_t *data) {
     /***---timer--- */
     // data->time.time.float_val = (float)IORD(VARSET_BASE, i_var_timer) * COE_TIMER;
     data->time.time.int_val = IORD(VARSET_BASE, i_var_timer);
     /***---fog z axis--- */
-     data->fog.fogz.err.int_val = IORD(VARSET_BASE, i_var_err);
-     data->fog.fogz.step.int_val = IORD(VARSET_BASE, i_var_step);
-     data->fog.fogz.step_H.int_val = IORD(VARSET_BASE, i_var_accu_step_H);
-    data->fog.fogz.step_L.int_val = IORD(VARSET_BASE, i_var_accu_step_L);
-    data->fog.fogz.step_cnt.int_val = IORD(VARSET_BASE, i_var_accu_step_cnt);
+     data->fog.fogz.err.int_val = IORD(VARSET_BASE, i_var_err_3);
+     data->fog.fogz.step.int_val = IORD(VARSET_BASE, i_var_step_3);
+     data->fog.fogz.step_H.int_val = IORD(VARSET_BASE, i_var_accu_step_H_3);
+    data->fog.fogz.step_L.int_val = IORD(VARSET_BASE, i_var_accu_step_L_3);
+    data->fog.fogz.step_cnt.int_val = IORD(VARSET_BASE, i_var_accu_step_cnt_3);
     /***---adc ads122c04--- */
-     data->ads122c04.ain0.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_1);
-     data->ads122c04.ain1.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_2);
-     data->ads122c04.ain2.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_3);
-     data->ads122c04.ain3.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_4);
+     data->ads122c04.ain0.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_temp_rdata_1);
+     data->ads122c04.ain1.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_temp_rdata_2);
+     data->ads122c04.ain2.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_temp_rdata_3);
+     data->ads122c04.ain3.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_temp_rdata_4);
     //  data->ads122c04.ain0.float_val = (float)IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_1)*3.3/8388608.0; // FOG_TEMP
     //  data->ads122c04.ain1.float_val = (float)IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_2)*3.3/8388608.0;
     //  data->ads122c04.ain2.float_val = (float)IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_3)*3.3/8388608.0;
     //  data->ads122c04.ain3.float_val = (float)IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_4)*3.3/8388608.0;
     /***---imu asm330lhhx--- */
-     data->asm330lhhx.wx.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_1);
-     data->asm330lhhx.wy.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_2);
-     data->asm330lhhx.wz.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_3);
-     data->asm330lhhx.ax.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_4);
-     data->asm330lhhx.ay.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_5);
-     data->asm330lhhx.az.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_6);
-     data->asm330lhhx.temp.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_7);
+    //  data->asm330lhhx.wx.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_1);
+    //  data->asm330lhhx.wy.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_2);
+    //  data->asm330lhhx.wz.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_3);
+    //  data->asm330lhhx.ax.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_4);
+    //  data->asm330lhhx.ay.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_5);
+    //  data->asm330lhhx.az.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_6);
+    //  data->asm330lhhx.temp.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_7);
 
     // DEBUG_PRINT("%f\n", (float)IORD(VARSET_BASE, i_var_timer) * COE_TIMER);
     // DEBUG_PRINT("%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f\n", 
@@ -250,11 +251,11 @@ void update_sensor_data(my_sensor_t *data) {
 
 void TRIGGER_IRQ_init()
 {
-	IOWR_ALTERA_AVALON_PIO_EDGE_CAP(SYNC_IN_BASE, 1); //clear edge capture register
-	IOWR_ALTERA_AVALON_PIO_IRQ_MASK(SYNC_IN_BASE, 1); //enable irq mask
+	IOWR_ALTERA_AVALON_PIO_EDGE_CAP(TRIGGER_IN_BASE, 1); //clear edge capture register
+	IOWR_ALTERA_AVALON_PIO_IRQ_MASK(TRIGGER_IN_BASE, 1); //enable irq mask
 	alt_ic_isr_register(
-	SYNC_IN_IRQ_INTERRUPT_CONTROLLER_ID,
-	SYNC_IN_IRQ,
+	TRIGGER_IN_IRQ_INTERRUPT_CONTROLLER_ID,
+	TRIGGER_IN_IRQ,
 	IRQ_TRIGGER_ISR,
 	0x0,
 	0x0);
@@ -263,6 +264,6 @@ void TRIGGER_IRQ_init()
 void IRQ_TRIGGER_ISR(void *context)
 {
 	(void) context;
-	IOWR_ALTERA_AVALON_PIO_EDGE_CAP(SYNC_IN_BASE, 1); //clear edge capture register
+	IOWR_ALTERA_AVALON_PIO_EDGE_CAP(TRIGGER_IN_BASE, 1); //clear edge capture register
 	trigger_sig = 1;
 }

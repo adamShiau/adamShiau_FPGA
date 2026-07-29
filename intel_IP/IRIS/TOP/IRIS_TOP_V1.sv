@@ -12,7 +12,7 @@ module IRIS_TOP_V1(
 
 	//////////// EXT SYNC //////////
 	input	logic 	EXT_SYNC_IN,
-	output	logic	EXT_SYNC_OUT,
+	// output	logic	EXT_SYNC_OUT,
 
 	//////////// INT SYNC //////////
 	output	logic	INT_SYNC, // internal sync signal to ICs
@@ -59,21 +59,21 @@ module IRIS_TOP_V1(
 	output	logic	          	SDRAM_WE_N,
 
 	/////////// PIO ////////// 
-	output logic	WDT_EN,
-	output logic	WDI,
-	output logic	MUX_IN2,
-	output logic	MUX_IN1,
+	// output logic	WDT_EN,
+	// output logic	WDI,
+	// output logic	MUX_IN2,
+	// output logic	MUX_IN1,
 
 	//////////// XLM550 //////////
 	//----SPI_XLM550----
-	input	logic	MISO_XLM550,
-	output 	logic	MOSI_XLM550,
-	output 	logic	SCLK_XLM550,
-	input 	logic	DRDY_SPI_XLM550,
+	// input	logic	MISO_XLM550,
+	// output 	logic	MOSI_XLM550,
+	// output 	logic	SCLK_XLM550,
+	// input 	logic	DRDY_SPI_XLM550,
 	//----I2C_XLM550----
-	inout	wire	SCL_XLM550,
-	inout	wire	SDA_XLM550,
-	input 	logic	DRDY_I2C_XLM550,
+	// inout	wire	SCL_XLM550,
+	// inout	wire	SDA_XLM550,
+	// input 	logic	DRDY_I2C_XLM550,
 
 
 	//////////// ADXL357 I2C //////////
@@ -87,21 +87,21 @@ module IRIS_TOP_V1(
 	input 	logic	DRDY_ADC_TEMP,
 
 	//////////// BMM350 I2C (MAG) //////////
-	inout	wire	SDA_BMM350,
-	inout	wire	SCL_BMM350,
-	input 	logic	DRDY_BMM350,
+	// inout	wire	SDA_BMM350,
+	// inout	wire	SCL_BMM350,
+	// input 	logic	DRDY_BMM350,
 
 	//////////// BMM581 I2C (BAR) //////////
-	inout	wire	SDA_BMM581,
-	inout	wire	SCL_BMM581,
-	input 	logic	DRDY_BMM581,
+	// inout	wire	SDA_BMM581,
+	// inout	wire	SCL_BMM581,
+	// input 	logic	DRDY_BMM581,
 
 	//////////// GNSS UART //////////
-	output	logic 	GNSS_TX,
-	input	logic 	GNSS_RX,
+	// output	logic 	GNSS_TX,
+	// input	logic 	GNSS_RX,
 
 	//////////// LED //////////
-	output	logic 	LED_SENSOR,
+	// output	logic 	LED_SENSOR,
 
 	//////////// EPCS //////////
 	output	logic   EPCS_ASDO,
@@ -125,7 +125,7 @@ assign CLOCK_SDRAM		= pll_clk_sdram_int;
 
 // sync 訊號連接
 assign INT_SYNC 	= sync_out;
-assign EXT_SYNC_OUT = sync_out;
+// assign EXT_SYNC_OUT = sync_out;
 
 // ADC, DAC CS
 assign CS_DAC_1 = DAC_CFG_SS[0];
@@ -157,8 +157,8 @@ assign i_var_accu_step_L_3 	 = fog_accu_step_L_3;
 assign i_var_accu_step_cnt_3 = fog_accu_step_cnt_3; 
 
 assign DAC_RST = var_dac_rst;
-assign MUX_IN1 = var_mux_sel[0];
-assign MUX_IN2 = var_mux_sel[1];
+// assign MUX_IN1 = var_mux_sel[0];
+// assign MUX_IN2 = var_mux_sel[1];
 
 
 // *************************************************************************
@@ -204,7 +204,7 @@ wire [31:0] var_i2c_EEPROM_rdata_4;
 wire [31:0] var_i2c_EEPROM_ctrl, var_i2c_EEPROM_status;
 
 /////////// PIO //////////
-wire [31:0] var_mux_sel, var_dac_rst;
+wire [31:0] var_dac_rst;
 
 /////////// MIOC Modulation parameter //////////
 wire [31:0] var_freq_cnt_3, var_amp_H_3, var_amp_L_3;
@@ -539,7 +539,7 @@ CPU u0 (
 
 	.wdt_export			(),
 	.dac_rst_export     (var_dac_rst),    //    dac_rst.export
-	.mux_in_export      (var_mux_sel),     //     mux_in.export
+	.mux_in_export      (),     //     mux_in.export
 
 	.varset_1_o_latch_trigger (), //           .o_latch_trigger
 	.varset_1_o_reg0    (var_freq_cnt_1),    

@@ -31,7 +31,7 @@
 #include "eeprom_v2.h" //eeprom
 #include "adxl357.h"
 #include "ads122c04_se.h"
-#include "asm330lhhx.h"
+// #include "asm330lhhx.h"
 
 #endif // __IRIS_H
 

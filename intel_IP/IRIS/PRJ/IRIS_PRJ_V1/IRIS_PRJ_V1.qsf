@@ -349,31 +349,25 @@ set_location_assignment PIN_F19 -to SDRAM_RAS_N
 set_location_assignment PIN_K19 -to SDRAM_WE_N
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to DBG_RX
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to DBG_TX
-set_location_assignment PIN_E1 -to DBG_RX
-set_location_assignment PIN_F1 -to DBG_TX
+set_location_assignment PIN_A5 -to DBG_RX
+set_location_assignment PIN_A4 -to DBG_TX
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to FPGA_RX
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to FPGA_TX
-set_location_assignment PIN_C2 -to FPGA_RX
-set_location_assignment PIN_B1 -to FPGA_TX
+set_location_assignment PIN_A6 -to FPGA_RX
+set_location_assignment PIN_A7 -to FPGA_TX
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to GNSS_RX
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to GNSS_TX
-set_location_assignment PIN_B14 -to GNSS_RX
-set_location_assignment PIN_A14 -to GNSS_TX
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to MUX_IN1
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to MUX_IN2
-set_location_assignment PIN_B2 -to MUX_IN2
-set_location_assignment PIN_B3 -to MUX_IN1
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to WDI
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to WDT_EN
-set_location_assignment PIN_E3 -to WDI
-set_location_assignment PIN_F2 -to WDT_EN
-set_location_assignment PIN_D2 -to EXT_SYNC_IN
+set_location_assignment PIN_A3 -to EXT_SYNC_IN
 set_location_assignment PIN_C1 -to EXT_SYNC_OUT
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to EXT_SYNC_IN
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to EXT_SYNC_OUT
-set_location_assignment PIN_A4 -to INT_SYNC
+set_location_assignment PIN_A8 -to INT_SYNC
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to INT_SYNC
-set_location_assignment PIN_D7 -to DRDY_357
+set_location_assignment PIN_B8 -to DRDY_357
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to DRDY_357
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to DRDY_ADC_TEMP
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to DRDY_BMM350
@@ -385,11 +379,7 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to EPCS_DATA0
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to EPCS_DCLK
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to EPCS_NCSO
 set_location_assignment PIN_A10 -to DRDY_ADC_TEMP
-set_location_assignment PIN_D10 -to DRDY_BMM350
-set_location_assignment PIN_B13 -to DRDY_BMM581
-set_location_assignment PIN_B7 -to DRDY_I2C_XLM550
-set_location_assignment PIN_D6 -to DRDY_SPI_XLM550
-set_location_assignment PIN_C8 -to SCL_357
+set_location_assignment PIN_A9 -to SCL_357
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to SCLK_XLM550
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to SCL_357
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to SCL_ADC_TEMP
@@ -403,24 +393,14 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to SDA_BMM350
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to SDA_BMM581
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to SDA_EEPROM
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to SDA_XLM550
-set_location_assignment PIN_C13 -to SCL_ADC_TEMP
-set_location_assignment PIN_A9 -to SCL_BMM350
-set_location_assignment PIN_D13 -to SCL_BMM581
-set_location_assignment PIN_C6 -to SCL_XLM550
-set_location_assignment PIN_A13 -to SDA_BMM581
+set_location_assignment PIN_A14 -to SCL_ADC_TEMP
 set_location_assignment PIN_B9 -to SDA_357
-set_location_assignment PIN_B10 -to SDA_ADC_TEMP
-set_location_assignment PIN_C10 -to SDA_BMM350
-set_location_assignment PIN_C4 -to SDA_XLM550
-set_location_assignment PIN_C3 -to LED_SENSOR
+set_location_assignment PIN_A13 -to SDA_ADC_TEMP
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to LED_SENSOR
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to MISO_XLM550
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to MOSI_XLM550
-set_location_assignment PIN_A8 -to MISO_XLM550
-set_location_assignment PIN_C7 -to MOSI_XLM550
 set_location_assignment PIN_H1 -to SDA_EEPROM
 set_location_assignment PIN_J1 -to SCL_EEPROM
-set_location_assignment PIN_B8 -to SCLK_XLM550
 set_location_assignment PIN_D1 -to EPCS_ASDO
 set_location_assignment PIN_K1 -to EPCS_DATA0
 set_location_assignment PIN_K2 -to EPCS_DCLK

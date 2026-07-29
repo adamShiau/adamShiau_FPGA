@@ -1,8 +1,8 @@
 #include "common.h"
 #include <stdarg.h>
 #include <string.h>
-#include "HINS.h"
-#include "asm330lhhx.h"
+#include "IRIS.h"
+// #include "asm330lhhx.h"
 
 alt_u32 crc_table[256];
 
@@ -294,23 +294,23 @@ void Set_Dac_Gain_x(alt_32 gain)
 	// UART_PRINT("Set_Dac_Gain_x: %d\n", gain);
 	// DEBUG_PRINT("Set_Dac_Gain_x: %d\n", gain);
 	// IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_DAC_BASE, SEL_CS_DAC_2CH); usleep (10); 
-	IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_DAC_BASE, SEL_CS_DAC); usleep (10); 
-	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC2_GAIN_LSB_ADDR<<8) | (gain&0xFF)); usleep (10);
-	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC2_GAIN_MSB_ADDR<<8) | (gain>>8)); usleep (10);
+	IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_DAC_BASE, SEL_CS_DAC_1CH); usleep (10); 
+	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC1_GAIN_LSB_ADDR<<8) | (gain&0xFF)); usleep (10);
+	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC1_GAIN_MSB_ADDR<<8) | (gain>>8)); usleep (10);
 }
 void Set_Dac_Gain_y(alt_32 gain)
 {
 	// UART_PRINT("Set_Dac_Gain_y: %d\n", gain);
 	// DEBUG_PRINT("Set_Dac_Gain_y: %d\n", gain);
-	IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_DAC_BASE, SEL_CS_DAC); usleep (10); 
-	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC2_GAIN_LSB_ADDR<<8) | (gain&0xFF)); usleep (10);
-	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC2_GAIN_MSB_ADDR<<8) | (gain>>8)); usleep (10);
+	IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_DAC_BASE, SEL_CS_DAC_2CH); usleep (10); 
+	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC1_GAIN_LSB_ADDR<<8) | (gain&0xFF)); usleep (10);
+	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC1_GAIN_MSB_ADDR<<8) | (gain>>8)); usleep (10);
 }
 void Set_Dac_Gain_z(alt_32 gain)
 {
 	// UART_PRINT("Set_Dac_Gain_z: %d\n", gain);
 	// DEBUG_PRINT("Set_Dac_Gain_z: %d\n", gain);
-	IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_DAC_BASE, SEL_CS_DAC); usleep (10); 
+	IOWR_ALTERA_AVALON_SPI_SLAVE_SEL(SPI_DAC_BASE, SEL_CS_DAC_2CH); usleep (10); 
 	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC2_GAIN_LSB_ADDR<<8) | (gain&0xFF)); usleep (10);
 	IOWR_ALTERA_AVALON_SPI_TXDATA(SPI_DAC_BASE, (DAC2_GAIN_MSB_ADDR<<8) | (gain>>8)); usleep (10);
 }
@@ -1338,7 +1338,7 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 							PARAMETER_Write_s(base, CMD_CFG_LPF_G - CFG_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
 							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 
-							set_ASM330LHHX_Gyro_LPF1((alt_u8)rx->value);
+							// set_ASM330LHHX_Gyro_LPF1((alt_u8)rx->value);
 						}
 						else if(rx->condition == 3) {
 							data_t data;
@@ -1354,7 +1354,7 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 							PARAMETER_Write_s(base, CMD_CFG_LPF_A - CFG_CONTAINER_TO_CMD_OFFSET, rx->value, fog_inst);
 							DEBUG_PRINT("WRITE: %d\n", rx->value);	
 
-							set_ASM330LHHX_Accl_LPF2((alt_u8)rx->value);
+							// set_ASM330LHHX_Accl_LPF2((alt_u8)rx->value);
 						}
 						else if(rx->condition == 3) {
 							data_t data;
@@ -1601,7 +1601,7 @@ bool apply_ASM330LHHX_Gyro_LPF1_index(uint8_t index)
 
 	DEBUG_PRINT("Gyro_LPF1 index %d (out_idx=%d, BW=%f)\n", index, out_idx, bw);
 
-	set_ASM330LHHX_Gyro_LPF1(out_idx);
+	// set_ASM330LHHX_Gyro_LPF1(out_idx);
 	usleep (10000);
 
 	return true;
@@ -1621,7 +1621,7 @@ bool apply_ASM330LHHX_Accl_LPF2_index(uint8_t index)
 
 	DEBUG_PRINT("Accl_LPF2 index %d (out_idx=%d, BW=%f)\n", index, out_idx, bw);
 
-	set_ASM330LHHX_Accl_LPF2(out_idx);
+	// set_ASM330LHHX_Accl_LPF2(out_idx);
 	usleep (10000);
 
 	return true;

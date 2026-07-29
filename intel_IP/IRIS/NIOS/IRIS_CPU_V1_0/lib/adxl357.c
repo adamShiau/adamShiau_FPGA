@@ -17,11 +17,11 @@
 #define O_VAR_I2C_CTRL		var_i2c_357_ctrl
 // #define O_VAR_SYNC_PER		3
 #define O_VAR_REG_ADDR		var_i2c_357_reg_addr
-#define O_VAR_I2C_STATUS	var_i2c_357_status
-#define O_VAR_I2C_RDATA_1	var_i2c_357_rdata_1
-#define O_VAR_I2C_RDATA_2	var_i2c_357_rdata_2
-#define O_VAR_I2C_RDATA_3	var_i2c_357_rdata_3
-#define O_VAR_I2C_RDATA_4	var_i2c_357_rdata_4
+#define O_VAR_I2C_STATUS	i_var_i2c_357_status
+#define O_VAR_I2C_RDATA_1	i_var_i2c_357_rdata_1
+#define O_VAR_I2C_RDATA_2	i_var_i2c_357_rdata_2
+#define O_VAR_I2C_RDATA_3	i_var_i2c_357_rdata_3
+#define O_VAR_I2C_RDATA_4	i_var_i2c_357_rdata_4
 // #define O_VAR_I2C_RDATA_5	var_i2c_357_rdata_5
 // #define O_VAR_I2C_RDATA_6	var_i2c_357_rdata_6
 // #define O_VAR_I2C_RDATA_7	var_i2c_357_rdata_7
@@ -188,7 +188,7 @@ void read_357_temp_CPU()
 	// Wait for the I2C SM to complete the operation
 	while( !I2C_sm_read_finish_ADXL357()){}
 
-	temp = 233.2873 - 0.1105*(float)IORD(VARSET_BASE, var_i2c_357_rdata_4);
+	temp = 233.2873 - 0.1105*(float)IORD(VARSET_BASE, i_var_i2c_357_rdata_4);
 
 //	printf("temp: %f\n", temp);
 	uart_printf("temp: %f\n", temp);
@@ -207,9 +207,9 @@ void read_357_accl_CPU()
 	while( !I2C_sm_read_finish_ADXL357()){}
 
 
-	ax = (float)IORD(VARSET_BASE, var_i2c_357_rdata_1)*SENS_ADXL357_20G;
-	ay = (float)IORD(VARSET_BASE, var_i2c_357_rdata_2)*SENS_ADXL357_20G;
-	az = (float)IORD(VARSET_BASE, var_i2c_357_rdata_3)*SENS_ADXL357_20G;
+	ax = (float)IORD(VARSET_BASE, i_var_i2c_357_rdata_1)*SENS_ADXL357_20G;
+	ay = (float)IORD(VARSET_BASE, i_var_i2c_357_rdata_2)*SENS_ADXL357_20G;
+	az = (float)IORD(VARSET_BASE, i_var_i2c_357_rdata_3)*SENS_ADXL357_20G;
 
 	DEBUG_PRINT("%f, %f, %f\n", ax, ay, az);
 	// uart_printf("%f, %f, %f\n", ax, ay, az);
@@ -227,10 +227,10 @@ void read_357_all()
 	// Wait for the I2C SM to complete the operation
 	while( !I2C_sm_read_finish_ADXL357()){}
 
-	ax = (float)IORD(VARSET_BASE, var_i2c_357_rdata_1)*SENS_ADXL357_20G;
-	ay = (float)IORD(VARSET_BASE, var_i2c_357_rdata_2)*SENS_ADXL357_20G;
-	az = (float)IORD(VARSET_BASE, var_i2c_357_rdata_3)*SENS_ADXL357_20G;
-	temp = 233.2873 - 0.1105*(float)IORD(VARSET_BASE, var_i2c_357_rdata_4);
+	ax = (float)IORD(VARSET_BASE, i_var_i2c_357_rdata_1)*SENS_ADXL357_20G;
+	ay = (float)IORD(VARSET_BASE, i_var_i2c_357_rdata_2)*SENS_ADXL357_20G;
+	az = (float)IORD(VARSET_BASE, i_var_i2c_357_rdata_3)*SENS_ADXL357_20G;
+	temp = 233.2873 - 0.1105*(float)IORD(VARSET_BASE, i_var_i2c_357_rdata_4);
 
 //	printf("%f, %f, %f\n", ax, ay, az);
 	DEBUG_PRINT("%f, %f, %f, %f\n", ax, ay, az, temp);

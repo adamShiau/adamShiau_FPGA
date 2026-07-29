@@ -12,10 +12,6 @@
 					"strict" : false
 				},
 				{
-					"name" : "EXT_SYNC_OUT",
-					"strict" : false
-				},
-				{
 					"name" : "INT_SYNC",
 					"strict" : false
 				},
@@ -325,14 +321,6 @@
 				},
 				{
 					"name" : "SDRAM_WE_N",
-					"strict" : false
-				},
-				{
-					"name" : "MUX_IN2",
-					"strict" : false
-				},
-				{
-					"name" : "MUX_IN1",
 					"strict" : false
 				},
 				{
