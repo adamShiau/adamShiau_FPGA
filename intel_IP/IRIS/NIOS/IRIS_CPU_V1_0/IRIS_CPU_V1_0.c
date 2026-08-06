@@ -201,7 +201,7 @@ void dbg_mems(my_sensor_t *data)
 void update_sensor_data(my_sensor_t *data) {
     /***---timer--- */
     // data->time.time.float_val = (float)IORD(VARSET_BASE, i_var_timer) * COE_TIMER;
-    data->time.time.int_val = IORD(VARSET_BASE, i_var_timer) * COE_TIMER;
+    data->time.time.float_val = (float)IORD(VARSET_BASE, i_var_timer) * COE_TIMER;
     /***---fog x axis--- */
     data->fog.fogx.err.int_val = IORD(VARSET_BASE, i_var_err_1);
     data->fog.fogx.step.int_val = IORD(VARSET_BASE, i_var_step_1);

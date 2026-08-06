@@ -1464,6 +1464,7 @@ void fog_parameter(cmd_ctrl_t* rx, fog_parameter_t* fog_inst)
 					case CMD_SYNC_CNT: {
 						DEBUG_PRINT("CMD_SYNC_CNT:\n");
 						IOWR(VARSET_BASE, var_sync_count, rx->value);
+						DEBUG_PRINT("WRITE: %d\n", rx->value);	
 						break;
 					} 
 					case CMD_HW_TIMER_RST: {
@@ -1574,15 +1575,23 @@ static bool map_accl_LPF_index(uint8_t idx, uint8_t* out_idx, float* out_bw)
 
 bool apply_datarate_index(uint8_t dr_index)
 {
+	// shadow copy：記錄最後一次成功寫入 var_sync_count 的值。
+	// var_sync_count 是單向寫入的暫存器（全專案沒有任何地方 IORD 讀回它），
+	// 所以無法直接讀硬體確認目前值，只能靠軟體端這個影子變數回報。
+	static uint32_t last_synced_cnt = 0;
 	uint32_t cnt = 0;
 	float hz = 0.0f;
 	if (!map_datarate_index(dr_index, &cnt, &hz)) {
+		DEBUG_PRINT("\n[ERROR] apply_datarate_index: dr_index=%d out of range (0~4). "
+					"var_sync_count NOT updated, current value still = %u\n",
+					dr_index, last_synced_cnt);
 		return false;
 	}
 
 	DEBUG_PRINT("\n Applying datarate index %d (cnt=%d, hz=%f)\n", dr_index, cnt, hz);
 
 	IOWR(VARSET_BASE, var_sync_count, cnt);
+	last_synced_cnt = cnt;
 
 	return true;
 }
@@ -1641,6 +1650,7 @@ void update_config_to_HW_REG(fog_parameter_t* para)
 	
 	// apply_ASM330LHHX_Gyro_LPF1_index(g_lpf); // update ASM330LHH gyro LPF bw from config container
 	// apply_ASM330LHHX_Accl_LPF2_index(a_lpf); // update ASM330LHH accl LPF bw from config container
+	// IOWR(VARSET_BASE, var_sync_count, DR_50Hz_CNT);
 	
 	DEBUG_PRINT("\nupdate config paramemetr done.\n ");
 }
