@@ -1631,7 +1631,7 @@ void update_config_to_HW_REG(fog_parameter_t* para)
 {
 	DEBUG_PRINT("\nupdating config parameters to FPGA....\n ");
 
-	set_MUX_RS422(); // set RS422 output mode
+	// set_MUX_RS422(); // set RS422 output mode
 	
 	uint8_t dr_idx = para->config[0].data.int_val;
 	uint8_t g_lpf  = para->config[12].data.int_val;

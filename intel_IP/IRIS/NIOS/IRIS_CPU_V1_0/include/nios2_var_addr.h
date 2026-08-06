@@ -55,20 +55,20 @@
 
 
 #define i_var_i2c_ads122c04_temp_status	    60 + 0
-#define i_var_i2c_ads122c04_temp_rdata_1	    60 + 1
-#define i_var_i2c_ads122c04_temp_rdata_2	    60 + 2
-#define i_var_i2c_ads122c04_temp_rdata_3	    60 + 3
-#define i_var_i2c_ads122c04_temp_rdata_4	    60 + 4
+#define i_var_i2c_ads122c04_temp_rdata_1	60 + 1
+#define i_var_i2c_ads122c04_temp_rdata_2	60 + 2
+#define i_var_i2c_ads122c04_temp_rdata_3	60 + 3
+#define i_var_i2c_ads122c04_temp_rdata_4	60 + 4
 #define i_var_i2c_EEPROM_status	            60 + 5
 #define i_var_i2c_EEPROM_rdata_1	        60 + 6
 #define i_var_i2c_EEPROM_rdata_2	        60 + 7
 #define i_var_i2c_EEPROM_rdata_3	        60 + 8
 #define i_var_i2c_EEPROM_rdata_4	        60 + 9
-#define i_var_i2c_357_status	                60 + 10
-#define i_var_i2c_357_rdata_1	                60 + 11
-#define i_var_i2c_357_rdata_2	                60 + 12
-#define i_var_i2c_357_rdata_3	                60 + 13
-#define i_var_i2c_357_rdata_4	                60 + 14
+#define i_var_i2c_357_status	            60 + 10
+#define i_var_i2c_357_rdata_1	            60 + 11
+#define i_var_i2c_357_rdata_2	            60 + 12
+#define i_var_i2c_357_rdata_3	            60 + 13
+#define i_var_i2c_357_rdata_4	            60 + 14
 #define i_var_timer                         60 + 15
 #define i_var_err_1                         60 + 16
 #define i_var_step_1                        60 + 17

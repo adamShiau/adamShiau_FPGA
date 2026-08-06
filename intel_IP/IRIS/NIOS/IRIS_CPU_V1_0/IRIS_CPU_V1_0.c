@@ -109,8 +109,6 @@ int main(void)
 	init_ADXL357();
     DEBUG_PRINT("\n-----init_ADS122C04_TEMP-----\n");
 	init_ADS122C04_TEMP();
-    // DEBUG_PRINT("\n-----ASM330LHHX-----\n");
-    // init_ASM330LHHX();
     DEBUG_PRINT("\n-----initialize_fog_params_from_memory-----\n");
     LOAD_FOG_PARAMETER(&fog_params);
 	LOAD_FOG_MISALIGNMENT(&fog_params);
@@ -136,7 +134,6 @@ int main(void)
     while(1)
     {
 		
-        // monitor_reg();
         get_uart_cmd(readDataDynamic(&try_cnt), &my_cmd);
         get_uart_cmd(readDataDynamic_dbg(&try_cnt), &my_cmd);
         cmd_mux(&my_cmd);
@@ -146,6 +143,7 @@ int main(void)
         {
             update_sensor_data(&sensor_data);
             // dbg_mems(&sensor_data);
+            // monitor_reg();
             output_fn(&my_cmd, sensor_data, fog_params);
             trigger_sig = 0;
         }
@@ -160,18 +158,19 @@ void monitor_reg()
     static alt_u32 dly_cnt = 0;
     static const DELAY_NUM = 5000;
 
-    if(dly_cnt++ > DELAY_NUM) {
-        dly_cnt = 0;
+    // if(dly_cnt++ > DELAY_NUM) {
+    //     dly_cnt = 0;
         // DEBUG_PRINT("i_err_offset: %d\n", IORD(VARSET_BASE, i_var_reg_1_err_signal_gen));
         // DEBUG_PRINT("gain1: %d\n", IORD(VARSET_BASE, i_var_reg_1_Feedback_control));
         // DEBUG_PRINT("i_err: %d, ", IORD(VARSET_BASE, i_var_err));
         // DEBUG_PRINT("step: %d\n", IORD(VARSET_BASE, i_var_step));
         DEBUG_PRINT("time: %d\n", IORD(VARSET_BASE, i_var_timer));
+        DEBUG_PRINT("step_cnt: %d, %d, %d\n", IORD(VARSET_BASE, i_var_accu_step_cnt_1),IORD(VARSET_BASE, i_var_accu_step_cnt_2),IORD(VARSET_BASE, i_var_accu_step_cnt_3) );
         // DEBUG_PRINT("AIN0: %d\n",(float)IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_1)*3.3/8388608.0);
         // DEBUG_PRINT("AIN1: %d\n",(float)IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_2)*3.3/8388608.0);
         // DEBUG_PRINT("AIN2: %d\n",(float)IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_3)*3.3/8388608.0);
         // DEBUG_PRINT("AIN3: %d\n",(float)IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_4)*3.3/8388608.0);
-    }
+    // }
 }
 /***
 void dbg_mems(my_sensor_t *data)
@@ -202,30 +201,46 @@ void dbg_mems(my_sensor_t *data)
 void update_sensor_data(my_sensor_t *data) {
     /***---timer--- */
     // data->time.time.float_val = (float)IORD(VARSET_BASE, i_var_timer) * COE_TIMER;
-    data->time.time.int_val = IORD(VARSET_BASE, i_var_timer);
+    data->time.time.int_val = IORD(VARSET_BASE, i_var_timer) * COE_TIMER;
+    /***---fog x axis--- */
+    data->fog.fogx.err.int_val = IORD(VARSET_BASE, i_var_err_1);
+    data->fog.fogx.step.int_val = IORD(VARSET_BASE, i_var_step_1);
+    data->fog.fogx.step_H.int_val = IORD(VARSET_BASE, i_var_accu_step_H_1);
+    data->fog.fogx.step_L.int_val = IORD(VARSET_BASE, i_var_accu_step_L_1);
+    data->fog.fogx.step_cnt.int_val = IORD(VARSET_BASE, i_var_accu_step_cnt_1);
+    /***---fog y axis--- */
+    data->fog.fogy.err.int_val = IORD(VARSET_BASE, i_var_err_2);
+    data->fog.fogy.step.int_val = IORD(VARSET_BASE, i_var_step_2);
+    data->fog.fogy.step_H.int_val = IORD(VARSET_BASE, i_var_accu_step_H_2);
+    data->fog.fogy.step_L.int_val = IORD(VARSET_BASE, i_var_accu_step_L_2);
+    data->fog.fogy.step_cnt.int_val = IORD(VARSET_BASE, i_var_accu_step_cnt_2);
     /***---fog z axis--- */
-     data->fog.fogz.err.int_val = IORD(VARSET_BASE, i_var_err_3);
-     data->fog.fogz.step.int_val = IORD(VARSET_BASE, i_var_step_3);
-     data->fog.fogz.step_H.int_val = IORD(VARSET_BASE, i_var_accu_step_H_3);
+    data->fog.fogz.err.int_val = IORD(VARSET_BASE, i_var_err_3);
+    data->fog.fogz.step.int_val = IORD(VARSET_BASE, i_var_step_3);
+    data->fog.fogz.step_H.int_val = IORD(VARSET_BASE, i_var_accu_step_H_3);
     data->fog.fogz.step_L.int_val = IORD(VARSET_BASE, i_var_accu_step_L_3);
     data->fog.fogz.step_cnt.int_val = IORD(VARSET_BASE, i_var_accu_step_cnt_3);
     /***---adc ads122c04--- */
-     data->ads122c04.ain0.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_temp_rdata_1);
-     data->ads122c04.ain1.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_temp_rdata_2);
-     data->ads122c04.ain2.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_temp_rdata_3);
-     data->ads122c04.ain3.int_val = IORD(VARSET_BASE, i_var_i2c_ads122c04_temp_rdata_4);
-    //  data->ads122c04.ain0.float_val = (float)IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_1)*3.3/8388608.0; // FOG_TEMP
-    //  data->ads122c04.ain1.float_val = (float)IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_2)*3.3/8388608.0;
-    //  data->ads122c04.ain2.float_val = (float)IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_3)*3.3/8388608.0;
-    //  data->ads122c04.ain3.float_val = (float)IORD(VARSET_BASE, i_var_i2c_ads122c04_rdata_4)*3.3/8388608.0;
-    /***---imu asm330lhhx--- */
-    //  data->asm330lhhx.wx.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_1);
-    //  data->asm330lhhx.wy.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_2);
-    //  data->asm330lhhx.wz.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_3);
-    //  data->asm330lhhx.ax.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_4);
-    //  data->asm330lhhx.ay.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_5);
-    //  data->asm330lhhx.az.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_6);
-    //  data->asm330lhhx.temp.int_val = IORD(VARSET_BASE, i_var_i2c_IMU_rdata_7);
+    alt_32 raw = IORD(VARSET_BASE, i_var_i2c_ads122c04_temp_rdata_2);
+	alt_64 scaled = ((alt_64)raw * ADC_SCALE_INT * 1000) / ADC_SCALE_DIV;
+	alt_32 temp_x1000 = (alt_32)(scaled - TEMP_OFFSET_x1000);
+	data->temp.tempx.float_val = temp_x1000 / 1000.0f;
+	raw = IORD(VARSET_BASE, i_var_i2c_ads122c04_temp_rdata_4);
+	scaled = ((alt_64)raw * ADC_SCALE_INT * 1000) / ADC_SCALE_DIV;
+	temp_x1000 = (alt_32)(scaled - TEMP_OFFSET_x1000);
+	data->temp.tempy.float_val = temp_x1000 / 1000.0f;
+	raw = IORD(VARSET_BASE, i_var_i2c_ads122c04_temp_rdata_3);
+	scaled = ((alt_64)raw * ADC_SCALE_INT * 1000) / ADC_SCALE_DIV;
+	temp_x1000 = (alt_32)(scaled - TEMP_OFFSET_x1000);
+	data->temp.tempz.float_val = temp_x1000 / 1000.0f;
+    /*** ADXL357 */
+    data->adxl357.ax.float_val = (float)IORD(VARSET_BASE, i_var_i2c_357_rdata_1) * SENS_ADXL357_20G;
+    data->adxl357.ay.float_val = (float)IORD(VARSET_BASE, i_var_i2c_357_rdata_2) * SENS_ADXL357_20G;
+    data->adxl357.az.float_val = (float)IORD(VARSET_BASE, i_var_i2c_357_rdata_3) * SENS_ADXL357_20G;
+    raw = IORD(VARSET_BASE, i_var_i2c_357_rdata_4);
+	alt_32 temp_scaled = 2332873 - 1105 * raw; // 放大 10000 倍進行計算
+	data->adxl357.temp.float_val = (float)temp_scaled / 10000.0;
+
 
     // DEBUG_PRINT("%f\n", (float)IORD(VARSET_BASE, i_var_timer) * COE_TIMER);
     // DEBUG_PRINT("%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f\n", 
