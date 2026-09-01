@@ -139,6 +139,7 @@ int main(void)
         cmd_mux(&my_cmd);
         fog_parameter(&my_cmd, &fog_params);
         output_mode_setting(&my_cmd, &output_fn);
+        // DEBUG_PRINT("%d, ", trigger_sig);
         if (trigger_sig == 1) 
         {
             update_sensor_data(&sensor_data);
@@ -147,6 +148,7 @@ int main(void)
             output_fn(&my_cmd, sensor_data, fog_params);
             trigger_sig = 0;
         }
+        // DEBUG_PRINT("%d\n, ", trigger_sig);
 
     }
 
@@ -222,17 +224,26 @@ void update_sensor_data(my_sensor_t *data) {
     data->fog.fogz.step_cnt.int_val = IORD(VARSET_BASE, i_var_accu_step_cnt_3);
     /***---adc ads122c04--- */
     alt_32 raw = IORD(VARSET_BASE, i_var_i2c_ads122c04_temp_rdata_2);
+    // DEBUG_PRINT("%d, ", raw);
 	alt_64 scaled = ((alt_64)raw * ADC_SCALE_INT * 1000) / ADC_SCALE_DIV;
+    // DEBUG_PRINT("%ld, ", scaled);
 	alt_32 temp_x1000 = (alt_32)(scaled - TEMP_OFFSET_x1000);
+    // DEBUG_PRINT("%d, ", temp_x1000);
 	data->temp.tempx.float_val = temp_x1000 / 1000.0f;
+    // DEBUG_PRINT("%f\n, ", data->temp.tempx.float_val);
+
 	raw = IORD(VARSET_BASE, i_var_i2c_ads122c04_temp_rdata_4);
+    // DEBUG_PRINT("%d, ", raw);
 	scaled = ((alt_64)raw * ADC_SCALE_INT * 1000) / ADC_SCALE_DIV;
 	temp_x1000 = (alt_32)(scaled - TEMP_OFFSET_x1000);
 	data->temp.tempy.float_val = temp_x1000 / 1000.0f;
+    // DEBUG_PRINT("%f, ", data->temp.tempy.float_val);
 	raw = IORD(VARSET_BASE, i_var_i2c_ads122c04_temp_rdata_3);
+    // DEBUG_PRINT("%d\n ", raw);
 	scaled = ((alt_64)raw * ADC_SCALE_INT * 1000) / ADC_SCALE_DIV;
 	temp_x1000 = (alt_32)(scaled - TEMP_OFFSET_x1000);
 	data->temp.tempz.float_val = temp_x1000 / 1000.0f;
+    // DEBUG_PRINT("%f\n", data->temp.tempz.float_val);
     /*** ADXL357 */
     data->adxl357.ax.float_val = (float)IORD(VARSET_BASE, i_var_i2c_357_rdata_1) * SENS_ADXL357_20G;
     data->adxl357.ay.float_val = (float)IORD(VARSET_BASE, i_var_i2c_357_rdata_2) * SENS_ADXL357_20G;

@@ -77,7 +77,7 @@
 #define MODE_FOG_PARAMETER  6
 
 /*** ADC convertion coefficient */
-#define ADC_CONV_TEMP 0.00004447005 // 2.048/8388608.0*1000.0/5.49
+#define ADC_CONV_TEMP 0.00004447005 // 2.048/8388608.0*1000.0/5.49 [Vref/(Gain*2^23)*1000 mV/V/5.49 mV]
 #define ADC_SCALE_INT     4447       // 0.00004447005 × 100,000,000
 #define ADC_SCALE_DIV     100000000  // 將結果縮回來
 #define TEMP_OFFSET_x1000 273150     // 273.15 × 1000

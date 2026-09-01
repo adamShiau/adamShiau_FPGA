@@ -199,7 +199,7 @@ void init_ADS122C04_TEMP()
         const char* label;
     } configs[] = {
         {WREG_CONFIG_0, RREG_CONFIG_0, MUX_AIN0_AVSS | GAIN_1 | PGA_DISABLE, "MUX/Gain Config: Gain 0, PGA disable"},
-        {WREG_CONFIG_1, RREG_CONFIG_1, DR_20_40 | MODE_NORMAL | CM_SINGLE_SHOT | VREF_ANALOG_SUPPLY | TS_DISABLE, "DataRate: 20Hz, REF: AVDD"},
+        {WREG_CONFIG_1, RREG_CONFIG_1, DR_20_40 | MODE_NORMAL | CM_SINGLE_SHOT | VREF_INTERNAL | TS_DISABLE, "DataRate: 20Hz, REF: AVDD"},
         {WREG_CONFIG_2, RREG_CONFIG_2, 0x00, "IDAC Config: OFF"},
         {WREG_CONFIG_3, RREG_CONFIG_3, 0x00, "IDAC MUX Config: disable"}
     };
