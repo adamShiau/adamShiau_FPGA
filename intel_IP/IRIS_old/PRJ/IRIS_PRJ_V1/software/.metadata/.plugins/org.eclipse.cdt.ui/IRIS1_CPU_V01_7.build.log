@@ -1,9 +1,0 @@
-16:35:42 **** Incremental Build of configuration Nios II for project IRIS1_CPU_V01_7 ****
-make all 
-Info: Building ../IRIS1_CPU_V01_7_bsp/
-D:/intelFPGA_lite/18.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../IRIS1_CPU_V01_7_bsp/
-[BSP build complete]
-[IRIS1_CPU_V01_7 build complete]
-
-16:35:44 Build Finished (took 1s.223ms)
-

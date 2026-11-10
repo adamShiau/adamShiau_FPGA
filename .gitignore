@@ -1,3 +1,22 @@
 *.txt
 *.done
 # *.xlsx
+
+# ---- Quartus 編譯中間檔 ----
+db/
+incremental_db/
+greybox_tmp/
+.qsys_edit/
+*.rpt
+*.summary
+*.smsg
+*.pin
+*.jdi
+*.sld
+*.qws
+# ---- NIOS II SBT (Eclipse) 編譯產物與工作區 ----
+**/software/**/obj/
+**/software/**/*.objdump
+**/software/**/*.map
+**/software/.metadata/
+**/software/RemoteSystemsTempFiles/
