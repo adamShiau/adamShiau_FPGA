@@ -87,11 +87,15 @@ my_modulation_gen_v1 u_mod_gen (
 // -------------------------------------------------------------------------
 // B-2. ADC 跨時鐘域緩衝區 (ADC Synchronization Buffer)
 // -------------------------------------------------------------------------
+// ADC 輸入先在 IOE 暫存一級 (qsf 設 FAST_INPUT_REGISTER ON)，再寫入 FIFO
+logic [13:0] adc_ioe_q;
+always_ff @(posedge CLOCK_ADC) adc_ioe_q <= ADC;
+
 adc_sync_buffer #(.DATA_WIDTH(14)) u_adc_sync_fifo (
     .i_clk_wr   ( CLOCK_ADC ),
     .i_clk_rd   ( CLOCK_CPU ),
     .i_rst_n    ( RST_SYNC_N ),
-    .i_data_wr  ( ADC ),              // 來自外部 ADC (CLOCK_ADC domain)
+    .i_data_wr  ( adc_ioe_q ),        // 來自外部 ADC，經 IOE 暫存 (CLOCK_ADC domain)
     .o_data_rd  ( adc_synced_data )   // 給解調核心 (CLOCK_CPU domain)
 );
 

@@ -62,6 +62,9 @@ set_global_assignment -name RESERVE_DCLK_AFTER_CONFIGURATION "USE AS REGULAR IO"
 set_global_assignment -name CYCLONEII_RESERVE_NCEO_AFTER_CONFIGURATION "USE AS REGULAR IO"
 set_global_assignment -name SDC_FILE ../../SDC/IRIS_TIMING_V1.sdc
 set_global_assignment -name SDC_FILE ../../SDC/IRIS_TIMING_V1_ADC_draft.sdc
+set_instance_assignment -name FAST_INPUT_REGISTER ON -to ADC_1_1[*]
+set_instance_assignment -name FAST_INPUT_REGISTER ON -to ADC_2_1[*]
+set_instance_assignment -name FAST_INPUT_REGISTER ON -to ADC_2_2[*]
 set_location_assignment PIN_W22 -to ADC_1_1[13]
 set_location_assignment PIN_V22 -to ADC_1_1[12]
 set_location_assignment PIN_V21 -to ADC_1_1[11]
@@ -157,7 +160,8 @@ set_location_assignment PIN_U19 -to CS_ADC_2
 set_instance_assignment -name IO_STANDARD "1.8 V" -to CS_ADC_1
 set_instance_assignment -name IO_STANDARD "1.8 V" -to CS_ADC_2
 set_location_assignment PIN_B20 -to CLOCK_ADC
-set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to CLOCK_ADC
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to CLOCK_ADC
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to CLOCK_ADC
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to DAC_1_1[15]
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to DAC_1_1[14]
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to DAC_1_1[13]

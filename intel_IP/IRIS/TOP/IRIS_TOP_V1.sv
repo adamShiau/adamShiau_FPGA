@@ -171,6 +171,7 @@ wire pll_clk_adc_int;
 wire pll_clk_dac_int; 
 wire pll_clk_sdram_int;
 wire pll_clk_cpu_int;
+wire pll_clk_adc_cap_int;   // ADC 資料擷取時鐘 (c4，相對 c0 延後相位，補償 CLOCK_ADC 輸出與板上延遲)
 wire RST_SYNC_N; 
 logic r_locked_sync1, r_locked_sync2;
 logic RST_EXT_N = 1'b1;
@@ -251,6 +252,7 @@ pll	pll_inst (
 	.c1 ( pll_clk_dac_int ),
 	.c2 ( pll_clk_sdram_int ),
 	.c3 ( pll_clk_cpu_int ),
+	.c4 ( pll_clk_adc_cap_int ),
 	.locked ( pll_locked )
 	);
 
@@ -302,7 +304,7 @@ timer_inst
 // =========================================================================
 HINS_fog_v2 u_hins_fog_1 (
     // 時鐘與重置
-    .CLOCK_ADC      (pll_clk_adc_int), 
+    .CLOCK_ADC      (pll_clk_adc_cap_int), 
     .CLOCK_CPU      (pll_clk_cpu_int), 
     .RST_SYNC_N     (RST_SYNC_N),      
     // ADC 接口
@@ -332,7 +334,7 @@ HINS_fog_v2 u_hins_fog_1 (
 
 HINS_fog_v2 u_hins_fog_2 (
     // 時鐘與重置
-    .CLOCK_ADC      (pll_clk_adc_int), 
+    .CLOCK_ADC      (pll_clk_adc_cap_int), 
     .CLOCK_CPU      (pll_clk_cpu_int), 
     .RST_SYNC_N     (RST_SYNC_N),      
     // ADC 接口
@@ -362,7 +364,7 @@ HINS_fog_v2 u_hins_fog_2 (
 
 HINS_fog_v2 u_hins_fog_3 (
     // 時鐘與重置
-    .CLOCK_ADC      (pll_clk_adc_int), 
+    .CLOCK_ADC      (pll_clk_adc_cap_int), 
     .CLOCK_CPU      (pll_clk_cpu_int), 
     .RST_SYNC_N     (RST_SYNC_N),      
     // ADC 接口

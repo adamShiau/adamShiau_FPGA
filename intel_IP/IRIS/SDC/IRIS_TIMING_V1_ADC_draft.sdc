@@ -15,7 +15,7 @@
 # 資料路徑:
 #   LTC2145-14 D1_x/D2_x (1.8 V CMOS, full rate) -> FPGA 腳
 #   ADC_1_1 (IC15 D1): 4.8-9.5 mm；ADC_2_1 (IC16 D1): 4.1-12.4 mm；ADC_2_2 (IC16 D2): 4.5-13.1 mm
-#   FPGA 以 PLL c0 (同一個 pll_clk_adc_int) 取樣
+#   FPGA 以 PLL c4 (pll_clk_adc_cap_int，相位延後) 經 IOE 輸入暫存器 (FAST_INPUT_REGISTER) 取樣
 #
 # 注意: CLOCK_ADC 腳 B20 是 PLL2 的 dedicated CLKOUT，但目前 PLL 被放在 PLL_1，
 #       所以實際走的是 global clock 到一般 IO，FPGA 輸出延遲較大，由 TimeQuest 計算。
@@ -57,5 +57,17 @@ set ADC_DATA_PORTS [get_ports {ADC_1_1[*] ADC_2_1[*] ADC_2_2[*]}]
 set_input_delay -clock {ADC_ENC_PIN} -max $ADC_IN_MAX $ADC_DATA_PORTS
 set_input_delay -clock {ADC_ENC_PIN} -min $ADC_IN_MIN $ADC_DATA_PORTS
 
-# 8. 時鐘不確定度 (PLL jitter 等)，原 SDC 未設定
+# 8. 擷取時鐘 c4 (pll_clk_adc_cap_int) 相位延後於 c0，資料在 ENC 邊緣後下一個 c4 邊緣才收進 IOE 暫存器
+#    預設分析會取同一週期的 c4 邊緣 (setup relationship = 相位)，改為 setup -end 2 (= 10 ns + 相位)。
+#    hold 不另設：setup 2 之後預設 hold 對的就是同一週期的 c4 邊緣 (相位)，即前一筆資料被收進的那個邊緣，正是實際要檢查的。
+#    (若再加 -hold -end 1，hold 會被推到前一週期，裕度看起來多出 10 ns，是錯的)
+set ADC_CAP_CLK [get_clocks {pll_inst|altpll_component|auto_generated|pll1|clk[4]}]
+set_multicycle_path -from [get_clocks {ADC_ENC_PIN}] -to $ADC_CAP_CLK -setup -end 2
+
+# 9. FIFO 寫入端 aclr 同步器 (dcfifo 內 dffpipe wraclr)：重置來源 r_locked_sync2 在 c3 域，
+#    寫入端改用 c4 後 c3 -> c4 的 recovery relationship 只剩相位差 (1.5 ns)。
+#    wraclr 本身就是非同步重置的同步器，此路徑不需時序關係，設 false path。
+set_false_path -from [get_registers {r_locked_sync2}] -to [get_registers {*u_adc_sync_fifo|*|dffpipe_*:wraclr|*}]
+
+# 10. 時鐘不確定度 (PLL jitter 等)，原 SDC 未設定
 derive_clock_uncertainty
