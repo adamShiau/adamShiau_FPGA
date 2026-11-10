@@ -134,9 +134,12 @@ assign CS_ADC_1 = ADC_CFG_SS[0];
 assign CS_ADC_2 = ADC_CFG_SS[1];
 
 // MIOC Modulation
-assign DAC_1_1 =  o_phaseRamp_1[15:0];
-assign DAC_2_1 =  o_phaseRamp_2[15:0];
-assign DAC_2_2 =  o_phaseRamp_3[15:0];
+// DAC 資料在 IOE 輸出暫存一級 (qsf FAST_OUTPUT_REGISTER ON)，輸出延遲固定
+always_ff @(posedge pll_clk_cpu_int) begin
+	DAC_1_1 <= o_phaseRamp_1[15:0];
+	DAC_2_1 <= o_phaseRamp_2[15:0];
+	DAC_2_2 <= o_phaseRamp_3[15:0];
+end
 
 assign i_var_step_1 = o_step_1;
 assign i_var_err_1 = o_err_DAC1;

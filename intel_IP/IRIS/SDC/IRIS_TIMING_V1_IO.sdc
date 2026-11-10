@@ -11,6 +11,8 @@ set TPD_MAX 0.007   ;# ns/mm, FR4 內層估算
 # ====================================================
 # 1. DAC: AD9747 dual-port, IC17 P1 = DAC_1_1, IC18 P1 = DAC_2_1, IC18 P2 = DAC_2_2
 # ====================================================
+# FPGA 端: DAC 資料由 c3 的 IOE 輸出暫存器 (FAST_OUTPUT_REGISTER) 送出；
+#         c1 相位 -2500 ps (-90°)，讓 DAC 時鐘早於資料，平衡 setup / hold (2026-11-11)
 # 時鐘: PLL c1 -> CLOCK_DAC 腳 AA3 (PLL1 dedicated CLKOUTp) -> R87 0R -> /DAC/PLL_DAC_CLK 33.9 mm (含兩分支，取上限)
 #       -> IC13 / IC14 DS90LV011A (TTL->LVDS, tPHLD/tPLHD 0.3 / 1.5 ns) -> DAC_x_CLK_P_IN <= 3.4 mm
 #       -> 0.1u AC 耦合 -> DAC_x_CLK_P <= 2.6 mm -> AD9747 CLKP，極性同相 (OUT+ -> CLKP)
