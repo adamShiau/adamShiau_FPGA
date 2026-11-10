@@ -61,6 +61,7 @@ set_global_assignment -name RESERVE_FLASH_NCE_AFTER_CONFIGURATION "USE AS REGULA
 set_global_assignment -name RESERVE_DCLK_AFTER_CONFIGURATION "USE AS REGULAR IO"
 set_global_assignment -name CYCLONEII_RESERVE_NCEO_AFTER_CONFIGURATION "USE AS REGULAR IO"
 set_global_assignment -name SDC_FILE ../../SDC/IRIS_TIMING_V1.sdc
+set_global_assignment -name SDC_FILE ../../SDC/IRIS_TIMING_V1_ADC_draft.sdc
 set_location_assignment PIN_W22 -to ADC_1_1[13]
 set_location_assignment PIN_V22 -to ADC_1_1[12]
 set_location_assignment PIN_V21 -to ADC_1_1[11]

@@ -1,7 +1,7 @@
 # ----------------------------------------------------
 # 檔案名稱: IRIS_TIMING_V1_ADC_draft.sdc
 # 目的: ADC (LTC2145-14 x2) 介面時序約束草案 (2026-11-10)
-# 狀態: 草案，尚未加入 .qsf。使用方式：在 IRIS_PRJ_V1.qsf 加一行
+# 狀態: 草案，2026-11-10 已加入 IRIS_PRJ_V1.qsf（第 64 行）：
 #       set_global_assignment -name SDC_FILE ../../SDC/IRIS_TIMING_V1_ADC_draft.sdc
 #       （放在 IRIS_TIMING_V1.sdc 之後，需要 derive_pll_clocks 先產生 PLL 時鐘）
 # ----------------------------------------------------
