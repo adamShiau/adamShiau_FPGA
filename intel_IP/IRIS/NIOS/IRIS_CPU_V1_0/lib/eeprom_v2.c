@@ -12,6 +12,14 @@
 #define CLK_1562K 	 4
 #define CLK_3125K 	 5
 
+/******** CTRL pulse width (us) *********/
+// FPGA I2C SM samples i_ctrl on posedge i2c_clk (390 KHz: 2.56 us), so a 1 us pulse can be missed.
+// enable: >= 2 periods at 390K/195K, but shorter than one transaction (~80 i2c_clk, 3125K: ~25 us),
+//         otherwise the SM restarts when it returns to IDLE with enable still high.
+// finish clear: rising-edge detected, longer pulse is safe; >= 2 periods down to 97K.
+#define I2C_EN_PULSE_US		10
+#define I2C_CLR_PULSE_US	25
+
 /******** VAR Register*********/
 #define	O_VAR_DEV_ADDR		var_i2c_EEPROM_dev_addr
 #define O_VAR_W_DATA		var_i2c_EEPROM_w_data
@@ -501,7 +509,7 @@ void I2C_sm_start()
 	alt_u8 dly = 50;
 
 	I2C_sm_set_enable();
-	usleep(1);
+	usleep(I2C_EN_PULSE_US);
 	I2C_sm_set_disable();
 }
 
@@ -555,7 +563,7 @@ void I2C_sm_set_disable()
 void I2C_sm_set_finish_clear_pulse() 
 {
 	IOWR(VARSET_BASE, O_VAR_I2C_CTRL,  set_bit_safe(O_VAR_I2C_CTRL, ctrl_finish_clear_pos));
-	usleep(1);
+	usleep(I2C_CLR_PULSE_US);
 	IOWR(VARSET_BASE, O_VAR_I2C_CTRL,  clear_bit_safe(O_VAR_I2C_CTRL, ctrl_finish_clear_pos));
 }
 
