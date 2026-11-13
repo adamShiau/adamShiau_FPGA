@@ -88,6 +88,11 @@ int main(void)
     memset(&fog_params, 0, sizeof(fog_parameter_t));
 
     DEBUG_PRINT("Running IRIS CPU!\n");
+    // 版本確認：FPGA 編譯時間 (build_id.vh) 與 NIOS 軟體編譯時間
+    DEBUG_PRINT("FPGA build: %08lx %06lx / SW build: %s %s\n",
+                (unsigned long)IORD(VARSET_BASE, i_var_fpga_build_date),
+                (unsigned long)IORD(VARSET_BASE, i_var_fpga_build_time),
+                __DATE__, __TIME__);
 	// printf("Running IRIS CPU!\n");
     
 

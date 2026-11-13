@@ -168,6 +168,8 @@ assign DAC_RST = var_dac_rst;
 // * Internal Signals *
 // *************************************************************************
 
+`include "build_id.vh"   // FPGA_BUILD_DATE / FPGA_BUILD_TIME
+
 // ---- PLL & Reset 訊號 ---- //
 wire pll_locked;
 wire pll_clk_adc_int;
@@ -274,7 +276,24 @@ always @(posedge pll_clk_cpu_int or negedge RST_EXT_N) begin
     end
 end
 
-assign RST_SYNC_N = r_locked_sync2; // 最終同步重置訊號
+// locked 去抖動 (2026-11-13)：上電時由 locked 釋放 reset；之後 locked 掉落
+// 需連續超過 LOCK_LOSS_CYCLES (10 ms @ 100 MHz) 才重新 reset，短暫掉落不 reset NIOS
+localparam int LOCK_LOSS_CYCLES = 1_000_000;
+logic [19:0] r_lock_loss_cnt = '0;
+logic r_rst_sync_n = 1'b0;
+
+always_ff @(posedge pll_clk_cpu_int) begin
+    if (r_locked_sync2) begin
+        r_lock_loss_cnt <= '0;
+        r_rst_sync_n    <= 1'b1;
+    end else if (r_lock_loss_cnt == LOCK_LOSS_CYCLES - 1) begin
+        r_rst_sync_n    <= 1'b0;
+    end else begin
+        r_lock_loss_cnt <= r_lock_loss_cnt + 1'b1;
+    end
+end
+
+assign RST_SYNC_N = r_rst_sync_n; // 最終同步重置訊號
 
 // =========================================================================
 // SYNC setup
@@ -639,8 +658,9 @@ CPU u0 (
 	.varset_1_i_var28  	(i_var_accu_step_L_3),  
 	.varset_1_i_var29  	(i_var_accu_step_H_3),  
 	.varset_1_i_var30  	(i_var_accu_step_cnt_3),  
-	.varset_1_i_var31  	(),  
-	.varset_1_i_var32  	(),  
+	.varset_1_i_var31  	(`FPGA_BUILD_DATE),  // 編譯日期 YYYYMMDD (build_id.vh，全編譯前自動產生)
+	.varset_1_i_var32  	(`FPGA_BUILD_TIME),  // 編譯時間 00HHMMSS
+
 	.varset_1_i_var33  	(),  
 	.varset_1_i_var34  	(),  
 	.varset_1_i_var35  	(),  

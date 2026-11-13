@@ -85,6 +85,8 @@
 #define i_var_accu_step_L_3                 60 + 28
 #define i_var_accu_step_H_3                 60 + 29
 #define i_var_accu_step_cnt_3               60 + 30
+#define i_var_fpga_build_date               60 + 31
+#define i_var_fpga_build_time               60 + 32
 // #define i_var_i2c_IMU_status	            60 + 10
 // #define i_var_i2c_IMU_rdata_1	        60 + 11
 // #define i_var_i2c_IMU_rdata_2	        60 + 12
