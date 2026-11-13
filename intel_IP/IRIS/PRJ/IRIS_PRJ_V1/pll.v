@@ -128,7 +128,7 @@ module pll (
 		altpll_component.clk4_divide_by = 1,
 		altpll_component.clk4_duty_cycle = 50,
 		altpll_component.clk4_multiply_by = 1,
-		altpll_component.clk4_phase_shift = "1500",
+		altpll_component.clk4_phase_shift = "1458",
 		altpll_component.compensate_clock = "CLK0",
 		altpll_component.inclk0_input_frequency = 10000,
 		altpll_component.intended_device_family = "Cyclone IV E",
@@ -274,7 +274,7 @@ endmodule
 // Retrieval info: PRIVATE: PHASE_SHIFT1 STRING "-90.00000000"
 // Retrieval info: PRIVATE: PHASE_SHIFT2 STRING "-45.00000000"
 // Retrieval info: PRIVATE: PHASE_SHIFT3 STRING "0.00000000"
-// Retrieval info: PRIVATE: PHASE_SHIFT4 STRING "54.00000000"
+// Retrieval info: PRIVATE: PHASE_SHIFT4 STRING "52.50000000"
 // Retrieval info: PRIVATE: PHASE_SHIFT_STEP_ENABLED_CHECK STRING "0"
 // Retrieval info: PRIVATE: PHASE_SHIFT_UNIT0 STRING "deg"
 // Retrieval info: PRIVATE: PHASE_SHIFT_UNIT1 STRING "deg"
@@ -343,7 +343,7 @@ endmodule
 // Retrieval info: CONSTANT: CLK3_MULTIPLY_BY NUMERIC "1"
 // Retrieval info: CONSTANT: CLK4_MULTIPLY_BY NUMERIC "1"
 // Retrieval info: CONSTANT: CLK3_PHASE_SHIFT STRING "0"
-// Retrieval info: CONSTANT: CLK4_PHASE_SHIFT STRING "1500"
+// Retrieval info: CONSTANT: CLK4_PHASE_SHIFT STRING "1458"
 // Retrieval info: CONSTANT: COMPENSATE_CLOCK STRING "CLK0"
 // Retrieval info: CONSTANT: INCLK0_INPUT_FREQUENCY NUMERIC "10000"
 // Retrieval info: CONSTANT: INTENDED_DEVICE_FAMILY STRING "Cyclone IV E"
