@@ -64,10 +64,11 @@ set_input_delay -clock {ADC_ENC_PIN} -min $ADC_IN_MIN $ADC_DATA_PORTS
 set ADC_CAP_CLK [get_clocks {pll_inst|altpll_component|auto_generated|pll1|clk[4]}]
 set_multicycle_path -from [get_clocks {ADC_ENC_PIN}] -to $ADC_CAP_CLK -setup -end 2
 
-# 9. FIFO 寫入端 aclr 同步器 (dcfifo 內 dffpipe wraclr)：重置來源 r_locked_sync2 在 c3 域，
-#    寫入端改用 c4 後 c3 -> c4 的 recovery relationship 只剩相位差 (1.5 ns)。
+# 9. FIFO 寫入端 aclr 同步器 (dcfifo 內 dffpipe wraclr)：重置來源 r_rst_sync_n 在 c3 域
+#    (2026-11-13 加 locked 去抖動後，RST_SYNC_N 由 r_locked_sync2 改為 r_rst_sync_n)，
+#    寫入端改用 c4 後 c3 -> c4 的 recovery relationship 只剩相位差 (約 1.46 ns)。
 #    wraclr 本身就是非同步重置的同步器，此路徑不需時序關係，設 false path。
-set_false_path -from [get_registers {r_locked_sync2}] -to [get_registers {*u_adc_sync_fifo|*|dffpipe_*:wraclr|*}]
+set_false_path -from [get_registers {r_rst_sync_n}] -to [get_registers {*u_adc_sync_fifo|*|dffpipe_*:wraclr|*}]
 
 # 10. 時鐘不確定度 (PLL jitter 等)，原 SDC 未設定
 derive_clock_uncertainty
