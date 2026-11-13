@@ -198,7 +198,8 @@ APP_LIBRARY_DIRS :=
 APP_LIBRARY_NAMES :=
 
 # Pre- and post- processor settings.
-BUILD_PRE_PROCESS :=
+# Always recompile IRIS_CPU_V1_0.c so the boot banner "SW build" (__DATE__ __TIME__) matches every build
+BUILD_PRE_PROCESS = rm -f $(filter %/IRIS_CPU_V1_0.o,$(APP_OBJS))
 BUILD_POST_PROCESS :=
 
 QUARTUS_PROJECT_DIR := ../../

@@ -1,4 +1,5 @@
 #include "eeprom_v2.h" 
+#include "sys/alt_irq.h"
 #define VARSET_BASE VARSET_1_BASE
 
 /******** I2C device address*********/
@@ -45,6 +46,10 @@
 #define status_ready_pos	0
 #define status_finish_pos	1
 #define status_state_pos	9
+// o_status[9:2] = state (IDLE = 0), o_status[10] = sm_enable -> nonzero while the SM is running
+#define status_sm_busy_mask	0x7FC
+
+#define I2C_WAIT_TIMEOUT	100000
 
 /*** OP mode***/
 #define CPU_WREG	0
@@ -111,6 +116,42 @@ static const char* get_i2c_freq_name(alt_u8 rate) {
         }
     }
     return "Unknown Speed";
+}
+
+/*** Wait until the I2C SM is back in IDLE with sm_enable = 0. */
+static void I2C_sm_wait_idle(void)
+{
+	int timeout = I2C_WAIT_TIMEOUT;
+	while ((IORD(VARSET_BASE, O_VAR_I2C_STATUS) & status_sm_busy_mask) && timeout-- > 0);
+	if (timeout < 0) DEBUG_PRINT("EEPROM SM idle timeout!\n");
+}
+
+/*** Clear 'finish' only after the SM is idle, and confirm it stays cleared.
+ * If enable was stretched past one transaction (e.g. by an ISR), the SM runs the
+ * transaction a second time and sets 'finish' again after the first clear; the next
+ * read would then return the previous data. Wait for that extra run and clear again.
+ */
+static void I2C_sm_finish_clear_safe(void)
+{
+	for (int i = 0; i < 3; i++) {
+		I2C_sm_wait_idle();
+		I2C_sm_set_finish_clear_pulse();
+		if (!I2C_sm_read_finish() && !(IORD(VARSET_BASE, O_VAR_I2C_STATUS) & status_sm_busy_mask)) {
+			if (i > 0) DEBUG_PRINT("EEPROM extra SM run caught, finish re-cleared (%d)\n", i);
+			return;
+		}
+	}
+	DEBUG_PRINT("EEPROM finish clear failed!\n");
+}
+
+/*** Before starting a transaction: SM must be idle and 'finish' must be 0. */
+static void I2C_sm_prepare(void)
+{
+	I2C_sm_wait_idle();
+	if (I2C_sm_read_finish()) {
+		DEBUG_PRINT("EEPROM stale finish before start, cleared\n");
+		I2C_sm_finish_clear_safe();
+	}
 }
 
 void EEPROM_RW_TEST()
@@ -180,6 +221,7 @@ void EEPROM_RW_TEST()
 void EEPROM_Write_4B(alt_u16 reg_addr, alt_32 data)
 {
 	reg_addr <<= 2;
+	I2C_sm_prepare();
 	// setting mode to cpu write register
 	I2C_op_mode_sel_EEPROM(CPU_WREG);
 	// Set I2C device address
@@ -198,7 +240,7 @@ void EEPROM_Write_4B(alt_u16 reg_addr, alt_32 data)
         DEBUG_PRINT("EEPROM write timeout!\n");
         return;
     }
-	I2C_sm_set_finish_clear_pulse(); 
+	I2C_sm_finish_clear_safe();
 	usleep(1320);
 	DEBUG_PRINT("EEPROM_Write_4B done\n");
 }
@@ -219,6 +261,7 @@ void EEPROM_Read_4B(alt_u16 reg_addr, alt_u8* buf)
 
 	reg_addr <<= 2;
 
+	I2C_sm_prepare();
 	// setting mode to cpu read register
 	I2C_op_mode_sel_EEPROM(CPU_RREG);
 	// Set I2C device address
@@ -230,7 +273,13 @@ void EEPROM_Read_4B(alt_u16 reg_addr, alt_u8* buf)
 	I2C_sm_start();
 
 	// Wait for the I2C SM to complete the operation
-	while (!I2C_sm_read_finish());
+	int timeout = I2C_WAIT_TIMEOUT;
+	while (!I2C_sm_read_finish() && timeout-- > 0);
+
+	if (timeout < 0) {
+		DEBUG_PRINT("EEPROM read timeout!\n");
+		return;
+	}
 
 	// int timeout = 100000;
     // while (!I2C_sm_read_finish() && timeout-- > 0);
@@ -247,7 +296,7 @@ void EEPROM_Read_4B(alt_u16 reg_addr, alt_u8* buf)
 	buf[1] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_3);
 	buf[0] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_4);
 
-	I2C_sm_set_finish_clear_pulse(); 
+	I2C_sm_finish_clear_safe();
 
 }
 
@@ -259,6 +308,7 @@ void EEPROM_Read_4B_R(alt_u16 reg_addr, alt_u8* buf)
 	// DEBUG_PRINT("VARSET_BASE22 19: %d\n", IORD(VARSET_BASE, 19));
 
 	reg_addr <<= 2;
+	I2C_sm_prepare();
 	// setting mode to cpu read register
 	I2C_op_mode_sel_EEPROM(CPU_RREG);
 	// Set I2C device address
@@ -284,7 +334,7 @@ void EEPROM_Read_4B_R(alt_u16 reg_addr, alt_u8* buf)
 	buf[2] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_3);
 	buf[3] = IORD(VARSET_BASE, O_VAR_I2C_RDATA_4);
 
-	I2C_sm_set_finish_clear_pulse(); 
+	I2C_sm_finish_clear_safe();
 }
 
 void PARAMETER_Read(alt_u8 base, alt_u8 number , alt_u8* buf)
@@ -508,9 +558,12 @@ void I2C_sm_start()
 {
 	alt_u8 dly = 50;
 
+	// Mask interrupts so an ISR cannot stretch the enable pulse past one transaction
+	alt_irq_context irq_ctx = alt_irq_disable_all();
 	I2C_sm_set_enable();
 	usleep(I2C_EN_PULSE_US);
 	I2C_sm_set_disable();
+	alt_irq_enable_all(irq_ctx);
 }
 
 void I2C_op_mode_sel_EEPROM(alt_u8 mode)
